@@ -1,12 +1,13 @@
 # Phone shell: Designer's runtime component
 
-**Version:** `phone-shell-0.2.9`, with `component-kit-0.8.0`. **Status (16 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its two files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
+**Version:** `phone-shell-0.2.11`, with `component-kit-0.8.2`. **Status (17 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its three files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
 
 **What it is:** the match's frame on a phone, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
 
 **Covers:**
 - **The top bar** (sheets 07, 08, 27.6 and 56):
   - a turn, your turn, a phase, a private talk, and the Blackout's dark;
+  - the words of each game step with no active player, from Before turns to "The ship moved" (0.2.10, [below](#the-phase-bars-words));
   - Promises with its count, ⋮, the round, and the clock (amber in the last 10 s, a ring for the 5 s result and the 6 s presentation);
   - a place beside the clock for Food's gauge;
   - at larger text, the round leaves, a short title, and the two-line title with the clock and ⋮ beside it (#222 item 3).
@@ -33,9 +34,10 @@ Designer's, runtime-safe, in `design/phone-ui/components/`:
 | --- | --- |
 | `phone-shell/phone-shell.mjs` | `mountPhoneShell()`, `nextPhoneShellInput()`, `checkBar()`, `checkTabs()`, `clockText()`, `seatNumber()`, `PHONE_SHELL_DEFAULTS`, `PHONE_SHELL_VERSION`, `HERO_WORDS`, `RECONNECTING`, `TOAST_MS`, `GAME_TABS`, `TALK_BUTTONS` |
 | `phone-shell/phone-shell.css` | Every style, scoped under `.ms-phone-shell`. It imports the kit's styles |
-| `kit/kit.mjs`, `kit/kit.css` | The shared component kit (`component-kit-0.8.0`, [its page](kit.md)): the shell's buttons, icon buttons, toast and control policy are the kit's, as every Designer component's are |
+| `phone-shell/phase-bars.mjs` | The phase bars' words (0.2.10): `phaseBar()`, `movedBar()`, `loadingBar()`, `reconnectingBar()`, `phaseClosedToast()`, `PHASE_WORDS`, `PHASE_BAR_PHASES`, `PHASE_BAR_REFUSED`. It imports the shell only for `clockText()`, and the shell does not import it |
+| `kit/kit.mjs`, `kit/kit.css` | The shared component kit (`component-kit-0.8.2`, [its page](kit.md)): the shell's buttons, icon buttons, toast and control policy are the kit's, as every Designer component's are, and so is how it follows the text size (0.2.11). Since 0.8.2 the toast's words wrap where they don't fit on one line |
 | `icons.mjs` | The phone interface's icon family (from #261) |
-| `phone-shell/preview/` | Development only: the preview on the pack's synthetic fixtures with the room scene in the stage, the lifecycle probe (`probe.mjs`) and the agreement with the pack (`agree.mjs`) |
+| `phone-shell/preview/` | Development only: the preview on the pack's synthetic fixtures with the room scene in the stage, the lifecycle probe (`probe.mjs`), the agreement with the pack (`agree.mjs`) and the pack's own bar for each game step (`phase-cases.mjs`) |
 | `phone-shell/review/` | The check's captures and `check.json` |
 
 **Used unchanged:** `apps/game/hosted/crew-runtime.mjs`'s `crewPortraitVariable`, for the turn's and the talk's portraits, through `@mothership/contracts`. The shell does not import the room scene: Frontend mounts that in the stage.
@@ -46,6 +48,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/`:
 - **The agreement:** the check draws the pinned `topBar()` and `tabs()` beside the shell in the same page, from the same inputs, and compares every part.
   - **What is compared:** the words, the states (open, unavailable, the round button's mode and name), and where each part sits.
   - **Cases:** five, plus two at 200 % text on 320 × 568.
+  - **The phase bars (0.2.10):** each bar the pack draws for a game step, the pack's own input to `topBar()` beside the shell drawing what `phase-bars.mjs` returns: fifteen, two of them again at 200 % text. They also compare the clock: amber or not, a ring or not, and the ring's share.
   - **Result:** every part agrees to within half a pixel.
 - When Integration moves those pins, the pack's two files can import the shell's.
 
@@ -100,6 +103,22 @@ shell.dispose();             // removes the element and its listeners
   - It is this viewer's: dropped while concealed and for a new viewer, unless the same update gives the new viewer's own. The reconnecting banner is the phone's, and a new viewer keeps it.
   - While reconnecting, Frontend gives the reconnecting banner in its place, since Retry is the way back. The shell draws the one kind it is given, and draws a new kind afresh.
 - **The toast is the kit's (0.2.8, kit 0.8.0).** The shell draws its toast with `kit.toast` and sets `--ms-k-toast-top` to the overlays' place. It looks and moves as before. It now takes no tap: a tap where it lies reaches what is under it, such as a sheet's Close or a part in the cover. How long it shows (`TOAST_MS`) and once per `id` stay the shell's. The Pre-game builder wrote the patch, so the lobby's toast (#287) is the same one.
+- **The toast's words wrap (kit 0.8.2).** Words too long for one line wrap inside the phone instead of being cut. The in-game animation builder found "That phase closed · choices cleared" (sheet 45) cut at the Large and Largest text. The shell itself is unchanged.
+- **The text size changing in a match (0.2.11, kit 0.8.1).** A part opened after the text size changes now takes the new size's rules, as a part open through the change does. The Gameplay builder found it on its Actions test page.
+  - **What went wrong.** At 200 % on 390 × 844, a target bar opened after the change stood side by side, 294 px tall, and its chip's label was cut again: 0.2.8's layout. A sheet opened afterwards kept Cancel and "Register Rescue" side by side, and in its body a row's value stayed beside its title and Card · Knowledge · Resources stayed a row. A shell mounted at 200 % draws the bar stacked, 238 px tall.
+  - **Why.** In Chromium (153), a container reads its em again for its queries only while something inside it uses one of them. With nothing open, nothing in the shell did, so what opened next took the old size's rules.
+  - **The fix.** The shell calls the kit's `followTextSize(root)`. A hidden box, 1 em tall, reports each change of the text size, and the root's container is set up again at once, before anything is drawn. The focus, scroll positions and what is moving are kept. `dispose()` stops it.
+  - The game changes the text size during a match, in Settings (#222 item 27), so every bar or sheet opened after it was laid out for the old size, until the phone turned or the window was resized.
+  - Nothing else changes: at a size the page was opened at, everything is drawn as in 0.2.10.
+- **The phase bars' words (0.2.10).** `phase-bars.mjs` holds the pack's words for each game step with no active player, and returns the shell's `bar` from the facts Frontend gives ([the words and the inputs](#the-phase-bars-words)).
+  - Before, the shell drew whatever words it was given, and only the votes had theirs (#267): every other phase showed the game's own names, such as "Round begins".
+  - The shell draws as before, and does not import the words. Nothing of its looks, layout or inputs changed.
+  - The preview's `dark`, `stale`, `target-stale` and `poster` states now call the functions. `dark` and its agreement case said "Lights out" at 18 s, which were the preview's own words and longer than the 15 s phase. They now draw the pack's specimen: "Dark · positions fixed" at 8 s, amber.
+- **An unavailable Vote is paper (0.2.10).** The round button's mode rules now follow its unavailable rule, as the pack's cascade has them (`kit.css`: `.hero[data-mode="vote"]` after `.hero[aria-disabled="true"]`). So an unavailable Vote, the 5 s result's (sheet 38), is paper with dimmed words, as the pack draws it. Before, it was steel.
+  - The shell connection (#307) found it in the real app. The agreement compared the round button's mode and state, not its colours.
+  - It now compares the round button's fill and its words' colour in every case, and `phase-result` holds the unavailable Vote.
+  - Pass, unavailable, stays steel, as the pack draws it.
+- **⋮ on a shared display (0.2.10, the handoff only).** A display keeps ⋮: Settings is the one sheet a display opens, with its preferences and, when it hosts, the host's controls. The handoff said a display uses the bar "without Promises or ⋮ today", which would have left a hosting display without its controls in a match. The shell drew ⋮ whenever it was given, so nothing in it changes.
 - **The target bar below a banner, and at the Largest text (0.2.9).** Two findings from the Gameplay builder's Move test page.
   - **Below a banner.** While a banner shows, the target bar stays 8 px below it, as a docked sheet does (0.2.0).
     - Before, the two sat at the same place with the banner over the bar, so Retry lay over the bar's Cancel.
@@ -195,14 +214,14 @@ Each reports a tap, and only that.
 | Your turn | "Your turn" and, in amber, "Player n · Name". Pass amber |
 | The last 10 s | The clock amber |
 | Vote, Voted | A phase bar, the round button paper (Vote), or paper with a check (Voted) |
-| The 5 s result, the 6 s presentation | The clock as a ring; no Promises (pass `promises: null`), ⋮ only |
-| Blackout | The dark bar and the moon tile |
+| The 5 s result, the 6 s presentation | The clock as a ring; no Promises (pass `promises: null`; `phaseBar()` drops it for the 6 s presentation), ⋮ only |
+| Blackout | Lit, the sun tile and "Lights out in 0:03"; dark, the dark bar and the moon tile (`phaseBar()`). The line counts down each second: the bar's left part is built again, and its height and its right side stay where they are |
 | Choosing a target | The target bar with Cancel; the round button stays (T2) |
 | A sheet | Docked between the bars, glass. Pass the room scene `control: null` while one is open: the pack hides the room's own control under a sheet |
 | Private talk | The pair bar; Promises and My card at the foot; the stage runs to the bottom, and `layout().covered.bottom` says how much the two buttons cover |
 | A full-screen film | `bar: null`, `tabs: null`, `edge: true` (the role stage, #268): the stage edge to edge; the toast and the banner at the bar's place |
 | A full-screen poster | A bar, `tabs: null`, `edge: true` (ship travel, #269): the stage edge to edge, the bar's glass over it |
-| Reconnecting | The phase bar "Reconnecting…", the banner with Retry, the controls refused. The room scene dims itself (`status: 'stale'`) |
+| Reconnecting | The phase bar "Reconnecting… · Showing Round n as last seen" from `reconnectingBar()`, the banner with Retry, the controls refused. The room scene dims itself (`status: 'stale'`) |
 | Eliminated | `banner: { kind: 'out' }`: "You're out · You can watch. Your role stays private.", words only, over the room the player watches, where they lie down in their place. The controls are as Frontend gives them: Actions and Pass unavailable (sheet 44) |
 | Concealed | The bars' empty material only: no name, number, time or control, and nothing for a screen reader |
 | Largest text | The pack's container queries: the handshake alone, no clock icon, the round out of the bar, a phase's short title, the two-line title |
@@ -211,6 +230,76 @@ Each reports a tap, and only that.
 - A sheet slides in (220 ms) and a toast drops in.
 - With Reduce motion, the game's or the device's, both fade in 80 ms, and the busy spinners stand still.
 - Suspended, nothing runs.
+
+## The phase bars' words
+
+`phase-bars.mjs` (0.2.10) gives the top bar its words for each game step with no active player, as the pack draws them: sheet 07's specimens, with the screens of sheets 21, 30, 40, 41, 44 and 45. Frontend gives the facts and passes the result to the shell as `bar`:
+
+```js
+import { phaseBar, movedBar, loadingBar, reconnectingBar, phaseClosedToast } from '…/design/phone-ui/components/phone-shell/phase-bars.mjs';
+
+shell.update({ bar: phaseBar({ phase: view.phase.kind, round: view.round, remainingMs, hasOfficer, blocked, promises, menu }) });
+shell.update({ toast: phaseClosedToast({ id: closedPhase.id }) });   // sheet 45, once per closed phase
+```
+
+- `phaseBar({ phase, round, remainingMs, durationMs, own, chooser, hasOfficer, blocked, dark, lightsOutMs, office, promises, menu })`: `phase` is the projection's `phase.kind`, as it is.
+- `movedBar({ round, promises, menu })`, `loadingBar({ index, total })` and `reconnectingBar({ round, promises, menu })`: three bars the pack draws that are not a phase of the projection.
+- `phaseClosedToast({ id })`: the shell's toast, "That phase closed · choices cleared", with the pack's info icon. The id is the closed phase's, so it shows once.
+
+**The words:**
+
+| `phase` | When | Title | Line under it | Icon | Clock | Drawn on |
+| --- | --- | --- | --- | --- | --- | --- |
+| `PRE_TURN` | An Officer, and no block shown yet | Before turns | Officer block · Blackhole | `hourglass` | Amber in the last 10 s | 07 |
+| | A block is shown, or there is no Officer | Before turns | Turns start at 0:00 | `hourglass` | Amber in the last 10 s | 21, "Officer's block shown" |
+| | The Officer's own phone | Block a move | Before turns · Officer | `officer` | Amber in the last 10 s | 40 |
+| `OFFICER_APPOINTMENT` | Everyone else | New Officer | Ben chooses | `officer` | Never amber | 07, 40 |
+| | The Captain's own phone | Appoint Officer | Random if time runs out | `officer` | Amber in the last 10 s | 40 |
+| `BLACKOUT` | Lit | Blackout | Lights out in 0:03 | `lit` | Amber in the last 10 s | 07, 30 |
+| | Dark | Blackout | Dark · positions fixed | `dark`, with `tone: 'dark'` | Amber in the last 10 s | 07, 30 |
+| `BLACKHOLE_PRESENTATION` | | Ship synchronized | None | `blackhole` | A ring of the share of the phase gone. Never amber. No Promises | 07, 44 |
+| `NAV_SETTING`, `NAV_TIE`, `NAV_CAPTAIN_CONFIRM`, `NAV_OFFICER_CONFIRM` | Everyone else | Setting course | The offices are setting it | `course` | Never amber | 41 |
+| | An office's own phone | Setting course | Captain · private, or Officer · private | `course` | Amber in the last 10 s | 41 |
+| `movedBar()` | | The ship moved | Round 3 complete | `course` | None | 41 |
+| `loadingBar()` | | Loading the ship | Room 3 of 5 | `hourglass` | None. No round, Promises or ⋮ | 45 |
+| `reconnectingBar()` | | Reconnecting… | Showing Round 3 as last seen | `retry` | None | 07, 45 |
+
+- **Before turns, in order:** the Officer's own phone first; then a block shown; then whether there is an Officer.
+  - Round 1 opens before turns with no Captain and no Officer, and a Blackhole needs its player to hold an office. So with no Officer the bar says "Turns start at 0:00", which is always true, and names no block or Blackhole that cannot happen.
+  - The pack draws no round without an Officer. This fills that state with the pack's own line (the Lead's decision, 16 November 2026).
+- **Amber means "act now".**
+  - A bar under which someone may act keeps it: the deciding player's own bar, and everyone's bar before turns and in the Blackout. A hidden player may act under those two, the Alien's Blackhole and a Disabler's position, and their bar must be everyone's bar.
+  - A public bar under which no one acts is never amber (`urgentAtMs: -1`): everyone else's New Officer and Setting course, and Ship synchronized.
+- **No short title.** The pack gives one only to the vote results. At the Largest text these titles take two lines by the shell's bar rules, and the line under them stays for screen readers.
+- **Promises and ⋮** pass through as given. They are dropped only where the pack's bar has none (`ui.mjs` `topBar()`): no Promises on Ship synchronized, and neither on Loading the ship.
+- **Sheet 07's Navigation specimen is the one the functions do not reproduce.** It puts "Round 3 complete" under "Setting course". Sheet 41 is the navigation screen's own sheet: it draws "The offices are setting it" under that title, and "Round 3 complete" under "The ship moved" (the Lead's decision, 16 November 2026).
+
+**The inputs, and where Frontend reads each:**
+
+| Input | Audience | From |
+| --- | --- | --- |
+| `phase` | Public | `phase.kind` |
+| `round` | Public | `round`. For `movedBar()`, `navigation.lastMovedRound`; for `reconnectingBar()`, the last round this phone saw |
+| `remainingMs` | Public | `phase.endsAt` less the trusted server time. Left out, no clock |
+| `durationMs` | Public | `phase.endsAt − phase.startedAt`. Only Ship synchronized uses it, for the ring |
+| `own` | This viewer's office, which is public | `true` when this phone shows the deciding player's own sheet: the Captain's "Choose your Officer", or the Officer's "Block movement", choosing or done. The bar follows the sheet |
+| `chooser` | Public | `{ name }`: the Captain (`offices.captainSeatId`), named from the roster as the turn bar's `who` is |
+| `hasOfficer` | Public | `true` when `offices.officerSeatId` is set. It says only that the office is held, never that its holder can act: an Officer in Jail or Hospital still counts |
+| `blocked` | Public | `true` when `offices.blockedSeatId` is set |
+| `dark`, `lightsOutMs` | Public | `blackout.previewEndsAt` against the trusted time: `dark` once it has passed, the same fact that gives the room scene `lighting: 'dark'`; before that, the time until it |
+| `office` | This viewer's office, which is public | `'captain'` or `'officer'` when this phone shows that office's private Navigation sheet |
+| `index`, `total` | Phone | `loadingBar()`: the app's own count of the room pictures it loads. `index` counts from 1, so `{ index: 3, total: 5 }` is "Room 3 of 5" |
+| `promises`, `menu` | This viewer's, and the phone's | The shell's own, passed through |
+
+- **The functions decide nothing.** They read no offer, role or rule and work out no eligibility. Only `true` counts for `own`, `hasOfficer`, `blocked` and `dark`; left out, each reads as false.
+- **A missing fact draws the title alone,** with no line under it: no `chooser`, no `lightsOutMs`, no count for Loading, no round for Reconnecting or "The ship moved". The bar is on every phone, so it never fails for a missing fact.
+- **A phase that is another component's is refused by name,** with a `TypeError`: a turn (the shell's turn bar), the ballots and results (#267's `ballotBar()` and `resultBar()`), the private talk (`talkBar()`), Food Supply (its own bar) and the end of a match (no bar). A phase the file does not know throws too. `PHASE_BAR_PHASES` and `PHASE_BAR_REFUSED` list both, and the test holds them to the contract's phases.
+
+**What the projection doesn't give:**
+
+- **A time for "The ship moved".** The engine moves the ship and opens the next round's first phase in one step. The projection shows the move only as `navigation.lastMovedRound`, under the next phase. When "The ship moved" shows and for how long is Frontend's, and it has no clock, as the pack draws it.
+- **"Room 3 of 5".** It is the app's own count, of the pictures it loads before the match.
+- **Why an office can't act.** The projection carries only the missing offer. With no sheet, `own` is false and that phone shows everyone's bar. The pack draws nothing else for it.
 
 ## Frontend's connection
 
@@ -221,7 +310,7 @@ Each reports a tap, and only that.
    | --- | --- |
    | `status` | `concealed` → `'concealed'`; `connection` `'live'` → `'live'`; `'connecting'`, `'stale'` or `'error'` → `'stale'` |
    | `viewer` | `ownSeatId` (`null` on a shared display) |
-   | `bar` | A turn when not `dark`, the phase is `ORDINARY_TURN` and `activeSeatId` is set, from `identities`. A pair on the two talking phones (`talk`). Otherwise the phase, with today's names (`render.mjs` `phaseNames`). `round`; `phase.remainingMs` while trusted, with `ring` for `VOTE_RESULT` and `BLACKHOLE_PRESENTATION`; `tone: 'dark'` while `dark` |
+   | `bar` | A turn when not `dark`, the phase is `ORDINARY_TURN` and `activeSeatId` is set, from `identities`. A pair on the two talking phones (`talk`). Otherwise the phase's own bar, by the function that holds its words: the ballots and results, #267's `ballotBar()` and `resultBar()`, with `round`, `phase.remainingMs` while trusted and the result's `ring`; Food Supply, its own bar; the end of a match, none (`bar: null`, sheet 44); every other phase, `phaseBar()`, which also gives the round, the clock, the ring and `tone: 'dark'` ([the inputs](#the-phase-bars-words)). While the phone is not live, `reconnectingBar()`; once the ship has moved, `movedBar()`; before the match, `loadingBar()` |
    | `bar.promises` | `{ count: promiseOfferCount, open: panel === 'promises' }` on a player's phone; `null` on a display and during the two fixed presentations |
    | `bar.menu` | `{ open: panel === 'settings' }` |
    | `tabs` | `null` on a shared display; `{ variant: 'talk' }` on the two talking phones; else the game's, with `view` the scene mode and `open` the panel |
@@ -236,7 +325,7 @@ Each reports a tap, and only that.
 
 ## Integration's part
 
-- **Admit the graph:** admit `phone-shell/phone-shell.mjs`, `phone-shell/phone-shell.css`, `kit/kit.mjs` and `kit/kit.css` with the room scene's graph (`icons.mjs` is already in it). The kit is admitted once, for every Designer component that uses it.
+- **Admit the graph:** admit `phone-shell/phone-shell.mjs`, `phone-shell/phone-shell.css`, `phone-shell/phase-bars.mjs` (0.2.10), `kit/kit.mjs` and `kit/kit.css` with the room scene's graph (`icons.mjs` is already in it). The kit is admitted once, for every Designer component that uses it.
   - The shell has no pictures of its own.
   - `preview/` and `review/` stay out.
 - **The pinned pack:** `prototype/ui.mjs` and `kit.css` stay pinned for the Food release. When their pins move, they can import the shell.
@@ -250,7 +339,8 @@ Listed, not omitted:
 | The sheets' contents: the Actions tiles, Card, Panels, Promises, Settings and the ballot | Their components, next |
 | The private-talk capsule in the stage | Its component, next |
 | The board in the stage, and its "List" | Its component, next |
-| A shared display's own top bar | Its sheet; a display uses the bar without Promises or ⋮ today |
+| A shared display's own top bar | Its sheet. Today a display uses the player's bar without Promises; its ⋮ opens Settings |
+| A window for "The ship moved" | The projection, which opens the next round in the same step as the move. `movedBar()` holds the words; when it shows is Frontend's |
 
 ## Checks run on this version
 
@@ -258,17 +348,25 @@ Listed, not omitted:
 
   | Check | Result |
   | --- | --- |
-  | `packages/design-tokens/test/phone-shell.test.mjs` | 8 of 8: the runtime-safe graph (the kit's files in it), every style scoped (a kit control styled only inside the shell's own parts, and of the kit's properties only the toast's top), the pinned pack unchanged, the pack's words (both banners'), the clock, the inputs' refusals, the privacy rules (an eliminated player's banner this viewer's, the reconnecting one the phone's) and the check's record |
-  | `packages/design-tokens/test/kit.test.mjs` | 7 of 7, with the kit's own check: every builder agrees with the pinned pack's, the toast included ([the kit's page](kit.md)) |
-  | `npm run test:design` | 386 of 386, after `npm run build`, with Node 22.21.1 and npm 10.9.4 (on `5ac3354f`'s record) |
-  | `npm run test:tooling` | 337 of 337 |
+  | `packages/design-tokens/test/phone-shell.test.mjs` | 8 of 8: the runtime-safe graph (the kit's files in it), every style scoped (a kit control styled only inside the shell's own parts, and of the kit's properties only the toast's top), the pinned pack unchanged, the pack's words (both banners'), the clock, the inputs' refusals, the privacy rules (an eliminated player's banner this viewer's, the reconnecting one the phone's) and the check's record, with the phase bars' states, their agreement cases and the lit Blackout's steadiness (0.2.10) |
+| `packages/design-tokens/test/phase-bars.test.mjs` | 11 of 11 (0.2.10): the runtime-safe graph, which adds no file to the shell's; every word found in the pack's own screens; each row of the words table, and the shell taking every bar; the round, the clock, Promises and ⋮ as given; the amber rule; the ring; a missing fact drawing the title alone; every phase of the contract drawn or refused by name; no offer, role or rule read; the toast; and each agreement case's pack input held to the pack's source |
+  | `packages/design-tokens/test/kit.test.mjs` | 8 of 8, with the kit's own check: every builder agrees with the pinned pack's, the toast included, and `followTextSize` (0.8.1) ([the kit's page](kit.md)) |
+  | `npm run test:design` | 398 of 398, after `npm run build`, with Node 22.21.1 and npm 10.9.4 (on 0.2.11's record) |
+  | `npm run test:tooling` | 356 of 356 |
   | `npm run test:frontend` | Pass, with the production exclusion: no fixture, test or development module reachable |
   | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck`, `check:browser-dependencies` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
 - **`node design/tools/phone-shell-check.mjs`:**
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy as on `main` after #260 (`design/tools/lib/component-check.mjs`, which every Designer component's check shares).
-  - **Captures:** eighteen states at 390 × 844 and 430 × 932, the target bar at the Largest text on both, and the Largest text at 320 × 568: 39 of 39 pass, each drawing what its state asks.
+  - **Captures:** thirty states at 390 × 844 and 430 × 932, the target bar at the Largest text on both, and the Largest text at 320 × 568 for a turn and for a phase: 64 of 64 pass, each drawing what its state asks.
+    - **The phase bars (0.2.10),** each bar from `phase-bars.mjs`, twelve new states: `before`, `before-start`, `block`, `appointment`, `appoint`, `lit`, `lit-next`, `synchronized`, `course-own`, `moved`, `loading` and `closed`. With `dark`, `poster` and `stale`, they draw every row of the words table.
+      - Each draws the pack's title and line. `appointment` holds its clock at 0:09 and is not amber; `before-start`, `dark` and `course-own`, at 0:09 and 0:08, are.
+      - `synchronized` draws the ring and ⋮ with no Promises. `loading` draws no round, Promises or ⋮. `moved` and `stale` draw no clock. `closed` draws the toast.
+      - Under every one the bar is as tall as a turn's, 99 px at a 47 px safe area.
+      - **The lit Blackout a second apart** (`lit`, "Lights out in 0:03" at 0:13; `lit-next`, "0:02" at 0:12): the bar, Promises, the round, the clock and ⋮ are at the same place and size in both, to a hundredth of a pixel, at both sizes. The check compares them and writes the result as `steady`.
+      - `phase-large`, at 200 % text on 320 × 568: "Appoint Officer" whole on two lines, the bar inside the phone, the round out of the bar by the shell's rule.
+    - `dark` (0.2.10) draws the pack's specimen: "Dark · positions fixed" at 0:08, amber, on the dark bar.
     - `target-stale` (0.2.9): the target bar 8 px under the reconnecting banner, with its Cancel the topmost thing at its centre.
     - `target-large` (0.2.9): at 200 % text, Cancel under the bar's words, the bar inside the phone, and the chip's label whole.
     - `out` (0.2.8) draws an eliminated player's phone: "You're out" without Retry, 107 px from the top at a 47 px safe area, the phone live, Actions not offered, and the viewer's figure down in its place.
@@ -276,8 +374,15 @@ Listed, not omitted:
     - `film` draws no top bar and runs edge to edge, with the reconnecting banner at the bar's place (107 px at a 47 px safe area).
     - `poster` runs edge to edge under a phase bar, with no tabs.
     - `card` draws the Card sheet's "Hide card" in the head, before Close.
-  - **The lifecycle probe** (`preview/probe.mjs`): 25 of 25 checks pass.
-    - **As the page comes (24):** focus, refused taps, reconnecting, an eliminated player's banner, privacy, the clock, layout, the layers, larger text, no bar, edge to edge, the cover's reach, the backdrop, head actions, the footer's actions, the private talk's buttons, the toast (twice), the large-content view, dispose and motion.
+  - **The lifecycle probe** (`preview/probe.mjs`): 28 of 28 checks pass.
+    - **As the page comes (27):** focus, refused taps, reconnecting, an eliminated player's banner, privacy, the clock, layout, the layers, larger text, the text size changing, no bar, edge to edge, the cover's reach, the backdrop, head actions, the footer's actions, the private talk's buttons, the toast (three times), a phase bar's words, the large-content view, dispose and motion.
+      - **The toast at larger text (kit 0.8.2):** four of the game's toasts at 100, 150 and 200 % on 390 × 844 and 430 × 932, and at 100 and 200 % on 320 × 568: 32 toasts. The four are "The ship moved · Round 12 complete", "That phase closed · choices cleared", "Captain election open" and "Turn passed".
+        - Each stays inside the phone less 16 px a side.
+        - Every line of its words lies inside its words' box and on its paper, rounded corners included.
+        - Words that fit on one line keep one line; words that don't, wrap.
+        - The two longest take two lines on the 390 and 430 phones at 150 and 200 %, and "Captain election open" two at 200 % on 390. On the 320 phone they take three at 200 %. At 100 % every toast on the 390 and 430 phones keeps its one line and its width (320.9, 316.2, 214.2 and 145.9 px).
+        - Run against kit 0.8.1's stylesheet, 14 of the 32 fail: one line, cut. Those are the in-game animation builder's ten at 390 and 430, and four on the 320 phone.
+      - **A phase bar's words (0.2.10):** one mounted shell is given the lit Blackout's bar at each second, "Lights out in 0:03", "0:02" and "0:01", then the dark one. The bar's left part is built again each time, so no old line can stay. The bar stays 99 px, Promises, the round, the clock and ⋮ keep their elements and their places, Promises keeps the focus, and no layout is reported.
       - **An eliminated player's banner (0.2.8):** the pack's words and icon, `role="status"`, and no button. The phone is live: a tab Frontend offers takes a tap, and Actions, not offered, is described by its reason. A large docked sheet docks 8.6 px below it. Reconnecting takes its place, with Retry, and the eliminated player's comes back when given again. A new viewer drops it unless given again; concealment drops it, and it doesn't come back by itself. A new viewer keeps the reconnecting banner.
       - **The toast takes no tap (kit 0.8.0):** its computed `pointer-events` is `none`. With its pointer events on for that one measurement, it lies over a button in the cover; with them off, a tap at its centre reaches the button, once. The layers check reads the toast's paint order the same way. With `pointer-events: none` taken out, the Pre-game builder saw this check fail and the layers check still pass.
       - **The backdrop:** the room view's space (`#07090F`) by default, the phone's canvas (`#10141C`) with `backdrop: 'canvas'`, and any other value refused.
@@ -293,16 +398,43 @@ Listed, not omitted:
         - At 200 %, the two rows' values sit under their titles. The three word options stack, each label whole, and 7 · 8 · 9 stays a row.
         - At 200 %, the footer's "Cancel" and "Register Rescue" take a row each, inside the sheet, each label whole (0.2.1).
         - At 100 %, the values sit beside their titles, nothing overlaps, both controls are rows, and the two footer buttons share one row.
+      - **The text size changing (0.2.11),** at 390 × 844, with Move's target bar, its chip "Other rooms on the Board" and a sheet with Cancel · Register Rescue, a row with a value and Card · Knowledge · Resources. Each sequence must draw what a shell mounted at that size draws, part by part: the target bar's form and height, Cancel's place, the chip's wrap and whole label, the footer's wrap and rows, the row's value and the stacking.
+        - 200 % first, with nothing open, then the three opened (the Gameplay builder's sequences): stacked, 238 px, the chip whole, the footer on two rows, the value under its title, the options stacked.
+        - Closed, the Standard text with nothing open, then opened again; then open through a change to 200 % and back: each as a shell mounted at that size.
+        - Run against 0.2.10, it fails on the first: the bar side by side at 294 px, the chip's label cut, the footer on one row, the value beside its title and the options a row. The reverse, back to the Standard text with nothing open, was right already.
     - **With the device's Reduce motion emulated (1):** motion.
-  - **The agreement with the pinned pack** (`preview/agree.mjs`): 13 of 13 cases.
+  - **The agreement with the pinned pack** (`preview/agree.mjs`): 29 of 29 cases.
+    - **The phase bars (0.2.10),** in seventeen cases: the pack's own input to `topBar()` for each game step (`preview/phase-cases.mjs`) beside the shell drawing what `phase-bars.mjs` returns for it.
+      - Before turns with an Officer, with a block shown, and the Officer's own; New Officer and the Captain's own; the Blackout lit and dark; Ship synchronized as sheets 07 and 44 draw it; Setting course for everyone, the Captain and the Officer; The ship moved; Loading the ship; and Reconnecting.
+      - "Appoint Officer" and "Ship synchronized" again at 200 % text on 320 × 568.
+      - They compare the bar, the glyph and its icon, the title, the line, Promises, the round, the clock and ⋮: boxes and words, and now the clock's state too, amber or not, a ring or not, and the ring's share to a hundredth. Every part agrees within half a pixel.
+      - Nine of the pack's fifteen inputs are found in its source as one literal, `topBar({ … })`; the other six are built there from a screen's state, and each of their words is found there. The test holds both.
+      - **Not compared:** sheet 07's Navigation specimen, "Setting course · Round 3 complete", which the functions do not reproduce ([why](#the-phase-bars-words)).
     - **Both banners (0.2.8),** the pack's `banner()` as sheets 45 and 44 draw them: reconnecting with Retry, and an eliminated player's, also at 200 % text on 320 × 568, where its line wraps. They compare the banner, its icon and its drawing, its two lines and Retry: boxes, words, Retry's kind and the role. All three agree, every part within half a pixel.
-    - The cases: a turn, your turn, the 5 s result, a private talk, the Blackout, and your turn and the result at 200 % text on 320 × 568.
+    - The cases: a turn, your turn, the 5 s result, a private talk, and your turn and the result at 200 % text on 320 × 568. The Blackout's dark, compared since 0.1.0 with the preview's own words, is now the pack's specimen among the phase bars.
     - **A docked sheet (0.2.5),** the pack's `sheet()` as sheet 15 draws it: a recovery code's view ("Recovery code", "Private to this phone", Back, Close, Hide · Copy), the abort's confirm (Keep playing · Abort match, `warn`), and the code's view at 200 % text on 390 × 844. They compare the sheet, its head, Back, the title and its line, Close, the footer and each footer button: boxes, words, Back's name and each button's kind.
       - Run against 0.2.4's stylesheet, all three fail: Back at 8 px where the pack's is at 18, the title and its line at 62 where the pack's are at 72, and at 200 % the line's wrap and the second footer button at 194.6 where the pack's is at 200.
     - In each case 10 to 20 parts sit in the same place, with the same words and states.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
   - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
-    - Recorded on `97a7eebb`, with kit 0.8.0 and shell 0.2.9, and the source clean. Against `5ac3354f`'s record (shell 0.2.8):
+    - Recorded on `f0c24a26`, with kit 0.8.2 and shell 0.2.11, and the source clean. Against `1f5ad81b`'s record (kit 0.8.1):
+      - No bar, tab, sheet or overlay moved.
+      - At the Standard text the toast is unchanged: the `closed` captures, which show it, differ only inside the room's picture.
+      - What 0.8.2 changes shows at the Large and Largest text, which the probe's new check measures.
+      - 18 captures are unchanged byte for byte, and 10 with no pixel more than 32 of 255 apart.
+      - 36 differ in at most 2,236 pixels, all inside the room's picture (its ambient motion), between 310 and 564 px from the top.
+    - Before: `1f5ad81b`, with kit 0.8.1 and shell 0.2.11, and the source clean. Against `62c0bca4`'s record (shell 0.2.10):
+      - No bar, tab, sheet or overlay moved: what 0.2.11 changes shows only when the text size changes on a live phone, which the probe's new check measures.
+      - 19 captures are unchanged byte for byte, and 13 with no pixel more than 32 of 255 apart.
+      - 32 differ in at most 56 pixels, all inside the room's picture (its ambient motion), between 310 and 539 px from the top.
+    - Before: `62c0bca4`, with kit 0.8.0 and shell 0.2.10, and the source clean. Against `97a7eebb`'s record (shell 0.2.9):
+      - 25 captures are new: the twelve phase states at both sizes, and `phase-large` at 320 × 568.
+      - `dark` changed at both sizes, in the bar only: its line and its clock, 10,307 pixels each, all between 57 and 90 px from the top. Before, "Lights out" at 0:18; now "Dark · positions fixed" at 0:08, amber.
+      - `result` changed at both sizes, in the round button only: 12,078 and 12,076 pixels. The unavailable Vote is now paper with dimmed words, as the pack draws it.
+      - 11 captures are unchanged: 8 byte for byte, and 3 with no pixel more than 32 of 255 apart. `poster` is among them, with its bar now from `phaseBar()`.
+      - 24 differ in at most 316 pixels, all inside the room's picture (its ambient motion). `stale` and `target-stale`, whose bars now come from `reconnectingBar()`, are among them, in 1 to 8 pixels.
+      - The in-game animation builder's run of `bb567d7e` unchanged differed from `97a7eebb`'s record the same way: 21 captures, in at most 290 pixels, all inside the room's picture.
+    - Before: `97a7eebb`, with kit 0.8.0 and shell 0.2.9, and the source clean. Against `5ac3354f`'s record (shell 0.2.8):
       - 15 captures are unchanged: 13 byte for byte, and 2 with no pixel more than 32 of 255 apart.
       - 20 differ in at most 272 pixels, all inside the room's picture (its ambient motion). The target bar and the chip at the Standard text are unchanged.
       - `target-stale` and `target-large` are new at both sizes.
