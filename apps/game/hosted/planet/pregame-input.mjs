@@ -141,11 +141,15 @@ export const nameCount=name=>[...String(name).trim()].length;
 export const nameValid=name=>CrewDisplayNameSchema.safeParse(String(name).trim()).success;
 export const codeValid=code=>CODE.test(code);
 
-/** The Join form: the draft echoed back, the name's count and rule, Ask from the session's busy flag. */
+/**
+ * The Join form: the draft echoed back, the name's count and rule. Ask is available once the draft makes a request
+ * (the code's form and the name's rule, the contract's own, as `joinRequest` reads them) and the session is free; with
+ * an empty or partial form it is drawn unavailable, as sheet 12's Empty state draws it.
+ */
 export function joinInput(model,ui,draft,prefs){
  const name=draft.displayName,showRule=name.length>0||ui.join.tried;
  return {code:draft.roomCode,codeError:null,name,nameCount:nameCount(name),nameMax:CREW_NAME_MAX_LENGTH,nameError:showRule&&!nameValid(name)?`Use 1–${CREW_NAME_MAX_LENGTH} characters.`:null,
-  device:draft.kind==='display'?'display':'player',ask:control(!model.busy,busyWith(model,ui,'requestAdmission')),error:refusal(model,ui,'requestAdmission'),reducedMotion:prefs.reduced};
+  device:draft.kind==='display'?'display':'player',ask:control(!model.busy&&joinRequest(draft)!==null,busyWith(model,ui,'requestAdmission')),error:refusal(model,ui,'requestAdmission'),reducedMotion:prefs.reduced};
 }
 
 /** The request Ask sends, or null while the draft can't be sent (the code's form, the name's rule). */

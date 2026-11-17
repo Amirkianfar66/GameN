@@ -182,13 +182,16 @@ const STATES = {
       await page.waitFor(SCREEN('menu') + "&&!document.querySelector('.pregame-overlay')", 'the menu, after the brand intro', 8000);
       await page.evaluate(tap('.planet-pregame-host [data-intent="join"]'));
       await page.waitFor(SCREEN('join'), 'the Join form');
+      // Sheet 12's Empty state: Ask to join is unavailable until the draft makes a request.
+      await page.evaluate("window.__askEmpty=[...document.querySelectorAll('.planet-pregame-host button')].find(b=>/Ask to join/.test(b.textContent))?.getAttribute('aria-disabled')==='true'");
       // Typed as a person types: the draft takes the room code's capitals, and the name's count follows.
       await page.evaluate(type('.planet-pregame-host input:not([type="password"])', 'planet'));
       await page.evaluate(type('.planet-pregame-host input[autocomplete="nickname"]', 'Dev'));
       await page.waitFor("[...document.querySelectorAll('.planet-pregame-host input')].some(i=>i.value==='Dev')", 'the name typed');
     },
     facts: s => ({ form: /ms-join-form/.test(s.component) && /Join a room/.test(s.words), code: s.inputs.some(i => i.value === 'PLANET'), count: /3\/12/.test(s.words),
-      ask: !!button(s, 'Ask to join') && !button(s, 'Ask to join').disabled, device: /Player phone/.test(s.words) && /Shared display/.test(s.words), nothingSent: s.sent.length === 0 }) },
+      ask: !!button(s, 'Ask to join') && !button(s, 'Ask to join').disabled, device: /Player phone/.test(s.words) && /Shared display/.test(s.words), nothingSent: s.sent.length === 0 }),
+    after: async page => ({ askUnavailableWhenEmpty: await page.evaluate('window.__askEmpty===true') }) },
   'join-wait': { from: 'join', steps: async page => {
       await page.evaluate("[...document.querySelectorAll('.planet-pregame-host button')].find(b=>/Ask to join/.test(b.textContent)).click()");
       await page.waitFor(SCREEN('join-wait'), 'waiting for the host');

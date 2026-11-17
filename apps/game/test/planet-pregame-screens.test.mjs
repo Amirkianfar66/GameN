@@ -123,6 +123,11 @@ test('join: the draft as the contract writes it, the name\'s rule, the session\'
  const form=joinInput(entry(),ui(),draft({roomCode:'K7Q2XM',displayName:' Dev '}),prefs);
  assert.deepEqual({code:form.code,count:form.nameCount,max:form.nameMax,error:form.nameError,codeError:form.codeError,device:form.device},{code:'K7Q2XM',count:3,max:12,error:null,codeError:null,device:'player'});
  nextJoinFormInput(JOIN_FORM_DEFAULTS,form);
+ // Ask, as sheet 12 draws it: unavailable with an empty or partial form, available once the draft makes a request.
+ assert.equal(form.ask.enabled,true);
+ for(const partial of [draft(),draft({roomCode:'K7',displayName:'Dev'}),draft({roomCode:'K7Q2XM',displayName:''}),draft({roomCode:'K7Q2XM',displayName:'A'.repeat(13)})])
+  assert.equal(joinInput(entry(),ui(),partial,prefs).ask.enabled,false,JSON.stringify(partial));
+ assert.deepEqual(joinInput(entry({busy:true}),ui({lastOp:'requestAdmission'}),draft({roomCode:'K7Q2XM',displayName:'Dev'}),prefs).ask,{enabled:false,busy:true,reason:null});
  assert.equal(joinInput(entry(),ui(),draft({displayName:'A'.repeat(13)}),prefs).nameError,'Use 1–12 characters.');
  assert.equal(joinInput(entry(),ui(),draft(),prefs).nameError,null,'no rule before typing');
  assert.equal(joinInput(entry(),ui({join:{tried:true}}),draft(),prefs).nameError,'Use 1–12 characters.','the rule once Ask was tried');
