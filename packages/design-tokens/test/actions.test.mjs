@@ -68,7 +68,7 @@ test('the component is a runtime source: its whole graph is runtime-safe and in 
     assert.match(read(`${COMPONENT}/${path}`), /mothership:dev-only/, `${path} is marked development-only`);
   }
   assert.match(read('design/tools/actions-check.mjs'), /^\/\/ mothership:dev-only/);
-  assert.equal(ACTIONS_VERSION, 'actions-0.2.3');
+  assert.equal(ACTIONS_VERSION, 'actions-0.2.4');
 });
 
 test('its styles reach nothing outside the component: every rule is under its root, weighs two classes, and places the kit\'s and the parts\' only inside its own', () => {
@@ -289,7 +289,10 @@ test('the frames and the shell\'s words, from the type alone', () => {
   // The Disabler's position bar during a Blackout (sheet 30; the owner's decision of 16 November): its room while
   // choosing, then the position the server has, with the pack's position mark.
   assert.deepEqual(blackoutBar({ room: 'Room A' }), { icon: 'position', title: 'Choose a position', sub: 'Room A · any position, even empty' });
-  assert.deepEqual(blackoutBar({ room: 'Room B', fixed: 'B2' }), { icon: 'position', title: 'Position B2 fixed', sub: 'Resolves after the window · no effect shown now' });
+  // Once fixed the bar is final, with no Cancel (0.2.4: the owner's approval of 17 November, #280 at f0066a7c); while
+  // choosing it keeps the shell's Cancel (T2), so it gives no `cancel`.
+  assert.deepEqual(blackoutBar({ room: 'Room B', fixed: 'B2' }), { icon: 'position', title: 'Position B2 fixed', sub: 'Resolves after the window · no effect shown now', cancel: false });
+  assert.equal('cancel' in blackoutBar({ room: 'Room A' }), false);
   assert.equal(blackoutBar({ fixed: 'A3' }).title, 'Position A3 fixed', 'once fixed, the room is not needed');
   assert.throws(() => blackoutBar(), /names the room/);
   assert.throws(() => blackoutBar({ room: 'Room A', fixed: '' }), /fixed is the position/);
@@ -434,6 +437,8 @@ test('the check\'s record: every capture, the probe and the agreement passed, on
   // The Disabler during a Blackout (sheet 30): the dark room, every position offered, then A3 fixed.
   assert.deepEqual([at('blackout-pick').target, at('blackout-pick').slots, at('blackout-pick').lighting], ['Choose a position|Room A · any position, even empty', 'A1,A2,A3,A4,A5', 'dark']);
   assert.deepEqual([at('blackout-fixed').target, at('blackout-fixed').slots], ['Position A3 fixed|Resolves after the window · no effect shown now', 'A1,A2,A3*,A4,A5']);
+  // Choosing keeps Cancel (T2); the fixed bar has none (0.2.4, the owner's approval, #280 at f0066a7c), at 200 % too.
+  assert.deepEqual([at('blackout-pick').targetCancel, at('blackout-fixed').targetCancel, record.captures['320x568/largest-blackout'].targetCancel], [true, false, false]);
   // Pass's and the Disabler's "Outcome unknown" (0.2.3, A13), the position's in the dark room; and the probe draws both.
   assert.deepEqual([at('unknown-pass').notice, at('unknown-position').notice, at('unknown-position').lighting], ['Pass was sent, but no answer came back.', 'Position A3 was sent, but no answer came back.', 'dark']);
   assert.deepEqual(['pass', 'position'].map(k => record.probe.full.checks.find(c => c.id === 'unknown').detail[k][0]), ['Pass was sent, but no answer came back.', 'Position A3 was sent, but no answer came back.']);

@@ -102,13 +102,14 @@ const EXPECT = {
   'move-unknown': { part: 'unknown', sheet: 'Outcome unknown', notice: 'Move to A5 was sent, but no answer came back.', footer: 'Retry the same|Check receipt' },
   'move-moved': { part: null, sheet: null, target: null, toast: 'Moved to A5' },
   // The Disabler's position during a Blackout (sheet 30). `dark`: the dark room hides its people, so no crew is
-  // expected there; the room is checked to be dark.
-  'blackout-pick': { part: null, sheet: null, target: 'Choose a position|Room A · any position, even empty', chip: null, slots: 'A1,A2,A3,A4,A5', lighting: 'dark', dark: true },
-  'blackout-fixed': { part: null, sheet: null, target: 'Position A3 fixed|Resolves after the window · no effect shown now', chip: null, slots: 'A1,A2,A3*,A4,A5', lighting: 'dark', dark: true },
+  // expected there; the room is checked to be dark. Choosing keeps Cancel (T2); the fixed bar has none (0.2.4, the
+  // owner's approval of 17 November, #280 at f0066a7c).
+  'blackout-pick': { part: null, sheet: null, target: 'Choose a position|Room A · any position, even empty', targetCancel: true, chip: null, slots: 'A1,A2,A3,A4,A5', lighting: 'dark', dark: true },
+  'blackout-fixed': { part: null, sheet: null, target: 'Position A3 fixed|Resolves after the window · no effect shown now', targetCancel: false, chip: null, slots: 'A1,A2,A3*,A4,A5', lighting: 'dark', dark: true },
   passed: { part: null, sheet: null, toast: 'Turn passed' },
   'move-stale': { part: null, sheet: null, target: 'Move within Room A|Choose an empty position · or another room on the Board', banner: 'Connection lost' },
   'largest-move': { part: null, sheet: null, target: 'Move within Room A|Choose an empty position · or another room on the Board', chip: 'Other rooms on the Board', slots: 'A5' },
-  'largest-blackout': { part: null, sheet: null, target: 'Position A3 fixed|Resolves after the window · no effect shown now', chip: null, slots: 'A1,A2,A3*,A4,A5', lighting: 'dark', dark: true },
+  'largest-blackout': { part: null, sheet: null, target: 'Position A3 fixed|Resolves after the window · no effect shown now', targetCancel: false, chip: null, slots: 'A1,A2,A3*,A4,A5', lighting: 'dark', dark: true },
   'largest-move-check': checkOf('Move to A5|Room A', 'Cancel|Register move', { facts: 1 }),
 };
 /** The text-size states, each at its own size. */
@@ -175,6 +176,7 @@ try {
           refused: tiles.length ? tiles.every(n => n.getAttribute('aria-disabled') === 'true') : null,
           note: t(q('.ms-actions .ms-k-group-note')),
           target: q('.ms-ps-target') ? [t(q('.ms-ps-target .ms-ps-text b')), t(q('.ms-ps-target .ms-ps-text span'))].join('|') : null,
+          targetCancel: q('.ms-ps-target') ? !!q('.ms-ps-target [data-intent="cancel-target"]') : null,
           chip: t(q('.ms-ps-chip-btn')), offered: room ? room.querySelectorAll('.ms-rs-press[data-offered], .ms-rs-press:not([aria-disabled="true"])').length : 0,
           rows: all('.ms-ac-list .ms-k-row-title').map(n => n.textContent).join('|') || null,
           groups: all('.ms-ac-list .ms-k-group-label').map(n => n.textContent).join('|') || null,
