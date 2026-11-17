@@ -2,7 +2,7 @@
   "tool": "design/tools/pregame-connection-check.mjs",
   "what": "The Planet app's screens before the match drawn by Designer's pre-game components, in Frontend's phone harness (apps/game/dev/phone) built from the candidate below",
   "candidate": {
-    "commit": "49c539cfdc97a9e7aad24bc49cf6442978629f62",
+    "commit": "cdbed32340a647cbc4d7a7a955433b524d3f9b28",
     "clean": true,
     "dirty": []
   },
@@ -102,7 +102,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -167,7 +167,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -202,7 +202,7 @@
         },
         "rootClass": "planet-pregame",
         "title": "Choose a character",
-        "words": "VegaTaken · 1RigelTaken · 2LyraTaken · 3AtlasTaken · 4OrionTaken · 5NovaJunoTaken · 7MiraTaken · 8EchoTaken · 9No character yetTap one to chooseChoose a characterAssigned for you if time runs out0:29Taken by player 1Taken by player 2Taken by player 3Taken by player 4Taken by player 5Taken by player 7Taken by player 8Taken by player 9",
+        "words": "VegaTaken · 1RigelTaken · 2LyraTaken · 3AtlasTaken · 4OrionTaken · 5NovaJunoTaken · 7MiraTaken · 8EchoTaken · 9No character yetTap one to chooseChoose a characterAssigned for you if time runs out0:30Taken by player 1Taken by player 2Taken by player 3Taken by player 4Taken by player 5Taken by player 7Taken by player 8Taken by player 9",
         "buttons": [
           {
             "label": "Vega, taken by player 1",
@@ -211,6 +211,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 1",
             "box": {
               "x": 16,
               "y": 64,
@@ -225,6 +226,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 2",
             "box": {
               "x": 138.66,
               "y": 64,
@@ -239,6 +241,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 3",
             "box": {
               "x": 261.33,
               "y": 64,
@@ -253,6 +256,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 4",
             "box": {
               "x": 16,
               "y": 229.89,
@@ -267,6 +271,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 5",
             "box": {
               "x": 138.66,
               "y": 229.89,
@@ -281,6 +286,7 @@
             "disabled": false,
             "busy": false,
             "pressed": "false",
+            "reason": null,
             "box": {
               "x": 261.33,
               "y": 229.89,
@@ -295,6 +301,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 7",
             "box": {
               "x": 16,
               "y": 395.78,
@@ -309,6 +316,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 8",
             "box": {
               "x": 138.66,
               "y": 395.78,
@@ -323,6 +331,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 9",
             "box": {
               "x": 261.33,
               "y": 395.78,
@@ -363,7 +372,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -406,6 +415,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 121.78,
               "y": 417.59,
@@ -420,6 +430,7 @@
             "disabled": true,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 16,
               "y": 780,
@@ -434,6 +445,7 @@
             "disabled": true,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 260.7,
               "y": 794,
@@ -474,7 +486,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -520,6 +532,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 8,
               "y": 8,
@@ -534,6 +547,7 @@
             "disabled": false,
             "busy": false,
             "pressed": "false",
+            "reason": null,
             "box": {
               "x": 309,
               "y": 77.52,
@@ -548,6 +562,7 @@
             "disabled": false,
             "busy": false,
             "pressed": "true",
+            "reason": null,
             "box": {
               "x": 19,
               "y": 171.63,
@@ -562,6 +577,7 @@
             "disabled": false,
             "busy": false,
             "pressed": "false",
+            "reason": null,
             "box": {
               "x": 137.33,
               "y": 171.63,
@@ -576,6 +592,7 @@
             "disabled": false,
             "busy": false,
             "pressed": "false",
+            "reason": null,
             "box": {
               "x": 255.66,
               "y": 171.63,
@@ -611,7 +628,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -632,11 +649,12 @@
         "request": true,
         "startOff": true,
         "bots": true,
+        "leaveOff": true,
         "copyToast": true,
         "admitSent": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-host-lobby.jpg",
-      "sha256": "9e6c1ff35ea75e4263e4fcc2fd7a3c1662ab9e7417887e5f1dbafb378604ec5a",
+      "sha256": "c6302a06230cbc301b50a51ef50123955d3189169d0e2a14c19932b15e6d1d08",
       "seen": {
         "screen": "host-lobby",
         "component": "ms-host-lobby ms-kit ms-k-phone ms-entry-parts",
@@ -648,15 +666,16 @@
         },
         "rootClass": "planet-pregame",
         "title": "Lobby",
-        "words": "LeaveLobbyRoom codePLANETCopy5 of 9 seatsAsking to join · 1DevPlayer phoneAdmitSeats1Crew 1Bot2Crew 2Bot3Crew 3Bot4Crew 4Bot5Crew 5BotBotsBotsUp to 95Start character selection4 more seats to fill4 more seats to fill",
+        "words": "LeaveLobbyRoom codePLANETCopy5 of 9 seatsAsking to join · 1DevPlayer phoneAdmitSeats1Crew 1Bot2Crew 2Bot3Crew 3Bot4Crew 4Bot5Crew 5BotBotsBotsUp to 95Start character selection4 more seats to fillNot available in this test4 more seats to fill",
         "buttons": [
           {
             "label": "Leave",
             "intent": "leave",
             "value": null,
-            "disabled": false,
+            "disabled": true,
             "busy": false,
             "pressed": null,
+            "reason": "Not available in this test",
             "box": {
               "x": 8,
               "y": 8,
@@ -671,6 +690,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 266.5,
               "y": 97.59,
@@ -685,6 +705,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 293.97,
               "y": 225.55,
@@ -699,6 +720,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 238,
               "y": 624.02,
@@ -713,6 +735,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 316,
               "y": 624.02,
@@ -727,6 +750,7 @@
             "disabled": true,
             "busy": false,
             "pressed": null,
+            "reason": "4 more seats to fill",
             "box": {
               "x": 16,
               "y": 743.45,
@@ -762,7 +786,150 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/host-setup": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "setup": true,
+        "counts": true,
+        "chosen": true,
+        "open": true,
+        "nothingSent": true,
+        "noMix": true,
+        "createdWithEight": true,
+        "lobby": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-host-setup.jpg",
+      "sha256": "c9e058e13c73000536e80927ef2d2728a931589fd9a3d9b0b1dc95b2c327fcda",
+      "seen": {
+        "screen": "host-setup",
+        "component": "ms-host-setup ms-kit ms-k-phone ms-entry-parts",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": "Host",
+        "words": "MenuHostNew roomPlayers789After the room opensPlayers ask to joinYou admit each oneBots fill empty seatsSet them in the lobbyOpen room",
+        "buttons": [
+          {
+            "label": "Menu",
+            "intent": "back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 8,
+              "y": 8,
+              "width": 91.88,
+              "height": 44
+            }
+          },
+          {
+            "label": "7",
+            "intent": "count",
+            "value": "7",
+            "disabled": false,
+            "busy": false,
+            "pressed": "true",
+            "reason": null,
+            "box": {
+              "x": 19,
+              "y": 156.39,
+              "width": 115.33,
+              "height": 44
+            }
+          },
+          {
+            "label": "8",
+            "intent": "count",
+            "value": "8",
+            "disabled": false,
+            "busy": false,
+            "pressed": "false",
+            "reason": null,
+            "box": {
+              "x": 137.33,
+              "y": 156.39,
+              "width": 115.33,
+              "height": 44
+            }
+          },
+          {
+            "label": "9",
+            "intent": "count",
+            "value": "9",
+            "disabled": false,
+            "busy": false,
+            "pressed": "false",
+            "reason": null,
+            "box": {
+              "x": 255.66,
+              "y": 156.39,
+              "width": 115.34,
+              "height": 44
+            }
+          },
+          {
+            "label": "Open room",
+            "intent": "open",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 778,
+              "width": 358,
+              "height": 50
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": null,
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 0,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -807,6 +974,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 8,
               "y": 8,
@@ -821,6 +989,7 @@
             "disabled": false,
             "busy": false,
             "pressed": "true",
+            "reason": null,
             "box": {
               "x": 19,
               "y": 337.98,
@@ -835,6 +1004,7 @@
             "disabled": false,
             "busy": false,
             "pressed": "false",
+            "reason": null,
             "box": {
               "x": 196.5,
               "y": 337.98,
@@ -849,6 +1019,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 16,
               "y": 778,
@@ -895,7 +1066,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -912,10 +1083,10 @@
         "policy": true,
         "problems": true,
         "admitted": true,
-        "leave": true
+        "leaveOff": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-join-admitted.jpg",
-      "sha256": "1ec4743a31ae4d9a18cbb857eea139af04c6db2feeb6a39856dedac6e5be065a",
+      "sha256": "1268ef767a933d53ed5307736f74dc4b883679f321e9b149dc84e245ee4b7ac7",
       "seen": {
         "screen": "join-wait",
         "component": "ms-join-wait ms-kit ms-k-phone ms-entry-parts",
@@ -927,15 +1098,16 @@
         },
         "rootClass": "planet-pregame",
         "title": "Lobby",
-        "words": "LeaveLobby4You’re in · Seat 4Room PLANET · waiting for the hostPlayers · 5 of 91Crew 12Crew 23Crew 34Dev (you)5Crew 5 Character selection starts when every seat is filled",
+        "words": "LeaveLobby4You’re in · Seat 4Room PLANET · waiting for the hostPlayers · 5 of 91Crew 12Crew 23Crew 34Dev (you)5Crew 5 Character selection starts when every seat is filledNot available in this test",
         "buttons": [
           {
             "label": "Leave",
             "intent": "leave",
             "value": null,
-            "disabled": false,
+            "disabled": true,
             "busy": false,
             "pressed": null,
+            "reason": "Not available in this test",
             "box": {
               "x": 8,
               "y": 8,
@@ -973,7 +1145,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -993,10 +1165,11 @@
         "sent": true,
         "pending": true,
         "check": true,
+        "cancelOff": true,
         "checkReads": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-join-wait.jpg",
-      "sha256": "7092e1860d1591d417c6bda90d1589f34889afc8bbf29abb755b23febcc9b97b",
+      "sha256": "a34f60a41e435c30035c021d1798530eb312c105e2c3c2e8e08ddcd37a22d501",
       "seen": {
         "screen": "join-wait",
         "component": "ms-join-wait ms-kit ms-k-phone ms-entry-parts",
@@ -1008,15 +1181,16 @@
         },
         "rootClass": "planet-pregame",
         "title": "Join",
-        "words": "CancelJoinWaiting for the hostRoom PLANET · as DevCheck again",
+        "words": "CancelJoinWaiting for the hostRoom PLANET · as DevCheck againNot available in this test",
         "buttons": [
           {
             "label": "Cancel",
             "intent": "cancel",
             "value": null,
-            "disabled": false,
+            "disabled": true,
             "busy": false,
             "pressed": null,
+            "reason": "Not available in this test",
             "box": {
               "x": 8,
               "y": 8,
@@ -1031,6 +1205,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 137,
               "y": 255.19,
@@ -1068,7 +1243,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1086,7 +1261,6 @@
         "problems": true,
         "menu": true,
         "choices": true,
-        "hostWaits": true,
         "hero": true,
         "noFilm": true,
         "noNotice": true,
@@ -1114,6 +1288,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 338,
               "y": 4,
@@ -1128,6 +1303,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 16,
               "y": 606,
@@ -1139,9 +1315,10 @@
             "label": "HostOpen a room for 7–9 players",
             "intent": "host",
             "value": null,
-            "disabled": true,
+            "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 16,
               "y": 694,
@@ -1156,6 +1333,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 105.14,
               "y": 782,
@@ -1199,7 +1377,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1245,6 +1423,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 8,
               "y": 8,
@@ -1259,6 +1438,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 16,
               "y": 778,
@@ -1305,7 +1485,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1349,6 +1529,7 @@
             "disabled": true,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 16,
               "y": 780,
@@ -1363,6 +1544,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 260.7,
               "y": 794,
@@ -1403,7 +1585,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1445,6 +1627,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 16,
               "y": 780,
@@ -1459,6 +1642,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 260.7,
               "y": 794,
@@ -1499,7 +1683,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1541,6 +1725,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 1",
             "box": {
               "x": 16,
               "y": 64,
@@ -1555,6 +1740,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 2",
             "box": {
               "x": 138.66,
               "y": 64,
@@ -1569,6 +1755,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 3",
             "box": {
               "x": 261.33,
               "y": 64,
@@ -1583,6 +1770,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 4",
             "box": {
               "x": 16,
               "y": 229.89,
@@ -1597,6 +1785,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 5",
             "box": {
               "x": 138.66,
               "y": 229.89,
@@ -1611,6 +1800,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "true",
+            "reason": "Controls return when the match is current",
             "box": {
               "x": 261.33,
               "y": 229.89,
@@ -1625,6 +1815,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 7",
             "box": {
               "x": 16,
               "y": 395.78,
@@ -1639,6 +1830,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 8",
             "box": {
               "x": 138.66,
               "y": 395.78,
@@ -1653,6 +1845,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 9",
             "box": {
               "x": 261.33,
               "y": 395.78,
@@ -1667,6 +1860,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 305.97,
               "y": 74.84,
@@ -1709,7 +1903,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1776,7 +1970,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1795,7 +1989,7 @@
         "waiting": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-boarding-waiting.jpg",
-      "sha256": "7f367f88eb3a0b533f92ca2f9bee9cd0743f969321af430f2117549d2cff8ecd",
+      "sha256": "f913664155737bd9ee91a5307592821e0f7c875990db6041e5e604a0d6ecde8e",
       "seen": {
         "screen": "boarding",
         "component": "ms-boarding-stage ms-kit",
@@ -1841,7 +2035,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1876,7 +2070,7 @@
         },
         "rootClass": "planet-pregame",
         "title": "Choose a character",
-        "words": "VegaTaken · 1RigelTaken · 2LyraTaken · 3AtlasTaken · 4OrionTaken · 5NovaJunoTaken · 7MiraTaken · 8EchoTaken · 9No character yetTap one to chooseChoose a characterAssigned for you if time runs out0:29Taken by player 1Taken by player 2Taken by player 3Taken by player 4Taken by player 5Taken by player 7Taken by player 8Taken by player 9",
+        "words": "VegaTaken · 1RigelTaken · 2LyraTaken · 3AtlasTaken · 4OrionTaken · 5NovaJunoTaken · 7MiraTaken · 8EchoTaken · 9No character yetTap one to chooseChoose a characterAssigned for you if time runs out0:30Taken by player 1Taken by player 2Taken by player 3Taken by player 4Taken by player 5Taken by player 7Taken by player 8Taken by player 9",
         "buttons": [
           {
             "label": "Vega, taken by player 1",
@@ -1885,6 +2079,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 1",
             "box": {
               "x": 16,
               "y": 64,
@@ -1899,6 +2094,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 2",
             "box": {
               "x": 152,
               "y": 64,
@@ -1913,6 +2109,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 3",
             "box": {
               "x": 288,
               "y": 64,
@@ -1927,6 +2124,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 4",
             "box": {
               "x": 16,
               "y": 229.89,
@@ -1941,6 +2139,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 5",
             "box": {
               "x": 152,
               "y": 229.89,
@@ -1955,6 +2154,7 @@
             "disabled": false,
             "busy": false,
             "pressed": "false",
+            "reason": null,
             "box": {
               "x": 288,
               "y": 229.89,
@@ -1969,6 +2169,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 7",
             "box": {
               "x": 16,
               "y": 395.78,
@@ -1983,6 +2184,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 8",
             "box": {
               "x": 152,
               "y": 395.78,
@@ -1997,6 +2199,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 9",
             "box": {
               "x": 288,
               "y": 395.78,
@@ -2037,7 +2240,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2080,6 +2283,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 141.78,
               "y": 461.59,
@@ -2094,6 +2298,7 @@
             "disabled": true,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 16,
               "y": 868,
@@ -2108,6 +2313,7 @@
             "disabled": true,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 300.7,
               "y": 882,
@@ -2148,7 +2354,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2194,6 +2400,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 8,
               "y": 8,
@@ -2208,6 +2415,7 @@
             "disabled": false,
             "busy": false,
             "pressed": "false",
+            "reason": null,
             "box": {
               "x": 349,
               "y": 69.06,
@@ -2222,6 +2430,7 @@
             "disabled": false,
             "busy": false,
             "pressed": "true",
+            "reason": null,
             "box": {
               "x": 19,
               "y": 154.73,
@@ -2236,6 +2445,7 @@
             "disabled": false,
             "busy": false,
             "pressed": "false",
+            "reason": null,
             "box": {
               "x": 150.66,
               "y": 154.73,
@@ -2250,6 +2460,7 @@
             "disabled": false,
             "busy": false,
             "pressed": "false",
+            "reason": null,
             "box": {
               "x": 282.33,
               "y": 154.73,
@@ -2285,7 +2496,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2306,11 +2517,12 @@
         "request": true,
         "startOff": true,
         "bots": true,
+        "leaveOff": true,
         "copyToast": true,
         "admitSent": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-host-lobby.jpg",
-      "sha256": "f3023a880d60ce54d3bc5e28f2293e533c9e4200feeb1163896c54883cf458f9",
+      "sha256": "4fe507adeb7a3e4bbccc66d749419d5e6ec3422c9974fadfd16186daad21ae85",
       "seen": {
         "screen": "host-lobby",
         "component": "ms-host-lobby ms-kit ms-k-phone ms-entry-parts",
@@ -2322,15 +2534,16 @@
         },
         "rootClass": "planet-pregame",
         "title": "Lobby",
-        "words": "LeaveLobbyRoom codePLANETCopy5 of 9 seatsAsking to join · 1DevPlayer phoneAdmitSeats1Crew 1Bot2Crew 2Bot3Crew 3Bot4Crew 4Bot5Crew 5BotBotsBotsUp to 95Start character selection4 more seats to fill4 more seats to fill",
+        "words": "LeaveLobbyRoom codePLANETCopy5 of 9 seatsAsking to join · 1DevPlayer phoneAdmitSeats1Crew 1Bot2Crew 2Bot3Crew 3Bot4Crew 4Bot5Crew 5BotBotsBotsUp to 95Start character selection4 more seats to fillNot available in this test4 more seats to fill",
         "buttons": [
           {
             "label": "Leave",
             "intent": "leave",
             "value": null,
-            "disabled": false,
+            "disabled": true,
             "busy": false,
             "pressed": null,
+            "reason": "Not available in this test",
             "box": {
               "x": 8,
               "y": 8,
@@ -2345,6 +2558,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 306.5,
               "y": 97.59,
@@ -2359,6 +2573,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 333.97,
               "y": 225.55,
@@ -2373,6 +2588,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 278,
               "y": 624.02,
@@ -2387,6 +2603,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 356,
               "y": 624.02,
@@ -2401,6 +2618,7 @@
             "disabled": true,
             "busy": false,
             "pressed": null,
+            "reason": "4 more seats to fill",
             "box": {
               "x": 16,
               "y": 831.45,
@@ -2436,7 +2654,150 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/host-setup": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "setup": true,
+        "counts": true,
+        "chosen": true,
+        "open": true,
+        "nothingSent": true,
+        "noMix": true,
+        "createdWithEight": true,
+        "lobby": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-host-setup.jpg",
+      "sha256": "1cada86b60fcc89bfa12241a9d5aa83a3f2ecc63535cafb3ed36a11de38eb80b",
+      "seen": {
+        "screen": "host-setup",
+        "component": "ms-host-setup ms-kit ms-k-phone ms-entry-parts",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": "Host",
+        "words": "MenuHostNew roomPlayers789After the room opensPlayers ask to joinYou admit each oneBots fill empty seatsSet them in the lobbyOpen room",
+        "buttons": [
+          {
+            "label": "Menu",
+            "intent": "back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 8,
+              "y": 8,
+              "width": 91.88,
+              "height": 44
+            }
+          },
+          {
+            "label": "7",
+            "intent": "count",
+            "value": "7",
+            "disabled": false,
+            "busy": false,
+            "pressed": "true",
+            "reason": null,
+            "box": {
+              "x": 19,
+              "y": 156.39,
+              "width": 128.66,
+              "height": 44
+            }
+          },
+          {
+            "label": "8",
+            "intent": "count",
+            "value": "8",
+            "disabled": false,
+            "busy": false,
+            "pressed": "false",
+            "reason": null,
+            "box": {
+              "x": 150.66,
+              "y": 156.39,
+              "width": 128.67,
+              "height": 44
+            }
+          },
+          {
+            "label": "9",
+            "intent": "count",
+            "value": "9",
+            "disabled": false,
+            "busy": false,
+            "pressed": "false",
+            "reason": null,
+            "box": {
+              "x": 282.33,
+              "y": 156.39,
+              "width": 128.67,
+              "height": 44
+            }
+          },
+          {
+            "label": "Open room",
+            "intent": "open",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 866,
+              "width": 398,
+              "height": 50
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": null,
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 0,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2481,6 +2842,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 8,
               "y": 8,
@@ -2495,6 +2857,7 @@
             "disabled": false,
             "busy": false,
             "pressed": "true",
+            "reason": null,
             "box": {
               "x": 19,
               "y": 337.98,
@@ -2509,6 +2872,7 @@
             "disabled": false,
             "busy": false,
             "pressed": "false",
+            "reason": null,
             "box": {
               "x": 216.5,
               "y": 337.98,
@@ -2523,6 +2887,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 16,
               "y": 866,
@@ -2569,7 +2934,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2586,10 +2951,10 @@
         "policy": true,
         "problems": true,
         "admitted": true,
-        "leave": true
+        "leaveOff": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-join-admitted.jpg",
-      "sha256": "f09581c599fba5860633f5f2ddebea02cb23c662ba640014c846911836b6f465",
+      "sha256": "7116c5c24928798d9ce0ef3ac727ddfa93bee62773cdf2f83e0c0a7eaa878e56",
       "seen": {
         "screen": "join-wait",
         "component": "ms-join-wait ms-kit ms-k-phone ms-entry-parts",
@@ -2601,15 +2966,16 @@
         },
         "rootClass": "planet-pregame",
         "title": "Lobby",
-        "words": "LeaveLobby4You’re in · Seat 4Room PLANET · waiting for the hostPlayers · 5 of 91Crew 12Crew 23Crew 34Dev (you)5Crew 5 Character selection starts when every seat is filled",
+        "words": "LeaveLobby4You’re in · Seat 4Room PLANET · waiting for the hostPlayers · 5 of 91Crew 12Crew 23Crew 34Dev (you)5Crew 5 Character selection starts when every seat is filledNot available in this test",
         "buttons": [
           {
             "label": "Leave",
             "intent": "leave",
             "value": null,
-            "disabled": false,
+            "disabled": true,
             "busy": false,
             "pressed": null,
+            "reason": "Not available in this test",
             "box": {
               "x": 8,
               "y": 8,
@@ -2647,7 +3013,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2667,10 +3033,11 @@
         "sent": true,
         "pending": true,
         "check": true,
+        "cancelOff": true,
         "checkReads": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-join-wait.jpg",
-      "sha256": "ae8232ab135a76e4f4b8bf0e67794575785382b334712576b596b354698b3ab8",
+      "sha256": "bd614b9d5b3749dbdc98d5fb171368ecd8f37fd9acba3279584b79c170d970d9",
       "seen": {
         "screen": "join-wait",
         "component": "ms-join-wait ms-kit ms-k-phone ms-entry-parts",
@@ -2682,15 +3049,16 @@
         },
         "rootClass": "planet-pregame",
         "title": "Join",
-        "words": "CancelJoinWaiting for the hostRoom PLANET · as DevCheck again",
+        "words": "CancelJoinWaiting for the hostRoom PLANET · as DevCheck againNot available in this test",
         "buttons": [
           {
             "label": "Cancel",
             "intent": "cancel",
             "value": null,
-            "disabled": false,
+            "disabled": true,
             "busy": false,
             "pressed": null,
+            "reason": "Not available in this test",
             "box": {
               "x": 8,
               "y": 8,
@@ -2705,6 +3073,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 157,
               "y": 255.19,
@@ -2742,7 +3111,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2760,7 +3129,6 @@
         "problems": true,
         "menu": true,
         "choices": true,
-        "hostWaits": true,
         "hero": true,
         "noFilm": true,
         "noNotice": true,
@@ -2788,6 +3156,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 378,
               "y": 4,
@@ -2802,6 +3171,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 16,
               "y": 694,
@@ -2813,9 +3183,10 @@
             "label": "HostOpen a room for 7–9 players",
             "intent": "host",
             "value": null,
-            "disabled": true,
+            "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 16,
               "y": 782,
@@ -2830,6 +3201,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 125.14,
               "y": 870,
@@ -2873,7 +3245,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2919,6 +3291,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 8,
               "y": 8,
@@ -2933,6 +3306,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 16,
               "y": 866,
@@ -2979,7 +3353,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3023,6 +3397,7 @@
             "disabled": true,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 16,
               "y": 868,
@@ -3037,6 +3412,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 300.7,
               "y": 882,
@@ -3077,7 +3453,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3119,6 +3495,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 16,
               "y": 868,
@@ -3133,6 +3510,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 300.7,
               "y": 882,
@@ -3173,7 +3551,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3215,6 +3593,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 1",
             "box": {
               "x": 16,
               "y": 64,
@@ -3229,6 +3608,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 2",
             "box": {
               "x": 152,
               "y": 64,
@@ -3243,6 +3623,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 3",
             "box": {
               "x": 288,
               "y": 64,
@@ -3257,6 +3638,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 4",
             "box": {
               "x": 16,
               "y": 229.89,
@@ -3271,6 +3653,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 5",
             "box": {
               "x": 152,
               "y": 229.89,
@@ -3285,6 +3668,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "true",
+            "reason": "Controls return when the match is current",
             "box": {
               "x": 288,
               "y": 229.89,
@@ -3299,6 +3683,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 7",
             "box": {
               "x": 16,
               "y": 395.78,
@@ -3313,6 +3698,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 8",
             "box": {
               "x": 152,
               "y": 395.78,
@@ -3327,6 +3713,7 @@
             "disabled": true,
             "busy": false,
             "pressed": "false",
+            "reason": "Taken by player 9",
             "box": {
               "x": 288,
               "y": 395.78,
@@ -3341,6 +3728,7 @@
             "disabled": false,
             "busy": false,
             "pressed": null,
+            "reason": null,
             "box": {
               "x": 345.97,
               "y": 68,
@@ -3383,7 +3771,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-7T2bZpt3.js",
+            "source": "assets/phone-DGi2el86.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
