@@ -6,6 +6,47 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
+
+**Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
+
+**What was said.** The owner asked the Pre-game Animation builder:
+
+> But why not work backgrounds we using  image generation, a mix method of images and code ( for parts with interactive and motion graphics)? What is your opinion ?
+
+The builder agreed, with code kept for everything that moves or is the player's own. The owner answered:
+
+> Yes , Then we can use a layer filter on all of them to give feeling of cyber comic Noir style and match 3 layer? What do you think?
+
+**How the builder applies it,** as it told the Lead:
+- **Who makes what.** The owner generates the background layers in their own image tool, from prompts the builder writes. Nothing in the builder's session can generate pictures.
+- **Code keeps** everything that moves or is the player's own: the crew's acting, the lights, smoke and screens, the cosmic events, the card's mark, the gadget, the player's character and the seat.
+- **The first location** is the briefing room, the Doctor test's first 3 s, in three layers: the view through the window, the room and the foreground.
+- **The filter** is the same steps on every layer, tuned by depth, with a colour script for each location (steel, rust, cosmos).
+  - It runs once, offline, on the plates, and Mira's drawings take the same grade.
+  - Only the grain, the halftone and the vignette run on each frame, as layers of the page.
+- **The teams' colours.** The filter pulls blues to teal, reds to amber and violets to magenta. Every plate is checked against each team's colour; its four test results are each at least 39.9 from every one.
+- A prototype is on the builder's test page: the owner's Room A picture and three of its plates, before and after.
+
+**What it covers:** the Doctor test's backgrounds and its finish, within the scope the 16 November direction [below](#16-november-2026-a-hand-inked-graphic-novel-world-for-the-pre-game-animation-test) set.
+
+**What stays the same,** as for that direction:
+- No sound on players' phones.
+- The test's length, timing and privacy.
+- Test pages only, with no branch or PR until the owner likes a direction.
+- It is not part of the human test's deploy, and nothing in the deploy waits for it.
+
+**What it doesn't change:** the game's approved crew (`design-0.9.0`) and rooms (`room-drawing-1.0.0`), the phone pack, and the art releases. No generated picture enters any of them.
+
+**Before a generated picture goes beyond a test page** (the builder's advice, which the Lead keeps as the rule):
+- The image tool's terms allow commercial use.
+- Each picture is kept with its tool, its prompt and its date.
+- The owner's two outside example frames are mood references, described in words. They are not given to a tool as pictures.
+
+**What it leaves open:**
+- **The ship through the window.** A generated Mothership would be a new design, which the boarding film would then have to match. The builder offered the owner today's ship, drawn in code. The owner chooses.
+- Whether the method goes beyond the Doctor test, as for the direction below.
+
 ## 16 November 2026: a hand-inked graphic-novel world for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's message in the Pre-game Animation builder's session.** The Lead read the message there, in that session's own transcript (23:46 UTC), not from a summary.
