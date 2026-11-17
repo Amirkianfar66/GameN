@@ -24,7 +24,7 @@ import {roomSceneArtReady,roomSceneHandlers,roomSceneInput,roomSceneInputKey,roo
 import {mountPhoneShell} from '../../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
 import {connectShellLifecycle,createServerClock,phaseClosed,shellFocusOrder,shellHandlers,shellHostSheet,shellInput,shellRuns} from './shell-input.mjs';
 import {mountActionCheck,mountActions,mountAfterRegister,mountOutcomeUnknown,mountPassNote,mountTargetList} from '../../../../design/phone-ui/components/actions/actions.mjs';
-import {EVERY_ROLE_TILES,ROLE_TILES,actionsCancel,actionsFlow,actionsHandlers,actionsPart,holdActionsPick} from './actions-input.mjs';
+import {EVERY_ROLE_TILES,ROLE_TILES,actionsCancel,actionsFlow,actionsHandlers,actionsHeard,actionsPart,holdActionsPick} from './actions-input.mjs';
 
 const windowNames={A_B:'Room A ↔ Room B',A_HOSPITAL:'Room A ↔ Hospital',B_JAIL:'Room B ↔ Jail'};
 const number=id=>id?`Player ${id.slice(5)}`:'—';
@@ -515,6 +515,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   status.textContent=model.dark?'':model.message??'';status.hidden=!status.textContent||model.action?.prompt===model.message||input.banner?.kind==='reconnecting'||input.status==='concealed'||input.sheet?.kind==='action-unknown';
   const nextShellKey=JSON.stringify(input);if(nextShellKey!==shellKey){shellKey=nextShellKey;shell.update(input);}
   syncShellActivity();syncActionsPart();mountSheetBody();
+  // At Actions' After Register the unseen step and checkpoint say its headline, as drawn (A16, the Lead, 17 November).
+  const heard=actionsHeard(model,{frame:shellFrame,flow});if(heard){checkpointText=heard;checkpoint.textContent=heard;instruction.textContent=heard;}
   // The bars' heights and the stage come from the shell: its layout() is measured after the update above. The
   // private talk's two buttons cover the stage's foot, which the board's layout keeps clear.
   const shellBars=shell.layout()??{size:{width:win.innerWidth,height:win.innerHeight},bars:{top:0,bottom:0},covered:{bottom:0}};

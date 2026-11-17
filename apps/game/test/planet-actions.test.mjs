@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {ACTIONS_FLOWS,EVERY_ROLE_TILES,ROLE_TILES,actionsCancel,actionsChip,actionsFlow,actionsFrame,actionsHandlers,actionsListGroups,actionsPart,actionsStatus,actionsTarget,actionsTiles,actionsToast,
+import {ACTIONS_FLOWS,EVERY_ROLE_TILES,ROLE_TILES,actionsCancel,actionsChip,actionsFlow,actionsFrame,actionsHandlers,actionsHeard,actionsListGroups,actionsPart,actionsStatus,actionsTarget,actionsTiles,actionsToast,
  confirmationFacts,holdActionsPick,ownLocation,slotLocation} from '../hosted/planet/actions-input.mjs';
 import {shellHandlers,shellInput} from '../hosted/planet/shell-input.mjs';
 import {roomSceneTargets} from '../hosted/planet/room-scene-input.mjs';
@@ -267,6 +267,26 @@ test('the parts\' inputs: the List, the check (and while it sends), After Regist
  // Another frame, or none: no part.
  assert.equal(actionsPart(model({panel:'card'}),{frame:{id:'card',kind:'card'}}),null);
  assert.equal(actionsPart(model(),{frame:null}),null);
+});
+
+test('the screen-reader facts at After Register (A16, the Lead\'s option 1): the part\'s headline, as drawn; elsewhere the game\'s own words',()=>{
+ const choosing=model({action:action('RESCUE','targets',['seat-3'])});
+ const picked=through({model:choosing},{model:choosing,pick:{seat:'seat-3'}},{model:model({action:action('RESCUE','confirm',[],{canConfirm:true})})},{model:model({action:action('RESCUE','sending')})});
+ const done=model({action:action('RESCUE','accepted',[],{prompt:'Registered. Resolution is pending.'})}),flow=actionsFlow(picked,done),frame=actionsFrame(done,{flow});
+ assert.equal(frame.kind,'action-after');
+ assert.equal(actionsHeard(done,{frame,flow}),'Rescue of Crew 3 registered.');
+ assert.equal(actionsHeard(done,{frame,flow}),actionsPart(done,{frame,flow}).input.title,'the words the part draws');
+ // Without this phone's pick, the part's own headline: Frontend's acceptedAfterReload. The Engineer's: the component's.
+ assert.equal(actionsHeard(done,{frame:actionsFrame(done),flow:null}),'The server accepted your action.');
+ const suppressed=model({action:action('ENGINEER_SUPPRESS','accepted',[],{prompt:'Registered. Resolution is pending.'})});
+ assert.equal(actionsHeard(suppressed,{frame:actionsFrame(suppressed),flow:null}),'Navigation suppressed.');
+ // Any other frame, or none, or a shared display: null, and the game's own words stay.
+ const check=model({action:action('RESCUE','confirm',[],{canConfirm:true})});
+ assert.equal(actionsHeard(check,{frame:actionsFrame(check,{flow:picked}),flow:picked}),null);
+ assert.equal(actionsHeard(done,{frame:null,flow}),null);
+ assert.equal(actionsHeard({...done,surface:'display'},{frame,flow}),null);
+ const blackhole=actionsPanel([],{action:action('ACTIVATE_BLACKHOLE','accepted',[],{prompt:'Registered. Resolution is pending.'})});
+ assert.equal(actionsHeard(blackhole,{frame:actionsFrame(blackhole),flow:null}),null,'a toast, not After Register (L7)');
 });
 
 test('the taps: a tile begins its action; a move opens on the viewer\'s room; one tap of a position replays the room; the Disabler\'s fixes it',()=>{

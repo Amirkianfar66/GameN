@@ -307,6 +307,15 @@ export function actionsPart(model,{frame=null,flow=null,reducedMotion=false}={})
  }
 }
 
+/**
+ * What the screen-reader facts' current step and checkpoint say at Actions' After Register (A16; the Lead's option 1,
+ * 17 November): the part's headline, as drawn, so a screen reader hears what the phone shows, not the model's generic
+ * "Registered. Resolution is pending.". Null at any other frame, where the game's own words stay.
+ */
+export function actionsHeard(model,{frame=null,flow=null}={}){
+ return frame?.kind==='action-after'?actionsPart(model,{frame,flow})?.input.title??null:null;
+}
+
 // ── The taps ─────────────────────────────────────────────────────────────
 /**
  * The parts' callbacks and every tap that chooses, each to the call the game already makes. `model` reads the
