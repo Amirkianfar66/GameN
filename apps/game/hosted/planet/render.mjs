@@ -502,8 +502,9 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   if(input.status==='concealed')toast=null;else input.toast=toast;
   shellFrame=input.sheet;choosing=!!input.target;
   // The shared display's status line and a message stay the game's; while the reconnecting banner shows, it says it.
-  // Concealed, it hides itself, as everything of this viewer's in the shell does.
-  status.textContent=model.dark?'':model.message??'';status.hidden=!status.textContent||model.action?.prompt===model.message||input.banner?.kind==='reconnecting'||input.status==='concealed';
+  // Concealed, it hides itself, as everything of this viewer's in the shell does. While Actions' "Outcome unknown"
+  // is open, its notice says it, with the command named: one message, not two (the Lead, 17 November).
+  status.textContent=model.dark?'':model.message??'';status.hidden=!status.textContent||model.action?.prompt===model.message||input.banner?.kind==='reconnecting'||input.status==='concealed'||input.sheet?.kind==='action-unknown';
   const nextShellKey=JSON.stringify(input);if(nextShellKey!==shellKey){shellKey=nextShellKey;shell.update(input);}
   syncShellActivity();syncActionsPart();mountSheetBody();
   // The bars' heights and the stage come from the shell: its layout() is measured after the update above. The

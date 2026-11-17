@@ -5,7 +5,8 @@
 // viewer, and this phone's own taps: which tile is usable comes from the model's offers, and nothing here works
 // out who may act, what an action costs or whether it was accepted. The controller checks the current offer
 // before it sends anything.
-import {ACTION_LOOKS,actionsSheet,afterSheet,blackoutBar,checkSheet,moveBar,moveChip,movedToast,passSheet,passedToast,registeredToast,targetBar,targetChip,targetListSheet,unknownSheet} from '../../../../design/phone-ui/components/actions/actions.mjs';
+import {en} from '@mothership/presentation';
+import {ACTION_LOOKS,actionsSheet,afterSheet,afterWords,blackoutBar,checkSheet,moveBar,moveChip,movedToast,passSheet,passedToast,registeredToast,targetBar,targetChip,targetListSheet,unknownSheet} from '../../../../design/phone-ui/components/actions/actions.mjs';
 import {BOARD_ROOMS,LOCATION_OF,slotsOf} from '../board-v2-drawing/slots-four.mjs';
 
 /**
@@ -25,8 +26,8 @@ export const ROLE_TILES=Object.freeze(['SCAN','SUBMIT_CODE','ACTIVATE_SHIP_HACK'
 export const EVERY_ROLE_TILES=Object.freeze(['MOVE','REQUEST_HACK','REGISTER_SHOT']);
 /** Accepted, these say themselves with the shell's toast and their tile: no After Register until the projection says what follows (L7). */
 const TOAST_ONLY=new Set(['ACTIVATE_SHIP_HACK','ACTIVATE_BLACKHOLE']);
-/** After Register's stamp for the actions that do not wait for the round's end (CLONE-01, P14), and the private talk's ACCEPTED. */
-const AFTER_KINDS=Object.freeze({REQUEST_HACK:'accepted',ACTIVATE_CLONE:'active',ENGINEER_SUPPRESS:'captured'});
+/** After Register's lines that Frontend's copy has (en.action.acceptedTarget and acceptedDetail), by its kinds. */
+const FRONTEND_AFTER=Object.freeze({RESCUE:'rescue',PROTECT:'protect',REGISTER_SHOT:'shot'});
 /** The board's own order of rooms, for the list's groups after the viewer's own room. */
 const LOCATIONS=Object.freeze([...BOARD_ROOMS.map(room=>LOCATION_OF[room])]);
 const OFF_BOARD='Off board';
@@ -49,8 +50,6 @@ export function actionsStatus(model){
 }
 /** A frame as the shell connection's are: every key the shell reads, the component's own over the defaults, and the body's kind. */
 const withKind=(frame,kind)=>({sub:null,back:false,close:true,detent:'auto',actions:[],...frame,kind});
-/** The footer's actions usable as the model says: the controller refuses the rest, so they are not offered as usable. */
-const usable=(frame,enabled)=>({...frame,actions:frame.actions.map(action=>Object.hasOwn(enabled,action.id)?{...action,enabled:action.enabled!==false&&!!enabled[action.id]}:action)});
 
 // ── This phone's own pick ────────────────────────────────────────────────
 /**
@@ -104,10 +103,13 @@ export function actionsTiles(model){
 // Each returns `undefined` when the step is not Actions' (the shell connection keeps its own), and `null` when
 // Actions' step has none of it.
 
-/** The type "Outcome unknown" can name: this phone's own send, when it is one of the component's commands. */
+/**
+ * The type "Outcome unknown" can name: this phone's own send, when it is one of the component's commands; Pass and
+ * the Disabler's position too (actions-0.2.3, A13), a position named only when this phone tapped it.
+ */
 function unknownType(flow){
  if(!flow||!['unknown','retry'].includes(flow.stage)||!Object.hasOwn(ACTION_LOOKS,flow.type)||flow.type==='PANEL_CODE')return null;
- return flow.type==='MOVE'&&!flow.slot?null:flow.type;
+ return POSITIONED.has(flow.type)&&!flow.slot?null:flow.type;
 }
 /** The tiles' frame: "Actions" and the viewer's room. The role is not in the model under Actions (A7). */
 const tilesFrame=model=>withKind(actionsSheet({role:null,room:ownLocation(model)}),'actions');
@@ -120,15 +122,15 @@ const tilesFrame=model=>withKind(actionsSheet({role:null,room:ownLocation(model)
 export function actionsFrame(model,{listOpen=false,flow=null}={}){
  if(!player(model))return undefined;
  if(model.recovery){
-  const sheet=unknownSheet({type:unknownType(flow),busy:model.recovery.status==='checking'?'check':null});
-  return withKind(usable(sheet,{retry:model.recovery.canRetry,check:model.recovery.canCheck}),'action-unknown');
+  // The buttons' allowance is the model's (actions-0.2.3, A14): the controller refuses the rest.
+  const r=model.recovery;
+  return withKind(unknownSheet({type:unknownType(flow),busy:r.status==='checking'?'check':null,canRetry:!!r.canRetry,canCheck:!!r.canCheck}),'action-unknown');
  }
  const action=model.action;
  if(action){
   if(action.type==='PASS_TURN'){
    if(action.step==='accepted')return null;
-   const sending=action.step==='sending';
-   return withKind(usable(passSheet({next:null,busy:sending}),{pass:action.canConfirm||sending}),'pass');
+   return withKind(passSheet({next:null,busy:action.step==='sending',canPass:!!action.canConfirm}),'pass');
   }
   // Retrying "the same" from "Outcome unknown": the sheet stays, its Retry busy.
   if(action.step==='sending'&&flow?.stage==='retry'&&flow.type===action.type)return withKind(unknownSheet({type:unknownType(flow),busy:'retry'}),'action-unknown');
@@ -241,7 +243,36 @@ function flowTargets(model,flow,type){
  if(!ACTION_LOOKS[type]?.people)return [];
  return (flow?.type===type?flow.seats:[]).slice(0,ACTION_LOOKS[type].people).map(seat=>person(model,seat));
 }
-const flowPosition=(flow,type)=>type==='MOVE'&&flow?.type==='MOVE'&&flow.slot?{slot:flow.slot,room:flow.room??slotLocation(flow.slot)}:null;
+/** The commands that take a position, not a person: Move's check, and both in "Outcome unknown" (A13). */
+const POSITIONED=new Set(['MOVE','SELECT_BLACKOUT_SLOT']);
+const flowPosition=(flow,type)=>POSITIONED.has(type)&&flow?.type===type&&flow.slot?{slot:flow.slot,room:flow.room??slotLocation(flow.slot)}:null;
+const seatOrder=seat=>Number(String(seat).slice(5));
+/**
+ * After Register's input (the Lead, 17 November): the handoff's table, with Frontend's copy where it has the line
+ * (en.action.acceptedTarget and acceptedDetail; en.action.compound.supplyAccepted and supplyDetail), and the
+ * component's afterWords() for the rest and for every time line, from the round the server reports. The accepted
+ * action names no one (A2), so who was picked is this phone's own pick: the display name, or "yourself"; without
+ * it, Frontend's acceptedAfterReload and no time line (L6). The Actions panel's model carries no abilities (A15),
+ * so the Clone's end, Protection's start and the Engineer's capture stay out, and so do the captured players.
+ */
+function afterInput(model,flow){
+ const type=model.action.type,self=model.ownSeatId??null,wanted=ACTION_LOOKS[type]?.people??0;
+ const picked=flow?.type===type?flow.seats.slice(0,wanted):[];
+ const known=picked.length===wanted;
+ const words=afterWords({type,round:known&&Number.isSafeInteger(model.round)?model.round:null,targets:known?picked.map(seat=>person(model,seat)):[],viewer:self});
+ const who=seat=>seat===self?en.action.who(seatOrder(seat),true):person(model,seat).name;
+ let {title,detail}=words;
+ if(Object.hasOwn(FRONTEND_AFTER,type)){
+  title=known?en.action.acceptedTarget[FRONTEND_AFTER[type]](who(picked[0])):null;
+  detail=en.action.acceptedDetail[FRONTEND_AFTER[type]];
+ }
+ if(type==='SUPPLY'){
+  const [first,second]=[...picked].sort((a,b)=>seatOrder(a)-seatOrder(b));
+  title=known?en.action.compound.supplyAccepted(who(first),who(second)):null;
+  detail=en.action.compound.supplyDetail;
+ }
+ return {type,kind:words.kind,title:title??en.action.acceptedAfterReload,detail,people:null,steps:words.steps};
+}
 
 /**
  * The part the sheet's body holds for Actions' frame, or null: its name (tiles, list, check, after, unknown or
@@ -263,7 +294,7 @@ export function actionsPart(model,{frame=null,flow=null,reducedMotion=false}={})
    const type=action.type==='MOVE'&&!position?null:action.type;
    return {name:'check',key:`check:${action.type}`,input:{...common,type,targets:type?flowTargets(model,flow,type):[],position,facts:type?confirmationFacts(action.confirmation):[],error:null}};
   }
-  case 'action-after':return action?{name:'after',key:`after:${action.type}`,input:{...common,type:action.type,kind:AFTER_KINDS[action.type]??'registered',title:action.prompt||null,detail:null,people:null,steps:[]}}:null;
+  case 'action-after':return action?{name:'after',key:`after:${action.type}`,input:{...common,...afterInput(model,flow)}}:null;
   case 'action-unknown':{
    const type=unknownType(flow);
    return {name:'unknown',key:'unknown',input:{...common,type,targets:type?flowTargets(model,flow,type):[],position:type?flowPosition(flow,type):null}};

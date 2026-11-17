@@ -180,6 +180,8 @@ const LOOK = `(() => {
       portraits: part.querySelectorAll('.ms-k-who-lead .ms-k-pt').length,
       facts: [...part.querySelectorAll('.ms-k-facts li')].map(text),
       stamp: text(part.querySelector('.ms-ac-after-head .ms-k-stamp')), headline: text(part.querySelector('.ms-ac-after-head h3')), steps: part.querySelectorAll('.ms-pp-steps li').length,
+      detail: part.querySelector('.ms-ac-after-detail:not([hidden])') ? text(part.querySelector('.ms-ac-after-detail')) : null,
+      timeline: [...part.querySelectorAll('.ms-pp-steps li')].map(li => [text(li.querySelector(':scope > div > b')), text(li.querySelector(':scope > div > span'))].filter(Boolean).join(' · ')),
       notice: [...part.querySelectorAll('.ms-k-notice p')].map(text),
       groups: [...part.querySelectorAll('.ms-ac-list .ms-k-group-label')].map(text), rows: [...part.querySelectorAll('.ms-ac-list .ms-k-row-title')].map(text),
       picked: [...part.querySelectorAll('.ms-ac-list .ms-k-row[data-picked] .ms-k-row-title')].map(text) } : null,
@@ -268,8 +270,12 @@ const STATES = {
       await page.evaluate(tap(FOOT('register')));
       await page.waitFor(`${SHEET('action-after')}&&${PART('after')}`, 'After Register');
     },
-    facts: s => ({ frame: s.sheet?.title === 'Rescue' && foot(s) === 'done:Done', stamp: s.actions?.stamp === 'REGISTERED', headline: s.actions?.headline === 'Registered. Resolution is pending.',
-      sent: s.commands.length === 1 && s.commands[0].type === 'RESCUE' && s.commands[0].targetSeatId === 'seat-3', noTimeLine: s.actions?.steps === 0, nothingOnTarget: !s.stage.presses.length }),
+    // The handoff's words (the Lead, 17 November): Frontend's line for Rescue, with this phone's pick, and the
+    // component's time line from the round the server reports; never the model's generic prompt.
+    facts: s => ({ frame: s.sheet?.title === 'Rescue' && foot(s) === 'done:Done', stamp: s.actions?.stamp === 'REGISTERED', headline: s.actions?.headline === 'Rescue of Crew 3 registered.',
+      detail: s.actions?.detail === 'This is not a result. Registered actions are resolved at the end of the round.',
+      timeLine: JSON.stringify(s.actions?.timeline) === JSON.stringify([`Registered · Round ${s.model?.round} · your turn`, `End of Round ${s.model?.round} · Rescue is resolved, after the attacks`]),
+      sent: s.commands.length === 1 && s.commands[0].type === 'RESCUE' && s.commands[0].targetSeatId === 'seat-3', nothingOnTarget: !s.stage.presses.length, noGenericLine: !s.page.includes('Resolution is pending') }),
     after: async page => {
       await page.evaluate(tap(FOOT('done')));
       await page.waitFor("!document.querySelector('.ms-ps-sheet')", 'Done closed it');
@@ -289,7 +295,9 @@ const STATES = {
       await page.waitFor(`${SHEET('action-unknown')}&&${PART('unknown')}`, 'Outcome unknown', 12000);
     },
     facts: s => ({ frame: s.sheet?.title === 'Outcome unknown' && !s.sheet.close && foot(s) === 'retry:Retry the same|check:Check receipt',
-      notice: s.actions?.notice.join('|') === 'Rescue Crew 3 was sent, but no answer came back.|Check before doing anything else.', recovery: s.model?.recovery?.status === 'unknown' }),
+      notice: s.actions?.notice.join('|') === 'Rescue Crew 3 was sent, but no answer came back.|Check before doing anything else.', recovery: s.model?.recovery?.status === 'unknown',
+      // One message, not two (the Lead, 17 November): the game's own status line hides while Actions' notice is open.
+      oneMessage: s.status === null }),
     after: async page => {
       // Retry the same: the same command again; this time the server answers.
       await page.evaluate('window.planetHarness.setLost(false)');
@@ -347,7 +355,10 @@ const STATES = {
       await page.evaluate(tap(FOOT('register')));
       await page.waitFor(`${SHEET('action-after')}&&${PART('after')}`, 'After Register');
       const seen = await page.evaluate(LOOK);
-      return { captured: seen.actions?.stamp === 'CAPTURED' && seen.actions.headline === 'Registered. Check your card for the current state.', sent: seen.commands.map(c => c.type).join() === 'ENGINEER_SUPPRESS' };
+      // The pack's words (afterWords()), without the capture the Actions panel's model does not carry (A15).
+      return { captured: seen.actions?.stamp === 'CAPTURED' && seen.actions.headline === 'Navigation suppressed.'
+        && seen.actions.detail === 'Captured now: the players in the other room. Their navigation weight is removed this round. Only you are told.'
+        && seen.actions.timeline.length === 2 && seen.actions.timeline[1] === 'This round’s navigation · Their weight is removed', sent: seen.commands.map(c => c.type).join() === 'ENGINEER_SUPPRESS' };
     } },
   // ── Blackhole: no After Register (L7); the toast and the tile say it ──
   blackhole: { page: 'phone', url: 'scenario=alien', steps: async page => {

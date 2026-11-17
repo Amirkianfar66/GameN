@@ -219,10 +219,32 @@ test('the parts\' inputs: the List, the check (and while it sends), After Regist
  assert.deepEqual(checkActionCheck(actionsPart(supply,{frame:actionsFrame(supply),flow:actionsFlow(null,supply)}).input).targets.map(p=>p.seat),[1,5]);
  const clone=model({action:action('ACTIVATE_CLONE','confirm',[],{canConfirm:true})});
  assert.deepEqual(actionsPart(clone,{frame:actionsFrame(clone),flow:actionsFlow(null,clone)}).input.targets,[]);
- // After Register: the stamp each action takes, and the model's registration words; no time line or people (the model has none).
- const after=type=>actionsPart(model({action:action(type,'accepted',[],{prompt:'Registered. Resolution is pending.'})}),{frame:{kind:'action-after'}}).input;
- assert.deepEqual(['RESCUE','REQUEST_HACK','ACTIVATE_CLONE','ENGINEER_SUPPRESS'].map(type=>after(type).kind),['registered','accepted','active','captured']);
- assert.deepEqual((({title,detail,people,steps})=>({title,detail,people,steps}))(checkAfterRegister(after('RESCUE'))),{title:'Registered. Resolution is pending.',detail:null,people:null,steps:[]});
+ // After Register (the Lead, 17 November): the handoff's table, Frontend's lines where its copy has them and the
+ // component's afterWords() for the rest and for every time line, from the round; who was picked is this phone's
+ // own, from its taps through the send. Never the model's generic "Registered. Resolution is pending.".
+ const accepted=(type,picks=[])=>{
+  const choosing=picks.length?[{model:model({action:action(type,'targets',picks)})},...picks.map(seat=>({model:model({action:action(type,'targets',picks)}),pick:{seat}}))]:[];
+  const held=through(...choosing,{model:model({action:action(type,'confirm',[],{canConfirm:true,selected:type==='SUPPLY'?picks:[]})})},{model:model({action:action(type,'sending')})});
+  const done=model({action:action(type,'accepted',[],{prompt:'Registered. Resolution is pending.'})}),flow=actionsFlow(held,done);
+  return checkAfterRegister(actionsPart(done,{frame:actionsFrame(done,{flow}),flow}).input);
+ };
+ const said=input=>[input.kind,input.title,input.detail,input.people,input.steps.map(s=>`${s.title} · ${s.sub}`)];
+ const waits='This is not a result. Registered actions are resolved at the end of the round.',yours='Registered · Round 3 · your turn';
+ assert.deepEqual(said(accepted('RESCUE',['seat-3'])),['registered','Rescue of Crew 3 registered.',waits,null,[yours,'End of Round 3 · Rescue is resolved, after the attacks']]);
+ assert.equal(accepted('RESCUE',['seat-4']).title,'Rescue of yourself registered.','the viewer, as Frontend and the pack say it');
+ assert.deepEqual(said(accepted('PROTECT',['seat-5'])),['registered','Protection for Crew 5 registered.',waits,null,[yours,'End of Round 3 · Resolved with the round’s actions']],'no Protection start in the model (A15): no later step');
+ assert.deepEqual(said(accepted('SUPPLY',['seat-5','seat-1'])),['registered','Supply for Crew 1 and Crew 5 registered.',waits,null,[yours,'End of Round 3 · Each gets one weapon']]);
+ assert.deepEqual(said(accepted('REGISTER_SHOT',['seat-5'])),['registered','Shot at Crew 5 registered.','This is not a result. Registered shots are resolved at the end of the round.',null,[yours,'End of Round 3 · Resolved; Protection and Clone are checked then']]);
+ assert.deepEqual(said(accepted('REQUEST_HACK',['seat-1'])),['accepted','Private talk with Crew 1 accepted.','It starts after this turn. The top bar shows each step.',null,
+  ['Accepted · Round 3 · your turn','After this turn · Up to 15 s for Crew 1 to declare a side','Then · 5 s for the claim, then 60 s to talk']]);
+ assert.deepEqual(said(accepted('REQUEST_BLACKOUT')),['registered','Blackout registered.','This is not a result. Nothing changes until the lights go out later this round.',null,
+  [yours,'Later this round · 5 s lit, then 10 s dark','While it is dark · You choose a frozen position']]);
+ assert.deepEqual(said(accepted('ACTIVATE_CLONE')),['active','Clone active.','Active from now. It used your main action for this round.',null,['Active now · Round 3 · when the server accepted it']],'no Clone end in the model (A15)');
+ assert.deepEqual(said(accepted('ENGINEER_SUPPRESS')),['captured','Navigation suppressed.','Captured now: the players in the other room. Their navigation weight is removed this round. Only you are told.',null,
+  ['Captured · Round 3 · when the server accepted it','This round’s navigation · Their weight is removed']],'no capture in the model (A15): no count, room or players');
+ // Without this phone's pick (an accepted action it did not see sent): Frontend's acceptedAfterReload, the line, no time line (L6).
+ const unseen=model({action:action('RESCUE','accepted',[],{prompt:'Registered. Resolution is pending.'})});
+ assert.deepEqual(said(checkAfterRegister(actionsPart(unseen,{frame:actionsFrame(unseen),flow:null}).input)),['registered','The server accepted your action.',waits,null,[]]);
  // "Outcome unknown": the command this phone sent, with its person or position; none known, nothing named.
  const unknown=model({recovery:{status:'unknown',canCheck:true,canRetry:true}});
  const lost=actionsFlow(actionsFlow(flow,sending),unknown);
@@ -232,6 +254,13 @@ test('the parts\' inputs: the List, the check (and while it sends), After Regist
  const lostMove=actionsFlow(actionsFlow(moved,model({action:action('MOVE','sending')})),unknown);
  assert.deepEqual(actionsPart(unknown,{frame:{kind:'action-unknown'},flow:lostMove}).input.position,{slot:'B4',room:'Room B'});
  assert.deepEqual(actionsPart(unknown,{frame:{kind:'action-unknown'},flow:null}).input,{...common,type:null,targets:[],position:null});
+ // Pass and the Disabler's position (actions-0.2.3, A13): "Pass was sent, …", and the position this phone tapped.
+ const lostPass=actionsFlow(through({model:model({action:action('PASS_TURN','confirm',[],{canConfirm:true})})},{model:model({action:action('PASS_TURN','sending')})}),unknown);
+ assert.equal(checkOutcomeUnknown(actionsPart(unknown,{frame:actionsFrame(unknown,{flow:lostPass}),flow:lostPass}).input).type,'PASS_TURN');
+ const choosingSlot=model({dark:true,panel:'actions',action:action('SELECT_BLACKOUT_SLOT','slots',['A1','A3'])});
+ const lostSlot=actionsFlow(through({model:choosingSlot},{model:choosingSlot,pick:{slot:'A3'}},{model:model({dark:true,panel:'actions',action:action('SELECT_BLACKOUT_SLOT','sending')})}),unknown);
+ const slotNotice=checkOutcomeUnknown(actionsPart(unknown,{frame:{kind:'action-unknown'},flow:lostSlot}).input);
+ assert.deepEqual([slotNotice.type,slotNotice.position],['SELECT_BLACKOUT_SLOT',{slot:'A3',room:'Room A'}]);
  // Pass's line (27.3) is the model's: none (B6).
  const pass=model({action:action('PASS_TURN','confirm',[],{canConfirm:true})});
  assert.deepEqual(checkPassNote(actionsPart(pass,{frame:actionsFrame(pass)}).input).note,null);
