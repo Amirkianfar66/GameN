@@ -22,7 +22,7 @@ import {outfitFor} from '../scene-drawing/wardrobe.mjs';
 import {mountRoomScene,roomSceneFrame,roomScenePlaces,ROOM_SCENE_DEFAULTS} from '../../../../design/phone-ui/components/room-scene/room-scene.mjs';
 import {roomSceneArtReady,roomSceneHandlers,roomSceneInput,roomSceneInputKey,roomSceneKey,roomSceneLifecycle,roomScenePeople,roomSceneStatus} from './room-scene-input.mjs';
 import {mountPhoneShell} from '../../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
-import {connectShellLifecycle,shellFocusOrder,shellHandlers,shellInput,shellRuns} from './shell-input.mjs';
+import {connectShellLifecycle,createServerClock,shellFocusOrder,shellHandlers,shellInput,shellRuns} from './shell-input.mjs';
 
 const windowNames={A_B:'Room A ↔ Room B',A_HOSPITAL:'Room A ↔ Hospital',B_JAIL:'Room B ↔ Jail'};
 const number=id=>id?`Player ${id.slice(5)}`:'—';
@@ -71,6 +71,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  // The shell's state here: its last input, the frame of its open sheet, the board's List, the round last seen
  // live (the reconnecting bar names it), a pass's toast (kept, so it shows its whole time once), and its layout.
  let shellKey=null,shellFrame=null,listOpen=false,listKey=null,lastRound=null,toast=null,shellRunning=true,shellLayout=null,choosing=false,opener=null;
+ // The match's trusted server time (G18), observed on each model: the round stamp's clock, with shell-input.mjs roundStart().
+ const serverClock=createServerClock({monotonic:()=>win.performance.now()});
  // The shell's own element (its mount's `element`) holds its controls: the sheet's footer actions and the controls
  // the focus returns to are found there by their intents.
  const focusConfirm=()=>shell.element?.querySelector('[data-intent="sheet-action"][data-value="confirm"]')?.focus({preventScroll:true});
@@ -411,6 +413,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   root.dataset.planetPanel=model.panel;root.dataset.connection=model.connection;root.dataset.surface=model.surface;root.dataset.mode=model.mode;root.dataset.motion=reduced()?'reduced':'normal';root.dataset.blackout=model.dark?'dark':'none';root.dataset.phase=model.phase?.kind??'';
   root.dataset.ownTurn=String(!model.dark&&model.activeSeatId===model.ownSeatId);
   if(model.connection==='live'&&Number.isSafeInteger(model.round))lastRound=model.round;
+  serverClock.observe(model);
   // Only the exact Food tuple supplies these sanitized public facts. Ordinary
   // phones and the display get the same gauge, beside the shell's clock; no private Task is consulted.
   const clockSlot=shell.slot('clock');

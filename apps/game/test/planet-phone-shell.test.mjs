@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {connectShellLifecycle,ownOut,ownTalk,shellFocusOrder,shellBanner,shellBar,shellChip,shellHandlers,shellHero,shellInput,shellPhaseFacts,shellPicking,shellRuns,shellSheet,shellStatus,shellTabs,shellTarget,shellTimer,shellToast,talkButtons,
+import {connectShellLifecycle,createServerClock,ownOut,ownTalk,roundStart,shellFocusOrder,shellBanner,shellBar,shellChip,shellHandlers,shellHero,shellInput,shellPhaseFacts,shellPicking,shellRuns,shellSheet,shellStatus,shellTabs,shellTarget,shellTimer,shellToast,talkButtons,
  SHELL_PHASE_ICONS,SHELL_PHASE_NAMES} from '../hosted/planet/shell-input.mjs';
 import {checkBar,checkTabs,clockText,nextPhoneShellInput,PHONE_SHELL_DEFAULTS} from '../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
 import {PHASE_BAR_PHASES,PHASE_BAR_REFUSED,loadingBar,phaseBar,reconnectingBar} from '../../../design/phone-ui/components/phone-shell/phase-bars.mjs';
@@ -411,4 +411,34 @@ test('lifecycle: the renderer\'s listeners are added together and dispose leaves
  assert.equal(shellRuns({visible:true,blurred:false}),true);
  assert.equal(shellRuns({visible:false,blurred:false}),false);
  assert.equal(shellRuns({visible:true,blurred:true}),false);
+});
+
+test('the round stamp\'s moment and clock (G18): Round 1\'s Before turns, and the trusted server time while it is trusted',()=>{
+ // Round 1's first phase is Before turns: its window, from public facts only. Any other round or phase: none.
+ const first=model({round:1,phase:phase('PRE_TURN',{id:'p-1',startedAt:5000,endsAt:20000,nowMs:5200}),activeSeatId:null,offices:{captainSeatId:null,officerSeatId:null,blockedSeatId:null}});
+ assert.deepEqual(roundStart(first),{round:1,window:{id:'p-1',startedAt:5000}});
+ assert.equal(roundStart({...first,round:2}),null);
+ assert.equal(roundStart({...first,phase:phase('ORDINARY_TURN',{id:'p-2'})}),null);
+ assert.equal(roundStart({...first,phase:null}),null);
+ assert.equal(roundStart({...first,phase:{...first.phase,id:''}}),null);
+ // A late phone gets the same window: the stamp's own clock decides it is past. Private fields change nothing.
+ assert.deepEqual(roundStart({...first,phase:{...first.phase,nowMs:60000,remainingMs:0}}),roundStart(first));
+ assert.deepEqual(roundStart({...first,privateArea:{role:{name:'Alien'}},ownSeatId:'seat-7'}),roundStart(first));
+ // The clock: the phase's server time plus the time since it arrived, by this phone's monotonic clock.
+ let t=100;const clock=createServerClock({monotonic:()=>t});
+ assert.equal(clock.current(),null,'nothing observed: no clock');
+ clock.observe(first);
+ t=350;assert.equal(clock.current().now(),5200+250);
+ // The same model shown again keeps its first arrival; a new one starts from its own time.
+ clock.observe(first);t=400;assert.equal(clock.current().now(),5200+300);
+ clock.observe({...first,phase:{...first.phase,nowMs:5500}});t=450;assert.equal(clock.current().now(),5500+50);
+ // Untrusted, run out or not live: no clock, and a part given none draws nothing.
+ for(const over of [{phase:{...first.phase,trusted:false,nowMs:null}},{phase:{...first.phase,expired:true}},{connection:'stale'},{connection:'connecting'},{phase:null}]){
+  clock.observe({...first,...over});assert.equal(clock.current(),null,JSON.stringify(over));
+  clock.observe(first);assert.ok(clock.current());
+ }
+ // It never reads anything private.
+ const plain=createServerClock({monotonic:()=>0}),busy=createServerClock({monotonic:()=>0});
+ plain.observe(first);busy.observe({...first,privateArea:{role:{name:'Alien'}},action:action('BLOCK_MOVE','targets',['seat-1'])});
+ assert.equal(plain.current().now(),busy.current().now());
 });
