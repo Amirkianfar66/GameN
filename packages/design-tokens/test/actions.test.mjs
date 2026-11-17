@@ -66,7 +66,7 @@ test('the component is a runtime source: its whole graph is runtime-safe and in 
     assert.match(read(`${COMPONENT}/${path}`), /mothership:dev-only/, `${path} is marked development-only`);
   }
   assert.match(read('design/tools/actions-check.mjs'), /^\/\/ mothership:dev-only/);
-  assert.equal(ACTIONS_VERSION, 'actions-0.2.0');
+  assert.equal(ACTIONS_VERSION, 'actions-0.2.1');
 });
 
 test('its styles reach nothing outside the component: every rule is under its root, weighs two classes, and places the kit\'s and the parts\' only inside its own', () => {
@@ -120,7 +120,8 @@ test('its words are the pack\'s (screens-game.mjs, screens-more.mjs, icons.mjs, 
     // Move (screens-game.mjs room() and board()): the room's bar and chip, the board's bar, the picked words.
     'Move within ', W.moveChoose, W.moveOrBoard, W.moveBoard, W.moveChip, 'Move to '];
   // Move's Register is the Lead's Q1 (the pack draws no check for Move): in the form of the others', recorded below.
-  const added = new Set([ACTION_LOOKS.MOVE.register]);
+  // "Panel request" is the Lead's Q3 (the pack draws no "Outcome unknown" for the Hospital panel), recorded below.
+  const added = new Set([ACTION_LOOKS.MOVE.register, ACTION_LOOKS.PANEL_CODE.verb]);
   for (const [type, l] of Object.entries(ACTION_LOOKS)) {
     words.push(...[l.tile, l.title, l.verb, l.register, l.sending, l.noun].filter(w => w && !added.has(w)));
     assert.ok(ICON_NAMES.includes(l.icon), `${type}: ${l.icon} is in the game's icon family`);
@@ -140,6 +141,9 @@ test('its words are the pack\'s (screens-game.mjs, screens-more.mjs, icons.mjs, 
     assert.ok(!pack.includes(w), `"${w}" is not the pack's`);
     assert.ok(doc.includes(`"${w}"`), `"${w}" is recorded in the interface`);
   }
+  // The Hospital panel's "Outcome unknown" (the Lead's Q3, 16 November): the request, with no number.
+  assert.ok(!pack.includes('Panel request'), '"Panel request" is not the pack\'s');
+  assert.ok(doc.includes(`"${W.noAnswer(ACTION_LOOKS.PANEL_CODE.verb)}"`), 'the Hospital panel\'s "Outcome unknown" is recorded in the interface');
   assert.match(read('AGENTS.md'), /\*\*Not available now\*\*/, 'T3\'s words are the owner\'s');
 });
 
@@ -183,6 +187,17 @@ test('inputs: checked and normalized, an error for anything unknown; this viewer
   assert.throws(() => checkActionCheck({ type: 'RESCUE', position: { slot: 'A3' } }), /position is Move's alone/);
   assert.throws(() => checkOutcomeUnknown({ type: 'MOVE' }), /Move needs its position/);
   assert.throws(() => checkAfterRegister({ type: 'MOVE' }), /A move has no After Register/);
+  // The Hospital panel's request (the Lead's Q3): only "Outcome unknown" takes it, and with no one, so it never names
+  // the number the patient entered; every other part refuses it and names the Hospital panel component.
+  const HOSPITAL_PANEL = /PANEL_CODE .*the Hospital panel component's \(design\/phone-ui\/components\/hospital-panel\); Actions draws only its "Outcome unknown"/;
+  assert.throws(() => checkActions({ ...input, tiles: [{ type: 'PANEL_CODE' }] }), HOSPITAL_PANEL, 'not an action tile');
+  assert.throws(() => checkTargetList({ type: 'PANEL_CODE' }), HOSPITAL_PANEL, 'no list');
+  assert.throws(() => checkActionCheck({ type: 'PANEL_CODE' }), HOSPITAL_PANEL, 'no check');
+  assert.throws(() => checkAfterRegister({ type: 'PANEL_CODE' }), HOSPITAL_PANEL, 'no After Register');
+  assert.equal(checkOutcomeUnknown({ type: 'PANEL_CODE' }).targets.length, 0);
+  for (const seat of ['seat-3', 3]) {
+    assert.throws(() => checkOutcomeUnknown({ type: 'PANEL_CODE', targets: [{ seat, name: 'Cleo' }] }), /^TypeError: PANEL_CODE's "Outcome unknown" names no number: it takes no targets$/, 'no number, and the error names none');
+  }
 });
 
 test('every preview state is a valid input of its part, and every compared pack frame has its state', () => {
@@ -193,7 +208,7 @@ test('every preview state is a valid input of its part, and every compared pack 
     assert.doesNotThrow(() => CHECKS[state.part.kind]({ viewer: 'seat-4', ...state.part.input }), key);
   }
   assert.deepEqual([...kinds].sort(), Object.keys(CHECKS).sort(), 'every part has a preview state');
-  assert.equal(Object.keys(ACTIONS_STATES).length, 55);
+  assert.equal(Object.keys(ACTIONS_STATES).length, 56);
   for (const key of Object.keys(PACK_FRAMES)) assert.ok(ACTIONS_STATES[key], `${key} is a preview state`);
   assert.equal(Object.keys(PACK_FRAMES).length, 29, 'the 29 frames compared with the pack');
   // Move's frames: sheet 20's bar and chip, the board's bar (26 and 27.1), and 27.3's "Turn passed".
@@ -226,6 +241,13 @@ test('the frames and the shell\'s words, from the type alone', () => {
   // The Hacker's bar and the Code are the Hacker component's: no second copy here (the Lead's note 2).
   assert.throws(() => targetBar({ type: 'SCAN' }), /the Hacker component's scanBar\(\)/);
   assert.throws(() => targetBar({ type: 'SUBMIT_CODE' }), /the Hacker component's codeSheet\(\)/);
+  // The Hospital panel's keypad, Submit and records are the Hospital panel component's (the Lead's Q3): only sheet 45
+  // is Actions', and both its buttons stand for commands, as for every action.
+  for (const [what, fn] of [['target bar', () => targetBar({ type: 'PANEL_CODE' })], ['list', () => targetListSheet({ type: 'PANEL_CODE' })], ['check', () => checkSheet({ type: 'PANEL_CODE' })],
+    ['After Register', () => afterSheet({ type: 'PANEL_CODE' })], ['toast', () => registeredToast({ type: 'PANEL_CODE', id: 'cmd-1' })]]) {
+    assert.throws(fn, /PANEL_CODE has no .*the Hospital panel component's \(design\/phone-ui\/components\/hospital-panel\)/, `PANEL_CODE: no ${what} here`);
+  }
+  assert.deepEqual(unknownSheet({ type: 'PANEL_CODE' }).actions.map(a => [a.id, a.label, a.local ?? false]), [['retry', 'Retry the same', false], ['check', 'Check receipt', false]]);
   assert.deepEqual(targetChip({ kind: 'other-rooms', count: 2 }), { id: 'other-rooms', label: 'Other rooms · 2', icon: 'board', tone: 'paper' });
   assert.deepEqual(targetChip({ kind: 'list' }), { id: 'list', label: 'List', icon: 'players', tone: 'paper' });
   assert.throws(() => targetChip({ kind: 'other-rooms', count: 0 }), /how many people are elsewhere/);
@@ -261,6 +283,9 @@ test('the words of a check and of "Outcome unknown": the person, yourself, both 
   assert.deepEqual(actionWords({ type: 'SUPPLY', targets: [{ seat: 1, name: 'Ava' }, { seat: 7, name: 'Gus' }], viewer: 4 }), { title: 'Supply Ava and Gus', sub: 'Players 1 and 7', what: 'Supply Ava and Gus' });
   assert.equal(actionWords({ type: 'REQUEST_HACK', targets: [{ seat: 1, name: 'Ava', room: 'Room A' }], viewer: 4 }).title, 'Talk with Ava');
   assert.deepEqual(actionWords({ type: 'ACTIVATE_SHIP_HACK', targets: [], viewer: 4 }), { title: 'Hack Spaceship', sub: 'Only you see this', what: 'Hack Spaceship' });
+  // The Hospital panel's request: "Panel request was sent, but no answer came back." (the Lead's Q3), never a number.
+  assert.equal(actionWords({ type: 'PANEL_CODE', viewer: 4 }).what, 'Panel request');
+  assert.equal(ACTION_WORDS.noAnswer(actionWords({ type: 'PANEL_CODE' }).what), 'Panel request was sent, but no answer came back.');
   // A move names its position, and its room under it, as a person's room is under them (Q1 and Q4).
   assert.deepEqual(actionWords({ type: 'MOVE', position: { slot: 'A3', room: 'Room A' } }), { title: 'Move to A3', sub: 'Room A', what: 'Move to A3' });
   assert.equal(actionWords({ type: 'MOVE', position: { slot: 'B4', room: null } }).sub, null);
@@ -283,7 +308,7 @@ test('the check\'s record: every capture, the probe and the agreement passed, on
   assert.match(csp, /default-src 'none'/);
   assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
   const captures = Object.entries(record.captures);
-  assert.equal(captures.length, 103, 'every state at both phone sizes, the small phone\'s and the text sizes\' at their own');
+  assert.equal(captures.length, 105, 'every state at both phone sizes, the small phone\'s and the text sizes\' at their own');
   for (const [key, c] of captures) {
     assert.ok(c.ok && c.drawn, `${key} passed and drew what its state asks`);
     assert.deepEqual(c.mismatched, [], `${key}: nothing differs from what its state asks`);
