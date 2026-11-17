@@ -1,15 +1,15 @@
 {
   "tool": "design/tools/phone-ui-native-compare.mjs",
-  "createdAt": "2026-11-17T09:04:43.565Z",
+  "createdAt": "2026-11-17T10:43:19.968Z",
   "browser": "Google Chrome for Testing 153.0.8010.12",
   "view": "Drawn at each part's phone size, 1.5× pixels",
   "pack": {
-    "commit": "11895f20de007b8d07585619938600372e69a7c1",
+    "commit": "0f1794e33ea5d9bdbb4697c695b9439aadab3b31",
     "dirty": false
   },
   "build": {
-    "folder": "/tmp/pregame-connection-check-rpW94r",
-    "head": "73d9de4bdee6e009057ce310f9e2f1298df492ed",
+    "folder": "/tmp/pregame-connection-check-zA92Bt",
+    "head": "07993d2615bba1d2acb3f4baa972b44e79801324",
     "dirty": false,
     "artwork": "64e55516d2f0026842c5c2a675f2eccda20e0a9e"
   },
@@ -476,10 +476,134 @@
         "note": "Ready works, under the text box. The design shows the card with “Hide your phone, then tap Ready”."
       },
       "now": null
+    },
+    {
+      "id": "settings",
+      "stage": "panels",
+      "title": "Settings (⋮)",
+      "sheet": "32",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=settings&safe=47%2C34",
+        "image": "img/settings-pack.jpg",
+        "width": 585,
+        "height": 1266,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=board&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-top-settings, .ms-ps-tb [data-intent=\"menu\"]"
+          ],
+          [
+            "wait",
+            500
+          ],
+          [
+            "tap",
+            "summary, .ms-ps-sheet .ms-ps-sheet-title"
+          ],
+          [
+            "wait",
+            500
+          ]
+        ],
+        "image": "img/settings-build.jpg",
+        "width": 585,
+        "height": 1266,
+        "log": [
+          "tap: Settings",
+          "tap: Settings"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "A checkbox and a drop-down under a folded line. The design has a switch with its explanation and Standard / Large / Largest."
+      },
+      "now": null
+    },
+    {
+      "id": "host-controls",
+      "stage": "system",
+      "title": "Host controls in a match",
+      "sheet": "15",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=host-controls&safe=47%2C34",
+        "image": "img/host-controls-pack.jpg",
+        "width": 585,
+        "height": 1266,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=board&count=9&tuple=phone",
+        "steps": [
+          [
+            "eval",
+            "(() => { const h = window.planetHarness, v = structuredClone(h.value); v.isHost = true; return h.replace(v); })()"
+          ],
+          [
+            "wait",
+            600
+          ],
+          [
+            "tap",
+            "#planet-top-settings, .ms-ps-tb [data-intent=\"menu\"]"
+          ],
+          [
+            "wait",
+            500
+          ],
+          [
+            "tap",
+            "summary, .ms-settings-sheet [data-intent=\"host-controls\"]"
+          ],
+          [
+            "wait",
+            500
+          ],
+          [
+            "reveal",
+            "Check server deadline|Check the deadline"
+          ],
+          [
+            "wait",
+            400
+          ]
+        ],
+        "image": "img/host-controls-build.jpg",
+        "width": 585,
+        "height": 1266,
+        "log": [
+          null,
+          "tap: Settings",
+          "tap: Host controlsBots, deadlines, recovery, abort",
+          "reveal: Check the deadlineAsks the server to move on if time is up"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "Inside Settings, as “Check server deadline”, “Run eligible bots” and “Issue recovery for Player 6”. The design has its own sheet in plain words with a code for each seat."
+      },
+      "now": null
     }
   ],
   "stageSheets": [
     "stages/01-start.jpg",
-    "stages/02-pregame.jpg"
+    "stages/02-pregame.jpg",
+    "stages/03-panels.jpg",
+    "stages/04-system.jpg"
   ]
 }
