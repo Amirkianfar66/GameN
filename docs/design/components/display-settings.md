@@ -1,6 +1,6 @@
 # Display settings: Designer's runtime component
 
-**Version:** `display-settings-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on #294, with the Lead's decisions below. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
+**Version:** `display-settings-0.1.1` (17 November: the Display page calls the kit's `followTextSize`, [below](#the-text-size-after-the-page-is-mounted)). **Status (16 November 2026):** built to the interface the Lead Designer approved on #294, with the Lead's decisions below. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
 
 **What it is:** this phone's display settings, as sheet 32 and the pack's settings screen draw them: the Reduce motion switch with its explanation, and the text size as Standard, Large and Largest, with the line that they stay on this phone. It is #222 item 27, P3: "a Display page … before and during a match". The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -127,6 +127,10 @@ Each reports a tap, and only that.
 The agreement draws the frozen pack's `settings` screen beside each mount and compares, to within half a pixel: the page's screen, nav bar, Menu and title; the sheet, its title and body; the group labels, the list, the rows, their icon tiles and drawings, titles, lines and chevron, the switch (and where its thumb rests), the three sizes and the note: their boxes, words, looks, states (`aria-checked`, `aria-disabled`, `aria-busy`, names, roles) and icon drawings. The room behind the sheet, the top bar and the tabs are the room scene's and the shell's own agreements'; the lock's line is Frontend's words, checked by the probe.
 
 - **Accepted, at the Largest text only (decision 5):** the three sizes stack, one a row (kit 0.5.0's `stack`); the frozen pack keeps them side by side. Those cases draw the pack with the same rule, compare everything else as usual, and record the stacking against the pack as it is.
+
+## The text size, after the page is mounted
+
+The Lead, 17 November (`display-settings-0.1.1`): in Chromium a phone root's container re-reads its em only while something inside it uses one of its queries, so a part opened after the text size changes could keep the old size's layout. The Display page, a phone root outside the shell, calls the kit's `followTextSize(root)` (kit 0.8.1, #265) once it is mounted, and disposes it with the page. The Settings sheet's content lies in the shell's sheet, and the shell calls it for its own root. The probe's **text later** check mounts the page at the Standard text, sets the Largest with its size chosen and the phone's lock opened, and holds every box to a page mounted at the Largest with them. Nothing is drawn differently.
 
 ## Check
 

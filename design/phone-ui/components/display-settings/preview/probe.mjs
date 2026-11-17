@@ -16,6 +16,8 @@
 //   words     the names: the page's group, the switch, the sizes' radio group, Menu
 //   layout    the page under the safe areas at both sizes, reported; at the Large text the sizes side by side, at
 //             the Largest one a row, every word whole and every control reachable
+//   text later  the page mounted at the Standard text, then the Largest, its size and the lock: laid out as one
+//             mounted at the Largest with them (the kit's followTextSize, 0.8.1)
 //   dispose   after dispose(), nothing is left and nothing fires
 //   motion    the switch's thumb slides in 220 ms, and in 80 ms with Reduce motion (the game's, or the device's)
 // With the device's Reduce motion emulated, only the motion check runs (the page's mode says which).
@@ -205,6 +207,33 @@ export async function runDisplaySettingsProbe({ sizes, mountState, disposeState,
         return { ok: asRows === stacked && cut.length === 0 && reachable, asRows, cut, reachable };
       });
     }
+    await check('text later: the page mounted at the Standard text, then the Largest set with its size chosen and the phone\'s lock opened, lays out as a page mounted at the Largest with them (kit 0.8.1 followTextSize)', async () => {
+      const html = document.documentElement.style;
+      const later = { textScale: 2, reducedMotion: true, motionLock: LOCK };
+      const boxes = p => {
+        const f = p.root.getBoundingClientRect();
+        return [...p.root.querySelectorAll('button, .ms-k-row, .ms-k-list, .ms-k-seg, .ms-k-seg-btn, .ms-k-switch, h1, h2, p')].filter(n => n.getClientRects().length)
+          .map(n => { const r = n.getBoundingClientRect(); return [r.top - f.top, r.left - f.left, r.width, r.height].map(v => Math.round(v * 100) / 100); });
+      };
+      html.fontSize = '100%';
+      const late = mount('page');
+      await frames();
+      html.fontSize = '200%';
+      await frames();
+      late.m.settings.update(later);
+      await frames(); await frames();
+      const after = boxes(late);
+      disposeState(late.m);
+      // The same input given before the first layout: a page mounted at the Largest with it.
+      const fresh = mount('page');
+      fresh.m.settings.update(later);
+      await frames(); await frames();
+      const want = boxes(fresh);
+      disposeState(fresh.m);
+      html.fontSize = '';
+      return { ok: after.length > 0 && JSON.stringify(after) === JSON.stringify(want), after, want };
+    });
+
     await check('dispose: safe twice; afterwards nothing is left, nothing fires, and the page\'s layout() is null', async () => {
       const p = mount('page');
       const t = p.toggle();
