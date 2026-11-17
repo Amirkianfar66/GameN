@@ -1,6 +1,6 @@
 # Host controls: Designer's runtime component
 
-**Version:** `host-controls-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on #295, with the Lead's six answers below, against the phone shell 0.2.6. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
+**Version:** `host-controls-0.1.1` (17 November: Retry, [below](#retry-011-the-leads-answer-of-17-november)). **Status (16 November 2026):** built to the interface the Lead Designer approved on #295, with the Lead's six answers below, against the phone shell 0.2.6. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
 
 **What it is:** the host's controls in a match, as sheet 15 draws them: their own sheet, opened from the Settings sheet's Host controls row (#294), in plain words, with a recovery code for each seat. It is #222 item 28, P3. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -79,6 +79,7 @@ host.dispose();                                             // safe twice; after
 | `seats` | The host's | `[{ seat, name, character, enabled, busy, reason }]`: the seats Frontend lists for a code, each offered unless Frontend says otherwise (answer 6) |
 | `abort` | The host's | `{ enabled, busy, reason }`: the abort's state; the row opens the confirm, the footer's Abort match sends it |
 | `code` | The host's, private | `null`, or `{ seat, name, matchId, revealed, value, minutes }`: the issued code. `value` only while `revealed` (given hidden, it is refused); `minutes` left, from the server's `expiresAt` (answer 4) |
+| `retry` | The host's | `null`, or `{ enabled, busy }` (0.1.1): while the session's own request has an unknown outcome and waits to be sent again. The list's footer then has Retry; the rows are refused with Frontend's words |
 
 **The component decides nothing:** it never works out whether a deadline has passed, whether a bot can act, who may have a code, how long a code lasts, or whether the match may end. Frontend gives each state from the session; the reasons and receipts are Frontend's words.
 
@@ -93,7 +94,7 @@ host.dispose();                                             // safe twice; after
 | `onIssueRecovery(seat)` | A seat's row: Frontend sends `issueRecovery`, and shows the code view with the issued code |
 | `onAbortAsk()` | The Abort match row: Frontend shows the confirm view (nothing is sent) |
 | `onFocusReturn({ intent, value })` | As the other components' |
-| The shell's `onSheetAction(id)` | `reveal` / `hide`: Frontend shows or hides the code; `copy`: Frontend copies the code and shows "Copied"; `keep`: back to the list; `abort`: Frontend sends `abort` |
+| The shell's `onSheetAction(id)` | `reveal` / `hide`: Frontend shows or hides the code; `copy`: Frontend copies the code and shows "Copied"; `keep`: back to the list; `abort`: Frontend sends `abort`; `retry` (0.1.1): Frontend sends the session's request again (`session.retry()`) |
 
 Each reports a tap, and only that.
 
@@ -120,11 +121,22 @@ The agreement draws the frozen pack's `host-controls` screen beside the sheet (i
 - **The shell, as it is:** compared with shell 0.2.6 (since 0.2.5 it draws the pack's sheet head with Back (18 px at its left, the title at 72) and the footer's two equal halves at the Larger text); nothing is patched and nothing is recorded as the shell's. (This build's first record found both under 0.2.4; the Lead settled them in the shell.)
 - **Accepted, at the Largest text only:** beside the long "Works once · 15 minutes" the pack's timer icon shrinks to under 24 px; the card's keeps its 24 px, as the kit's icons never shrink (`.ms-k-ic`, `flex: none`). That case compares the icon's place and height, and records its width.
 
+## Retry (0.1.1, the Lead's answer of 17 November)
+
+The pre-game connection (#308, part 8) found that the host has no Retry in the match once the old host controls leave: a session request with an unknown outcome (a host command whose answer was lost, or one restored after a reload as "A previous session request needs an exact retry") waits to be sent again, and until then the session sends nothing else, so every command is refused and the match's end can't return to the lobby. The Lead decided it on 17 November: it fills a state sheet 15 doesn't draw, so it is the Lead's to decide, like the entry screens' G6, and needs no owner approval.
+- **The input:** `retry: null | { enabled, busy }`, from Frontend.
+- **The list's footer** has "Retry", the kit's primary button, while it is given. It stands for the session's request, so it is a command, not local: while reconnecting the shell refuses it with the banner's words, as Abort match. The code card's and the confirm's footers are unchanged.
+- **The rows** are refused with Frontend's words, the session's own ("Session request outcome unknown. Retry the original request."), as any refusal is.
+- **It reports** through the shell's `onSheetAction('retry')`; Frontend calls `session.retry()`.
+- **Checked:** the preview's `retry` state and the check's captures of it at both sizes; the probe's retry check (the footer's word, look and intent, its report, busy, gone when not given, the confirm's footer unchanged, the rows' words); and the test (the input, its refusals, and the frame in each view).
+
 ## Check
 
-`node design/tools/host-controls-check.mjs` bundles the preview with Vite and serves it with the production headers. It captures 10 states at 390 × 844 and 430 × 932: the list, Run bots in flight, Check the deadline refused, the code hidden, revealed and copied, the confirm, the abort in flight, reconnecting, and the revealed code at the Largest text; each asserts the code is in the page only while revealed. Then it runs the probe (as the page comes and with the device's Reduce motion) and the agreement.
+`node design/tools/host-controls-check.mjs` bundles the preview with Vite and serves it with the production headers. It captures 11 states at 390 × 844 and 430 × 932 (with 0.1.1's Retry): the list, Run bots in flight, Check the deadline refused, the code hidden, revealed and copied, the confirm, the abort in flight, reconnecting, and the revealed code at the Largest text; each asserts the code is in the page only while revealed. Then it runs the probe (as the page comes and with the device's Reduce motion) and the agreement.
 
-**Recorded against `15e816dc` (clean):** #294 merged at `eed46538`, bringing kit 0.8.0, shell 0.2.8 (#265 at `0e5a0b8a`) and `entry-parts-0.4.0`. 20 of 20 captures, the probe 23 of 23 and the agreement 9 of 9 pass. Against `644da15d`'s record no capture differs by more than JPEG noise (no pixel by more than 24 levels), the toast in "Copied" among them: the shell's toast is now the kit's, drawn the same.
+**Recorded against `48538396` (clean, `host-controls-0.1.1`):** #294 merged at `31d29815`, bringing kit 0.8.2 and shell 0.2.11 (#265 at `a0900240`) and the entry screens' `followTextSize`. **22 of 22 captures**, the probe **24 of 24** (with the new retry check) and the agreement 9 of 9 pass. Against `15e816dc`'s record, the 20 earlier captures differ only by encoding noise, nothing above the threshold; the two `retry` captures are new.
+
+**Before, recorded against `15e816dc` (clean):** #294 merged at `eed46538`, bringing kit 0.8.0, shell 0.2.8 (#265 at `0e5a0b8a`) and `entry-parts-0.4.0`. 20 of 20 captures, the probe 23 of 23 and the agreement 9 of 9 pass. Against `644da15d`'s record no capture differs by more than JPEG noise (no pixel by more than 24 levels), the toast in "Copied" among them: the shell's toast is now the kit's, drawn the same.
 
 **Before, recorded against `644da15d` (clean, with the shell 0.2.6):** 20 of 20 captures, the probe 23 of 23 checks (22 as the page comes, the motion check with the device's Reduce motion), and the agreement 9 of 9 with the shell as it is, with no unexpected policy report and no page problem; the code in the page only in the revealed captures. The headers' SHA-256 is `424e5dec…`. The record is `review/check.json`.
 

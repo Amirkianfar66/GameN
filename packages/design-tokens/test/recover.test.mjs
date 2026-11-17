@@ -84,7 +84,7 @@ test('its words are the pack\'s: Recover of sheet 14', () => {
   }
   // The one sentence the pack does not have: a lost connection (the Lead's review of #291, question 2), in the menu's form.
   assert.equal(RECOVER_WORDS.offline, 'No connection. Recover returns when you are back online.');
-  assert.equal(RECOVER_VERSION, 'recover-0.1.0');
+  assert.equal(RECOVER_VERSION, 'recover-0.1.1');
 });
 
 test('its inputs are checked, and refused with a reason; Frontend never gives the code back', () => {

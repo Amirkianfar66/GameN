@@ -20,6 +20,8 @@
 //   insets    Frontend's safe areas, or the browser's
 //   text      with the Largest text the form scrolls, and both screens' feet are reached; the device choice
 //             stacks there, and not at the Standard text
+//   text later  mounted at the Standard text, then the Largest and a part opened: laid out as one mounted at
+//             the Largest (the kit's followTextSize, 0.8.1)
 //   input     malformed input is refused
 //   dispose   after dispose(), nothing is left and nothing fires
 //   motion    only the spinners turn; with Reduce motion (the game's or the device's) they stand still
@@ -276,6 +278,30 @@ export async function runJoinRoomProbe({ sizes, formOf, waitOf }) {
       const seen = { standard, form, wait };
       // The lobby of five fits the 390 × 844 screen even then; whether it scrolls or not, its foot is in view.
       return { ok: !standard && form.stacked && form.scrolls && form.footInView && wait.footInView, seen };
+    });
+
+    await check('text later: mounted at the Standard text, then the Largest set and a part opened (the form: the code\u2019s and the name\u2019s errors and the inline error; waiting: admitted), each screen lays out as one mounted at the Largest (kit 0.8.1 followTextSize)', async () => {
+      const html = document.documentElement.style;
+      const boxes = m => {
+        const f = m.root.getBoundingClientRect();
+        return [...m.root.querySelectorAll('button, input, .ms-k-row, .ms-k-list, .ms-k-error, .ms-k-seg, .ms-k-field, h1, h2, p')].filter(n => n.getClientRects().length)
+          .map(n => { const r = n.getBoundingClientRect(); return [r.top - f.top, r.left - f.left, r.width, r.height].map(v => Math.round(v * 100) / 100); });
+      };
+      const late = async (mount, first, then) => {
+        html.fontSize = '100%'; const m = mount(first); await frames();
+        html.fontSize = '200%'; await frames();
+        m.s.update(then); await frames(); await frames();
+        const seen = boxes(m); m.s.dispose(); return seen;
+      };
+      const fresh = async (mount, input) => { html.fontSize = '200%'; const m = mount(input); await frames(); await frames(); const seen = boxes(m); m.s.dispose(); return seen; };
+      const errors = formOf({ codeError: JOIN_WORDS.noRoom, name: 'Devendra Kumar', nameError: JOIN_WORDS.nameRule(12), error: JOIN_WORDS.busy });
+      const seen = {
+        form: { late: await late(mountForm, formOf(), errors), fresh: await fresh(mountForm, errors) },
+        wait: { late: await late(mountWait, waitOf(), waitOf({ view: 'admitted' })), fresh: await fresh(mountWait, waitOf({ view: 'admitted' })) },
+      };
+      html.fontSize = '';
+      const same = v => v.late.length > 0 && JSON.stringify(v.late) === JSON.stringify(v.fresh);
+      return { ok: same(seen.form) && same(seen.wait), seen };
     });
 
     await check('input: malformed input is refused', async () => {

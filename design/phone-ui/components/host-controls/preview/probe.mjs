@@ -8,6 +8,8 @@
 //   command   in flight, only that row is busy, with the spinner at its end; refused, it is dimmed, with Frontend's
 //             reason as its line and its description; the others keep their own state; the confirm's Abort match
 //             busy in the shell's footer
+//   retry     (0.1.1) the list's footer has Retry, primary and not local, only while Frontend gives it; it reports
+//             through the shell's footer, busy and refused as given; the refused rows keep Frontend's words
 //   reconnect the commands wait with the banner's words, not dimmed; the confirm still opens; the footer's Reveal,
 //             Hide, Copy and Keep playing are this phone's own (the shell's local actions) and still work
 //   privacy   the code is in the page only while revealed; never in an attribute, a report or the layout; it leaves
@@ -119,6 +121,25 @@ export async function runHostControlsProbe({ sizes, mountState, disposeState, in
       const words = s.footer().map(b => b.textContent.trim());
       disposeState(s.m);
       return { ok: JSON.stringify(first) === JSON.stringify(['keep', 'abort']) && inFlight && off.refused && off.why === 'Only between turns' && words.join('|') === 'Keep playing|Abort match', first, inFlight, off, words };
+    });
+    await check('retry: the list\'s footer has Retry, the kit\'s primary and a command (not local), only while Frontend gives it; it reports, busy and refused as given; the refused rows keep Frontend\'s words (0.1.1)', async () => {
+      const unsure = 'Session request outcome unknown. Retry the original request.', waits = { enabled: false, reason: unsure };
+      const s = mount(inputOf({ deadline: waits, bots: waits, abort: waits, retry: { enabled: true } }));
+      const [retry] = s.footer();
+      const look = { words: s.footer().map(b => b.textContent.trim()).join('|'), primary: retry?.classList.contains('ms-k-btn-primary'), local: retry?.dataset.intent };
+      tap(retry);
+      const reported = s.calls.filter(c => c[0] === 'onSheetAction').map(c => c[1]);
+      const rows = { line: s.root.querySelector('[data-intent="deadline"] .ms-k-row-sub')?.textContent, why: describedBy(s.root.querySelector('[data-intent="bots"]')),
+        refused: ['deadline', 'bots', 'abort-ask'].every(i => refused(s.root.querySelector(`[data-intent="${i}"]`))) };
+      s.update({ retry: { enabled: false, busy: true } });
+      const inFlight = busy(s.footer()[0]);
+      s.update({ retry: null });
+      const gone = s.footer().length;
+      s.update({ retry: { enabled: true }, view: 'abort' });
+      const abortFooter = s.footer().map(b => b.textContent.trim()).join('|');
+      disposeState(s.m);
+      return { ok: look.words === HOST_WORDS.retry && look.primary && look.local === 'sheet-action' && JSON.stringify(reported) === '["retry"]'
+        && rows.line === unsure && rows.why === unsure && rows.refused && inFlight && gone === 0 && abortFooter === 'Keep playing|Abort match', look, reported, rows, inFlight, gone, abortFooter };
     });
     await check('reconnect: the commands wait with the banner\'s words, not dimmed; the confirm still opens', async () => {
       const s = mount(inputOf({ status: 'stale' }), { status: 'stale', banner: { kind: 'reconnecting' } });

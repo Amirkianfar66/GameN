@@ -1,6 +1,6 @@
 # Host setup and lobby: Designer's runtime components
 
-**Version:** `host-setup-0.1.1` and `host-lobby-0.1.2`, with `entry-parts-0.3.0`. **Status (17 November 2026):** the interface is approved by the Lead Designer (#287 at `43e71d29`), with the decisions below, and posted on #4 for Frontend. It is built on the kit 0.4.0, now merged to the kit 0.8.0 and shell 0.2.8 (#265 at `0e5a0b8a`), with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (`docs/design/owner-decisions.md`, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
+**Version:** `host-setup-0.1.2` and `host-lobby-0.1.3` (17 November: each calls the kit's `followTextSize`, below), with `entry-parts-0.3.0`. **Status (17 November 2026):** the interface is approved by the Lead Designer (#287 at `43e71d29`), with the decisions below, and posted on #4 for Frontend. It is built on the kit 0.4.0, now merged to the kit 0.8.0 and shell 0.2.8 (#265 at `0e5a0b8a`), with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (`docs/design/owner-decisions.md`, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
 
 **What it is:** the host's two screens before a match, as sheet 11 draws them. They are #222 items 21 (host setup) and 22 (host lobby), P3. The game imports them as they are, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -171,6 +171,12 @@ The Lead folded the entry screens' toast and the shell's into one kit part on 16
 - **Its look is unchanged:** both "Copied" captures are byte-identical to `56519d09`'s, and the agreement compares the kit's toast with the pack's `.toast`.
 - **It takes no tap,** as the Lead decided for the kit's toast: a toast has no action, so a tap at it reaches the code card under it. The entry toast had this already; the probe now checks it.
 
+## The text size, after a screen is mounted (host-setup 0.1.2, host-lobby 0.1.3; the Lead, 17 November)
+
+In Chromium a phone root's container re-reads its em only while something inside it uses one of its queries, so a part opened after the text size changes could keep the old size's layout. Each screen calls the kit's `followTextSize(root)` (kit 0.8.1, #265) once it is mounted, and disposes it with the screen.
+- **The probe's text later check:** each screen mounted at the Standard text, then the Largest set and a part opened: in host setup another count and the failed opening's error; in the lobby the requests and the offline note. Every box is held to the same screen mounted at the Largest. Both screens pass it with or without the call, because their own parts keep the container current; the call keeps it so as parts change. Nothing is drawn differently.
+- **Kit 0.8.2's toast** (#265 at `a0900240`): its words wrap inside the phone, and its corners are half its one line where the pack writes 999px. One line is the same pill, so the agreement reads a toast radius of at least half its height as the pill, on both sides; the copied case agrees again.
+
 ## The difference from the pack
 
 At the most bots, + is refused (`aria-disabled`), which the pack's Full state does not mark; it keeps the sheet's look (decision 5). The agreement records the refusal in the Full case and compares everything else, + included.
@@ -200,7 +206,9 @@ It is a larger-text fix, not a sheet change: the sheets are at the Standard text
 
 ### Checks run on this version
 
-On `37d9f616`, clean: `host-setup-0.1.1` and `host-lobby-0.1.2`, the game's two gaps (above), on the same kit, shell, entry parts and headers (SHA-256 `424e5dec…`).
+**On `a2f7de15` (`host-setup-0.1.2`, `host-lobby-0.1.3`), clean,** with the main menu 0.1.1 and kit 0.8.2 (#265 at `a0900240`) merged, headers SHA-256 `424e5dec…`: **26 of 26 captures pass.** Against `37d9f616`'s record, 24 are byte-identical; the two Opening… captures change only in the busy spinner's frame (a 46-pixel patch at the foot). The probe passes **16 of 16**, with the new **text later** check. The agreement passes **11 of 11**, with the copied case reading the kit 0.8.2 toast's corners as its pill. The main menu's check, run on the same tree, passes 8 of 8 (byte-identical), probe 16 of 16, agreement 6 of 6.
+
+Before that, on `37d9f616`, clean: `host-setup-0.1.1` and `host-lobby-0.1.2`, the game's two gaps (above), on the same kit, shell, entry parts and headers (SHA-256 `424e5dec…`).
 - **Captures:** **26 of 26 pass.** Against `193743f7`'s record, 20 of its 22 captures are byte-identical; the two Opening… captures change by the busy spinner's frame. The four new ones are `setup-nomix` (no line under 7/8/9) and `lobby-noleave` (Leave dimmed and refused, with "Not available in this test" as its description) at both sizes.
 - **The lifecycle probe:** 15 of 15 (14 as the page comes, with the gaps' check; 1 with the device's Reduce motion).
 - **The agreement with the frozen pack:** 11 of 11 cases, as before; the two new states fill states sheet 11 doesn't draw, so they have no pack case.

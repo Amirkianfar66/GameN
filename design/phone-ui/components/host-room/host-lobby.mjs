@@ -18,11 +18,11 @@
 // has no command for a host to leave or close a lobby (#222 G6), it is drawn unavailable by the kit's control
 // policy, dimmed, with Frontend's reason as its description, and reports nothing.
 
-import { createControlPolicy, createKit } from '../kit/kit.mjs';
+import { createControlPolicy, createKit, followTextSize } from '../kit/kit.mjs';
 import { createEntryParts } from '../entry-parts/entry-parts.mjs';
 import { checkInsets } from './host-setup.mjs';
 
-export const HOST_LOBBY_VERSION = 'host-lobby-0.1.2';
+export const HOST_LOBBY_VERSION = 'host-lobby-0.1.3';
 const KINDS = Object.freeze(['host', 'person', 'bot']);
 const DEVICES = Object.freeze(['phone', 'display']);
 
@@ -118,6 +118,8 @@ export function mountHostLobby(host, input = {}, handlers = {}) {
   screen.append(nav, card, askLabel, askList, seatsLabel, seatList, kit.groupLabel(LOBBY_WORDS.bots), botsList, foot);
   root.append(screen);
   host.append(root);
+  // A phone root outside the shell: a part opened after the text size changes takes the new size's rules (kit 0.8.1).
+  const textSize = followTextSize(root);
   const toast = parts.createToast(root);
 
   // + at Frontend's most keeps its look, as sheet 11 draws Full (decision 5): it is refused through the policy's
@@ -243,6 +245,7 @@ export function mountHostLobby(host, input = {}, handlers = {}) {
     root.removeEventListener('click', onClick);
     toast.dispose();
     policy.dispose();
+    textSize.dispose();
     root.remove();
   }
 
