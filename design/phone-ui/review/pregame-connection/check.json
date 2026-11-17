@@ -2,7 +2,7 @@
   "tool": "design/tools/pregame-connection-check.mjs",
   "what": "The Planet app's screens before the match drawn by Designer's pre-game components, in Frontend's phone harness (apps/game/dev/phone) built from the candidate below",
   "candidate": {
-    "commit": "f15913a78fd07f13fcec12b92ba02d5ec7e02a59",
+    "commit": "73d9de4bdee6e009057ce310f9e2f1298df492ed",
     "clean": true,
     "dirty": []
   },
@@ -102,7 +102,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -121,7 +121,7 @@
         "waiting": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-boarding-waiting.jpg",
-      "sha256": "8243c083d67a036894069c1d485964dc905ad1aab7d1d7287b7dab92f08d938d",
+      "sha256": "6bc8b740d274d928fa7d57d55b92e90607add1fa8a6dd9bdd30d7827cddc1da8",
       "seen": {
         "screen": "boarding",
         "component": "ms-boarding-stage ms-kit",
@@ -167,7 +167,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -190,7 +190,7 @@
         "chosen": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-characters.jpg",
-      "sha256": "dd8c4ae7283c79817c36ed3d5f3d928cd98725797216de25d195149208adf0d1",
+      "sha256": "5046211ea9f46d411795a881e7e8ddd49fe32881ea4b141f17be89f011ae6446",
       "seen": {
         "screen": "characters",
         "component": "ms-char-select ms-kit",
@@ -372,7 +372,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -486,7 +486,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -628,7 +628,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -786,7 +786,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -929,7 +929,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -950,7 +950,8 @@
         "count": true,
         "ask": true,
         "device": true,
-        "nothingSent": true
+        "nothingSent": true,
+        "askUnavailableWhenEmpty": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-join.jpg",
       "sha256": "cc7fec47c4896fa23da060843cecefb9d76c3b9295fddb97596932a9724015b9",
@@ -1066,7 +1067,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1086,7 +1087,7 @@
         "leaveOff": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-join-admitted.jpg",
-      "sha256": "1268ef767a933d53ed5307736f74dc4b883679f321e9b149dc84e245ee4b7ac7",
+      "sha256": "5339fc1d52215c1d96bb3b89d7d2e93cbeafef554f79b506dd411e0cff8d4d51",
       "seen": {
         "screen": "join-wait",
         "component": "ms-join-wait ms-kit ms-k-phone ms-entry-parts",
@@ -1145,7 +1146,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1243,7 +1244,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1377,7 +1378,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1485,7 +1486,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1508,7 +1509,7 @@
         "noKnowledge": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-role.jpg",
-      "sha256": "848653366704999655bd122c56683990539065d77700508b01afa835908c398c",
+      "sha256": "14b6dafa42a0c6afd472df67032de5c386d15be3dcd08e20dc0e5c5f5524cab7",
       "seen": {
         "screen": "role",
         "component": "ms-role-stage ms-kit",
@@ -1585,7 +1586,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1683,7 +1684,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1707,12 +1708,12 @@
         "standing": true,
         "one": true,
         "onTheServersWindow": true,
-        "atMountMs": 177,
+        "atMountMs": 186,
         "goneByItself": true,
         "disposedInRound2": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-round-stamp.jpg",
-      "sha256": "8b07fcab73730109a54b95a3d65a504b6a4ad2d55325b9ccce6acff220fd4b53",
+      "sha256": "c2a96ff9f592ca7a151ed36ca8780f8159289546c955a374eec6d4fbfa6fdb93",
       "seen": {
         "screen": null,
         "component": null,
@@ -1748,7 +1749,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1769,7 +1770,7 @@
         "nothingDrawn": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-round-stamp-late.jpg",
-      "sha256": "cde6410d9d290bb276f40f78d09767dd0518ba126ac2e3b1abf3ad4df02a6969",
+      "sha256": "76180bfef061bb749495cff8a70ef17e7b45c365510acc790b04e3220a109553",
       "seen": {
         "screen": null,
         "component": null,
@@ -1805,7 +1806,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2025,7 +2026,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2092,7 +2093,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2157,7 +2158,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2180,7 +2181,7 @@
         "chosen": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-characters.jpg",
-      "sha256": "f43bcf63a6edc9efcee545e52cce032835bc82df02b6d35aaecdaa1b020486a5",
+      "sha256": "2462604864d3ae9720d74251c77c505bb7361133d348f1ff3012234e009b0660",
       "seen": {
         "screen": "characters",
         "component": "ms-char-select ms-kit",
@@ -2362,7 +2363,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2476,7 +2477,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2618,7 +2619,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2776,7 +2777,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2919,7 +2920,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2940,7 +2941,8 @@
         "count": true,
         "ask": true,
         "device": true,
-        "nothingSent": true
+        "nothingSent": true,
+        "askUnavailableWhenEmpty": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-join.jpg",
       "sha256": "fbb8f30c99bf2c1cce4b9f324fb33f3cf9a2bfbd67d9dac72594a345c36435a0",
@@ -3056,7 +3058,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3135,7 +3137,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3233,7 +3235,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3367,7 +3369,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3475,7 +3477,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3575,7 +3577,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3673,7 +3675,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3697,12 +3699,12 @@
         "standing": true,
         "one": true,
         "onTheServersWindow": true,
-        "atMountMs": 185,
+        "atMountMs": 180,
         "goneByItself": true,
         "disposedInRound2": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-round-stamp.jpg",
-      "sha256": "29c20a36ba82ac1d093829a956e9bcf970dd23082cbd1fee8cd34efb8f187f72",
+      "sha256": "eb89e4831bb0e9aeb895816c691f193b3efe5fd6e02849e55283f0a9d74ca662",
       "seen": {
         "screen": null,
         "component": null,
@@ -3738,7 +3740,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3759,7 +3761,7 @@
         "nothingDrawn": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-round-stamp-late.jpg",
-      "sha256": "c6ee48267027a7607bfd1e42a2c8b1343663e7cfb44ded346134d9afdcbdb986",
+      "sha256": "ff0390514ac21ae1cec949f041a8e82dd00f1049a18bcba0917f25b009cc46bc",
       "seen": {
         "screen": null,
         "component": null,
@@ -3795,7 +3797,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4015,7 +4017,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-Bw2X81a5.js",
+            "source": "assets/phone-BNgsWrDT.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
