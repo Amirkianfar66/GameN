@@ -1,12 +1,12 @@
 # Shell connection: the match's frame on the phone shell
 
-**Status (16 November 2026):** a draft for the Lead Designer's review, then Frontend's. It is not in the game yet.
+**Status (17 November 2026):** a draft for the Lead Designer's review, then Frontend's. It is not in the game yet.
 - Integration first approves the source fence's marked hunk and the pins that refuse the changed files: `app.mjs`, `render.mjs`, `phone.css` and `planet.css`, and, through the drawing-port fence, `vite.config.mjs`, which the room connection's hunk already meets (see [The gates](#the-gates)).
 - This is not a release.
-- It is stacked on the room connection (`5f1b1c83`, [its page](room-connection.md)) and the phone shell (#265), merged at `9e296ccc` (#265 at `0e5a0b8a`) again at `5347df3f` (#265 at `bb567d7e`, shell 0.2.9), at `8c64f77c` (#265 at `60afd967`, shell 0.2.10, with the phase bars' words), and at `4a109dc5` (#265 at `e86ca86b`, shell 0.2.11 with kit 0.8.1: a part opened after the text size changes takes the new size's rules).
+- It is stacked on the room connection (`5f1b1c83`, [its page](room-connection.md)) and the phone shell (#265), merged at `9e296ccc` (#265 at `0e5a0b8a`) again at `5347df3f` (#265 at `bb567d7e`, shell 0.2.9), at `8c64f77c` (#265 at `60afd967`, shell 0.2.10, with the phase bars' words), at `4a109dc5` (#265 at `e86ca86b`, shell 0.2.11 with kit 0.8.1: a part opened after the text size changes takes the new size's rules), at `48e55eba` (#265 at `a0900240`, kit 0.8.2: the toast's words wrap at larger text), at `4601ac6c` and `aa46726c` (room scene 0.5.1, through #265 at `562723d8` and the room connection at `e2640346`), and at `a95dfc39` (#265 at `8e969200`, shell 0.2.12: a final target bar, with no Cancel).
 
 **What it is:**
-- On a phone, the Planet app's match is framed by Designer's [phone shell](phone-shell.md) (`phone-shell-0.2.11`, with `component-kit-0.8.1`), used as it is:
+- On a phone, the Planet app's match is framed by Designer's [phone shell](phone-shell.md) (`phone-shell-0.2.12`, with `component-kit-0.8.2`), used as it is:
   - the top bar, with the shell's own words for each game step that has no active player (0.2.10), the tabs with the round button (Pass, Vote, Voted), and the private talk's two buttons;
   - the target bar with Cancel, the floating chip, both banners and the toast;
   - the docked sheet's frame: its title, line, Back, Close and footer actions.
@@ -18,12 +18,12 @@
 
 | Path | What |
 | --- | --- |
-| `apps/game/hosted/planet/shell-input.mjs` | New, pure. It maps the presentation model to the shell's input (`shellInput`), with the facts for a phase's words (`shellPhaseFacts`), the round stamp's moment and clock (`roundStart`, `createServerClock`), a phase that closed under an open choice (`phaseClosed`), the shell's intents to the calls the game already makes (`shellHandlers`), where the focus goes back (`shellFocusOrder`), and adds and removes the renderer's page listeners together (`connectShellLifecycle`) |
-| `apps/game/hosted/planet/render.mjs` | Mounts the shell once, mounts the stage in `shell.stage`, the game's sheet content in `shell.sheetBody`, Food's gauge in `shell.slot('clock')`, and the result window and the status line in `shell.slot('cover')`. It updates, suspends, resumes and disposes the shell. It no longer draws the header, the tab bar, the Pass button, the sheet's frame or the target bar |
+| `apps/game/hosted/planet/shell-input.mjs` | New, pure. It maps the presentation model to the shell's input (`shellInput`), with the facts for a phase's words (`shellPhaseFacts`), the round stamp's moment and clock (`roundStart`, `createServerClock`), a phase that closed under an open choice (`phaseClosed`), a host sheet in Settings' place (`shellHostSheet`), the shell's intents to the calls the game already makes (`shellHandlers`), where the focus goes back (`shellFocusOrder`), and adds and removes the renderer's page listeners together (`connectShellLifecycle`) |
+| `apps/game/hosted/planet/render.mjs` | Mounts the shell once, mounts the stage in `shell.stage`, the game's sheet content in `shell.sheetBody`, Food's gauge in `shell.slot('clock')`, and the result window and the status line in `shell.slot('cover')`. It updates, suspends, resumes and disposes the shell. It takes a `hostSheet` for the pre-game connection's Host controls ([below](#the-host-sheet-for-the-pre-game-connections-part-8)). It no longer draws the header, the tab bar, the Pass button, the sheet's frame or the target bar |
 | `apps/game/hosted/planet/app.mjs` | Imports `phone-shell.css`, and gives the renderer Retry's reconnect: the session's `refresh()` |
 | `apps/game/hosted/planet/phone.css`, `planet.css` | The old chrome's rules are removed. The game's two generic button rules keep off the shell's and the kit's controls. The stage fills the shell's stage; the result window and the status line sit in the cover |
 | `apps/game/hosted/vite.config.mjs` | One marked hunk: the shell's three files (`phase-bars.mjs` with shell 0.2.10) and the kit's two join the hosted build's `allowedSources` |
-| `apps/game/test/planet-phone-shell.test.mjs` | The mapping, privacy, the intents, the focus and the lifecycle; the phase-closed toast on models and on the game's own controller |
+| `apps/game/test/planet-phone-shell.test.mjs` | The mapping, privacy, the intents, the focus and the lifecycle; the phase-closed toast on models and on the game's own controller; the host sheet |
 | `design/tools/shell-connection-check.mjs` | The check: the real app, under the production headers, at both phone sizes |
 | `design/tools/lib/phone-ui-native-parts.mjs` | The merge gate's comparison: each step that taps a match control names the shell's control beside today's, so the same steps drive a build from before and after this |
 | `design/phone-ui/review/shell-connection/` | The check's captures and `check.json`, and the comparison's `compare.json` |
@@ -203,7 +203,7 @@ These refuse the changed files until Integration approves. Each was found by rev
 
 ### Tests
 
-`apps/game/test/planet-phone-shell.test.mjs` passes 18 of 18. Every input it builds is accepted by the shell's own `checkBar`, `checkTabs` and `nextPhoneShellInput`. It covers:
+`apps/game/test/planet-phone-shell.test.mjs` passes 19 of 19. Every input it builds is accepted by the shell's own `checkBar`, `checkTabs` and `nextPhoneShellInput`. It covers:
 - the bar: another player's turn, your turn, each of the game's own phase names, the pair, reconnecting with the round last seen, and "Loading the ship" on the first connect;
 - the phase bars' words: before turns with an Officer, with a block shown, with no Officer and with the Officer's block open; the appointment for everyone else, never amber, and for the Captain with it open; the Blackout lit, with the time to lights-out, and dark; Ship synchronized's ring; Setting course in all four navigation phases, for everyone and for an office with its Navigation open; a shared display;
 - the facts for those words: each read from the model, unchanged by any offer, role or private field, and every phase either `phaseBar()`'s or one of the game's own;
@@ -216,6 +216,7 @@ These refuse the changed files until Integration approves. Each was found by rev
 - the target bar and the chip, from this viewer's own action only;
 - both banners, the pass's sheet and toast, and every sheet's frame;
 - privacy: concealed and under Food's surface, the shell drops this viewer's inputs and keeps its shape; a display gets no tabs and no viewer, only ⋮ and Settings, and nothing private;
+- the host sheet (the pre-game connection's Host controls): in Settings' place only, its footer, Back and Close routed to it, and its Close dismissing Settings too;
 - each intent's call, and none after dispose;
 - where the focus goes back;
 - the lifecycle: the listeners added and removed together, and the shell running only while shown and focused.
