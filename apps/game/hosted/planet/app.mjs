@@ -1,7 +1,6 @@
-import {crewPortraitVariable,setCrewPictureSurface} from '../crew-runtime.mjs';
+import {setCrewPictureSurface} from '../crew-runtime.mjs';
 import {createPlanetSession,createPlanetController,createPlanetPregame,readFoodRecovery} from '@mothership/game';
-import {planetRoleLook,planetHasLibraryArt,planetHasFood} from '@mothership/presentation';
-import {CrewDisplayNameSchema,CREW_NAME_MAX_LENGTH} from '@mothership/contracts';
+import {planetHasLibraryArt,planetHasFood} from '@mothership/presentation';
 import {loadArt} from '../art.mjs';
 import {mountPlanetRenderer} from './render.mjs';
 import {createPlanetLibraryAssets} from './art.mjs';
@@ -10,8 +9,10 @@ import {mountPregamePresentation} from './pregame.mjs';
 import {createPlanetPreferences} from './preferences.mjs';
 import {mountFoodApp,mountFoodPublic} from './food-app.mjs';
 import {createFoodAssets} from './food-assets.mjs';
-import {CREW} from '../crew-drawing/crew.mjs';
 import {labelPhoneControl} from './phone-controls.mjs';
+// BEGIN pre-game connection (release 4 of the owner's plan of 16 November 2026): Designer's pre-game components.
+import {createPregameScreens} from './pregame-screens.mjs';
+// END pre-game connection
 import '../comic-tokens.css';
 import '../comic.css';
 import '../comic-layout.css';
@@ -40,9 +41,15 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  const libraryAssets=createPlanetLibraryAssets(document);
  // Uniform art loading never holds admission, recovery, Ready eligibility or the server clock.
  const commonArt=loadArt('player',document).catch(()=>{});
- let game=null,renderer=null,gameRoot=null,terminalReturn=null,key=null,model=null,disposed=false,hostOpen=false,abortConfirm=false,unsubscribe=null,roleOpen=false,lastStatus=null,sessionKey=null,entryMode='join';
+ let game=null,renderer=null,gameRoot=null,terminalReturn=null,key=null,model=null,disposed=false,hostOpen=false,abortConfirm=false,unsubscribe=null,roleOpen=false,lastStatus=null,sessionKey=null;
  let setupSettings=false,recoveryShown=false,hostState=null,food=null,foodPublic=null,foodAssets=null;
  const entryDraft={roomCode:'',displayName:'',kind:'player'};
+ // BEGIN pre-game connection: the menu, Display settings, host, join, recover, characters, the role stage and boarding.
+ const screens=createPregameScreens(root,{session,preferences,draft:entryDraft,hooks:{
+  rerender:()=>{sessionKey=null;if(model)render(session.getModel());},
+  // As today's recovery form did: no role film replays for a recovered seat.
+  beforeRecover:()=>{pregame.suppressRolePlayback();presentation.clear();}}});
+ // END pre-game connection
  const el=(tag,text=null)=>{const n=document.createElement(tag);if(text!==null)n.textContent=text;return n;};
  const button=(label,run)=>{const b=el('button',label);b.type='button';b.addEventListener('click',run);return b;};
  const operate=action=>void session.operate(action);
@@ -52,16 +59,7 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  const hasSavedFood=()=>{if(!planetHasFood(model?.versions)||!model.selfSeatId)return false;const binding=foodBinding();try{const raw=foodRecoveryStore(binding).load();return raw!==null&&readFoodRecovery(raw,binding).entries.length>0;}catch{return true;}};
  const hasCommandRecovery=()=>{try{return foodPending()||hasSavedFood()||ports.unresolved.load()!==null||!!game?.getModel().recovery||game?.getModel().action?.step==='sending';}catch{return true;}};
  const canReturnToLobby=()=>{const s=session.getModel(),g=game?.getModel();return !foodPending()&&s.canReturnToLobby&&(!g||g.connection==='live'&&!g.concealed&&g.phase?.trusted&&!g.recovery&&g.action?.step!=='sending');};
- function returnButton(){const b=button('Return to lobby',()=>{if(!canReturnToLobby())return;entryMode='join';hostOpen=false;abortConfirm=false;roleOpen=false;Object.assign(entryDraft,{roomCode:'',displayName:'',kind:'player'});try{food?.recovery.clear();}catch{return;}session.returnToLobby();});b.id='planet-return-lobby';b.className='planet-return-lobby';return b;}
- function createRoleCard(value,own){
-  const look=planetRoleLook(value.role,value.faction),card=el('article');card.className='ms-role-card ms-role-card--full';card.dataset.device=look.device??'';card.dataset.team=value.faction.toLowerCase();
-  if(own?.characterId){card.dataset.character=own.characterId;card.style.setProperty('--ms-role-person',crewPortraitVariable(own.characterId,model.versions));}
-  if(look.device)card.style.setProperty('--ms-role-device',`var(--ms-asset-device-${look.device}-held)`);
-  else if(value.role==='Engineer'&&(document.documentElement.dataset.art??'').split(' ').includes('successor')){card.dataset.device='engineer';card.style.setProperty('--ms-role-device','var(--sw-asset-sw-device-engineer)');}
-  const art=el('span');art.className='ms-role-card__art';art.setAttribute('aria-hidden','true');const text=el('div');text.className='ms-role-card__text';text.append(el('h2',look.name),el('p',`${look.faction} team`));card.append(art,text,el('p',look.guide));
-  if(value.knowledge.insiderSeatIds.length)card.append(el('p',`Unmapped trio: ${[...value.knowledge.insiderSeatIds].sort().map(id=>`Player ${id.slice(5)}`).join(', ')}.`));
-  if(value.knowledge.knownUndercoverSeatId)card.append(el('p',`Undercover: Player ${value.knowledge.knownUndercoverSeatId.slice(5)}.`));return card;
- }
+ function returnButton(){const b=button('Return to lobby',()=>{if(!canReturnToLobby())return;screens.ui.mode='menu';hostOpen=false;abortConfirm=false;roleOpen=false;Object.assign(entryDraft,{roomCode:'',displayName:'',kind:'player'});try{food?.recovery.clear();}catch{return;}session.returnToLobby();});b.id='planet-return-lobby';b.className='planet-return-lobby';return b;}
  function lobbyView(){
   root.className='planet-setup';root.replaceChildren();
   root.dataset.setupStatus=model.status??'entry';
@@ -70,41 +68,15 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
   if(setupSettings){const panel=el('section');panel.className='planet-setup-settings';preferences.controls(panel);if(model.isHost&&model.status!=='lobby')hostControls(panel);root.append(panel);}
   const status=el('p',model.message??(model.connection==='connecting'?'Connecting…':''));status.setAttribute('role','status');status.hidden=!status.textContent;root.append(status);
   if(model.uncertain){const retry=button('Retry original session request',()=>void session.retry());retry.disabled=model.busy;root.append(retry);return;}
-  if(model.pendingAdmission){
-   const state=model.pendingAdmission.status,denied=state==='closed'||state==='declined';status.textContent=model.connection==='error'?model.message:state==='closed'?'Request closed.':state==='declined'?'Request declined.':'Request registered.';root.append(el('h2',`Room ${model.pendingAdmission.roomCode}`),el('p',`Requested ${model.pendingAdmission.kind==='display'?'shared display':'player seat'}. ${denied?'This request was not admitted.':'Waiting for the server to confirm admission.'}`));
-   const check=button('Check admission',()=>void session.refresh());check.id='planet-check-admission';root.append(check);return;
-  }
   if(model.connection!=='live'){root.append(button('Reconnect',()=>void session.refresh()));return;}
-  if(!model.matchId){
-   const tabs=el('nav');tabs.className='planet-entry-tabs';tabs.setAttribute('aria-label','Enter a match');
-   for(const [value,label]of [['join','Join'],['host','Host'],['recover','Recover']]){const tab=button(label,()=>{entryMode=value;sessionKey=null;render(model);});tab.id=`planet-entry-${value}`;tab.setAttribute('aria-pressed',String(entryMode===value));tabs.append(tab);}root.append(tabs);
-   const create=el('form'),count=el('select');count.id='planet-player-count';for(const n of [7,8,9]){const o=el('option',`${n} players`);o.value=String(n);count.append(o);}
-   const countLabel=el('label','Players');countLabel.htmlFor=count.id;create.append(countLabel,count);const host=el('button','Host a game');host.id='planet-create';host.disabled=model.busy;create.append(host);create.hidden=entryMode!=='host';create.addEventListener('submit',e=>{e.preventDefault();operate({operation:'create',playerCount:Number(count.value)});});root.append(create);
-   const join=el('form'),room=el('input'),name=el('input'),kind=el('select');room.id='planet-room-code';room.autocomplete='off';room.maxLength=6;room.required=true;room.pattern='[A-Za-z0-9]{6}';name.id='planet-display-name';name.maxLength=CREW_NAME_MAX_LENGTH*2;name.required=true;name.autocomplete='nickname';
-   for(const [text,input]of [['Room code',room],['Your name',name]]){const label=el('label',text);label.htmlFor=input.id;join.append(label,input);}
-   room.className='planet-code-input';room.inputMode='text';room.autocapitalize='characters';room.spellcheck=false;
-   const nameHint=el('p',`0 / ${CREW_NAME_MAX_LENGTH}`);nameHint.id='planet-name-hint';nameHint.setAttribute('role','status');name.setAttribute('aria-describedby',nameHint.id);join.append(nameHint);
-   room.value=entryDraft.roomCode;name.value=entryDraft.displayName;room.addEventListener('input',()=>{entryDraft.roomCode=room.value;});name.addEventListener('input',()=>{entryDraft.displayName=name.value;});
-   const validateName=()=>{const value=name.value.trim(),valid=CrewDisplayNameSchema.safeParse(value).success;name.setCustomValidity(valid?'':`Enter a name of 1–${CREW_NAME_MAX_LENGTH} characters without control characters.`);name.setAttribute('aria-invalid',String(!valid));nameHint.textContent=valid?`${[...value].length} / ${CREW_NAME_MAX_LENGTH} characters`:name.validationMessage;return valid;};
-   name.addEventListener('input',validateName);
-   kind.id='planet-join-kind';for(const value of ['player','display']){const o=el('option',value==='player'?'Player phone':'Shared display');o.value=value;kind.append(o);}kind.value=entryDraft.kind;kind.addEventListener('change',()=>{entryDraft.kind=kind.value;});const kindLabel=el('label','Device');kindLabel.htmlFor=kind.id;join.append(kindLabel,kind);const submit=el('button','Request admission');submit.id='planet-join';submit.disabled=model.busy;join.append(submit);join.hidden=entryMode!=='join';join.addEventListener('submit',e=>{e.preventDefault();if(!validateName()){name.reportValidity();return;}operate({operation:'requestAdmission',roomCode:room.value.trim().toUpperCase(),kind:kind.value,displayName:name.value.trim()});});root.append(join);
-   const recover=el('section');recover.hidden=entryMode!=='recover';recover.setAttribute('aria-label','Recover a player seat');const form=el('form'),id=el('input'),token=el('input');id.id='planet-recovery-match';id.required=true;token.id='planet-recovery-code';token.type='password';token.required=true;token.autocomplete='off';for(const [text,input]of [['Match ID',id],['Recovery code',token]]){const label=el('label',text);label.htmlFor=input.id;form.append(label,input);}form.append(el('button','Recover seat'));form.addEventListener('submit',e=>{e.preventDefault();const recoveryCode=token.value;token.value='';pregame.suppressRolePlayback();presentation.clear();operate({operation:'redeemRecovery',matchId:id.value.trim(),recoveryCode});});recover.append(form);root.append(recover);return;
-  }
+  // Release 4: with no match, the pre-game screens draw the menu and its four screens (pregame-screens.mjs).
+  if(!model.matchId)return;
   if(model.status==='lobby'){
    const roomCode=el('section');roomCode.className='planet-room-code';const text=el('strong',model.roomCode??'…'),feedback=el('span');feedback.setAttribute('role','status');feedback.id='planet-copy-status';
    const copy=button('Copy room code',async()=>{try{await win.navigator.clipboard.writeText(model.roomCode);feedback.textContent='Copied';copy.textContent='Copied ✓';}catch{feedback.textContent='Select the room code to copy.';const range=document.createRange();range.selectNodeContents(text);win.getSelection()?.removeAllRanges();win.getSelection()?.addRange(range);}});copy.id='planet-copy-room-code';roomCode.append(el('small','Room code'),text,copy,feedback);root.append(roomCode);
   }
-  const own=model.members.find(m=>m.seatId===model.selfSeatId);
-  if(model.status==='choosing'&&own){
-   const grid=el('div');grid.className='planet-crew';
-   for(let n=1;n<=9;n++){const id=`c${n}`,occupant=model.members.find(m=>m.seatId!==model.selfSeatId&&m.characterId===id),b=button('',()=>operate({operation:'chooseCharacter',matchId:model.matchId,characterId:id}));b.append(el('span',CREW[id].sign),el('small',occupant?`Player ${occupant.seatId.slice(5)}`:own.characterId===id?'Yours':model.busy?'Saving…':'Available'));b.id=`planet-character-${id}`;b.dataset.character=id;b.style.setProperty('--crew-picture',crewPortraitVariable(id,model.versions));b.setAttribute('aria-label',`${CREW[id].sign}${occupant?`, taken by Player ${occupant.seatId.slice(5)}`:''}`);b.setAttribute('aria-pressed',String(own.characterId===id));b.disabled=!model.canChoose||!!occupant;grid.append(b);}root.append(grid);
-   root.append(el('p',own.characterId?'Character selected':'An available character is assigned when time ends.'));
-  }else if(model.status==='reading'&&own){
-   root.append(el('h2',`Player ${model.selfSeatId.slice(5)} · Read your role`));
-   const toggle=button(model.ownRole?'Conceal my role':'Reveal my role',()=>{roleOpen=model.ownRole===null;session.revealRole(roleOpen);});toggle.id='planet-role-reveal';toggle.setAttribute('aria-expanded',String(model.ownRole!==null));root.append(toggle);
-   const privatePanel=el('div');privatePanel.className='ms-shell planet-setup-card';const inner=el('div');inner.className='ms-private__panel';if(model.ownRole)inner.append(createRoleCard(model.ownRole,own));else inner.append(el('p',own.ready?'Ready. Waiting for the other players.':'Your role is concealed.'));privatePanel.append(inner);root.append(privatePanel);
-   const ready=button(own.ready?'Ready ✓':'Ready',()=>{roleOpen=false;operate({operation:'ready',matchId:model.matchId});});ready.id='planet-ready';ready.disabled=!model.canReady;root.append(ready);
-  }else if(model.status==='boarding'){
+  // Release 4: a seated phone's choosing and reading are the pre-game screens' (character selection, the role stage).
+  if(model.status==='boarding'){
    root.append(el('h2','Boarding'),el('p','The crew is boarding. The match will begin when the server confirms it.'));
   }else if(model.status==='aborted'){
    root.append(el('h2','Match aborted · No winner'));
@@ -114,16 +86,11 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
   }
   else root.append(el('p',model.isHost?'Host lobby':'Waiting for admission or the next stage.'));
   const roster=el('ul');for(const member of model.members)roster.append(el('li',`Player ${member.seatId.slice(5)} · ${member.displayName}${member.controller==='bot'?' · Bot':''}${member.ready?' · Ready':''}`));if(['reading','lobby'].includes(model.status)){const details=el('details');details.append(el('summary',model.status==='reading'?`${model.members.filter(m=>m.ready).length} of ${model.playerCount} players ready`:`${model.members.length} of ${model.playerCount} seats filled`),roster);root.append(details);}
-  if(model.isHost&&model.status==='lobby')hostControls(root);
   const timer=el('p');timer.id='planet-setup-timer';root.append(timer);updateTimer();
  }
  function hostControls(parent){
   if(model.uncertain){const status=el('p',model.message),retry=button('Retry original session request',()=>void session.retry());status.setAttribute('role','status');retry.disabled=model.busy;parent.append(status,retry);return;}
   for(const admission of model.pendingAdmissions)parent.append(button(`Admit ${admission.displayName} (${admission.kind})`,()=>operate({operation:'approveAdmission',matchId:model.matchId,admissionId:admission.id})));
-  if(model.status==='lobby'){
-   const form=el('form'),select=el('select');select.id='planet-bot-count';for(let n=0;n<=model.playerCount-model.members.filter(m=>m.controller==='human').length;n++){const o=el('option',`${n} bots`);o.value=String(n);select.append(o);}select.value=String(model.members.filter(m=>m.controller==='bot').length);const label=el('label','Bots');label.htmlFor=select.id;form.append(label,select,el('button','Set bots'));form.addEventListener('submit',e=>{e.preventDefault();operate({operation:'setBots',matchId:model.matchId,count:Number(select.value)});});parent.append(form);
-   const begin=button('Start',()=>operate({operation:'beginSetup',matchId:model.matchId}));begin.id='planet-begin-setup';begin.disabled=model.busy||model.members.length!==model.playerCount;parent.append(begin);if(model.members.length!==model.playerCount)parent.append(el('p',`${model.playerCount-model.members.length} more seats to fill`));
-  }
   if(['running','reading','choosing','boarding'].includes(model.status)){
    parent.append(button('Check server deadline',()=>operate({operation:'advance',matchId:model.matchId})),button('Run eligible bots',()=>operate({operation:'runBots',matchId:model.matchId})));
    const end=button(abortConfirm?'Confirm abort · No winner':'Abort match',()=>{if(!abortConfirm){abortConfirm=true;sessionKey=null;render(model);}else {abortConfirm=false;operate({operation:'abort',matchId:model.matchId});}});parent.append(end);
@@ -146,6 +113,9 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
   pregame.update(model,{visible:document.visibilityState==='visible',focused:document.hasFocus(),uid:connection.currentUid()});presentation.sync();
   if(terminalReturn)terminalReturn.hidden=!canReturnToLobby();
   const running=['running','finished'].includes(model.status),surface=model.selfSeatId?'player':'display';
+  // BEGIN pre-game connection: a pre-game screen, when the model asks for one, takes the root.
+  if(screens.sync(model)){if(key&&!running){disposeGame();key=null;}lastStatus=model.status;sessionKey=null;return;}
+  // END pre-game connection
   if(running){
    const nextKey=`${model.matchId}:${surface}:${model.selfSeatId}${planetHasFood(model.versions)?`:${connection.currentUid()}`:''}`;
    if(key!==nextKey){
@@ -176,5 +146,5 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  const artReady=()=>{sessionKey=null;if(model)render(session.getModel());};
  const concealRole=()=>{roleOpen=false;recoveryShown=false;setupSettings=false;food?.setVisible(false);session.setVisible(false);presentation.clear();};
  document.addEventListener('visibilitychange',visibility);document.addEventListener('mothership:art-ready',artReady);win.addEventListener('blur',concealRole);win.addEventListener('focus',visibility);unsubscribe=session.subscribe(render);session.setVisible(document.visibilityState==='visible');await session.start(matchId);
- return {session,artReady:Promise.all([commonArt,libraryAssets.ready,foodAssets?.load()]),get game(){return game;},get food(){return food?.controller??null;},get presentationStats(){return presentation.stats},dispose(){disposed=true;unsubscribe?.();document.removeEventListener('visibilitychange',visibility);document.removeEventListener('mothership:art-ready',artReady);win.removeEventListener('blur',concealRole);win.removeEventListener('focus',visibility);presentation.dispose();pregame.dispose();preferences.dispose();disposeGame();session.dispose();libraryAssets.dispose();foodAssets?.dispose();void connection.dispose?.();delete root.dataset.crewArt;root.replaceChildren();}};
+ return {session,artReady:Promise.all([commonArt,libraryAssets.ready,foodAssets?.load()]),get game(){return game;},get food(){return food?.controller??null;},get presentationStats(){return presentation.stats},dispose(){disposed=true;unsubscribe?.();screens.dispose();document.removeEventListener('visibilitychange',visibility);document.removeEventListener('mothership:art-ready',artReady);win.removeEventListener('blur',concealRole);win.removeEventListener('focus',visibility);presentation.dispose();pregame.dispose();preferences.dispose();disposeGame();session.dispose();libraryAssets.dispose();foodAssets?.dispose();void connection.dispose?.();delete root.dataset.crewArt;root.replaceChildren();}};
 }
