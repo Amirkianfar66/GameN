@@ -3,24 +3,26 @@
 **Status (17 November 2026):** a draft, in progress, for the Lead Designer's review, then Frontend's. It is not in the game yet.
 - Integration first approves the source fence's marked hunk and the pins that refuse the changed files (see [The gates](#the-gates)).
 - This is not a release. It is release 4 of the owner's plan of 16 November 2026 (#222; `docs/design/owner-decisions.md` at `d54c15bd`).
-- It is stacked on the [shell connection](shell-connection.md) (#307), merged at `4892423e` (#307 at `d1068424`: shell 0.2.11, kit 0.8.1, the phase bars). The parts come in by merge commits: the entry chain (#295 at `87960b65`), character selection (#292 at `a5590266`), the role stage (#268 at `c20cac9f`), boarding (#272 at `3efbd4e7`), and join and waiting again for the game's gaps (#289 at `98b67ef4`, with #287's `147a66d6`).
+- It is stacked on the [shell connection](shell-connection.md) (#307), merged last at `85054694` (#307 at `aabb4417`: shell 0.2.12, kit 0.8.2, room scene 0.5.1, the host sheet hook). The parts come in by merge commits: the entry chain (#295 at `ea7db89d`, with #294, #291, #289, #287 and #278 and their `followTextSize`, and host-controls 0.1.1), character selection (#292 at `a5590266`), the role stage (#268 at `c20cac9f`), boarding (#272 at `3efbd4e7`) and the round stamp (#288 at `8be96ef7`).
 
 **What it is:** before the match, the Planet app mounts Designer's pre-game components as they are, one at a time in its root, instead of its own forms. The look and the motion come from `design/`; the app keeps the data, the commands and the lifecycle.
 
 | Screen | Component | Sheet |
 | --- | --- | --- |
-| Main menu, with the brand film's still as its hero | `main-menu-0.1.0` (#278) | 10 |
-| Display settings, before a match | `display-settings-0.1.0` (#294) | 32 |
-| Host setup | `host-setup-0.1.1` (#287) | 11 |
-| The host's lobby | `host-lobby-0.1.2` (#287) | 11 |
-| Join, then waiting and admitted | `join-form-0.1.0`, `join-wait-0.1.1` (#289) | 12, 13 |
-| Recover, through "Seat n is yours again" | `recover-0.1.0` (#291) | 14 |
+| Main menu, with the brand film's still as its hero | `main-menu-0.1.1` (#278) | 10 |
+| Display settings, before a match | `display-settings-0.1.1` (#294) | 32 |
+| Host setup | `host-setup-0.1.2` (#287) | 11 |
+| The host's lobby | `host-lobby-0.1.3` (#287) | 11 |
+| Join, then waiting and admitted | `join-form-0.1.1`, `join-wait-0.1.2` (#289) | 12, 13 |
+| Recover, through "Seat n is yours again" | `recover-0.1.1` (#291) | 14 |
 | Character selection | `character-select-0.1.0` (#292) | 16 |
 | The role stage | `role-stage-0.1.0`, `role-card-0.1.0` (#268) | 17, 18 |
 | Boarding | `boarding-stage-0.1.0` (#272) | 19 |
 | "ROUND 1" over the room as Round 1 begins (part 9) | `round-stamp-0.1.0` (#288), on the shell's cover | 19 |
+| Settings in the match, from the top bar's ⋮ (part 8) | `display-settings-0.1.1`'s Settings sheet (#294), in the shell's sheet | 32 |
+| Host controls in the match, from Settings' Host controls row (part 8) | `host-controls-0.1.1` (#295), in the shell's sheet | 15 |
 
-**Still to come:** Settings and Host controls in the match (part 8, waiting on the Lead's sheet hook).
+The entry screens call the kit's `followTextSize` (the Lead, 17 November: main menu 0.1.1, host setup 0.1.2, the lobby 0.1.3, join 0.1.1 and 0.1.2, Recover 0.1.1, Display settings 0.1.1), accepted by the Lead; nothing of them is drawn differently.
 
 ## Files
 
@@ -31,10 +33,11 @@
 | `apps/game/hosted/planet/pregame-connection.css` | Gives the root the phone's height and canvas, and sizes the hero's still. Nothing of a component's |
 | `apps/game/hosted/planet/app.mjs` | One marked block asks the manager first; the old entry tabs and forms, the waiting branch, the choosing grid, the role card and the lobby's host controls leave `lobbyView()` |
 | `apps/game/hosted/planet/preferences.mjs` | `state()`, `setReducedMotion()`, `setTextScale()` and `subscribe()` for Display settings (G9); `get()` and `controls()` unchanged |
-| `apps/game/hosted/planet/render.mjs` | One marked block (`round stamp`): mounts the round stamp on the shell's cover as Round 1's Before turns shows the room, and disposes it (part 9) |
-| `apps/game/hosted/vite.config.mjs` | Two marked fences: `pre-game connection`, exactly the components' 22 runtime files, and `round stamp`, its 2 |
+| `apps/game/hosted/planet/match-settings.mjs` | Part 8: one Settings sheet and one Host controls per match, kept through the renderer's redraws; the shell connection's `settings(parent)` and `hostSheet` hooks; each tap to the session's existing operation |
+| `apps/game/hosted/planet/render.mjs` | One marked block (`round stamp`): mounts the round stamp on the shell's cover as Round 1's Before turns shows the room, and disposes it (part 9). The host sheet hook is the shell connection's (#307) |
+| `apps/game/hosted/vite.config.mjs` | Two marked fences: `pre-game connection`, exactly the components' 24 runtime files (Host controls' two with part 8), and `round stamp`, its 2 |
 | `apps/game/test/planet-pregame-screens.test.mjs` | The adapter's test |
-| `apps/game/dev/planet-emulator/capture.mjs` | The emulator run's pre-game steps, moved to the new screens (below) |
+| `apps/game/dev/planet-emulator/capture.mjs` | The emulator run's pre-game steps, moved to the new screens, and its recovery code through Host controls (below) |
 | `design/tools/pregame-connection-check.mjs` | The check, and its record in `design/phone-ui/review/pregame-connection/` |
 
 ## Routing
@@ -62,7 +65,7 @@ Where the game gives nothing, the input says nothing; no screen works out a rule
 | G1 | **The team mix (the Lead, 17 November: (a)).** Host setup opens with each count's `mix: null`, and no line is drawn under 7/8/9 (`host-setup-0.1.1`). The mix stays the engine's to give |
 | G2 | The bot range and "n more seats to fill" are today's arithmetic, moved into the adapter unchanged |
 | G3 | Refusals are the session's own words, shown on the screen that sent the command |
-| G4 | No recovery code length, and no seat for an issued code |
+| G4 | No recovery code length, and no seat for an issued code: the issued code's card names the seat this phone asked for (the Lead, 17 November). No `expiresAt` either, so no "Works once · n minutes" line |
 | G5 | Character selection is never drawn closed or assigned |
 | G6 | **No command to leave or withdraw (the Lead, 17 November).** The host's Leave, and waiting's Cancel, Leave and Back to menu, are passed `{ enabled: false, reason: 'Not available in this test' }` (`NO_COMMAND_REASON`): dimmed and refused by the kit's control policy, with the words as their description, and no handler. Not a button that does nothing, nor a local leave the session's resume would undo (`host-lobby-0.1.2`, `join-wait-0.1.1`) |
 | G7 | The role card's facts are null until there is accepted copy |
@@ -84,9 +87,23 @@ Designer's round stamp (#288, "ROUND 1" over the room as Round 1 begins, accepte
 - **The stamp keeps its own time:** a late phone finds its window past and draws nothing; it never advances the game, takes no taps and is hidden from assistive technology.
 - **Under the Food rules,** a match opens in Food Supply (the engine opens it at the match's creation), and Food's surface covers the shell. `roundStart()` gives nothing during Food Supply, so the stamp lands at Round 1's first Before turns, when the room first shows: about 30 s into the match, not at its start. A phone that comes back from Food's surface after the stamp's length sees no stamp. Without the Food rules, it lands at the match's start. Frontend's phone harness offers no Food rules, so the check shows the stamp at Round 1's Before turns and the late phone; the test holds that Round 1's Food Supply gives no stamp.
 
+## Settings and Host controls in the match (part 8)
+
+The match's ⋮ opens the shell's Settings sheet. Today it held the preferences' checkbox and drop-down and, for the host, buttons ("Check server deadline", "Run eligible bots", "Issue recovery for Player n", "Abort match", "Reveal recovery code"). Now:
+- **The Settings sheet** is Display settings' `mountSettingsSheet` (#294, sheet 32), through the shell connection's `settings(parent)` hook: Reduce motion, the text sizes and the note, and for the host "Host" with a Host controls row. One instance per match: each redraw of the sheet empties its body and asks again, and the same element goes back with its state and, where it had it, the focus.
+- **Host controls** (#295, sheet 15) open from that row, through the shell connection's `hostSheet` hook (the Lead's, #307 at `aabb4417`): `frame()` gives `hostControlsSheet(input)` while open, so it takes Settings' place; Back goes to Settings, ✕ closes both. It closes back when Settings isn't the open sheet.
+- **The row is offered** while the match runs, to the host, outside a blackout: today's condition. Before and after it there is nothing to send.
+- **The taps** go to the session's existing operations: `advance`, `runBots`, `issueRecovery` (with the seat), `abort` (from the confirm), and `retry` for the session's own request. One busy flag becomes one busy row (G10).
+- **The issued code** opens its card once the session holds the code it issued after this phone asked for a seat's. The card names that seat (G4, the Lead's answer). Its value reaches the page only while revealed, and leaves with the view, when concealed and when the session drops it (on hiding the page, and when another request is sent).
+- **Receipts,** in the shell's toast through `hostSheet.toast()`: a refusal or an unknown outcome in the session's own words (G3); otherwise the session's "Request registered.", which its next read clears before the app sees it. An issued code has none: its card is the receipt.
+- **Copy:** "Copied" in the toast; refused by the clipboard, "Select the code to copy." while the code stays selectable (the Lead, 17 November, the lobby's rule).
+- **Retry** (host-controls 0.1.1, the Lead's answer of 17 November): while the session's own request has an unknown outcome (a lost answer, or one restored after a reload as an exact retry), every command is refused with the session's words and the list's footer has Retry, which calls `session.retry()`. It was today's "Retry original session request", inside the old host controls.
+- **Admit leaves the match's Settings:** the server refuses admissions outside the lobby (`approveAdmission`), so the old buttons could only fail.
+- **One edge:** after a reload, a restored code request that Retry settles brings a code with no seat this phone asked for; its card doesn't open, and the host asks for a new code.
+
 ## The boundary
 
-The `BEGIN pre-game connection` / `END pre-game connection` hunk in `apps/game/hosted/vite.config.mjs` adds exactly the components' 22 runtime files to `allowedSources`: `main-menu`, `entry-parts`, `display-settings`, `host-room`, `join-room`, `recover`, `character-select`, `role-stage` and `boarding-stage`, each component's `.mjs` and `.css` and never a `preview/` or `review/`. A separate `BEGIN round stamp` / `END round stamp` hunk adds the stamp's two (part 9), as the Lead asked: a release's own mount in its own marked block. The kit, the shell and the icon family are admitted by the shell's and the room's hunks.
+The `BEGIN pre-game connection` / `END pre-game connection` hunk in `apps/game/hosted/vite.config.mjs` adds exactly the components' 24 runtime files to `allowedSources` (with part 8, Host controls' `host-controls.mjs` and `.css`): `main-menu`, `entry-parts`, `display-settings`, `host-room`, `join-room`, `recover`, `character-select`, `role-stage` and `boarding-stage`, each component's `.mjs` and `.css` and never a `preview/` or `review/`. A separate `BEGIN round stamp` / `END round stamp` hunk adds the stamp's two (part 9), as the Lead asked: a release's own mount in its own marked block. The kit, the shell and the icon family are admitted by the shell's and the room's hunks.
 
 ## The gates
 
@@ -137,6 +154,6 @@ Its in-match steps are the shell connection's: the Lead doubled them with the sh
 
 ## Open
 
-- **For the Lead:** part 8's sheet hook; G18's clock; the renewed acceptances of `host-setup-0.1.1`, `host-lobby-0.1.2` and `join-wait-0.1.1` (#287, #289).
+- **For the Lead:** host-controls 0.1.1 (Retry, #295 at `ea7db89d`); part 8's review.
 - **For Integration:** the fence hunk and the pins.
 - **For Frontend:** the review of `app.mjs`, `preferences.mjs` and the emulator run's steps.

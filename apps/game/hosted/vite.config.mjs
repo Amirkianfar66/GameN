@@ -28,7 +28,8 @@ const pregameSources = ['main-menu/main-menu.mjs', 'main-menu/main-menu.css', 'e
   'display-settings/display-settings.mjs', 'display-settings/display-settings.css', 'host-room/host-setup.mjs', 'host-room/host-lobby.mjs', 'host-room/host-room.css',
   'join-room/join-form.mjs', 'join-room/join-wait.mjs', 'join-room/join-room.css', 'recover/recover.mjs', 'recover/recover.css',
   'character-select/character-select.mjs', 'character-select/character-select.css', 'role-stage/role-stage.mjs', 'role-stage/role-card.mjs',
-  'role-stage/role-stage.css', 'role-stage/role-card.css', 'boarding-stage/boarding-stage.mjs', 'boarding-stage/boarding-stage.css']
+  'role-stage/role-stage.css', 'role-stage/role-card.css', 'boarding-stage/boarding-stage.mjs', 'boarding-stage/boarding-stage.css',
+  'host-controls/host-controls.mjs', 'host-controls/host-controls.css']
   .map(file => `design/phone-ui/components/${file}`);
 // END pre-game connection
 // BEGIN round stamp, for Integration's approval (the pre-game connection's part 9: Designer's round stamp, #288, on

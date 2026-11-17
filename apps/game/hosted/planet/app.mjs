@@ -12,6 +12,7 @@ import {createFoodAssets} from './food-assets.mjs';
 import {labelPhoneControl} from './phone-controls.mjs';
 // BEGIN pre-game connection (release 4 of the owner's plan of 16 November 2026): Designer's pre-game components.
 import {createPregameScreens} from './pregame-screens.mjs';
+import {createMatchSettings} from './match-settings.mjs';
 // END pre-game connection
 import '../comic-tokens.css';
 import '../comic.css';
@@ -43,6 +44,9 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  const commonArt=loadArt('player',document).catch(()=>{});
  let game=null,renderer=null,gameRoot=null,terminalReturn=null,key=null,model=null,disposed=false,hostOpen=false,abortConfirm=false,unsubscribe=null,roleOpen=false,lastStatus=null,sessionKey=null;
  let setupSettings=false,recoveryShown=false,hostState=null,food=null,foodPublic=null,foodAssets=null;
+ // BEGIN pre-game connection (part 8): the match's Settings sheet and Host controls, one manager per match.
+ let matchSettings=null;
+ // END pre-game connection
  const entryDraft={roomCode:'',displayName:'',kind:'player'};
  // BEGIN pre-game connection: the menu, Display settings, host, join, recover, characters, the role stage and boarding.
  const screens=createPregameScreens(root,{session,preferences,draft:entryDraft,hooks:{
@@ -99,7 +103,7 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
   if(model.recoveryCode){const recovery=el('section');recovery.className='planet-recovery-secret';recovery.setAttribute('aria-label','Private seat recovery');const match=el('p',`Match ID: ${model.matchId}`);match.id='planet-issued-match-id';recovery.append(match,button(recoveryShown?'Hide recovery code':'Reveal recovery code',()=>{recoveryShown=!recoveryShown;sessionKey=null;renderer?.settingsChanged();if(!game)render(model);}));if(recoveryShown){const code=el('p',model.recoveryCode);code.id='planet-issued-recovery-code';recovery.append(code);}parent.append(recovery);}
  }
  function updateTimer(){const t=document.getElementById('planet-setup-timer');if(t)t.textContent=model.remainingMs===null?'':model.status==='reading'?model.remainingMs>0?model.setupFlowVersion===3&&model.setupClock.status==='synced'?`${model.setupClock.serverNowMs<model.setup.roleFilmStartsAt?'Role card':'Role film'} · ${Math.ceil(model.remainingMs/1000)}s`:`Read for ${Math.ceil(model.remainingMs/1000)}s`:'Ready when you are':`${Math.ceil(model.remainingMs/1000)}s`;}
- function disposeGame(){food?.dispose();food=null;foodPublic?.dispose();foodPublic=null;renderer?.dispose();renderer=null;game?.dispose();game=null;terminalReturn=null;}
+ function disposeGame(){matchSettings?.dispose();matchSettings=null;/* part 8 */food?.dispose();food=null;foodPublic?.dispose();foodPublic=null;renderer?.dispose();renderer=null;game?.dispose();game=null;terminalReturn=null;}
  function connectFood(surface){
   if(!planetHasFood(model.versions))return;
   if(surface==='display'){const host=el('div');gameRoot.append(host);foodPublic=mountFoodPublic(host,game);return;}
@@ -122,20 +126,27 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
     disposeGame();root.className='planet-container';root.replaceChildren();gameRoot=el('div');root.append(gameRoot);key=nextKey;
     game=createPlanetController(session.gameTransport(surface),ports,{matchId:model.matchId,surface});terminalReturn=returnButton();terminalReturn.hidden=true;
     // The shell's Retry reads the session again at once, as the lobby's Reconnect does.
+    // BEGIN pre-game connection (part 8): Designer's Settings sheet (#294) and Host controls (#295) in the shell's sheet.
+    matchSettings=createMatchSettings({session,preferences,game,win,rerender:()=>renderer?.settingsChanged()});
+    // END pre-game connection
     renderer=mountPlanetRenderer(gameRoot,game,{cinematics:planetHasLibraryArt(model.versions)?PLANET_LIBRARY_MEDIA:[],terminalAction:terminalReturn,reconnect:()=>void session.refresh(),
      food:planetHasFood(model.versions)?{openTasks:()=>food?.openTasks()}:null,
-     settings:parent=>{preferences.controls(parent);if(model.isHost&&!game?.getModel().dark)hostControls(parent);}});
+     // BEGIN pre-game connection (part 8): today's controls and host buttons leave the match's Settings.
+     settings:parent=>matchSettings?.settings(parent),hostSheet:matchSettings?.hostSheet});
+     // END pre-game connection
     connectFood(surface);void game.start();
    }
    food?.refresh();
-   const nextHostState=JSON.stringify([model.isHost,model.busy,model.uncertain,model.recoveryCode,model.pendingAdmissions,model.status,abortConfirm]);if(nextHostState!==hostState){hostState=nextHostState;recoveryShown=false;renderer?.settingsChanged();}return;
+   // BEGIN pre-game connection (part 8): Host controls follow the session (the receipt, the issued code, each row's state).
+   matchSettings?.sync();return;
+   // END pre-game connection
   }
   // A stale/hidden session does not discard a command's controller or recovery identifiers.
   if(game&&renderer&&(model.connection!=='live'||model.status===null&&model.matchId!==null)){root.querySelector('.planet-host-menu')?.remove();return;}
   if(model.status==='aborted'&&hasCommandRecovery()){
    // An abort closes gameplay, but the original command receipt remains readable.
    // Keep its controller, or reconstruct it from UID-bound identifiers after reload.
-   food?.detach();foodPublic?.dispose();foodPublic=null;renderer?.dispose();renderer=null;terminalReturn=null;
+   food?.detach();foodPublic?.dispose();foodPublic=null;matchSettings?.dispose();matchSettings=null;/* part 8 */renderer?.dispose();renderer=null;terminalReturn=null;
    if(!game){key=`${model.matchId}:${surface}:${model.selfSeatId}`;gameRoot=el('div');game=createPlanetController(session.gameTransport(surface),ports,{matchId:model.matchId,surface});connectFood(surface);food?.detach();void game.start();}
   }else if(key){disposeGame();key=null;}
   if(lastStatus!==model.status){roleOpen=false;lastStatus=model.status;}

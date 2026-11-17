@@ -9,6 +9,8 @@ import {nextHostLobbyInput,HOST_LOBBY_DEFAULTS} from '../../../design/phone-ui/c
 import {nextHostSetupInput,HOST_SETUP_DEFAULTS} from '../../../design/phone-ui/components/host-room/host-setup.mjs';
 import {nextRoundStampInput,ROUND_STAMP_DEFAULTS} from '../../../design/phone-ui/components/round-stamp/round-stamp.mjs';
 import {roundStart} from '../hosted/planet/shell-input.mjs';
+import {HOST_COMMANDS,createHostUi,hostControlsOffered,settingsSheetInput,hostControlsInput,hostReceipt} from '../hosted/planet/pregame-input.mjs';
+import {nextHostControlsInput,hostControlsSheet,HOST_CONTROLS_DEFAULTS,CODE_MASK} from '../../../design/phone-ui/components/host-controls/host-controls.mjs';
 import {nextJoinFormInput,JOIN_FORM_DEFAULTS} from '../../../design/phone-ui/components/join-room/join-form.mjs';
 import {nextJoinWaitInput,JOIN_WAIT_DEFAULTS} from '../../../design/phone-ui/components/join-room/join-wait.mjs';
 import {nextRecoverInput,RECOVER_DEFAULTS} from '../../../design/phone-ui/components/recover/recover.mjs';
@@ -242,4 +244,76 @@ test('the round stamp (part 9): Round 1\'s Before turns over the room, with the 
  // No trusted clock: mounted, with none, so the stamp draws nothing. The shell's status goes as it is.
  for(const status of ['live','stale','concealed'])nextRoundStampInput(ROUND_STAMP_DEFAULTS,roundStampInput(moment,{clock:null,status,reducedMotion:true,room:true}));
  assert.equal(roundStampInput(moment,{clock:undefined,status:'stale',reducedMotion:true,room:true}).clock,null);
+});
+
+// ── In the match: Settings and Host controls (part 8) ─────────────────────────────────────────────
+
+const running=(over={})=>model({status:'running',isHost:true,selfSeatId:'seat-1',...over});
+const gameView=(over={})=>({surface:'player',ownSeatId:'seat-1',connection:'live',concealed:false,dark:false,panel:'settings',versions:{assetManifestVersion:'design-0.8.0'},...over});
+const hostUi=(over={})=>Object.assign(createHostUi(),over);
+
+test('Settings in the match: Display settings\' input, and the Host controls row only for the host while the match runs, outside a blackout',()=>{
+ const input=settingsSheetInput(prefs,{host:true});
+ assert.deepEqual(input,{...displayInput(prefs),hostControls:{enabled:true,reason:null}});
+ assert.equal(nextDisplaySettingsInput(DISPLAY_SETTINGS_DEFAULTS,input).hostControls.enabled,true);
+ assert.equal(settingsSheetInput(prefs).hostControls,null);
+ assert.equal(hostControlsOffered(running(),gameView()),true);
+ assert.equal(hostControlsOffered(running({isHost:false}),gameView()),false,'not the host');
+ assert.equal(hostControlsOffered(running({status:'finished'}),gameView()),false,'the match is over: no command to send');
+ assert.equal(hostControlsOffered(running(),gameView({dark:true})),false,'today\'s blackout hides them');
+ assert.equal(hostControlsOffered(running(),null),false);
+});
+
+test('Host controls: the four commands while the session is free, only the one sent busy (G10); the seats are today\'s human members, by seat',()=>{
+ const free=hostControlsInput(running(),gameView(),hostUi());
+ const checked=nextHostControlsInput(HOST_CONTROLS_DEFAULTS,free);
+ assert.equal(checked.status,'live');assert.equal(checked.viewer,'seat-1');
+ for(const name of ['deadline','bots','abort'])assert.deepEqual(free[name],{enabled:true,busy:false,reason:null},name);
+ assert.deepEqual(free.seats.map(s=>[s.seat,s.name,s.character,s.enabled]),[[1,'Crew 1','c1',true],[2,'Crew 2','c2',true],[3,'Crew 3','c3',true]],'humans only; bots have no code');
+ assert.equal(free.code,null);
+ const bots=hostControlsInput(running({busy:true}),gameView(),hostUi({lastOp:'runBots'}));
+ assert.deepEqual(bots.bots,{enabled:false,busy:true,reason:null});
+ assert.deepEqual(bots.deadline,{enabled:false,busy:false,reason:null},'the session sends one at a time');
+ const issuing=hostControlsInput(running({busy:true}),gameView(),hostUi({lastOp:'issueRecovery',asked:{seat:2}}));
+ assert.deepEqual(issuing.seats.map(s=>s.busy),[false,true,false],'only the seat asked for');
+ // The session's uncertain request refuses them all with its own words; reconnecting and hidden are the shell's.
+ const unsure=hostControlsInput(running({uncertain:true,message:'Session request outcome unknown. Retry the original request.'}),gameView(),hostUi());
+ assert.equal(unsure.abort.reason,'Session request outcome unknown. Retry the original request.');assert.equal(unsure.abort.enabled,false);
+ // Retry (host-controls 0.1.1; the Lead's answer of 17 November): only while the session's own request waits, busy while it is sent again.
+ assert.deepEqual(unsure.retry,{enabled:true,busy:false});
+ assert.equal(free.retry,null);
+ assert.deepEqual(hostControlsInput(running({uncertain:true,busy:true,message:'x'}),gameView(),hostUi()).retry,{enabled:false,busy:true});
+ assert.equal(hostControlsInput(running({connection:'stale'}),gameView(),hostUi()).status,'stale');
+ assert.equal(hostControlsInput(running(),gameView({connection:'stale'}),hostUi()).status,'stale');
+ assert.equal(hostControlsInput(running(),gameView({concealed:true}),hostUi()).status,'concealed');
+ assert.equal(hostControlsInput(running(),gameView({surface:'display'}),hostUi()).viewer,null);
+ assert.deepEqual(HOST_COMMANDS,['advance','runBots','issueRecovery','abort']);
+});
+
+test('Host controls: the issued code is the session\'s, for the seat this phone asked (G4), with no minutes; its value only while revealed, never hidden or concealed',()=>{
+ const session=running({recoveryCode:'SYNTHETIC-RECOVERY-CODE'});
+ const hidden=hostControlsInput(session,gameView(),hostUi({view:'code',asked:{seat:2}}));
+ assert.deepEqual(hidden.code,{seat:2,name:'Crew 2',matchId:'match-1',revealed:false,value:null,minutes:null});
+ assert.equal(nextHostControlsInput(HOST_CONTROLS_DEFAULTS,hidden).code.value,null);
+ assert.deepEqual(hostControlsSheet(hidden).actions.map(a=>a.id),['reveal','copy']);
+ const shownCode=hostControlsInput(session,gameView(),hostUi({view:'code',asked:{seat:2},revealed:true}));
+ assert.equal(shownCode.code.value,'SYNTHETIC-RECOVERY-CODE');
+ assert.deepEqual(hostControlsSheet(shownCode).actions.map(a=>a.id),['hide','copy']);
+ assert.equal(hostControlsInput(session,gameView({concealed:true}),hostUi({view:'code',asked:{seat:2},revealed:true})).code,null,'concealed: no code');
+ assert.equal(hostControlsInput(session,gameView(),hostUi({view:'list',asked:{seat:2},revealed:true})).code,null,'only in its card');
+ assert.equal(hostControlsInput(running(),gameView(),hostUi({view:'code',asked:{seat:2}})).code,null,'no code held');
+ assert.equal(hostControlsInput(session,gameView(),hostUi({view:'code',asked:null})).code,null,'not one this phone asked for');
+ assert.equal(JSON.stringify(hidden).includes('SYNTHETIC'),false,'hidden, the input never holds it');
+ assert.equal(CODE_MASK.includes('S'),false);
+});
+
+test('Host controls\' receipts: the session\'s own words for what this sheet sent, once it settles; none for an issued code',()=>{
+ assert.deepEqual(hostReceipt(running({message:REGISTERED}),hostUi({lastOp:'advance'})),{text:REGISTERED,icon:'check'});
+ assert.deepEqual(hostReceipt(running({message:null}),hostUi({lastOp:'advance'})),{text:REGISTERED,icon:'check'},'its next read clears the word');
+ assert.deepEqual(hostReceipt(running({uncertain:true,message:'Session request outcome unknown. Retry the original request.'}),hostUi({lastOp:'abort'})),{text:'Session request outcome unknown. Retry the original request.',icon:'info'});
+ assert.deepEqual(hostReceipt(running({message:'That operation is not currently allowed.'}),hostUi({lastOp:'runBots'})),{text:'That operation is not currently allowed.',icon:'info'});
+ assert.equal(hostReceipt(running({message:REGISTERED}),hostUi({lastOp:'issueRecovery'})),null,'its card is the receipt');
+ assert.deepEqual(hostReceipt(running({message:'The session request was refused.'}),hostUi({lastOp:'issueRecovery'})),{text:'The session request was refused.',icon:'info'});
+ assert.equal(hostReceipt(running({busy:true,message:REGISTERED}),hostUi({lastOp:'abort'})),null,'still in flight');
+ assert.equal(hostReceipt(running({message:REGISTERED}),hostUi({lastOp:'create'})),null,'not this sheet\'s');
 });

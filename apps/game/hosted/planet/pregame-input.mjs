@@ -241,3 +241,61 @@ export function roundStampInput(moment,{clock=null,status,reducedMotion,room}){
  if(!moment||!room)return null;
  return {round:moment.round,window:{id:moment.window.id,startedAt:moment.window.startedAt},clock:clock??null,status,reducedMotion:!!reducedMotion};
 }
+
+// ── In the match: Settings and Host controls (part 8) ───────────────────────────────────────────────
+
+/** A copy the clipboard refused: the code stays selectable while revealed (the Lead, 17 November; the lobby's rule). */
+export const COPY_REFUSED='Select the code to copy.';
+/** The session commands Host controls sends; one busy flag becomes one busy row (G10). */
+export const HOST_COMMANDS=Object.freeze(['advance','runBots','issueRecovery','abort']);
+
+/** This phone's local state for Host controls: open or not, the view, the seat a code was asked for, and Reveal. */
+export function createHostUi(){
+ return {open:false,view:'list',lastOp:null,asked:null,revealed:false};
+}
+
+/**
+ * Whether the host has Host controls now: today's condition (the host, outside a blackout) while the match runs.
+ * Before and after it there is no command for them to send.
+ */
+export const hostControlsOffered=(session,game)=>!!session?.isHost&&session.status==='running'&&!!game&&!game.dark;
+
+/** The Settings sheet's content: Display settings' input, and the Host controls row for the host (#294's hostControls). */
+export function settingsSheetInput(prefs,{host=false}={}){
+ return {...displayInput(prefs),hostControls:host?{enabled:true,reason:null}:null};
+}
+
+/**
+ * Host controls' input (#295) from the session, the game's view and this phone's state. Each command is offered
+ * while the session is free (today's operate() sends nothing while busy or uncertain); only the one this phone
+ * sent is busy. While the session's request is uncertain, the commands are refused with the session's own words.
+ * Reconnecting and concealed are the shell's status; the component refuses the commands with the banner's words.
+ * The seats are today's: the human members. The issued code is the one the session holds after this phone asked
+ * for a seat's (the session keeps no seat for it, G4) and no expiry, so no minutes; its value only while revealed.
+ * While the session's own request has an unknown outcome, Retry sends it again (host-controls 0.1.1; the Lead's answer
+ * of 17 November): today's in-match Retry, which was in the old host controls.
+ */
+export function hostControlsInput(session,game,ui,{reducedMotion=false}={}){
+ const free=!session.busy&&!session.uncertain,reason=session.uncertain?session.message:null;
+ const command=(op,busy=busyWith(session,ui,op))=>control(free,busy,reason);
+ const seats=session.members.filter(member=>member.controller==='human').map(member=>({seat:seatNumber(member.seatId),name:member.displayName,character:member.characterId??null}))
+  .sort((a,b)=>a.seat-b.seat).map(seat=>({...seat,...command('issueRecovery',busyWith(session,ui,'issueRecovery')&&ui.asked?.seat===seat.seat)}));
+ const asked=ui.asked&&seats.find(seat=>seat.seat===ui.asked.seat);
+ const status=game.concealed?'concealed':game.connection==='live'&&session.connection==='live'?'live':'stale';
+ const code=ui.view==='code'&&asked&&session.recoveryCode&&!session.busy&&status!=='concealed'?
+  {seat:asked.seat,name:asked.name,matchId:session.matchId,revealed:ui.revealed,value:ui.revealed?session.recoveryCode:null,minutes:null}:null;
+ return {view:ui.view,status,interactive:true,reducedMotion:!!reducedMotion,viewer:game.surface==='player'?game.ownSeatId??null:null,versions:game.versions??null,
+  deadline:command('advance'),bots:command('runBots'),abort:command('abort'),seats,code,
+  retry:session.uncertain?{enabled:!session.busy,busy:session.busy}:null};
+}
+
+/**
+ * A receipt for the command this sheet sent, once the session has settled it, in the shell's toast: a refusal or an
+ * unknown outcome in the session's own words (G3); otherwise the session's word for a registered request, which its
+ * next read clears before the app sees it. An issued code has none: its card is the receipt.
+ */
+export function hostReceipt(session,ui){
+ if(!HOST_COMMANDS.includes(ui.lastOp)||session.busy)return null;
+ if(session.uncertain||(session.message&&session.message!==REGISTERED))return session.message?{text:session.message,icon:'info'}:null;
+ return ui.lastOp==='issueRecovery'?null:{text:REGISTERED,icon:'check'};
+}

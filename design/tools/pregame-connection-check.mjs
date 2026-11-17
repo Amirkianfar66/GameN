@@ -154,6 +154,37 @@ const LOOK = `(() => {
   };
 })()`;
 
+/** In the match (part 8): the shell's open sheet, its words and controls, the code's card, the toast and the focus. */
+const SHEET = `(() => {
+  const sheet = document.querySelector('.ms-phone-shell .ms-ps-sheet');
+  const text = n => n ? n.textContent.replace(/\\s+/g, ' ').trim() : null;
+  const reason = n => (id => id ? text(document.getElementById(id)) : null)(n.getAttribute('aria-describedby'));
+  const control = n => ({ label: n.getAttribute('aria-label') ?? text(n), intent: n.dataset.intent ?? null, value: n.dataset.value ?? null,
+    disabled: n.getAttribute('aria-disabled') === 'true' || !!n.disabled, busy: n.getAttribute('aria-busy') === 'true', reason: reason(n) });
+  const title = sheet?.querySelector('.ms-ps-sheet-title');
+  return {
+    open: !!sheet, title: text(title?.firstChild), sub: text(title?.lastChild) || null, words: (text(sheet?.querySelector('.ms-ps-sheet-body')) ?? '').slice(0, 500),
+    controls: sheet ? [...sheet.querySelectorAll('[data-intent]')].filter(n => n.getClientRects().length).map(control) : [],
+    settings: !!sheet?.querySelector('.ms-settings-sheet'), host: !!sheet?.querySelector('.ms-host-controls'),
+    card: text(sheet?.querySelector('.ms-hc-card-label')), matchId: text(sheet?.querySelector('.ms-hc-match-id')), code: text(sheet?.querySelector('.ms-hc-code')),
+    revealed: sheet?.querySelector('.ms-hc-code')?.hasAttribute('data-revealed') ?? null,
+    toast: text(document.querySelector('.ms-phone-shell .ms-ps-toast')),
+    focus: document.activeElement?.dataset?.intent ?? null, focusValue: document.activeElement?.dataset?.value ?? null,
+    secretInPage: document.documentElement.outerHTML.includes('SYNTHETIC-RECOVERY-CODE'),
+    old: document.querySelectorAll('.planet-display-settings, .planet-recovery-secret, #planet-issued-match-id, #planet-issued-recovery-code').length
+      + [...document.querySelectorAll('button')].filter(b => /^(Issue recovery for|Check server deadline|Run eligible bots|Confirm abort|Reveal recovery code|Retry original session)/.test(b.textContent)).length,
+    sent: (window.planetHarness?.requests ?? []).filter(r => !['read', 'receipt', 'command'].includes(r.operation)).map(r => r.operation + (r.seatId ? ':' + r.seatId : '')),
+    fontSize: getComputedStyle(document.documentElement).fontSize, matchIdOfSession: window.planetHarness?.app.session.getModel().matchId ?? null,
+  };
+})()`;
+const sheetSays = (x, intent, value = null) => x.controls.find(c => c.intent === intent && (value === null || c.value === String(value)));
+const offered = (x, intent, value = null) => !!sheetSays(x, intent, value) && !sheetSays(x, intent, value).disabled;
+const MASK = '•••••• •••••• •••••• •••••• ••••••';
+/** The host in the running match: the harness's board, this phone the host, with three human seats for a code. */
+const asHost = serve$("v.isHost=true;for(const n of [0,2])v.members[n].controller='human'");
+/** A redraw of the renderer's sheet: the server's next view of the same phase. */
+const redraw = serve$("v.playerView.viewRevision+=1;v.publicView=h.publicPlanet(v.playerView)");
+
 const labels = s => s.buttons.map(b => b.label);
 const button = (s, label) => s.buttons.find(b => b.label === label || b.label?.startsWith(label));
 
@@ -374,6 +405,113 @@ const STATES = {
     after: async page => {
       const late = await page.evaluate("(() => { const mark = document.querySelector('.ms-round-stamp .ms-rs-mark'); return { animations: mark.getAnimations().length, opacity: Number(getComputedStyle(mark).opacity), count: document.querySelectorAll('.ms-round-stamp').length }; })()");
       return { mounted: late.count === 1, nothingDrawn: late.animations === 0 && late.opacity < 0.05 };
+    } },
+  // In the match (part 8): ⋮ opens Settings, Display settings' sheet content in the shell's sheet, with the host's row.
+  settings: { url: 'scenario=board', inMatch: true, steps: async page => {
+      await page.waitFor(`${H}.app.game?.getModel().connection==='live'&&!!document.querySelector('.ms-phone-shell .ms-ps-tb')`, 'the match\'s shell');
+      await page.evaluate(asHost);
+      await page.waitFor(`${SESSION}.getModel().isHost`, 'this phone the host');
+      await page.evaluate(tap('.ms-ps-tb [data-intent="menu"]'));
+      await page.waitFor("!!document.querySelector('.ms-ps-sheet .ms-settings-sheet')", 'the Settings sheet');
+    },
+    extra: page => page.evaluate(SHEET),
+    facts: (s, looks, x) => ({ title: x.title === 'Settings', sheet: x.settings && !x.host, display: /Display/.test(x.words) && /Reduce motion/.test(x.words) && /Films become stills/.test(x.words),
+      sizes: [1, 1.5, 2].every(v => !!sheetSays(x, 'text-size', v)), note: /These stay on this phone\. They never change the match\./.test(x.words),
+      hostRow: /Host/.test(x.words) && offered(x, 'host-controls') && /Bots, deadlines, recovery, abort/.test(x.words), noOldControls: x.old === 0, nothingSent: x.sent.length === 0 }),
+    after: async page => {
+      // The text size is this phone's; a redraw of the sheet keeps the same element and the focus on Largest.
+      await page.evaluate("(()=>{const r=document.querySelector('.ms-settings-sheet');r.dataset.checkMark='1';const b=r.querySelector('[data-intent=\"text-size\"][data-value=\"2\"]');b.focus();b.click();return true;})()");
+      await page.waitFor("getComputedStyle(document.documentElement).fontSize==='32px'", 'the Largest text applied');
+      await page.evaluate(redraw);
+      await sleep(400);
+      const kept = await page.evaluate(SHEET);
+      const same = await page.evaluate("document.querySelectorAll('.ms-settings-sheet').length===1&&document.querySelector('.ms-settings-sheet').dataset.checkMark==='1'");
+      await page.evaluate(tap('.ms-settings-sheet [data-intent="text-size"][data-value="1"]'));
+      await page.waitFor("getComputedStyle(document.documentElement).fontSize==='16px'", 'the Standard text again');
+      return { largest: kept.fontSize === '32px', stored: await page.evaluate("JSON.parse(localStorage.getItem('mothership:planet:presentation-preferences')).textScale===1"),
+        oneInstance: same, focusKept: kept.focus === 'text-size' && kept.focusValue === '2' };
+    } },
+  'host-controls': { from: 'settings', inMatch: true, steps: async page => {
+      await page.evaluate(tap('.ms-settings-sheet [data-intent="host-controls"]'));
+      await page.waitFor("!!document.querySelector('.ms-ps-sheet .ms-host-controls')", 'Host controls');
+    },
+    extra: page => page.evaluate(SHEET),
+    facts: (s, looks, x) => ({ title: x.title === 'Host controls', back: !!sheetSays(x, 'sheet-back'), close: !!sheetSays(x, 'sheet-close'),
+      commands: offered(x, 'deadline') && offered(x, 'bots') && offered(x, 'abort-ask') && /Check the deadline/.test(x.words) && /Run bots/.test(x.words) && /Abort match/.test(x.words),
+      seats: x.controls.filter(c => c.intent === 'issue-recovery').map(c => c.value).join() === '1,3,6' && /1 · Crew 1/.test(x.words) && /6 · Crew 6/.test(x.words) && /New code/.test(x.words),
+      noCode: x.code === null && !x.secretInPage, noOldControls: x.old === 0 }),
+    after: async page => {
+      // Check the deadline: the session's advance, and its receipt in the shell's toast, in the session's words.
+      await page.evaluate(tap('.ms-host-controls [data-intent="deadline"]'));
+      await page.waitFor("!!document.querySelector('.ms-phone-shell .ms-ps-toast')&&/Request registered/.test(document.querySelector('.ms-phone-shell .ms-ps-toast').textContent)", 'the receipt', 4000);
+      const x = await page.evaluate(SHEET);
+      // The toast goes by itself before the next state, so it doesn't lie over that state's title.
+      await page.waitFor("!document.querySelector('.ms-phone-shell .ms-ps-toast')", 'the toast gone', 6000);
+      return { deadlineSent: x.sent.includes('advance'), receipt: x.toast === 'Request registered.' };
+    } },
+  'host-code': { from: 'host-controls', inMatch: true, steps: async page => {
+      await page.evaluate(tap('.ms-host-controls [data-intent="issue-recovery"][data-value="6"]'));
+      await page.waitFor("!!document.querySelector('.ms-ps-sheet .ms-hc-code')&&!document.querySelector('.ms-ps-sheet .ms-hc-card').hidden", 'the issued code\'s card', 4000);
+    },
+    extra: page => page.evaluate(SHEET),
+    facts: (s, looks, x) => ({ title: x.title === 'Recovery code' && x.sub === 'Private to this phone', issued: x.sent.includes('issueRecovery:seat-6'),
+      card: x.card === 'Recovery for Player 6 · Crew 6' && x.matchId === x.matchIdOfSession, masked: x.code === MASK && x.revealed === false && !x.secretInPage,
+      note: /Show it only to Player 6\. It never appears on the shared display\./.test(x.words), noMinutes: !/Works once/.test(x.words),
+      footer: offered(x, 'sheet-local', 'reveal') && offered(x, 'sheet-local', 'copy') }) },
+  'host-code-revealed': { from: 'host-code', inMatch: true, steps: async page => {
+      await page.evaluate(tap('.ms-ps-sheet [data-intent="sheet-local"][data-value="reveal"]'));
+      await page.waitFor("document.querySelector('.ms-ps-sheet .ms-hc-code')?.hasAttribute('data-revealed')", 'the code revealed');
+    },
+    extra: page => page.evaluate(SHEET),
+    facts: (s, looks, x) => ({ revealed: x.code === 'SYNTHETIC-RECOVERY-CODE' && x.revealed === true, footer: offered(x, 'sheet-local', 'hide') && offered(x, 'sheet-local', 'copy') }),
+    after: async page => {
+      // Copy: this phone's clipboard (the check's stand-in records it), and the pack's "Copied" in the shell's toast.
+      await page.evaluate("(()=>{Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async t=>{window.__copied=t;}}});return true;})()");
+      await page.evaluate(tap('.ms-ps-sheet [data-intent="sheet-local"][data-value="copy"]'));
+      await page.waitFor("document.querySelector('.ms-phone-shell .ms-ps-toast')?.textContent.trim()==='Copied'", 'Copied', 4000);
+      const copied = await page.evaluate("window.__copied==='SYNTHETIC-RECOVERY-CODE'");
+      await page.evaluate("delete window.__copied");
+      // A copy the clipboard refuses: the code stays selectable while revealed, and the toast says so (the Lead, 17 November).
+      await page.waitFor("!document.querySelector('.ms-phone-shell .ms-ps-toast')", 'the toast gone', 6000);
+      await page.evaluate("(()=>{Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async()=>{throw new Error('refused');}}});return true;})()");
+      await page.evaluate(tap('.ms-ps-sheet [data-intent="sheet-local"][data-value="copy"]'));
+      await page.waitFor("document.querySelector('.ms-phone-shell .ms-ps-toast')?.textContent.trim()==='Select the code to copy.'", 'the refused copy\'s words', 4000);
+      const refusedCopy = await page.evaluate("document.querySelector('.ms-ps-sheet .ms-hc-code')?.hasAttribute('data-revealed')&&getComputedStyle(document.querySelector('.ms-ps-sheet .ms-hc-code')).userSelect!=='none'");
+      await page.waitFor("!document.querySelector('.ms-phone-shell .ms-ps-toast')", 'the toast gone', 6000);
+      // Hide: the dots again, and the code leaves the page; Back: the list, with no card.
+      await page.evaluate(tap('.ms-ps-sheet [data-intent="sheet-local"][data-value="hide"]'));
+      await page.waitFor("!document.querySelector('.ms-ps-sheet .ms-hc-code')?.hasAttribute('data-revealed')", 'the code hidden');
+      const hidden = await page.evaluate(SHEET);
+      await page.evaluate(tap('.ms-ps-sheet [data-intent="sheet-back"]'));
+      await page.waitFor("!!document.querySelector('.ms-ps-sheet .ms-host-controls [data-intent=\"deadline\"]')", 'back to the list');
+      const list = await page.evaluate(SHEET);
+      // The toast goes by itself before the next state, so it doesn't lie over that state's title.
+      await page.waitFor("!document.querySelector('.ms-phone-shell .ms-ps-toast')", 'the toast gone', 6000);
+      return { copied, toast: true, refusedCopy, hidden: hidden.code === MASK && !hidden.secretInPage, backToList: list.title === 'Host controls' && list.code === null && !list.secretInPage };
+    } },
+  'host-abort': { from: 'host-code-revealed', inMatch: true, steps: async page => {
+      await page.evaluate(tap('.ms-host-controls [data-intent="abort-ask"]'));
+      await page.waitFor("!!document.querySelector('.ms-ps-sheet .ms-hc-confirm')", 'the abort\'s confirm');
+    },
+    extra: page => page.evaluate(SHEET),
+    facts: (s, looks, x) => ({ title: x.title === 'Host controls', confirm: /Abort the match\?/.test(x.words) && /It ends now for everyone, with no winner\./.test(x.words),
+      footer: offered(x, 'sheet-local', 'keep') && offered(x, 'sheet-action', 'abort'), notSent: !x.sent.includes('abort') }),
+    after: async page => {
+      // Keep playing goes back to the list; the confirm's Abort match sends the session's abort.
+      await page.evaluate(tap('.ms-ps-sheet [data-intent="sheet-local"][data-value="keep"]'));
+      await page.waitFor("!!document.querySelector('.ms-ps-sheet .ms-host-controls [data-intent=\"deadline\"]')", 'the list again');
+      const kept = await page.evaluate(SHEET);
+      await page.evaluate(tap('.ms-host-controls [data-intent="abort-ask"]'));
+      await page.waitFor("!!document.querySelector('.ms-ps-sheet .ms-hc-confirm')", 'the confirm again');
+      await page.evaluate(tap('.ms-ps-sheet [data-intent="sheet-action"][data-value="abort"]'));
+      await page.waitFor(`${H}.requests.some(r=>r.operation==='abort')`, 'the abort sent', 4000);
+      // Close: the sheet closes; ⋮ opens Settings again, not Host controls.
+      await page.evaluate(tap('.ms-ps-sheet [data-intent="sheet-close"]'));
+      await page.waitFor("!document.querySelector('.ms-ps-sheet .ms-host-controls')", 'the sheet closed');
+      await page.evaluate(tap('.ms-ps-tb [data-intent="menu"]'));
+      await page.waitFor("!!document.querySelector('.ms-ps-sheet .ms-settings-sheet')", 'Settings again');
+      const again = await page.evaluate(SHEET);
+      return { keepBack: !kept.sent.includes('abort') && kept.title === 'Host controls', abortSent: true, reopensSettings: again.settings && !again.host && again.title === 'Settings' };
     } },
 };
 
