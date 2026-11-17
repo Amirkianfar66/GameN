@@ -106,13 +106,12 @@ The states: the menu (after today's brand intro); Display settings, where Larges
 - The role stage: the run taps Show role, as the old run tapped Reveal, where the session hasn't shown the role (the setup flows before 3; flow 3 shows it by itself). The pack has no conceal toggle (G17), so the non-phone run's case `human-reading-concealed` becomes `human-reading-card`, and the phone run's `explicit-conceal-after-foreground` goes: it checks instead that a fresh foreground shows the role again.
 - Ready on the role stage; Recover by its two boxes, Recover seat, then Continue.
 
-Its in-match steps use the ids the shell connection replaced (`#planet-top-settings`, `#planet-nav-card`, `#planet-close`): they are the shell connection's and part 8's.
+Its in-match steps are the shell connection's: the Lead doubled them with the shell's controls (#307 at `03119bd7`), merged here at `60053bb7`, where the two sides' lines met in one conflict, each keeping its own.
 
-**Run here** (17 November), with CI's step: `firebase emulators:exec --only auth,firestore,functions` with CI's environment (`MOTHERSHIP_PLANET_ASSET_MANIFEST_VERSION=design-0.6.0`), after `npm run build` and the emulator preview's Vite build, on `4892423e` with this script:
-- **Passed:** `host-created`, `display-pending`, `display-admitted`, `human-character-selected`, `human-reading-card`, `human-running` and `public-running`: the whole pre-game half, from the menu to both phones' running match.
-- **Then it stops** at the in-match step, `host.tap('#planet-top-settings')` ("Timed out waiting for: usable native control"), as it does on the shell connection.
-- **Recover**, which comes after that step, was run with a local copy that issued the code by `session.operate({ operation: 'issueRecovery' })` instead of the in-match sheet (not committed): the menu's Recover, the two boxes, Recover seat and Continue reached the running match in the same seat, with `redeemRecovery` accepted and no admission left. The copy then failed only on its own stand-in for the Card tab (`privateArea` is filled once the Card tab opens).
-- The emulators also log "Planet deadline has not elapsed" from the deadline task while a stage runs; the run doesn't depend on it.
+**Run here** (17 November), with CI's step (`firebase emulators:exec --only auth,firestore,functions`, `MOTHERSHIP_PLANET_ASSET_MANIFEST_VERSION=design-0.6.0`), after `npm run build` and the emulator preview's Vite build:
+- **On `60053bb7`: 9 of 9 passed**, end to end: `host-created`, `display-pending`, `display-admitted`, `human-character-selected`, `human-reading-card`, `human-running`, `public-running`, `recovered-member-running` and `old-identity-revoked`. No manual advance or bot call, no runtime error, and the storage check on all four identities passed.
+- Before the Lead's in-match steps, on `4892423e`, the first seven passed and the run stopped at today's `#planet-top-settings`; Recover was then checked with a local copy that issued the code by `session.operate` (not committed).
+- The emulators log "Planet deadline has not elapsed" from the deadline task while a stage runs; the run doesn't depend on it.
 
 ### Not run
 
