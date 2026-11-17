@@ -206,7 +206,9 @@ It is a larger-text fix, not a sheet change: the sheets are at the Standard text
 
 ### Checks run on this version
 
-On `37d9f616`, clean: `host-setup-0.1.1` and `host-lobby-0.1.2`, the game's two gaps (above), on the same kit, shell, entry parts and headers (SHA-256 `424e5dec…`).
+**On `a2f7de15` (`host-setup-0.1.2`, `host-lobby-0.1.3`), clean,** with the main menu 0.1.1 and kit 0.8.2 (#265 at `a0900240`) merged, headers SHA-256 `424e5dec…`: **26 of 26 captures pass.** Against `37d9f616`'s record, 24 are byte-identical; the two Opening… captures change only in the busy spinner's frame (a 46-pixel patch at the foot). The probe passes **16 of 16**, with the new **text later** check. The agreement passes **11 of 11**, with the copied case reading the kit 0.8.2 toast's corners as its pill. The main menu's check, run on the same tree, passes 8 of 8 (byte-identical), probe 16 of 16, agreement 6 of 6.
+
+Before that, on `37d9f616`, clean: `host-setup-0.1.1` and `host-lobby-0.1.2`, the game's two gaps (above), on the same kit, shell, entry parts and headers (SHA-256 `424e5dec…`).
 - **Captures:** **26 of 26 pass.** Against `193743f7`'s record, 20 of its 22 captures are byte-identical; the two Opening… captures change by the busy spinner's frame. The four new ones are `setup-nomix` (no line under 7/8/9) and `lobby-noleave` (Leave dimmed and refused, with "Not available in this test" as its description) at both sizes.
 - **The lifecycle probe:** 15 of 15 (14 as the page comes, with the gaps' check; 1 with the device's Reduce motion).
 - **The agreement with the frozen pack:** 11 of 11 cases, as before; the two new states fill states sheet 11 doesn't draw, so they have no pack case.
