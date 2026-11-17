@@ -6,6 +6,41 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 16 November 2026: a hand-inked graphic-novel world for the pre-game animation test
+
+**Recorded by the Lead Designer from the owner's message in the Pre-game Animation builder's session.** The Lead read the message there, in that session's own transcript (23:46 UTC), not from a summary.
+
+**What was said.** The owner wrote to the Pre-game Animation builder:
+
+> Use our characters but redefine them into Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows, and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels, and objects that suggest everyday use and repair.
+>
+> Organize dense detail around clear focal points. Use controlled colour palettes with selective luminous accents, giving each location its own atmosphere. Animate the world through drifting smoke, changing displays, operating machinery, passing objects, and layered depth. Preserve the clarity of the composition while making the environment feel active, inhabited, and larger than the visible frame.
+>
+> For cosmic events, extend this language into saturated colour, orbital geometry, swirling forms, and mysterious changes of scale.
+
+**How the builder applies it,** as it told the Lead:
+- To the ~4 s Doctor test only, which is its own scope.
+- The same nine characters, redrawn in the new graphic-novel finish.
+- New environments for the briefing room and Colony Nine, each with its own palette.
+- The memory cut at 3,000 ms becomes a small cosmic event.
+- The acting, the timing and the beats stay as they are.
+- The rough pass in today's look stays on the test page, behind a switch beside the new one.
+
+**What it covers:** the Doctor test's look. For this test, the new look replaces the approved characters' look, which the decision [below](#16-november-2026-no-animation-clips-for-the-test-the-pre-game-films-tried-as-pure-animation-the-animation-work-in-two) had kept.
+
+**What stays the same:**
+- No sound on players' phones.
+- The film's length, timing and privacy.
+- Test pages only, with no branch or PR until the owner likes a direction.
+- It is not part of the human test's deploy, and nothing in the deploy waits for it.
+
+**What it doesn't change:**
+- The game's approved crew (`design-0.9.0`) and rooms (`room-drawing-1.0.0`).
+- The phone pack, and every part being connected for the human test.
+- The art releases. Nothing in `design/releases/**` or the crew's rig changes; the new drawings stay with the test.
+
+**What it leaves open:** whether the direction goes beyond the Doctor test. That covers the other role films, boarding and the brand intro, and the game's own crew and rooms. The owner chooses after seeing the test.
+
 ## 16 November 2026: no animation clips for the test; the pre-game films tried as pure animation; the animation work in two
 
 **Recorded by the Lead Designer from the owner's answers in the Lead's session.**
