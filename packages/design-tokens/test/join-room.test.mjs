@@ -98,8 +98,8 @@ test('their words are the pack\'s: join and waiting of sheets 12 and 13', () => 
   assert.equal(JOIN_WORDS.offline, 'No connection. Ask to join returns when you are back online.');
   assert.equal(WAIT_WORDS.offline, 'No connection. Check again returns when you are back online.');
   assert.equal(JOIN_FORM_DEFAULTS.nameMax, CREW_NAME_MAX_LENGTH, 'the default limit is the contract\'s');
-  assert.equal(JOIN_FORM_VERSION, 'join-form-0.1.0');
-  assert.equal(JOIN_WAIT_VERSION, 'join-wait-0.1.1');
+  assert.equal(JOIN_FORM_VERSION, 'join-form-0.1.1');
+  assert.equal(JOIN_WAIT_VERSION, 'join-wait-0.1.2');
 });
 
 test('the form\'s inputs are checked, and refused with a reason; the values are Frontend\'s', () => {

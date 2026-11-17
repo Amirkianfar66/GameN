@@ -13,10 +13,10 @@
 // 17 November 2026): while the game has no command to withdraw a request or leave a lobby (#222 G6), they are drawn
 // unavailable by the kit's control policy, dimmed, with Frontend's reason as their description, and report nothing.
 
-import { createControlPolicy, createKit } from '../kit/kit.mjs';
+import { createControlPolicy, createKit, followTextSize } from '../kit/kit.mjs';
 import { createEntryParts } from '../entry-parts/entry-parts.mjs';
 
-export const JOIN_WAIT_VERSION = 'join-wait-0.1.1';
+export const JOIN_WAIT_VERSION = 'join-wait-0.1.2';
 const VIEWS = Object.freeze(['pending', 'admitted', 'closed', 'declined']);
 
 /** The pack's words (screens-entry.mjs, join-wait; sheet 13), the declined request's and the connection's (the Lead's review of #289). */
@@ -98,6 +98,8 @@ export function mountJoinWait(host, input = {}, handlers = {}) {
   screen.append(nav);
   root.append(screen);
   host.append(root);
+  // A phone root outside the shell: a part opened after the text size changes takes the new size's rules (kit 0.8.1).
+  const textSize = followTextSize(root);
 
   const accepts = () => !disposed && state.interactive;
   const policy = createControlPolicy({ root, accepts, onFocusReturn: detail => { if (!disposed) on.onFocusReturn?.(detail); } });
@@ -227,6 +229,7 @@ export function mountJoinWait(host, input = {}, handlers = {}) {
     observer?.disconnect();
     root.removeEventListener('click', onClick);
     policy.dispose();
+    textSize.dispose();
     root.remove();
   }
 
