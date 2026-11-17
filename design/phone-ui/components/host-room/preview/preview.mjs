@@ -26,7 +26,7 @@ export const COUNTS = Object.freeze([
 const setup = (count, extra = {}) => ({ counts: COUNTS, count, ...extra });
 
 /** The lobby as the pack draws it: the seats taken, the bots, the requests, and Start with its reason. */
-export function lobbyOf({ humans = 5, bots = 0, requests = [], copied = false, toast = null, notice = null, total = 9 } = {}) {
+export function lobbyOf({ humans = 5, bots = 0, requests = [], copied = false, toast = null, notice = null, total = 9, leave = null } = {}) {
   const people = Array.from({ length: humans }, (_, i) => seatOf(i + 1));
   const filled = humans + bots;
   const off = reason => ({ enabled: false, reason });
@@ -38,10 +38,15 @@ export function lobbyOf({ humans = 5, bots = 0, requests = [], copied = false, t
     requests: requests.map(r => ({ ...r, admit: offline ? off(LOBBY_WORDS.offline) : { enabled: true } })),
     bots: offline ? { count: bots, max: total - humans, ...off(LOBBY_WORDS.offline) } : { count: bots, max: total - humans, enabled: true },
     start: offline ? off(LOBBY_WORDS.offline) : filled < total ? off(`${total - filled} more ${total - filled === 1 ? 'seat' : 'seats'} to fill`) : { enabled: true },
+    ...(leave ? { leave } : {}),
   };
 }
 export const REQUESTS = Object.freeze([{ id: 'adm-gus', name: 'Gus', device: 'phone' }, { id: 'adm-table', name: 'Table', device: 'display' }]);
 export const COPIED_TOAST = Object.freeze({ id: 'copied-1', text: 'Copied', icon: 'check' });
+/** The counts as the game gives them before it has a team mix (#222 G1): no line under the control. */
+export const COUNTS_NO_MIX = Object.freeze(COUNTS.map(c => ({ value: c.value, mix: null })));
+/** Leave while the game has no command for it (#222 G6), with the connection's words (the Lead, 17 November). */
+export const LEAVE_UNAVAILABLE = Object.freeze({ enabled: false, reason: 'Not available in this test' });
 
 /** Each state of sheet 11 and the ones around it: which screen, and its input. */
 export const PREVIEW_STATES = Object.freeze({
@@ -54,6 +59,8 @@ export const PREVIEW_STATES = Object.freeze({
   copied: { caption: 'Copied · sheet 11', screen: 'lobby', input: lobbyOf({ copied: true, toast: COPIED_TOAST }) },
   full: { caption: 'Full · Start · sheet 11', screen: 'lobby', input: lobbyOf({ humans: 6, bots: 3 }) },
   offline: { caption: 'Lobby offline', screen: 'lobby', input: lobbyOf({ requests: REQUESTS, notice: 'offline' }) },
+  'setup-nomix': { caption: 'Setup · no team mix given (G1)', screen: 'setup', input: { counts: COUNTS_NO_MIX, count: 9 } },
+  'lobby-noleave': { caption: 'Lobby · Leave not available (G6)', screen: 'lobby', input: lobbyOf({ requests: REQUESTS, leave: LEAVE_UNAVAILABLE }) },
   'setup-large': { caption: 'Largest text (200%) · setup', screen: 'setup', input: setup(9), text: 200 },
   'lobby-large': { caption: 'Largest text (200%) · requests', screen: 'lobby', input: lobbyOf({ requests: REQUESTS }), text: 200 },
 });

@@ -13,12 +13,16 @@
 // What it never does: work out the bot range, a free seat, whether Start is available or why not, or which
 // controls the offline notice refuses (Frontend passes each as { enabled: false, reason }). Each callback
 // reports a tap. Nothing here is a seat's secret: it is the host's own phone, before any role.
+//
+// Leave takes Frontend's availability too (`leave`, the Lead's decision of 17 November 2026): while the game
+// has no command for a host to leave or close a lobby (#222 G6), it is drawn unavailable by the kit's control
+// policy, dimmed, with Frontend's reason as its description, and reports nothing.
 
 import { createControlPolicy, createKit } from '../kit/kit.mjs';
 import { createEntryParts } from '../entry-parts/entry-parts.mjs';
 import { checkInsets } from './host-setup.mjs';
 
-export const HOST_LOBBY_VERSION = 'host-lobby-0.1.1';
+export const HOST_LOBBY_VERSION = 'host-lobby-0.1.2';
 const KINDS = Object.freeze(['host', 'person', 'bot']);
 const DEVICES = Object.freeze(['phone', 'display']);
 
@@ -35,7 +39,7 @@ const CONTROL = Object.freeze({ enabled: true, busy: false, reason: null });
 export const HOST_LOBBY_DEFAULTS = Object.freeze({
   interactive: true, reducedMotion: false, insets: null, roomCode: null, copied: false, toast: null,
   seats: null, members: Object.freeze([]), requests: Object.freeze([]),
-  bots: Object.freeze({ count: 0, max: 0, enabled: true, busy: false, reason: null }), start: CONTROL, notice: null,
+  bots: Object.freeze({ count: 0, max: 0, enabled: true, busy: false, reason: null }), start: CONTROL, notice: null, leave: CONTROL,
 });
 
 const isText = value => typeof value === 'string' && value.length > 0;
@@ -71,6 +75,7 @@ export function nextHostLobbyInput(previous, input = {}) {
   if (b === null || typeof b !== 'object' || !whole(b.count) || !whole(b.max)) throw new TypeError('bots are { count, max, enabled, busy, reason }');
   next.bots = Object.freeze({ count: b.count, max: b.max, ...checkControl('bots', b) });
   next.start = checkControl('start', next.start);
+  next.leave = checkControl('leave', next.leave ?? CONTROL);
   if (next.notice === undefined) next.notice = null;
   if (next.notice !== null && next.notice !== 'offline') throw new TypeError(`The notice is null or "offline", not ${JSON.stringify(next.notice)}`);
   return next;
@@ -173,7 +178,7 @@ export function mountHostLobby(host, input = {}, handlers = {}) {
     root.dataset.motion = state.reducedMotion ? 'reduced' : 'full';
     parts.setCodeCard(card, { code: state.roomCode ?? '······', copied: state.copied, seats: state.seats });
     policy.control(card.querySelector('.ms-ep-copy'), {});
-    policy.control(nav.querySelector('.ms-ep-back'), {});
+    policy.control(nav.querySelector('.ms-ep-back'), { off: !state.leave.enabled, reason: state.leave.reason });
     // Offline: the note only, under the card. Which controls are refused stays Frontend's.
     if (state.notice === 'offline' && !note) { note = kit.errorNote(LOBBY_WORDS.offline, { icon: 'offline', filled: false }); note.classList.add('ms-hl-note'); card.after(note); }
     if (state.notice !== 'offline' && note) { note.remove(); note = null; }

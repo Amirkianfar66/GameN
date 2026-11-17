@@ -1,6 +1,6 @@
 # Host setup and lobby: Designer's runtime components
 
-**Version:** `host-setup-0.1.0` and `host-lobby-0.1.1`, with `entry-parts-0.3.0`. **Status (16 November 2026):** the interface is approved by the Lead Designer (#287 at `43e71d29`), with the decisions below, and posted on #4 for Frontend. It is built on the kit 0.4.0, now merged to the kit 0.8.0 and shell 0.2.8 (#265 at `0e5a0b8a`), with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (`docs/design/owner-decisions.md`, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
+**Version:** `host-setup-0.1.1` and `host-lobby-0.1.2`, with `entry-parts-0.3.0`. **Status (17 November 2026):** the interface is approved by the Lead Designer (#287 at `43e71d29`), with the decisions below, and posted on #4 for Frontend. It is built on the kit 0.4.0, now merged to the kit 0.8.0 and shell 0.2.8 (#265 at `0e5a0b8a`), with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (`docs/design/owner-decisions.md`, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
 
 **What it is:** the host's two screens before a match, as sheet 11 draws them. They are #222 items 21 (host setup) and 22 (host lobby), P3. The game imports them as they are, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -80,7 +80,7 @@ Nothing here is private to a seat: both screens are on the host's own phone, bef
 
 | Input | What |
 | --- | --- |
-| `counts` | The choices, from the ruleset: `[{ value: 7, mix: '4 Blue · 2 Red · 1 Alien' }, …]`. The mix under the control is the chosen count's |
+| `counts` | The choices, from the ruleset: `[{ value: 7, mix: '4 Blue · 2 Red · 1 Alien' }, …]`. The mix under the control is the chosen count's. A count given with `mix: null` (the game doesn't give the mix yet, #222 G1) draws no line (0.1.1) |
 | `count` | The chosen count, or `null` |
 | `open` | `{ enabled, busy, reason }`: Open room. Busy reads "Opening…" |
 | `error` | `null`, or the words of a failed opening (decision 2) |
@@ -98,6 +98,7 @@ Nothing here is private to a seat: both screens are on the host's own phone, bef
 | `bots` | `{ count, max, enabled, busy, reason }`: the stepper, "Up to {max}". `reason` describes whichever side is refused: both, when Frontend refuses the bots; −, at none; +, at the most. Without one, a side refused at its bound has no description |
 | `start` | `{ enabled, busy, reason }`: Start character selection. When it is unavailable, the reason is the line under it ("4 more seats to fill", Frontend's) |
 | `notice` | `null`, or `'offline'`: the note under the code card, and only that (decision 4) |
+| `leave` | `{ enabled, reason }`: Leave, the nav bar's back. Unavailable, it is dimmed and refused by the kit's control policy, with the reason as its description (0.1.2, #222 G6). Default: available |
 
 **The screens decide nothing:** they never work out the team mix, how many bots fit, whether a seat is free, or why Start is unavailable. A refused control keeps its focus, with `aria-disabled` and Frontend's reason.
 
@@ -154,6 +155,13 @@ Each reports a tap, and only that.
 5. **The bots' + at the most, as sheet 11 draws Full** (agreed by the Lead, 16 November, as the menu's decision 4): + keeps its look and is still refused through the kit's policy. It goes through the policy's `accepts` path, which refuses without dimming: `aria-disabled`, with Frontend's reason as its description, so a tap does nothing and a screen reader hears why. − at none is dimmed, as the pack draws it.
 
 **Changed in the build, from the interface (both accepted by the Lead, 16 November):** a `toast` input (`{ id, text, icon }`) carries the toast, so it shows once per id and can carry the refused clipboard's words; `copied` now only turns Copy to "✓ Copied". With Reduce motion the toast follows the shell: a plain 80 ms fade, without the travel (decision 1). The interface had said it would appear and leave at once.
+
+## The game's two gaps (host-setup 0.1.1, host-lobby 0.1.2; the Lead's decisions of 17 November 2026)
+
+Release 4's connection (#308) found two things the game doesn't give yet (#222, G1 and G6). Both fill a state sheet 11 doesn't draw, so neither is a departure; when the game gives them, the screens draw them as the sheet does.
+- **No team mix (G1).** The mix per count is a rules table, and the engine's; the component never works it out. A count given with `mix: null` draws no line under 7/8/9. A mix that is given is drawn as before, and an empty or missing one is still refused.
+- **No command to leave (G6).** The game has no command for a host to leave or close a lobby. Rather than a button that does nothing, or a local "leave" the session's resume would undo, Leave takes Frontend's availability: `leave: { enabled: false, reason: 'Not available in this test' }` draws it dimmed and refused, with the reason as its description, and it reports nothing. The words are the connection's.
+- **Checked:** two more preview states (`setup-nomix` and `lobby-noleave`), a probe check (no line without a mix, and the line back with one; Leave refused, described and silent, then available and reporting), and the test (both inputs, and no rules words in host setup's source).
 
 ## The toast is the kit's (host-lobby 0.1.1, entry-parts 0.3.0)
 

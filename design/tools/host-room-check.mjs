@@ -32,7 +32,7 @@ const COMPONENT = join(REPO, 'design/phone-ui/components/host-room');
 const REVIEW = join(COMPONENT, 'review');
 const SIZES = { '390x844': [390, 844], '430x932': [430, 932] };
 /** Each state at the two development sizes (preview.mjs PREVIEW_STATES). */
-const STATES = ['setup', 'setup-7', 'opening', 'setup-error', 'lobby', 'requests', 'copied', 'full', 'offline', 'setup-large', 'lobby-large'];
+const STATES = ['setup', 'setup-7', 'opening', 'setup-error', 'lobby', 'requests', 'copied', 'full', 'offline', 'setup-nomix', 'lobby-noleave', 'setup-large', 'lobby-large'];
 const OFFLINE = 'No connection. Admit, Bots and Start return when you are back online.';
 
 /** The preview bundled as the game bundles the component (component-check.mjs). */
@@ -63,6 +63,9 @@ const EXPECT = {
   // At the most bots, + is refused and keeps its look, as sheet 11 draws Full (decision 5).
   full: s => lobbyDrawn(s) && s.seats === '9 of 9 seats' && s.members === 9 && !s.startRefused && s.startNote === null && s.moreRefused && s.moreLook === '1',
   offline: s => lobbyDrawn(s) && s.note === OFFLINE && s.startRefused && s.admitsRefused === 2,
+  // The game's two gaps (#222 G1, G6; the Lead's decisions of 17 November): no line without a mix; Leave unavailable.
+  'setup-nomix': s => s.screen === 'setup' && s.title === 'Host' && s.checked === '9' && !s.mixShown && s.open === 'Open room' && !s.openRefused,
+  'lobby-noleave': s => lobbyDrawn(s) && s.backRefused && s.backDimmed && s.backReason === 'Not available in this test' && s.requests === 2,
   'setup-large': s => setupDrawn(s, 9, '5 Blue · 3 Red · 1 Alien') && s.root === 32,
   'lobby-large': s => lobbyDrawn(s) && s.root === 32 && s.scrolls && s.copyUnder,
 };
@@ -84,6 +87,8 @@ try {
         const lists = qa('.ms-k-list'), toast = q('.ms-k-toast');
         return { violations: window.__policy, screen: lobby ? 'lobby' : 'setup', root: parseFloat(getComputedStyle(document.documentElement).fontSize),
           canvas: getComputedStyle(root).backgroundColor, title: q('.ms-ep-nav-title')?.textContent ?? null, back: q('.ms-ep-back .ms-k-btn-label')?.textContent ?? null,
+          backRefused: q('.ms-ep-back')?.getAttribute('aria-disabled') === 'true', backDimmed: q('.ms-ep-back')?.hasAttribute('data-off') ?? false,
+          backReason: (id => id ? document.getElementById(id)?.textContent ?? null : null)(q('.ms-ep-back')?.getAttribute('aria-describedby')), mixShown: !!q('.ms-k-seg + .ms-k-group-note') && !q('.ms-k-seg + .ms-k-group-note').hidden,
           heading: q('.ms-ep-large-title')?.textContent ?? null, checked: q('.ms-k-seg-btn[aria-checked="true"]')?.textContent ?? null,
           mix: words(q('.ms-k-seg + .ms-k-group-note')), rows: lobby ? [] : qa('.ms-k-row').map(words),
           open: q('.ms-hs-open .ms-k-btn-label')?.textContent ?? null, openRefused: q('.ms-hs-open')?.getAttribute('aria-disabled') === 'true', openBusy: q('.ms-hs-open')?.getAttribute('aria-busy') === 'true',
