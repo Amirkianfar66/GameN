@@ -1,0 +1,3630 @@
+{
+  "tool": "design/tools/host-controls-check.mjs",
+  "component": "design/phone-ui/components/host-controls",
+  "sourceCommit": "2fcb32b19e80fdf23ce5bffadfc33a51e8d7acfb",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": {
+    "390x844/list": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-list.jpg",
+      "sha256": "f8cf13cf9ac127d499483b5a20c2f000dd02f39a7f87d2532fcaa16867fd3d09",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "Check the deadline|Run bots|1 · Ava|2 · Ben|3 · Cleo|4 · Dev|5 · Eli|Abort match",
+      "labels": "Recovery codes",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": "Asks the server to move on if time is up",
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": null,
+      "foot": "",
+      "footLocal": false,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": null,
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "wrap": {
+        "code": null,
+        "matchId": null
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "430x932/list": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-list.jpg",
+      "sha256": "24973ae6221689aec9162db7176354056c13cac3161f5cb1371acfe8e5c5edc7",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "Check the deadline|Run bots|1 · Ava|2 · Ben|3 · Cleo|4 · Dev|5 · Eli|Abort match",
+      "labels": "Recovery codes",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": "Asks the server to move on if time is up",
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": null,
+      "foot": "",
+      "footLocal": false,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": null,
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "wrap": {
+        "code": null,
+        "matchId": null
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "390x844/busy": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-busy.jpg",
+      "sha256": "9d3cd220c280107cd6563cf075c09e22bf8e87dc3034bd38f79b6840d3f3b4ea",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "Check the deadline|Run bots|1 · Ava|2 · Ben|3 · Cleo|4 · Dev|5 · Eli|Abort match",
+      "labels": "Recovery codes",
+      "busy": [
+        "bots"
+      ],
+      "spinners": 1,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": "Asks the server to move on if time is up",
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": null,
+      "foot": "",
+      "footLocal": false,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": null,
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "wrap": {
+        "code": null,
+        "matchId": null
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "430x932/busy": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-busy.jpg",
+      "sha256": "606d0d9cd831f8a917b2b3cd93d2b80dd853a396907d98505abe68dbb1792ed0",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "Check the deadline|Run bots|1 · Ava|2 · Ben|3 · Cleo|4 · Dev|5 · Eli|Abort match",
+      "labels": "Recovery codes",
+      "busy": [
+        "bots"
+      ],
+      "spinners": 1,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": "Asks the server to move on if time is up",
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": null,
+      "foot": "",
+      "footLocal": false,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": null,
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "wrap": {
+        "code": null,
+        "matchId": null
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "390x844/refused": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-refused.jpg",
+      "sha256": "584bb2dfcc12e2807acf6db03f8de7556c5e440c53063c6c7038316065e1e8ed",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "Check the deadline|Run bots|1 · Ava|2 · Ben|3 · Cleo|4 · Dev|5 · Eli|Abort match",
+      "labels": "Recovery codes",
+      "busy": [],
+      "spinners": 0,
+      "refused": [
+        "deadline"
+      ],
+      "dimmed": [
+        "deadline"
+      ],
+      "reasons": [
+        "The deadline has not passed yet"
+      ],
+      "deadlineLine": "The deadline has not passed yet",
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": null,
+      "foot": "",
+      "footLocal": false,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": null,
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "wrap": {
+        "code": null,
+        "matchId": null
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "430x932/refused": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-refused.jpg",
+      "sha256": "0ad1049f04aac41cea1026f74c24565c2d36a8a9d25f28f5caada3fc29f5b3c7",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "Check the deadline|Run bots|1 · Ava|2 · Ben|3 · Cleo|4 · Dev|5 · Eli|Abort match",
+      "labels": "Recovery codes",
+      "busy": [],
+      "spinners": 0,
+      "refused": [
+        "deadline"
+      ],
+      "dimmed": [
+        "deadline"
+      ],
+      "reasons": [
+        "The deadline has not passed yet"
+      ],
+      "deadlineLine": "The deadline has not passed yet",
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": null,
+      "foot": "",
+      "footLocal": false,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": null,
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "wrap": {
+        "code": null,
+        "matchId": null
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "390x844/code": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-code.jpg",
+      "sha256": "7fb4b50f505193cffe21039f32d9362fefc99bd454953bf91aa34a4dc231f0d1",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Recovery code",
+      "sub": "Private to this phone",
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": "Recovery for Player 4 · Dev",
+      "matchId": "mtch-8f2c4e",
+      "codeText": "•••••• •••••• •••••• •••••• ••••••",
+      "meta": "Works once · 15 minutes",
+      "note": "Show it only to Player 4. It never appears on the shared display.",
+      "confirm": null,
+      "foot": "Reveal|Copy",
+      "footLocal": true,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": "sheet-local",
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "wrap": {
+        "code": {
+          "groups": [
+            "••••••",
+            "••••••",
+            "••••••",
+            "••••••",
+            "••••••"
+          ],
+          "lines": 2,
+          "split": [],
+          "overflow": false
+        },
+        "matchId": {
+          "groups": [
+            "mtch-",
+            "8f2c4e"
+          ],
+          "lines": 1,
+          "split": [],
+          "overflow": false
+        }
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/code": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-code.jpg",
+      "sha256": "00df9d074c5106945989dd6981bc9358130f878f01fcaa62920a018463708f6d",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Recovery code",
+      "sub": "Private to this phone",
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": "Recovery for Player 4 · Dev",
+      "matchId": "mtch-8f2c4e",
+      "codeText": "•••••• •••••• •••••• •••••• ••••••",
+      "meta": "Works once · 15 minutes",
+      "note": "Show it only to Player 4. It never appears on the shared display.",
+      "confirm": null,
+      "foot": "Reveal|Copy",
+      "footLocal": true,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": "sheet-local",
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "wrap": {
+        "code": {
+          "groups": [
+            "••••••",
+            "••••••",
+            "••••••",
+            "••••••",
+            "••••••"
+          ],
+          "lines": 1,
+          "split": [],
+          "overflow": false
+        },
+        "matchId": {
+          "groups": [
+            "mtch-",
+            "8f2c4e"
+          ],
+          "lines": 1,
+          "split": [],
+          "overflow": false
+        }
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/revealed": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-revealed.jpg",
+      "sha256": "867e7a3eefcde2eb28dc697f2bb48fea2cb9c85612a4ea527846c95e0813b598",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Recovery code",
+      "sub": "Private to this phone",
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": "Recovery for Player 4 · Dev",
+      "matchId": "mtch-8f2c4e",
+      "codeText": "q7Hc2-Lm9xT-4ZpWd-8rVnK-2bYs6-Jt",
+      "meta": "Works once · 15 minutes",
+      "note": "Show it only to Player 4. It never appears on the shared display.",
+      "confirm": null,
+      "foot": "Hide|Copy",
+      "footLocal": true,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": "sheet-local",
+      "toast": null,
+      "banner": false,
+      "codeInPage": true,
+      "wrap": {
+        "code": {
+          "groups": [
+            "q7Hc2-",
+            "Lm9xT-",
+            "4ZpWd-",
+            "8rVnK-",
+            "2bYs6-",
+            "Jt"
+          ],
+          "lines": 1,
+          "split": [],
+          "overflow": false
+        },
+        "matchId": {
+          "groups": [
+            "mtch-",
+            "8f2c4e"
+          ],
+          "lines": 1,
+          "split": [],
+          "overflow": false
+        }
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/revealed": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-revealed.jpg",
+      "sha256": "f539659fa50ce52fe33365538090859bdd6de8f04ff4f1d6f400e43049c00f65",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Recovery code",
+      "sub": "Private to this phone",
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": "Recovery for Player 4 · Dev",
+      "matchId": "mtch-8f2c4e",
+      "codeText": "q7Hc2-Lm9xT-4ZpWd-8rVnK-2bYs6-Jt",
+      "meta": "Works once · 15 minutes",
+      "note": "Show it only to Player 4. It never appears on the shared display.",
+      "confirm": null,
+      "foot": "Hide|Copy",
+      "footLocal": true,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": "sheet-local",
+      "toast": null,
+      "banner": false,
+      "codeInPage": true,
+      "wrap": {
+        "code": {
+          "groups": [
+            "q7Hc2-",
+            "Lm9xT-",
+            "4ZpWd-",
+            "8rVnK-",
+            "2bYs6-",
+            "Jt"
+          ],
+          "lines": 1,
+          "split": [],
+          "overflow": false
+        },
+        "matchId": {
+          "groups": [
+            "mtch-",
+            "8f2c4e"
+          ],
+          "lines": 1,
+          "split": [],
+          "overflow": false
+        }
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/copied": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-copied.jpg",
+      "sha256": "02628e6f2d08c47c8dd0dfad22cf579903f1ad52032eab8dd31b7ec4278a2fdb",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Recovery code",
+      "sub": "Private to this phone",
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": "Recovery for Player 4 · Dev",
+      "matchId": "mtch-8f2c4e",
+      "codeText": "•••••• •••••• •••••• •••••• ••••••",
+      "meta": "Works once · 15 minutes",
+      "note": "Show it only to Player 4. It never appears on the shared display.",
+      "confirm": null,
+      "foot": "Reveal|Copy",
+      "footLocal": true,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": "sheet-local",
+      "toast": "Copied",
+      "banner": false,
+      "codeInPage": false,
+      "wrap": {
+        "code": {
+          "groups": [
+            "••••••",
+            "••••••",
+            "••••••",
+            "••••••",
+            "••••••"
+          ],
+          "lines": 2,
+          "split": [],
+          "overflow": false
+        },
+        "matchId": {
+          "groups": [
+            "mtch-",
+            "8f2c4e"
+          ],
+          "lines": 1,
+          "split": [],
+          "overflow": false
+        }
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/copied": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-copied.jpg",
+      "sha256": "43ecea51fef64fc6e09d69e4868ea55742177f5ae278f0f9d38aefa6b484fa92",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Recovery code",
+      "sub": "Private to this phone",
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": "Recovery for Player 4 · Dev",
+      "matchId": "mtch-8f2c4e",
+      "codeText": "•••••• •••••• •••••• •••••• ••••••",
+      "meta": "Works once · 15 minutes",
+      "note": "Show it only to Player 4. It never appears on the shared display.",
+      "confirm": null,
+      "foot": "Reveal|Copy",
+      "footLocal": true,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": "sheet-local",
+      "toast": "Copied",
+      "banner": false,
+      "codeInPage": false,
+      "wrap": {
+        "code": {
+          "groups": [
+            "••••••",
+            "••••••",
+            "••••••",
+            "••••••",
+            "••••••"
+          ],
+          "lines": 1,
+          "split": [],
+          "overflow": false
+        },
+        "matchId": {
+          "groups": [
+            "mtch-",
+            "8f2c4e"
+          ],
+          "lines": 1,
+          "split": [],
+          "overflow": false
+        }
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/abort": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-abort.jpg",
+      "sha256": "c71524751300aa57664191a172b458f2ce9b10848896960b4882bac141bbf680",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": "Abort the match?|It ends now for everyone, with no winner.",
+      "foot": "Keep playing|Abort match",
+      "footLocal": true,
+      "abortWarn": true,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": "sheet-local",
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "wrap": {
+        "code": null,
+        "matchId": null
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/abort": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-abort.jpg",
+      "sha256": "b30d313c7947a5566ec14015296e9d4c68292ad8197ab564a8f55b03a84785b5",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": "Abort the match?|It ends now for everyone, with no winner.",
+      "foot": "Keep playing|Abort match",
+      "footLocal": true,
+      "abortWarn": true,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": "sheet-local",
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "wrap": {
+        "code": null,
+        "matchId": null
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/aborting": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-aborting.jpg",
+      "sha256": "985dee3b480dfc0d3cfaaebb66ba9474a271180dc226f8478a8a6539d15ebed3",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": "Abort the match?|It ends now for everyone, with no winner.",
+      "foot": "Keep playing|Abort match",
+      "footLocal": true,
+      "abortWarn": true,
+      "abortBusy": true,
+      "retryPrimary": false,
+      "retryIntent": "sheet-local",
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "wrap": {
+        "code": null,
+        "matchId": null
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/aborting": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-aborting.jpg",
+      "sha256": "fb50ae7b1b5881fc9bd31c462ec186ea99706f79540c4854d22a5370fbe9e567",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": "Abort the match?|It ends now for everyone, with no winner.",
+      "foot": "Keep playing|Abort match",
+      "footLocal": true,
+      "abortWarn": true,
+      "abortBusy": true,
+      "retryPrimary": false,
+      "retryIntent": "sheet-local",
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "wrap": {
+        "code": null,
+        "matchId": null
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/retry": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-retry.jpg",
+      "sha256": "00dc308c554efd1dc9326d07661f3ba491d1c8df3a7f5db9c278116c1b58c7c3",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "Check the deadline|Run bots|1 · Ava|2 · Ben|3 · Cleo|4 · Dev|5 · Eli|Abort match",
+      "labels": "Recovery codes",
+      "busy": [],
+      "spinners": 0,
+      "refused": [
+        "deadline",
+        "bots",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery",
+        "abort-ask"
+      ],
+      "dimmed": [
+        "deadline",
+        "bots",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery",
+        "abort-ask"
+      ],
+      "reasons": [
+        "Session request outcome unknown. Retry the original request.",
+        "Session request outcome unknown. Retry the original request.",
+        "Session request outcome unknown. Retry the original request.",
+        "Session request outcome unknown. Retry the original request.",
+        "Session request outcome unknown. Retry the original request.",
+        "Session request outcome unknown. Retry the original request.",
+        "Session request outcome unknown. Retry the original request.",
+        "Session request outcome unknown. Retry the original request."
+      ],
+      "deadlineLine": "Session request outcome unknown. Retry the original request.",
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": null,
+      "foot": "Retry",
+      "footLocal": false,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": true,
+      "retryIntent": "sheet-action",
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "wrap": {
+        "code": null,
+        "matchId": null
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "430x932/retry": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-retry.jpg",
+      "sha256": "b30ab4399bc66443e2a9f83b936bd5c8081148bcbde579b3273e1b848b545fc4",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "Check the deadline|Run bots|1 · Ava|2 · Ben|3 · Cleo|4 · Dev|5 · Eli|Abort match",
+      "labels": "Recovery codes",
+      "busy": [],
+      "spinners": 0,
+      "refused": [
+        "deadline",
+        "bots",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery",
+        "abort-ask"
+      ],
+      "dimmed": [
+        "deadline",
+        "bots",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery",
+        "abort-ask"
+      ],
+      "reasons": [
+        "Session request outcome unknown. Retry the original request.",
+        "Session request outcome unknown. Retry the original request.",
+        "Session request outcome unknown. Retry the original request.",
+        "Session request outcome unknown. Retry the original request.",
+        "Session request outcome unknown. Retry the original request.",
+        "Session request outcome unknown. Retry the original request.",
+        "Session request outcome unknown. Retry the original request.",
+        "Session request outcome unknown. Retry the original request."
+      ],
+      "deadlineLine": "Session request outcome unknown. Retry the original request.",
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": null,
+      "foot": "Retry",
+      "footLocal": false,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": true,
+      "retryIntent": "sheet-action",
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "wrap": {
+        "code": null,
+        "matchId": null
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "390x844/stale": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-stale.jpg",
+      "sha256": "8d32719abd09b92532a005061731438e85d3226cfe54cd02d2ba953b223e94ad",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "Check the deadline|Run bots|1 · Ava|2 · Ben|3 · Cleo|4 · Dev|5 · Eli|Abort match",
+      "labels": "Recovery codes",
+      "busy": [],
+      "spinners": 0,
+      "refused": [
+        "deadline",
+        "bots",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery"
+      ],
+      "dimmed": [],
+      "reasons": [
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current"
+      ],
+      "deadlineLine": "Asks the server to move on if time is up",
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": null,
+      "foot": "",
+      "footLocal": false,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": null,
+      "toast": null,
+      "banner": true,
+      "codeInPage": false,
+      "wrap": {
+        "code": null,
+        "matchId": null
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "430x932/stale": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-stale.jpg",
+      "sha256": "93786d9efb391cdb4971bbbfbd7478f9640e6295e671b80a4fb6c7dbd0b27a38",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "Check the deadline|Run bots|1 · Ava|2 · Ben|3 · Cleo|4 · Dev|5 · Eli|Abort match",
+      "labels": "Recovery codes",
+      "busy": [],
+      "spinners": 0,
+      "refused": [
+        "deadline",
+        "bots",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery"
+      ],
+      "dimmed": [],
+      "reasons": [
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current"
+      ],
+      "deadlineLine": "Asks the server to move on if time is up",
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": null,
+      "foot": "",
+      "footLocal": false,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": null,
+      "toast": null,
+      "banner": true,
+      "codeInPage": false,
+      "wrap": {
+        "code": null,
+        "matchId": null
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "390x844/largest": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-largest.jpg",
+      "sha256": "112127fc4a10190d33e6bdd5268617f5d57fc40a0186ae3361e891a071b28786",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Recovery code",
+      "sub": "Private to this phone",
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": "Recovery for Player 4 · Dev",
+      "matchId": "mtch-8f2c4e",
+      "codeText": "q7Hc2-Lm9xT-4ZpWd-8rVnK-2bYs6-Jt",
+      "meta": "Works once · 15 minutes",
+      "note": "Show it only to Player 4. It never appears on the shared display.",
+      "confirm": null,
+      "foot": "Hide|Copy",
+      "footLocal": true,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": "sheet-local",
+      "toast": null,
+      "banner": false,
+      "codeInPage": true,
+      "wrap": {
+        "code": {
+          "groups": [
+            "q7Hc2-",
+            "Lm9xT-",
+            "4ZpWd-",
+            "8rVnK-",
+            "2bYs6-",
+            "Jt"
+          ],
+          "lines": 3,
+          "split": [],
+          "overflow": false
+        },
+        "matchId": {
+          "groups": [
+            "mtch-",
+            "8f2c4e"
+          ],
+          "lines": 1,
+          "split": [],
+          "overflow": false
+        }
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/largest": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-largest.jpg",
+      "sha256": "536a936ed2c66dbf0bbf56c71ed2c3423556d92db5990288b04b94b7deeab1e8",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Recovery code",
+      "sub": "Private to this phone",
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": "Recovery for Player 4 · Dev",
+      "matchId": "mtch-8f2c4e",
+      "codeText": "q7Hc2-Lm9xT-4ZpWd-8rVnK-2bYs6-Jt",
+      "meta": "Works once · 15 minutes",
+      "note": "Show it only to Player 4. It never appears on the shared display.",
+      "confirm": null,
+      "foot": "Hide|Copy",
+      "footLocal": true,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": "sheet-local",
+      "toast": null,
+      "banner": false,
+      "codeInPage": true,
+      "wrap": {
+        "code": {
+          "groups": [
+            "q7Hc2-",
+            "Lm9xT-",
+            "4ZpWd-",
+            "8rVnK-",
+            "2bYs6-",
+            "Jt"
+          ],
+          "lines": 2,
+          "split": [],
+          "overflow": false
+        },
+        "matchId": {
+          "groups": [
+            "mtch-",
+            "8f2c4e"
+          ],
+          "lines": 1,
+          "split": [],
+          "overflow": false
+        }
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/real": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-real.jpg",
+      "sha256": "1b9c80da45b08e02ed5e2bb8cd8f1027aed72dec44ab66cbbf35928e4f1a9b05",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Recovery code",
+      "sub": "Private to this phone",
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": "Recovery for Player 4 · Dev",
+      "matchId": "3f2a1b4c-9d8e-4f7a-b6c5-1234567890ab",
+      "codeText": "Zq3x_9Lk-T2vWm8RbYc4N7hJ-pQs0FdE",
+      "meta": "Works once · 15 minutes",
+      "note": "Show it only to Player 4. It never appears on the shared display.",
+      "confirm": null,
+      "foot": "Hide|Copy",
+      "footLocal": true,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": "sheet-local",
+      "toast": null,
+      "banner": false,
+      "codeInPage": true,
+      "wrap": {
+        "code": {
+          "groups": [
+            "Zq3x_9",
+            "Lk-T2v",
+            "Wm8RbY",
+            "c4N7hJ",
+            "-pQs0F",
+            "dE"
+          ],
+          "lines": 1,
+          "split": [],
+          "overflow": false
+        },
+        "matchId": {
+          "groups": [
+            "3f2a1b4c-",
+            "9d8e-",
+            "4f7a-",
+            "b6c5-",
+            "1234567890ab"
+          ],
+          "lines": 2,
+          "split": [],
+          "overflow": false
+        }
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/real": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-real.jpg",
+      "sha256": "1a48416ff22f08ec8684e4f9bc9d2d5faa189869a159258cba770d37ef9c28dd",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Recovery code",
+      "sub": "Private to this phone",
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": "Recovery for Player 4 · Dev",
+      "matchId": "3f2a1b4c-9d8e-4f7a-b6c5-1234567890ab",
+      "codeText": "Zq3x_9Lk-T2vWm8RbYc4N7hJ-pQs0FdE",
+      "meta": "Works once · 15 minutes",
+      "note": "Show it only to Player 4. It never appears on the shared display.",
+      "confirm": null,
+      "foot": "Hide|Copy",
+      "footLocal": true,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": "sheet-local",
+      "toast": null,
+      "banner": false,
+      "codeInPage": true,
+      "wrap": {
+        "code": {
+          "groups": [
+            "Zq3x_9",
+            "Lk-T2v",
+            "Wm8RbY",
+            "c4N7hJ",
+            "-pQs0F",
+            "dE"
+          ],
+          "lines": 1,
+          "split": [],
+          "overflow": false
+        },
+        "matchId": {
+          "groups": [
+            "3f2a1b4c-",
+            "9d8e-",
+            "4f7a-",
+            "b6c5-",
+            "1234567890ab"
+          ],
+          "lines": 2,
+          "split": [],
+          "overflow": false
+        }
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/real-largest": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-real-largest.jpg",
+      "sha256": "a674f0c6447fc8d654544e828f1ecb3a8b1e782730ac1b3dd29475124fb43563",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Recovery code",
+      "sub": "Private to this phone",
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": "Recovery for Player 4 · Dev",
+      "matchId": "3f2a1b4c-9d8e-4f7a-b6c5-1234567890ab",
+      "codeText": "Zq3x_9Lk-T2vWm8RbYc4N7hJ-pQs0FdE",
+      "meta": "Works once · 15 minutes",
+      "note": "Show it only to Player 4. It never appears on the shared display.",
+      "confirm": null,
+      "foot": "Hide|Copy",
+      "footLocal": true,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": "sheet-local",
+      "toast": null,
+      "banner": false,
+      "codeInPage": true,
+      "wrap": {
+        "code": {
+          "groups": [
+            "Zq3x_9",
+            "Lk-T2v",
+            "Wm8RbY",
+            "c4N7hJ",
+            "-pQs0F",
+            "dE"
+          ],
+          "lines": 3,
+          "split": [],
+          "overflow": false
+        },
+        "matchId": {
+          "groups": [
+            "3f2a1b4c-",
+            "9d8e-",
+            "4f7a-",
+            "b6c5-",
+            "1234567890ab"
+          ],
+          "lines": 3,
+          "split": [],
+          "overflow": false
+        }
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/real-largest": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-real-largest.jpg",
+      "sha256": "6a59bc956fecbf64da6b32aae830cb37244144d69b6df7852c8133726ed365db",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Recovery code",
+      "sub": "Private to this phone",
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": "Recovery for Player 4 · Dev",
+      "matchId": "3f2a1b4c-9d8e-4f7a-b6c5-1234567890ab",
+      "codeText": "Zq3x_9Lk-T2vWm8RbYc4N7hJ-pQs0FdE",
+      "meta": "Works once · 15 minutes",
+      "note": "Show it only to Player 4. It never appears on the shared display.",
+      "confirm": null,
+      "foot": "Hide|Copy",
+      "footLocal": true,
+      "abortWarn": false,
+      "abortBusy": false,
+      "retryPrimary": false,
+      "retryIntent": "sheet-local",
+      "toast": null,
+      "banner": false,
+      "codeInPage": true,
+      "wrap": {
+        "code": {
+          "groups": [
+            "Zq3x_9",
+            "Lk-T2v",
+            "Wm8RbY",
+            "c4N7hJ",
+            "-pQs0F",
+            "dE"
+          ],
+          "lines": 2,
+          "split": [],
+          "overflow": false
+        },
+        "matchId": {
+          "groups": [
+            "3f2a1b4c-",
+            "9d8e-",
+            "4f7a-",
+            "b6c5-",
+            "1234567890ab"
+          ],
+          "lines": 3,
+          "split": [],
+          "overflow": false
+        }
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "report: each row reports its tap, and only that; the keyboard as the finger",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "got": [
+              [
+                "onDeadline"
+              ],
+              [
+                "onBots"
+              ],
+              [
+                "onIssueRecovery",
+                3
+              ],
+              [
+                "onIssueRecovery",
+                5
+              ],
+              [
+                "onAbortAsk"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "command: in flight, only that row is busy with the spinner at its end; the others keep their own state",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "bots": {
+                "busy": true,
+                "spins": true,
+                "dimmed": false,
+                "line": "Bots act if they can",
+                "focus": true
+              },
+              "seat2": {
+                "busy": true,
+                "spins": true,
+                "chevron": true
+              },
+              "deadline": {
+                "busy": false,
+                "spins": false,
+                "refused": false
+              },
+              "seat1": false
+            },
+            "after": {
+              "busy": false,
+              "spins": false,
+              "same": true
+            },
+            "got": [
+              [
+                "onDeadline"
+              ],
+              [
+                "onIssueRecovery",
+                1
+              ]
+            ]
+          }
+        },
+        {
+          "id": "command: refused, the row dimmed, Frontend's reason as its line and its description; the usual line back when offered",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "refused": true,
+              "dimmed": true,
+              "line": "The deadline has not passed yet",
+              "why": "The deadline has not passed yet",
+              "abort": {
+                "refused": true,
+                "dimmed": true,
+                "line": "Only between turns"
+              },
+              "bots": false
+            },
+            "after": {
+              "refused": false,
+              "line": "Asks the server to move on if time is up",
+              "why": null,
+              "abortLine": "Ends with no winner"
+            },
+            "got": []
+          }
+        },
+        {
+          "id": "command: the confirm's Abort match is the shell's footer: busy while the abort is in flight, refused with Frontend's reason",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": [
+              "keep",
+              "abort"
+            ],
+            "inFlight": true,
+            "off": {
+              "refused": true,
+              "why": "Only between turns"
+            },
+            "words": [
+              "Keep playing",
+              "Abort match"
+            ]
+          }
+        },
+        {
+          "id": "retry: the list's footer has Retry, the kit's primary and a command (not local), only while Frontend gives it; it reports, busy and refused as given; the refused rows keep Frontend's words (0.1.1)",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "look": {
+              "words": "Retry",
+              "primary": true,
+              "local": "sheet-action"
+            },
+            "reported": [
+              "retry"
+            ],
+            "rows": {
+              "line": "Session request outcome unknown. Retry the original request.",
+              "why": "Session request outcome unknown. Retry the original request.",
+              "refused": true
+            },
+            "inFlight": true,
+            "gone": 0,
+            "abortFooter": "Keep playing|Abort match"
+          }
+        },
+        {
+          "id": "reconnect: the commands wait with the banner's words, not dimmed; the confirm still opens",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "waits": [
+              {
+                "refused": true,
+                "dimmed": false,
+                "why": "Controls return when the match is current"
+              },
+              {
+                "refused": true,
+                "dimmed": false,
+                "why": "Controls return when the match is current"
+              },
+              {
+                "refused": true,
+                "dimmed": false,
+                "why": "Controls return when the match is current"
+              }
+            ],
+            "got": [
+              [
+                "onAbortAsk"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "reconnect: the footer's Reveal, Hide, Copy and Keep playing are this phone's own and still work; Abort match waits with the banner's words",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "code": [
+              "hide",
+              "copy"
+            ],
+            "confirm": {
+              "actions": [
+                "keep"
+              ],
+              "keep": false,
+              "abort": true,
+              "dimmed": false,
+              "why": "Controls return when the match is current",
+              "warn": true
+            }
+          }
+        },
+        {
+          "id": "wrap: the code and the Match ID are drawn in groups that never wrap, their text the value itself (0.1.2)",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "hidden": {
+              "text": "•••••• •••••• •••••• •••••• ••••••",
+              "groups": [
+                "••••••",
+                "••••••",
+                "••••••",
+                "••••••",
+                "••••••"
+              ],
+              "nowrap": true,
+              "breaks": 0,
+              "wordBreak": "normal"
+            },
+            "shown": {
+              "text": "Zq3x_9Lk-T2vWm8RbYc4N7hJ-pQs0FdE",
+              "groups": [
+                "Zq3x_9",
+                "Lk-T2v",
+                "Wm8RbY",
+                "c4N7hJ",
+                "-pQs0F",
+                "dE"
+              ],
+              "nowrap": true,
+              "breaks": 5,
+              "wordBreak": "normal"
+            },
+            "id": {
+              "text": "3f2a1b4c-9d8e-4f7a-b6c5-1234567890ab",
+              "groups": [
+                "3f2a1b4c-",
+                "9d8e-",
+                "4f7a-",
+                "b6c5-",
+                "1234567890ab"
+              ],
+              "nowrap": true,
+              "breaks": 4,
+              "wordBreak": "normal"
+            }
+          }
+        },
+        {
+          "id": "privacy: the code is in the page only while revealed; hidden, the fixed dots",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "hidden": {
+              "inPage": false,
+              "text": "•••••• •••••• •••••• •••••• ••••••"
+            },
+            "shown": {
+              "inPage": true,
+              "text": "q7Hc2-Lm9xT-4ZpWd-8rVnK-2bYs6-Jt",
+              "count": 1
+            },
+            "again": {
+              "inPage": false,
+              "text": "•••••• •••••• •••••• •••••• ••••••"
+            }
+          }
+        },
+        {
+          "id": "privacy: revealed, then reconnecting: Hide is still taken, and once Frontend hides it the code leaves the page",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "live": true,
+            "stale": {
+              "inPage": true,
+              "hide": "Hide",
+              "intent": "sheet-local",
+              "refused": false,
+              "dimmed": false,
+              "copyRefused": false
+            },
+            "actions": [
+              "hide"
+            ],
+            "hidden": {
+              "inPage": false,
+              "text": "•••••• •••••• •••••• •••••• ••••••",
+              "reveal": "Reveal",
+              "attributes": false
+            }
+          }
+        },
+        {
+          "id": "privacy: the code is never in an attribute, a report or the layout",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "attributes": false,
+              "reports": false,
+              "layout": false,
+              "sheet": false,
+              "actions": [
+                "hide",
+                "copy"
+              ]
+            }
+          }
+        },
+        {
+          "id": "privacy: the code leaves the page when the viewer changes, and is kept only if the same update gives the new viewer's",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "dropped": {
+              "inPage": false,
+              "card": true
+            },
+            "given": true
+          }
+        },
+        {
+          "id": "privacy: the code leaves the page while concealed, refused if given then, and comes back only when given",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "hidden": false,
+            "givenHidden": false,
+            "back": false,
+            "given": true
+          }
+        },
+        {
+          "id": "privacy: the code leaves the page when the view changes and on dispose; given while hidden, it is refused",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "onList": false,
+            "back": true,
+            "disposed": false,
+            "refusedHidden": true
+          }
+        },
+        {
+          "id": "minutes: the minutes left as Frontend gives them, never counted down here; no line without them",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": "Works once · 5 minutes",
+            "later": "Works once · 5 minutes",
+            "one": "Works once · 1 minute",
+            "none": null
+          }
+        },
+        {
+          "id": "focus: each row keeps its element and the focus; a focused seat that leaves the list returns the focus once",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "kept": true,
+            "gone": {
+              "row": false,
+              "active": true
+            },
+            "returns": [
+              [
+                "onFocusReturn",
+                {
+                  "intent": "issue-recovery",
+                  "value": "4"
+                }
+              ]
+            ]
+          }
+        },
+        {
+          "id": "focus: a focus in a view that ends returns to the content, reported once",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "active": true,
+            "returns": [
+              [
+                "onFocusReturn",
+                {
+                  "intent": "abort-ask",
+                  "value": null
+                }
+              ]
+            ]
+          }
+        },
+        {
+          "id": "words: the content's name; the sheet's frame and footer from hostControlsSheet() for each view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "name": "group,Host controls",
+              "list": {
+                "title": "Host controls",
+                "sub": null,
+                "back": true,
+                "foot": ""
+              },
+              "hidden": {
+                "title": "Recovery code",
+                "sub": "Private to this phone",
+                "back": true,
+                "foot": "Reveal|Copy"
+              },
+              "shown": {
+                "title": "Recovery code",
+                "sub": "Private to this phone",
+                "back": true,
+                "foot": "Hide|Copy"
+              },
+              "confirm": {
+                "title": "Host controls",
+                "sub": null,
+                "back": true,
+                "foot": "Keep playing|Abort match"
+              },
+              "confirmWords": [
+                "Abort the match?",
+                "It ends now for everyone, with no winner."
+              ]
+            }
+          }
+        },
+        {
+          "id": "layout: at 390 × 844, the list and the card 16 px in, in the large sheet",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "listIn": [
+              16,
+              16
+            ],
+            "cardIn": [
+              16,
+              16
+            ],
+            "detent": "large"
+          }
+        },
+        {
+          "id": "layout: at 430 × 932, the list and the card 16 px in, in the large sheet",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "listIn": [
+              16,
+              16
+            ],
+            "cardIn": [
+              16,
+              16
+            ],
+            "detent": "large"
+          }
+        },
+        {
+          "id": "layout: the list with the Largest text (200 %): every word whole, the last part reached by scrolling, the footer in view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "cut": [],
+            "reachable": true,
+            "foot": true
+          }
+        },
+        {
+          "id": "layout: the revealed code with the Largest text (200 %): every word whole, the last part reached by scrolling, the footer in view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "cut": [],
+            "reachable": true,
+            "foot": true
+          }
+        },
+        {
+          "id": "dispose: safe twice; afterwards nothing is left in the sheet and nothing fires",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "body": 0,
+              "calls": 0,
+              "connected": false,
+              "inPage": false
+            }
+          }
+        },
+        {
+          "id": "motion: the spinner turns, and stands still with the game's Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": "ms-k-spin",
+            "reduced": "none"
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "motion: the spinner stands still with the device's Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": "none",
+            "reduced": "none"
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-GLOHl_v0.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: Host controls at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 3,
+              "screen": 3
+            },
+            "rows": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row icons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row icon drawings": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row portraits": {
+              "pack": 5,
+              "screen": 5
+            },
+            "row titles": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row lines": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row chevrons": {
+              "pack": 6,
+              "screen": 6
+            },
+            "row chevron drawings": {
+              "pack": 6,
+              "screen": 6
+            },
+            "code card": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "note": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: Host controls at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 3,
+              "screen": 3
+            },
+            "rows": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row icons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row icon drawings": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row portraits": {
+              "pack": 5,
+              "screen": 5
+            },
+            "row titles": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row lines": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row chevrons": {
+              "pack": 6,
+              "screen": 6
+            },
+            "row chevron drawings": {
+              "pack": 6,
+              "screen": 6
+            },
+            "code card": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "note": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: the code, hidden, at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "footer icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code card lines": {
+              "pack": 6,
+              "screen": 6
+            },
+            "code card icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null,
+          "wrap": {
+            "what": "the code wraps only between its groups, each whole (0.1.2); the pack's breaks anywhere",
+            "pack": {
+              "wordBreak": "break-all",
+              "h": 44.78125
+            },
+            "screen": {
+              "wordBreak": "normal",
+              "h": 44.78125
+            },
+            "lines": 0,
+            "shift": 0
+          }
+        }
+      },
+      {
+        "id": "agree: the code, revealed, at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "footer icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code card lines": {
+              "pack": 6,
+              "screen": 6
+            },
+            "code card icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null,
+          "wrap": {
+            "what": "the code wraps only between its groups, each whole (0.1.2); the pack's breaks anywhere",
+            "pack": {
+              "wordBreak": "break-all",
+              "h": 22.390625
+            },
+            "screen": {
+              "wordBreak": "normal",
+              "h": 22.390625
+            },
+            "lines": 0,
+            "shift": 0
+          }
+        }
+      },
+      {
+        "id": "agree: the code, revealed, at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "footer icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code card lines": {
+              "pack": 6,
+              "screen": 6
+            },
+            "code card icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null,
+          "wrap": {
+            "what": "the code wraps only between its groups, each whole (0.1.2); the pack's breaks anywhere",
+            "pack": {
+              "wordBreak": "break-all",
+              "h": 22.390625
+            },
+            "screen": {
+              "wordBreak": "normal",
+              "h": 22.390625
+            },
+            "lines": 0,
+            "shift": 0
+          }
+        }
+      },
+      {
+        "id": "agree: the code, copied, with the toast, at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "footer icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "toast": {
+              "pack": 1,
+              "screen": 1
+            },
+            "toast icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code card lines": {
+              "pack": 6,
+              "screen": 6
+            },
+            "code card icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null,
+          "wrap": {
+            "what": "the code wraps only between its groups, each whole (0.1.2); the pack's breaks anywhere",
+            "pack": {
+              "wordBreak": "break-all",
+              "h": 44.78125
+            },
+            "screen": {
+              "wordBreak": "normal",
+              "h": 44.78125
+            },
+            "lines": 0,
+            "shift": 0
+          }
+        }
+      },
+      {
+        "id": "agree: the abort's confirm at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "footer icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "note": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm tile": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm line": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: the abort's confirm at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "footer icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "note": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm tile": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm line": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: the code, revealed, with the Largest text (200 %) at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "footer icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code card lines": {
+              "pack": 6,
+              "screen": 6
+            },
+            "code card icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": {
+            "what": "the timer icon keeps its 24 px (the kit's icons never shrink); the pack's shrinks beside the long line",
+            "pack": {
+              "x": 32,
+              "y": 688.21875,
+              "w": 21.828125,
+              "h": 24
+            },
+            "screen": {
+              "x": 32,
+              "y": 733.015625,
+              "w": 24,
+              "h": 24
+            }
+          },
+          "wrap": {
+            "what": "the code wraps only between its groups, each whole (0.1.2); the pack's breaks anywhere",
+            "pack": {
+              "wordBreak": "break-all",
+              "h": 89.59375
+            },
+            "screen": {
+              "wordBreak": "normal",
+              "h": 134.390625
+            },
+            "lines": 1,
+            "shift": 44.796875
+          }
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-GLOHl_v0.js",
+        "line": 1,
+        "column": 6049,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}

@@ -1,0 +1,168 @@
+# Host controls: Designer's runtime component
+
+**Version:** `host-controls-0.1.2` (17 November: the code and the Match ID wrap only between groups, [below](#the-codes-wrap-012-the-leads-rule-of-17-november); 0.1.1: Retry, [below](#retry-011-the-leads-answer-of-17-november)). **Status (16 November 2026):** built to the interface the Lead Designer approved on #295, with the Lead's six answers below, against the phone shell 0.2.6. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
+
+**What it is:** the host's controls in a match, as sheet 15 draws them: their own sheet, opened from the Settings sheet's Host controls row (#294), in plain words, with a recovery code for each seat. It is #222 item 28, P3. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
+
+**Audience:** the host's own phone only. The sheet, and above all the code view, never reaches the shared display: Frontend opens it only on the host's phone, and the code is private to that phone (the Lead's privacy note on #295).
+
+**Covers** (sheet 15):
+
+| View | Sheet (the shell's frame) | Body (this component) | Footer (the shell's actions) |
+| --- | --- | --- | --- |
+| **Host controls** (`list`) | "Host controls", Back (to Settings), ✕ | Two rows: "Check the deadline" ("Asks the server to move on if time is up") and "Run bots" ("Bots act if they can"). "Recovery codes": a row per seat, its portrait, "1 · Ava", "New code", the chevron. Then "Abort match" ("Ends with no winner"), the chevron | None |
+| **Code · hidden** (`code`) | "Recovery code", "Private to this phone", Back (to the list), ✕ | The code card: "Recovery for Player 4 · Dev", "Match ID" and the ID in the mono face, "Code" and the pack's dots, "Works once · 15 minutes" with the timer icon. Then "Show it only to Player 4. It never appears on the shared display." | Reveal (the eye) · Copy (amber) |
+| **Code · revealed** (`code`) | As above | The same, the code in the mono face | Hide · Copy; "Copied" in the shell's toast after a copy |
+| **Abort · confirm** (`abort`) | "Host controls", Back (to the list), ✕ | The warning tile, "Abort the match?", "It ends now for everyone, with no winner." | Keep playing · Abort match |
+
+**What changes from today:**
+- **Today:** inside the Settings panel: "Check server deadline", "Run eligible bots", "Issue recovery for Player 6" for each seat, and "Abort match", which turns into "Confirm abort · No winner". An issued code shows under them with its Match ID, behind "Reveal recovery code".
+- **Drawn:** their own sheet in plain words, a code for each seat with its own card, and the abort's own confirm step (#222 item 28).
+
+**Comparison part:** `host-controls` ("Host controls in a match", sheet 15), in `design/tools/lib/phone-ui-native-parts.mjs`. It applies when Frontend's PR mounts this component; until then, the component's own captures are its evidence.
+
+**Not in it:**
+- **The commands and their answers:** checking the deadline (today's `advance`), running bots (`runBots`), issuing a seat's code (`issueRecovery`) and aborting (`abort`) are Frontend's to send and the server's to answer. The component reports a tap; Frontend gives each command's state and the issued code.
+- **The sheet's frame and footer:** the title, Back, ✕ and the footer's buttons are the phone shell's (0.2.6). Frontend opens the sheet and mounts this body in `shell.sheetBody`; the module gives Frontend the sheet's words, icons and buttons for each view (`hostControlsSheet`, answer 1), so they stay in Designer's source.
+- **The host's lobby controls** (seats, bots before the start, admitting players): the host room (#287).
+
+## The Lead's answers (#295)
+
+1. **The split:** the body is the component's; the frame and footer are the shell's through `hostControlsSheet(input)`; the view is Frontend's, from the taps and Back. The same pattern as the private talk's `declareSheet()` and `claimSheet()`.
+2. **In flight and refused:** in flight, the row busy with the kit's spinner at its end, and Abort match busy in the footer; refused, the row dimmed, Frontend's reason in place of its line and as its description; receipts in the shell's toast. While a command is in flight only that row is busy; the others keep their own state as Frontend gives it. The component never infers one command's state from another's.
+3. **Abort match:** the shell draws it. Shell 0.2.4's sheet actions take `kind: 'warn'`, the kit's warn button (the pack's `.btn-warn`: a paper outline, no fill, the same on glass). The confirm's footer is Keep playing (secondary) and Abort match (warn).
+4. **The code:** the server issues it with `expiresAt` 15 minutes ahead, and a `used` flag makes it single-use (`services/game-api/src/planet-game.ts`), so "Works once" is the server's fact. `minutes` are the minutes left, which Frontend works out from `expiresAt` and the trusted clock, rounded up and updated as they change; without them the line is dropped, and the component never counts down. Once it expires, Frontend drops the code. The value is in the page only while revealed, never in an attribute, a report or the layout, and it is dropped on a viewer change and when concealed; the probe checks each.
+5. **Reconnecting:** shell 0.2.4 adds `local: true` to a footer action: this phone's own, like Back, ✕ and the head actions, working while reconnecting and standing for no command. Reveal, Hide, Copy and Keep playing are local, so Hide always works (the probe checks it: the code revealed, then reconnecting, Hide is taken, and once Frontend hides the code it leaves the page); Abort match stays a command, refused while reconnecting with the banner's words, as the command rows are. `interactive: false` still refuses everything, and concealed draws no sheet.
+6. **The seats:** Frontend lists them, and the component draws only what it is given: names given, portraits by character. Whether the host's own seat or a bot's seat is listed is Frontend's and the server's call.
+
+## Files
+
+Designer's, runtime-safe, in `design/phone-ui/components/host-controls/`:
+
+| Path | What |
+| --- | --- |
+| `host-controls.mjs` | `mountHostControls()`, `hostControlsSheet()`, `nextHostControlsInput()`, `HOST_CONTROLS_DEFAULTS`, `HOST_CONTROLS_VERSION`, `HOST_SHEET_ID`, `HOST_WORDS`, `CODE_MASK` |
+| `host-controls.css` | Every style, under `.ms-host-controls`; starts with the kit's stylesheet. Its own: the code card (only sheet 15 draws it, in the pack's values and inline styles) and the 14 px before Abort match |
+| `preview/` | Development only: the preview (the body in the phone shell's sheet over Room A, as sheet 15 draws it), `probe.mjs`, and `agree.mjs` (beside the frozen pack's `host-controls`, its `code`, `reveal` and `abort` states) |
+| `review/` | The check's captures and `check.json` |
+
+The tool is `design/tools/host-controls-check.mjs`, on the shared `lib/component-check.mjs`. The test is `packages/design-tokens/test/host-controls.test.mjs`.
+
+**Uses unchanged:**
+- **The kit (0.5.1):** `list` and `row` (icon tiles, portraits as leads, the chevron, the spinner as a trail), `groupLabel`, `groupNote`, `wait` (`size: 'small'`, the abort's warning tile and its 1.25rem title), and the control policy.
+- **The phone shell (0.2.6):** its sheet (`back`, `sub`, `detent: 'large'`, `actions` with `kind: 'warn'` and `local: true`), its toast ("Copied", and Frontend's receipts) and its reconnecting banner. The component does not import the shell.
+
+## Mount, update and dispose
+
+```js
+import { mountHostControls, hostControlsSheet } from '…/design/phone-ui/components/host-controls/host-controls.mjs';
+import '…/design/phone-ui/components/host-controls/host-controls.css';
+
+shell.update({ sheet: hostControlsSheet(input) });          // the frame and footer for the view
+const host = mountHostControls(shell.sheetBody, input, handlers);
+host.update({ ...changes });                                // each key given replaces that key; the rest stay
+shell.update({ sheet: hostControlsSheet(nextInput) });      // as the view, the code or abort's state change
+host.dispose();                                             // safe twice; afterwards nothing fires
+```
+
+- **On update,** each row keeps its element and the focus, by its id (`deadline`, `bots`, `abort`, each seat), through every ordinary update.
+- **The footer's buttons** report through the shell's `onSheetAction(id)`: `reveal`, `hide`, `copy` in the code view; `keep`, `abort` in the confirm.
+
+## Inputs
+
+| Input | Audience | What |
+| --- | --- | --- |
+| `view` | The host's | `list`, `code` or `abort`: Frontend's, from the taps (answer 1) |
+| `status` | Phone | `live`, `stale` or `concealed`: while reconnecting, the commands are refused with the banner's words, not dimmed, and the confirm still opens (answer 5); concealed drops the code |
+| `interactive`, `viewer`, `versions` | Phone | As the shell's; `versions` for the portraits |
+| `deadline`, `bots` | The host's | `{ enabled, busy, reason }`: Check the deadline's and Run bots' states, from Frontend; not offered until given (answer 2) |
+| `seats` | The host's | `[{ seat, name, character, enabled, busy, reason }]`: the seats Frontend lists for a code, each offered unless Frontend says otherwise (answer 6) |
+| `abort` | The host's | `{ enabled, busy, reason }`: the abort's state; the row opens the confirm, the footer's Abort match sends it |
+| `code` | The host's, private | `null`, or `{ seat, name, matchId, revealed, value, minutes }`: the issued code. `value` only while `revealed` (given hidden, it is refused); `minutes` left, from the server's `expiresAt` (answer 4) |
+| `retry` | The host's | `null`, or `{ enabled, busy }` (0.1.1): while the session's own request has an unknown outcome and waits to be sent again. The list's footer then has Retry; the rows are refused with Frontend's words |
+
+**The component decides nothing:** it never works out whether a deadline has passed, whether a bot can act, who may have a code, how long a code lasts, or whether the match may end. Frontend gives each state from the session; the reasons and receipts are Frontend's words.
+
+**When the viewer changes,** the code is dropped unless the same update gives the new viewer's (the shell also drops the whole sheet, as a sheet is this viewer's own).
+
+## Callbacks
+
+| Callback | When |
+| --- | --- |
+| `onDeadline()` | Check the deadline: Frontend sends today's `advance` |
+| `onBots()` | Run bots: Frontend sends `runBots` |
+| `onIssueRecovery(seat)` | A seat's row: Frontend sends `issueRecovery`, and shows the code view with the issued code |
+| `onAbortAsk()` | The Abort match row: Frontend shows the confirm view (nothing is sent) |
+| `onFocusReturn({ intent, value })` | As the other components' |
+| The shell's `onSheetAction(id)` | `reveal` / `hide`: Frontend shows or hides the code; `copy`: Frontend copies the code and shows "Copied"; `keep`: back to the list; `abort`: Frontend sends `abort`; `retry` (0.1.1): Frontend sends the session's request again (`session.retry()`) |
+
+Each reports a tap, and only that.
+
+## Drawn
+
+| Part | Drawn (sheet 15) |
+| --- | --- |
+| The list | On the sheet's glass: the kit's rows with steel icon tiles (the timer, the bot), "Recovery codes" and the seats' rows (portrait, "n · Name", "New code", chevron), 14 px, then the Abort match row (the warning on paper, chevron) |
+| A command in flight | That row only refused (`aria-busy`), the kit's spinner at its end (the pack draws none; answer 2) |
+| A command refused | The row dimmed and refused, Frontend's reason as its line in place of the usual one and as its description (answer 2) |
+| The code card | Sheet 15's own: "Recovery for Player 4 · Dev" in capitals, "Match ID" and the ID, "Code" and the dots or the code (mono), the timer and "Works once · 15 minutes". The ID and the code wrap only between their groups (0.1.2) |
+| The note | "Show it only to Player 4. It never appears on the shared display." |
+| The confirm | The kit's waiting block: the warning tile, "Abort the match?", "It ends now for everyone, with no winner." |
+| Larger text | The rows' words wrap; the card's ID and code wrap between their groups, each whole; the sheet scrolls |
+
+**Motion:** the spinner while a command is in flight; with Reduce motion it stands still. The sheet's and the toast's are the shell's.
+
+**The code's privacy:** the code is on the page only while revealed. Hidden, the card shows the pack's fixed dots, so neither the code nor its length is there; it is never in an attribute, a report or the layout, and it leaves the page when hidden, when the view changes, when the viewer changes and on dispose.
+
+### Against the pack
+
+The agreement draws the frozen pack's `host-controls` screen beside the sheet (its list, the code hidden and revealed, the copy's toast, and the abort's confirm; at both sizes and the Largest text) and compares, to within half a pixel: the sheet, its title, line and body; the footer and its buttons and icons; the toast; the group label, the lists, the rows, their icon tiles and drawings, portraits (by file), titles, lines and chevrons; the code card and each of its six lines and its timer icon; the note; and the confirm's tile, icon, title and line: their boxes, words, looks, states (`aria-disabled`, `aria-busy`, names, roles) and drawings. The room behind the sheet, the top bar and the tabs are the room scene's and the shell's own agreements'; what the pack does not draw (a command in flight or refused, reconnecting) is the probe's.
+
+- **The shell, as it is:** compared with shell 0.2.6 (since 0.2.5 it draws the pack's sheet head with Back (18 px at its left, the title at 72) and the footer's two equal halves at the Larger text); nothing is patched and nothing is recorded as the shell's. (This build's first record found both under 0.2.4; the Lead settled them in the shell.)
+- **Accepted, at the Largest text only:** beside the long "Works once · 15 minutes" the pack's timer icon shrinks to under 24 px; the card's keeps its 24 px, as the kit's icons never shrink (`.ms-k-ic`, `flex: none`). That case compares the icon's place and height, and records its width.
+- **The code's wrap (0.1.2), recorded in each code case:** the pack's code line breaks anywhere (`word-break: break-all`); the component's wraps only between groups. Each code case compares that line's look but its `word-break`, records both as `wrap`, and passes only while every group is whole. Where keeping a group whole takes more lines (the Largest text: three lines for the pack's two), the line is taller by whole lines, and the card and everything under it in the body sit lower by just that much, which is compared; the frame doesn't move.
+
+## The code's wrap (0.1.2, the Lead's rule of 17 November)
+
+Reviewing #308's part 8, the Lead found the hidden code at 390 × 844 wrapping as "•••••• •••••• •••••• •••••• •••••" with one "•" on a second line: the pack's code line breaks anywhere (`word-break: break-all`), and a real code would split inside a group the same way, which invites misreading when a player copies it out. **The rule:** the code, hidden and revealed, wraps only between groups, and a group never splits. It is a wrap fix, not a change of look.
+- **The groups:** the mask's are its own, between its spaces (`maskGroups()`). The server's code (`issueRecovery`: `randomBytes(24)` in base64url) is 32 characters with no separator of its own, so its groups are the mask's six (`codeGroups()`, `CODE_GROUP`); a hyphen or underscore in it is a character of the code, not a place to wrap. The Match ID, which the player also types into Recover, is the server's UUID: it wraps after its hyphens (`matchIdGroups()`).
+- **Drawn:** each group a span that never wraps (`white-space: nowrap`); between them the mask's own space, or a break that adds no character (`<wbr>`). Nothing is drawn between the groups, so the code reads as the pack draws it, and its text, selected and copied by hand, is the value itself.
+- **Privacy:** unchanged. The code is drawn in pieces, so the probe and the check now look for it in the page's text as well as its markup.
+- **Checked:** two new states in the server's formats (`real`, `real-largest`: a 32-character base64url code with a hyphen and an underscore, and a UUID Match ID), captured at both sizes; on every code capture the check records each line's groups and the lines they take, and fails on a group over two lines or a line past its box. The probe's wrap check holds the text, the groups and the breaks; the test holds the groups of the mask, the server's code, the pack's sample and UUIDs.
+
+## Retry (0.1.1, the Lead's answer of 17 November)
+
+The pre-game connection (#308, part 8) found that the host has no Retry in the match once the old host controls leave: a session request with an unknown outcome (a host command whose answer was lost, or one restored after a reload as "A previous session request needs an exact retry") waits to be sent again, and until then the session sends nothing else, so every command is refused and the match's end can't return to the lobby. The Lead decided it on 17 November: it fills a state sheet 15 doesn't draw, so it is the Lead's to decide, like the entry screens' G6, and needs no owner approval.
+- **The input:** `retry: null | { enabled, busy }`, from Frontend.
+- **The list's footer** has "Retry", the kit's primary button, while it is given. It stands for the session's request, so it is a command, not local: while reconnecting the shell refuses it with the banner's words, as Abort match. The code card's and the confirm's footers are unchanged.
+- **The rows** are refused with Frontend's words, the session's own ("Session request outcome unknown. Retry the original request."), as any refusal is.
+- **It reports** through the shell's `onSheetAction('retry')`; Frontend calls `session.retry()`.
+- **Checked:** the preview's `retry` state and the check's captures of it at both sizes; the probe's retry check (the footer's word, look and intent, its report, busy, gone when not given, the confirm's footer unchanged, the rows' words); and the test (the input, its refusals, and the frame in each view).
+
+## Check
+
+`node design/tools/host-controls-check.mjs` bundles the preview with Vite and serves it with the production headers. It captures 13 states at 390 × 844 and 430 × 932 (with 0.1.1's Retry and 0.1.2's server formats): the list, Run bots in flight, Check the deadline refused, the code hidden, revealed and copied, the confirm, the abort in flight, reconnecting, the revealed code at the Largest text, and the server's code and Match ID at the Standard and Largest text; each asserts the code is in the page only while revealed, and on the code's card, that each group is whole. Then it runs the probe (as the page comes and with the device's Reduce motion) and the agreement.
+
+**Recorded against `2fcb32b1` (clean, `host-controls-0.1.2`):** **26 of 26 captures**, the probe **25 of 25** (with the wrap check) and the agreement **9 of 9** pass, each code case recording its wrap. On every code capture each group is whole and no line runs past the card:
+- **the hidden code at 390 × 844** (`code`, `copied`) takes two lines, its fifth group whole on the second, where the pack's left one dot; at 430 × 932 it takes one;
+- **the server's code** (`real`) takes one line at both sizes, and its UUID two, after its fourth hyphen at 390 × 844; at the Largest text (`real-largest`) the code takes three lines at 390 × 844 and two at 430 × 932, and the UUID three;
+- **the pack's sample at the Largest text** (`largest`) takes three lines at 390 × 844 where the pack's takes two; the agreement records the extra line (44.8 px) and the body under it lower by that much.
+
+Against `ea7db89d`'s record, the captures that change are those: `code` and `copied` at 390 × 844 (the mask's second line) and `largest` at 390 × 844 (the extra line); the two `busy` captures differ in the spinner's frame; `revealed`, and `code` and `copied` at 430 × 932, differ only where the Match ID and the code are now drawn in spans, by sub-pixel glyph placement (no change at a glance, the agreement's boxes within half a pixel); the others by encoding noise. The four `real` captures are new.
+
+**Before, recorded against `48538396` (clean, `host-controls-0.1.1`):** #294 merged at `31d29815`, bringing kit 0.8.2 and shell 0.2.11 (#265 at `a0900240`) and the entry screens' `followTextSize`. **22 of 22 captures**, the probe **24 of 24** (with the new retry check) and the agreement 9 of 9 pass. Against `15e816dc`'s record, the 20 earlier captures differ only by encoding noise, nothing above the threshold; the two `retry` captures are new.
+
+**Before, recorded against `15e816dc` (clean):** #294 merged at `eed46538`, bringing kit 0.8.0, shell 0.2.8 (#265 at `0e5a0b8a`) and `entry-parts-0.4.0`. 20 of 20 captures, the probe 23 of 23 and the agreement 9 of 9 pass. Against `644da15d`'s record no capture differs by more than JPEG noise (no pixel by more than 24 levels), the toast in "Copied" among them: the shell's toast is now the kit's, drawn the same.
+
+**Before, recorded against `644da15d` (clean, with the shell 0.2.6):** 20 of 20 captures, the probe 23 of 23 checks (22 as the page comes, the motion check with the device's Reduce motion), and the agreement 9 of 9 with the shell as it is, with no unexpected policy report and no page problem; the code in the page only in the revealed captures. The headers' SHA-256 is `424e5dec…`. The record is `review/check.json`.
+
+## Frontend's connection
+
+1. Show the Settings sheet's Host controls row to the host (#294's `hostControls`); on `onHostControls`, open this sheet: `shell.update({ sheet: hostControlsSheet(input) })` and mount the body in `shell.sheetBody`.
+2. Give `deadline`, `bots`, `seats` and `abort` from the session (today's `model.status`, `model.members`, `model.busy`), `busy` while each command is in flight, and the issued code from the server's answer.
+3. Route the callbacks and the shell's `onSheetAction` and `onSheetBack` (code and confirm back to the list; the list back to Settings) as above; show each receipt in the shell's toast in Frontend's words.
+4. Today's host controls inside Settings leave the screen.
+
+## Not in this version
+
+The comparison through Frontend's native build (the `host-controls` part) waits for Frontend's PR that mounts it.
