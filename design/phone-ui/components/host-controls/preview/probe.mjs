@@ -165,7 +165,7 @@ export async function runHostControlsProbe({ sizes, mountState, disposeState, in
       const ok = code.join() === 'hide,copy' && confirm.actions.join() === 'keep' && !confirm.keep && confirm.abort && !confirm.dimmed && confirm.why === 'Controls return when the match is current' && confirm.warn;
       return { ok, code, confirm };
     });
-    await check('wrap (0.1.2): the code and the Match ID are drawn in groups that never wrap, their text the value itself', async () => {
+    await check('wrap: the code and the Match ID are drawn in groups that never wrap, their text the value itself (0.1.2)', async () => {
       const s = mount(inputOf({ view: 'code', code: codeOf(false, 15, { matchId: REAL_MATCH_ID, value: REAL_CODE }) }));
       const line = sel => { const n = s.q(sel), groups = [...n.querySelectorAll(':scope > .ms-hc-group')];
         return { text: n.textContent, groups: groups.map(g => g.textContent), nowrap: groups.every(g => getComputedStyle(g).whiteSpace === 'nowrap'),
