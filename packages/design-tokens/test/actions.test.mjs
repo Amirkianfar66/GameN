@@ -9,7 +9,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  ACTIONS_DEFAULTS, ACTIONS_VERSION, ACTION_LOOKS, ACTION_WORDS, actionWords, actionsSheet, afterSheet, checkActionCheck, checkActions, checkAfterRegister,
+  ACTIONS_DEFAULTS, ACTIONS_VERSION, ACTION_LOOKS, ACTION_WORDS, actionWords, actionsSheet, afterSheet, blackoutBar, checkActionCheck, checkActions, checkAfterRegister,
   checkOutcomeUnknown, checkPassNote, checkSheet, checkTargetList, moveBar, moveChip, movedToast, nextActionsInput, passSheet, passedToast, registeredToast, targetBar,
   targetChip, targetListSheet, tileLine, unknownSheet,
 } from '../../../design/phone-ui/components/actions/actions.mjs';
@@ -66,7 +66,7 @@ test('the component is a runtime source: its whole graph is runtime-safe and in 
     assert.match(read(`${COMPONENT}/${path}`), /mothership:dev-only/, `${path} is marked development-only`);
   }
   assert.match(read('design/tools/actions-check.mjs'), /^\/\/ mothership:dev-only/);
-  assert.equal(ACTIONS_VERSION, 'actions-0.2.1');
+  assert.equal(ACTIONS_VERSION, 'actions-0.2.2');
 });
 
 test('its styles reach nothing outside the component: every rule is under its root, weighs two classes, and places the kit\'s and the parts\' only inside its own', () => {
@@ -118,7 +118,9 @@ test('its words are the pack\'s (screens-game.mjs, screens-more.mjs, icons.mjs, 
     W.choosePlayer, W.chooseTwo, 'every room', 'Other rooms · ', W.unknown, W.retrySame, W.checkReceipt, 'was sent, but no answer came back.', W.checkFirst,
     W.passTitle, 'The turn goes to', W.pass, W.passed, W.stale, W.toast.captured(), ...Object.values(W.stamps),
     // Move (screens-game.mjs room() and board()): the room's bar and chip, the board's bar, the picked words.
-    'Move within ', W.moveChoose, W.moveOrBoard, W.moveBoard, W.moveChip, 'Move to '];
+    'Move within ', W.moveChoose, W.moveOrBoard, W.moveBoard, W.moveChip, 'Move to ',
+    // The Disabler's position during a Blackout (screens-more.mjs blackout(), sheet 30), word for word.
+    W.positionChoose, W.positionAny('Room A'), W.positionFixed('A3'), W.positionLater];
   // Move's Register is the Lead's Q1 (the pack draws no check for Move): in the form of the others', recorded below.
   // "Panel request" is the Lead's Q3 (the pack draws no "Outcome unknown" for the Hospital panel), recorded below.
   const added = new Set([ACTION_LOOKS.MOVE.register, ACTION_LOOKS.PANEL_CODE.verb]);
@@ -208,9 +210,11 @@ test('every preview state is a valid input of its part, and every compared pack 
     assert.doesNotThrow(() => CHECKS[state.part.kind]({ viewer: 'seat-4', ...state.part.input }), key);
   }
   assert.deepEqual([...kinds].sort(), Object.keys(CHECKS).sort(), 'every part has a preview state');
-  assert.equal(Object.keys(ACTIONS_STATES).length, 56);
+  assert.equal(Object.keys(ACTIONS_STATES).length, 59);
   for (const key of Object.keys(PACK_FRAMES)) assert.ok(ACTIONS_STATES[key], `${key} is a preview state`);
-  assert.equal(Object.keys(PACK_FRAMES).length, 29, 'the 29 frames compared with the pack');
+  assert.equal(Object.keys(PACK_FRAMES).length, 31, 'the 31 frames compared with the pack');
+  // Sheet 30: the Disabler choosing a position in the dark, and the position fixed.
+  assert.deepEqual(['blackout-pick', 'blackout-fixed'].map(k => PACK_FRAMES[k].frame), ['blackout&state=pick', 'blackout&state=chosen']);
   // Move's frames: sheet 20's bar and chip, the board's bar (26 and 27.1), and 27.3's "Turn passed".
   assert.deepEqual(['move-room', 'move-board', 'passed'].map(k => PACK_FRAMES[k].frame), ['room&room=room-a&state=move', 'board&state=move', 'room&room=room-a&state=passed']);
 });
@@ -241,6 +245,14 @@ test('the frames and the shell\'s words, from the type alone', () => {
   // The Hacker's bar and the Code are the Hacker component's: no second copy here (the Lead's note 2).
   assert.throws(() => targetBar({ type: 'SCAN' }), /the Hacker component's scanBar\(\)/);
   assert.throws(() => targetBar({ type: 'SUBMIT_CODE' }), /the Hacker component's codeSheet\(\)/);
+  // The Disabler's position bar during a Blackout (sheet 30; the owner's decision of 16 November): its room while
+  // choosing, then the position the server has, with the pack's position mark.
+  assert.deepEqual(blackoutBar({ room: 'Room A' }), { icon: 'position', title: 'Choose a position', sub: 'Room A · any position, even empty' });
+  assert.deepEqual(blackoutBar({ room: 'Room B', fixed: 'B2' }), { icon: 'position', title: 'Position B2 fixed', sub: 'Resolves after the window · no effect shown now' });
+  assert.equal(blackoutBar({ fixed: 'A3' }).title, 'Position A3 fixed', 'once fixed, the room is not needed');
+  assert.throws(() => blackoutBar(), /names the room/);
+  assert.throws(() => blackoutBar({ room: 'Room A', fixed: '' }), /fixed is the position/);
+  assert.ok(ICON_NAMES.includes('position'), 'the position mark is in the game\'s icon family');
   // The Hospital panel's keypad, Submit and records are the Hospital panel component's (the Lead's Q3): only sheet 45
   // is Actions', and both its buttons stand for commands, as for every action.
   for (const [what, fn] of [['target bar', () => targetBar({ type: 'PANEL_CODE' })], ['list', () => targetListSheet({ type: 'PANEL_CODE' })], ['check', () => checkSheet({ type: 'PANEL_CODE' })],
@@ -308,7 +320,7 @@ test('the check\'s record: every capture, the probe and the agreement passed, on
   assert.match(csp, /default-src 'none'/);
   assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
   const captures = Object.entries(record.captures);
-  assert.equal(captures.length, 105, 'every state at both phone sizes, the small phone\'s and the text sizes\' at their own');
+  assert.equal(captures.length, 110, 'every state at both phone sizes, the small phone\'s and the text sizes\' at their own');
   for (const [key, c] of captures) {
     assert.ok(c.ok && c.drawn, `${key} passed and drew what its state asks`);
     assert.deepEqual(c.mismatched, [], `${key}: nothing differs from what its state asks`);
@@ -328,13 +340,16 @@ test('the check\'s record: every capture, the probe and the agreement passed, on
   const agree = record.agree;
   assert.ok(agree.ok, 'the agreement with the pack');
   assert.deepEqual(agree.problems, [], 'agreement: no page problem');
-  assert.equal(agree.checks.length, 29, 'every compared frame');
+  assert.equal(agree.checks.length, 31, 'every compared frame');
   for (const c of agree.checks) assert.ok(c.ok, `${c.id} agrees with the pack`);
   // Move as drawn: the room's bar, chip and offered position; the check with the position marked; the toast.
   const at = key => record.captures[`390x844/${key}`];
   assert.deepEqual([at('move-room').target, at('move-room').chip, at('move-room').slots], ['Move within Room A|Choose an empty position · or another room on the Board', 'Other rooms on the Board', 'A5']);
   assert.deepEqual([at('move-check').who, at('move-check').slots, at('move-check').footer], ['Move to A5|Room A', 'A5*', 'Cancel|Register move']);
   assert.deepEqual([at('move-moved').toast, at('passed').toast], ['Moved to A5', 'Turn passed']);
+  // The Disabler during a Blackout (sheet 30): the dark room, every position offered, then A3 fixed.
+  assert.deepEqual([at('blackout-pick').target, at('blackout-pick').slots, at('blackout-pick').lighting], ['Choose a position|Room A · any position, even empty', 'A1,A2,A3,A4,A5', 'dark']);
+  assert.deepEqual([at('blackout-fixed').target, at('blackout-fixed').slots], ['Position A3 fixed|Resolves after the window · no effect shown now', 'A1,A2,A3*,A4,A5']);
   // The pack's room shows its own control on 27.3's third frame: the room scene's, named, not compared here.
   assert.deepEqual(agree.checks.find(c => c.id.startsWith('agree: passed')).detail.notCompared, ['chip "Window · Hospital": the room\'s own control, the room scene\'s (#261)']);
 });
