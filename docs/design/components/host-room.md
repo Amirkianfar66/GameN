@@ -37,7 +37,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/host-room/`:
 | `host-lobby.mjs` | `mountHostLobby()`, `nextHostLobbyInput()`, `HOST_LOBBY_DEFAULTS`, `HOST_LOBBY_VERSION`, `LOBBY_WORDS` |
 | `host-room.css` | Every style of both, under `.ms-host-setup` and `.ms-host-lobby`; starts with the kit's and the entry parts' stylesheets |
 | `../entry-parts/entry-parts.mjs`, `entry-parts.css` | `entry-parts-0.3.0`: the entry choice (0.1.0, unchanged), and the entry screens' frame (decision 1, 0.2.0): `navBar`/`setNavBar`, `screen`, `foot`, `largeTitle`, `codeCard`/`setCodeCard` with `CODE_WORDS`, and `createToast(host)` with `ENTRY_TOAST_MS`, drawn by the kit's toast (0.3.0) |
-| `preview/` | Development only: eleven states on the pack's fixtures (`ROOM_CODE`, the roster's names; the mix per count, the bot range and Start's reason standing in for Frontend's), `probe.mjs`, and `agree.mjs` (each screen beside the frozen pack's `ENTRY_SCREENS['host-setup']` and `ENTRY_SCREENS['host-lobby']`) |
+| `preview/` | Development only: thirteen states on the pack's fixtures (`ROOM_CODE`, the roster's names; the mix per count, the bot range and Start's reason standing in for Frontend's), `probe.mjs`, and `agree.mjs` (each screen beside the frozen pack's `ENTRY_SCREENS['host-setup']` and `ENTRY_SCREENS['host-lobby']`) |
 | `review/` | The check's captures and `check.json` |
 
 The tool is `design/tools/host-room-check.mjs`, on the shared `lib/component-check.mjs`. The test is `packages/design-tokens/test/host-room.test.mjs`.
@@ -192,7 +192,7 @@ It is a larger-text fix, not a sheet change: the sheets are at the Standard text
 
 `node design/tools/host-room-check.mjs` bundles the preview with Vite, serves it with the production headers (SHA-256 `424e5dec…`, `lib/component-check.mjs`), and in desktop Chromium at 2× pixels:
 
-- captures the eleven states at 390 × 844 and 430 × 932: 22 captures, each with no policy violation, failed request or page error, on the pack's canvas, drawing what its state asks;
+- captures the thirteen states at 390 × 844 and 430 × 932: 26 captures, each with no policy violation, failed request or page error, on the pack's canvas, drawing what its state asks;
 - runs the probe as the page comes and with the device's Reduce motion: setup, the lobby, the stepper, keyed rows and focus, offline (a notice with every control enabled refuses nothing), the toast and a tap through it, not interactive, insets, the Largest text, input, dispose, motion;
 - runs the agreement: eleven cases, each screen beside the frozen pack's, the same words, states (`aria-disabled`, `aria-busy`, `aria-checked`, names), look and boxes to within half a pixel, the toast's included. For the three lobby cases with the larger text, the pack is drawn with the code card's two rules, so everything else is compared, and each case records the improvement against the pack as it is.
 
@@ -200,7 +200,12 @@ It is a larger-text fix, not a sheet change: the sheets are at the Standard text
 
 ### Checks run on this version
 
-On `193743f7`, clean: #265 merged at `0e5a0b8a` (kit 0.8.0, shell 0.2.8), with `host-lobby-0.1.1` and `entry-parts-0.3.0`, whose toast is the kit's; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`. Against `56519d09`'s record, 20 of the 22 captures are byte-identical, the two "Copied" ones with the toast among them. The two Opening… captures change by the busy spinner's frame.
+On `37d9f616`, clean: `host-setup-0.1.1` and `host-lobby-0.1.2`, the game's two gaps (above), on the same kit, shell, entry parts and headers (SHA-256 `424e5dec…`).
+- **Captures:** **26 of 26 pass.** Against `193743f7`'s record, 20 of its 22 captures are byte-identical; the two Opening… captures change by the busy spinner's frame. The four new ones are `setup-nomix` (no line under 7/8/9) and `lobby-noleave` (Leave dimmed and refused, with "Not available in this test" as its description) at both sizes.
+- **The lifecycle probe:** 15 of 15 (14 as the page comes, with the gaps' check; 1 with the device's Reduce motion).
+- **The agreement with the frozen pack:** 11 of 11 cases, as before; the two new states fill states sheet 11 doesn't draw, so they have no pack case.
+
+Before, on `193743f7`, clean: #265 merged at `0e5a0b8a` (kit 0.8.0, shell 0.2.8), with `host-lobby-0.1.1` and `entry-parts-0.3.0`, whose toast is the kit's; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`. Against `56519d09`'s record, 20 of the 22 captures are byte-identical, the two "Copied" ones with the toast among them. The two Opening… captures change by the busy spinner's frame.
 
 Before, on `56519d09`, clean (the kit 0.5.0 at `13167281`, with `ms-k-phone` on both roots; `entry-parts-0.2.0` with the code card's larger-text rules; decision 5). Against `5b360c34`'s record, 19 of the 22 captures were byte-identical. The two Full captures changed because + now keeps its look, and 390 × 844 Opening… by the busy spinner's frame.
 
