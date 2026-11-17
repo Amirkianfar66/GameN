@@ -2,7 +2,7 @@
 
 **Status (17 November 2026):** a draft for the Lead Designer's review, then Frontend's. It is not in the game yet, and it is not a release.
 - Release 3 of the owner's plan of 16 November 2026. Its first step is Actions (#273), as the plan's order says; the other parts follow on this branch, each in its own commit.
-- It is stacked on the [shell connection](shell-connection.md): begun on #307's `8c64f77c`, with [Actions](actions.md) 0.2.2 (#273 at `80f6aa5a`) merged at `6c6b71d5`. #307's heads are merged: `03119bd7` at `9ba0858e`, `c19be75a` at `978a04a2`, `48e55eba` at `6ffcd610`, `aa46726c` at `e97df11a` and `aabb4417` at `5d3e4734`: `phone-shell-0.2.12` with the phase bars and the final target bar, `component-kit-0.8.2`, `room-scene-0.5.1`, the phase-closed toast and the host sheet hook. Actions 0.2.3 (#273 at `b1aac9d2`), with the Lead's changes and answers of 17 November, is merged at `1e723308`.
+- It is stacked on the [shell connection](shell-connection.md): begun on #307's `8c64f77c`, with [Actions](actions.md) 0.2.2 (#273 at `80f6aa5a`) merged at `6c6b71d5`. #307's heads are merged: `03119bd7` at `9ba0858e`, `c19be75a` at `978a04a2`, `48e55eba` at `6ffcd610`, `aa46726c` at `e97df11a`, `aabb4417` at `5d3e4734` and `f81cd06a` at `6bcef045`: `phone-shell-0.2.12` with the phase bars and the final target bar, `component-kit-0.8.2`, `room-scene-0.5.1`, the phase-closed toast, the host sheet hook, and the game's sheet rules kept off Designer components in the sheet body. Actions 0.2.3 (#273 at `b1aac9d2`), with the Lead's changes and answers of 17 November, is merged at `1e723308`.
 - Integration first approves the source fence's new marked hunk. The changed files meet the pins the base already meets: `app.mjs` and `render.mjs`, and, through the drawing-port fence, `vite.config.mjs` (see [The gates](#the-gates)).
 
 **What it is:**
@@ -132,7 +132,7 @@ Nothing here works out who may act. Every usable control comes from the model's 
   - It was also run on throwaway copies of `4367f7e0` and of `9ba0858e` with `app.mjs`, `render.mjs`, `phone.css` and `planet.css` back at `origin/main`, the four files the base's pins name. There it passes.
   - So this change pins no new file: `check:sources` accepts the new hunk, `actions-input.mjs`, the changed mappers, the tests and the check.
 - **The other pins** the shell connection's page names fall on the same files: the hosted build's `reviewed-crew-drawing-release` on `app.mjs`, and the drawing-port fence on `vite.config.mjs`, which the room and shell connections' hunks already changed. They were not re-run here.
-- **These pass:** `typecheck`, `build`, and the game's tests, 875 of 875 on `1483ed86` (the shell connection's 864 and this one's 11), as 871 of 871 on `1e723308`.
+- **These pass:** `typecheck`, `build`, and the game's tests, 875 of 875 on `6bcef045` (the shell connection's 864 and this one's 11), as 871 of 871 on `1e723308`.
 
 ## Evidence
 
@@ -151,7 +151,7 @@ Nothing here works out who may act. Every usable control comes from the model's 
 - privacy: concealed and on a display, none of it;
 - the scene's marks.
 
-**A mutation run** made 33 changes to the connection's source, each restored from its saved bytes. Every one is caught by the three connection test files (this one, the shell's and the room scene's), on `04500fd0`.
+**A mutation run** made 33 changes to the connection's source, each restored from its saved bytes. Every one is caught by the three connection test files (this one, the shell's and the room scene's), on `04500fd0` and again on `a890057a`.
 - It adds A16's two (the headline's source, and the frame it is limited to), and four on the lines new in the merge of #307's `aabb4417`: the closed phase passed to the toast, the closed toast first, and the host sheet's footer and Back first.
 - The run of 27, on `aef40283`, added the Lead's changes: After Register's words and time line (Frontend's headline and detail, the private talk's detail, the round, the pick, the viewer as "yourself", Supply's order), the flags `canRetry`, `canCheck` and `canPass`, and the positions of Pass's and the Disabler's "Outcome unknown".
 - Two of the earlier 20 fell with the code they changed (the connection's own `usable()`, which `actions-0.2.3`'s flags replace).
@@ -164,8 +164,9 @@ Nothing here works out who may act. Every usable control comes from the model's 
 - It serves it with the hosted game's production headers (`createHostedPreviewHeaders`, headers SHA-256 `424e5dec…`, the shell's and the room scene's).
 - It drives the real app at 390 × 844 and 430 × 932.
 
-**Result:** 36 of 36 captures pass: eighteen states at both sizes, recorded on `7d1e51cc` (#307's `aabb4417` merged in, and A16) with the source clean and the art from `64e55516`, in one run.
-- **Against the record on `1e723308`:** 2 captures are byte for byte the same, and every recorded field of the 36 is the same, but for the bundle's file name in the known Zod report and these:
+**Result:** 36 of 36 captures pass: eighteen states at both sizes, recorded on `6bcef045` (#307's `aabb4417` and `f81cd06a` merged in, and A16) with the source clean and the art from `64e55516`, in one run.
+- **Against the record on `7d1e51cc`** (before `f81cd06a`): every recorded field of the 36 captures is the same, but for the bundle's file name in the known Zod report and `430x932-blackout`'s clock (0:09, where it read 0:08); 2 are byte for byte the same. Pixel by pixel, Actions' sheets are unchanged: the game's sheet rules had not reached its parts. What differs is the room's ambient motion (the windows' voyage, a blink).
+- **The record on `7d1e51cc`, against the one on `1e723308`:** 2 captures are byte for byte the same, and every recorded field of the 36 is the same, but for the bundle's file name in the known Zod report and these:
   - the hidden checkpoint, now recorded;
   - `rescue-after` and `suppress`: the hidden step and checkpoint say the headline, and their new checks pass;
   - `430x932-blackout`: the phase bar's clock read 0:08, where it read 0:09.
@@ -204,7 +205,7 @@ The harness answers a command at once, so "Registering…" is not drawn here; th
 ### The merge gate's comparison
 
 `design/tools/phone-ui-native-compare.mjs --only pass,actions,targeting,target-check,registered,clone,blackout,reconnecting`:
-- The build is the check's own bundle (`--keep`): it names `7d1e51cc`, clean, with art from `64e55516`. The pack is read at `04500fd0`, the record's commit, clean.
+- The build is the check's own bundle (`--keep`): it names `6bcef045`, clean, with art from `64e55516`. The pack is read at `a890057a`, the record's commit, clean.
 - Every part was drawn with no problem met, the steps reaching Actions' tiles, the scene's person and the footer's Register.
 - Its `compare.json` is in `design/phone-ui/review/match-connection/`; its pictures stay outside the repository.
 - **In the pairs:** the tiles, the bar, the check, After Register and "Pass your turn?" take the pack's form in the pack's places. After Register now has the pack's headline, detail and time line: "Rescue of Crew 3 registered.", then "Registered · Round 6 · your turn" and "End of Round 6 · Rescue is resolved, after the attacks". The differences are listed next.
