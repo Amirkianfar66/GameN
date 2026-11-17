@@ -110,7 +110,8 @@ export const ACTION_WORDS = Object.freeze({
     afterThisTurn: 'After this turn', declare: them => `Up to 15 s for ${them} to declare a side`, then: 'Then', claimThenTalk: '5 s for the claim, then 60 s to talk',
     cloneEnds: 'Ends after that round’s attacks', navigation: 'This round’s navigation', weightRemoved: 'Their weight is removed',
     blackout: 'Blackout registered.', blackoutDetail: 'This is not a result. Nothing changes until the lights go out later this round.',
-    talk: who => `Private talk with ${who} accepted.`, talkDetail: 'It starts after this turn. The top bar shows each step.',
+    // Its detail is Frontend's (en.action.acceptedDetail.hack): Frontend's words where en.ts has them (the Lead, 17 November).
+    talk: who => `Private talk with ${who} accepted.`,
     clone: 'Clone active.',
     // The round it ends is the projection's (abilities.clone.expiresAfterRound); without it, the sentence without it.
     cloneDetail: until => `Active from now${until === null ? '' : `, through the attacks at the end of Round ${until}`}. It used your main action for this round.`,
@@ -405,9 +406,10 @@ const roundOrNull = (value, what) => {
  * After Register's words (the handoff's After Register table; the pack's afterRegister(), screens-game.mjs;
  * sheets 29, 29.1 and 29.2): { kind, title, detail, steps }, as mountAfterRegister() takes them.
  *   - kind: the stamp: REGISTERED; ACCEPTED for a private talk, ACTIVE for a Clone, CAPTURED for the Engineer.
- *   - title and detail: the pack's where Frontend's copy has no line: a Blackout, a private talk (in the pack's
- *     name), a Clone and the Engineer. For Rescue, Protection, Supply and a shot both are null: they are Frontend's
- *     (en.action.acceptedTarget and acceptedDetail; en.action.compound.supplyAccepted and supplyDetail).
+ *   - title and detail: the pack's where Frontend's copy has no line: a Blackout, a private talk's headline (in the
+ *     pack's name), a Clone and the Engineer. For Rescue, Protection, Supply and a shot both are null, and so is a
+ *     private talk's detail: they are Frontend's (en.action.acceptedTarget and acceptedDetail;
+ *     en.action.compound.supplyAccepted and supplyDetail).
  *   - steps: the time line, from `round`, the round the server reports. With no round there is none (L6).
  * `targets` are the people the action took, as the check has them; the viewer is "yourself" in a headline and
  * "you" in a line. The projection's own facts, which a screen's model may not carry: `expiresAfterRound` (when the
@@ -442,7 +444,7 @@ export function afterWords({ type, round = null, targets = [], viewer = null, ex
   if (type === 'PROTECT' && from !== null && !one) throw new TypeError('Protection\'s later step names who it protects: targets is [one person]');
   const [title, detail] = {
     REQUEST_BLACKOUT: [W.blackout, W.blackoutDetail],
-    REQUEST_HACK: [one ? W.talk(named(one, me)) : null, W.talkDetail],
+    REQUEST_HACK: [one ? W.talk(named(one, me)) : null, null],
     ACTIVATE_CLONE: [W.clone, W.cloneDetail(until)],
     ENGINEER_SUPPRESS: [W.suppress, W.suppressDetail(taken)],
   }[type] ?? [null, null];

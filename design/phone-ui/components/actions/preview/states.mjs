@@ -69,8 +69,10 @@ const ACT = { RESCUE: 'rescue', PROTECT: 'protect', SUPPLY: 'supply', REGISTER_S
 /**
  * After Register's input: the stamp, the time line and the pack's own lines from afterWords() (0.2.3), given the
  * pack's facts (Round 3, a shot's Round 4; the Clone to the end of Round 4; Protection from Round 4; the Engineer's
- * capture in Room B). Rescue's, Protection's, Supply's and a shot's lines are Frontend's (en.ts): the pack's own
- * afterRegister() stands in for them, as for the captured players.
+ * capture in Room B). Rescue's, Protection's, Supply's and a shot's lines, and a private talk's detail, are
+ * Frontend's (en.ts): the pack's own afterRegister() stands in for them, as for the captured players. For the
+ * private talk's detail the game shows Frontend's "The phase shown at the top of this screen says what happens
+ * next." (the Lead, 17 November); the pack's line here keeps sheet 29.2's frame to compare.
  */
 function after(type, target) {
   const A = afterRegister(ACT[type], target ? seatOf(Number(target.seat.slice(5))) : null, 'room-a');

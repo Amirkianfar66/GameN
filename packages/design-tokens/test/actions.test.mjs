@@ -127,7 +127,7 @@ test('its words are the pack\'s (screens-game.mjs, screens-more.mjs, icons.mjs, 
     ...((A = W.after) => [A.registered, A.accepted, A.activeNow, A.captured, A.yourTurn(3), A.whenAccepted(3), A.endOfRound(4), A.round(4), A.rescueResolved,
       A.withTheRound, 'Protection for ', ': active', A.oneWeaponEach, A.shotResolved, A.laterThisRound, A.litThenDark, A.whileDark, A.frozenPosition,
       A.afterThisTurn, 'Up to 15 s for ', ' to declare a side', A.then, A.claimThenTalk, A.cloneEnds, A.navigation, A.weightRemoved,
-      A.blackout, A.blackoutDetail, 'Private talk with ', A.talkDetail, A.clone, A.cloneDetail(4), A.suppress,
+      A.blackout, A.blackoutDetail, 'Private talk with ', A.clone, A.cloneDetail(4), A.suppress,
       'Captured now: the ', ' players in Room B. Their navigation weight is removed this round. Only you are told.'])()];
   // Move's Register is the Lead's Q1 (the pack draws no check for Move): in the form of the others', recorded below.
   // "Panel request" is the Lead's Q3 (the pack draws no "Outcome unknown" for the Hospital panel), recorded below.
@@ -365,7 +365,8 @@ test('After Register\'s words (0.2.3): the pack\'s own afterRegister(), given it
       targets: ['RESCUE', 'PROTECT', 'REGISTER_SHOT', 'REQUEST_HACK'].includes(type) ? [{ seat: t.seat, name: t.name }] : [],
       expiresAfterRound: type === 'ACTIVATE_CLONE' ? 4 : null, activeFromRound: type === 'PROTECT' ? 4 : null,
       capture: type === 'ENGINEER_SUPPRESS' ? { room: 'Room B', count: A.people.length } : null });
-    assert.deepEqual(w, { kind: STAMP[A.stamp], title: FRONTEND.has(type) ? null : A.title, detail: FRONTEND.has(type) ? null : A.detail,
+    // A private talk's detail is Frontend's too (acceptedDetail.hack; the Lead, 17 November): its headline is the pack's.
+    assert.deepEqual(w, { kind: STAMP[A.stamp], title: FRONTEND.has(type) ? null : A.title, detail: FRONTEND.has(type) || type === 'REQUEST_HACK' ? null : A.detail,
       steps: A.steps.map(([state, title, sub]) => ({ state, title, sub })) }, `${type}, player ${n}`);
   }
   // What the projection gives and a screen's model may not carry stays out (the Lead, 17 November).
@@ -375,7 +376,7 @@ test('After Register\'s words (0.2.3): the pack\'s own afterRegister(), given it
   assert.equal(afterWords({ type: 'ENGINEER_SUPPRESS', round: 6, capture: { room: 'Room B', count: 1 } }).detail.startsWith('Captured now: the 1 player in Room B.'), true);
   assert.deepEqual(afterWords({ type: 'PROTECT', round: 6, targets: [{ seat: 7, name: 'Gus' }] }).steps.map(s => s.title), ['Registered', 'End of Round 6'], 'no Protection start: no later step');
   // No round, no time line (L6); the private talk's words name the other player once there is a time line.
-  assert.deepEqual(afterWords({ type: 'REQUEST_HACK' }), { kind: 'accepted', title: null, detail: 'It starts after this turn. The top bar shows each step.', steps: [] });
+  assert.deepEqual(afterWords({ type: 'REQUEST_HACK' }), { kind: 'accepted', title: null, detail: null, steps: [] });
   assert.throws(() => afterWords({ type: 'REQUEST_HACK', round: 3 }), /names the other player/);
   assert.throws(() => afterWords({ type: 'PROTECT', round: 3, activeFromRound: 4 }), /names who it protects/);
   // Each fact is its action's alone; the round is a round.
