@@ -86,8 +86,8 @@ test('their words are the pack\'s: host setup and the lobby of sheet 11', () => 
   assert.equal(LOBBY_WORDS.offline, 'No connection. Admit, Bots and Start return when you are back online.');
   assert.match(entry, /'No connection\. Join, Host and Recover return when you are back online\.'/);
   assert.equal(ENTRY_TOAST_MS, 2400, 'the shell\'s toast time');
-  assert.equal(HOST_SETUP_VERSION, 'host-setup-0.1.0');
-  assert.equal(HOST_LOBBY_VERSION, 'host-lobby-0.1.1');
+  assert.equal(HOST_SETUP_VERSION, 'host-setup-0.1.1');
+  assert.equal(HOST_LOBBY_VERSION, 'host-lobby-0.1.2');
 });
 
 test('setup\'s inputs are checked, and refused with a reason', () => {
@@ -173,4 +173,17 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     else assert.equal(c.detail.improvement ?? null, null, `${c.id}: none at the Standard text`);
   }
   assert.equal(record.agree.checks.filter(c => c.detail.improvement).length, 3, 'Large and Largest at 390 × 844, Largest at 430 × 932');
+});
+
+test('the game\u2019s gaps: a count may come without its mix (G1); Leave takes Frontend\u2019s availability (G6)', () => {
+  const counts = [7, 8, 9].map(value => ({ value, mix: null }));
+  assert.deepEqual(nextHostSetupInput(HOST_SETUP_DEFAULTS, { counts, count: 9 }).counts.map(c => c.mix), [null, null, null]);
+  assert.throws(() => nextHostSetupInput(HOST_SETUP_DEFAULTS, { counts: [{ value: 7, mix: '' }] }), /team mix/);
+  assert.throws(() => nextHostSetupInput(HOST_SETUP_DEFAULTS, { counts: [{ value: 7 }] }), /team mix/);
+  assert.deepEqual(nextHostLobbyInput(HOST_LOBBY_DEFAULTS, {}).leave, { enabled: true, busy: false, reason: null });
+  assert.deepEqual(nextHostLobbyInput(HOST_LOBBY_DEFAULTS, { leave: { enabled: false, reason: 'Not available in this test' } }).leave, { enabled: false, busy: false, reason: 'Not available in this test' });
+  assert.throws(() => nextHostLobbyInput(HOST_LOBBY_DEFAULTS, { leave: false }), /leave/);
+  // The component never works a mix out: no rules table, no role or team list in it.
+  const source = readFileSync(new URL('../../../design/phone-ui/components/host-room/host-setup.mjs', import.meta.url), 'utf8');
+  assert.doesNotMatch(source, /Blue|Alien|Insider|Disabler/);
 });

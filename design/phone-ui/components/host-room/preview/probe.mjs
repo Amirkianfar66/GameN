@@ -79,6 +79,26 @@ export async function runHostRoomProbe({ sizes, lobbyOf, REQUESTS, COUNTS }) {
         && seen.mix7 === '4 Blue · 2 Red · 1 Alien' && seen.noMix && JSON.stringify(seen.taps) === '[["onBack"],["onCount",7],["onOpen",9]]', seen };
     });
 
+    await check('the game\u2019s gaps: a count given without its mix draws no line (G1); Leave unavailable is dimmed and refused, with Frontend\u2019s reason, and reports nothing (G6)', async () => {
+      const m = mountSetup({ counts: COUNTS.map(c => ({ value: c.value, mix: null })) });
+      const note = m.q('.ms-k-seg + .ms-k-group-note');
+      const setupSeen = { hidden: note.hidden, words: note.textContent };
+      m.s.update({ counts: COUNTS });
+      setupSeen.back = words(m.q('.ms-k-seg + .ms-k-group-note'));
+      m.s.dispose();
+      const l = mountLobby(lobbyOf({ leave: { enabled: false, reason: 'Not available in this test' } }));
+      const back = l.q('.ms-ep-back');
+      tap(back);
+      const leaveSeen = { refused: refused(back), dimmed: back.hasAttribute('data-off'), reason: describedBy(back), taps: taps(l.calls) };
+      l.s.update({ leave: { enabled: true } });
+      tap(l.q('.ms-ep-back'));
+      leaveSeen.after = { refused: refused(l.q('.ms-ep-back')), reason: describedBy(l.q('.ms-ep-back')), taps: taps(l.calls) };
+      l.s.dispose();
+      const seen = { setupSeen, leaveSeen };
+      return { ok: setupSeen.hidden && setupSeen.words === '' && setupSeen.back === '5 Blue · 3 Red · 1 Alien' && leaveSeen.refused && leaveSeen.dimmed && leaveSeen.reason === 'Not available in this test'
+        && leaveSeen.taps.length === 0 && !leaveSeen.after.refused && leaveSeen.after.reason === null && JSON.stringify(leaveSeen.after.taps) === '[["onLeave"]]', seen };
+    });
+
     await check('setup: Opening… refused while busy; a failed opening is the kit’s inline error over the foot, with Frontend’s words', async () => {
       const m = mountSetup({ open: { enabled: true, busy: true } });
       tap(m.q('.ms-hs-open'));
