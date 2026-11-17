@@ -8,7 +8,7 @@ html:has(.planet-app),body:has(.planet-app){margin:0;overflow:hidden;background:
 .planet-app button:not(:where(.ms-k-btn,.ms-k-icon-btn,.ms-k-seg-btn,.ms-k-stepper-btn,.ms-k-switch,.ms-k-row,.ms-k-cell,[class^="ms-ps-"],[class*=" ms-ps-"])):focus-visible,.planet-app canvas:focus-visible{outline:3px solid #F7D886;outline-offset:2px}
 .planet-board{position:absolute;inset:0}
 .planet-sheet-body>h2{font-size:16px;margin:0 0 6px}.planet-sheet-body>h3{font-size:14px;margin:8px 0}
-.planet-sheet-body p{font-size:13px;line-height:1.4;margin:6px 0}.planet-sheet-body>button{margin:3px;max-width:100%}
+.planet-sheet-body p:not(:where(.planet-sheet-body .ms-kit *)){font-size:13px;line-height:1.4;margin:6px 0}.planet-sheet-body>button{margin:3px;max-width:100%}
 .planet-app .ms-role-card--full{display:flex;align-items:center;gap:10px;margin:0;padding:5px;min-height:120px;background:#132447;border:1px solid #A7771E;border-radius:4px}
 .planet-app .ms-role-card__art{flex:0 0 96px!important;width:96px!important;inline-size:96px!important;aspect-ratio:50/53!important}
 .planet-app .ms-role-card__text{min-width:0;min-inline-size:0;gap:3px}.planet-app .ms-role-card__name{font-size:18px!important;line-height:1.1}.planet-app .ms-role-card__team{font-size:13px!important}

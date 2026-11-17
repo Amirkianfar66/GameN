@@ -35,6 +35,7 @@ The entry screens call the kit's `followTextSize` (the Lead, 17 November: main m
 | `apps/game/hosted/planet/preferences.mjs` | `state()`, `setReducedMotion()`, `setTextScale()` and `subscribe()` for Display settings (G9); `get()` and `controls()` unchanged |
 | `apps/game/hosted/planet/match-settings.mjs` | Part 8: one Settings sheet and one Host controls per match, kept through the renderer's redraws; the shell connection's `settings(parent)` and `hostSheet` hooks; each tap to the session's existing operation |
 | `apps/game/hosted/planet/render.mjs` | One marked block (`round stamp`): mounts the round stamp on the shell's cover as Round 1's Before turns shows the room, and disposes it (part 9). The host sheet hook is the shell connection's (#307) |
+| `apps/game/hosted/planet/phone.css`, `planet.css` | Part 8: the game's sheet rules for `p` and `button` (`.planet-sheet-body p`, `.planet-sheet-body button`) keep off a Designer component in the sheet body (a `.ms-kit` root there), as the shell connection's two generic button rules keep off the kit's controls. Without it, the Settings sheet's text sizes lost their track and the chosen size its fill, its switch and rows took the game's dark fill, and the labels and the note the game's size and margins. Only part 8's components are such roots today; the game's own content keeps the rules |
 | `apps/game/hosted/vite.config.mjs` | Two marked fences: `pre-game connection`, exactly the components' 24 runtime files (Host controls' two with part 8), and `round stamp`, its 2 |
 | `apps/game/test/planet-pregame-screens.test.mjs` | The adapter's test |
 | `apps/game/dev/planet-emulator/capture.mjs` | The emulator run's pre-game steps, moved to the new screens, and its recovery code through Host controls (below) |
@@ -99,6 +100,7 @@ The match's ⋮ opens the shell's Settings sheet. Today it held the preferences'
 - **Copy:** "Copied" in the toast; refused by the clipboard, "Select the code to copy." while the code stays selectable (the Lead, 17 November, the lobby's rule).
 - **Retry** (host-controls 0.1.1, the Lead's answer of 17 November): while the session's own request has an unknown outcome (a lost answer, or one restored after a reload as an exact retry), every command is refused with the session's words and the list's footer has Retry, which calls `session.retry()`. It was today's "Retry original session request", inside the old host controls.
 - **Admit leaves the match's Settings:** the server refuses admissions outside the lobby (`approveAdmission`), so the old buttons could only fail.
+- **The sheet's old rules keep off:** the match's sheet body (`.planet-sheet-body`) carried the game's rules for its own `p` and `button`, which outranked the kit's and reached into both components (the comparison showed it: the text sizes drawn as three dark buttons with none chosen). They now keep off a `.ms-kit` root in the sheet body (`phone.css`, `planet.css`).
 - **One edge:** after a reload, a restored code request that Retry settles brings a code with no seat this phone asked for; its card doesn't open, and the host asks for a new code.
 
 ## The boundary
@@ -110,6 +112,7 @@ The `BEGIN pre-game connection` / `END pre-game connection` hunk in `apps/game/h
 These refuse the changed files until Integration approves. The gates themselves are untouched.
 - `npm run check:sources` refuses `app.mjs` first (the Food release's pin), as on #284 and #307, so `verify` fails there. The pins behind it have not been walked yet on this branch.
 - The fence hunk in `vite.config.mjs`.
+- `phone.css` and `planet.css` (part 8's selectors), behind pins the shell connection already changes.
 
 ## Evidence
 
