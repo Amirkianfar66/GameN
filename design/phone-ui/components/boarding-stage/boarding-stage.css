@@ -1,0 +1,47 @@
+@import url("../kit/kit.css");
+
+/*
+ * The boarding stage's styles: runtime source, Designer's (boarding-stage.mjs). The phone pack's own values
+ * (design/phone-ui/prototype/kit.css .screen, screens.css .film-skip and the boarding screen), scoped under
+ * .ms-boarding-stage so nothing here reaches the rest of the app and nothing of the app's reaches in. The
+ * holding block and Skip are the shared kit's (../kit/kit.css), and the banner the phone shell's
+ * (phone-shell.css): here, only where they sit.
+ */
+
+.ms-boarding-stage {
+  /* The safe areas inside the shell's stage, and the crossfade's length: boarding-stage.mjs measures and sets them. */
+  --ms-bst-safe-t: 0px;
+  --ms-bst-safe-b: 0px;
+  --ms-bst-fade: 220ms;
+  position: absolute; inset: 0; overflow: hidden; isolation: isolate;
+  background: #07090F;
+}
+.ms-boarding-stage:focus { outline: none; }
+.ms-boarding-stage .ms-bst-shell { position: absolute; inset: 0; z-index: 0; }
+
+/* The holding screen: the kit's wait, centred inside the safe areas (the pack's .screen, justified centre). */
+.ms-boarding-stage .ms-bst-hold {
+  position: absolute; inset: 0; z-index: 0; box-sizing: border-box; overflow: auto;
+  display: flex; flex-direction: column; justify-content: center;
+  /* The pack's phone canvas (kit.css --canvas, the kit's --ms-k-canvas), as sheet 19 draws the holding screens. */
+  background: var(--ms-k-canvas);
+  padding: calc(var(--ms-bst-safe-t) + 8px) 16px calc(var(--ms-bst-safe-b) + 16px);
+}
+
+/* The film: edge to edge over the holding screen, fading in and out; Skip 14 px above the bottom safe area. */
+.ms-boarding-stage .ms-bst-film {
+  position: absolute; inset: 0; z-index: 1; background: #07090F;
+  opacity: 0; visibility: hidden;
+  transition: opacity var(--ms-bst-fade) ease, visibility 0s linear var(--ms-bst-fade);
+}
+.ms-boarding-stage .ms-bst-film[data-shown=""] { opacity: 1; visibility: visible; transition: opacity var(--ms-bst-fade) ease, visibility 0s; }
+.ms-boarding-stage[data-instant] .ms-bst-film,
+.ms-boarding-stage[data-suspended] .ms-bst-film { transition: none; }
+.ms-boarding-stage .ms-bst-picture { position: absolute; inset: 0; overflow: hidden; }
+.ms-boarding-stage .ms-bst-film .ms-bst-skip { position: absolute; right: 14px; bottom: calc(var(--ms-bst-safe-b) + 14px); z-index: 1; }
+.ms-boarding-stage .ms-bst-film .ms-bst-skip[hidden] { display: none; }
+
+/* Concealed: a plain cover over everything in the stage, and nothing drawn under it. */
+.ms-boarding-stage[data-status="concealed"] :is(.ms-bst-film, .ms-bst-hold) { visibility: hidden; transition: none; }
+.ms-boarding-stage .ms-bst-cover { position: absolute; inset: 0; z-index: 2; background: var(--ms-k-canvas); }
+.ms-boarding-stage .ms-bst-cover[hidden] { display: none; }
