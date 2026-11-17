@@ -24,6 +24,8 @@ import './phone.css';
 import '../../../../design/phone-ui/components/room-scene/room-scene.css';
 // The match's frame, Designer's phone shell (design/phone-ui/components/phone-shell): its styles and the kit's, scoped under .ms-phone-shell.
 import '../../../../design/phone-ui/components/phone-shell/phone-shell.css';
+// Actions, Designer's Actions component (design/phone-ui/components/actions): its styles and the gameplay parts', scoped under .ms-actions.
+import '../../../../design/phone-ui/components/actions/actions.css';
 
 /** Both production and the explicit development harness mount this same consumer. */
 export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=false,ports:injectedPorts=null,stores:injectedStores=null}={}){

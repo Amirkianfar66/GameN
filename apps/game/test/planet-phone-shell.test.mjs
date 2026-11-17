@@ -123,9 +123,12 @@ test('the target bar and the chip, from this viewer\'s own action only',()=>{
  const block=action('BLOCK_MOVE','targets',['seat-1','seat-5'],{label:'Block movement'});
  assert.ok(shellPicking(block));
  assert.deepEqual(shellTarget(model({action:block})),{icon:'block',title:'Block movement',sub:'Choose an offered character on the board.'});
- // A move's room or position, and the Blackout's fixed position in the dark (sheet 30), are chosen on the scene too.
- assert.deepEqual(shellTarget(model({action:action('MOVE','slots',['B5'],{label:'Move',prompt:'Choose an empty position in Room B.'})})),{icon:'move',title:'Move',sub:'Choose an empty position in Room B.'});
+ // A move's room or position, and the Blackout's fixed position in the dark (sheet 30), are chosen on the scene too:
+ // their bars are Actions' (release 3; planet-actions.test.mjs), from the viewer's room and the model's moveRooms.
+ assert.deepEqual(shellTarget(model({moveRooms:['Room B'],action:action('MOVE','slots',['B5'],{label:'Move',prompt:'Choose an empty position in Room B.'})})),{icon:'move',title:'Move within Room B',sub:'Choose an empty position'});
  assert.equal(shellTarget(model({dark:true,action:action('SELECT_BLACKOUT_SLOT','slots',['A1'],{label:'Choose fixed slot'})})).icon,'position');
+ assert.deepEqual(shellTarget(model({dark:true,panel:'actions',privateArea:{blackoutTargeting:{windowId:'w',boundRoom:'Room A',selectable:true,selectedSlotId:null,slotIds:['A1']}},action:action('SELECT_BLACKOUT_SLOT','slots',['A1'])})),
+  {icon:'position',title:'Choose a position',sub:'Room A · any position, even empty'});
  // A ballot, a code and the panel's number are chosen in a sheet, not on the scene.
  for(const type of ['VOTE','SUBMIT_CODE','PANEL_CODE'])assert.equal(shellTarget(model({action:action(type,'targets',['seat-1'])})),null,type);
  // At the check, the target bar gives way to the sheet.
@@ -134,8 +137,9 @@ test('the target bar and the chip, from this viewer\'s own action only',()=>{
  assert.deepEqual(shellChip(model({action:block}),{view:'room',room:'room-b'}),{id:'board',label:'Other rooms · 1',icon:'board',tone:'paper'});
  assert.equal(shellChip(model({action:action('BLOCK_MOVE','targets',['seat-5','seat-6'])}),{view:'room',room:'room-b'}),null);
  assert.deepEqual(shellChip(model({action:block}),{view:'board',room:'room-b'}),{id:'list',label:'List',icon:'players',tone:'paper'});
- assert.equal(shellChip(model({action:action('MOVE','slots',['B5'])}),{view:'room',room:'room-b'}).label,'Other rooms on the Board');
- assert.equal(shellChip(model({action:action('MOVE','slots',['B5'])}),{view:'board'}),null);
+ assert.deepEqual(shellChip(model({moveRooms:['Room A','Room B'],action:action('MOVE','slots',['B5'])}),{view:'room',room:'room-b'}),{id:'move-board',label:'Other rooms on the Board',icon:'board',tone:'paper'});
+ assert.equal(shellChip(model({moveRooms:['Room B'],action:action('MOVE','slots',['B5'])}),{view:'room',room:'room-b'}),null);
+ assert.equal(shellChip(model({moveRooms:['Room A','Room B'],action:action('MOVE','slots',['B5'])}),{view:'board'}),null);
  assert.equal(shellChip(model({dark:true,action:action('SELECT_BLACKOUT_SLOT','slots',['A1'])}),{view:'room',room:'room-a'}),null);
  // Someone off the board is offered in the stage's own list (Off board), not counted in another room.
  assert.equal(shellChip(model({action:action('BLOCK_MOVE','targets',['seat-5','seat-9'])}),{view:'room',room:'room-b'}),null);
@@ -163,17 +167,20 @@ test('banners: reconnecting, the phone\'s (busy while a receipt is checked); an 
  assert.deepEqual(checkTabs(shellInput(model({ownSeatId:'seat-1',board:out.board})).tabs).enabled,{switch:true,actions:true,card:true,panels:true});
 });
 
-test('a pass: "Pass your turn?" with Cancel and Pass, then the registration once, as a toast',()=>{
+test('a pass: "Pass your turn?" with Cancel and Pass, then "Turn passed" once, as a toast (Actions\' passSheet and passedToast)',()=>{
  const confirm=model({activeSeatId:'seat-4',action:action('PASS_TURN','confirm',[],{label:'Pass',confirmation:'Pass?',canConfirm:true,prompt:'Pass'})});
  const sheet=shellSheet(confirm);
  assert.deepEqual(sheet,{id:'pass',kind:'pass',title:'Pass your turn?',sub:null,back:false,close:false,detent:'auto',
-  actions:[{id:'cancel',label:'Cancel',kind:'secondary',local:true},{id:'confirm',label:'Pass',kind:'primary',icon:'pass',enabled:true,busy:false}]});
+  actions:[{id:'cancel',label:'Cancel',kind:'secondary',local:true,enabled:true},{id:'pass',label:'Pass',kind:'primary',icon:'pass',enabled:true,busy:false}]});
  assert.equal(kept({viewer:'seat-4',sheet}).sheet.actions[0].local,true);
+ // Usable only as the controller can confirm it.
+ assert.equal(shellSheet(model({action:action('PASS_TURN','confirm',[],{canConfirm:false})})).actions[1].enabled,false);
  const sending=shellSheet(model({action:action('PASS_TURN','sending',[],{prompt:'Registering…'})}));
- assert.deepEqual(sending.actions[1],{id:'confirm',label:'Pass',kind:'primary',icon:'pass',enabled:true,busy:true});
+ assert.deepEqual(sending.actions[1],{id:'pass',label:'Pass',kind:'primary',icon:'pass',enabled:true,busy:true});
+ assert.equal(sending.actions[0].enabled,false);
  const accepted=model({action:action('PASS_TURN','accepted',[],{prompt:'Registered. Waiting for the authoritative view.'})});
  assert.equal(shellSheet(accepted),null);
- assert.deepEqual(shellToast(accepted),{id:'pass:turn-1',text:'Registered. Waiting for the authoritative view.',icon:'info'});
+ assert.deepEqual(shellToast(accepted),{id:'pass:turn-1',text:'Turn passed',icon:'info'});
  assert.equal(shellToast(confirm),null);assert.equal(shellToast({...accepted,surface:'display'}),null);
 });
 
@@ -190,19 +197,22 @@ test('the sheet\'s frame for each open panel and action; the body stays the game
  assert.equal(shellSheet(model({panel:'actions',dark:true})).title,'Blackout');
  assert.equal(shellSheet(model({panel:'card',phase:{...turn,expired:true}})).title,'Waiting for the server');
  assert.equal(shellSheet(model({recovery:{status:'unknown',canCheck:true,canRetry:false}})).title,'Outcome unknown');
- // An action at its check: its name, and the controller's own confirmation as the footer's Register.
+ // Actions' check (release 3; planet-actions.test.mjs): "Check and register", Cancel (this phone's own) and Register.
  const check=shellSheet(model({panel:'actions',action:action('RESCUE','confirm',[],{label:'Rescue',canConfirm:true})}));
- assert.deepEqual([check.id,check.title,check.actions],['action:RESCUE','Rescue',[{id:'confirm',label:'Register',kind:'primary'}]]);
- assert.deepEqual(shellSheet(model({action:action('RESCUE','confirm',[],{label:'Rescue',canConfirm:false})})).actions,[]);
+ assert.deepEqual([check.id,check.title,check.actions.map(a=>[a.id,a.label,a.enabled!==false])],['action-check','Check and register',[['cancel','Cancel',true],['register','Register Rescue',true]]]);
+ assert.equal(shellSheet(model({action:action('RESCUE','confirm',[],{label:'Rescue',canConfirm:false})})).actions[1].enabled,false);
+ // The other actions' checks stay the game's: the controller's confirmation as the footer's Register.
+ const block=shellSheet(model({action:action('BLOCK_MOVE','confirm',[],{label:'Block movement',canConfirm:true})}));
+ assert.deepEqual([block.id,block.title,block.actions],['action:BLOCK_MOVE','Block movement',[{id:'confirm',label:'Register',kind:'primary'}]]);
  const ballotSheet=shellSheet(model({phase:phase('JAIL_VOTE'),action:action('VOTE','targets',['seat-1','abstain'],{label:'Vote'})}));
  // The ballot is titled by its vote (sheet 35), large; its choices are the game's own body until the ballot's component.
  assert.deepEqual([ballotSheet.title,ballotSheet.detent,ballotSheet.actions],['Jail vote','large',[]]);
  assert.equal(shellSheet(model({phase:phase('CAPTAIN_ELECTION'),action:action('VOTE','targets',['seat-1'],{label:'Vote'})})).title,'Captain vote');
  assert.equal(shellSheet(model({action:action('VOTE','confirm',[],{label:'Vote',canConfirm:true})})).actions[0].label,'Vote');
  // Choosing on the scene shows no sheet, unless the board's List is open.
- const block=action('BLOCK_MOVE','targets',['seat-1'],{label:'Block movement'});
- assert.equal(shellSheet(model({action:block})),null);
- assert.deepEqual((({id,kind,title})=>({id,kind,title}))(shellSheet(model({action:block}),{listOpen:true})),{id:'target-list',kind:'target-list',title:'Block movement'});
+ const blocking=action('BLOCK_MOVE','targets',['seat-1'],{label:'Block movement'});
+ assert.equal(shellSheet(model({action:blocking})),null);
+ assert.deepEqual((({id,kind,title})=>({id,kind,title}))(shellSheet(model({action:blocking}),{listOpen:true})),{id:'target-list',kind:'target-list',title:'Block movement'});
 });
 
 test('concealed, and under the Food surface: the shell keeps its shape and drops this viewer\'s inputs',()=>{

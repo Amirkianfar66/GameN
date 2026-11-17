@@ -18,7 +18,13 @@ const designSources = ['design/phone-ui/components/room-scene/', 'design/phone-u
 const shellSources = ['design/phone-ui/components/phone-shell/phone-shell.mjs', 'design/phone-ui/components/phone-shell/phone-shell.css',
   'design/phone-ui/components/kit/kit.mjs', 'design/phone-ui/components/kit/kit.css'];
 // END shell connection
-const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contracts/dist/', 'packages/presentation/dist/', 'packages/design-tokens/dist/', ...designSources, ...shellSources];
+// BEGIN Actions connection, for Integration's approval (the owner's plan of 16 November 2026, release 3: Actions
+// on a player's phone is Designer's Actions component as it is). Exactly its two runtime files and the gameplay
+// parts' two, which it imports (it uses the kit, admitted above); never their preview/ or review/.
+const actionsSources = ['design/phone-ui/components/actions/actions.mjs', 'design/phone-ui/components/actions/actions.css',
+  'design/phone-ui/components/play-parts/play-parts.mjs', 'design/phone-ui/components/play-parts/play-parts.css'];
+// END Actions connection
+const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contracts/dist/', 'packages/presentation/dist/', 'packages/design-tokens/dist/', ...designSources, ...shellSources, ...actionsSources];
 
 export default {
   root: fileURLToPath(new URL('.', import.meta.url)),
