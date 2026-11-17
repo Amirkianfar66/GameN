@@ -1,0 +1,68 @@
+@import url("../kit/kit.css");
+
+/*
+ * The role stage's styles: runtime source, Designer's (role-stage.mjs). The phone pack's own values
+ * (design/phone-ui/prototype/screens.css .card-area, .stage-foot, .film-skip and the role screen's strip;
+ * kit.css .progress and .timer), scoped under .ms-role-stage so nothing here reaches the rest of the app
+ * and nothing of the app's reaches in. The top bar, the banner and the toast are the phone shell's
+ * (phone-shell.css); the card is the role card's (role-card.css). Ready and Skip film are the shared
+ * kit's (../kit/kit.css): here, only where they sit.
+ */
+
+.ms-role-stage {
+  --ms-rst-paper: #F4EBDD;
+  --ms-rst-accent: #F1B84B;
+  --ms-rst-surface-3: #2A3346;
+  --ms-rst-text-2: #B9C4D3;
+  --ms-rst-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, "Segoe UI", sans-serif;
+  /* Where the film's chip and Skip sit in the film's frame: role-stage.mjs measures them from the shell. */
+  --ms-rst-chip-top: 8px;
+  --ms-rst-skip-bottom: 14px;
+  /* The card area's bottom: 120 px, or the foot's top once larger text makes it taller (role-stage.mjs measures it). */
+  --ms-rst-card-bottom: 120px;
+  /* The crossfade's length: role-stage.mjs sets it, 700 ms, or 80 ms with Reduce motion (the game's or the device's). */
+  --ms-rst-fade: 700ms;
+  position: absolute; inset: 0; overflow: hidden; isolation: isolate;
+  background: #07090F; color: var(--ms-rst-paper);
+  font: 400 1rem/1.4 var(--ms-rst-font);
+}
+.ms-role-stage:focus { outline: none; }
+.ms-role-stage .ms-rst-shell { position: absolute; inset: 0; z-index: 0; }
+
+/* Between the shell's bars: the strip, the card and the foot (the pack's .card-area and .stage-foot). */
+.ms-role-stage .ms-rst-body { position: absolute; inset: 0; }
+.ms-role-stage .ms-rst-strip {
+  position: absolute; left: 16px; right: 16px; top: 6px; z-index: 1; display: flex; gap: 4px;
+}
+.ms-role-stage .ms-rst-seg { flex: 1 1 0; height: 4px; border-radius: 3px; background: var(--ms-rst-surface-3); overflow: hidden; }
+.ms-role-stage .ms-rst-seg i { display: block; height: 100%; border-radius: 3px; background: var(--ms-rst-accent); }
+.ms-role-stage .ms-rst-seg:first-child i { background: var(--ms-rst-paper); }
+.ms-role-stage .ms-rst-card { position: absolute; left: 16px; right: 16px; top: 20px; bottom: var(--ms-rst-card-bottom); }
+.ms-role-stage .ms-rst-foot {
+  position: absolute; left: 16px; right: 16px; bottom: 14px;
+  display: flex; flex-direction: column; gap: 8px; align-items: stretch;
+}
+/* The pack's note keeps a paragraph's 1em above and below (screens.css .stage-foot .note sets none). */
+.ms-role-stage .ms-rst-note { margin: 1em 0; text-align: center; font: 500 0.875rem/1.3 var(--ms-rst-font); color: var(--ms-rst-text-2); }
+
+/* The film: full-bleed over the shell, its clock as a chip at the top right and Skip film at the foot. */
+.ms-role-stage .ms-rst-film {
+  position: absolute; inset: 0; z-index: 2; background: #07090F;
+  opacity: 0; visibility: hidden;
+  transition: opacity var(--ms-rst-fade) ease, visibility 0s linear var(--ms-rst-fade);
+}
+.ms-role-stage .ms-rst-film[data-shown=""] { opacity: 1; visibility: visible; transition: opacity var(--ms-rst-fade) ease, visibility 0s; }
+/* A stage that opens on the film (a late join) shows it at once. */
+.ms-role-stage .ms-rst-film[data-instant] { transition: none; }
+.ms-role-stage .ms-rst-picture { position: absolute; inset: 0; overflow: hidden; }
+.ms-role-stage .ms-rst-chip {
+  position: absolute; top: var(--ms-rst-chip-top); right: 12px; z-index: 1;
+  display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 9px 0 7px; border-radius: 999px;
+  background: var(--ms-rst-surface-3); font: 600 1rem/1 var(--ms-rst-font); font-variant-numeric: tabular-nums;
+}
+.ms-role-stage :is(.ms-rst-strip, .ms-rst-note, .ms-rst-chip)[hidden] { display: none; }
+.ms-role-stage .ms-rst-chip .ms-rst-ic { width: 16px; height: 16px; color: var(--ms-rst-text-2); }
+/* Skip film, 14 px above the bottom safe area (role-stage.mjs measures it from the shell). */
+.ms-role-stage .ms-rst-film .ms-rst-skip { position: absolute; right: 14px; bottom: var(--ms-rst-skip-bottom); z-index: 1; }
+
+.ms-role-stage[data-suspended] .ms-rst-film { transition: none; }
