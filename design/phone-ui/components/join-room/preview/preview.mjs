@@ -26,12 +26,15 @@ export function formOf({ code = ROOM_CODE, name = SELF_NAME, device = 'player', 
   return { code, name, nameCount: [...name].length, nameMax: MAX, device, codeError, nameError, error, ask: ask ?? (ready ? { enabled: true } : { enabled: false }) };
 }
 /** Waiting as Frontend would give it: the room, this phone's name, and once admitted its seat and the seats taken. */
-export function waitOf({ view = 'pending', filled = 5, error = null, check = null } = {}) {
-  return { view, roomCode: ROOM_CODE, name: SELF_NAME, seat: view === 'admitted' ? SELF : null, error, check: check ?? { enabled: true },
+export function waitOf({ view = 'pending', filled = 5, error = null, check = null, exits = null } = {}) {
+  return { view, roomCode: ROOM_CODE, name: SELF_NAME, seat: view === 'admitted' ? SELF : null, error, check: check ?? { enabled: true }, ...(exits ?? {}),
     members: view === 'admitted' ? ROSTER.filter(p => p.seat <= filled).map(p => ({ seat: p.seat, name: p.name })) : [], seats: view === 'admitted' ? { filled, total: 9 } : null };
 }
 const OFF_ASK = Object.freeze({ enabled: false, reason: JOIN_WORDS.offline });
 const OFF_CHECK = Object.freeze({ enabled: false, reason: WAIT_WORDS.offline });
+/** Cancel, Leave and Back to menu while the game has no command for them (#222 G6), with the connection's words (the Lead, 17 November). */
+export const NO_EXIT = Object.freeze({ enabled: false, reason: 'Not available in this test' });
+const NO_EXITS = Object.freeze({ cancel: NO_EXIT, leave: NO_EXIT, back: NO_EXIT });
 
 /** Each state of sheets 12 and 13 and the ones around them: which screen, its input, and where the focus is. */
 export const PREVIEW_STATES = Object.freeze({
@@ -48,6 +51,7 @@ export const PREVIEW_STATES = Object.freeze({
   closed: { caption: 'Room started without you · sheet 13', screen: 'wait', input: waitOf({ view: 'closed' }) },
   declined: { caption: 'Not admitted', screen: 'wait', input: waitOf({ view: 'declined' }) },
   'wait-offline': { caption: 'Waiting offline', screen: 'wait', input: waitOf({ error: WAIT_WORDS.offline, check: OFF_CHECK }) },
+  'wait-noexit': { caption: 'Admitted · Leave not available (G6)', screen: 'wait', input: waitOf({ view: 'admitted', exits: NO_EXITS }) },
   'form-large': { caption: 'Largest text (200%) · no such room', screen: 'form', input: formOf({ codeError: JOIN_WORDS.noRoom }), text: 200 },
   'wait-large': { caption: 'Largest text (200%) · the lobby', screen: 'wait', input: waitOf({ view: 'admitted' }), text: 200 },
 });

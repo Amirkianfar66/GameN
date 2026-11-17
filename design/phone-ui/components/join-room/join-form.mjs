@@ -12,10 +12,10 @@
 // What it never does: work out whether a code is complete, whether a name is valid, what a character is, or why
 // a request failed. Each callback reports a tap or a keystroke.
 
-import { createControlPolicy, createKit } from '../kit/kit.mjs';
+import { createControlPolicy, createKit, followTextSize } from '../kit/kit.mjs';
 import { createEntryParts } from '../entry-parts/entry-parts.mjs';
 
-export const JOIN_FORM_VERSION = 'join-form-0.1.0';
+export const JOIN_FORM_VERSION = 'join-form-0.1.1';
 const DEVICES = Object.freeze(['player', 'display']);
 
 /** The pack's words (screens-entry.mjs, join; sheets 12 and 13), and the connection's (the Lead's review of #289, question 4). */
@@ -112,6 +112,8 @@ export function mountJoinForm(host, input = {}, handlers = {}) {
   screen.append(nav, parts.largeTitle(JOIN_WORDS.heading), codeField, nameField, deviceLabel, devices, foot);
   root.append(screen);
   host.append(root);
+  // A phone root outside the shell: a part opened after the text size changes takes the new size's rules (kit 0.8.1).
+  const textSize = followTextSize(root);
 
   const accepts = () => !disposed && state.interactive;
   const policy = createControlPolicy({ root, accepts, onFocusReturn: detail => { if (!disposed) on.onFocusReturn?.(detail); } });
@@ -233,6 +235,7 @@ export function mountJoinForm(host, input = {}, handlers = {}) {
     root.removeEventListener('focusin', onFocus);
     root.removeEventListener('focusout', onBlur);
     policy.dispose();
+    textSize.dispose();
     root.remove();
   }
 

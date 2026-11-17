@@ -1,6 +1,6 @@
 # Display settings: Designer's runtime component
 
-**Version:** `display-settings-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on #294, with the Lead's decisions below. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
+**Version:** `display-settings-0.1.1` (17 November: the Display page calls the kit's `followTextSize`, [below](#the-text-size-after-the-page-is-mounted)). **Status (16 November 2026):** built to the interface the Lead Designer approved on #294, with the Lead's decisions below. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
 
 **What it is:** this phone's display settings, as sheet 32 and the pack's settings screen draw them: the Reduce motion switch with its explanation, and the text size as Standard, Large and Largest, with the line that they stay on this phone. It is #222 item 27, P3: "a Display page … before and during a match". The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -128,11 +128,17 @@ The agreement draws the frozen pack's `settings` screen beside each mount and co
 
 - **Accepted, at the Largest text only (decision 5):** the three sizes stack, one a row (kit 0.5.0's `stack`); the frozen pack keeps them side by side. Those cases draw the pack with the same rule, compare everything else as usual, and record the stacking against the pack as it is.
 
+## The text size, after the page is mounted
+
+The Lead, 17 November (`display-settings-0.1.1`): in Chromium a phone root's container re-reads its em only while something inside it uses one of its queries, so a part opened after the text size changes could keep the old size's layout. The Display page, a phone root outside the shell, calls the kit's `followTextSize(root)` (kit 0.8.1, #265) once it is mounted, and disposes it with the page. The Settings sheet's content lies in the shell's sheet, and the shell calls it for its own root. The probe's **text later** check mounts the page at the Standard text, sets the Largest with its size chosen and the phone's lock opened, and holds every box to a page mounted at the Largest with them. Nothing is drawn differently.
+
 ## Check
 
 `node design/tools/display-settings-check.mjs` bundles the preview with Vite and serves it with the production headers. It captures 10 states at 390 × 844 and 430 × 932: the page (off, on, locked, Large, Largest) and Settings in a match (as sheet 32, host, locked, reconnecting, Largest). Then it runs the probe (as the page comes and with the device's Reduce motion) and the agreement.
 
-**Recorded against `9dcf39d6` (clean):** #291 merged at `24be2cd2`, bringing kit 0.8.0, shell 0.2.8 (#265 at `0e5a0b8a`) and `entry-parts-0.4.0`. 20 of 20 captures, the probe 18 of 18 and the agreement 8 of 8 pass. The page's 10 captures are byte-identical to `3b29786f`'s; the sheet's 10 differ by 2 to 47 pixels, all in the room's picture above the sheet (its ambient motion).
+**Recorded against `d8a7521d` (clean, `display-settings-0.1.1`):** #291 merged at `c4b4004b`, bringing Recover 0.1.1, the main menu 0.1.1, kit 0.8.2 and shell 0.2.11 (#265 at `a0900240`). 20 of 20 captures, the probe **19 of 19** (with the new **text later** check), the agreement 8 of 8. The ten page captures are byte-identical to `9dcf39d6`'s; the ten sheet captures change only in the room behind the sheet, where the window's stars and rocks sit elsewhere (the room scene's own drift, under shell 0.2.11). The Settings content is unchanged.
+
+**Before, recorded against `9dcf39d6` (clean):** #291 merged at `24be2cd2`, bringing kit 0.8.0, shell 0.2.8 (#265 at `0e5a0b8a`) and `entry-parts-0.4.0`. 20 of 20 captures, the probe 18 of 18 and the agreement 8 of 8 pass. The page's 10 captures are byte-identical to `3b29786f`'s; the sheet's 10 differ by 2 to 47 pixels, all in the room's picture above the sheet (its ambient motion).
 
 **Before, recorded against `3b29786f` (clean):** 20 of 20 captures, the probe 18 of 18 checks (17 as the page comes, the motion check with the device's Reduce motion), and the agreement 8 of 8, with no unexpected policy report and no page problem. The headers' SHA-256 is `424e5dec…`. The record is `review/check.json`.
 

@@ -34,14 +34,19 @@
 //   talk      the private talk's two buttons stay inside the phone at the Largest text, a row each when they
 //             don't fit; a docked sheet stays 10 px above them; layout().covered.bottom is what they cover
 //   toast     shown once per id, gone after its time, cleared by suspend(); it takes no tap, so a tap at its
-//             centre reaches the control under it (kit 0.8.0)
+//             centre reaches the control under it (kit 0.8.0); words too long for one line wrap inside the phone at
+//             every text size, its paper holds them, and words that fit keep one line (kit 0.8.2)
 //   motion    the sheet slides and the toast drops in (the kit's, 0.8.0), or each fades in 80 ms with Reduce
 //             motion (the game's, or the device's)
+//   words     a phase bar's line changing (the lit Blackout's "Lights out in 0:03", then 0:02; ../phase-bars.mjs,
+//             0.2.10) builds only the bar's left part again: the bar keeps its height, Promises, the round, the
+//             clock and ⋮ keep their elements and places, the focus stays, and no layout is reported
 //   hud       a long press on a capped tab label shows its word large, and only then
 //   dispose   after dispose(), nothing is left and nothing fires
 // With the device's Reduce motion emulated, only the motion check runs (the page's mode says which).
 
 import { mountPhoneShell, TOAST_MS, RECONNECTING, OUT } from '../phone-shell.mjs';
+import { phaseBar } from '../phase-bars.mjs';
 import { createKit } from '../../kit/kit.mjs';
 
 const wait = ms => new Promise(done => setTimeout(done, ms));
@@ -378,6 +383,62 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       return { ok, largest, standard };
     });
 
+    // The text size changing on a live phone (0.2.11). The Gameplay builder found, in Chromium 153, that a part opened after
+    // the text size changed took the old size's container rules: at 200 % Move's target bar stood side by side, its chip's
+    // label was cut, and a sheet's Cancel and Register Rescue stayed side by side; a part open through the change was right.
+    await check('textsize: after the text size changes on a live phone, a target bar, a chip and a sheet opened afterwards take the new size\'s rules, as parts open through the change and a shell mounted at that size do; back at the Standard text, the Standard rules', async () => {
+      const kit = createKit(document);
+      const target = { icon: 'move', title: 'Move within Room A', sub: 'Choose an empty position · or another room on the Board' };
+      const chip = { id: 'move-board', label: 'Other rooms on the Board', icon: 'board', tone: 'paper' };
+      const sheet = { id: 'textsize', title: 'Rescue', sub: 'Once a round', close: true, detent: 'large',
+        actions: [{ id: 'cancel', label: 'Cancel' }, { id: 'register', label: 'Register Rescue', kind: 'primary', icon: 'rescue' }] };
+      const text = size => { document.documentElement.style.fontSize = size === 100 ? '' : `${size}%`; };
+      const box = n => n.getBoundingClientRect();
+      // The sheet's body holds a row with a value and a segmented control that stacks: the kit's own two phone rules.
+      const fill = s => {
+        const row = kit.row({ tag: 'div', title: 'Promises', value: 'Given 0/1 · Received 1/1', icon: 'promise' });
+        const seg = kit.seg({ options: [{ id: 'card', label: 'Card' }, { id: 'knowledge', label: 'Knowledge' }, { id: 'resources', label: 'Resources' }], value: 'card', stack: true, label: 'Part' });
+        s.shell.sheetBody.replaceChildren(kit.list([row]), seg);
+      };
+      // How each open part is laid out, by the shell's rules (14 em, 19 em) and the kit's (19 em, 15 em).
+      const read = s => {
+        const t = s.q('.ms-ps-target'), c = s.q('.ms-ps-chip'), foot = s.q('.ms-ps-sheet-foot'), row = s.q('.ms-ps-sheet-body .ms-k-row'), seg = s.q('.ms-ps-sheet-body .ms-k-seg');
+        const words = t?.querySelector('.ms-ps-text'), cancel = t?.querySelector(':scope > .ms-k-btn'), label = c?.querySelector('.ms-k-btn-label');
+        return {
+          target: t ? { display: getComputedStyle(t).display, cancelUnder: box(cancel).top >= box(words).bottom - 0.5, height: Math.round(box(t).height) } : null,
+          chip: c ? { whiteSpace: getComputedStyle(c).whiteSpace, whole: label.scrollWidth <= label.clientWidth + 1 } : null,
+          foot: foot ? { wrap: getComputedStyle(foot).flexWrap, rows: new Set([...foot.querySelectorAll('.ms-k-btn')].map(b => Math.round(box(b).top))).size } : null,
+          row: row ? { valueUnder: box(row.querySelector('.ms-k-row-value')).top >= box(row.querySelector('.ms-k-row-title')).bottom - 1 } : null,
+          seg: seg ? { stacked: new Set([...seg.children].map(b => Math.round(box(b).top))).size === seg.children.length } : null,
+        };
+      };
+      const open = async s => { s.shell.update({ target, chip, sheet }); fill(s); await frames(); await frames(); };
+      const shut = async s => { s.shell.update({ target: null, chip: null, sheet: null }); await frames(); };
+      // A shell mounted at each size, its parts open from the start: what each size's rules draw.
+      const fresh = async size => { text(size); const s = mount(); try { await open(s); return read(s); } finally { s.shell.dispose(); text(100); } };
+      const large = await fresh(200), standard = await fresh(100);
+      const s = mount();
+      let after, back, again, through;
+      try {
+        await frames();
+        // 200 % first, with nothing open; then the target bar, the chip and the sheet open (the builder's two sequences).
+        text(200); await frames(); await frames();
+        await open(s); after = read(s);
+        // The same the other way: closed, back to the Standard text with nothing open, then opened.
+        await shut(s);
+        text(100); await frames(); await frames();
+        await open(s); back = read(s);
+        // Open through each change (the case that was already right).
+        text(200); await frames(); await frames(); again = read(s);
+        text(100); await frames(); await frames(); through = read(s);
+      } finally { s.shell.dispose(); text(100); }
+      const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+      const drawn = large.target?.display === 'grid' && large.target.cancelUnder && large.chip?.whiteSpace === 'normal' && large.chip.whole && large.foot?.wrap === 'wrap'
+        && large.row?.valueUnder && large.seg?.stacked && standard.target?.display === 'flex' && standard.foot?.wrap === 'nowrap' && standard.foot.rows === 1
+        && standard.row?.valueUnder === false && standard.seg?.stacked === false;
+      return { ok: drawn && same(after, large) && same(back, standard) && same(again, large) && same(through, standard), large, standard, after, back, again, through };
+    });
+
     await check('nobar: with bar: null the stage runs to the top edge, the overlays keep the bar\'s place, and slot(\'clock\') keeps its element', async () => {
       const s = mount({ ...own(), bar: null, tabs: null, banner: { kind: 'reconnecting' }, toast: { id: 'rejoined', text: 'Rejoined · the stage carried on', icon: 'retry' } });
       // Measured at rest: the toast drops in.
@@ -650,6 +711,92 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       hit?.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, clientX: x, clientY: y }));
       s.shell.dispose();
       return { ok: none && over && hit === under && taps === 1, none, over, hit: hit === under ? 'the control' : hit?.className ?? null, taps };
+    });
+
+    // The toast at larger text (kit 0.8.2). The in-game animation builder measured the kit's toast cutting the game's longer
+    // words at the Large and Largest text: "That phase closed · choices cleared" needed 390 and 520 of its 302 px at 390 × 844.
+    await check('toast: words too long for one line wrap inside the phone and its paper holds them, at every text size on 390, 430 and 320 px phones; words that fit keep one line', async () => {
+      const lines = ['The ship moved · Round 12 complete', 'That phase closed · choices cleared', 'Captain election open', 'Turn passed'];
+      const phones = [[390, 844, [100, 150, 200]], [430, 932, [100, 150, 200]], [320, 568, [100, 200]]];
+      const was = { width: frame.style.width, height: frame.style.height };
+      const px = v => Math.round(v * 10) / 10;
+      const results = [];
+      try {
+        for (const [width, height, texts] of phones) for (const text of texts) {
+          document.documentElement.style.fontSize = text === 100 ? '' : `${text}%`;
+          Object.assign(frame.style, { width: `${width}px`, height: `${height}px` });
+          for (const [i, words] of lines.entries()) {
+            const s = mount({ ...own(), toast: { id: `fit-${width}-${text}-${i}`, text: words, icon: 'info' } });
+            try {
+              await frames();
+              const node = s.q('.ms-ps-toast');
+              node.getAnimations().forEach(a => a.finish());
+              const phone = s.root.getBoundingClientRect(), box = node.getBoundingClientRect();
+              const span = node.querySelector('.ms-k-toast-text'), spanBox = span.getBoundingClientRect();
+              const range = document.createRange();
+              range.selectNodeContents(span);
+              const rects = [...range.getClientRects()].filter(q => q.width > 0);
+              // The words' width on one line, measured beside them in the same font, and the room the toast gives them.
+              const one = span.cloneNode(true);
+              Object.assign(one.style, { position: 'absolute', visibility: 'hidden', whiteSpace: 'nowrap', width: 'max-content' });
+              node.append(one);
+              const need = one.getBoundingClientRect().width;
+              one.remove();
+              const cs = getComputedStyle(node), icon = node.querySelector('svg').getBoundingClientRect().width;
+              const room = phone.width - 32 - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - icon - parseFloat(cs.columnGap);
+              // The paper: the toast's box with its corners rounded as drawn (a radius of at most half the box).
+              const r = Math.min(parseFloat(cs.borderTopLeftRadius), box.height / 2, box.width / 2);
+              const onPaper = (x, y) => {
+                if (x < box.left - 0.5 || x > box.right + 0.5 || y < box.top - 0.5 || y > box.bottom + 0.5) return false;
+                const cx = Math.min(Math.max(x, box.left + r), box.right - r), cy = Math.min(Math.max(y, box.top + r), box.bottom - r);
+                return Math.hypot(x - cx, y - cy) <= r + 0.5;
+              };
+              const corners = q => [[q.left, q.top], [q.right, q.top], [q.left, q.bottom], [q.right, q.bottom]];
+              const count = new Set(rects.map(q => Math.round(q.top))).size;
+              results.push({
+                phone: `${width}x${height}`, text, words, lines: count, need: px(need), room: px(room), box: [px(box.width), px(box.height)], radius: px(r),
+                inside: box.left >= phone.left + 15.5 && box.right <= phone.right - 15.5,
+                held: rects.every(q => corners(q).every(([x, y]) => onPaper(x, y))),
+                whole: span.textContent === words && rects.every(q => q.left >= spanBox.left - 0.5 && q.right <= spanBox.right + 0.5),
+                wraps: need <= room + 0.5 ? count === 1 : count >= 2,
+              });
+            } finally { s.shell.dispose(); }
+          }
+        }
+      } finally {
+        document.documentElement.style.fontSize = '';
+        Object.assign(frame.style, was);
+      }
+      const good = r => r.inside && r.held && r.whole && r.wraps;
+      return { ok: results.length === 32 && results.every(good), failing: results.filter(r => !good(r)), results };
+    });
+
+    await check('words: the lit Blackout\'s line counts down (Lights out in 0:03, 0:02, 0:01) and the lights go out; the bar keeps its height, its right side keeps its elements and places, the focus stays and no layout is reported', async () => {
+      // The bar as phase-bars.mjs gives it at each second of the lit five, then dark: only its words and its clock change.
+      const at = (lightsOutMs, dark = false) => phaseBar({ phase: 'BLACKOUT', dark, lightsOutMs, round: 3, remainingMs: 10000 + lightsOutMs, promises: { count: 1 }, menu: {} });
+      const s = mount({ ...own(), bar: at(3000), tabs: { variant: 'game', view: 'room', hero: { mode: 'pass', enabled: false } } });
+      await frames();
+      const parts = ['.ms-ps-tb', '.ms-ps-promises', '.ms-ps-round', '.ms-ps-timer', '.ms-ps-menu'];
+      const read = () => ({ sub: s.q('.ms-ps-sub')?.textContent ?? null, clock: s.q('.ms-ps-timer')?.lastChild.textContent ?? null, tone: s.q('.ms-ps-tb').dataset.tone ?? null, who: s.q('.ms-ps-who'),
+        nodes: parts.map(p => s.q(p)), boxes: parts.map(p => { const r = s.q(p).getBoundingClientRect(); return [r.left, r.top, r.width, r.height].map(v => Math.round(v * 100) / 100); }),
+        bars: s.shell.layout().bars, focused: document.activeElement === s.q('.ms-ps-promises') });
+      s.q('.ms-ps-promises').focus();
+      const seen = [read()];
+      const layouts = named(s.calls, 'onLayout').length;
+      for (const [ms, dark] of [[2000, false], [1000, false], [0, true]]) {
+        s.shell.update({ bar: at(ms, dark) });
+        await frames();
+        seen.push(read());
+      }
+      const first = seen[0];
+      const steady = seen.every(m => m.nodes.every((n, i) => n === first.nodes[i]) && JSON.stringify(m.boxes) === JSON.stringify(first.boxes) && JSON.stringify(m.bars) === JSON.stringify(first.bars) && m.focused);
+      // The left part is built again for each new line, so a stale line can never stay.
+      const rebuilt = seen.every((m, i) => i === 0 || m.who !== seen[i - 1].who);
+      const reported = named(s.calls, 'onLayout').length - layouts;
+      const detail = { subs: seen.map(m => m.sub), clocks: seen.map(m => m.clock), tones: seen.map(m => m.tone), boxes: first.boxes, bars: first.bars, steady, rebuilt, reported };
+      s.shell.dispose();
+      return { ok: steady && rebuilt && reported === 0 && JSON.stringify(detail.subs) === JSON.stringify(['Lights out in 0:03', 'Lights out in 0:02', 'Lights out in 0:01', 'Dark · positions fixed'])
+        && JSON.stringify(detail.clocks) === JSON.stringify(['0:13', '0:12', '0:11', '0:10']) && JSON.stringify(detail.tones) === JSON.stringify([null, null, null, 'dark']), ...detail };
     });
 
     await check('hud: a long press shows a capped tab\'s word large at 200% text, and nothing at 100%', async () => {

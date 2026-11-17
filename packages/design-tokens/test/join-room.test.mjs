@@ -98,8 +98,8 @@ test('their words are the pack\'s: join and waiting of sheets 12 and 13', () => 
   assert.equal(JOIN_WORDS.offline, 'No connection. Ask to join returns when you are back online.');
   assert.equal(WAIT_WORDS.offline, 'No connection. Check again returns when you are back online.');
   assert.equal(JOIN_FORM_DEFAULTS.nameMax, CREW_NAME_MAX_LENGTH, 'the default limit is the contract\'s');
-  assert.equal(JOIN_FORM_VERSION, 'join-form-0.1.0');
-  assert.equal(JOIN_WAIT_VERSION, 'join-wait-0.1.0');
+  assert.equal(JOIN_FORM_VERSION, 'join-form-0.1.1');
+  assert.equal(JOIN_WAIT_VERSION, 'join-wait-0.1.2');
 });
 
 test('the form\'s inputs are checked, and refused with a reason; the values are Frontend\'s', () => {
@@ -146,7 +146,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   assert.ok(record.sourceClean, 'recorded against a clean source');
   assert.match(record.headers.find(h => h.key === 'Content-Security-Policy')?.value ?? '', /default-src 'none'/);
   const captures = Object.entries(record.captures);
-  assert.equal(captures.length, 30, 'fifteen states at two sizes');
+  assert.equal(captures.length, 32, 'sixteen states at two sizes');
   for (const [key, c] of captures) {
     assert.ok(c.ok && c.drawn, `${key} passed and drew what its state asks`);
     assert.deepEqual(c.problems, [], `${key}: no page error or failed request`);
@@ -178,4 +178,12 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     if (largestForm) assert.ok(c.detail.accepted?.stacked && c.detail.accepted.screen.h > c.detail.accepted.pack.h, `${c.id}: the stacked device choice`);
     else assert.equal(c.detail.accepted ?? null, null, `${c.id}: nothing accepted at the Standard text`);
   }
+});
+
+test('the game\u2019s gap: Cancel, Leave and Back to menu take Frontend\u2019s availability (G6)', () => {
+  const defaults = nextJoinWaitInput(JOIN_WAIT_DEFAULTS, {});
+  for (const name of ['cancel', 'leave', 'back']) assert.deepEqual(defaults[name], { enabled: true, busy: false, reason: null }, name);
+  const off = nextJoinWaitInput(JOIN_WAIT_DEFAULTS, { leave: { enabled: false, reason: 'Not available in this test' } });
+  assert.deepEqual(off.leave, { enabled: false, busy: false, reason: 'Not available in this test' });
+  assert.throws(() => nextJoinWaitInput(JOIN_WAIT_DEFAULTS, { cancel: false }), /cancel/);
 });

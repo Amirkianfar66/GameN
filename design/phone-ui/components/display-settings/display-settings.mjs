@@ -20,10 +20,10 @@
 // `motionLock: { reason }`: the switch is on, dimmed and refused, and Frontend's reason is both the row's
 // line, in place of the usual one, and the switch's description (question 3); the component adds no words.
 
-import { createControlPolicy, createKit } from '../kit/kit.mjs';
+import { createControlPolicy, createKit, followTextSize } from '../kit/kit.mjs';
 import { createEntryParts } from '../entry-parts/entry-parts.mjs';
 
-export const DISPLAY_SETTINGS_VERSION = 'display-settings-0.1.0';
+export const DISPLAY_SETTINGS_VERSION = 'display-settings-0.1.1';
 /** The text sizes, as the game keeps them (preferences.mjs textScale): Standard, Large, Largest. */
 export const TEXT_SCALES = Object.freeze([1, 1.5, 2]);
 
@@ -131,6 +131,9 @@ export function mountDisplayPage(host, input = {}, handlers = {}) {
   screen.append(nav, ...options.nodes);
   root.append(screen);
   host.append(root);
+  // A phone root outside the shell: a part opened after the text size changes takes the new size's rules (kit 0.8.1).
+  // The Settings sheet is the shell's, which calls it for its own root.
+  const textSize = followTextSize(root);
   const accepts = () => !disposed && state.interactive;
   const policy = createControlPolicy({ root, accepts, onFocusReturn: detail => { if (!disposed) on.onFocusReturn?.(detail); } });
 
@@ -179,6 +182,7 @@ export function mountDisplayPage(host, input = {}, handlers = {}) {
     observer?.disconnect();
     root.removeEventListener('click', onClick);
     policy.dispose();
+    textSize.dispose();
     root.remove();
   }
   render();

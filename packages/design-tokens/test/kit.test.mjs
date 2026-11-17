@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { BUTTON_KINDS, CELL_STATES, COMPONENT_KIT_VERSION, PILL_TONES, ROW_TINTS, STAMP_TONES, TILE_STATES, seatNumber } from '../../../design/phone-ui/components/kit/kit.mjs';
+import { BUTTON_KINDS, CELL_STATES, COMPONENT_KIT_VERSION, PILL_TONES, ROW_TINTS, STAMP_TONES, TILE_STATES, followTextSize, seatNumber } from '../../../design/phone-ui/components/kit/kit.mjs';
 import { CASES } from '../../../design/phone-ui/components/kit/preview/cases.mjs';
 import { ACCEPTED } from '../../../design/phone-ui/components/kit/preview/compare.mjs';
 
@@ -46,7 +46,7 @@ test('the kit is a runtime source: its graph is runtime-safe and in the hosted g
   }
   assert.deepEqual([...new Set([...files.values()].flat().filter(s => !s.startsWith('.')))], ['@mothership/contracts']);
   assert.ok(local.includes('design/phone-ui/components/icons.mjs'));
-  assert.equal(COMPONENT_KIT_VERSION, 'component-kit-0.8.0', 'not the #121 phone kit (phone-kit-0.1.0)');
+  assert.equal(COMPONENT_KIT_VERSION, 'component-kit-0.8.2', 'not the #121 phone kit (phone-kit-0.1.0)');
 });
 
 test('its styles apply only inside an ms-kit root, to elements with its own classes', () => {
@@ -112,13 +112,23 @@ test('its values are the pack\'s: every token, and the pack\'s control kinds, to
   assert.equal(seatNumber({ seat: 'seat-7' }), 7);
 });
 
-test('its toast is the pack\'s .toast at its owner\'s bar foot, with the shell\'s drop and fade (0.8.0)', () => {
+test('its toast is the pack\'s .toast at its owner\'s bar foot, with the shell\'s drop and fade (0.8.0), and words that wrap inside the phone (0.8.2)', () => {
   const block = (css, selector) => { const start = css.indexOf(`${selector} {`); assert.ok(start >= 0, selector); return css.slice(start + selector.length + 2, css.indexOf('}', start)); };
   const declarations = body => Object.fromEntries(body.split(';').map(d => d.trim()).filter(Boolean).map(d => [d.slice(0, d.indexOf(':')).trim(), d.slice(d.indexOf(':') + 1).trim()]));
   const pack = declarations(block(PACK_CSS, '.toast')), kit = declarations(block(KIT_CSS, '.ms-kit :where(.ms-k-toast)'));
   const as = { 'calc(var(--top) + 10px)': 'calc(var(--ms-k-toast-top, 0px) + 10px)', 'var(--paper)': 'var(--ms-k-paper)', 'var(--ink)': 'var(--ms-k-ink)',
     '600 0.9375rem/1.2 var(--font-ui)': '600 0.9375rem/1.2 var(--ms-k-font)', 'var(--shadow-soft)': tokens(PACK_CSS, ':root')['--shadow-soft'] };
-  for (const [key, value] of Object.entries(pack)) assert.equal(kit[key], as[value] ?? value, `the toast's ${key} is the pack's`);
+  // Its own since 0.8.2: words too long for one line wrap, and its corners are as round as a one-line toast's ends (the
+  // pack's pill on one line). Every other declaration of the pack's is the kit's.
+  const own = new Set(['white-space', 'border-radius']);
+  for (const [key, value] of Object.entries(pack)) if (!own.has(key)) assert.equal(kit[key], as[value] ?? value, `the toast's ${key} is the pack's`);
+  assert.equal(pack['white-space'], 'nowrap');
+  assert.equal(pack['border-radius'], '999px');
+  assert.equal(kit['white-space'], 'normal');
+  assert.equal(kit['border-radius'], 'calc(max(20px, 1.2em) / 2 + 9px)');
+  assert.equal(kit.width, 'max-content');
+  assert.ok(KIT_CSS.includes('.ms-kit :where(.ms-k-toast-text) { text-align: start; overflow-wrap: anywhere; }'), 'its words wrap anywhere, so no word runs past the phone');
+  assert.doesNotMatch(KIT_CSS, /\.ms-k-toast-text\) \{[^}]*text-overflow/, 'its words are not cut');
   assert.match(PACK_CSS, /\.toast \.ic \{ width: 20px; height: 20px; \}/);
   assert.ok(KIT_CSS.includes('.ms-kit :where(.ms-k-toast .ms-k-ic) { width: 20px; height: 20px; }'));
   // Its own: inside the phone, no tap (it has no action), the shell's drop and fade (since 0.1.0) and its 80 ms fade
@@ -135,6 +145,48 @@ test('its toast is the pack\'s .toast at its owner\'s bar foot, with the shell\'
   assert.ok(shell.includes('.ms-phone-shell .ms-ps-toast { --ms-k-toast-top: var(--ms-ps-over-top); }'), 'the shell sets the toast\'s top to its overlays\' place');
   assert.doesNotMatch(shell, /\.ms-ps-toast[^{]*\{[^}]*(?:background|padding|font|animation:|opacity|[{;]\s*top:|pointer-events)/, 'the shell draws no second look for its toast');
   assert.match(read('design/phone-ui/components/phone-shell/phone-shell.mjs'), /kit\.toast\(props\)/);
+});
+
+test('followTextSize (0.8.1): a hidden 1 em box, and the root\'s container set up again once for each change of its text size', () => {
+  // A stand-in for the browser: what the root's style is when its layout is read, and what the box's observer reports.
+  let observed = null, disconnected = false;
+  const seen = [];
+  const style = { props: new Map(),
+    getPropertyValue(name) { return this.props.get(name)?.[0] ?? ''; }, getPropertyPriority(name) { return this.props.get(name)?.[1] ?? ''; },
+    setProperty(name, value, priority = '') { this.props.set(name, [value, priority]); }, removeProperty(name) { this.props.delete(name); } };
+  const doc = { createElement: tag => ({ tag, className: '', attrs: {}, parentNode: null, setAttribute(k, v) { this.attrs[k] = v; }, remove() { if (this.parentNode) this.parentNode.children.splice(this.parentNode.children.indexOf(this), 1); this.parentNode = null; } }),
+    defaultView: { ResizeObserver: class { constructor(fn) { observed = fn; } observe(node) { this.node = node; } disconnect() { disconnected = true; } } } };
+  const root = { ownerDocument: doc, style, children: [], append(node) { node.parentNode = this; this.children.push(node); },
+    get offsetWidth() { seen.push(style.getPropertyValue('container-type') || null); return 390; } };
+  const report = height => observed([{ contentRect: { height } }]);
+  const watch = followTextSize(root);
+  const box = root.children[0];
+  assert.equal(box.className, 'ms-k-em');
+  assert.equal(box.attrs['aria-hidden'], 'true');
+  report(16);
+  assert.deepEqual(seen, [], 'the first size sets nothing up again');
+  report(32);
+  assert.deepEqual(seen, ['normal'], 'off for one layout');
+  assert.equal(style.getPropertyValue('container-type'), '', 'then as its style has it');
+  report(32);
+  assert.deepEqual(seen, ['normal'], 'the same size: nothing');
+  style.setProperty('container-type', 'size', 'important');
+  report(24);
+  assert.deepEqual(seen, ['normal', 'normal']);
+  assert.deepEqual([style.getPropertyValue('container-type'), style.getPropertyPriority('container-type')], ['size', 'important'], 'a root\'s own inline value comes back');
+  box.remove();
+  report(0);
+  assert.equal(box.parentNode, root, 'a root that dropped its children gets its box back');
+  assert.deepEqual(seen, ['normal', 'normal'], 'without setting anything up');
+  watch.dispose();
+  watch.dispose();
+  assert.ok(disconnected && box.parentNode === null, 'dispose() stops watching and takes the box away, once');
+  report(48);
+  assert.deepEqual(seen, ['normal', 'normal'], 'and nothing happens after it');
+  assert.throws(() => followTextSize(null), TypeError);
+  // The box is 1 em tall and never seen or tapped.
+  const rule = KIT_CSS.match(/\.ms-kit :where\(\.ms-k-em\) \{([^}]*)\}/)?.[1] ?? '';
+  for (const part of ['position: absolute', 'width: 0', 'height: 1em', 'visibility: hidden', 'pointer-events: none']) assert.ok(rule.includes(part), part);
 });
 
 test('its comparison with the pack is development only: the pages, the cases, the rules and the tools', () => {

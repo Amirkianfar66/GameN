@@ -130,7 +130,7 @@ test('its words are the pack\'s: the main menu of sheet 10', () => {
   for (const words of [MENU_WORDS.join, MENU_WORDS.joinSub, MENU_WORDS.host, MENU_WORDS.hostSub, MENU_WORDS.recover, MENU_WORDS.settings, MENU_WORDS.offline]) {
     assert.ok(entry.includes(`'${words}'`), `screens-entry.mjs: ${words}`);
   }
-  assert.equal(MAIN_MENU_VERSION, 'main-menu-0.1.0');
+  assert.equal(MAIN_MENU_VERSION, 'main-menu-0.1.1');
 });
 
 test('inputs are checked, and refused with a reason', () => {

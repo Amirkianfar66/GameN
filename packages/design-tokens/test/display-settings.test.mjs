@@ -99,7 +99,7 @@ test('its words are the pack\'s (sheet 32 and the settings screen), and its size
   // The game keeps the same three (apps/game/hosted/planet/preferences.mjs textScale).
   assert.match(read('apps/game/hosted/planet/preferences.mjs'), /\[\[1,'Standard'\],\[1\.5,'Large'\],\[2,'Largest'\]\]/);
   assert.deepEqual(TEXT_SCALES, [1, 1.5, 2]);
-  assert.equal(DISPLAY_SETTINGS_VERSION, 'display-settings-0.1.0');
+  assert.equal(DISPLAY_SETTINGS_VERSION, 'display-settings-0.1.1');
 });
 
 test('its inputs are checked, and refused with a reason', () => {
