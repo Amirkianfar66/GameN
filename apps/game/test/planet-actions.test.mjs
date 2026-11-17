@@ -132,13 +132,37 @@ test('the target bar and the chip: a person, Supply\'s second, a move\'s positio
  assert.ok(kept({viewer:'seat-4',target:actionsTarget(model({action:rescue})),chip:actionsChip(model({action:rescue}),{view:'room',room:'room-b'})}).chip);
 });
 
-test('the toasts once the server accepts: "Turn passed", "Moved to B4" with this phone\'s position, Hack Ship\'s and Blackhole\'s',()=>{
+test('the toasts once the server accepts: "Turn passed", "Moved to B4" once the board has the viewer there, Hack Ship\'s and Blackhole\'s',()=>{
  assert.deepEqual(actionsToast(model({action:action('PASS_TURN','accepted')})),{id:'pass:turn-1',text:'Turn passed',icon:'info'});
+ // A move: "Moved to B4" with, or after, the view that has the viewer there, never before it (Q2; the Lead, 17 November).
  const moving=model({action:action('MOVE','slots',['B4'],{selected:['Room B']})});
- const flow=through({model:moving},{model:moving,pick:{slot:'B4'}},{model:model({action:action('MOVE','accepted')})});
- assert.deepEqual(actionsToast(model({action:action('MOVE','accepted')}),{flow}),{id:'MOVE:turn-1:B4',text:'Moved to B4',icon:'info'});
+ const sent=through({model:moving},{model:moving,pick:{slot:'B4'}},{model:model({action:action('MOVE','sending')})});
+ const movedBoard={seats:seats.map(s=>s.seatId==='seat-4'?{...s,slotId:'B4'}:s)},movedView=model({board:movedBoard});
+ const said={id:'MOVE:turn-1:B4',text:'Moved to B4',icon:'info'};
+ // The receipt first: accepted over the old board, so no toast yet; a view that has not moved the viewer, still none.
+ const acceptedOld=model({action:action('MOVE','accepted')}),waiting=actionsFlow(sent,acceptedOld);
+ assert.equal(waiting.stage,'accepted');
+ assert.equal(actionsToast(acceptedOld,{flow:waiting}),null);
+ assert.equal(actionsFlow(waiting,model()).stage,'accepted');
+ // Then the view that moves the viewer says it, once (the toast's id), and the flow keeps it within the phase.
+ const moved=actionsFlow(waiting,movedView);
+ assert.equal(moved.stage,'moved');
+ assert.deepEqual(actionsToast(movedView,{flow:moved}),said);
+ assert.deepEqual(actionsToast(movedView,{flow:actionsFlow(moved,movedView)}),said);
+ // Accepted with the view already moved: said at once.
+ assert.deepEqual(actionsToast(model({board:movedBoard,action:action('MOVE','accepted')}),{flow:actionsFlow(sent,model({board:movedBoard,action:action('MOVE','accepted')}))}),said);
+ // The view first: nothing while it sends; when the send settles with no accepted step (A5), the board says it.
+ const sendingMoved=model({board:movedBoard,action:action('MOVE','sending')}),early=actionsFlow(sent,sendingMoved);
+ assert.equal(early.stage,'sent');
+ assert.equal(actionsToast(sendingMoved,{flow:early}),undefined);
+ assert.deepEqual(actionsToast(movedView,{flow:actionsFlow(early,movedView)}),said);
+ // Not accepted: the board never has the viewer there, and the flow ends with no toast. The phase ending ends it too.
+ assert.equal(actionsFlow(sent,model()),null);
+ assert.equal(actionsFlow(waiting,model({phase:{...turn,id:'turn-2'}})),null);
+ assert.equal(actionsFlow(waiting,model({board:movedBoard,phase:{...turn,id:'turn-2'}})),null);
  // Without this phone's own position there is none to name.
  assert.equal(actionsToast(model({action:action('MOVE','accepted')})),null);
+ assert.equal(actionsToast(movedView),undefined);
  assert.deepEqual(actionsToast(model({action:action('ACTIVATE_SHIP_HACK','accepted')})),{id:'ACTIVATE_SHIP_HACK:turn-1',text:'Hack Spaceship registered',icon:'check'});
  assert.equal(actionsToast(model({action:action('ACTIVATE_BLACKHOLE','accepted')})).text,'Blackhole registered');
  // After Register says the rest; nothing before acceptance; the other commands' are not Actions'.

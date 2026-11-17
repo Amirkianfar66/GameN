@@ -43,6 +43,8 @@ const player=model=>model.surface==='player'&&!model.concealed;
 export const slotLocation=slot=>{const room=BOARD_ROOMS.find(id=>slotsOf(id,9).some(s=>s.id===slot));return room?LOCATION_OF[room]:null;};
 /** Where the viewer stands on the public board ("Room B"), or null off the board. */
 export const ownLocation=model=>model.board?.seats?.find(seat=>seat.seatId===model.ownSeatId)?.location??null;
+/** Whether the public board has the viewer at the position this phone's move picked (and in its room, when known). */
+const movedThere=(model,flow)=>{const seat=model.board?.seats?.find(s=>s.seatId===model.ownSeatId);return !!seat&&!!flow?.slot&&seat.slotId===flow.slot&&(!flow.room||seat.location===flow.room);};
 /** A person as the parts take them: the seat, the display name (or "Player n"), the crew character and where the public board has them. */
 function person(model,seatId){
  const who=model.identities?.find(identity=>identity.seatId===seatId),seat=model.board?.seats?.find(s=>s.seatId===seatId);
@@ -64,16 +66,28 @@ const withKind=(frame,kind)=>({sub:null,back:false,close:true,detent:'auto',acti
  * while the model's action is that command, in this match, for this viewer, and through the "Outcome unknown"
  * that follows its own send (the controller keeps one unsettled command until it settles; A4: the model does not
  * say which). It is dropped once the action ends, when concealed, and for a new viewer or match.
- *   stage: choosing (targets, slots), checking (confirm), sent (sending), accepted, unknown, retry (sending again)
+ * A move is held a little longer, within its phase: its toast waits until the public board has the viewer at the
+ * position. The controller's accepted step exists only when the receipt comes before the next view, and lasts one
+ * revision (A5), so the view that moves the viewer can come after it, or instead of it.
+ *   stage: choosing (targets, slots), checking (confirm), sent (sending), accepted, unknown, retry (sending again),
+ *   moved (a move the board now shows)
  */
 export function actionsFlow(flow,model){
  if(!player(model)||!model.ownSeatId)return null;
- const mine=!!flow&&flow.match===model.matchId&&flow.viewer===model.ownSeatId,action=model.action;
- if(!action)return model.recovery&&mine&&['sent','retry','unknown'].includes(flow.stage)?{...flow,stage:'unknown'}:null;
+ const mine=!!flow&&flow.match===model.matchId&&flow.viewer===model.ownSeatId,action=model.action,phase=model.phase?.id??null;
+ if(!action){
+  if(model.recovery&&mine&&['sent','retry','unknown'].includes(flow.stage))return {...flow,stage:'unknown'};
+  // This phone's move, once its send has settled: said when the board has the viewer there; an accepted one waits for that view.
+  if(mine&&flow.type==='MOVE'&&flow.phase===phase){
+   if(['sent','accepted','moved'].includes(flow.stage)&&movedThere(model,flow))return {...flow,stage:'moved'};
+   if(flow.stage==='accepted')return flow;
+  }
+  return null;
+ }
  if(!HELD.has(action.type))return null;
- const phase=model.phase?.id??null,same=mine&&flow.type===action.type&&flow.phase===phase;
+ const same=mine&&flow.type===action.type&&flow.phase===phase;
  const base=same?flow:{match:model.matchId,viewer:model.ownSeatId,type:action.type,phase,seats:[],slot:null,room:null,stage:'choosing'};
- const stage=action.step==='sending'?(['unknown','retry'].includes(base.stage)?'retry':'sent'):action.step==='accepted'?'accepted':action.step==='confirm'?'checking':'choosing';
+ const stage=action.step==='sending'?(['unknown','retry'].includes(base.stage)?'retry':'sent'):action.step==='accepted'?(action.type==='MOVE'&&movedThere(model,base)?'moved':'accepted'):action.step==='confirm'?'checking':'choosing';
  const seats=action.selected.filter(isSeat),room=action.type==='MOVE'?action.selected.find(value=>!isSeat(value))??base.room:base.room;
  return {...base,stage,seats:seats.length?seats:base.seats,room};
 }
@@ -216,11 +230,12 @@ export function actionsChip(model,{view='room',room=null}={}){
  */
 export function actionsToast(model,{flow=null}={}){
  if(!player(model))return undefined;
- const action=model.action;
+ const action=model.action,phase=model.phase?.id??'';
+ // A move: "Moved to B5" with, or after, the view that has the viewer there (Q2; the Lead, 17 November), never before it.
+ if(flow?.type==='MOVE'&&flow.stage==='moved'&&flow.slot&&(!action||action.type==='MOVE'))return movedToast({slot:flow.slot,id:`MOVE:${phase}:${flow.slot}`});
  if(action?.step!=='accepted'||!HELD.has(action.type))return undefined;
- const phase=model.phase?.id??'';
  if(action.type==='PASS_TURN')return passedToast({id:`pass:${phase}`});
- if(action.type==='MOVE')return flow?.type==='MOVE'&&flow.slot?movedToast({slot:flow.slot,id:`MOVE:${phase}:${flow.slot}`}):null;
+ if(action.type==='MOVE')return null;
  if(TOAST_ONLY.has(action.type))return registeredToast({type:action.type,id:`${action.type}:${phase}`});
  return null;
 }

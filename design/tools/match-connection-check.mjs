@@ -14,7 +14,7 @@
 //   unknown                     no answer: "Outcome unknown" naming the Rescue; Retry the same resends the same command
 //   list, other-rooms           Rescue offered in three rooms: the board's List and its check; the room's "Other rooms · 2"
 //   suppress, blackhole         actions with no person: the Engineer's CAPTURED; the Alien's Blackhole, a toast and its tile
-//   move, move-check, moved     Move in the viewer's own room, its check (Cancel back to choosing), "Moved to B5"
+//   move, move-check, moved     Move in the viewer's own room, its check (Cancel back to choosing), "Moved to B5" once the board has you there
 //   move-board                  Move on the board, and another room's position from its caption
 //   pass                        "Pass your turn?", then "Turn passed"
 //   blackout, blackout-fixed    the Disabler's positions in the dark, fixed with one tap; "Position A3 fixed"
@@ -198,7 +198,10 @@ const LOOK = `(() => {
     shown: (() => { const s = document.querySelector('.ms-phone-shell'); if (!s) return ''; const c = s.cloneNode(true); c.querySelectorAll('.ms-visually-hidden, [hidden]').forEach(n => n.remove()); return text(c); })(),
     hiddenStep: document.getElementById('ms-action-step')?.textContent ?? null,
     hiddenCheckpoint: document.querySelector('.planet-shared-checkpoint')?.textContent ?? null,
+    // What a state's steps noted on the way (the moved state: before the view that moves the viewer).
+    before: window.__matchBefore ?? null,
     model: model ? { connection: model.connection, concealed: model.concealed, phase: model.phase?.kind ?? null, panel: model.panel, ownSeatId: model.ownSeatId, round: model.round,
+      own: (seat => seat ? seat.location + ' ' + seat.slotId : null)(model.board?.seats?.find(x => x.seatId === model.ownSeatId)),
       action: model.action ? { type: model.action.type, step: model.action.step, selected: model.action.selected } : null, recovery: model.recovery } : null,
     commands: (window.planetHarness?.requests ?? []).filter(r => r.operation === 'command').map(r => ({ type: r.request.command.type, ...r.request.command })),
     page: document.body.innerText,
@@ -400,13 +403,21 @@ const STATES = {
       const seen = await page.evaluate(LOOK);
       return { cancelToChoosing: seen.target?.title === 'Move within Room B' && seen.stage.slots.join() === 'B5' && seen.commands.length === 0 };
     } },
+  // "Moved to B5" (Q2) with, or after, the view that has the viewer there, never before it (the Lead, 17 November). The
+  // harness answers a command with an accepted receipt and moves no one, so here it plays the server's part: first the
+  // receipt over the old board, which gives no toast; then the view with the viewer at B5, which does.
   moved: { from: 'move-check', steps: async page => {
       await page.evaluate(tap(SLOT('B5')));
       await page.waitFor(SHEET('action-check'), 'the check');
       await page.evaluate(tap(FOOT('register')));
-      await page.waitFor("document.querySelector('.ms-ps-toast')", 'the toast');
+      await page.waitFor(`${game}.getModel().action?.type==='MOVE'&&${game}.getModel().action.step==='accepted'`, 'the receipt, over the old board');
+      await sleep(600);
+      await page.evaluate(`window.__matchBefore={toast:!!document.querySelector('.ms-ps-toast'),own:(seat=>seat?seat.location+' '+seat.slotId:null)(${game}.getModel().board?.seats?.find(x=>x.seatId===${game}.getModel().ownSeatId))}`);
+      await page.evaluate(edit("Object.assign(p.board.seats.find(s=>s.seatId===p.self.seatId),{location:'Room B',slotId:'B5'})"));
+      await page.waitFor("document.querySelector('.ms-ps-toast')", 'the toast, with the view that moves the viewer');
     },
-    facts: s => ({ toast: s.toast === 'Moved to B5', noSheet: s.sheet === null, sent: s.commands.length === 1 && s.commands[0].type === 'MOVE' && s.commands[0].destination === 'Room B' && s.commands[0].slotId === 'B5' }) },
+    facts: s => ({ toast: s.toast === 'Moved to B5', noSheet: s.sheet === null, sent: s.commands.length === 1 && s.commands[0].type === 'MOVE' && s.commands[0].destination === 'Room B' && s.commands[0].slotId === 'B5',
+      notBefore: s.before?.toast === false && !!s.before.own && s.before.own !== 'Room B B5', youThere: s.model?.own === 'Room B B5' }) },
   'move-board': { page: 'phone', url: 'scenario=board', steps: async page => {
       await STEPS.move(page);
       await page.evaluate(tap('.ms-ps-chip button'));
