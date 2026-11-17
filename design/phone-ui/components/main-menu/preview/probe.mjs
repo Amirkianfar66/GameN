@@ -17,6 +17,8 @@
 //   text      with larger text the choices grow from the foot up, clear of the settings button, and the canvas
 //             covers the hero from 24 px above them, so nothing of theirs sits on its words; none at the Standard text;
 //             the brand words go whole or not at all: where that top would cut them, the cover starts 24 px above them
+//   text later  mounted at the Standard text, then the Largest and the offline note: laid out as one mounted at
+//             the Largest (the kit's followTextSize, 0.8.1)
 //   words     brandWordsBox holds the held frame's drawn ink to half a pixel, at both sizes
 //   input     malformed input is refused
 //   dispose   after dispose(), nothing is left and nothing fires
@@ -223,6 +225,30 @@ export async function runMainMenuProbe({ sizes, offline, drawHero, heroInk }) {
         && seen['200 offline'].cover && lifted(seen['200 offline']) && seen['200 offline'].join > 76
         && seen['200'].cover && !lifted(seen['200']) && seen['200'].coverTop >= seen['200'].words.bottom;
       return { ok, seen };
+    });
+
+    await check('text later: mounted at the Standard text, then the Largest set and the offline note opened, the menu lays out as one mounted at the Largest (kit 0.8.1 followTextSize)', async () => {
+      const boxes = s => {
+        const f = s.root.getBoundingClientRect();
+        return [s.q('.ms-k-error'), s.join, s.host, s.recover, s.settings, s.q('.ms-mm-actions'), s.q('.ms-mm-cover')]
+          .map(n => { const r = n.getBoundingClientRect(); return [r.top - f.top, r.left - f.left, r.width, r.height].map(v => Math.round(v * 100) / 100); });
+      };
+      document.documentElement.style.fontSize = '100%';
+      const late = mount();
+      await frames();
+      document.documentElement.style.fontSize = '200%';
+      await frames();
+      late.menu.update(offline);
+      await frames(); await frames();
+      const after = boxes(late);
+      late.menu.dispose();
+      const fresh = mount({ ...offline, insets: size.insets });
+      await frames(); await frames();
+      const want = boxes(fresh);
+      fresh.menu.dispose();
+      document.documentElement.style.fontSize = '';
+      const seen = { after, want };
+      return { ok: JSON.stringify(after) === JSON.stringify(want), seen };
     });
 
     await check('input: malformed input is refused', async () => {

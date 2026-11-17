@@ -16,6 +16,8 @@
 //   refused   not interactive: every control refused, nothing dimmed
 //   insets    Frontend's safe areas, or the browser's
 //   text      with the Largest text the screens scroll, and the foot is reached
+//   text later  mounted at the Standard text, then the Largest and a part opened: laid out as one mounted at
+//             the Largest (the kit's followTextSize, 0.8.1)
 //   input     malformed input is refused
 //   dispose   after dispose(), nothing is left and nothing fires
 //   motion    only the toast moves: in from 8 px over 220 ms, or a plain fade with Reduce motion (the game's or
@@ -269,6 +271,31 @@ export async function runHostRoomProbe({ sizes, lobbyOf, REQUESTS, COUNTS }) {
       document.documentElement.style.fontSize = '';
       const beside = fits.filter(f => f.text === 100).every(f => !f.under), under = fits.filter(f => f.text > 100).every(f => f.under);
       return { ok: seen.scrolls && seen.startInView && Math.abs(seen.toastTop - (seen.navBottom + 10)) < 0.5 && fits.every(f => f.copyInside && f.codeInside) && beside && under, seen };
+    });
+
+    await check('text later: mounted at the Standard text, then the Largest set and a part opened (setup: another count and the failed opening\u2019s error; the lobby: the requests and the offline note), each screen lays out as one mounted at the Largest (kit 0.8.1 followTextSize)', async () => {
+      const html = document.documentElement.style;
+      const boxes = m => {
+        const f = m.root.getBoundingClientRect();
+        return [...m.root.querySelectorAll('button, .ms-k-row, .ms-k-list, .ms-k-error, .ms-k-seg, .ms-k-stepper, h1, h2, p')].filter(n => n.getClientRects().length)
+          .map(n => { const r = n.getBoundingClientRect(); return [r.top - f.top, r.left - f.left, r.width, r.height].map(v => Math.round(v * 100) / 100); });
+      };
+      const late = async (mount, first, then) => {
+        html.fontSize = '100%'; const m = mount(first); await frames();
+        html.fontSize = '200%'; await frames();
+        m.s.update(then); await frames(); await frames();
+        const seen = boxes(m); m.s.dispose(); return seen;
+      };
+      const fresh = async (mount, input) => { html.fontSize = '200%'; const m = mount(input); await frames(); await frames(); const seen = boxes(m); m.s.dispose(); return seen; };
+      const error = 'The room did not open. Try again.';
+      const seen = {
+        setup: { late: await late(mountSetup, { count: 7 }, { count: 9, error }), fresh: await fresh(mountSetup, { count: 9, error }) },
+        lobby: { late: await late(mountLobby, lobbyOf({ requests: [] }), { ...lobbyOf({ requests: REQUESTS }), notice: 'offline' }),
+          fresh: await fresh(mountLobby, { ...lobbyOf({ requests: REQUESTS }), notice: 'offline' }) },
+      };
+      html.fontSize = '';
+      const same = v => v.late.length > 0 && JSON.stringify(v.late) === JSON.stringify(v.fresh);
+      return { ok: same(seen.setup) && same(seen.lobby), seen };
     });
 
     await check('input: malformed input is refused', async () => {

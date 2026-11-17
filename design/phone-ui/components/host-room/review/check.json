@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/host-room-check.mjs",
   "component": "design/phone-ui/components/host-room",
-  "sourceCommit": "3678d54848c5da3b1f47944eafe315c455849b6a",
+  "sourceCommit": "a2f7de150bb58cbcfb160163984c691e8ac24fba",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -45,7 +45,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -111,7 +111,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -177,7 +177,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -243,7 +243,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -302,14 +302,14 @@
     },
     "390x844/opening": {
       "file": "design/phone-ui/components/host-room/review/390x844-opening.jpg",
-      "sha256": "cd59fdef8f488d9eecb1df34688dd4d6c405096a9c7a1a225a0b4beca18dbaee",
+      "sha256": "09f40b8958f14245592dc4d2cba0e24c65a0a8000554d2ec79d75897a971e61e",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -368,14 +368,14 @@
     },
     "430x932/opening": {
       "file": "design/phone-ui/components/host-room/review/430x932-opening.jpg",
-      "sha256": "459577e13524de780fbc0586fa4c40515e1af176ef4a63daf175637d8c2ed4f1",
+      "sha256": "5e8042867fcb79bc6c5e3e840050d0aef78907d0367283e204ba001347ceee9e",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -441,7 +441,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -507,7 +507,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -573,7 +573,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -636,7 +636,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -699,7 +699,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -762,7 +762,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -825,7 +825,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -888,7 +888,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -951,7 +951,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1014,7 +1014,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1077,7 +1077,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1140,7 +1140,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1203,7 +1203,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1269,7 +1269,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1335,7 +1335,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1398,7 +1398,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1461,7 +1461,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1527,7 +1527,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1593,7 +1593,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1656,7 +1656,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2062,6 +2062,507 @@
           }
         },
         {
+          "id": "text later: mounted at the Standard text, then the Largest set and a part opened (setup: another count and the failed opening’s error; the lobby: the requests and the offline note), each screen lays out as one mounted at the Largest (kit 0.8.1 followTextSize)",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "setup": {
+                "late": [
+                  [
+                    55,
+                    8,
+                    130.55,
+                    44
+                  ],
+                  [
+                    56.59,
+                    138.55,
+                    167.45,
+                    40.8
+                  ],
+                  [
+                    109,
+                    16,
+                    358,
+                    73.59
+                  ],
+                  [
+                    214.59,
+                    20,
+                    350,
+                    31.19
+                  ],
+                  [
+                    252.78,
+                    16,
+                    358,
+                    50
+                  ],
+                  [
+                    255.78,
+                    19,
+                    115.33,
+                    44
+                  ],
+                  [
+                    255.78,
+                    137.33,
+                    115.33,
+                    44
+                  ],
+                  [
+                    255.78,
+                    255.66,
+                    115.34,
+                    44
+                  ],
+                  [
+                    309.78,
+                    20,
+                    350,
+                    35.09
+                  ],
+                  [
+                    362.88,
+                    20,
+                    350,
+                    31.19
+                  ],
+                  [
+                    401.06,
+                    16,
+                    358,
+                    225.09
+                  ],
+                  [
+                    401.06,
+                    16,
+                    358,
+                    91.3
+                  ],
+                  [
+                    492.36,
+                    16,
+                    358,
+                    133.8
+                  ],
+                  [
+                    648.16,
+                    18,
+                    354,
+                    101
+                  ],
+                  [
+                    759.16,
+                    16,
+                    358,
+                    50
+                  ]
+                ],
+                "fresh": [
+                  [
+                    55,
+                    8,
+                    130.55,
+                    44
+                  ],
+                  [
+                    56.59,
+                    138.55,
+                    167.45,
+                    40.8
+                  ],
+                  [
+                    109,
+                    16,
+                    358,
+                    73.59
+                  ],
+                  [
+                    214.59,
+                    20,
+                    350,
+                    31.19
+                  ],
+                  [
+                    252.78,
+                    16,
+                    358,
+                    50
+                  ],
+                  [
+                    255.78,
+                    19,
+                    115.33,
+                    44
+                  ],
+                  [
+                    255.78,
+                    137.33,
+                    115.33,
+                    44
+                  ],
+                  [
+                    255.78,
+                    255.66,
+                    115.34,
+                    44
+                  ],
+                  [
+                    309.78,
+                    20,
+                    350,
+                    35.09
+                  ],
+                  [
+                    362.88,
+                    20,
+                    350,
+                    31.19
+                  ],
+                  [
+                    401.06,
+                    16,
+                    358,
+                    225.09
+                  ],
+                  [
+                    401.06,
+                    16,
+                    358,
+                    91.3
+                  ],
+                  [
+                    492.36,
+                    16,
+                    358,
+                    133.8
+                  ],
+                  [
+                    648.16,
+                    18,
+                    354,
+                    101
+                  ],
+                  [
+                    759.16,
+                    16,
+                    358,
+                    50
+                  ]
+                ]
+              },
+              "lobby": {
+                "late": [
+                  [
+                    55,
+                    8,
+                    135.48,
+                    44
+                  ],
+                  [
+                    56.59,
+                    143.48,
+                    162.52,
+                    40.8
+                  ],
+                  [
+                    236.64,
+                    32,
+                    129,
+                    36
+                  ],
+                  [
+                    338.23,
+                    18,
+                    354,
+                    182
+                  ],
+                  [
+                    538.23,
+                    20,
+                    350,
+                    31.19
+                  ],
+                  [
+                    576.42,
+                    16,
+                    358,
+                    216.39
+                  ],
+                  [
+                    576.42,
+                    16,
+                    358,
+                    91.3
+                  ],
+                  [
+                    604.06,
+                    251.94,
+                    108.06,
+                    36
+                  ],
+                  [
+                    667.72,
+                    16,
+                    358,
+                    125.09
+                  ],
+                  [
+                    712.27,
+                    251.94,
+                    108.06,
+                    36
+                  ],
+                  [
+                    810.81,
+                    20,
+                    350,
+                    31.19
+                  ],
+                  [
+                    849,
+                    16,
+                    358,
+                    323.3
+                  ],
+                  [
+                    849,
+                    16,
+                    358,
+                    91.3
+                  ],
+                  [
+                    940.3,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    998.3,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    1056.3,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    1114.3,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    1190.3,
+                    20,
+                    350,
+                    31.19
+                  ],
+                  [
+                    1228.48,
+                    16,
+                    358,
+                    91.3
+                  ],
+                  [
+                    1228.48,
+                    16,
+                    358,
+                    91.3
+                  ],
+                  [
+                    1252.13,
+                    238,
+                    122,
+                    44
+                  ],
+                  [
+                    1252.13,
+                    238,
+                    44,
+                    44
+                  ],
+                  [
+                    1252.13,
+                    316,
+                    44,
+                    44
+                  ],
+                  [
+                    1333.78,
+                    16,
+                    358,
+                    81.59
+                  ],
+                  [
+                    1432.38,
+                    20,
+                    350,
+                    35.09
+                  ]
+                ],
+                "fresh": [
+                  [
+                    55,
+                    8,
+                    135.48,
+                    44
+                  ],
+                  [
+                    56.59,
+                    143.48,
+                    162.52,
+                    40.8
+                  ],
+                  [
+                    236.64,
+                    32,
+                    129,
+                    36
+                  ],
+                  [
+                    338.23,
+                    18,
+                    354,
+                    182
+                  ],
+                  [
+                    538.23,
+                    20,
+                    350,
+                    31.19
+                  ],
+                  [
+                    576.42,
+                    16,
+                    358,
+                    216.39
+                  ],
+                  [
+                    576.42,
+                    16,
+                    358,
+                    91.3
+                  ],
+                  [
+                    604.06,
+                    251.94,
+                    108.06,
+                    36
+                  ],
+                  [
+                    667.72,
+                    16,
+                    358,
+                    125.09
+                  ],
+                  [
+                    712.27,
+                    251.94,
+                    108.06,
+                    36
+                  ],
+                  [
+                    810.81,
+                    20,
+                    350,
+                    31.19
+                  ],
+                  [
+                    849,
+                    16,
+                    358,
+                    323.3
+                  ],
+                  [
+                    849,
+                    16,
+                    358,
+                    91.3
+                  ],
+                  [
+                    940.3,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    998.3,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    1056.3,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    1114.3,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    1190.3,
+                    20,
+                    350,
+                    31.19
+                  ],
+                  [
+                    1228.48,
+                    16,
+                    358,
+                    91.3
+                  ],
+                  [
+                    1228.48,
+                    16,
+                    358,
+                    91.3
+                  ],
+                  [
+                    1252.13,
+                    238,
+                    122,
+                    44
+                  ],
+                  [
+                    1252.13,
+                    238,
+                    44,
+                    44
+                  ],
+                  [
+                    1252.13,
+                    316,
+                    44,
+                    44
+                  ],
+                  [
+                    1333.78,
+                    16,
+                    358,
+                    81.59
+                  ],
+                  [
+                    1432.38,
+                    20,
+                    350,
+                    35.09
+                  ]
+                ]
+              }
+            }
+          }
+        },
+        {
           "id": "input: malformed input is refused",
           "ok": true,
           "detail": {
@@ -2116,7 +2617,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2152,7 +2653,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BSXIaSRc.js",
+          "source": "assets/index-DU0OCyzg.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3491,7 +3992,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-BSXIaSRc.js",
+        "source": "assets/index-DU0OCyzg.js",
         "line": 1,
         "column": 3328,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"

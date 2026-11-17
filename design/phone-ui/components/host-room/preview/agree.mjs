@@ -8,6 +8,7 @@
 //
 // One recorded difference, from the Lead's review of #287 (decision 5): at the most bots, + keeps its look, as
 // sheet 11 draws Full, and is refused (aria-disabled), which the pack's Full does not mark. The case records it.
+// The toast's corners are read as the pill they draw (kit 0.8.2: half its one line, where the pack writes 999px).
 // One improvement, with the larger text only: the pack's code row pushes Copy past the card, and the code
 // card's row wraps instead (entry-parts.css). For those cases the pack is drawn with the same two rules, so
 // everything else is compared as usual, and the case records the improvement against the pack as it is.
@@ -94,7 +95,16 @@ function box(frame, node) {
 const words = node => node.innerText.replace(/\s+/g, ' ').trim();
 const near = (a, b) => ['x', 'y', 'w', 'h'].every(k => Math.abs(a[k] - b[k]) <= TOLERANCE);
 const frames = () => new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
-const looks = (node, props) => Object.fromEntries(props.map(p => [p, getComputedStyle(node)[p]]));
+/**
+ * A part's look. The toast's corners only: kit 0.8.2 rounds them to half a one-line toast's height (its words now wrap
+ * instead of being cut), where the pack writes 999px, so a radius of at least half the toast's height is read, on both
+ * sides, as the pill they both draw. Every other part, and every other property, is compared as computed.
+ */
+const looks = (node, props) => Object.fromEntries(props.map(p => {
+  const value = getComputedStyle(node)[p];
+  const pill = p === 'borderRadius' && node.matches('.toast, .ms-k-toast') && parseFloat(value) >= node.getBoundingClientRect().height / 2 - 0.5;
+  return [p, pill ? 'a pill' : value];
+}));
 const STATE_ATTRS = ['aria-disabled', 'aria-busy', 'aria-checked', 'aria-label', 'role'];
 
 export async function runHostRoomAgreement({ sizes, states }) {

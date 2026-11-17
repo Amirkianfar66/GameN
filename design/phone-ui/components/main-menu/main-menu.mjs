@@ -13,11 +13,11 @@
 // each choice's availability and reason; a refused choice keeps its focus. Each callback reports a tap.
 // Nothing here is private: the menu is the same for everyone, before any match.
 
-import { createControlPolicy, createKit } from '../kit/kit.mjs';
+import { createControlPolicy, createKit, followTextSize } from '../kit/kit.mjs';
 import { createEntryParts } from '../entry-parts/entry-parts.mjs';
 import { layout as brandLayout } from '../../../../apps/game/hosted/pregame-films/brand/brand.mjs';
 
-export const MAIN_MENU_VERSION = 'main-menu-0.1.0';
+export const MAIN_MENU_VERSION = 'main-menu-0.1.1';
 const NOTICES = Object.freeze([null, 'offline']);
 /** How far above the choices' top the cover over the hero begins, fading in to the canvas at their top. */
 export const COVER_LEAD_PX = 24;
@@ -117,6 +117,8 @@ export function mountMainMenu(host, input = {}, handlers = {}) {
   actions.append(join, hostChoice, recover);
   root.append(heroFrame, settingsPlace, actions);
   host.append(root);
+  // A phone root outside the shell: a part opened after the text size changes takes the new size's rules (kit 0.8.1).
+  const textSize = followTextSize(root);
 
   const accepts = () => !disposed && state.interactive;
   const policy = createControlPolicy({ root, accepts });
@@ -206,6 +208,7 @@ export function mountMainMenu(host, input = {}, handlers = {}) {
     observer?.disconnect();
     root.removeEventListener('click', onClick);
     policy.dispose();
+    textSize.dispose();
     root.remove();
   }
 
