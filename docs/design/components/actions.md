@@ -439,7 +439,9 @@ For the Lead. Nothing here changes the agreed interface:
   | `npm run build`, `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
-- **`node design/tools/actions-check.mjs`:** recorded on `b8c3a428` (0.2.3; the shell at `a0900240`, shell 0.2.11 and kit 0.8.2), with the source clean: 114 of 114 captures, probe 17 of 17 (16 as the page comes, and the motion check with the device's Reduce motion), agreement 31 of 31.
+- **`node design/tools/actions-check.mjs`:** recorded on `3b163dbe` (0.2.3 with the Lead's answers; the shell at `562723d8`, shell 0.2.11, kit 0.8.2 and room scene 0.5.1), with the source clean: 114 of 114 captures, probe 17 of 17 (16 as the page comes, and the motion check with the device's Reduce motion), agreement 31 of 31.
+  - **Against `b8c3a428`'s record** (0.2.3 before the Lead's answers, room scene 0.5.0): every recorded field of the 114 captures is the same, but for the bundle's file name in the known Zod report; 16 are byte for byte the same. The private talk's After Register draws the pack's line in the preview, which stands in for Frontend's, so it is unchanged. The probe's 17 checks and the agreement's 31 frames are the same, all passing.
+  - **Before:** `b8c3a428` (0.2.3; the shell at `a0900240`, shell 0.2.11 and kit 0.8.2): 114 of 114 captures, probe 17 of 17, agreement 31 of 31.
   - **New in 0.2.3:**
     - 4 captures of 2 new states: sheet 45 for Pass (`unknown-pass`, "Pass was sent, but no answer came back.") and for the Disabler's position in the dark room (`unknown-position`, "Position A3 was sent, but no answer came back."), at both phone sizes.
     - After Register's states take their stamp, time line and the pack's own lines from `afterWords()`, given the pack's facts. Their recorded headline and time line are unchanged, and the agreement's frames of 29.1 and 29.2 agree.
