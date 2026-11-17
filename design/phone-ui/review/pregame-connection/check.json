@@ -2,7 +2,7 @@
   "tool": "design/tools/pregame-connection-check.mjs",
   "what": "The Planet app's screens before the match drawn by Designer's pre-game components, in Frontend's phone harness (apps/game/dev/phone) built from the candidate below",
   "candidate": {
-    "commit": "07993d2615bba1d2acb3f4baa972b44e79801324",
+    "commit": "a9b0954575a7d207e37573042519a04627e83fc4",
     "clean": true,
     "dirty": []
   },
@@ -102,7 +102,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -167,7 +167,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -202,7 +202,7 @@
         },
         "rootClass": "planet-pregame",
         "title": "Choose a character",
-        "words": "VegaTaken · 1RigelTaken · 2LyraTaken · 3AtlasTaken · 4OrionTaken · 5NovaJunoTaken · 7MiraTaken · 8EchoTaken · 9No character yetTap one to chooseChoose a characterAssigned for you if time runs out0:30Taken by player 1Taken by player 2Taken by player 3Taken by player 4Taken by player 5Taken by player 7Taken by player 8Taken by player 9",
+        "words": "VegaTaken · 1RigelTaken · 2LyraTaken · 3AtlasTaken · 4OrionTaken · 5NovaJunoTaken · 7MiraTaken · 8EchoTaken · 9No character yetTap one to chooseChoose a characterAssigned for you if time runs out0:29Taken by player 1Taken by player 2Taken by player 3Taken by player 4Taken by player 5Taken by player 7Taken by player 8Taken by player 9",
         "buttons": [
           {
             "label": "Vega, taken by player 1",
@@ -372,7 +372,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -394,7 +394,7 @@
         "cardBack": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-concealed.jpg",
-      "sha256": "880929904e1deb26c07eb0aa8be62b3fd17c12743ae3b899d3a02c39484d5768",
+      "sha256": "6f5d3c1430841d6554c827befe88ad486799453631f71c3c0de6b854d6b9c1f7",
       "seen": {
         "screen": "role",
         "component": "ms-role-stage ms-kit",
@@ -406,7 +406,7 @@
         },
         "rootClass": "planet-pregame",
         "title": "Your role",
-        "words": "Role hiddenShow roleYour film starts in 0:15Ready0:25Skip filmYour roleOnly on this phone0:25",
+        "words": "Role hiddenShow roleYour film starts in 0:14Ready0:24Skip filmYour roleOnly on this phone0:24",
         "buttons": [
           {
             "label": "Show role",
@@ -486,7 +486,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -628,7 +628,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -653,7 +653,7 @@
         "reopensSettings": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-host-abort.jpg",
-      "sha256": "21fdaa9e9a621f6b560e085a007ddff9e65bb18aa4f2a0c6de7ec06109856ae7",
+      "sha256": "8f74f63e820084090fddb36ebff83f11598c67b82f20b3ed64f8cd91d93438db",
       "seen": {
         "screen": null,
         "component": null,
@@ -687,12 +687,12 @@
           "advance",
           "issueRecovery"
         ],
-        "reads": 11,
+        "reads": 12,
         "violations": [
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -748,6 +748,10 @@
         "focus": "menu",
         "focusValue": null,
         "secretInPage": false,
+        "wrap": {
+          "code": null,
+          "matchId": null
+        },
         "old": 0,
         "sent": [
           "advance",
@@ -771,10 +775,36 @@
         "masked": true,
         "note": true,
         "noMinutes": true,
-        "footer": true
+        "footer": true,
+        "groups": true
+      },
+      "info": {
+        "infoWrap": {
+          "code": {
+            "groups": [
+              "••••••",
+              "••••••",
+              "••••••",
+              "••••••",
+              "••••••"
+            ],
+            "lines": 2,
+            "split": 0,
+            "overflow": false
+          },
+          "matchId": {
+            "groups": [
+              "planet-",
+              "local"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          }
+        }
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-host-code.jpg",
-      "sha256": "98e4f53134d3c752a5ad1a4c89b87405bc4b8048396e29de7dd0ca659cfe3efe",
+      "sha256": "af0e4e785fbea7379794a6cea23feb37943f5fb083a25fbdc391024495b8daaa",
       "seen": {
         "screen": null,
         "component": null,
@@ -813,7 +843,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -869,6 +899,29 @@
         "focus": "menu",
         "focusValue": null,
         "secretInPage": false,
+        "wrap": {
+          "code": {
+            "groups": [
+              "••••••",
+              "••••••",
+              "••••••",
+              "••••••",
+              "••••••"
+            ],
+            "lines": 2,
+            "split": 0,
+            "overflow": false
+          },
+          "matchId": {
+            "groups": [
+              "planet-",
+              "local"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          }
+        },
         "old": 0,
         "sent": [
           "advance",
@@ -888,14 +941,39 @@
         "problems": true,
         "revealed": true,
         "footer": true,
+        "groups": true,
         "copied": true,
         "toast": true,
         "refusedCopy": true,
         "hidden": true,
         "backToList": true
       },
+      "info": {
+        "infoWrap": {
+          "code": {
+            "groups": [
+              "SYNTHE",
+              "TIC-RE",
+              "COVERY",
+              "-CODE"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          },
+          "matchId": {
+            "groups": [
+              "planet-",
+              "local"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          }
+        }
+      },
       "file": "design/phone-ui/review/pregame-connection/390x844-host-code-revealed.jpg",
-      "sha256": "557d46bb71119c3ffef51d7f00b489da55bd1de861f469f3c30c11a1f8300c94",
+      "sha256": "f58490f2d8062ab1ebf2f100e4c77030eaa58f045765491ce3989c580720cf33",
       "seen": {
         "screen": null,
         "component": null,
@@ -934,7 +1012,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -990,6 +1068,28 @@
         "focus": "menu",
         "focusValue": null,
         "secretInPage": true,
+        "wrap": {
+          "code": {
+            "groups": [
+              "SYNTHE",
+              "TIC-RE",
+              "COVERY",
+              "-CODE"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          },
+          "matchId": {
+            "groups": [
+              "planet-",
+              "local"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          }
+        },
         "old": 0,
         "sent": [
           "advance",
@@ -1018,7 +1118,7 @@
         "receipt": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-host-controls.jpg",
-      "sha256": "978895ad7f1fcc685540f55e026b48fc9b88bf5bb27a69a53859bd8017239ec3",
+      "sha256": "29708919c859be8519dbeb95ce58f8ff81256224a8cef28d4b2c9e7955a8e617",
       "seen": {
         "screen": null,
         "component": null,
@@ -1054,7 +1154,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1142,6 +1242,10 @@
         "focus": "menu",
         "focusValue": null,
         "secretInPage": false,
+        "wrap": {
+          "code": null,
+          "matchId": null
+        },
         "old": 0,
         "sent": [],
         "fontSize": "16px",
@@ -1298,7 +1402,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1441,7 +1545,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1579,7 +1683,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1599,7 +1703,7 @@
         "leaveOff": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-join-admitted.jpg",
-      "sha256": "be982ee01f30ae6cdef1caa1dffdf7560e68a15fda96a24d0b9e8260f2299cb3",
+      "sha256": "1268ef767a933d53ed5307736f74dc4b883679f321e9b149dc84e245ee4b7ac7",
       "seen": {
         "screen": "join-wait",
         "component": "ms-join-wait ms-kit ms-k-phone ms-entry-parts",
@@ -1658,7 +1762,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1756,7 +1860,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1890,7 +1994,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1998,7 +2102,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2021,7 +2125,7 @@
         "noKnowledge": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-role.jpg",
-      "sha256": "14b6dafa42a0c6afd472df67032de5c386d15be3dcd08e20dc0e5c5f5524cab7",
+      "sha256": "848653366704999655bd122c56683990539065d77700508b01afa835908c398c",
       "seen": {
         "screen": "role",
         "component": "ms-role-stage ms-kit",
@@ -2098,7 +2202,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2196,7 +2300,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2220,12 +2324,12 @@
         "standing": true,
         "one": true,
         "onTheServersWindow": true,
-        "atMountMs": 188,
+        "atMountMs": 184,
         "goneByItself": true,
         "disposedInRound2": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-round-stamp.jpg",
-      "sha256": "df918911f2cb247ef0d2512888c0aa872ebd97838c96bdc9f80d8e815b139124",
+      "sha256": "bcaeeddf31b6760d4cd0ea27328a864c4caca7ba9d1cb8c445bf6abfe80e1a83",
       "seen": {
         "screen": null,
         "component": null,
@@ -2261,7 +2365,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2282,7 +2386,7 @@
         "nothingDrawn": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-round-stamp-late.jpg",
-      "sha256": "7c8a2b4af90664fd3e7a4b01e41b69acc077effa89ca2999b8051369ef9ec358",
+      "sha256": "cc4b8997ccb29af086ff51469b15dbaf385ee3b992d05b0608e5b472df993fb0",
       "seen": {
         "screen": null,
         "component": null,
@@ -2318,7 +2422,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2348,7 +2452,7 @@
         "focusKept": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-settings.jpg",
-      "sha256": "25ad413edcf5dd916e3d99d1c60f246d71980a5d927ff6693e9b4162d4626ae2",
+      "sha256": "cd214d792cf2a77296977110daca7d6344d9fd6dd30426171280ee9ae0905448",
       "seen": {
         "screen": null,
         "component": null,
@@ -2384,7 +2488,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2456,6 +2560,10 @@
         "focus": null,
         "focusValue": null,
         "secretInPage": false,
+        "wrap": {
+          "code": null,
+          "matchId": null
+        },
         "old": 0,
         "sent": [],
         "fontSize": "16px",
@@ -2674,7 +2782,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2741,7 +2849,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2760,7 +2868,7 @@
         "waiting": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-boarding-waiting.jpg",
-      "sha256": "f913664155737bd9ee91a5307592821e0f7c875990db6041e5e604a0d6ecde8e",
+      "sha256": "7f367f88eb3a0b533f92ca2f9bee9cd0743f969321af430f2117549d2cff8ecd",
       "seen": {
         "screen": "boarding",
         "component": "ms-boarding-stage ms-kit",
@@ -2806,7 +2914,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3011,7 +3119,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3033,7 +3141,7 @@
         "cardBack": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-concealed.jpg",
-      "sha256": "7be9b499316b337cb6e521f19542db0a14e8ae1be59e4ed845548c22cf54f3ca",
+      "sha256": "3119a545970916fa927ee48e6910429493cebcb049ef546428f964be784215bf",
       "seen": {
         "screen": "role",
         "component": "ms-role-stage ms-kit",
@@ -3125,7 +3233,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3267,7 +3375,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3292,7 +3400,7 @@
         "reopensSettings": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-host-abort.jpg",
-      "sha256": "d99646f7c6cd866fa0b5d98e65a34a5bda194baa174b6a7dc18ef952a47865f7",
+      "sha256": "2adc6f238bbfa31e5fc5574ff39623942c98a1d9fe03e1ba57c3e9ca1adca3ac",
       "seen": {
         "screen": null,
         "component": null,
@@ -3326,12 +3434,12 @@
           "advance",
           "issueRecovery"
         ],
-        "reads": 11,
+        "reads": 12,
         "violations": [
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3387,6 +3495,10 @@
         "focus": "menu",
         "focusValue": null,
         "secretInPage": false,
+        "wrap": {
+          "code": null,
+          "matchId": null
+        },
         "old": 0,
         "sent": [
           "advance",
@@ -3410,10 +3522,36 @@
         "masked": true,
         "note": true,
         "noMinutes": true,
-        "footer": true
+        "footer": true,
+        "groups": true
+      },
+      "info": {
+        "infoWrap": {
+          "code": {
+            "groups": [
+              "••••••",
+              "••••••",
+              "••••••",
+              "••••••",
+              "••••••"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          },
+          "matchId": {
+            "groups": [
+              "planet-",
+              "local"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          }
+        }
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-host-code.jpg",
-      "sha256": "0a7a16728e4d86fdf5e9187b48d318ef816e8e74bf3fdffd112145a9191bea19",
+      "sha256": "05cce2e53836d47e3870034eaf21c4d54d99c12115a1e77952bcd8df64076f6a",
       "seen": {
         "screen": null,
         "component": null,
@@ -3452,7 +3590,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3508,6 +3646,29 @@
         "focus": "menu",
         "focusValue": null,
         "secretInPage": false,
+        "wrap": {
+          "code": {
+            "groups": [
+              "••••••",
+              "••••••",
+              "••••••",
+              "••••••",
+              "••••••"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          },
+          "matchId": {
+            "groups": [
+              "planet-",
+              "local"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          }
+        },
         "old": 0,
         "sent": [
           "advance",
@@ -3527,14 +3688,39 @@
         "problems": true,
         "revealed": true,
         "footer": true,
+        "groups": true,
         "copied": true,
         "toast": true,
         "refusedCopy": true,
         "hidden": true,
         "backToList": true
       },
+      "info": {
+        "infoWrap": {
+          "code": {
+            "groups": [
+              "SYNTHE",
+              "TIC-RE",
+              "COVERY",
+              "-CODE"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          },
+          "matchId": {
+            "groups": [
+              "planet-",
+              "local"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          }
+        }
+      },
       "file": "design/phone-ui/review/pregame-connection/430x932-host-code-revealed.jpg",
-      "sha256": "5bd318e4773f71e56b339adf3a939882174dfdcbc1cd73851e6dafb79d1e462a",
+      "sha256": "77866f19bec4e4002eacc0cbaab7a9b30f683502cca9cda3eab89191ade34c19",
       "seen": {
         "screen": null,
         "component": null,
@@ -3573,7 +3759,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3629,6 +3815,28 @@
         "focus": "menu",
         "focusValue": null,
         "secretInPage": true,
+        "wrap": {
+          "code": {
+            "groups": [
+              "SYNTHE",
+              "TIC-RE",
+              "COVERY",
+              "-CODE"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          },
+          "matchId": {
+            "groups": [
+              "planet-",
+              "local"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          }
+        },
         "old": 0,
         "sent": [
           "advance",
@@ -3657,7 +3865,7 @@
         "receipt": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-host-controls.jpg",
-      "sha256": "ac1d105ae7d42e54f8893d9dbb3bcb02746e3a042da511597628a77d70292595",
+      "sha256": "51ae49e3958d0ceef237d0f0ebbfa79f3bf8512c98cdd8a6ab9d67dc293a080f",
       "seen": {
         "screen": null,
         "component": null,
@@ -3693,7 +3901,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3781,6 +3989,10 @@
         "focus": "menu",
         "focusValue": null,
         "secretInPage": false,
+        "wrap": {
+          "code": null,
+          "matchId": null
+        },
         "old": 0,
         "sent": [],
         "fontSize": "16px",
@@ -3937,7 +4149,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4080,7 +4292,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4218,7 +4430,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4297,7 +4509,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4395,7 +4607,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4529,7 +4741,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4637,7 +4849,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4737,7 +4949,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4835,7 +5047,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4859,12 +5071,12 @@
         "standing": true,
         "one": true,
         "onTheServersWindow": true,
-        "atMountMs": 178,
+        "atMountMs": 182,
         "goneByItself": true,
         "disposedInRound2": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-round-stamp.jpg",
-      "sha256": "43b6777bed64e4d670c47b328a4984d4588bc26c683556b5936621458194e089",
+      "sha256": "fbc8c82b8a27544b2414ac855fd6df8f812669523c8ecb7fcbd62b19d6a798c5",
       "seen": {
         "screen": null,
         "component": null,
@@ -4900,7 +5112,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4921,7 +5133,7 @@
         "nothingDrawn": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-round-stamp-late.jpg",
-      "sha256": "9be527a6351ab1caf9b7517a4ff6318d2009346907767a54a7c596f6beaccab5",
+      "sha256": "719c825e7f91488f4a0982cfbca80b4a0b8386756b9eb414189fcc464df89f4b",
       "seen": {
         "screen": null,
         "component": null,
@@ -4957,7 +5169,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4987,7 +5199,7 @@
         "focusKept": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-settings.jpg",
-      "sha256": "602d25b63b9975d177cf5bd6e730438e5953ea19f7b7e9170839cc91ca78f3ad",
+      "sha256": "78bbb3a1522f9dbb9ce1c8db47397f066a74d491017e10d9a725ca8b0f01bee1",
       "seen": {
         "screen": null,
         "component": null,
@@ -5023,7 +5235,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5095,6 +5307,10 @@
         "focus": null,
         "focusValue": null,
         "secretInPage": false,
+        "wrap": {
+          "code": null,
+          "matchId": null
+        },
         "old": 0,
         "sent": [],
         "fontSize": "16px",
@@ -5313,7 +5529,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-CTbFmVE5.js",
+            "source": "assets/phone-C55naYVB.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
