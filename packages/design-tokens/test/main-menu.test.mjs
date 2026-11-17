@@ -41,9 +41,9 @@ function split(list) {
   }
   return out.map(s => s.trim());
 }
-/** A stylesheet's rules, as [selectors, declarations], comments and imports left out. */
+/** A stylesheet's rules, as [selectors, declarations], comments, imports and keyframes left out. */
 function rules(path) {
-  const css = read(path).replace(/\/\*[\s\S]*?\*\//g, '').replace(/@import[^;]*;/g, '');
+  const css = read(path).replace(/\/\*[\s\S]*?\*\//g, '').replace(/@import[^;]*;/g, '').replace(/@keyframes[^{]*\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}/g, '');
   return [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)].map(m => [split(m[1].trim()), m[2]]).filter(([s]) => s[0] && !s[0].startsWith('@'));
 }
 
@@ -90,9 +90,10 @@ test('the menu\'s styles reach nothing outside it: every rule under its root, ki
 test('the entry parts\' styles: scoped under their root class at one class\'s weight, and a hand cursor never without the tap highlight off', () => {
   const path = `${PARTS}/entry-parts.css`;
   const all = rules(path);
-  assert.ok(all.length >= 10, `found the rules (${all.length})`);
+  assert.ok(all.length >= 30, `found the rules (${all.length})`);
   for (const [selectors] of all) for (const selector of selectors) {
-    assert.match(selector, /^\.ms-entry-parts :where\(\.ms-ep-[^()]*(?:\([^()]*\))?[^()]*\)$/, `"${selector}" is under .ms-entry-parts, in :where()`);
+    // The root's own Reduce motion is read in :where() too, so it adds no weight.
+    assert.match(selector, /^\.ms-entry-parts(?::where\(\[data-motion="reduced"\]\))? :where\(\.ms-ep-[^()]*(?:\([^()]*\))?[^()]*\)$/, `"${selector}" is under .ms-entry-parts, in :where()`);
   }
   for (const file of [path, `${COMPONENT}/main-menu.css`]) {
     for (const [selectors, body] of rules(file)) {
@@ -102,8 +103,13 @@ test('the entry parts\' styles: scoped under their root class at one class\'s we
   assert.match(read(path), /cursor: pointer; -webkit-tap-highlight-color: transparent;/, 'the entry choice sets both, in the same rule');
   const css = read(path).replace(/\/\*[\s\S]*?\*\//g, '');
   assert.deepEqual([...new Set([...css.matchAll(/(--[\w-]+)\s*:/g)].map(m => m[1]))], ['--ic-knock'], 'only the icons\' knock-out colour, as the kit sets it');
-  assert.doesNotMatch(css, /\[aria-disabled|\[data-off|opacity/, 'a refused choice keeps its look, as sheet 10 draws Join and Host offline');
-  assert.equal(ENTRY_PARTS_VERSION, 'entry-parts-0.1.0');
+  assert.doesNotMatch(css, /\[aria-disabled|\[data-off/, 'a refused choice keeps its look, as sheet 10 draws Join and Host offline');
+  // The toast is the kit's (entry-parts 0.3.0, kit 0.8.0): the entry parts dim nothing and have no motion of their own.
+  for (const [selectors, body] of all) assert.doesNotMatch(body, /opacity|animation|transition/, `"${selectors.join(', ')}": nothing is dimmed or moved here`);
+  assert.deepEqual([...css.matchAll(/@keyframes\s+([\w-]+)/g)].map(m => m[1]), [], 'no motion of its own: the toast\'s is the kit\'s');
+  assert.doesNotMatch(css, /ms-ep-toast/, 'no toast of its own');
+  assert.match(read(`${PARTS}/entry-parts.mjs`), /node = kit\.toast\(props\)/, 'the toast is drawn by the kit\'s');
+  assert.equal(ENTRY_PARTS_VERSION, 'entry-parts-0.3.0');
   assert.deepEqual(ENTRY_TONES, [null, 'primary']);
   assert.throws(() => createEntryParts(null), /need a document/);
   assert.doesNotMatch(read(`${PARTS}/entry-parts.mjs`), /mothership:dev-only/);

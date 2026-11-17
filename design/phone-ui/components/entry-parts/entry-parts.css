@@ -1,5 +1,5 @@
 /*
- * The entry choice's styles: runtime source, Designer's (entry-parts.mjs). The phone pack's own values
+ * The entry screens' parts' styles: runtime source, Designer's (entry-parts.mjs). The phone pack's own values
  * (design/phone-ui/prototype/screens.css .entry; kit.css * and button), in the kit's tokens, scoped under
  * the root class a component adds (.ms-entry-parts), at one class's weight as the kit's are, so that a
  * component places a choice with one more class. The kit's tokens come from the component's .ms-kit root.
@@ -32,3 +32,39 @@
 .ms-entry-parts :where(.ms-ep-entry[data-tone="primary"] .ms-ep-icon) { background: var(--ms-k-ink); color: var(--ms-k-accent); --ic-knock: var(--ms-k-ink); }
 .ms-entry-parts :where(.ms-ep-entry[data-tone="primary"] .ms-ep-sub) { color: rgba(21, 25, 35, 0.75); }
 .ms-entry-parts :where(.ms-ep-entry[data-tone="primary"] .ms-ep-chev) { color: var(--ms-k-ink); }
+
+/* ── The screen and its foot (the pack's .screen, .screen-foot) ────────
+   Inside the safe areas: the component sets --ms-ep-safe-t and --ms-ep-safe-b, or the browser's are used.
+   It scrolls, and the foot follows the content, at the bottom when the content is short. */
+.ms-entry-parts :where(.ms-ep-screen, .ms-ep-screen *) { box-sizing: border-box; }
+.ms-entry-parts :where(.ms-ep-screen) {
+  position: absolute; inset: 0; display: flex; flex-direction: column; overflow: auto; overscroll-behavior: contain;
+  padding: calc(var(--ms-ep-safe-t, env(safe-area-inset-top, 0px)) + 8px) 16px calc(var(--ms-ep-safe-b, env(safe-area-inset-bottom, 0px)) + 16px);
+}
+.ms-entry-parts :where(.ms-ep-screen > *) { flex-shrink: 0; }
+.ms-entry-parts :where(.ms-ep-foot) { margin-top: auto; padding-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+.ms-entry-parts :where(.ms-ep-foot .ms-k-group-note) { text-align: center; }
+
+/* ── The nav bar (.nav-bar): the kit's plain button with the chevron, the centred title, a spacer ── */
+.ms-entry-parts :where(.ms-ep-nav) { flex: none; display: flex; align-items: center; min-height: 44px; margin: 0 -8px 6px; }
+.ms-entry-parts :where(.ms-ep-nav .ms-ep-back) { padding: 0 8px; gap: 2px; font-weight: 500; }
+.ms-entry-parts :where(.ms-ep-nav .ms-ep-back .ms-k-ic) { width: 22px; height: 22px; }
+.ms-entry-parts :where(.ms-ep-nav-title) { flex: 1; margin: 0; text-align: center; font: 600 1.0625rem/1.2 var(--ms-k-font); }
+.ms-entry-parts :where(.ms-ep-nav-spacer) { width: 76px; flex: none; }
+.ms-entry-parts :where(.ms-ep-large-title) { margin: 4px 0 14px; font: 700 2rem/1.15 var(--ms-k-font); letter-spacing: -0.02em; }
+
+/* ── The room code card (.code-card): the code selectable, Copy beside it, the seats and their bar ── */
+.ms-entry-parts :where(.ms-ep-code-card) { padding: 16px 16px 14px; border-radius: 18px; background: var(--ms-k-surface-1); box-shadow: inset 0 0 0 1px var(--ms-k-hairline); }
+.ms-entry-parts :where(.ms-ep-code-label) { font: 600 0.8125rem/1.2 var(--ms-k-font); text-transform: uppercase; letter-spacing: 0.06em; color: var(--ms-k-text-2); }
+/* Larger text: the pack's row would push Copy past the card (at 390 × 844 from Large, at 430 × 932 at
+   Largest). Here the row wraps, so Copy goes under the code, and the code is never wider than about 91 % of
+   the row (21cqi for six characters at 0.72 em). At the Standard text both give the pack's boxes. */
+.ms-entry-parts :where(.ms-ep-code-row) { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 6px; container-type: inline-size; }
+.ms-entry-parts :where(.ms-ep-code) { flex: 1 0 auto; font: 800 min(2.5rem, 21cqi)/1 ui-monospace, "SF Mono", "JetBrains Mono", monospace; letter-spacing: 0.12em; color: var(--ms-k-paper); -webkit-user-select: text; user-select: text; }
+.ms-entry-parts :where(.ms-ep-code-meta) { margin-top: 10px; display: flex; align-items: center; gap: 8px; color: var(--ms-k-text-2); font: 500 0.875rem/1.2 var(--ms-k-font); }
+.ms-entry-parts :where(.ms-ep-code-meta[hidden]) { display: none; }
+.ms-entry-parts :where(.ms-ep-progress) { flex: 1; height: 6px; border-radius: 3px; background: var(--ms-k-surface-3); overflow: hidden; }
+.ms-entry-parts :where(.ms-ep-progress i) { display: block; height: 100%; background: var(--ms-k-accent); border-radius: 3px; }
+
+/* ── The toast is the kit's (kit.css .ms-k-toast, kit 0.8.0; entry-parts 0.3.0): the component sets --ms-k-toast-top
+   on its root to where its nav bar ends, and the kit adds 10 px. ── */
