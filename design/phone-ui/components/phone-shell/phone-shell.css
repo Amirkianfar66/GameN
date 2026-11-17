@@ -240,7 +240,9 @@
 .ms-phone-shell .ms-ps-banner-icon .ms-ps-ic { width: 22px; height: 22px; }
 .ms-phone-shell .ms-ps-banner .ms-k-btn { min-height: 38px; padding: 0 14px; font-size: 0.9375rem; border-radius: 11px; }
 /* A floating chip above the tabs: "Other rooms · n", the board's "List" (kit.css .offroom). */
-.ms-phone-shell .ms-ps-chip { position: absolute; z-index: 41; left: 50%; transform: translateX(-50%); bottom: calc(var(--ms-ps-bottom) + 32px); white-space: nowrap; max-width: calc(100% - 32px); }
+/* Its width is its words' (0.2.9), up to the phone's width less 16 px a side. Placed from the middle (left: 50%), it
+   could otherwise only take half the phone's width, so a long label was cut there, or wrapped in a narrow column. */
+.ms-phone-shell .ms-ps-chip { position: absolute; z-index: 41; left: 50%; transform: translateX(-50%); bottom: calc(var(--ms-ps-bottom) + 32px); white-space: nowrap; width: max-content; max-width: calc(100% - 32px); }
 .ms-phone-shell .ms-ps-chip-btn { min-height: 44px; padding: 0 16px; border-radius: 999px; box-shadow: var(--ms-ps-shadow-soft); max-width: 100%; }
 .ms-phone-shell .ms-ps-chip-btn[data-tone="paper"] { background: var(--ms-ps-paper); color: var(--ms-ps-ink); --ic-knock: var(--ms-ps-paper); }
 .ms-phone-shell .ms-ps-chip-btn[data-tone="steel"] { background: var(--ms-ps-surface-3); color: var(--ms-ps-text); --ic-knock: var(--ms-ps-surface-3); }
@@ -267,6 +269,10 @@
    sheet's Close are both in sight; the banner stays under the sheet, as the pack's layers it. */
 .ms-phone-shell[data-banner] .ms-ps-sheet { max-height: calc(100% - var(--ms-ps-over-top) - var(--ms-ps-banner-h, 56px) - 16px - var(--ms-ps-bottom)); }
 .ms-phone-shell[data-banner] .ms-ps-sheet[data-detent="large"] { top: calc(var(--ms-ps-over-top) + var(--ms-ps-banner-h, 56px) + 16px); }
+/* The target bar does the same (0.2.9): while a banner shows, the bar stays 8 px below it. Its Cancel only ends the
+   choosing on this phone and works while reconnecting (0.2.7), so it must stay in reach. 0.1.0-0.2.8 placed both at
+   the same place, the banner over the bar, so Retry lay over Cancel (the Gameplay builder found it on Move). */
+.ms-phone-shell[data-banner] .ms-ps-target { top: calc(var(--ms-ps-over-top) + var(--ms-ps-banner-h, 56px) + 16px); }
 @keyframes ms-ps-sheet-in { from { transform: translateY(24px); opacity: 0; } }
 .ms-phone-shell .ms-ps-sheet-grab { flex: none; width: 36px; height: 5px; border-radius: 3px; background: rgba(185, 196, 211, 0.4); margin: 7px auto 0; }
 .ms-phone-shell .ms-ps-sheet-head { flex: none; display: flex; align-items: center; gap: 10px; padding: 8px 14px 10px 18px; min-height: 52px; }
@@ -291,6 +297,18 @@
      (the Gameplay builder found it on the private talk). */
   .ms-phone-shell .ms-ps-talk { display: flex; flex-wrap: wrap; }
   .ms-phone-shell .ms-ps-talk .ms-k-btn { flex: 1 1 0; min-width: fit-content; max-width: 100%; }
+}
+/* The Largest text on a phone (0.2.9): under 14 em across, which is 200 % text on the 390 and 430 px phones.
+   - The target bar: its words keep the whole width beside the icon, and Cancel goes under them, lined up with the
+     words. Before, the words stood in a narrow column beside Cancel, many lines deep, so the bar grew to about
+     290 px at 390 x 844 (the Gameplay builder found it on Move). Every word still shows, at its full size.
+   - The chip: its label wraps inside the chip instead of being cut ("Other rooms on th…" at 200 %, at every size). */
+@container ms-k-phone (max-width: 14em) {
+  .ms-phone-shell .ms-ps-target { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; row-gap: 8px; }
+  .ms-phone-shell .ms-ps-target > .ms-k-btn { grid-column: 2; justify-self: start; }
+  .ms-phone-shell .ms-ps-chip { white-space: normal; }
+  .ms-phone-shell .ms-ps-chip-btn { padding-block: 8px; text-align: center; }
+  .ms-phone-shell .ms-ps-chip-btn .ms-k-btn-label { overflow: visible; text-overflow: clip; overflow-wrap: anywhere; }
 }
 /* Where glass can't be drawn, or the phone asks for less transparency, the sheet is solid. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .ms-phone-shell .ms-ps-sheet { background: var(--ms-ps-surface-2); } }

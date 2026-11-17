@@ -185,6 +185,12 @@ export const ACTIONS_STATES = Object.freeze({
     scene: { active: SELF },
     part: { kind: 'unknown', input: { type: 'REQUEST_BLACKOUT', targets: [] } },
   }),
+  // The Hospital panel's request (the Lead's Q3, 16 November): its sheet 45, with no number.
+  'unknown-panel': state('Outcome unknown · the Hospital panel, no number (Q3)', '45+', {
+    shell: { bar: turnBar(SELF, 19), tabs: tabs({ own: false }), sheet: unknownSheet({ type: 'PANEL_CODE' }) },
+    scene: { active: SELF },
+    part: { kind: 'unknown', input: { type: 'PANEL_CODE', targets: [] } },
+  }),
   // Move (sheets 20, 26 and 27.1), and the steps the pack leaves undrawn, as the Lead answered them (Q1–Q4).
   'move-room': moveState('Move within the room · the bar and the chip', '20'),
   'move-board': moveState('Move · choose a position on the Board (the bar: the board is #298’s)', '26', { where: 'board', seconds: 38 }),
