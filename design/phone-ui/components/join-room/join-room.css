@@ -1,0 +1,26 @@
+@import url("../kit/kit.css");
+@import url("../entry-parts/entry-parts.css");
+
+/*
+ * Join's and waiting's styles: runtime source, Designer's (join-form.mjs, join-wait.mjs). The phone pack's own
+ * values (design/phone-ui/prototype/kit.css .ph, .screen; screens.css; screens-entry.mjs, sheets 12 and 13),
+ * scoped under .ms-join-form and .ms-join-wait so nothing here reaches the rest of the app and nothing of the
+ * app's reaches in. The field, the code boxes, the segmented control, the errors, the waiting block, the rows
+ * and the buttons are the shared kit's (../kit/kit.css), and the screen, the nav bar and the seat badge the
+ * entry parts' (../entry-parts/entry-parts.css): here, only the screens and their own few parts.
+ */
+
+/* Each screen fills its host on the pack's phone canvas (kit.css --canvas, the kit's --ms-k-canvas). */
+.ms-join-form, .ms-join-wait { position: absolute; inset: 0; overflow: hidden; isolation: isolate; background: var(--ms-k-canvas); }
+.ms-join-form:focus, .ms-join-wait:focus { outline: none; }
+
+/* The code: one real text box over the six boxes, which show Frontend's code. It is what is typed, read and
+   tapped, and draws nothing itself: the next box's amber ring is its focus (16 px text, so no phone zooms in). */
+.ms-join-form .ms-jf-code { position: relative; }
+.ms-join-form .ms-jf-code-input { position: absolute; inset: 0; width: 100%; height: 100%; box-sizing: border-box; margin: 0; padding: 0; border: 0; border-radius: 12px;
+  background: none; color: transparent; caret-color: transparent; font: 16px/1 var(--ms-k-mono); opacity: 0; outline: none; cursor: text; -webkit-tap-highlight-color: transparent; }
+
+/* The admitted lobby's block: the badge and the line, 6 px from the top (screens-entry.mjs, join-wait admitted). */
+.ms-join-wait .ms-jw-in { padding-top: 6px; }
+/* A lost connection, under the waiting line: the kit's inline error across the block, its words to the left. */
+.ms-join-wait .ms-jw-note { align-self: stretch; text-align: left; }

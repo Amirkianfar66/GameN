@@ -12,7 +12,9 @@
 //   codeCard, setCodeCard    the room code card: the code, Copy, the seats and their bar (.code-card)
 //   createToast              the entry screens' toast with the shell's timing: TOAST_MS, shown once per id. It is
 //                            drawn by the kit's toast (kit.toast, kit 0.8.0; the shell draws its own with it too),
-//                            so it looks, moves and takes no tap as the shell's does (0.3.0).
+//                            so it looks, moves and takes no tap as the shell's does (0.3.0 on #287; 0.4.0 here)
+//   seatBadge, setSeatBadge  the paper badge with the seat number, "You're in · Seat 4" (.seat-badge; sheet 13;
+//                            the Lead's review of #289, question 2)
 //
 // A component that draws them adds `ms-entry-parts` to its root (beside `ms-kit`), imports entry-parts.css,
 // and gives each control to its control policy: a refused choice keeps its look, as sheet 10 draws Join and
@@ -21,7 +23,7 @@
 import { iconSvg } from '../icons.mjs';
 import { createKit } from '../kit/kit.mjs';
 
-export const ENTRY_PARTS_VERSION = 'entry-parts-0.3.0';
+export const ENTRY_PARTS_VERSION = 'entry-parts-0.4.0';
 /** The pack's two tones of an entry choice: the primary (amber) choice, and the plain one. */
 export const ENTRY_TONES = Object.freeze([null, 'primary']);
 /** How long a toast shows before it fades, in milliseconds: the shell's TOAST_MS, a local confirmation. */
@@ -157,5 +159,20 @@ export function createEntryParts(doc) {
     return Object.freeze({ update, dispose: () => { clear(); shown = null; }, get element() { return node; } });
   }
 
-  return Object.freeze({ entry, setEntry, navBar, setNavBar, screen, foot, largeTitle, codeCard, setCodeCard, createToast });
+  // ── The seat badge (.seat-badge) ─────────────────────────────────────
+  /**
+   * { seat, words }: the paper pill with the seat number in ink (the kit's num, hidden from screen readers) and
+   * the words, which say the seat ("You're in · Seat 4"). Changed in place.
+   */
+  function setSeatBadge(node, { seat, words }) {
+    if (!Number.isInteger(seat) || seat < 1 || !isText(words)) throw new TypeError('A seat badge has its seat and its words');
+    if (node.className !== 'ms-ep-seat-badge') node.className = 'ms-ep-seat-badge';
+    if (!node.firstChild) node.append(kit.num(seat), h('span', 'ms-ep-seat-words'));
+    text(node.firstChild, String(seat));
+    text(node.lastChild, words);
+    return node;
+  }
+  const seatBadge = props => setSeatBadge(h('span'), props);
+
+  return Object.freeze({ entry, setEntry, navBar, setNavBar, screen, foot, largeTitle, codeCard, setCodeCard, createToast, seatBadge, setSeatBadge });
 }

@@ -66,5 +66,9 @@
 .ms-entry-parts :where(.ms-ep-progress) { flex: 1; height: 6px; border-radius: 3px; background: var(--ms-k-surface-3); overflow: hidden; }
 .ms-entry-parts :where(.ms-ep-progress i) { display: block; height: 100%; background: var(--ms-k-accent); border-radius: 3px; }
 
-/* ── The toast is the kit's (kit.css .ms-k-toast, kit 0.8.0; entry-parts 0.3.0): the component sets --ms-k-toast-top
-   on its root to where its nav bar ends, and the kit adds 10 px. ── */
+/* ── The toast is the kit's (kit.css .ms-k-toast, kit 0.8.0; entry-parts 0.3.0 on #287, 0.4.0 here): the component
+   sets --ms-k-toast-top on its root to where its nav bar ends, and the kit adds 10 px. ── */
+
+/* ── The seat badge (screens.css .seat-badge; sheet 13) ───────────────── */
+.ms-entry-parts :where(.ms-ep-seat-badge) { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 6px; border-radius: 999px; background: var(--ms-k-paper); color: var(--ms-k-ink); font: 700 1rem/1 var(--ms-k-font); }
+.ms-entry-parts :where(.ms-ep-seat-badge .ms-k-num) { background: var(--ms-k-ink); color: var(--ms-k-paper); min-width: calc(30em / 16); height: calc(30em / 16); font-size: 1rem; }
