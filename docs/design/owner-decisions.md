@@ -184,10 +184,20 @@ After the Pre-game Animation builder's blockout comparison of a shared eye-level
 - **The first release's phones:** iPhone 15 and later, and the Pro Max size. Designer checks at 390 × 844 and 430 × 932, as AGENTS.md has it.
 - **The room sizes as the owner states them:** Room A and Room B five, Hospital four, Command Room one, the Food task two. These match the rules already recorded (CAPACITY-01 on 11 October; HOSPITAL-4 on 18 October; the Food task, 12 November).
 
-**Asked back, not yet answered:**
-- **The Jail:** the owner wrote four, and the rules hold five (CAPACITY-01 and CAPACITY-06, 11 October). If it is a change, it is a rule change for Integration and Backend, with Balance's audit, and it needs a rule for a Jail vote when the Jail is full.
-- **"inside Board simple view no action available":** whether it applies to the coming test release as well, where release 3 (#310) chooses Move and Rescue across rooms on the Board, or only with the new room views.
-- **The Blackout's fixed position (sheet 30):** whether its bar keeps Cancel. The rule makes the position final, so a Cancel only hides the bar. Removing it is a departure from sheet 30 and needs the owner's explicit approval (AGENTS.md); release 3 keeps Cancel meanwhile.
+**Asked back, and the owner's answers the same day:**
+
+> Jail: 4 , Board can be as it is without change for  now, what do you mean by Blackout remove? also private meeting room just need 2 , explain me more about Option 1, one shared eye-level view per room. and Option 2, each player sees the room from their own place
+
+- **The Jail holds four.** This changes the rule: CAPACITY-01 and CAPACITY-06 (11 October) hold five.
+  - It is for Integration and Backend, in a new ruleset version, with Balance's audit.
+  - It needs a rule for a Jail vote when the Jail already holds four, which Backend and Balance propose and the owner chooses.
+  - Posted on #96, the capacity issue.
+- **The Board stays as it is for now.** Release 3 (#310) keeps choosing Move and Rescue across rooms on the Board. "No action" on the Board's simple view belongs to the new room design, not the test release.
+- **The Private Room has two places,** so two views.
+- **Still open: the Blackout's fixed position (sheet 30).** The question is whether its bar keeps Cancel.
+  - The rule makes the position final, so a Cancel there only hides the bar.
+  - Removing it is a departure from sheet 30 and needs the owner's explicit approval (AGENTS.md). Release 3 keeps Cancel meanwhile.
+  - The Lead explained the question again, and the owner hasn't answered yet.
 
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
