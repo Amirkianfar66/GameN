@@ -166,6 +166,29 @@ The other camera option was "From above": "High three-quarter view looking down 
   - **Frontend:** reviews.
 - **Until then,** the approved rooms and today's places stay in the game, as above.
 
+**The owner's idea of a view from each place, and their notes, the same day,** in the Lead's session, word for word:
+
+> for images we can consider each person view , for example anywhere you seat in the room you can see based on your position other players on that room , however the Board-game view can stay simple 2d , what do you think of this idea?
+
+The Lead answered with its costs: a picture per place instead of per room, the crew seen from other sides, the Blackout's shared picture, and fitting four people on a phone. The Lead recommended testing it before deciding. The owner's notes on that answer:
+
+> First note : Hospital and Jail Maximum should be 4 , Room A and Room B : 5 , Task Food : 2 , Command room:1  , inside Board simple view no action available  note 2:  we should consider from each View you can see at Max 4 other user ( can we handle it?)  3 - I did not get what is the issue of Blackout 4 - small screens are not out issue as I told you we are considering just Iphone above 15 and Iphone max size as our first release
+
+After the Pre-game Animation builder's blockout comparison of a shared eye-level view and views from two places (its eye-level page), the owner wrote:
+
+> also private meeting room just need 2 view, we can apply this in 1 of the room to see the result it could be 5 image for 5 view , positions
+
+**What it decides:**
+- **A test with real pictures:** Room B drawn from each of its five places, five generated pictures, one per place, lit only. The owner judges the result before the rooms' camera is settled. The Private Room would need two views.
+- **Each view shows at most four others.** With these room sizes, that is Room A and Room B; the Hospital, the Jail and the Private Room show fewer, and the Command Room nobody.
+- **The first release's phones:** iPhone 15 and later, and the Pro Max size. Designer checks at 390 × 844 and 430 × 932, as AGENTS.md has it.
+- **The room sizes as the owner states them:** Room A and Room B five, Hospital four, Command Room one, the Food task two. These match the rules already recorded (CAPACITY-01 on 11 October; HOSPITAL-4 on 18 October; the Food task, 12 November).
+
+**Asked back, not yet answered:**
+- **The Jail:** the owner wrote four, and the rules hold five (CAPACITY-01 and CAPACITY-06, 11 October). If it is a change, it is a rule change for Integration and Backend, with Balance's audit, and it needs a rule for a Jail vote when the Jail is full.
+- **"inside Board simple view no action available":** whether it applies to the coming test release as well, where release 3 (#310) chooses Move and Rescue across rooms on the Board, or only with the new room views.
+- **The Blackout's fixed position (sheet 30):** whether its bar keeps Cancel. The rule makes the position final, so a Cancel only hides the bar. Removing it is a departure from sheet 30 and needs the owner's explicit approval (AGENTS.md); release 3 keeps Cancel meanwhile.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
