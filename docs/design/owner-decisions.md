@@ -114,6 +114,58 @@ and, correcting how the Lead first read the second half:
 - Who makes the pictures (above).
 - Each room's composition and camera. Room B is the first slice (#309), for the owner to see first.
 
+**The owner's style text and three answers, the same day,** in the Designer team's image session ("Designer: room images"), at 10:18 and 10:20 UTC. The Lead read both in that session's own transcript, not from a summary.
+
+The style text, word for word. It is the owner's draft with the three lines under "For our game", which the Lead suggested and the owner kept. The image session saved it with sha256 `f21ffeec2e282454b9370fbcaf78d517d50e7f648ae5ef74740b14d78bdc78d6`.
+
+> Overall :Style and art for every GameN room
+>
+> Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair.
+>
+> Organize dense detail around clear focal points. Use controlled colour palettes with selective luminous accents, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame: drifting smoke, changing displays, operating machinery, passing objects and layered depth, while the composition stays clear.
+>
+> For cosmic events, extend this language into saturated colour, orbital geometry, swirling forms and mysterious changes of scale.
+>
+> Overall: dark, cyber, noir, illustrated science fiction.
+>
+> For our game:
+>
+> * These are still pictures; code adds the motion. Paint smoke, screens and moving machinery cleanly, as separate pieces, with no motion blur.
+> * The crew stand in these rooms on a phone screen. Put dense detail on the walls and edges, and keep the floor where people stand calm and readable.
+> * No people, and no words, letters or logos. Leave screens plain for the game to fill.
+
+The three answers, each with the question and the option text the owner saw:
+
+| Question | The owner's answer | Its option text |
+| --- | --- | --- |
+| "Camera for the room pictures: should the rooms be seen from above, which keeps every crew member where they stand today, or at eye level, which means moving them?" | **Eye level** | "Camera at head height. The rooms feel more cinematic, but crew positions move, and the sheet and guides have to be redone before any generation." |
+| "Room B (the lab) is currently described as "calm, clinical, slightly worn" in dusky grey-violet. Your text says "dark, cyber, noir" overall. How should Room B feel?" | **Darker, more noir** | "Keep the lab's grey-violet family but push it darker and moodier, with deeper shadows and stronger contrast around the few lit accents." |
+| ""Leave screens plain for the game to fill": what should a screen opening look like in the still picture?" | **Flat black, empty** | "Each screen is a flat black opening that the game draws into, as the current sheet does." |
+
+The other camera option was "From above": "High three-quarter view looking down about 15–20°. Today's crew positions stay as they are. This is what the current Room B sheet is built for." The Lead had recommended it.
+
+**What it decides:**
+- **The room pictures are drawn at eye level,** Room B first.
+- **The places move.** In a room drawn at eye level, the five places get new feet, sizes and x positions to suit the camera.
+  - Each room keeps its five places, their ids and their order: the 11 October hard rule, and the order the entry rule reads (an entrant takes the lowest free place).
+  - A room's new layout goes to the owner before any picture for it is generated.
+- **Room B is darker and more noir,** in its grey-violet family.
+- **Screens are flat black, empty openings,** which the game draws into.
+- **Who makes the pictures:** the Designer team's image session, with OpenAI's image model, as the Lead suggested. The owner gave it their key in the environment's settings.
+- **Not generated:** the Room B sheet's versions 5 and 6, both drawn for the high camera. Nothing has been generated.
+
+**What it means for the work:**
+- **The Pre-game Animation builder** proposes the eye-level camera and Room B's five places on a test page. The page shows faces and targets at both phone sizes and in the Board's tile. The Lead reviews it, then the owner.
+- **After the owner's yes:**
+  - the sheet's version 7, with new guides and the darker Room B, and the Lead's go naming it;
+  - the in-game animation builder measures the bench's hand contacts again;
+  - ship life's walk paths (#230) and the Board's framing follow the new places.
+- **Who changes what:**
+  - **Designer:** the places' coordinates, in the reviewed room scenes.
+  - **Integration:** their runtime ports in `apps/game/hosted/board-v2-drawing/`, the review records in `design/releases/` and the pins.
+  - **Frontend:** reviews.
+- **Until then,** the approved rooms and today's places stay in the game, as above.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
