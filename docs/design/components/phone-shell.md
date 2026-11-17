@@ -400,12 +400,13 @@ Listed, not omitted:
     - In each case 10 to 20 parts sit in the same place, with the same words and states.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
   - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
-    - Recorded on `80f80c72`, with kit 0.8.0 and shell 0.2.10, and the source clean. Against `97a7eebb`'s record (shell 0.2.9):
+    - Recorded on `62c0bca4`, with kit 0.8.0 and shell 0.2.10, and the source clean. Against `97a7eebb`'s record (shell 0.2.9):
       - 25 captures are new: the twelve phase states at both sizes, and `phase-large` at 320 × 568.
-      - `dark` changed at both sizes, in the bar only: its line and its clock, 10,307 pixels each, all between 56 and 96 px from the top. Before, "Lights out" at 0:18; now "Dark · positions fixed" at 0:08, amber.
-      - 15 captures are unchanged: 10 byte for byte, and 5 with no pixel more than 32 of 255 apart. `poster` is byte for byte at both sizes, with its bar now from `phaseBar()`.
-      - 22 differ in at most 418 pixels, all inside the room's picture (its ambient motion). `stale` and `target-stale`, whose bars now come from `reconnectingBar()`, are among them: outside the room's picture they are the same, pixel for pixel.
-      - For comparison, the check run on `bb567d7e` unchanged in the same environment differs from `97a7eebb`'s record in the same way: 21 captures, in at most 290 pixels, all inside the room's picture.
+      - `dark` changed at both sizes, in the bar only: its line and its clock, 10,307 pixels each, all between 57 and 90 px from the top. Before, "Lights out" at 0:18; now "Dark · positions fixed" at 0:08, amber.
+      - `result` changed at both sizes, in the round button only: 12,078 and 12,076 pixels. The unavailable Vote is now paper with dimmed words, as the pack draws it.
+      - 11 captures are unchanged: 8 byte for byte, and 3 with no pixel more than 32 of 255 apart. `poster` is among them, with its bar now from `phaseBar()`.
+      - 24 differ in at most 316 pixels, all inside the room's picture (its ambient motion). `stale` and `target-stale`, whose bars now come from `reconnectingBar()`, are among them, in 1 to 8 pixels.
+      - The in-game animation builder's run of `bb567d7e` unchanged differed from `97a7eebb`'s record the same way: 21 captures, in at most 290 pixels, all inside the room's picture.
     - Before: `97a7eebb`, with kit 0.8.0 and shell 0.2.9, and the source clean. Against `5ac3354f`'s record (shell 0.2.8):
       - 15 captures are unchanged: 13 byte for byte, and 2 with no pixel more than 32 of 255 apart.
       - 20 differ in at most 272 pixels, all inside the room's picture (its ambient motion). The target bar and the chip at the Standard text are unchanged.
