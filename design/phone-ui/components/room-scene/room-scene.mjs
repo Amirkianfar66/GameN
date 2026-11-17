@@ -31,7 +31,7 @@ import { phoneFrame, pressRects } from './framing.mjs';
 import { roomLayers } from './room-art.mjs';
 import { REACH, extensionLayer, zoomFor } from './room-extension.mjs';
 
-export const ROOM_SCENE_VERSION = 'room-scene-0.5.0';
+export const ROOM_SCENE_VERSION = 'room-scene-0.5.1';
 export const ROOM_NAMES = Object.freeze({ 'command-room': 'Command Room', 'room-a': 'Room A', 'room-b': 'Room B', hospital: 'Hospital', jail: 'Jail' });
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const [bx, by, box] = FRAME.box;
@@ -58,11 +58,28 @@ export const ROOM_SCENE_DEFAULTS = Object.freeze({
   // A person's recoil ("ATTACK BLOCKED"): { seat, dx, dy } moves that figure by dx, dy CSS pixels; its
   // tag and press square stay. null for none.
   brace: null,
+  // A frame a Blackout window holds, from another scene of this room (hold(), 0.5.1): coordinates only. A scene
+  // mounted during that window keeps it, so no press square moves when the Room view comes back from the Board.
+  heldFrame: null,
 });
 
 const sameSeat = (a, b) => a !== null && a !== undefined && String(a) === String(b);
 /** The number on a person's tag: `number`, or the digits at the end of the seat's id ("seat-4" → 4). */
 export const seatNumber = person => person.number ?? (typeof person.seat === 'number' ? person.seat : Number(String(person.seat).match(/\d+$/)?.[0] ?? NaN));
+
+/** A held frame as hold() gives it, or null: anything else is refused, so no person or seat can ride along. */
+function checkHeldFrame(held) {
+  if (held === null) return null;
+  const numbers = held && ['k', 'tx', 'ty', 'zoom'].every(key => Number.isFinite(held[key]));
+  const panel = held?.panel && ['width', 'height', 'cap', 'pad'].every(key => Number.isFinite(held.panel[key]));
+  const window = held && (held.window === null || held.window === true || (typeof held.window === 'string' && held.window));
+  if (!numbers || !panel || !window || typeof held.context !== 'string' || typeof held.cold !== 'boolean'
+    || Object.keys(held).some(key => !HELD_KEYS.includes(key))) {
+    throw new TypeError('heldFrame is what hold() gives ({ context, window, k, tx, ty, zoom, panel, cold }), or null');
+  }
+  return held;
+}
+const HELD_KEYS = Object.freeze(['context', 'window', 'k', 'tx', 'ty', 'zoom', 'panel', 'cold']);
 
 /**
  * The next input from the previous one and an update. The offers and the room's control belong to this
@@ -91,8 +108,12 @@ export function nextRoomSceneInput(previous, input) {
   next.size = { width, height };
   next.insets = { ...ROOM_SCENE_DEFAULTS.insets, ...(next.insets ?? {}) };
   next.people = [...(next.people ?? [])];
+  next.heldFrame = checkHeldFrame(next.heldFrame ?? null);
   const viewerChanged = 'self' in input && !(previous.self === input.self || sameSeat(previous.self, input.self));
-  if (next.status === 'concealed') { next.targets = null; next.control = null; }
+  // Concealed, nothing this viewer was shown is kept (0.5.1): the people, who is "you", whose turn it is, the
+  // films' stand-ins and recoil, the offers and the control. Only a fresh input brings them back; a wake that
+  // gives the status alone shows the room empty. The frame, which is geometry only, is kept.
+  if (next.status === 'concealed') Object.assign(next, { targets: null, control: null, people: [], self: null, active: null, standIns: [], brace: null });
   else if (viewerChanged) {
     if (!('targets' in input)) next.targets = null;
     if (!('control' in input)) next.control = null;
@@ -110,6 +131,8 @@ function placed(state) {
 const holdWindow = hold => (hold === true ? true : typeof hold === 'string' && hold ? hold : null);
 /** Two holds are different windows only when both are named and the names differ. */
 const sameWindow = (a, b) => a === null || b === null || a === true || b === true || a === b;
+/** Another scene's held frame, as this scene's previous one: it was holding, so roomSceneFrame keeps it in its window. */
+const heldFrom = held => (held ? { ...held, panel: { ...held.panel }, holding: true, held: true } : null);
 
 /**
  * The scene's frame: the room's picture scaled by k and moved by (tx, ty) in its panel, with that panel.
@@ -121,7 +144,9 @@ const sameWindow = (a, b) => a === null || b === null || a === true || b === tru
  * current size, when the window ends (`hold` cleared with the lights on) or a differently named window
  * begins; a different room or roster frames afresh. Entered in the dark with no frame to keep, it frames
  * the people given (Frontend's public pre-Blackout board) or, without them, every place as if occupied:
- * the opened-in-the-dark fallback, which depends only on the room and the phone.
+ * the opened-in-the-dark fallback, which depends only on the room and the phone. A scene mounted with a
+ * `heldFrame` (another scene's hold(), 0.5.1) starts from it: in the same window it keeps that frame, as the scene
+ * it came from would have; otherwise it frames afresh.
  */
 export function roomSceneFrame(state, previous = null) {
   const panel = { width: state.size.width, height: state.size.height, cap: state.insets.top, pad: state.insets.bottom };
@@ -131,14 +156,20 @@ export function roomSceneFrame(state, previous = null) {
   const window = holdWindow(state.hold);
   const dark = state.lighting === 'dark';
   const holding = window !== null || dark;
-  const prev = previous?.context === context ? previous : null;
+  // With no frame of its own yet, a scene starts from the held frame it was given (0.5.1).
+  const from = previous ?? heldFrom(state.heldFrame ?? null);
+  const prev = from?.context === context ? from : null;
   if (holding && prev && (prev.holding ? sameWindow(prev.window, window) : dark)) {
     return { ...prev, holding: true, held: true, window: typeof window === 'string' ? window : prev.window ?? window };
   }
+  // Concealed, the room keeps the frame it had (0.5.1): it is geometry only, and the people it was made for
+  // are no longer in the input.
+  const concealed = state.status === 'concealed';
+  if (concealed && prev) return prev;
   const scene = sceneOf(state.room, state.roster);
   const people = placed(state).map(({ person, slot }) => ({ ...slot, eliminated: person.health === 'Eliminated' }));
   const cold = dark && !people.length;
-  const shown = cold ? slotsOf(state.room, state.roster).map(slot => ({ ...slot, eliminated: false })) : people;
+  const shown = cold || (concealed && !people.length) ? slotsOf(state.room, state.roster).map(slot => ({ ...slot, eliminated: false })) : people;
   return { ...phoneFrame(scene, panel, shown, { zoom, reach: zoom < 1 ? REACH : 0 }), panel, context, zoom, holding, window, held: false, cold };
 }
 
@@ -605,6 +636,18 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
     root.remove();
   }
   /**
+   * The frame a Blackout window holds, or null when nothing is held (lit, outside a window) or after dispose()
+   * (0.5.1). Coordinates only: no seat, no person, no target. When the Room view goes (the Board), the mount keeps
+   * it with the match, the viewer, the room and the art, and gives it to the next scene of this room as
+   * `heldFrame` while the same window lasts, so no press square moves.
+   */
+  function hold() {
+    if (disposed || !frame?.holding) return null;
+    const { width, height, cap, pad } = frame.panel;
+    return Object.freeze({ context: frame.context, window: frame.window ?? null, k: frame.k, tx: frame.tx, ty: frame.ty, zoom: frame.zoom,
+      panel: Object.freeze({ width, height, cap, pad }), cold: !!frame.cold });
+  }
+  /**
    * Where the scene is: its frame (and the size it was made for, which a hold keeps), each place's press
    * square and, only while the lit room shows them, who is where, in the scene's CSS pixels from its top
    * left. In the dark or concealed it is geometry alone: no seat, no person. After dispose(), null.
@@ -624,7 +667,7 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
 
   render();
   return Object.freeze({
-    update, suspend, resume, dispose, layout, element: root,
+    update, suspend, resume, dispose, layout, hold, element: root,
     /**
      * The container for the game's films (0.4.0), or null after dispose(). It is in the scene's stacking
      * context and makes none of its own, so its children interleave with the scene by z-index, on the
