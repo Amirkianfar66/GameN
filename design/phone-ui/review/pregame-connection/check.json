@@ -2,7 +2,7 @@
   "tool": "design/tools/pregame-connection-check.mjs",
   "what": "The Planet app's screens before the match drawn by Designer's pre-game components, in Frontend's phone harness (apps/game/dev/phone) built from the candidate below",
   "candidate": {
-    "commit": "252b5570f5b13f4f9065ea05ee615842377101f5",
+    "commit": "f15913a78fd07f13fcec12b92ba02d5ec7e02a59",
     "clean": true,
     "dirty": []
   },
@@ -121,7 +121,7 @@
         "waiting": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-boarding-waiting.jpg",
-      "sha256": "6bc8b740d274d928fa7d57d55b92e90607add1fa8a6dd9bdd30d7827cddc1da8",
+      "sha256": "8243c083d67a036894069c1d485964dc905ad1aab7d1d7287b7dab92f08d938d",
       "seen": {
         "screen": "boarding",
         "component": "ms-boarding-stage ms-kit",
@@ -190,7 +190,7 @@
         "chosen": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-characters.jpg",
-      "sha256": "5046211ea9f46d411795a881e7e8ddd49fe32881ea4b141f17be89f011ae6446",
+      "sha256": "dd8c4ae7283c79817c36ed3d5f3d928cd98725797216de25d195149208adf0d1",
       "seen": {
         "screen": "characters",
         "component": "ms-char-select ms-kit",
@@ -1508,7 +1508,7 @@
         "noKnowledge": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-role.jpg",
-      "sha256": "14b6dafa42a0c6afd472df67032de5c386d15be3dcd08e20dc0e5c5f5524cab7",
+      "sha256": "848653366704999655bd122c56683990539065d77700508b01afa835908c398c",
       "seen": {
         "screen": "role",
         "component": "ms-role-stage ms-kit",
@@ -1707,12 +1707,69 @@
         "standing": true,
         "one": true,
         "onTheServersWindow": true,
-        "atMountMs": 186,
+        "atMountMs": 177,
         "goneByItself": true,
         "disposedInRound2": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-round-stamp.jpg",
-      "sha256": "b302381f4dd433c2ced22f6cfd8b1bc3a2939dd943a8433befe739f525fd303d",
+      "sha256": "8b07fcab73730109a54b95a3d65a504b6a4ad2d55325b9ccce6acff220fd4b53",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-Bw2X81a5.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/round-stamp-late": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "running": true,
+        "mounted": true,
+        "nothingDrawn": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-round-stamp-late.jpg",
+      "sha256": "cde6410d9d290bb276f40f78d09767dd0518ba126ac2e3b1abf3ad4df02a6969",
       "seen": {
         "screen": null,
         "component": null,
@@ -2123,7 +2180,7 @@
         "chosen": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-characters.jpg",
-      "sha256": "2462604864d3ae9720d74251c77c505bb7361133d348f1ff3012234e009b0660",
+      "sha256": "f43bcf63a6edc9efcee545e52cce032835bc82df02b6d35aaecdaa1b020486a5",
       "seen": {
         "screen": "characters",
         "component": "ms-char-select ms-kit",
@@ -3640,12 +3697,69 @@
         "standing": true,
         "one": true,
         "onTheServersWindow": true,
-        "atMountMs": 183,
+        "atMountMs": 185,
         "goneByItself": true,
         "disposedInRound2": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-round-stamp.jpg",
-      "sha256": "d46b287eda7f773cabb5a730ce393f190edb0a41d4f4922a085c974a18df6bf3",
+      "sha256": "29c20a36ba82ac1d093829a956e9bcf970dd23082cbd1fee8cd34efb8f187f72",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-Bw2X81a5.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/round-stamp-late": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "running": true,
+        "mounted": true,
+        "nothingDrawn": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-round-stamp-late.jpg",
+      "sha256": "c6ee48267027a7607bfd1e42a2c8b1343663e7cfb44ded346134d9afdcbdb986",
       "seen": {
         "screen": null,
         "component": null,
