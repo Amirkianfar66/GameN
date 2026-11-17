@@ -23,7 +23,7 @@
 //             Pass's) and Done are taken, being this phone's own (local), and Register, Pass, Retry the same and
 //             Check receipt, which stand for commands, are refused, described by the banner's words
 //   unknown   "Outcome unknown" names the action and its people, or the action alone; the Hospital panel's request
-//             with no number, and one given is refused (the Lead's Q3)
+//             with no number, and one given is refused (the Lead's Q3); Pass, and the Disabler's position (A13)
 //   move      Move's bar in each of the Lead's Q3 cases and on the board, none once picked or with no position;
 //             the chip to the Board; no person's bar, list, After Register or toast for Move; in the real shell,
 //             the bar's Cancel and the chip report, and reconnecting only Cancel does; the "Moved to A5" toast;
@@ -263,11 +263,16 @@ export async function runActionsProbe({ sizes, versions }) {
       try { p.part.update({ targets: [{ seat: 'seat-3', name: 'Cleo' }] }); } catch (error) { refused = error.message; }
       const after = lines();
       const status = p.root.querySelector('.ms-k-notice').getAttribute('role');
+      // Pass and the Disabler's position (0.2.3, A13): Pass alone, and the position as Move's is named.
+      p.part.update({ type: 'PASS_TURN', targets: [] });
+      const pass = lines();
+      p.part.update({ type: 'SELECT_BLACKOUT_SLOT', position: { slot: 'A3', room: 'Room A' } });
+      const position = lines();
       p.dispose();
-      return { ok: JSON.stringify(one) === JSON.stringify(['Rescue Eli was sent, but no answer came back.', 'Check before doing anything else.'])
-        && JSON.stringify(none) === JSON.stringify(['Request Blackout was sent, but no answer came back.', 'Check before doing anything else.'])
-        && JSON.stringify(panel) === JSON.stringify(['Panel request was sent, but no answer came back.', 'Check before doing anything else.'])
-        && typeof refused === 'string' && !/3|Cleo/.test(refused) && JSON.stringify(after) === JSON.stringify(panel) && status === 'status', one, none, panel, refused, after, status };
+      const said = what => JSON.stringify([`${what} was sent, but no answer came back.`, 'Check before doing anything else.']);
+      return { ok: JSON.stringify(one) === said('Rescue Eli') && JSON.stringify(none) === said('Request Blackout') && JSON.stringify(panel) === said('Panel request')
+        && typeof refused === 'string' && !/3|Cleo/.test(refused) && JSON.stringify(after) === JSON.stringify(panel) && status === 'status'
+        && JSON.stringify(pass) === said('Pass') && JSON.stringify(position) === said('Position A3'), one, none, panel, refused, after, status, pass, position };
     });
 
     await check('move', async () => {

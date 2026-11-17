@@ -9,12 +9,14 @@ import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  ACTIONS_DEFAULTS, ACTIONS_VERSION, ACTION_LOOKS, ACTION_WORDS, actionWords, actionsSheet, afterSheet, blackoutBar, checkActionCheck, checkActions, checkAfterRegister,
+  ACTIONS_DEFAULTS, ACTIONS_VERSION, ACTION_LOOKS, ACTION_WORDS, actionWords, actionsSheet, afterSheet, afterWords, blackoutBar, checkActionCheck, checkActions, checkAfterRegister,
   checkOutcomeUnknown, checkPassNote, checkSheet, checkTargetList, moveBar, moveChip, movedToast, nextActionsInput, passSheet, passedToast, registeredToast, targetBar,
   targetChip, targetListSheet, tileLine, unknownSheet,
 } from '../../../design/phone-ui/components/actions/actions.mjs';
 import { ICON_NAMES } from '../../../design/phone-ui/components/icons.mjs';
 import { ACTIONS_STATES, PACK_FRAMES } from '../../../design/phone-ui/components/actions/preview/states.mjs';
+import { afterRegister } from '../../../design/phone-ui/prototype/screens-game.mjs';
+import { SELF, seatOf as packSeat } from '../../../design/phone-ui/prototype/fixtures.mjs';
 
 const REPO = resolve(fileURLToPath(new URL('../../../', import.meta.url)));
 const COMPONENT = 'design/phone-ui/components/actions';
@@ -66,7 +68,7 @@ test('the component is a runtime source: its whole graph is runtime-safe and in 
     assert.match(read(`${COMPONENT}/${path}`), /mothership:dev-only/, `${path} is marked development-only`);
   }
   assert.match(read('design/tools/actions-check.mjs'), /^\/\/ mothership:dev-only/);
-  assert.equal(ACTIONS_VERSION, 'actions-0.2.2');
+  assert.equal(ACTIONS_VERSION, 'actions-0.2.3');
 });
 
 test('its styles reach nothing outside the component: every rule is under its root, weighs two classes, and places the kit\'s and the parts\' only inside its own', () => {
@@ -120,7 +122,13 @@ test('its words are the pack\'s (screens-game.mjs, screens-more.mjs, icons.mjs, 
     // Move (screens-game.mjs room() and board()): the room's bar and chip, the board's bar, the picked words.
     'Move within ', W.moveChoose, W.moveOrBoard, W.moveBoard, W.moveChip, 'Move to ',
     // The Disabler's position during a Blackout (screens-more.mjs blackout(), sheet 30), word for word.
-    W.positionChoose, W.positionAny('Room A'), W.positionFixed('A3'), W.positionLater];
+    W.positionChoose, W.positionAny('Room A'), W.positionFixed('A3'), W.positionLater,
+    // After Register (the handoff's table, as screens-game.mjs afterRegister() writes it): every line and step.
+    ...((A = W.after) => [A.registered, A.accepted, A.activeNow, A.captured, A.yourTurn(3), A.whenAccepted(3), A.endOfRound(4), A.round(4), A.rescueResolved,
+      A.withTheRound, 'Protection for ', ': active', A.oneWeaponEach, A.shotResolved, A.laterThisRound, A.litThenDark, A.whileDark, A.frozenPosition,
+      A.afterThisTurn, 'Up to 15 s for ', ' to declare a side', A.then, A.claimThenTalk, A.cloneEnds, A.navigation, A.weightRemoved,
+      A.blackout, A.blackoutDetail, 'Private talk with ', A.talkDetail, A.clone, A.cloneDetail(4), A.suppress,
+      'Captured now: the ', ' players in Room B. Their navigation weight is removed this round. Only you are told.'])()];
   // Move's Register is the Lead's Q1 (the pack draws no check for Move): in the form of the others', recorded below.
   // "Panel request" is the Lead's Q3 (the pack draws no "Outcome unknown" for the Hospital panel), recorded below.
   const added = new Set([ACTION_LOOKS.MOVE.register, ACTION_LOOKS.PANEL_CODE.verb]);
@@ -146,6 +154,12 @@ test('its words are the pack\'s (screens-game.mjs, screens-more.mjs, icons.mjs, 
   // The Hospital panel's "Outcome unknown" (the Lead's Q3, 16 November): the request, with no number.
   assert.ok(!pack.includes('Panel request'), '"Panel request" is not the pack\'s');
   assert.ok(doc.includes(`"${W.noAnswer(ACTION_LOOKS.PANEL_CODE.verb)}"`), 'the Hospital panel\'s "Outcome unknown" is recorded in the interface');
+  // The Lead's decisions of 17 November: Pass's and the Disabler's "Outcome unknown" (A13); and After Register's lines
+  // without what the model lacks: the Clone's without its end, the Engineer's without whom it captured.
+  for (const w of [W.noAnswer(ACTION_LOOKS.PASS_TURN.verb), W.noAnswer(W.position('A3')), W.after.cloneDetail(null), W.after.suppressDetail(null)]) {
+    assert.ok(!pack.includes(w), `"${w}" is not the pack's`);
+    assert.ok(doc.includes(`"${w}"`), `"${w}" is recorded in the interface`);
+  }
   assert.match(read('AGENTS.md'), /\*\*Not available now\*\*/, 'T3\'s words are the owner\'s');
 });
 
@@ -186,7 +200,7 @@ test('inputs: checked and normalized, an error for anything unknown; this viewer
   assert.equal(checkActionCheck({ type: 'MOVE', position: { slot: 'B4' } }).position.room, null, 'no room given, none said');
   assert.throws(() => checkActionCheck({ type: 'MOVE' }), /Move needs its position/);
   assert.throws(() => checkActionCheck({ type: 'MOVE', position: { slot: 'A3' }, targets: [{ seat: 'seat-1', name: 'Ava' }] }), /MOVE takes no one/);
-  assert.throws(() => checkActionCheck({ type: 'RESCUE', position: { slot: 'A3' } }), /position is Move's alone/);
+  assert.throws(() => checkActionCheck({ type: 'RESCUE', position: { slot: 'A3' } }), /position is Move's and the Disabler's alone/);
   assert.throws(() => checkOutcomeUnknown({ type: 'MOVE' }), /Move needs its position/);
   assert.throws(() => checkAfterRegister({ type: 'MOVE' }), /A move has no After Register/);
   // The Hospital panel's request (the Lead's Q3): only "Outcome unknown" takes it, and with no one, so it never names
@@ -200,6 +214,19 @@ test('inputs: checked and normalized, an error for anything unknown; this viewer
   for (const seat of ['seat-3', 3]) {
     assert.throws(() => checkOutcomeUnknown({ type: 'PANEL_CODE', targets: [{ seat, name: 'Cleo' }] }), /^TypeError: PANEL_CODE's "Outcome unknown" names no number: it takes no targets$/, 'no number, and the error names none');
   }
+  // Pass and the Disabler's position (0.2.3, A13): only "Outcome unknown" takes them, the position as Move's; every
+  // other part refuses them and names their own sheet or bar.
+  assert.equal(checkOutcomeUnknown({ type: 'PASS_TURN' }).position, null);
+  assert.throws(() => checkOutcomeUnknown({ type: 'PASS_TURN', targets: [{ seat: 'seat-5', name: 'Eli' }] }), /PASS_TURN takes no one/);
+  assert.deepEqual(checkOutcomeUnknown({ type: 'SELECT_BLACKOUT_SLOT', position: { slot: 'A3', room: 'Room A' } }).position, { slot: 'A3', room: 'Room A' });
+  assert.throws(() => checkOutcomeUnknown({ type: 'SELECT_BLACKOUT_SLOT' }), /The Disabler's position needs its position/);
+  for (const [type, place] of [['PASS_TURN', /PASS_TURN .*: it is the round button's passSheet\(\) and passedToast\(\); Actions draws only its "Outcome unknown"/],
+    ['SELECT_BLACKOUT_SLOT', /SELECT_BLACKOUT_SLOT .*: it is blackoutBar\(\); Actions draws only its "Outcome unknown"/]]) {
+    assert.throws(() => checkActions({ ...input, tiles: [{ type }] }), place, `${type}: not an action tile`);
+    assert.throws(() => checkTargetList({ type }), place, `${type}: no list`);
+    assert.throws(() => checkActionCheck({ type }), place, `${type}: no check`);
+    assert.throws(() => checkAfterRegister({ type }), place, `${type}: no After Register`);
+  }
 });
 
 test('every preview state is a valid input of its part, and every compared pack frame has its state', () => {
@@ -210,7 +237,7 @@ test('every preview state is a valid input of its part, and every compared pack 
     assert.doesNotThrow(() => CHECKS[state.part.kind]({ viewer: 'seat-4', ...state.part.input }), key);
   }
   assert.deepEqual([...kinds].sort(), Object.keys(CHECKS).sort(), 'every part has a preview state');
-  assert.equal(Object.keys(ACTIONS_STATES).length, 59);
+  assert.equal(Object.keys(ACTIONS_STATES).length, 61);
   for (const key of Object.keys(PACK_FRAMES)) assert.ok(ACTIONS_STATES[key], `${key} is a preview state`);
   assert.equal(Object.keys(PACK_FRAMES).length, 31, 'the 31 frames compared with the pack');
   // Sheet 30: the Disabler choosing a position in the dark, and the position fixed.
@@ -238,6 +265,20 @@ test('the frames and the shell\'s words, from the type alone', () => {
   assert.equal(passSheet({ next: { seat: 'seat-5', name: 'Eli' } }).sub, 'The turn goes to Eli · Player 5');
   assert.equal(passSheet({}).sub, null, 'without the next player (B5), no sub');
   assert.deepEqual(passSheet({ busy: true }).actions.map(a => [a.id, a.busy ?? false, a.enabled ?? true, a.local ?? false]), [['cancel', false, false, true], ['pass', true, true, false]]);
+  // The projection's own allowance (0.2.3, A14): a button it does not allow now keeps its place, unusable; while a
+  // button asks, it stays itself.
+  assert.deepEqual(unknownSheet({ type: 'RESCUE', canRetry: false }).actions.map(a => [a.id, a.enabled]), [['retry', false], ['check', true]]);
+  assert.deepEqual(unknownSheet({ type: 'RESCUE', canCheck: false }).actions.map(a => [a.id, a.enabled]), [['retry', true], ['check', false]]);
+  assert.deepEqual(unknownSheet({ type: 'RESCUE', busy: 'retry', canRetry: false }).actions.map(a => [a.id, a.busy, a.enabled]), [['retry', true, true], ['check', false, false]]);
+  assert.deepEqual(passSheet({ canPass: false }).actions.map(a => [a.id, a.enabled]), [['cancel', true], ['pass', false]]);
+  assert.equal(passSheet({ busy: true, canPass: false }).actions[1].enabled, true, 'while it sends, Pass is busy, not refused');
+  // Pass and the Disabler's position (A13): sheet 45 is theirs here; every other frame and word refuses them.
+  for (const [type, place] of [['PASS_TURN', /passSheet\(\) and passedToast\(\)/], ['SELECT_BLACKOUT_SLOT', /blackoutBar\(\)/]]) {
+    assert.equal(unknownSheet({ type }).title, 'Outcome unknown');
+    for (const fn of [() => targetBar({ type }), () => targetListSheet({ type }), () => checkSheet({ type }), () => afterSheet({ type }), () => registeredToast({ type, id: 'cmd-1' }), () => afterWords({ type, round: 3 })]) {
+      assert.throws(fn, place, `${type}: refused, naming its own place`);
+    }
+  }
   assert.deepEqual(targetBar({ type: 'RESCUE' }), { icon: 'rescue', title: 'Rescue', sub: 'Choose a player' });
   assert.deepEqual(targetBar({ type: 'SUPPLY' }).sub, 'Choose two players');
   assert.deepEqual(targetBar({ type: 'SUPPLY', picked: ['seat-1'] }), { icon: 'supply', title: 'Supply', sub: 'Choose the second player' });
@@ -301,12 +342,54 @@ test('the words of a check and of "Outcome unknown": the person, yourself, both 
   // A move names its position, and its room under it, as a person's room is under them (Q1 and Q4).
   assert.deepEqual(actionWords({ type: 'MOVE', position: { slot: 'A3', room: 'Room A' } }), { title: 'Move to A3', sub: 'Room A', what: 'Move to A3' });
   assert.equal(actionWords({ type: 'MOVE', position: { slot: 'B4', room: null } }).sub, null);
+  // Pass and the Disabler's position (0.2.3, A13): "Pass was sent, …", and the position as Move's is named.
+  assert.equal(ACTION_WORDS.noAnswer(actionWords({ type: 'PASS_TURN' }).what), 'Pass was sent, but no answer came back.');
+  assert.equal(ACTION_WORDS.noAnswer(actionWords({ type: 'SELECT_BLACKOUT_SLOT', position: { slot: 'A3', room: 'Room A' } }).what), 'Position A3 was sent, but no answer came back.');
+  assert.throws(() => actionWords({ type: 'SELECT_BLACKOUT_SLOT' }), /The Disabler's position needs its position/);
   assert.equal(tileLine({ state: 'unavailable', reason: null, note: 'Once a round' }), 'Not available now', 'not offered, no reason: T3\'s words, never the offered line');
   assert.equal(tileLine({ state: 'unavailable', reason: 'From Round 4', note: null }), 'From Round 4', 'the server\'s reason, as given');
   assert.equal(tileLine({ state: 'spent', reason: 'Used', note: 'Once a match' }), 'Used', 'used up (kit 0.7.1): the server\'s reason');
   assert.equal(tileLine({ state: 'spent', reason: null, note: null }), 'Not available now', 'used up, no reason: T3\'s words');
   assert.equal(tileLine({ state: 'registered', reason: null, note: 'Eli · end of round' }), 'Eli · end of round');
   assert.equal(tileLine({ state: 'available', reason: 'ignored', note: null }), null, 'an offered tile says only its note');
+});
+
+test('After Register\'s words (0.2.3): the pack\'s own afterRegister(), given its facts; Frontend\'s lines left to Frontend; what is not given, left out', () => {
+  const ACT = { RESCUE: 'rescue', PROTECT: 'protect', SUPPLY: 'supply', REGISTER_SHOT: 'shoot', REQUEST_HACK: 'talk', REQUEST_BLACKOUT: 'blackout', ENGINEER_SUPPRESS: 'suppress', ACTIVATE_CLONE: 'clone' };
+  const STAMP = { REGISTERED: 'registered', ACCEPTED: 'accepted', ACTIVE: 'active', CAPTURED: 'captured' };
+  const FRONTEND = new Set(['RESCUE', 'PROTECT', 'SUPPLY', 'REGISTER_SHOT']);
+  // Every action of the handoff's table, for another player and for the viewer, word for word with the pack.
+  for (const [type, act] of Object.entries(ACT)) for (const n of [1, 5, 7, SELF]) {
+    const t = packSeat(n), A = afterRegister(act, t, 'room-a');
+    const w = afterWords({ type, round: type === 'REGISTER_SHOT' ? 4 : 3, viewer: SELF,
+      targets: ['RESCUE', 'PROTECT', 'REGISTER_SHOT', 'REQUEST_HACK'].includes(type) ? [{ seat: t.seat, name: t.name }] : [],
+      expiresAfterRound: type === 'ACTIVATE_CLONE' ? 4 : null, activeFromRound: type === 'PROTECT' ? 4 : null,
+      capture: type === 'ENGINEER_SUPPRESS' ? { room: 'Room B', count: A.people.length } : null });
+    assert.deepEqual(w, { kind: STAMP[A.stamp], title: FRONTEND.has(type) ? null : A.title, detail: FRONTEND.has(type) ? null : A.detail,
+      steps: A.steps.map(([state, title, sub]) => ({ state, title, sub })) }, `${type}, player ${n}`);
+  }
+  // What the projection gives and a screen's model may not carry stays out (the Lead, 17 November).
+  assert.deepEqual(afterWords({ type: 'ACTIVATE_CLONE', round: 6 }), { kind: 'active', title: 'Clone active.', detail: 'Active from now. It used your main action for this round.',
+    steps: [{ state: 'done', title: 'Active now', sub: 'Round 6 · when the server accepted it' }] }, 'no Clone end: no end in the line or the time line');
+  assert.equal(afterWords({ type: 'ENGINEER_SUPPRESS', round: 6 }).detail, 'Captured now: the players in the other room. Their navigation weight is removed this round. Only you are told.');
+  assert.equal(afterWords({ type: 'ENGINEER_SUPPRESS', round: 6, capture: { room: 'Room B', count: 1 } }).detail.startsWith('Captured now: the 1 player in Room B.'), true);
+  assert.deepEqual(afterWords({ type: 'PROTECT', round: 6, targets: [{ seat: 7, name: 'Gus' }] }).steps.map(s => s.title), ['Registered', 'End of Round 6'], 'no Protection start: no later step');
+  // No round, no time line (L6); the private talk's words name the other player once there is a time line.
+  assert.deepEqual(afterWords({ type: 'REQUEST_HACK' }), { kind: 'accepted', title: null, detail: 'It starts after this turn. The top bar shows each step.', steps: [] });
+  assert.throws(() => afterWords({ type: 'REQUEST_HACK', round: 3 }), /names the other player/);
+  assert.throws(() => afterWords({ type: 'PROTECT', round: 3, activeFromRound: 4 }), /names who it protects/);
+  // Each fact is its action's alone; the round is a round.
+  assert.throws(() => afterWords({ type: 'RESCUE', round: 3, expiresAfterRound: 4 }), /the Clone's alone/);
+  assert.throws(() => afterWords({ type: 'RESCUE', round: 3, activeFromRound: 4 }), /Protection's alone/);
+  assert.throws(() => afterWords({ type: 'RESCUE', round: 3, capture: { room: 'Room B', count: 2 } }), /the Engineer's alone/);
+  assert.throws(() => afterWords({ type: 'RESCUE', round: 0 }), /round is a round number/);
+  // No After Register here: a move (Q2), Hack Ship and Blackhole (L7), the Hacker's, the Hospital panel's.
+  assert.throws(() => afterWords({ type: 'MOVE', round: 3 }), /movedToast\(\)/);
+  for (const type of ['ACTIVATE_SHIP_HACK', 'ACTIVATE_BLACKHOLE']) assert.throws(() => afterWords({ type, round: 3 }), /\(L7\)/);
+  for (const type of ['SCAN', 'SUBMIT_CODE']) assert.throws(() => afterWords({ type, round: 3 }), /the Hacker component's/);
+  assert.throws(() => afterWords({ type: 'PANEL_CODE', round: 3 }), /the Hospital panel component's/);
+  // Its output is mountAfterRegister()'s input as it is.
+  assert.doesNotThrow(() => checkAfterRegister({ type: 'RESCUE', ...afterWords({ type: 'RESCUE', round: 3 }), title: 'Rescue of Eli registered.' }));
 });
 
 test('the check\'s record: every capture, the probe and the agreement passed, on clean committed source, under the production headers', () => {
@@ -320,7 +403,7 @@ test('the check\'s record: every capture, the probe and the agreement passed, on
   assert.match(csp, /default-src 'none'/);
   assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
   const captures = Object.entries(record.captures);
-  assert.equal(captures.length, 110, 'every state at both phone sizes, the small phone\'s and the text sizes\' at their own');
+  assert.equal(captures.length, 114, 'every state at both phone sizes, the small phone\'s and the text sizes\' at their own');
   for (const [key, c] of captures) {
     assert.ok(c.ok && c.drawn, `${key} passed and drew what its state asks`);
     assert.deepEqual(c.mismatched, [], `${key}: nothing differs from what its state asks`);
@@ -350,6 +433,14 @@ test('the check\'s record: every capture, the probe and the agreement passed, on
   // The Disabler during a Blackout (sheet 30): the dark room, every position offered, then A3 fixed.
   assert.deepEqual([at('blackout-pick').target, at('blackout-pick').slots, at('blackout-pick').lighting], ['Choose a position|Room A · any position, even empty', 'A1,A2,A3,A4,A5', 'dark']);
   assert.deepEqual([at('blackout-fixed').target, at('blackout-fixed').slots], ['Position A3 fixed|Resolves after the window · no effect shown now', 'A1,A2,A3*,A4,A5']);
+  // Pass's and the Disabler's "Outcome unknown" (0.2.3, A13), the position's in the dark room; and the probe draws both.
+  assert.deepEqual([at('unknown-pass').notice, at('unknown-position').notice, at('unknown-position').lighting], ['Pass was sent, but no answer came back.', 'Position A3 was sent, but no answer came back.', 'dark']);
+  assert.deepEqual(['pass', 'position'].map(k => record.probe.full.checks.find(c => c.id === 'unknown').detail[k][0]), ['Pass was sent, but no answer came back.', 'Position A3 was sent, but no answer came back.']);
+  // After Register from afterWords() (0.2.3), as drawn: each headline and its time line's length, the pack's own
+  // (screens-game.mjs afterRegister()), which the agreement compares with sheets 29.1 and 29.2.
+  const AFTER_DRAWN = { 'after-rescue': ['Rescue of Eli registered.', 2], 'after-protect': ['Protection for Gus registered.', 3], 'after-blackout': ['Blackout registered.', 3],
+    'after-talk': ['Private talk with Ava accepted.', 3], 'after-clone': ['Clone active.', 2], 'after-suppress': ['Navigation suppressed.', 2], 'after-reload': ['The server accepted your action.', 0] };
+  for (const [key, drawn] of Object.entries(AFTER_DRAWN)) assert.deepEqual([at(key).headline, at(key).steps], drawn, key);
   // The pack's room shows its own control on 27.3's third frame: the room scene's, named, not compared here.
   assert.deepEqual(agree.checks.find(c => c.id.startsWith('agree: passed')).detail.notCompared, ['chip "Window · Hospital": the room\'s own control, the room scene\'s (#261)']);
 });

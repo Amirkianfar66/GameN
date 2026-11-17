@@ -12,7 +12,7 @@
 
 import { ROOM_FIXTURES, SELF, board, seatOf } from '../../../prototype/fixtures.mjs';
 import { afterRegister } from '../../../prototype/screens-game.mjs';
-import { ACTION_WORDS, actionsSheet, blackoutBar, afterSheet, checkSheet, moveBar, moveChip, movedToast, passSheet, passedToast, targetBar, targetChip, targetListSheet, unknownSheet } from '../actions.mjs';
+import { ACTION_WORDS, actionsSheet, afterWords, blackoutBar, afterSheet, checkSheet, moveBar, moveChip, movedToast, passSheet, passedToast, targetBar, targetChip, targetListSheet, unknownSheet } from '../actions.mjs';
 
 const ROOM = 'Room A';
 const seats = board({ place: ROOM_FIXTURES['room-a'].place });
@@ -66,13 +66,20 @@ const FACTS = {
 };
 const ACT = { RESCUE: 'rescue', PROTECT: 'protect', SUPPLY: 'supply', REGISTER_SHOT: 'shoot', REQUEST_HACK: 'talk', REQUEST_BLACKOUT: 'blackout', ENGINEER_SUPPRESS: 'suppress', ACTIVATE_CLONE: 'clone' };
 
-/** After Register's input from the pack's own words for the action (Frontend's en.ts, the handoff's drafts). */
+/**
+ * After Register's input: the stamp, the time line and the pack's own lines from afterWords() (0.2.3), given the
+ * pack's facts (Round 3, a shot's Round 4; the Clone to the end of Round 4; Protection from Round 4; the Engineer's
+ * capture in Room B). Rescue's, Protection's, Supply's and a shot's lines are Frontend's (en.ts): the pack's own
+ * afterRegister() stands in for them, as for the captured players.
+ */
 function after(type, target) {
   const A = afterRegister(ACT[type], target ? seatOf(Number(target.seat.slice(5))) : null, 'room-a');
-  const kind = { REGISTERED: 'registered', ACCEPTED: 'accepted', ACTIVE: 'active', CAPTURED: 'captured' }[A.stamp];
-  return { type, kind, title: A.title, detail: A.detail,
+  const w = afterWords({ type, round: type === 'REGISTER_SHOT' ? 4 : 3, targets: target ? [target] : [], viewer: SELF,
+    expiresAfterRound: type === 'ACTIVATE_CLONE' ? 4 : null, activeFromRound: type === 'PROTECT' ? 4 : null,
+    capture: type === 'ENGINEER_SUPPRESS' ? { room: 'Room B', count: A.people.length } : null });
+  return { type, kind: w.kind, title: w.title ?? A.title, detail: w.detail ?? A.detail,
     people: A.people ? A.people.map(p => ({ seat: `seat-${p.seat}`, name: p.name, character: p.character, sub: `Player ${p.seat} · in Room B when accepted` })) : null,
-    steps: A.steps.map(([state, title, sub]) => ({ state, title, sub })) };
+    steps: w.steps };
 }
 
 const person = n => { const p = seatOf(n); return { seat: p.seat, name: p.name, character: p.character }; };
@@ -200,6 +207,18 @@ export const ACTIONS_STATES = Object.freeze({
     shell: { bar: turnBar(SELF, 19), tabs: tabs({ own: false }), sheet: unknownSheet({ type: 'PANEL_CODE' }) },
     scene: { active: SELF },
     part: { kind: 'unknown', input: { type: 'PANEL_CODE', targets: [] } },
+  }),
+  // Pass and the Disabler's position (0.2.3, A13; the Lead, 17 November): their sheet 45 too. The dark room offers
+  // nothing while the position's answer is unknown.
+  'unknown-pass': state('Outcome unknown · Pass (A13)', '45+', {
+    shell: { bar: turnBar(SELF, 19), tabs: tabs(), sheet: unknownSheet({ type: 'PASS_TURN' }) },
+    scene: { active: SELF },
+    part: { kind: 'unknown', input: { type: 'PASS_TURN' } },
+  }),
+  'unknown-position': state('Outcome unknown · the Disabler’s position (A13)', '45+', {
+    shell: { bar: darkBar(6), tabs: tabs({ own: false }), sheet: unknownSheet({ type: 'SELECT_BLACKOUT_SLOT' }) },
+    scene: { active: null, lighting: 'dark' },
+    part: { kind: 'unknown', input: { type: 'SELECT_BLACKOUT_SLOT', position: { slot: 'A3', room: ROOM } } },
   }),
   // Move (sheets 20, 26 and 27.1), and the steps the pack leaves undrawn, as the Lead answered them (Q1–Q4).
   'move-room': moveState('Move within the room · the bar and the chip', '20'),
