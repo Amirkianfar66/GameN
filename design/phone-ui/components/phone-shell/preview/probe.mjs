@@ -34,7 +34,8 @@
 //   talk      the private talk's two buttons stay inside the phone at the Largest text, a row each when they
 //             don't fit; a docked sheet stays 10 px above them; layout().covered.bottom is what they cover
 //   toast     shown once per id, gone after its time, cleared by suspend(); it takes no tap, so a tap at its
-//             centre reaches the control under it (kit 0.8.0)
+//             centre reaches the control under it (kit 0.8.0); words too long for one line wrap inside the phone at
+//             every text size, its paper holds them, and words that fit keep one line (kit 0.8.2)
 //   motion    the sheet slides and the toast drops in (the kit's, 0.8.0), or each fades in 80 ms with Reduce
 //             motion (the game's, or the device's)
 //   words     a phase bar's line changing (the lit Blackout's "Lights out in 0:03", then 0:02; ../phase-bars.mjs,
@@ -710,6 +711,64 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       hit?.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, clientX: x, clientY: y }));
       s.shell.dispose();
       return { ok: none && over && hit === under && taps === 1, none, over, hit: hit === under ? 'the control' : hit?.className ?? null, taps };
+    });
+
+    // The toast at larger text (kit 0.8.2). The in-game animation builder measured the kit's toast cutting the game's longer
+    // words at the Large and Largest text: "That phase closed · choices cleared" needed 390 and 520 of its 302 px at 390 × 844.
+    await check('toast: words too long for one line wrap inside the phone and its paper holds them, at every text size on 390, 430 and 320 px phones; words that fit keep one line', async () => {
+      const lines = ['The ship moved · Round 12 complete', 'That phase closed · choices cleared', 'Captain election open', 'Turn passed'];
+      const phones = [[390, 844, [100, 150, 200]], [430, 932, [100, 150, 200]], [320, 568, [100, 200]]];
+      const was = { width: frame.style.width, height: frame.style.height };
+      const px = v => Math.round(v * 10) / 10;
+      const results = [];
+      try {
+        for (const [width, height, texts] of phones) for (const text of texts) {
+          document.documentElement.style.fontSize = text === 100 ? '' : `${text}%`;
+          Object.assign(frame.style, { width: `${width}px`, height: `${height}px` });
+          for (const [i, words] of lines.entries()) {
+            const s = mount({ ...own(), toast: { id: `fit-${width}-${text}-${i}`, text: words, icon: 'info' } });
+            try {
+              await frames();
+              const node = s.q('.ms-ps-toast');
+              node.getAnimations().forEach(a => a.finish());
+              const phone = s.root.getBoundingClientRect(), box = node.getBoundingClientRect();
+              const span = node.querySelector('.ms-k-toast-text'), spanBox = span.getBoundingClientRect();
+              const range = document.createRange();
+              range.selectNodeContents(span);
+              const rects = [...range.getClientRects()].filter(q => q.width > 0);
+              // The words' width on one line, measured beside them in the same font, and the room the toast gives them.
+              const one = span.cloneNode(true);
+              Object.assign(one.style, { position: 'absolute', visibility: 'hidden', whiteSpace: 'nowrap', width: 'max-content' });
+              node.append(one);
+              const need = one.getBoundingClientRect().width;
+              one.remove();
+              const cs = getComputedStyle(node), icon = node.querySelector('svg').getBoundingClientRect().width;
+              const room = phone.width - 32 - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - icon - parseFloat(cs.columnGap);
+              // The paper: the toast's box with its corners rounded as drawn (a radius of at most half the box).
+              const r = Math.min(parseFloat(cs.borderTopLeftRadius), box.height / 2, box.width / 2);
+              const onPaper = (x, y) => {
+                if (x < box.left - 0.5 || x > box.right + 0.5 || y < box.top - 0.5 || y > box.bottom + 0.5) return false;
+                const cx = Math.min(Math.max(x, box.left + r), box.right - r), cy = Math.min(Math.max(y, box.top + r), box.bottom - r);
+                return Math.hypot(x - cx, y - cy) <= r + 0.5;
+              };
+              const corners = q => [[q.left, q.top], [q.right, q.top], [q.left, q.bottom], [q.right, q.bottom]];
+              const count = new Set(rects.map(q => Math.round(q.top))).size;
+              results.push({
+                phone: `${width}x${height}`, text, words, lines: count, need: px(need), room: px(room), box: [px(box.width), px(box.height)], radius: px(r),
+                inside: box.left >= phone.left + 15.5 && box.right <= phone.right - 15.5,
+                held: rects.every(q => corners(q).every(([x, y]) => onPaper(x, y))),
+                whole: span.textContent === words && rects.every(q => q.left >= spanBox.left - 0.5 && q.right <= spanBox.right + 0.5),
+                wraps: need <= room + 0.5 ? count === 1 : count >= 2,
+              });
+            } finally { s.shell.dispose(); }
+          }
+        }
+      } finally {
+        document.documentElement.style.fontSize = '';
+        Object.assign(frame.style, was);
+      }
+      const good = r => r.inside && r.held && r.whole && r.wraps;
+      return { ok: results.length === 32 && results.every(good), failing: results.filter(r => !good(r)), results };
     });
 
     await check('words: the lit Blackout\'s line counts down (Lights out in 0:03, 0:02, 0:01) and the lights go out; the bar keeps its height, its right side keeps its elements and places, the focus stays and no layout is reported', async () => {

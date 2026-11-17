@@ -12,7 +12,7 @@
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
 
-export const COMPONENT_KIT_VERSION = 'component-kit-0.8.1';
+export const COMPONENT_KIT_VERSION = 'component-kit-0.8.2';
 export const BUTTON_KINDS = Object.freeze(['primary', 'secondary', 'tinted', 'plain', 'outline', 'warn']);
 export const CELL_STATES = Object.freeze(['available', 'selected', 'confirmed', 'taken', 'ineligible', 'empty', 'winner', 'faded']);
 export const STAMP_TONES = Object.freeze([null, 'amber', 'pending', 'gold', 'steel']);
@@ -501,7 +501,8 @@ export function createKit(doc) {
   // ── The toast (ui.mjs toast; kit.css .toast; 0.8.0) ─────────────────
   /**
    * { text, icon, filled, leaving, extra }: a local confirmation ("Copied", "Turn passed"), read as it is drawn.
-   * The icon is filled, as the pack's (default `check`); long words are cut with an ellipsis inside the phone.
+   * The icon is filled, as the pack's (default `check`). Words too long for one line wrap inside the phone, so every
+   * word shows (0.8.2; they were cut with an ellipsis before).
    * It takes no tap: a tap reaches what is under it. It drops in where it is added and fades out once `leaving`.
    * How long it shows and when it goes are its owner's (the shell's TOAST_MS, once per id), and so is where it sits:
    * 10 px under --ms-k-toast-top, which the owner sets to where its bar ends (the pack's --top). `extra` adds the
