@@ -454,7 +454,7 @@ test('the check\'s record: every capture passed under the production headers, at
     for (const c of run.checks) assert.ok(c.ok, `probe ${mode}: ${c.id}`);
   }
   const groups = probe.full.checks.map(c => c.id.split(':')[0]);
-  for (const [group, count] of Object.entries({ held: 2, private: 6, time: 11, focus: 3, films: 3, tags: 3 })) {
+  for (const [group, count] of Object.entries({ held: 3, private: 7, time: 11, focus: 3, films: 3, tags: 3 })) {
     assert.equal(groups.filter(g => g === group).length, count, `probe: the ${group} checks`);
   }
   assert.deepEqual(probe['device-reduced'].checks.map(c => c.id.split(':')[0]), ['device-reduced']);

@@ -352,7 +352,7 @@ These are listed, not omitted:
   | Check | Result |
   | --- | --- |
   | `packages/design-tokens/test/room-scene.test.mjs` | 13 of 13 |
-  | `npm run test:design` | 371 of 371 |
+  | `npm run test:design` | 372 of 372 (on 0.5.1) |
   | `npm run test:tooling` | 337 of 337 (on 0.3.0) |
   | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
