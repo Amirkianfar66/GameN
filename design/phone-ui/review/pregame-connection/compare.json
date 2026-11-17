@@ -1,15 +1,15 @@
 {
   "tool": "design/tools/phone-ui-native-compare.mjs",
-  "createdAt": "2026-11-17T01:51:43.427Z",
+  "createdAt": "2026-11-17T09:04:43.565Z",
   "browser": "Google Chrome for Testing 153.0.8010.12",
   "view": "Drawn at each part's phone size, 1.5× pixels",
   "pack": {
-    "commit": "42337251778a515d78774a5de2b78b95dabb8b85",
+    "commit": "11895f20de007b8d07585619938600372e69a7c1",
     "dirty": false
   },
   "build": {
-    "folder": "/tmp/pregame-connection-check-nF54a4",
-    "head": "42337251778a515d78774a5de2b78b95dabb8b85",
+    "folder": "/tmp/pregame-connection-check-rpW94r",
+    "head": "73d9de4bdee6e009057ce310f9e2f1298df492ed",
     "dirty": false,
     "artwork": "64e55516d2f0026842c5c2a675f2eccda20e0a9e"
   },
@@ -54,6 +54,53 @@
       "now": null
     },
     {
+      "id": "host-setup",
+      "stage": "start",
+      "title": "Host setup",
+      "sheet": "11",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?count=9&s=host-setup&safe=47%2C34",
+        "image": "img/host-setup-pack.jpg",
+        "width": 585,
+        "height": 1266,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=join&count=9&tuple=phone",
+        "steps": [
+          [
+            "wait",
+            4500
+          ],
+          [
+            "tap",
+            "#planet-entry-host, .planet-pregame-host [data-intent=\"host\"]"
+          ],
+          [
+            "wait",
+            600
+          ]
+        ],
+        "image": "img/host-setup-build.jpg",
+        "width": 585,
+        "height": 1266,
+        "log": [
+          "tap: HostOpen a room for 7–9 players"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "A drop-down for the player count and “Host a game”. The design has 7, 8 and 9 buttons, the team mix (5 Blue · 3 Red · 1 Alien) and what happens after the room opens."
+      },
+      "now": null
+    },
+    {
       "id": "host-lobby",
       "stage": "start",
       "title": "Host lobby",
@@ -82,6 +129,213 @@
         "date": "2026-11-11",
         "verdict": "differs",
         "note": "The seats are folded away (“9 of 9 seats filled”), and bots are a drop-down with “Set bots”. The design lists every seat and sets bots with − and +."
+      },
+      "now": null
+    },
+    {
+      "id": "join",
+      "stage": "start",
+      "title": "Join",
+      "sheet": "12",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=join&state=empty&safe=47%2C34",
+        "image": "img/join-pack.jpg",
+        "width": 585,
+        "height": 1266,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=join&count=9&tuple=phone",
+        "steps": [
+          [
+            "wait",
+            4500
+          ],
+          [
+            "tap",
+            "#planet-entry-join, .planet-pregame-host [data-intent=\"join\"]"
+          ],
+          [
+            "wait",
+            400
+          ]
+        ],
+        "image": "img/join-build.jpg",
+        "width": 585,
+        "height": 1266,
+        "log": [
+          "tap: JoinEnter a room code"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "One code field, a Device drop-down and “Request admission”. The design has a box per code character, Player phone or Shared display, and “Ask to join”."
+      },
+      "now": null
+    },
+    {
+      "id": "join-wait",
+      "stage": "start",
+      "title": "Waiting for the host",
+      "sheet": "13",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=join-wait&state=pending&safe=47%2C34",
+        "image": "img/join-wait-pack.jpg",
+        "width": 585,
+        "height": 1266,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=join&count=9&tuple=phone",
+        "steps": [
+          [
+            "wait",
+            4500
+          ],
+          [
+            "tap",
+            "#planet-entry-join, .planet-pregame-host [data-intent=\"join\"]"
+          ],
+          [
+            "wait",
+            400
+          ],
+          [
+            "fill",
+            "#planet-room-code, .planet-pregame-host input:not([autocomplete=\"nickname\"])",
+            "PLANET"
+          ],
+          [
+            "fill",
+            "#planet-display-name, .planet-pregame-host input[autocomplete=\"nickname\"]",
+            "Dev"
+          ],
+          [
+            "tap",
+            "#planet-join, .planet-pregame-host [data-intent=\"ask\"]"
+          ],
+          [
+            "wait",
+            1200
+          ]
+        ],
+        "image": "img/join-wait-build.jpg",
+        "width": 585,
+        "height": 1266,
+        "log": [
+          "tap: JoinEnter a room code",
+          "tap: Ask to join"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "Plain text: “Waiting for the server to confirm admission.” The design shows an hourglass, “Waiting for the host”, the room code and your name."
+      },
+      "now": null
+    },
+    {
+      "id": "recover",
+      "stage": "start",
+      "title": "Recover a seat",
+      "sheet": "14",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=recover&state=entry&safe=47%2C34",
+        "image": "img/recover-pack.jpg",
+        "width": 585,
+        "height": 1266,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=join&count=9&tuple=phone",
+        "steps": [
+          [
+            "wait",
+            4500
+          ],
+          [
+            "tap",
+            "#planet-entry-recover, .planet-pregame-host [data-intent=\"recover\"]"
+          ],
+          [
+            "wait",
+            600
+          ]
+        ],
+        "image": "img/recover-build.jpg",
+        "width": 585,
+        "height": 1266,
+        "log": [
+          "tap: Recover my seat"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "close",
+        "note": "The same two fields. The line saying the host makes the code, and that it never appears on the shared display, is missing."
+      },
+      "now": null
+    },
+    {
+      "id": "settings-entry",
+      "stage": "start",
+      "title": "Settings before a match",
+      "sheet": "32",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?from=menu&s=settings&safe=47%2C34",
+        "image": "img/settings-entry-pack.jpg",
+        "width": 585,
+        "height": 1266,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=join&count=9&tuple=phone",
+        "steps": [
+          [
+            "wait",
+            4500
+          ],
+          [
+            "tap",
+            "#planet-setup-settings, .planet-pregame-host [data-intent=\"settings\"]"
+          ],
+          [
+            "wait",
+            600
+          ]
+        ],
+        "image": "img/settings-entry-build.jpg",
+        "width": 585,
+        "height": 1266,
+        "log": [
+          "tap: Display settings"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "A folded “Display settings” line on the join page. The design opens a Display page with Reduce motion and the three text sizes."
       },
       "now": null
     },
