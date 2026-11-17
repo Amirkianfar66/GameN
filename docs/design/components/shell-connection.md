@@ -174,13 +174,14 @@ These refuse the changed files until Integration approves. Each was found by rev
 - It serves them with the hosted game's production headers (`createHostedPreviewHeaders`, headers SHA-256 `424e5dec…`, the same as the shell's and the room scene's checks).
 - It drives the app at 390 × 844 and 430 × 932, in one browser, one page at a time. `--only` draws some states and adds them to the record when it names the same candidate, art and headers; this record was made in batches.
 
-**Result:** 40 of 40 captures pass: twenty states at both sizes, recorded on `154ac2d8` (shell 0.2.10, with the phase bars' words) with the source clean and the art from `64e55516`, in one run. Before it, `00e679e9` (shell 0.2.9) and the helper's first record, `45afe011` (shell 0.2.8), each passed 34 of 34.
+**Result:** 40 of 40 captures pass: twenty states at both sizes, recorded on `883473be` (shell 0.2.11 with kit 0.8.1, the phase bars' words, and no banner on the first connect) with the source clean and the art from `64e55516`, in one run. The in-game animation builder's run of its patch, on its own commit before the 0.2.11 merge, also passed 40 of 40. Before it, `00e679e9` (shell 0.2.9) and the helper's first record, `45afe011` (shell 0.2.8), each passed 34 of 34.
 
 Against `00e679e9`'s record:
 - `before`, `appointment` and `course` are new, at both sizes.
 - `blackout` and `target` changed in the top bar, by its words: "Dark · positions fixed", and "Block a move · Before turns · Officer".
 - `result` changed in the round button: an unavailable Vote is paper with dimmed words, as shell 0.2.10 draws it.
-- In every other capture the bars and the tabs are the same, pixel for pixel, but for a clock's digits in `voted`. What differs is inside the stage: the room's picture, which moves.
+- `result` also changed in its clock's ring, and `turn` and `voted` in the clock's digits: the harness's time at the capture.
+- In every other capture the bars and the tabs are the same, no pixel more than 32 of 255 apart. What differs is inside the stage: the room's picture, which moves, also behind the glass of an eliminated player's banner. Two captures are the same byte for byte.
 
 | State | What it shows and checks |
 | --- | --- |
