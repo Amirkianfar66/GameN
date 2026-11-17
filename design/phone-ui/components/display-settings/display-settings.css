@@ -1,0 +1,18 @@
+@import url("../kit/kit.css");
+@import url("../entry-parts/entry-parts.css");
+
+/*
+ * Display settings' styles: runtime source, Designer's (display-settings.mjs). The phone pack's own values
+ * (design/phone-ui/prototype/kit.css .ph and .screen; screens-more.mjs, the settings screen; sheet 32), scoped
+ * under the page's root (.ms-display-settings) and the sheet content's (.ms-settings-sheet), so nothing here
+ * reaches the rest of the app and nothing of the app's reaches in. The row, the switch, the three sizes, the
+ * group labels and the note are the shared kit's (../kit/kit.css), and the page's screen and nav bar the entry
+ * parts' (../entry-parts/entry-parts.css). The Settings sheet's frame and glass are the phone shell's.
+ */
+
+/* The page fills its host on the pack's phone canvas (kit.css --canvas, the kit's --ms-k-canvas). */
+.ms-display-settings { position: absolute; inset: 0; overflow: hidden; isolation: isolate; background: var(--ms-k-canvas); }
+.ms-display-settings:focus { outline: none; }
+
+/* The sheet's content sits in the shell's sheet body as the pack's does: no box of its own. */
+.ms-settings-sheet:focus { outline: none; }
