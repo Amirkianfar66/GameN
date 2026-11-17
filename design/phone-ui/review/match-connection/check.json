@@ -2,7 +2,7 @@
   "tool": "design/tools/match-connection-check.mjs",
   "what": "The Planet app's match screens drawn by Designer's components (release 3: Actions, design/phone-ui/components/actions) in the phone shell, in Frontend's phone harness (apps/game/dev/phone) built from the candidate below",
   "candidate": {
-    "commit": "1e723308f6bf04d008cdcf58168ac56f72abee5e",
+    "commit": "7d1e51ccf550b1cf49f8a549b6ed839211896164",
     "clean": true,
     "dirty": []
   },
@@ -59,7 +59,7 @@
         "noAfter": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-blackhole.jpg",
-      "sha256": "6738483afaa663e3002f32e454426ebfbb39917cee1c2b50a4c3a65e406972a2",
+      "sha256": "093c739c069c893a8d48dbe37e2320e3c6bc4b9b79e27a12a90d97a3bab2daea",
       "seen": {
         "shell": {
           "status": "live",
@@ -254,6 +254,7 @@
         "status": null,
         "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 128px); } 90% { transform: translate(0px, 128px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 5.11% { transform: translate(390px, -78px); } 19.89%, 100% { transform: translate(-390px, 78px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 7.64% { transform: translate(357px, 0px); } 40.69%, 100% { transform: translate(-357px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 12.57% { transform: translate(323px, 0px); } 57.43%, 100% { transform: translate(-323px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 20.21% { transform: translate(357px, 0px); } 69.79%, 100% { transform: translate(-357px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 46.19% { transform: translate(480px, 0px); } 60.48%, 100% { transform: translate(-480px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 44.4% { transform: translate(355px, 0px); } 77.27%, 100% { transform: translate(-355px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 54.49% { transform: translate(335px, 0px); } 85.51%, 100% { transform: translate(-335px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 62.64% { transform: translate(321px, 0px); } 92.36%, 100% { transform: translate(-321px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 68.1% { transform: translate(329px, 0px); } 98.56%, 100% { transform: translate(-329px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 7YouCommand RoomBefore turnsTurns start at 0:00PromisesR60:13Check and registerActivate BlackholeOnly you see thisThis spends its global lifetime use and this round’s Role Action.CancelActivate BlackholeBoardActionsPassPassCardPanels",
         "hiddenStep": "Activate Blackhole",
+        "hiddenCheckpoint": "Activate Blackhole",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -274,7 +275,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -300,7 +301,7 @@
         "noSheetSending": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-blackout.jpg",
-      "sha256": "cbe0214cd06b797f2f548f44584a74ce37b143e056ede12940a0856c4164613d",
+      "sha256": "14816e6941acfc5e6126551720a860b875d9b40c90e6dc7090af2174110e4622",
       "seen": {
         "shell": {
           "status": "live",
@@ -452,6 +453,7 @@
         "status": null,
         "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } Room ABlackoutDark · positions fixedPromisesR60:09Choose a positionRoom A · any position, even emptyCancelBoardActionsPassPassCardPanels",
         "hiddenStep": "Choose a fixed position in your bound room.",
+        "hiddenCheckpoint": "Choose a fixed position in your bound room.",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -472,7 +474,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -493,7 +495,7 @@
         "noSheet": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-blackout-fixed.jpg",
-      "sha256": "59fd14ab3f146cb244e5061ea9aa254d64829bca9657168c2a3fa428e9672e36",
+      "sha256": "9162e5b00c32935207e865a83117e1164426bb45cf22b6fb1a4f1046e97e6e65",
       "seen": {
         "shell": {
           "status": "live",
@@ -645,6 +647,7 @@
         "status": null,
         "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } Room ABlackoutDark · positions fixedPromisesR60:08Position A3 fixedResolves after the window · no effect shown nowCancelBoardActionsPassPassCardPanels",
         "hiddenStep": "Blackout",
+        "hiddenCheckpoint": "Blackout",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -667,7 +670,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -731,6 +734,7 @@
         "status": null,
         "shown": "",
         "hiddenStep": "",
+        "hiddenCheckpoint": "",
         "model": {
           "connection": "stale",
           "concealed": true,
@@ -747,7 +751,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -770,7 +774,7 @@
         "rowToCheck": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-list.jpg",
-      "sha256": "6abfd5e3b52d6c2822e6d82697cc01365e63122e39edc20d56165f85491503cb",
+      "sha256": "9e4bb1ddd3e4d4da83f275f1890afe3370bfba7c1fe1a92f3b8260ef868622fe",
       "seen": {
         "shell": {
           "status": "live",
@@ -974,6 +978,7 @@
         "status": null,
         "shown": "Command RoomRoom A1Crew 12You4Crew 45Crew 5Room B6Crew 67Crew 78Crew 89Crew 9Hospital3Crew 3RESCUE R6JailPrivate talkYour turnPlayer 2 · Crew 2PromisesR60:58RescueChoose a player · every roomCancelListChoose from a listRescue · everyone you can reachRoom ACrew 1Player 1Room BCrew 7Player 7HospitalCrew 3Player 3 · InjuredRoomActionsPassPassCardPanels",
         "hiddenStep": "Choose an offered character on the board.",
+        "hiddenCheckpoint": "Choose an offered character on the board.",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -994,7 +999,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1018,7 +1023,7 @@
         "roomChosen": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-move.jpg",
-      "sha256": "e13285481ebe2c9ab295076cca422d75442603f54c5638389f1219e3ee67ab10",
+      "sha256": "1dbd9f2ba0bcf7d23518814acf6270e6f7349701ef337716a5fa69a5c8ffae98",
       "seen": {
         "shell": {
           "status": "live",
@@ -1179,6 +1184,7 @@
         "status": null,
         "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BYour turnPlayer 6 · Crew 6PromisesR60:58Move within Room BChoose an empty position · or another room on the BoardCancelOther rooms on the BoardBoardActionsPassPassCardPanels",
         "hiddenStep": "Choose an empty position in Room B.",
+        "hiddenCheckpoint": "Choose an empty position in Room B.",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -1201,7 +1207,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1224,7 +1230,7 @@
         "otherRoom": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-move-board.jpg",
-      "sha256": "59c5328e89937ebd1a8986b47b7b2a16b5cbda10dee99844fa070bf8f3e79dc3",
+      "sha256": "c1555c125084387ae0dc505675dabb982c4cc20cbbe84408579d1792acb766ad",
       "seen": {
         "shell": {
           "status": "live",
@@ -1375,6 +1381,7 @@
         "status": null,
         "shown": "Command RoomRoom A1Crew 12Crew 23Crew 34Crew 45Crew 5Room B6You7Crew 78Crew 89Crew 9HospitalJailPrivate talkB5Your turnPlayer 6 · Crew 6PromisesR60:58MoveChoose an empty position · uses this round’s moveCancelRoomActionsPassPassCardPanels",
         "hiddenStep": "Choose an empty position in Room B.",
+        "hiddenCheckpoint": "Choose an empty position in Room B.",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -1397,7 +1404,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1421,7 +1428,7 @@
         "cancelToChoosing": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-move-check.jpg",
-      "sha256": "fd22646985156ae21caf690aee53df770044f34b8f18f9f0c24cb39e5014d51b",
+      "sha256": "53ae8ed73382af3c5248a582655467c9d6f12ce0b256167c250de1b4620c9342",
       "seen": {
         "shell": {
           "status": "live",
@@ -1618,6 +1625,7 @@
         "status": null,
         "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BYour turnPlayer 6 · Crew 6PromisesR60:57Check and registerMove to B5Room BEntering or repositioning spends this round’s movement.CancelRegister moveBoardActionsPassPassCardPanels",
         "hiddenStep": "Review before registering.",
+        "hiddenCheckpoint": "Review before registering.",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -1640,7 +1648,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1661,7 +1669,7 @@
         "sent": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-moved.jpg",
-      "sha256": "957c59ffe70034d3bab92b9695e4c1a790941a3da52f1f19bb3e58a2b861e1d8",
+      "sha256": "8c3de733b57929c498967187076d9392f8c7796d4c4aa996683871856df0e2ae",
       "seen": {
         "shell": {
           "status": "live",
@@ -1790,6 +1798,7 @@
         "status": null,
         "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BYour turnPlayer 6 · Crew 6PromisesR60:56BoardActionsPassPassCardPanelsMoved to B5",
         "hiddenStep": "Move registered. Waiting for the current board.",
+        "hiddenCheckpoint": "Move registered. Waiting for the current board.",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -1816,7 +1825,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1838,7 +1847,7 @@
         "chipToBoard": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-other-rooms.jpg",
-      "sha256": "234957a37c805d013c6ba953030973f19f885de53fb08d0fdb474a2a499a7cb0",
+      "sha256": "3bfcf194fab92ee0e6ea4d5de8efd45b613b0752f6fccd0d1936ee100226cb2e",
       "seen": {
         "shell": {
           "status": "live",
@@ -1999,6 +2008,7 @@
         "status": null,
         "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } 1Crew 12You4Crew 45Crew 5Room AYour turnPlayer 2 · Crew 2PromisesR60:58RescueChoose a playerCancelOther rooms · 2BoardActionsPassPassCardPanels",
         "hiddenStep": "Choose an offered character on the board.",
+        "hiddenCheckpoint": "Choose an offered character on the board.",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -2019,7 +2029,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2043,7 +2053,7 @@
         "sheetClosed": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-pass.jpg",
-      "sha256": "36da96297369c156f2366aa5e51cc675102b9cba4ac35285599c24081acd5a0a",
+      "sha256": "d47fbad56f0b6095dfc93894d63d649eb8f022b07347109c75ba1d0512138665",
       "seen": {
         "shell": {
           "status": "live",
@@ -2236,6 +2246,7 @@
         "status": null,
         "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BYour turnPlayer 6 · Crew 6PromisesR60:58Pass your turn?CancelPassBoardActionsPassPassCardPanels",
         "hiddenStep": "Pass",
+        "hiddenCheckpoint": "Pass",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -2256,7 +2267,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2277,7 +2288,7 @@
         "noTiles": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-reconnecting.jpg",
-      "sha256": "29a26473b59f3f38865ee2e8452247f3056278e847cd78b7f8c3045ea01ca9e4",
+      "sha256": "f30528ee78f0b94df723e3ed9b9921535463430b47eb4837edbcd8240f27ae8d",
       "seen": {
         "shell": {
           "status": "stale",
@@ -2409,6 +2420,7 @@
         "status": null,
         "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 1Crew 12You4Crew 45Crew 5Room AReconnecting…Showing Round 6 as last seenPromisesR6Connection lostControls return when the match is currentRetryControls return when the match is currentControls return when the match is currentControls return when the match is currentControls return when the match is currentControls return when the match is currentBoardActionsPassPassCardPanels",
         "hiddenStep": "",
+        "hiddenCheckpoint": "",
         "model": {
           "connection": "stale",
           "concealed": false,
@@ -2425,7 +2437,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2449,7 +2461,7 @@
         "heroStays": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-rescue.jpg",
-      "sha256": "21d90f54d1c04d5d34532634d9a70c02394a5ee1d2edaa93074028e2ace23f4b",
+      "sha256": "459759e1f39c10d44bc06900154a5bf0e41573d823299e4a531a6725fbf74a5f",
       "seen": {
         "shell": {
           "status": "live",
@@ -2597,6 +2609,7 @@
         "status": null,
         "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 120px); } 90% { transform: translate(0px, 120px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 17.33% { transform: translate(141px, -28.2px); } 22.67%, 100% { transform: translate(-141px, 28.2px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 26.67% { transform: translate(108px, 0px); } 36.67%, 100% { transform: translate(-108px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 37.36% { transform: translate(74px, 0px); } 47.64%, 100% { transform: translate(-74px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 45% { transform: translate(108px, 0px); } 60%, 100% { transform: translate(-108px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 57.4% { transform: translate(231px, 0px); } 64.27%, 100% { transform: translate(-231px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 63.43% { transform: translate(106px, 0px); } 73.24%, 100% { transform: translate(-106px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 73.52% { transform: translate(86px, 0px); } 81.48%, 100% { transform: translate(-86px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 81.67% { transform: translate(72px, 0px); } 88.33%, 100% { transform: translate(-72px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 87.13% { transform: translate(80px, 0px); } 94.54%, 100% { transform: translate(-80px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } RESCUE R63Crew 3· InjuredHospitalYour turnPlayer 2 · Crew 2PromisesR60:58RescueChoose a playerCancelBoardActionsPassPassCardPanels",
         "hiddenStep": "Choose an offered character on the board.",
+        "hiddenCheckpoint": "Choose an offered character on the board.",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -2617,7 +2630,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2641,10 +2654,11 @@
         "sent": true,
         "nothingOnTarget": true,
         "noGenericLine": true,
+        "heard": true,
         "doneCloses": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-rescue-after.jpg",
-      "sha256": "e0b00d32e8941ea6884cc5fbae0a724f2e9696f23dd09ec30d311faeec847562",
+      "sha256": "5621d1bfa1fe6b7665d55bbb72472f0d563702d4bdecc6230b134b41978e3e49",
       "seen": {
         "shell": {
           "status": "live",
@@ -2825,7 +2839,8 @@
         "old": 0,
         "status": null,
         "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 120px); } 90% { transform: translate(0px, 120px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 17.33% { transform: translate(141px, -28.2px); } 22.67%, 100% { transform: translate(-141px, 28.2px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 26.67% { transform: translate(108px, 0px); } 36.67%, 100% { transform: translate(-108px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 37.36% { transform: translate(74px, 0px); } 47.64%, 100% { transform: translate(-74px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 45% { transform: translate(108px, 0px); } 60%, 100% { transform: translate(-108px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 57.4% { transform: translate(231px, 0px); } 64.27%, 100% { transform: translate(-231px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 63.43% { transform: translate(106px, 0px); } 73.24%, 100% { transform: translate(-106px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 73.52% { transform: translate(86px, 0px); } 81.48%, 100% { transform: translate(-86px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 81.67% { transform: translate(72px, 0px); } 88.33%, 100% { transform: translate(-72px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 87.13% { transform: translate(80px, 0px); } 94.54%, 100% { transform: translate(-80px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } RESCUE R63Crew 3· InjuredHospitalYour turnPlayer 2 · Crew 2PromisesR60:58RescueREGISTEREDRescue of Crew 3 registered.This is not a result. Registered actions are resolved at the end of the round.RegisteredRound 6 · your turnEnd of Round 6Rescue is resolved, after the attacksDoneBoardActionsPassPassCardPanels",
-        "hiddenStep": "Registered. Resolution is pending.",
+        "hiddenStep": "Rescue of Crew 3 registered.",
+        "hiddenCheckpoint": "Rescue of Crew 3 registered.",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -2846,12 +2861,12 @@
             "targetSeatId": "seat-3"
           }
         ],
-        "page": "RESCUE R6\n3\nCrew 3\n· Injured\nHOSPITAL\nYour turn\nPlayer 2 · Crew 2\nPromises\nR6\n0:58\nRescue\nREGISTERED\nRescue of Crew 3 registered.\n\nThis is not a result. Registered actions are resolved at the end of the round.\n\nRegistered\nRound 6 · your turn\nEnd of Round 6\nRescue is resolved, after the attacks\nDone\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Injured, Hospital, H1, Rescue possible through Round 6.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Registered. Resolution is pending.\n\nRegistered. Resolution is pending.",
+        "page": "RESCUE R6\n3\nCrew 3\n· Injured\nHOSPITAL\nYour turn\nPlayer 2 · Crew 2\nPromises\nR6\n0:58\nRescue\nREGISTERED\nRescue of Crew 3 registered.\n\nThis is not a result. Registered actions are resolved at the end of the round.\n\nRegistered\nRound 6 · your turn\nEnd of Round 6\nRescue is resolved, after the attacks\nDone\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Injured, Hospital, H1, Rescue possible through Round 6.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Rescue of Crew 3 registered.\n\nRescue of Crew 3 registered.",
         "violations": [
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2876,7 +2891,7 @@
         "cancelToTiles": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-rescue-check.jpg",
-      "sha256": "024908c83336e76f7f0ec8ffbaab72fe4c6d87ea73ab1cbb1dc3c830b47fde93",
+      "sha256": "401235272fb643ea644392743934a07dab5c737c47cd082cc89e1632bf22e6ae",
       "seen": {
         "shell": {
           "status": "live",
@@ -3071,6 +3086,7 @@
         "status": null,
         "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 120px); } 90% { transform: translate(0px, 120px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 17.33% { transform: translate(141px, -28.2px); } 22.67%, 100% { transform: translate(-141px, 28.2px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 26.67% { transform: translate(108px, 0px); } 36.67%, 100% { transform: translate(-108px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 37.36% { transform: translate(74px, 0px); } 47.64%, 100% { transform: translate(-74px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 45% { transform: translate(108px, 0px); } 60%, 100% { transform: translate(-108px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 57.4% { transform: translate(231px, 0px); } 64.27%, 100% { transform: translate(-231px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 63.43% { transform: translate(106px, 0px); } 73.24%, 100% { transform: translate(-106px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 73.52% { transform: translate(86px, 0px); } 81.48%, 100% { transform: translate(-86px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 81.67% { transform: translate(72px, 0px); } 88.33%, 100% { transform: translate(-72px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 87.13% { transform: translate(80px, 0px); } 94.54%, 100% { transform: translate(-80px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } RESCUE R63Crew 3· InjuredHospitalYour turnPlayer 2 · Crew 2PromisesR60:57Check and registerRescue Crew 3Player 3 · HospitalCancelRegister RescueBoardActionsPassPassCardPanels",
         "hiddenStep": "Review before registering.",
+        "hiddenCheckpoint": "Review before registering.",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -3091,7 +3107,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3112,10 +3128,11 @@
         "foot": true,
         "noTarget": true,
         "captured": true,
-        "sent": true
+        "sent": true,
+        "heard": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-suppress.jpg",
-      "sha256": "b432ad6f053055960f59d0049cf9882c2ca4f764e3cf4381cd4ecb70679c15ac",
+      "sha256": "add41dac26feced048d3eaa26316b520f87e2d61d67d5c46e5f39124d200c1be",
       "seen": {
         "shell": {
           "status": "live",
@@ -3308,6 +3325,7 @@
         "status": null,
         "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6Crew 67Crew 78Crew 89YouRoom BYour turnPlayer 9 · Crew 9PromisesR60:58Check and registerSuppress navigationOnly you see thisCancelSuppress navigationBoardActionsPassPassCardPanels",
         "hiddenStep": "Suppress navigation",
+        "hiddenCheckpoint": "Suppress navigation",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -3328,7 +3346,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3354,7 +3372,7 @@
         "unavailableRefused": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-tiles.jpg",
-      "sha256": "d0fe32c4e9265b0b24fedf2ad757c0b7d95a942961987890eead2356711f47d1",
+      "sha256": "359a77516700c1e577f9d21557330aff00d9355b7051ef10ae8603b0610242bc",
       "seen": {
         "shell": {
           "status": "live",
@@ -3554,6 +3572,7 @@
         "status": null,
         "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BYour turnPlayer 6 · Crew 6PromisesR60:58ActionsRoom BYour turnRound 6ScanFinal CodeMovePrivate talkNot available nowShootNot available nowBoardActionsPassPassCardPanels",
         "hiddenStep": "",
+        "hiddenCheckpoint": "Current board · shared: Round 5 complete",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -3570,7 +3589,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3594,7 +3613,7 @@
         "afterRetry": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-unknown.jpg",
-      "sha256": "1856d52de219991e29a1c391fd943d02c43d9dccf0d9fdda873f95a525502e68",
+      "sha256": "9804075eb7070918c60efa5f98ed49ebf698fb4e8fc6d08d51d68c890c7b3081",
       "seen": {
         "shell": {
           "status": "live",
@@ -3790,6 +3809,7 @@
         "status": null,
         "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 120px); } 90% { transform: translate(0px, 120px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 17.33% { transform: translate(141px, -28.2px); } 22.67%, 100% { transform: translate(-141px, 28.2px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 26.67% { transform: translate(108px, 0px); } 36.67%, 100% { transform: translate(-108px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 37.36% { transform: translate(74px, 0px); } 47.64%, 100% { transform: translate(-74px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 45% { transform: translate(108px, 0px); } 60%, 100% { transform: translate(-108px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 57.4% { transform: translate(231px, 0px); } 64.27%, 100% { transform: translate(-231px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 63.43% { transform: translate(106px, 0px); } 73.24%, 100% { transform: translate(-106px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 73.52% { transform: translate(86px, 0px); } 81.48%, 100% { transform: translate(-86px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 81.67% { transform: translate(72px, 0px); } 88.33%, 100% { transform: translate(-72px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 87.13% { transform: translate(80px, 0px); } 94.54%, 100% { transform: translate(-80px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } RESCUE R63Crew 3· InjuredHospitalYour turnPlayer 2 · Crew 2PromisesR60:58Outcome unknownRescue Crew 3 was sent, but no answer came back.Check before doing anything else.Retry the sameCheck receiptBoardActionsPassPassCardPanels",
         "hiddenStep": "",
+        "hiddenCheckpoint": "Current board · shared: Round 5 complete",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -3815,7 +3835,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3839,7 +3859,7 @@
         "noAfter": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-blackhole.jpg",
-      "sha256": "d1cfee47a51ae72326c7d54ebe200bc0909b2c36b8da76987c54182c47b0ff95",
+      "sha256": "8599c757644e969aca5d2b503d6c5c6fcd5378739d1a2d7f1bc0914d56f06762",
       "seen": {
         "shell": {
           "status": "live",
@@ -4034,6 +4054,7 @@
         "status": null,
         "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 128px); } 90% { transform: translate(0px, 128px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 5.11% { transform: translate(390px, -78px); } 19.89%, 100% { transform: translate(-390px, 78px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 7.64% { transform: translate(357px, 0px); } 40.69%, 100% { transform: translate(-357px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 12.57% { transform: translate(323px, 0px); } 57.43%, 100% { transform: translate(-323px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 20.21% { transform: translate(357px, 0px); } 69.79%, 100% { transform: translate(-357px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 46.19% { transform: translate(480px, 0px); } 60.48%, 100% { transform: translate(-480px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 44.4% { transform: translate(355px, 0px); } 77.27%, 100% { transform: translate(-355px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 54.49% { transform: translate(335px, 0px); } 85.51%, 100% { transform: translate(-335px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 62.64% { transform: translate(321px, 0px); } 92.36%, 100% { transform: translate(-321px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 68.1% { transform: translate(329px, 0px); } 98.56%, 100% { transform: translate(-329px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 7YouCommand RoomBefore turnsTurns start at 0:00PromisesR60:13Check and registerActivate BlackholeOnly you see thisThis spends its global lifetime use and this round’s Role Action.CancelActivate BlackholeBoardActionsPassPassCardPanels",
         "hiddenStep": "Activate Blackhole",
+        "hiddenCheckpoint": "Activate Blackhole",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -4054,7 +4075,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4080,7 +4101,7 @@
         "noSheetSending": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-blackout.jpg",
-      "sha256": "0e7bfe969f46be82be9735e0853fdd86d3bf159e7852b5e5f30f26b00cbfae8d",
+      "sha256": "bcac449a1a0d70c46df3b57e2bbb684f7343932b799643b2290757ef1f08a6e4",
       "seen": {
         "shell": {
           "status": "live",
@@ -4097,7 +4118,7 @@
           "tone": "dark",
           "name": "Blackout",
           "sub": "Dark · positions fixed",
-          "clock": "0:09",
+          "clock": "0:08",
           "controls": 2
         },
         "tabs": {
@@ -4230,8 +4251,9 @@
         },
         "old": 0,
         "status": null,
-        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } Room ABlackoutDark · positions fixedPromisesR60:09Choose a positionRoom A · any position, even emptyCancelBoardActionsPassPassCardPanels",
+        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } Room ABlackoutDark · positions fixedPromisesR60:08Choose a positionRoom A · any position, even emptyCancelBoardActionsPassPassCardPanels",
         "hiddenStep": "Choose a fixed position in your bound room.",
+        "hiddenCheckpoint": "Choose a fixed position in your bound room.",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -4247,12 +4269,12 @@
           "recovery": null
         },
         "commands": [],
-        "page": "ROOM A\nBlackout\nDark · positions fixed\nR6\n0:09\nChoose a position\nRoom A · any position, even empty\nCancel\nBoard\nActions\nPASS\nCard\nPanels\n\nChoose a fixed position in your bound room.\n\nChoose a fixed position in your bound room.",
+        "page": "ROOM A\nBlackout\nDark · positions fixed\nR6\n0:08\nChoose a position\nRoom A · any position, even empty\nCancel\nBoard\nActions\nPASS\nCard\nPanels\n\nChoose a fixed position in your bound room.\n\nChoose a fixed position in your bound room.",
         "violations": [
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4273,7 +4295,7 @@
         "noSheet": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-blackout-fixed.jpg",
-      "sha256": "0cecfa44f0031bafbd0e4a6e263d29416b26a55790b0ca6ccbeaeabfd9491966",
+      "sha256": "2891203a914745b7cb7cd2319283494f6e993b9d5609b593e0009da34e823488",
       "seen": {
         "shell": {
           "status": "live",
@@ -4425,6 +4447,7 @@
         "status": null,
         "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } Room ABlackoutDark · positions fixedPromisesR60:08Position A3 fixedResolves after the window · no effect shown nowCancelBoardActionsPassPassCardPanels",
         "hiddenStep": "Blackout",
+        "hiddenCheckpoint": "Blackout",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -4447,7 +4470,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4511,6 +4534,7 @@
         "status": null,
         "shown": "",
         "hiddenStep": "",
+        "hiddenCheckpoint": "",
         "model": {
           "connection": "stale",
           "concealed": true,
@@ -4527,7 +4551,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4550,7 +4574,7 @@
         "rowToCheck": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-list.jpg",
-      "sha256": "3308d165b9f04c55e94ba9befbbb0ad2d3ea17cf75b1b8e9777e2307934ddafc",
+      "sha256": "6f02f10e07ffd332e66b348752893dd424049b9914e0ffe5b0a27163a4fdcd65",
       "seen": {
         "shell": {
           "status": "live",
@@ -4754,6 +4778,7 @@
         "status": null,
         "shown": "Command RoomRoom A1Crew 12You4Crew 45Crew 5Room B6Crew 67Crew 78Crew 89Crew 9Hospital3Crew 3RESCUE R6JailPrivate talkYour turnPlayer 2 · Crew 2PromisesR60:58RescueChoose a player · every roomCancelListChoose from a listRescue · everyone you can reachRoom ACrew 1Player 1Room BCrew 7Player 7HospitalCrew 3Player 3 · InjuredRoomActionsPassPassCardPanels",
         "hiddenStep": "Choose an offered character on the board.",
+        "hiddenCheckpoint": "Choose an offered character on the board.",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -4774,7 +4799,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4798,7 +4823,7 @@
         "roomChosen": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-move.jpg",
-      "sha256": "747e9e0a972d723a89239572e0e433f21afd53e696e42d99ecd69b1731325bd2",
+      "sha256": "07d4a9140d5d30da7ecc9fe71e222dae3cf48fe42eab4a14ef7a481cb0322b00",
       "seen": {
         "shell": {
           "status": "live",
@@ -4959,6 +4984,7 @@
         "status": null,
         "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BYour turnPlayer 6 · Crew 6PromisesR60:58Move within Room BChoose an empty position · or another room on the BoardCancelOther rooms on the BoardBoardActionsPassPassCardPanels",
         "hiddenStep": "Choose an empty position in Room B.",
+        "hiddenCheckpoint": "Choose an empty position in Room B.",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -4981,7 +5007,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5004,7 +5030,7 @@
         "otherRoom": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-move-board.jpg",
-      "sha256": "c87d72b8f30dfe28998d12ffde88ffc8941b5f58abc9e53f57dfa2f640118f6e",
+      "sha256": "e51cd659b63b8aeded10152b72cb5163daaf84b3802679bd86166887e408a6eb",
       "seen": {
         "shell": {
           "status": "live",
@@ -5155,6 +5181,7 @@
         "status": null,
         "shown": "Command RoomRoom A1Crew 12Crew 23Crew 34Crew 45Crew 5Room B6You7Crew 78Crew 89Crew 9HospitalJailPrivate talkB5Your turnPlayer 6 · Crew 6PromisesR60:58MoveChoose an empty position · uses this round’s moveCancelRoomActionsPassPassCardPanels",
         "hiddenStep": "Choose an empty position in Room B.",
+        "hiddenCheckpoint": "Choose an empty position in Room B.",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -5177,7 +5204,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5201,7 +5228,7 @@
         "cancelToChoosing": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-move-check.jpg",
-      "sha256": "57c347f5f28b53ccf99013e8cf4ba0826963e70fd1e5e3ff331302e17549e0e8",
+      "sha256": "ac473ba90e5632232a048c2af5cd4e679940c0dafa6462957eb74022c7ca3ad3",
       "seen": {
         "shell": {
           "status": "live",
@@ -5398,6 +5425,7 @@
         "status": null,
         "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BYour turnPlayer 6 · Crew 6PromisesR60:57Check and registerMove to B5Room BEntering or repositioning spends this round’s movement.CancelRegister moveBoardActionsPassPassCardPanels",
         "hiddenStep": "Review before registering.",
+        "hiddenCheckpoint": "Review before registering.",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -5420,7 +5448,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5441,7 +5469,7 @@
         "sent": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-moved.jpg",
-      "sha256": "4ccab31429e63e91d37ad92047908a7604689280ceddea3657e06e8e276510de",
+      "sha256": "8014d8b345ea368de8752bd1c655ed2116d19f1becde3f27e8a2de59494e39d4",
       "seen": {
         "shell": {
           "status": "live",
@@ -5570,6 +5598,7 @@
         "status": null,
         "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BYour turnPlayer 6 · Crew 6PromisesR60:56BoardActionsPassPassCardPanelsMoved to B5",
         "hiddenStep": "Move registered. Waiting for the current board.",
+        "hiddenCheckpoint": "Move registered. Waiting for the current board.",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -5596,7 +5625,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5618,7 +5647,7 @@
         "chipToBoard": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-other-rooms.jpg",
-      "sha256": "6388a99de0e50b026cda7596792a615d3772827bcbe35cb4167da11743400719",
+      "sha256": "31982e1b5d139a57cd2dc36c47afd68c3ef07eac838927f0c98dcd4b6153d5a3",
       "seen": {
         "shell": {
           "status": "live",
@@ -5779,6 +5808,7 @@
         "status": null,
         "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } 1Crew 12You4Crew 45Crew 5Room AYour turnPlayer 2 · Crew 2PromisesR60:58RescueChoose a playerCancelOther rooms · 2BoardActionsPassPassCardPanels",
         "hiddenStep": "Choose an offered character on the board.",
+        "hiddenCheckpoint": "Choose an offered character on the board.",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -5799,7 +5829,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5823,7 +5853,7 @@
         "sheetClosed": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-pass.jpg",
-      "sha256": "d6fa9a438799dd7656ea63397342d5e237d808a3f8ef3dd327f79f7054110d81",
+      "sha256": "fec24d721511700ea2b9366a81712e0684b1062240653fad46fc56e252a22491",
       "seen": {
         "shell": {
           "status": "live",
@@ -6016,6 +6046,7 @@
         "status": null,
         "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BYour turnPlayer 6 · Crew 6PromisesR60:58Pass your turn?CancelPassBoardActionsPassPassCardPanels",
         "hiddenStep": "Pass",
+        "hiddenCheckpoint": "Pass",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -6036,7 +6067,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6057,7 +6088,7 @@
         "noTiles": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-reconnecting.jpg",
-      "sha256": "50e6a63e22b0e7967cca9afbe601a97a0f677f3ccb02f3b1ffa096ceef743a42",
+      "sha256": "bde489fe58a18d1ef92398d819e5c176ae26d8fa56e32fae5ed71bf7d74185d2",
       "seen": {
         "shell": {
           "status": "stale",
@@ -6189,6 +6220,7 @@
         "status": null,
         "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 1Crew 12You4Crew 45Crew 5Room AReconnecting…Showing Round 6 as last seenPromisesR6Connection lostControls return when the match is currentRetryControls return when the match is currentControls return when the match is currentControls return when the match is currentControls return when the match is currentControls return when the match is currentBoardActionsPassPassCardPanels",
         "hiddenStep": "",
+        "hiddenCheckpoint": "",
         "model": {
           "connection": "stale",
           "concealed": false,
@@ -6205,7 +6237,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6229,7 +6261,7 @@
         "heroStays": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-rescue.jpg",
-      "sha256": "4b520ebf29a8229e50a9b07680df84d3271cef24224d3f5c7ce72b652e5404e4",
+      "sha256": "441d6bde22f6eb1f8d6a77c3cf7bbfc77dc723828fe8a88af708f8966f7a2f53",
       "seen": {
         "shell": {
           "status": "live",
@@ -6377,6 +6409,7 @@
         "status": null,
         "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 120px); } 90% { transform: translate(0px, 120px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 17.33% { transform: translate(141px, -28.2px); } 22.67%, 100% { transform: translate(-141px, 28.2px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 26.67% { transform: translate(108px, 0px); } 36.67%, 100% { transform: translate(-108px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 37.36% { transform: translate(74px, 0px); } 47.64%, 100% { transform: translate(-74px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 45% { transform: translate(108px, 0px); } 60%, 100% { transform: translate(-108px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 57.4% { transform: translate(231px, 0px); } 64.27%, 100% { transform: translate(-231px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 63.43% { transform: translate(106px, 0px); } 73.24%, 100% { transform: translate(-106px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 73.52% { transform: translate(86px, 0px); } 81.48%, 100% { transform: translate(-86px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 81.67% { transform: translate(72px, 0px); } 88.33%, 100% { transform: translate(-72px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 87.13% { transform: translate(80px, 0px); } 94.54%, 100% { transform: translate(-80px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } RESCUE R63Crew 3· InjuredHospitalYour turnPlayer 2 · Crew 2PromisesR60:58RescueChoose a playerCancelBoardActionsPassPassCardPanels",
         "hiddenStep": "Choose an offered character on the board.",
+        "hiddenCheckpoint": "Choose an offered character on the board.",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -6397,7 +6430,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6421,10 +6454,11 @@
         "sent": true,
         "nothingOnTarget": true,
         "noGenericLine": true,
+        "heard": true,
         "doneCloses": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-rescue-after.jpg",
-      "sha256": "3ef90031ac0d972857d530cc2afb98c6c83cacc12b239483047eaa2682463dd0",
+      "sha256": "2f75d825454358f7230f4d98186a6c21effda169079ecf81d185ca9c07593f89",
       "seen": {
         "shell": {
           "status": "live",
@@ -6605,7 +6639,8 @@
         "old": 0,
         "status": null,
         "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 120px); } 90% { transform: translate(0px, 120px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 17.33% { transform: translate(141px, -28.2px); } 22.67%, 100% { transform: translate(-141px, 28.2px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 26.67% { transform: translate(108px, 0px); } 36.67%, 100% { transform: translate(-108px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 37.36% { transform: translate(74px, 0px); } 47.64%, 100% { transform: translate(-74px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 45% { transform: translate(108px, 0px); } 60%, 100% { transform: translate(-108px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 57.4% { transform: translate(231px, 0px); } 64.27%, 100% { transform: translate(-231px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 63.43% { transform: translate(106px, 0px); } 73.24%, 100% { transform: translate(-106px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 73.52% { transform: translate(86px, 0px); } 81.48%, 100% { transform: translate(-86px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 81.67% { transform: translate(72px, 0px); } 88.33%, 100% { transform: translate(-72px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 87.13% { transform: translate(80px, 0px); } 94.54%, 100% { transform: translate(-80px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } RESCUE R63Crew 3· InjuredHospitalYour turnPlayer 2 · Crew 2PromisesR60:58RescueREGISTEREDRescue of Crew 3 registered.This is not a result. Registered actions are resolved at the end of the round.RegisteredRound 6 · your turnEnd of Round 6Rescue is resolved, after the attacksDoneBoardActionsPassPassCardPanels",
-        "hiddenStep": "Registered. Resolution is pending.",
+        "hiddenStep": "Rescue of Crew 3 registered.",
+        "hiddenCheckpoint": "Rescue of Crew 3 registered.",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -6626,12 +6661,12 @@
             "targetSeatId": "seat-3"
           }
         ],
-        "page": "RESCUE R6\n3\nCrew 3\n· Injured\nHOSPITAL\nYour turn\nPlayer 2 · Crew 2\nPromises\nR6\n0:58\nRescue\nREGISTERED\nRescue of Crew 3 registered.\n\nThis is not a result. Registered actions are resolved at the end of the round.\n\nRegistered\nRound 6 · your turn\nEnd of Round 6\nRescue is resolved, after the attacks\nDone\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Injured, Hospital, H1, Rescue possible through Round 6.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Registered. Resolution is pending.\n\nRegistered. Resolution is pending.",
+        "page": "RESCUE R6\n3\nCrew 3\n· Injured\nHOSPITAL\nYour turn\nPlayer 2 · Crew 2\nPromises\nR6\n0:58\nRescue\nREGISTERED\nRescue of Crew 3 registered.\n\nThis is not a result. Registered actions are resolved at the end of the round.\n\nRegistered\nRound 6 · your turn\nEnd of Round 6\nRescue is resolved, after the attacks\nDone\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Injured, Hospital, H1, Rescue possible through Round 6.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Rescue of Crew 3 registered.\n\nRescue of Crew 3 registered.",
         "violations": [
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6656,7 +6691,7 @@
         "cancelToTiles": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-rescue-check.jpg",
-      "sha256": "6d5df3c3b8df7305255c2654aa7403f3f028bc412c67ca63d7b0b553d4967afd",
+      "sha256": "20eb3ec88bb56c303467795ffa9d1fd7fb19b1aac6172da60b2539166591ce7c",
       "seen": {
         "shell": {
           "status": "live",
@@ -6851,6 +6886,7 @@
         "status": null,
         "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 120px); } 90% { transform: translate(0px, 120px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 17.33% { transform: translate(141px, -28.2px); } 22.67%, 100% { transform: translate(-141px, 28.2px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 26.67% { transform: translate(108px, 0px); } 36.67%, 100% { transform: translate(-108px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 37.36% { transform: translate(74px, 0px); } 47.64%, 100% { transform: translate(-74px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 45% { transform: translate(108px, 0px); } 60%, 100% { transform: translate(-108px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 57.4% { transform: translate(231px, 0px); } 64.27%, 100% { transform: translate(-231px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 63.43% { transform: translate(106px, 0px); } 73.24%, 100% { transform: translate(-106px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 73.52% { transform: translate(86px, 0px); } 81.48%, 100% { transform: translate(-86px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 81.67% { transform: translate(72px, 0px); } 88.33%, 100% { transform: translate(-72px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 87.13% { transform: translate(80px, 0px); } 94.54%, 100% { transform: translate(-80px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } RESCUE R63Crew 3· InjuredHospitalYour turnPlayer 2 · Crew 2PromisesR60:57Check and registerRescue Crew 3Player 3 · HospitalCancelRegister RescueBoardActionsPassPassCardPanels",
         "hiddenStep": "Review before registering.",
+        "hiddenCheckpoint": "Review before registering.",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -6871,7 +6907,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6892,10 +6928,11 @@
         "foot": true,
         "noTarget": true,
         "captured": true,
-        "sent": true
+        "sent": true,
+        "heard": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-suppress.jpg",
-      "sha256": "e0082c96aeee12289751713ea37c58e8edebb3be921cd8a5c187c0b064ea9367",
+      "sha256": "0d7467e714824a68cb2680fe432bd378d422b96152af3b7bcbdbf9eb446c508e",
       "seen": {
         "shell": {
           "status": "live",
@@ -7088,6 +7125,7 @@
         "status": null,
         "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6Crew 67Crew 78Crew 89YouRoom BYour turnPlayer 9 · Crew 9PromisesR60:58Check and registerSuppress navigationOnly you see thisCancelSuppress navigationBoardActionsPassPassCardPanels",
         "hiddenStep": "Suppress navigation",
+        "hiddenCheckpoint": "Suppress navigation",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -7108,7 +7146,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7134,7 +7172,7 @@
         "unavailableRefused": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-tiles.jpg",
-      "sha256": "cbd9a964c40921829fd962d049122e558873631e9970155f29d916767091268d",
+      "sha256": "9a390b5c051a895ba7b4d6021426aeb4d525bcb4994e483f3743ff95e9e5113f",
       "seen": {
         "shell": {
           "status": "live",
@@ -7334,6 +7372,7 @@
         "status": null,
         "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BYour turnPlayer 6 · Crew 6PromisesR60:58ActionsRoom BYour turnRound 6ScanFinal CodeMovePrivate talkNot available nowShootNot available nowBoardActionsPassPassCardPanels",
         "hiddenStep": "",
+        "hiddenCheckpoint": "Current board · shared: Round 5 complete",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -7350,7 +7389,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7374,7 +7413,7 @@
         "afterRetry": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-unknown.jpg",
-      "sha256": "fcfd68a25e7455d5922a8adb9d1bc9e2543b7f579275ea5f809eee99001121cc",
+      "sha256": "4ac8492f6eb500b71a7a0d71a01fe7060838833673bc9c4f45725f392b2d2f4e",
       "seen": {
         "shell": {
           "status": "live",
@@ -7570,6 +7609,7 @@
         "status": null,
         "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 120px); } 90% { transform: translate(0px, 120px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 17.33% { transform: translate(141px, -28.2px); } 22.67%, 100% { transform: translate(-141px, 28.2px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 26.67% { transform: translate(108px, 0px); } 36.67%, 100% { transform: translate(-108px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 37.36% { transform: translate(74px, 0px); } 47.64%, 100% { transform: translate(-74px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 45% { transform: translate(108px, 0px); } 60%, 100% { transform: translate(-108px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 57.4% { transform: translate(231px, 0px); } 64.27%, 100% { transform: translate(-231px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 63.43% { transform: translate(106px, 0px); } 73.24%, 100% { transform: translate(-106px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 73.52% { transform: translate(86px, 0px); } 81.48%, 100% { transform: translate(-86px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 81.67% { transform: translate(72px, 0px); } 88.33%, 100% { transform: translate(-72px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 87.13% { transform: translate(80px, 0px); } 94.54%, 100% { transform: translate(-80px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } RESCUE R63Crew 3· InjuredHospitalYour turnPlayer 2 · Crew 2PromisesR60:58Outcome unknownRescue Crew 3 was sent, but no answer came back.Check before doing anything else.Retry the sameCheck receiptBoardActionsPassPassCardPanels",
         "hiddenStep": "",
+        "hiddenCheckpoint": "Current board · shared: Round 5 complete",
         "model": {
           "connection": "live",
           "concealed": false,
@@ -7595,7 +7635,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-Bc5ugG4L.js",
+            "source": "assets/app-BbSArEmA.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
