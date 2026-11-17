@@ -18,7 +18,7 @@
 
 | Path | What |
 | --- | --- |
-| `apps/game/hosted/planet/shell-input.mjs` | New, pure. It maps the presentation model to the shell's input (`shellInput`), with the facts for a phase's words (`shellPhaseFacts`), the shell's intents to the calls the game already makes (`shellHandlers`), where the focus goes back (`shellFocusOrder`), and adds and removes the renderer's page listeners together (`connectShellLifecycle`) |
+| `apps/game/hosted/planet/shell-input.mjs` | New, pure. It maps the presentation model to the shell's input (`shellInput`), with the facts for a phase's words (`shellPhaseFacts`), the round stamp's moment and clock (`roundStart`, `createServerClock`), the shell's intents to the calls the game already makes (`shellHandlers`), where the focus goes back (`shellFocusOrder`), and adds and removes the renderer's page listeners together (`connectShellLifecycle`) |
 | `apps/game/hosted/planet/render.mjs` | Mounts the shell once, mounts the stage in `shell.stage`, the game's sheet content in `shell.sheetBody`, Food's gauge in `shell.slot('clock')`, and the result window and the status line in `shell.slot('cover')`. It updates, suspends, resumes and disposes the shell. It no longer draws the header, the tab bar, the Pass button, the sheet's frame or the target bar |
 | `apps/game/hosted/planet/app.mjs` | Imports `phone-shell.css`, and gives the renderer Retry's reconnect: the session's `refresh()` |
 | `apps/game/hosted/planet/phone.css`, `planet.css` | The old chrome's rules are removed. The game's two generic button rules keep off the shell's and the kit's controls. The stage fills the shell's stage; the result window and the status line sit in the cover |
@@ -116,6 +116,18 @@ For a phase with no active player the bar's words are Designer's, held once in `
 - **A moment for "The ship moved".** The model holds `navigation.lastMovedRound`, but nothing in the app shows the move yet: ship travel (#269) is not connected. So `movedBar()` has no caller here; it comes with ship travel's connection.
 - **Why an office can't act.** With nothing open, that phone shows everyone's bar.
 
+## The round stamp's moment and clock (G18)
+
+The round stamp (#288, "ROUND 1" over the room as Round 1 begins) is mounted on the shell's cover by the Pre-game builder's connection (release 4). This connection gives it the two things it reads from the game:
+
+- **`roundStart(model)`** in `shell-input.mjs`: `{ round: 1, window: { id, startedAt } }` for Round 1's first phase, Before turns, which shows the room; otherwise `null`.
+  - The engine opens a match there, and Food Supply opens only at a later round's start, so Round 1 has one Before turns.
+  - Public facts only: the round and the phase's kind, id and start. A phone that arrives late gets the same window; the stamp's own clock finds it past and draws nothing.
+- **The match's trusted server time**, `createServerClock({ monotonic })`, which `render.mjs` keeps as `serverClock` and observes on each model.
+  - `current()` is `{ now() }`: the phase's `nowMs`, the server's time when the model was made, plus the time since it arrived, by the phone's monotonic clock. A model shown again keeps its first arrival.
+  - It is `null` while the phone isn't live or the phase's time isn't trusted or has run out. The stamp, given no clock, draws nothing.
+- **The mount** is the Pre-game builder's: on each model, `mountRoundStamp(shell.slot('cover'), { ...roundStart(model), clock: serverClock.current(), status, reducedMotion })` while there is a window, then `update()`, and `dispose()` when the room view leaves.
+
 ## The boundary
 
 - **The hunk.** Marked `BEGIN shell connection` / `END shell connection` in `apps/game/hosted/vite.config.mjs`. It adds four entries to `allowedSources`: `phone-shell/phone-shell.mjs`, `phone-shell/phone-shell.css`, `kit/kit.mjs` and `kit/kit.css` (`icons.mjs` is in the room connection's hunk). Nothing else; the shell's and the kit's `preview/` and `review/` are never imported.
@@ -143,7 +155,7 @@ These refuse the changed files until Integration approves. Each was found by rev
 **Also pinned:** `app.mjs` and `render.mjs` by `phone-ui-production-consumer-approval.json`, `crew-consumer-approval-2026-11-07.json` and `pregame-production-consumer-approval-2026-11-08.json`; the Food record also pins `vite.config.mjs` (from the room connection's page).
 
 **These pass:**
-- `test:frontend`: 226 of 226 and 860 of 860 (the room connection's 845 and this one's 15), and the production exclusion (see [The boundary](#the-boundary) for what it covers);
+- `test:frontend`: 226 of 226 and 861 of 861 (the room connection's 845 and this one's 16), and the production exclusion (see [The boundary](#the-boundary) for what it covers);
 - `typecheck`, `build`, `check:toolchain`, `check:workspace`, and `node design/tools/check-assets.mjs` (15 passed);
 - `packages/design-tokens/test/phone-ui-native-compare.test.mjs`: 7 of 7, with the doubled selectors.
 
@@ -153,10 +165,11 @@ These refuse the changed files until Integration approves. Each was found by rev
 
 ### Tests
 
-`apps/game/test/planet-phone-shell.test.mjs` passes 15 of 15. Every input it builds is accepted by the shell's own `checkBar`, `checkTabs` and `nextPhoneShellInput`. It covers:
+`apps/game/test/planet-phone-shell.test.mjs` passes 16 of 16. Every input it builds is accepted by the shell's own `checkBar`, `checkTabs` and `nextPhoneShellInput`. It covers:
 - the bar: another player's turn, your turn, each of the game's own phase names, the pair, reconnecting with the round last seen, and "Loading the ship" on the first connect;
 - the phase bars' words: before turns with an Officer, with a block shown, with no Officer and with the Officer's block open; the appointment for everyone else, never amber, and for the Captain with it open; the Blackout lit, with the time to lights-out, and dark; Ship synchronized's ring; Setting course in all four navigation phases, for everyone and for an office with its Navigation open; a shared display;
 - the facts for those words: each read from the model, unchanged by any offer, role or private field, and every phase either `phaseBar()`'s or one of the game's own;
+- the round stamp's moment and clock (G18): Round 1's Before turns and no other phase or round, the same window for a late phone; the server time plus the time since the model arrived, kept when a model is shown again, and none while untrusted, run out or not live; nothing private read;
 - the clock: the time as given, amber from 10 s, the ring without amber for the two fixed presentations, no clock while untrusted;
 - Promises and ⋮;
 - the tabs: the view, the open tab, the round button's modes and the result's Vote unavailable, the talk's buttons, an eliminated player's Actions;
@@ -255,10 +268,11 @@ Each capture also passes with: the shell mounted and the stage in it; none of th
   - the fence not seeing a stylesheet's `@import`;
   - the production exclusion not reaching the hosted app;
   - the harness's `openJailVote()` keeps the board's checkpoint, which the Blackout release's contract refuses ("Shared checkpoint publication round and phase must agree"); the check opens its vote with `AFTER_BLACKOUT`, as the scenario builder does.
-- **For Frontend:** eighteen development scripts drive the old header, tab bar, Pass button and sheet by their ids (`#planet-nav-*`, `#planet-pass`, `#planet-top-*`, the old sheet's `#planet-confirm` and `#planet-close`) or classes (`.planet-header`, `.planet-nav`, `.planet-sheet`, `.planet-target-bar`). No suite runs them, and they were not changed or run here. They need the shell's controls, named beside today's as the comparison's steps now are:
+- **For Frontend:** seventeen development scripts, which no suite runs, drive the old header, tab bar, Pass button and sheet by their ids (`#planet-nav-*`, `#planet-pass`, `#planet-top-*`, the old sheet's `#planet-confirm` and `#planet-close`) or classes (`.planet-header`, `.planet-nav`, `.planet-sheet`, `.planet-target-bar`). No suite runs them, and they were not changed or run here. They need the shell's controls, named beside today's as the comparison's steps now are:
   - `apps/game/dev/phone/`: `capture.mjs`, `presentation-capture.mjs`, `blackout-capture.mjs`, `blackout-connected.mjs`, `food-connected.mjs`, `food-app-smoke.mjs`, `food-chrome-regression.mjs`, `round-order-capture.mjs`, `art-checks.mjs`, and `food/app-main.mjs`, whose Tasks fallback goes through `#planet-nav-actions`;
   - `apps/game/dev/planet/`: `capture.mjs`, `capture-library.mjs`, `capture-stage.mjs`, `capture-terminal-return.mjs`, `capture-review-safety.mjs`, `capture-private-feedback.mjs`;
-  - `apps/game/dev/planet-emulator/capture.mjs` and `apps/game/dev/host-abort/capture.mjs`.
+  - `apps/game/dev/host-abort/capture.mjs`.
+  - **One of them runs in CI, so the connection changes it:** `apps/game/dev/planet-emulator/capture.mjs`, step 9 of the `backend-emulator` job. Its three in-match steps (the host's ⋮, then the recovered player's Card tab and the sheet's ✕) now take doubled selectors, the old id or the shell's control, as `design/tools/lib/phone-ui-native-parts.mjs` does. Its pre-game steps are the Pre-game builder's to move with release 4. The Pre-game builder found it.
 - **For Frontend:** the review. These change behaviour:
   - Actions is unavailable to an eliminated player;
   - the 5 s result's round button is Vote, unavailable;

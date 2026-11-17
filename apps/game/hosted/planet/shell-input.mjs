@@ -61,6 +61,39 @@ export function shellPicking(action){
   ||action.type==='MOVE'&&['targets','slots'].includes(action.step)||action.type==='SELECT_BLACKOUT_SLOT'&&action.step==='slots';
 }
 
+/**
+ * The round stamp's moment (#288's "ROUND 1", which the Pre-game builder's connection mounts on the shell's cover):
+ * Round 1's first phase, Before turns, the round's first that shows the room. The engine opens a match there, and
+ * Food Supply opens only at a later round's start, so Round 1 has one. Public facts only: the round and the
+ * phase's kind, id and start. A phone that arrives late gets the same window, and the stamp's own clock finds it
+ * past and draws nothing.
+ */
+export function roundStart(model){
+ const p=model?.phase;
+ if(model?.round!==1||p?.kind!=='PRE_TURN'||typeof p.id!=='string'||!p.id||!Number.isFinite(p.startedAt))return null;
+ return {round:1,window:{id:p.id,startedAt:p.startedAt}};
+}
+
+/**
+ * The match's trusted server time, for a part that keeps time with the server (the round stamp): the phase's
+ * nowMs, the server's time when the model was made, plus the time since it arrived by this phone's monotonic clock.
+ * `observe(model)` on each model; `current()` is the clock, `{ now() }`, only while the phone is live and the
+ * phase's time trusted and not run out; otherwise null, and a part given null draws nothing. A model shown again
+ * keeps its first arrival, so its time doesn't start over.
+ */
+export function createServerClock({monotonic}){
+ let base=null;
+ const clock=Object.freeze({now:()=>base?base.server+Math.max(0,monotonic()-base.local):Number.NaN});
+ return Object.freeze({
+  observe(model){
+   const p=model?.phase;
+   if(model?.connection!=='live'||!p?.trusted||p.expired||!Number.isFinite(p.nowMs)){base=null;return;}
+   if(base?.server!==p.nowMs)base={server:p.nowMs,local:monotonic()};
+  },
+  current:()=>base?clock:null,
+ });
+}
+
 /** The clock while the server time is trusted: amber in the last 10 s, a ring for the two fixed presentations. */
 export function shellTimer(model){
  const phase=model.phase;
