@@ -9,11 +9,14 @@
 // the foot's spinner and words; started without you or declined, the lock, the words, the room and Back to menu.
 // A lost connection is Frontend's words under the line (question 4); the words alone refuse nothing.
 // What it never does: work out the admission, a seat, or why the request ended. Each callback reports a tap.
+// Cancel, Leave and Back to menu take Frontend's availability (`cancel`, `leave`, `back`; the Lead's decision of
+// 17 November 2026): while the game has no command to withdraw a request or leave a lobby (#222 G6), they are drawn
+// unavailable by the kit's control policy, dimmed, with Frontend's reason as their description, and report nothing.
 
 import { createControlPolicy, createKit } from '../kit/kit.mjs';
 import { createEntryParts } from '../entry-parts/entry-parts.mjs';
 
-export const JOIN_WAIT_VERSION = 'join-wait-0.1.0';
+export const JOIN_WAIT_VERSION = 'join-wait-0.1.1';
 const VIEWS = Object.freeze(['pending', 'admitted', 'closed', 'declined']);
 
 /** The pack's words (screens-entry.mjs, join-wait; sheet 13), the declined request's and the connection's (the Lead's review of #289). */
@@ -31,7 +34,7 @@ const CONTROL = Object.freeze({ enabled: true, busy: false, reason: null });
 /** Every input, with its default. */
 export const JOIN_WAIT_DEFAULTS = Object.freeze({
   interactive: true, reducedMotion: false, insets: null, view: 'pending', roomCode: null, name: null, seat: null,
-  members: Object.freeze([]), seats: null, check: CONTROL, error: null,
+  members: Object.freeze([]), seats: null, check: CONTROL, error: null, cancel: CONTROL, leave: CONTROL, back: CONTROL,
 });
 
 const isText = value => typeof value === 'string' && value.length > 0;
@@ -63,6 +66,7 @@ export function nextJoinWaitInput(previous, input = {}) {
   if (next.seats !== null && next.seats !== undefined && !(whole(next.seats.filled) && whole(next.seats.total) && next.seats.total > 0)) throw new TypeError('seats are { filled, total }');
   next.seats = next.seats ? Object.freeze({ filled: next.seats.filled, total: next.seats.total }) : null;
   next.check = checkControl('check', next.check);
+  for (const name of ['cancel', 'leave', 'back']) next[name] = checkControl(name, next[name] ?? CONTROL);
   if (next.error !== null && next.error !== undefined && !isText(next.error)) throw new TypeError('The error is null or words');
   next.error = next.error ?? null;
   if (next.view === 'admitted' && (next.seat === null || !next.seats)) throw new TypeError('Admitted, the screen needs the seat and the seats');
@@ -170,7 +174,9 @@ export function mountJoinWait(host, input = {}, handlers = {}) {
     const navOf = { pending: [WAIT_WORDS.join, WAIT_WORDS.cancel, 'cancel'], admitted: [WAIT_WORDS.lobby, WAIT_WORDS.leave, 'leave'], closed: [WAIT_WORDS.join, WAIT_WORDS.menu, 'back'], declined: [WAIT_WORDS.join, WAIT_WORDS.menu, 'back'] }[view];
     parts.setNavBar(nav, { title: navOf[0], back: { label: navOf[1], intent: navOf[2] } });
     kit.attr(root, 'aria-label', navOf[0]);
-    policy.control(nav.querySelector('.ms-ep-back'), {});
+    // The nav bar's one control is Cancel, Leave or Menu: each with its own availability.
+    const exit = state[navOf[2]];
+    policy.control(nav.querySelector('.ms-ep-back'), { off: !exit.enabled, reason: exit.reason });
     if (shown !== view) build(view);
     if (view === 'pending') {
       kit.setWait(wait, { icon: 'hourglass', filled: true, title: WAIT_WORDS.waiting, line: state.name ? WAIT_WORDS.as(code, state.name) : WAIT_WORDS.room(code) });
@@ -183,7 +189,7 @@ export function mountJoinWait(host, input = {}, handlers = {}) {
       keyedRows();
     } else {
       kit.setWait(wait, { icon: 'lock', filled: true, title: WAIT_WORDS[view], line: WAIT_WORDS.room(code) });
-      policy.control(back, {});
+      policy.control(back, { off: !state.back.enabled, reason: state.back.reason });
     }
     // A lost connection: Frontend's words under the line, inside the block, before Check again. It refuses nothing.
     const lineNode = wait.querySelector('.ms-k-wait-line');

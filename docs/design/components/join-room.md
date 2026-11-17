@@ -1,6 +1,6 @@
 # Join and waiting: Designer's runtime components
 
-**Version:** `join-form-0.1.0` and `join-wait-0.1.0`, with `entry-parts-0.4.0`. **Status (16 November 2026):** the interface is approved by the Lead Designer (#289 at `e39259f1`), with the decisions below, and posted on #4 for Frontend. It is built on kit 0.5.1, now merged to kit 0.8.0 and shell 0.2.8 (#265 at `0e5a0b8a`, through #287 at `a6faa2a0`), with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (`docs/design/owner-decisions.md`, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
+**Version:** `join-form-0.1.0` and `join-wait-0.1.1`, with `entry-parts-0.4.0`. **0.1.1 (17 November 2026):** Cancel, Leave and Back to menu take Frontend's availability, for the game's gap ([below](#the-games-gap-join-wait-011-the-leads-decision-of-17-november-2026)). **Status (16 November 2026):** the interface is approved by the Lead Designer (#289 at `e39259f1`), with the decisions below, and posted on #4 for Frontend. It is built on kit 0.5.1, now merged to kit 0.8.0 and shell 0.2.8 (#265 at `0e5a0b8a`, through #287 at `a6faa2a0`), with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (`docs/design/owner-decisions.md`, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
 
 **What it is:** a joining player's two screens before a match, as sheets 12 and 13 draw them. They are #222 items 23 (Join) and 24 (Waiting for the host), P3. The game imports them as they are, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -115,6 +115,7 @@ Nothing here is private to a seat: both screens are on the joining player's own 
 | `members` | Admitted: `[{ seat, name }]`, in seat order, a row each |
 | `seats` | Admitted: `{ filled, total }`: "Players · 5 of 9" |
 | `check` | `{ enabled, busy, reason }`: Check again |
+| `cancel`, `leave`, `back` | `{ enabled, busy, reason }`, each enabled unless given: the nav bar's "Cancel" (pending), "Leave" (admitted) and "Menu" (closed or declined), and the foot's Back to menu (closed or declined) |
 | `error` | `null`, or Frontend's words under the line: `WAIT_WORDS.offline` ("No connection. Check again returns when you are back online.", decision 4) |
 
 **The screens decide nothing:** they never work out whether a code is complete, whether a name is valid, what a character is, or why a request failed. A refused control keeps its focus, with `aria-disabled` and Frontend's reason.
@@ -123,13 +124,13 @@ Nothing here is private to a seat: both screens are on the joining player's own 
 
 | Callback | When |
 | --- | --- |
-| `onBack()` | The form's "Menu", and "Menu" or Back to menu after the room started. Frontend goes back to the menu |
+| `onBack()` | The form's "Menu", and "Menu" or Back to menu after the room started or declined, while `back` is enabled. Frontend goes back to the menu |
 | `onCode(text)`, `onName(text)` | Each keystroke, with what the box holds |
 | `onDevice(kind)` | Player phone or Shared display is chosen |
 | `onAsk()` | Ask to join, or Return in a box. Frontend sends today's `requestAdmission` with the code, the kind and the name |
-| `onCancel()` | Waiting's "Cancel". Frontend decides what cancelling does |
+| `onCancel()` | Waiting's "Cancel", while `cancel` is enabled. Frontend decides what cancelling does |
 | `onCheck()` | Check again. Frontend refreshes the session, as today's "Check admission" |
-| `onLeave()` | The lobby's "Leave". Frontend decides what leaving does |
+| `onLeave()` | The lobby's "Leave", while `leave` is enabled. Frontend decides what leaving does |
 | `onLayout(layout)`, `onFocusReturn({ intent, value })` | As the other components' |
 
 Each reports a tap or a keystroke, and only that.
@@ -175,6 +176,11 @@ The typing model is as proposed: the component reports each keystroke, Frontend 
 - **Waiting's `error` input:** decision 4's words under the line.
 - **The apostrophe:** "The host didn’t admit you" is written with the pack's ’, as its "You’re in".
 
+## The game's gap (join-wait 0.1.1; the Lead's decision of 17 November 2026)
+
+Release 4's connection (#308) found that the game has no command to withdraw a request or leave a room (#222, G6). Rather than a button that does nothing, or a local "cancel" the session's resume would undo, Cancel, Leave and Back to menu take Frontend's availability: `{ enabled: false, reason: 'Not available in this test' }` draws each dimmed and refused by the kit's control policy, with the reason as its description, and it reports nothing. The words are the connection's. When the game gives the commands, Frontend passes them enabled and the screens draw them as sheet 13 does. It fills a state the sheet doesn't draw, so it departs from none.
+- **Checked:** one more preview state (`wait-noexit`: admitted, Leave unavailable), a probe check (Cancel, Leave and Back to menu refused, dimmed, described and silent in the pending, admitted and declined views, then available and reporting), and the test (the three inputs, their defaults, and a refused shape).
+
 ## The one accepted difference from the pack
 
 At the Largest text the device choice stacks, one option per row (kit 0.5.0's `stack`, #228's `.seg[data-stack]`, as the Lead asked on #265 and #289). The frozen pack keeps the two side by side, squeezed, as the kit's own check records. The agreement's Largest-text form case draws the pack with the same rule, compares everything else, and records the stacking against the pack as it is.
@@ -183,7 +189,7 @@ At the Largest text the device choice stacks, one option per row (kit 0.5.0's `s
 
 `node design/tools/join-room-check.mjs` bundles the preview with Vite, serves it with the production headers (SHA-256 `424e5dec…`, `lib/component-check.mjs`), and in desktop Chromium at 2× pixels:
 
-- captures the fifteen states at 390 × 844 and 430 × 932: 30 captures, each with no policy violation, failed request or page error, on the pack's canvas, drawing what its state asks, with the device choice stacked at the Largest text only;
+- captures the sixteen states at 390 × 844 and 430 × 932: 32 captures, each with no policy violation, failed request or page error, on the pack's canvas, drawing what its state asks, with the device choice stacked at the Largest text only;
 - runs the probe as the page comes and with the device's Reduce motion: the form, typing, the code's ring, errors, Ask, the views, offline (the words with every control enabled refuse nothing), not interactive, insets, the Largest text, input, dispose, motion;
 - runs the agreement: eleven cases, each screen beside the frozen pack's, the same words, states (`aria-disabled`, `aria-busy`, `aria-checked`, names), look, icon drawings and boxes to within half a pixel; the text boxes' values and placeholder by their words.
 

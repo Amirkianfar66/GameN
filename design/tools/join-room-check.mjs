@@ -32,7 +32,7 @@ const COMPONENT = join(REPO, 'design/phone-ui/components/join-room');
 const REVIEW = join(COMPONENT, 'review');
 const SIZES = { '390x844': [390, 844], '430x932': [430, 932] };
 /** Each state at the two development sizes (preview.mjs PREVIEW_STATES). */
-const STATES = ['empty', 'no-room', 'started', 'name', 'sending', 'busy', 'display', 'offline', 'pending', 'admitted', 'closed', 'declined', 'wait-offline', 'form-large', 'wait-large'];
+const STATES = ['empty', 'no-room', 'started', 'name', 'sending', 'busy', 'display', 'offline', 'pending', 'admitted', 'closed', 'declined', 'wait-offline', 'wait-noexit', 'form-large', 'wait-large'];
 const FORM_OFFLINE = 'No connection. Ask to join returns when you are back online.';
 const WAIT_OFFLINE = 'No connection. Check again returns when you are back online.';
 
@@ -69,6 +69,8 @@ const EXPECT = {
   closed: s => waitNav(s, 'Join', 'Menu') && s.waitTitle === 'This room started without you' && s.line === 'Room K7Q2XM' && s.backButton === 'Back to menu',
   declined: s => waitNav(s, 'Join', 'Menu') && s.waitTitle === 'The host didn’t admit you' && s.line === 'Room K7Q2XM' && s.backButton === 'Back to menu',
   'wait-offline': s => waitNav(s, 'Join', 'Cancel') && s.errors.join('|') === WAIT_OFFLINE && s.checkRefused,
+  // The game's gap (#222 G6; the Lead's decision of 17 November): Leave unavailable, dimmed, with the connection's words.
+  'wait-noexit': s => waitNav(s, 'Lobby', 'Leave') && s.navRefused && s.navDimmed && s.navReason === 'Not available in this test' && s.players === 'Players · 5 of 9',
   // With the Largest text the form scrolls where it doesn't fit (390 × 844) and fits where it does (430 × 932): Ask is reached either way.
   'form-large': s => formDrawn(s, 'K7Q2XM') && s.root === 32 && s.stacked && (s.scrolls || s.askInView) && s.codeInvalid,
   'wait-large': s => waitNav(s, 'Lobby', 'Leave') && s.root === 32 && s.rows === '1 Ava|2 Ben|3 Cleo|4 Dev (you)|5 Eli',
@@ -104,6 +106,8 @@ try {
           waitTitle: words(q('.ms-k-wait-title')), line: words(q('.ms-k-wait-line')), check: words(check), checkRefused: check?.getAttribute('aria-disabled') === 'true',
           badge: words(q('.ms-ep-seat-badge')), players: form ? null : q('.ms-k-group-label')?.textContent ?? null, rows: qa('.ms-k-row').map(words).join('|'),
           footNote: words(q('.ms-ep-foot .ms-k-group-note')), backButton: words(q('.ms-jw-back')),
+          navRefused: q('.ms-ep-back')?.getAttribute('aria-disabled') === 'true', navDimmed: q('.ms-ep-back')?.hasAttribute('data-off') ?? false,
+          navReason: (id => id ? document.getElementById(id)?.textContent ?? null : null)(q('.ms-ep-back')?.getAttribute('aria-describedby')),
           scrolls: screen.scrollHeight > screen.clientHeight, askInView: ask ? ask.getBoundingClientRect().bottom <= root.getBoundingClientRect().bottom - 34 : null,
           layout: window.__joinRoom.mounted[0]?.layout?.() ?? null };
       })()`);
