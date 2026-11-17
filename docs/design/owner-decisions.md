@@ -429,6 +429,42 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - **Room A,** which follows Room B.
 - **The height-to-width ratio,** compared with Instagram's. It is next.
 
+**The ceiling, the same evening.**
+- The owner asked to compare the room view's height and width with Instagram's. The room view is 390 × 653 on the 390 × 844 phone (1 : 1.67) and 430 × 741 on the 430 × 932 phone (1 : 1.72), close to Instagram's Stories shape (9 : 16, 1 : 1.78).
+- The owner then explained, word for word:
+
+> The reason i want to study it is because I feel now user view see a lot of ceiling and floor portion without that much use, i dont know how can we change the view or camera or ratio to make it better
+
+- **What the Lead measured** in Mira's view on the 390 × 844 phone:
+  - 44% of the room view is above the heads, 30% is people and 25% is below the feet;
+  - a 95° slice on a screen this tall sees about 108° from top to bottom, so tilting the camera only trades ceiling for floor;
+  - a narrower slice cuts the people at the edges.
+- **The Lead offered three options,** drawn on the layout test picture:
+  - A, a glass ceiling onto space, recommended;
+  - B, a shorter 4 : 5 room with a strip for the action buttons;
+  - C, bigger people, advised against: they would be too tall for the doors and benches, and their hands would miss the benches.
+- The owner answered, word for word:
+
+> Lets generate the image based on option A and ceiling be space Glass but not completely lets say partially we can see the image and then decide
+
+**What it decides:**
+- **A test of option A in Room B:** part of the ceiling is glass onto space.
+  - The Lead reads "partially" as a round skylight over the room's open centre, about 2.2 m across (about a quarter of the ceiling), in a frame. The rest of the ceiling stays solid, with a ring of small lights around the skylight.
+  - The glass is painted as a flat opening. The game draws the moving voyage in it, as it does in the windows.
+- **One picture first:** Mira's view (place A), from Room B's five approved pictures. The owner decides after seeing it.
+
+**What it means for the work:**
+1. The Pre-game Animation builder adds the skylight to the five-view sheet's geometry, guides, region maps and prompts.
+2. The Lead reviews the sheet and names it in the go for Mira's view only.
+3. The image session makes that picture and records it.
+4. A test page shows it with the voyage in the skylight and the stand-in crew, for the owner.
+
+**What it does not settle:**
+- **Whether the glass ceiling stays,** and its size: the owner decides after seeing the picture.
+- **The other four pictures:** they follow that decision.
+- **Option B,** a shorter room with a strip for the buttons. It is not part of this test.
+- **Room A's ceiling.**
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
