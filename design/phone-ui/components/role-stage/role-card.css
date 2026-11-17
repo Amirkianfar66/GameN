@@ -1,0 +1,118 @@
+@import url("../kit/kit.css");
+
+/*
+ * The role card's styles: runtime source, Designer's (role-card.mjs). The phone pack's own values
+ * (design/phone-ui/prototype/screens.css .rolecard and .cardback, kit.css .pill), scoped under
+ * .ms-own-card so nothing here reaches the rest of the app and nothing of the app's reaches in.
+ * screens.css stays as it is: the pack is frozen. The card fits its host as the pack's does and scales its
+ * words with container units. Show and the Ready stamp are the shared kit's (../kit/kit.css): here, only
+ * where they sit.
+ */
+
+.ms-own-card {
+  --ms-rc-paper: #F4EBDD;
+  --ms-rc-paper-shade: #E3D6C2;
+  --ms-rc-ink: #151923;
+  --ms-rc-steel-shadow: #34415A;
+  --ms-rc-text-2: #B9C4D3;
+  --ms-rc-team: #2979FF;
+  --ms-rc-ground: #C9DCF7;
+  --ms-rc-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, "Segoe UI", sans-serif;
+  --ms-rc-letter: "Arial Narrow", "Helvetica Neue", "Inter Display", Arial, sans-serif;
+  --ic-knock: var(--ms-rc-paper);
+  container-type: size;
+  position: relative; width: 100%; height: 100%;
+  display: flex; align-items: flex-start; justify-content: center;
+  /* The game's sheets put a halo on light words over glass; the card's words are dark on paper. */
+  text-shadow: none;
+}
+.ms-own-card:focus { outline: none; }
+
+/*
+ * The card fills its host's height, and is as wide as 5 : 7 allows, never wider than the host: the
+ * pack's .card-area and .card-fit (height: 100%; width: auto; max-width: 100%). On a phone the host is
+ * narrower than 5 : 7, so the card fills it, as sheets 17, 18 and 31 draw it.
+ */
+.ms-own-card .ms-rc-card,
+.ms-own-card .ms-rc-back {
+  box-sizing: border-box; position: relative;
+  width: min(100cqw, 100cqh * 5 / 7); height: 100cqh;
+  border: 3px solid var(--ms-rc-ink); border-radius: 18px; box-shadow: 6px 6px 0 #05070B;
+}
+.ms-own-card .ms-rc-card {
+  container-type: size; container-name: ms-rc-card;
+  padding: 12px; display: flex; flex-direction: column; overflow: hidden;
+  background: var(--ms-rc-paper); color: var(--ms-rc-ink);
+}
+.ms-own-card .ms-rc-card[data-team="blue"] { --ms-rc-team: #2979FF; --ms-rc-ground: #C9DCF7; }
+.ms-own-card .ms-rc-card[data-team="red"] { --ms-rc-team: #E8423F; --ms-rc-ground: #F4CFC8; }
+.ms-own-card .ms-rc-card[data-team="alien"] { --ms-rc-team: #9B5CFF; --ms-rc-ground: #DDD0F6; }
+
+/* The picture: the person (card-cN) on the team's ground, the halftone over it, the device in hand. */
+.ms-own-card .ms-rc-art {
+  position: relative; flex: 1; min-height: 0; overflow: hidden;
+  border: 3px solid var(--ms-rc-ink); border-radius: 12px; background: var(--ms-rc-ground);
+}
+.ms-own-card .ms-rc-art::before {
+  content: ""; position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(21, 25, 35, 0.16) 1.2px, transparent 1.4px); background-size: 7px 7px;
+}
+.ms-own-card .ms-rc-person {
+  position: absolute; left: 50%; bottom: -4%; height: 104%; aspect-ratio: 84 / 96; transform: translateX(-56%);
+  background: var(--ms-rc-person, none) center / contain no-repeat;
+}
+.ms-own-card .ms-rc-device {
+  position: absolute; right: 2%; bottom: 3%; height: 48%; aspect-ratio: 120 / 140;
+  background: var(--ms-rc-device, none) center / contain no-repeat;
+  filter: drop-shadow(3px 3px 0 rgba(5, 7, 11, 0.6));
+}
+/* The Engineer's device is square in the successor art (the pack: 44% wide, square). */
+.ms-own-card .ms-rc-device[data-device="engineer"] { height: auto; width: 44%; aspect-ratio: 1; }
+
+.ms-own-card .ms-rc-card[data-art="missing"] .ms-rc-art { display: grid; place-items: center; background: var(--ms-rc-paper-shade); }
+.ms-own-card .ms-rc-missing {
+  position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: var(--ms-rc-steel-shadow); font: 700 0.875rem/1.2 var(--ms-rc-font); text-align: center;
+}
+.ms-own-card .ms-rc-missing .ms-rc-missing-sub { font-weight: 500; }
+.ms-own-card .ms-rc-missing .ms-rc-ic { width: 40px; height: 40px; }
+
+/* The words: the role's name lettered, its team with the team's colour, one to three lines. */
+.ms-own-card .ms-rc-name {
+  margin: 8px 2px 0; color: var(--ms-rc-ink);
+  font: 800 clamp(18px, 10.5cqw, 32px)/0.95 var(--ms-rc-letter); letter-spacing: 0.04em; text-transform: uppercase;
+}
+.ms-own-card .ms-rc-team {
+  display: inline-flex; align-items: center; gap: 7px; margin: 5px 2px 0; color: var(--ms-rc-ink);
+  font: 700 clamp(12px, 4.8cqw, 15px)/1 var(--ms-rc-font);
+}
+.ms-own-card .ms-rc-team i {
+  box-sizing: border-box; width: 14px; height: 14px; border-radius: 4px; background: var(--ms-rc-team); border: 2px solid var(--ms-rc-ink);
+}
+.ms-own-card .ms-rc-facts {
+  margin: 7px 2px 0; padding: 0; list-style: none; color: var(--ms-rc-ink);
+  font: 500 clamp(11px, 4.4cqw, 14px)/1.3 var(--ms-rc-font);
+}
+.ms-own-card .ms-rc-facts li { position: relative; margin: 0; padding-left: 14px; }
+.ms-own-card .ms-rc-facts li + li { margin-top: 3px; }
+.ms-own-card .ms-rc-facts li::before {
+  content: ""; position: absolute; left: 2px; top: 0.5em; width: 6px; height: 6px; border-radius: 50%; background: var(--ms-rc-ink);
+}
+/* A small card keeps its first line, then only its name and team (the pack's container queries). */
+@container ms-rc-card (max-width: 230px) { .ms-own-card .ms-rc-facts li:nth-child(n+2) { display: none; } }
+@container ms-rc-card (max-width: 175px) { .ms-own-card .ms-rc-facts { display: none; } }
+
+/* The Ready stamp: the kit's accent pill, across the card's top edge (sheet 18, Ready · waiting). */
+.ms-own-card .ms-rc-stamp { position: absolute; left: 50%; top: -2px; z-index: 2; transform: translateX(-50%); display: flex; }
+
+/* The card back: the hidden card, its words and Show (sheets 18 and 31). */
+.ms-own-card .ms-rc-back {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  background: repeating-linear-gradient(45deg, #1B2333 0 10px, #202A3D 10px 20px); color: var(--ms-rc-text-2);
+  --ic-knock: #1B2333;
+}
+.ms-own-card .ms-rc-back > .ms-rc-ic { width: 44px; height: 44px; }
+/* Show's eye is drawn 44 px, as sheets 18 and 31 draw it (the pack's .cardback .ic reaches its button's icon too).
+   Four classes deep, so it holds whichever stylesheet imports kit.css last. */
+.ms-own-card .ms-rc-back .ms-rc-show .ms-k-ic { width: 44px; height: 44px; }
+.ms-own-card .ms-rc-back p { margin: 0; font: 600 1rem/1.2 var(--ms-rc-font); text-align: center; color: var(--ms-rc-text-2); }
