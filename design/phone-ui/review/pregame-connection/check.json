@@ -2,7 +2,7 @@
   "tool": "design/tools/pregame-connection-check.mjs",
   "what": "The Planet app's screens before the match drawn by Designer's pre-game components, in Frontend's phone harness (apps/game/dev/phone) built from the candidate below",
   "candidate": {
-    "commit": "a9b0954575a7d207e37573042519a04627e83fc4",
+    "commit": "5d35f110b377160145ec392a5587acc311030a33",
     "clean": true,
     "dirty": []
   },
@@ -69,6 +69,8 @@
         "rootClass": "planet-pregame",
         "title": null,
         "words": "BoardingRound 1 in 0:08Skip",
+        "art": "player-ui public-board roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises offices windows end successor",
+        "portraits": [],
         "buttons": [],
         "inputs": [],
         "shell": {
@@ -102,7 +104,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -134,6 +136,8 @@
         "rootClass": "planet-pregame",
         "title": null,
         "words": "Starting Round 1 Waiting for the shipSkip",
+        "art": "player-ui public-board roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises offices windows end successor",
+        "portraits": [],
         "buttons": [],
         "inputs": [],
         "shell": {
@@ -167,7 +171,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -187,6 +191,8 @@
         "grid": true,
         "offered": true,
         "clock": true,
+        "portraits": true,
+        "art": true,
         "chosen": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-characters.jpg",
@@ -202,7 +208,19 @@
         },
         "rootClass": "planet-pregame",
         "title": "Choose a character",
-        "words": "VegaTaken · 1RigelTaken · 2LyraTaken · 3AtlasTaken · 4OrionTaken · 5NovaJunoTaken · 7MiraTaken · 8EchoTaken · 9No character yetTap one to chooseChoose a characterAssigned for you if time runs out0:29Taken by player 1Taken by player 2Taken by player 3Taken by player 4Taken by player 5Taken by player 7Taken by player 8Taken by player 9",
+        "words": "VegaTaken · 1RigelTaken · 2LyraTaken · 3AtlasTaken · 4OrionTaken · 5NovaJunoTaken · 7MiraTaken · 8EchoTaken · 9No character yetTap one to chooseChoose a characterAssigned for you if time runs out0:30Taken by player 1Taken by player 2Taken by player 3Taken by player 4Taken by player 5Taken by player 7Taken by player 8Taken by player 9",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
         "buttons": [
           {
             "label": "Vega, taken by player 1",
@@ -372,7 +390,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -394,7 +412,7 @@
         "cardBack": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-concealed.jpg",
-      "sha256": "6f5d3c1430841d6554c827befe88ad486799453631f71c3c0de6b854d6b9c1f7",
+      "sha256": "880929904e1deb26c07eb0aa8be62b3fd17c12743ae3b899d3a02c39484d5768",
       "seen": {
         "screen": "role",
         "component": "ms-role-stage ms-kit",
@@ -406,7 +424,9 @@
         },
         "rootClass": "planet-pregame",
         "title": "Your role",
-        "words": "Role hiddenShow roleYour film starts in 0:14Ready0:24Skip filmYour roleOnly on this phone0:24",
+        "words": "Role hiddenShow roleYour film starts in 0:15Ready0:25Skip filmYour roleOnly on this phone0:25",
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
         "buttons": [
           {
             "label": "Show role",
@@ -486,7 +506,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -524,6 +544,8 @@
         "rootClass": "planet-pregame",
         "title": "Display",
         "words": "MenuDisplayReduce motionFilms become stills; no shake or travelText sizeStandardLargeLargestThese stay on this phone. They never change the match.",
+        "art": "player-ui public-board roles scene-art abilities crew-roles setup-art board-v2-motion-art board-v2-art crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
         "buttons": [
           {
             "label": "Menu",
@@ -628,7 +650,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -653,7 +675,7 @@
         "reopensSettings": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-host-abort.jpg",
-      "sha256": "8f74f63e820084090fddb36ebff83f11598c67b82f20b3ed64f8cd91d93438db",
+      "sha256": "8bfdfe139436dee490acf05eae3dc0763137c1d0d402788e1753188459c9571c",
       "seen": {
         "screen": null,
         "component": null,
@@ -661,6 +683,8 @@
         "rootClass": "planet-container",
         "title": null,
         "words": "",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library hospital-panel navigation windows offices promises end successor",
+        "portraits": [],
         "buttons": [],
         "inputs": [],
         "shell": null,
@@ -687,12 +711,12 @@
           "advance",
           "issueRecovery"
         ],
-        "reads": 12,
+        "reads": 11,
         "violations": [
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -804,7 +828,7 @@
         }
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-host-code.jpg",
-      "sha256": "af0e4e785fbea7379794a6cea23feb37943f5fb083a25fbdc391024495b8daaa",
+      "sha256": "d269daa9a1014c1103d0ce9d6a296fb49898e379c44c59b10917a5918d0fb863",
       "seen": {
         "screen": null,
         "component": null,
@@ -812,6 +836,8 @@
         "rootClass": "planet-container",
         "title": null,
         "words": "",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library hospital-panel navigation windows offices promises end successor",
+        "portraits": [],
         "buttons": [],
         "inputs": [],
         "shell": null,
@@ -843,7 +869,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -973,7 +999,7 @@
         }
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-host-code-revealed.jpg",
-      "sha256": "f58490f2d8062ab1ebf2f100e4c77030eaa58f045765491ce3989c580720cf33",
+      "sha256": "da82f0a5989dd659c1449cb49846e9d0d331fff89e22c0db73f80466ae6f2e36",
       "seen": {
         "screen": null,
         "component": null,
@@ -981,6 +1007,8 @@
         "rootClass": "planet-container",
         "title": null,
         "words": "",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library hospital-panel navigation windows offices promises end successor",
+        "portraits": [],
         "buttons": [],
         "inputs": [],
         "shell": null,
@@ -1012,7 +1040,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1118,7 +1146,7 @@
         "receipt": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-host-controls.jpg",
-      "sha256": "29708919c859be8519dbeb95ce58f8ff81256224a8cef28d4b2c9e7955a8e617",
+      "sha256": "1fa8e07b9b056c603b7648f91d78ed585746e87339ed874f3b4bc8420d830e2f",
       "seen": {
         "screen": null,
         "component": null,
@@ -1126,6 +1154,8 @@
         "rootClass": "planet-container",
         "title": null,
         "words": "",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library hospital-panel navigation windows offices promises end successor",
+        "portraits": [],
         "buttons": [],
         "inputs": [],
         "shell": null,
@@ -1154,7 +1184,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1283,6 +1313,8 @@
         "rootClass": "planet-pregame",
         "title": "Lobby",
         "words": "LeaveLobbyRoom codePLANETCopy5 of 9 seatsAsking to join · 1DevPlayer phoneAdmitSeats1Crew 1Bot2Crew 2Bot3Crew 3Bot4Crew 4Bot5Crew 5BotBotsBotsUp to 95Start character selection4 more seats to fillNot available in this test4 more seats to fill",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-board-v2-films-art crew-roles board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
         "buttons": [
           {
             "label": "Leave",
@@ -1402,7 +1434,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1441,6 +1473,8 @@
         "rootClass": "planet-pregame",
         "title": "Host",
         "words": "MenuHostNew roomPlayers789After the room opensPlayers ask to joinYou admit each oneBots fill empty seatsSet them in the lobbyOpen room",
+        "art": "player-ui roles scene-art public-board abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
         "buttons": [
           {
             "label": "Menu",
@@ -1545,7 +1579,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1583,6 +1617,8 @@
         "rootClass": "planet-pregame",
         "title": "Join",
         "words": "MenuJoinJoin a roomRoom codePLANETYour name3/12This devicePlayer phoneShared displayAsk to join",
+        "art": "public-board player-ui scene-art abilities roles board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
         "buttons": [
           {
             "label": "Menu",
@@ -1683,7 +1719,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1716,6 +1752,8 @@
         "rootClass": "planet-pregame",
         "title": "Lobby",
         "words": "LeaveLobby4You’re in · Seat 4Room PLANET · waiting for the hostPlayers · 5 of 91Crew 12Crew 23Crew 34Dev (you)5Crew 5 Character selection starts when every seat is filledNot available in this test",
+        "art": "public-board player-ui scene-art abilities roles board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library hospital-panel navigation promises offices windows end successor",
+        "portraits": [],
         "buttons": [
           {
             "label": "Leave",
@@ -1762,7 +1800,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1799,6 +1837,8 @@
         "rootClass": "planet-pregame",
         "title": "Join",
         "words": "CancelJoinWaiting for the hostRoom PLANET · as DevCheck againNot available in this test",
+        "art": "public-board player-ui scene-art abilities roles board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
         "buttons": [
           {
             "label": "Cancel",
@@ -1860,7 +1900,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1897,6 +1937,8 @@
         "rootClass": "planet-pregame",
         "title": null,
         "words": "JoinEnter a room codeHostOpen a room for 7–9 playersRecover my seat",
+        "art": "player-ui public-board roles scene-art abilities crew-roles setup-art board-v2-motion-art board-v2-art crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
         "buttons": [
           {
             "label": "Display settings",
@@ -1994,7 +2036,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2032,6 +2074,8 @@
         "rootClass": "planet-pregame",
         "title": "Recover",
         "words": "MenuRecoverRecover your seatMatch IDRecovery codeThe host makes a code for your seat in Host controls. It is never shown on the shared display.Recover seat",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
         "buttons": [
           {
             "label": "Menu",
@@ -2102,7 +2146,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2125,7 +2169,7 @@
         "noKnowledge": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-role.jpg",
-      "sha256": "848653366704999655bd122c56683990539065d77700508b01afa835908c398c",
+      "sha256": "14b6dafa42a0c6afd472df67032de5c386d15be3dcd08e20dc0e5c5f5524cab7",
       "seen": {
         "screen": "role",
         "component": "ms-role-stage ms-kit",
@@ -2138,6 +2182,8 @@
         "rootClass": "planet-pregame",
         "title": "Your role",
         "words": "HackerRed teamYour film starts in 0:15Ready0:25Skip filmYour roleOnly on this phone0:25",
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
         "buttons": [
           {
             "label": "Ready",
@@ -2202,7 +2248,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2236,6 +2282,8 @@
         "rootClass": "planet-pregame",
         "title": "Your role",
         "words": "HackerRed teamHide your phone, then tap ReadyReady0:00Skip filmYour roleOnly on this phone",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
         "buttons": [
           {
             "label": "Ready",
@@ -2300,7 +2348,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2324,12 +2372,12 @@
         "standing": true,
         "one": true,
         "onTheServersWindow": true,
-        "atMountMs": 184,
+        "atMountMs": 182,
         "goneByItself": true,
         "disposedInRound2": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-round-stamp.jpg",
-      "sha256": "bcaeeddf31b6760d4cd0ea27328a864c4caca7ba9d1cb8c445bf6abfe80e1a83",
+      "sha256": "da356179c27bcced750ed1239f55da7dc8a391b5b69d52abdde153984b424c2f",
       "seen": {
         "screen": null,
         "component": null,
@@ -2337,6 +2385,8 @@
         "rootClass": "planet-container",
         "title": null,
         "words": "",
+        "art": "player-ui roles public-board scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
         "buttons": [],
         "inputs": [],
         "shell": null,
@@ -2365,7 +2415,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2386,7 +2436,7 @@
         "nothingDrawn": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-round-stamp-late.jpg",
-      "sha256": "cc4b8997ccb29af086ff51469b15dbaf385ee3b992d05b0608e5b472df993fb0",
+      "sha256": "6237a1d3724237e7210cf22f0116a7960b849d93775128ce594315f476205f7f",
       "seen": {
         "screen": null,
         "component": null,
@@ -2394,6 +2444,8 @@
         "rootClass": "planet-container",
         "title": null,
         "words": "",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library hospital-panel promises windows navigation offices end successor",
+        "portraits": [],
         "buttons": [],
         "inputs": [],
         "shell": null,
@@ -2422,7 +2474,74 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/round-stamp-reduced": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "running": true,
+        "words": true,
+        "reduced": true,
+        "one": true,
+        "noScaleOrTravel": true,
+        "fades": true,
+        "standing": true,
+        "onTheServersWindow": true,
+        "atMountMs": 187,
+        "goneByItself": true,
+        "disposedInRound2": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-round-stamp-reduced.jpg",
+      "sha256": "8a7dce6b6e35c253bbdb020dd5b2270462e3cdb24a8501d132aa1f5193d7fe32",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "art": "player-ui public-board roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library hospital-panel navigation windows promises offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "reduced"
+        },
+        "sent": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2452,7 +2571,7 @@
         "focusKept": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-settings.jpg",
-      "sha256": "cd214d792cf2a77296977110daca7d6344d9fd6dd30426171280ee9ae0905448",
+      "sha256": "fab984aae253d1262ef80db574fb5518c86d1a72ce397b3a60f6a3e62f3db1b3",
       "seen": {
         "screen": null,
         "component": null,
@@ -2460,6 +2579,8 @@
         "rootClass": "planet-container",
         "title": null,
         "words": "",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library hospital-panel navigation windows offices promises end successor",
+        "portraits": [],
         "buttons": [],
         "inputs": [],
         "shell": null,
@@ -2488,7 +2609,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2580,10 +2701,12 @@
         "problems": true,
         "stale": true,
         "keptGrid": true,
+        "portraitsKept": true,
+        "artKept": true,
         "retryReads": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-stale.jpg",
-      "sha256": "350f4615e132318d5d893a543f1ade8ca37826c270f36a61ac239b60622a17ac",
+      "sha256": "ed1a15bc88e7988fa66964ad2505fb27c0b01203340744a0ecdc0475469568ca",
       "seen": {
         "screen": "characters",
         "component": "ms-char-select ms-kit",
@@ -2596,6 +2719,19 @@
         "rootClass": "planet-pregame",
         "title": "Choose a character",
         "words": "VegaTaken · 1RigelTaken · 2LyraTaken · 3AtlasTaken · 4OrionTaken · 5NovaYoursJunoTaken · 7MiraTaken · 8EchoTaken · 9NovaTap another to changeYoursChoose a characterAssigned for you if time runs out0:29Connection lostControls return when the match is currentRetryTaken by player 1Taken by player 2Taken by player 3Taken by player 4Taken by player 5Taken by player 7Taken by player 8Taken by player 9Co",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
         "buttons": [
           {
             "label": "Vega, taken by player 1",
@@ -2782,7 +2918,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2816,6 +2952,8 @@
         "rootClass": "planet-pregame",
         "title": null,
         "words": "BoardingRound 1 in 0:08Skip",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
         "buttons": [],
         "inputs": [],
         "shell": {
@@ -2849,7 +2987,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2868,7 +3006,7 @@
         "waiting": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-boarding-waiting.jpg",
-      "sha256": "7f367f88eb3a0b533f92ca2f9bee9cd0743f969321af430f2117549d2cff8ecd",
+      "sha256": "f913664155737bd9ee91a5307592821e0f7c875990db6041e5e604a0d6ecde8e",
       "seen": {
         "screen": "boarding",
         "component": "ms-boarding-stage ms-kit",
@@ -2881,6 +3019,8 @@
         "rootClass": "planet-pregame",
         "title": null,
         "words": "Starting Round 1 Waiting for the shipSkip",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
         "buttons": [],
         "inputs": [],
         "shell": {
@@ -2914,7 +3054,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2934,6 +3074,8 @@
         "grid": true,
         "offered": true,
         "clock": true,
+        "portraits": true,
+        "art": true,
         "chosen": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-characters.jpg",
@@ -2949,7 +3091,19 @@
         },
         "rootClass": "planet-pregame",
         "title": "Choose a character",
-        "words": "VegaTaken · 1RigelTaken · 2LyraTaken · 3AtlasTaken · 4OrionTaken · 5NovaJunoTaken · 7MiraTaken · 8EchoTaken · 9No character yetTap one to chooseChoose a characterAssigned for you if time runs out0:29Taken by player 1Taken by player 2Taken by player 3Taken by player 4Taken by player 5Taken by player 7Taken by player 8Taken by player 9",
+        "words": "VegaTaken · 1RigelTaken · 2LyraTaken · 3AtlasTaken · 4OrionTaken · 5NovaJunoTaken · 7MiraTaken · 8EchoTaken · 9No character yetTap one to chooseChoose a characterAssigned for you if time runs out0:30Taken by player 1Taken by player 2Taken by player 3Taken by player 4Taken by player 5Taken by player 7Taken by player 8Taken by player 9",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
         "buttons": [
           {
             "label": "Vega, taken by player 1",
@@ -3119,7 +3273,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3154,6 +3308,8 @@
         "rootClass": "planet-pregame",
         "title": "Your role",
         "words": "Role hiddenShow roleYour film starts in 0:15Ready0:25Skip filmYour roleOnly on this phone0:25",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
         "buttons": [
           {
             "label": "Show role",
@@ -3233,7 +3389,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3271,6 +3427,8 @@
         "rootClass": "planet-pregame",
         "title": "Display",
         "words": "MenuDisplayReduce motionFilms become stills; no shake or travelText sizeStandardLargeLargestThese stay on this phone. They never change the match.",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
         "buttons": [
           {
             "label": "Menu",
@@ -3375,7 +3533,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3400,7 +3558,7 @@
         "reopensSettings": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-host-abort.jpg",
-      "sha256": "2adc6f238bbfa31e5fc5574ff39623942c98a1d9fe03e1ba57c3e9ca1adca3ac",
+      "sha256": "8532471a6437342224bae15038d982345c22e3b87004fcce968317ef4bf18732",
       "seen": {
         "screen": null,
         "component": null,
@@ -3408,6 +3566,8 @@
         "rootClass": "planet-container",
         "title": null,
         "words": "",
+        "art": "public-board player-ui roles abilities scene-art setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
         "buttons": [],
         "inputs": [],
         "shell": null,
@@ -3434,12 +3594,12 @@
           "advance",
           "issueRecovery"
         ],
-        "reads": 12,
+        "reads": 11,
         "violations": [
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3551,7 +3711,7 @@
         }
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-host-code.jpg",
-      "sha256": "05cce2e53836d47e3870034eaf21c4d54d99c12115a1e77952bcd8df64076f6a",
+      "sha256": "d1f09d96e07bbd81be85b02b809cbe9ff8cf9ffd534db414c8864211b3f49ee6",
       "seen": {
         "screen": null,
         "component": null,
@@ -3559,6 +3719,8 @@
         "rootClass": "planet-container",
         "title": null,
         "words": "",
+        "art": "public-board player-ui roles abilities scene-art setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
         "buttons": [],
         "inputs": [],
         "shell": null,
@@ -3590,7 +3752,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3720,7 +3882,7 @@
         }
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-host-code-revealed.jpg",
-      "sha256": "77866f19bec4e4002eacc0cbaab7a9b30f683502cca9cda3eab89191ade34c19",
+      "sha256": "cd03184581de43f7d240ca47bd3d09261b241ca4c6dc8a4136795c815abcdd12",
       "seen": {
         "screen": null,
         "component": null,
@@ -3728,6 +3890,8 @@
         "rootClass": "planet-container",
         "title": null,
         "words": "",
+        "art": "public-board player-ui roles abilities scene-art setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
         "buttons": [],
         "inputs": [],
         "shell": null,
@@ -3759,7 +3923,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3865,7 +4029,7 @@
         "receipt": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-host-controls.jpg",
-      "sha256": "51ae49e3958d0ceef237d0f0ebbfa79f3bf8512c98cdd8a6ab9d67dc293a080f",
+      "sha256": "633b1c13cbc619dc4aeca64cf076c7b0b69bb381b7ef99c1f4514a3396e8a1dd",
       "seen": {
         "screen": null,
         "component": null,
@@ -3873,6 +4037,8 @@
         "rootClass": "planet-container",
         "title": null,
         "words": "",
+        "art": "public-board player-ui roles abilities scene-art setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
         "buttons": [],
         "inputs": [],
         "shell": null,
@@ -3901,7 +4067,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4030,6 +4196,8 @@
         "rootClass": "planet-pregame",
         "title": "Lobby",
         "words": "LeaveLobbyRoom codePLANETCopy5 of 9 seatsAsking to join · 1DevPlayer phoneAdmitSeats1Crew 1Bot2Crew 2Bot3Crew 3Bot4Crew 4Bot5Crew 5BotBotsBotsUp to 95Start character selection4 more seats to fillNot available in this test4 more seats to fill",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
         "buttons": [
           {
             "label": "Leave",
@@ -4149,7 +4317,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4188,6 +4356,8 @@
         "rootClass": "planet-pregame",
         "title": "Host",
         "words": "MenuHostNew roomPlayers789After the room opensPlayers ask to joinYou admit each oneBots fill empty seatsSet them in the lobbyOpen room",
+        "art": "player-ui public-board roles scene-art abilities setup-art board-v2-motion-art board-v2-art crew-board-v2-films-art crew-roles board-v2-films-art crew-public-board",
+        "portraits": [],
         "buttons": [
           {
             "label": "Menu",
@@ -4292,7 +4462,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4330,6 +4500,8 @@
         "rootClass": "planet-pregame",
         "title": "Join",
         "words": "MenuJoinJoin a roomRoom codePLANETYour name3/12This devicePlayer phoneShared displayAsk to join",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
         "buttons": [
           {
             "label": "Menu",
@@ -4430,7 +4602,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4463,6 +4635,8 @@
         "rootClass": "planet-pregame",
         "title": "Lobby",
         "words": "LeaveLobby4You’re in · Seat 4Room PLANET · waiting for the hostPlayers · 5 of 91Crew 12Crew 23Crew 34Dev (you)5Crew 5 Character selection starts when every seat is filledNot available in this test",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation promises windows offices hospital-panel end successor",
+        "portraits": [],
         "buttons": [
           {
             "label": "Leave",
@@ -4509,7 +4683,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4546,6 +4720,8 @@
         "rootClass": "planet-pregame",
         "title": "Join",
         "words": "CancelJoinWaiting for the hostRoom PLANET · as DevCheck againNot available in this test",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
         "buttons": [
           {
             "label": "Cancel",
@@ -4607,7 +4783,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4644,6 +4820,8 @@
         "rootClass": "planet-pregame",
         "title": null,
         "words": "JoinEnter a room codeHostOpen a room for 7–9 playersRecover my seat",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
         "buttons": [
           {
             "label": "Display settings",
@@ -4741,7 +4919,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4779,6 +4957,8 @@
         "rootClass": "planet-pregame",
         "title": "Recover",
         "words": "MenuRecoverRecover your seatMatch IDRecovery codeThe host makes a code for your seat in Host controls. It is never shown on the shared display.Recover seat",
+        "art": "player-ui roles public-board scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
         "buttons": [
           {
             "label": "Menu",
@@ -4849,7 +5029,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4885,6 +5065,8 @@
         "rootClass": "planet-pregame",
         "title": "Your role",
         "words": "HackerRed teamYour film starts in 0:15Ready0:25Skip filmYour roleOnly on this phone0:25",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
         "buttons": [
           {
             "label": "Ready",
@@ -4949,7 +5131,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4983,6 +5165,8 @@
         "rootClass": "planet-pregame",
         "title": "Your role",
         "words": "HackerRed teamHide your phone, then tap ReadyReady0:00Skip filmYour roleOnly on this phone",
+        "art": "public-board player-ui roles abilities scene-art setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library hospital-panel navigation promises windows offices end successor",
+        "portraits": [],
         "buttons": [
           {
             "label": "Ready",
@@ -5047,7 +5231,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5071,12 +5255,12 @@
         "standing": true,
         "one": true,
         "onTheServersWindow": true,
-        "atMountMs": 182,
+        "atMountMs": 188,
         "goneByItself": true,
         "disposedInRound2": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-round-stamp.jpg",
-      "sha256": "fbc8c82b8a27544b2414ac855fd6df8f812669523c8ecb7fcbd62b19d6a798c5",
+      "sha256": "d4e13b2a10786f4b12adb07c86d9f3e3b6322dd084067a0c64b2b77dafe24aec",
       "seen": {
         "screen": null,
         "component": null,
@@ -5084,6 +5268,8 @@
         "rootClass": "planet-container",
         "title": null,
         "words": "",
+        "art": "player-ui roles scene-art public-board abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
         "buttons": [],
         "inputs": [],
         "shell": null,
@@ -5112,7 +5298,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5133,7 +5319,7 @@
         "nothingDrawn": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-round-stamp-late.jpg",
-      "sha256": "719c825e7f91488f4a0982cfbca80b4a0b8386756b9eb414189fcc464df89f4b",
+      "sha256": "afa45d80a6620a150d490fb4933ae1675ff33c2500f69bba88a34729ac45092d",
       "seen": {
         "screen": null,
         "component": null,
@@ -5141,6 +5327,8 @@
         "rootClass": "planet-container",
         "title": null,
         "words": "",
+        "art": "player-ui roles public-board scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
         "buttons": [],
         "inputs": [],
         "shell": null,
@@ -5169,7 +5357,74 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/round-stamp-reduced": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "running": true,
+        "words": true,
+        "reduced": true,
+        "one": true,
+        "noScaleOrTravel": true,
+        "fades": true,
+        "standing": true,
+        "onTheServersWindow": true,
+        "atMountMs": 183,
+        "goneByItself": true,
+        "disposedInRound2": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-round-stamp-reduced.jpg",
+      "sha256": "3830cf6537653ed9151a5aef1b8a5dbdda865e5b6ecaaf1523cb2a78769738dc",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "art": "roles public-board player-ui scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "reduced"
+        },
+        "sent": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5199,7 +5454,7 @@
         "focusKept": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-settings.jpg",
-      "sha256": "78bbb3a1522f9dbb9ce1c8db47397f066a74d491017e10d9a725ca8b0f01bee1",
+      "sha256": "c264fcbfbbac1e7efe14b1d7846712956ff62e5ee05630ed896ed541cfe510ee",
       "seen": {
         "screen": null,
         "component": null,
@@ -5207,6 +5462,8 @@
         "rootClass": "planet-container",
         "title": null,
         "words": "",
+        "art": "public-board player-ui roles abilities scene-art setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
         "buttons": [],
         "inputs": [],
         "shell": null,
@@ -5235,7 +5492,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5327,10 +5584,12 @@
         "problems": true,
         "stale": true,
         "keptGrid": true,
+        "portraitsKept": true,
+        "artKept": true,
         "retryReads": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-stale.jpg",
-      "sha256": "68f0e1ce00172c511504ab01a2242e6c6c267e009b8507efae643821f0748b30",
+      "sha256": "1419777e41b3282f65131d8781b2c811422a3c2832a403e02aff7291fad0acfe",
       "seen": {
         "screen": "characters",
         "component": "ms-char-select ms-kit",
@@ -5343,6 +5602,19 @@
         "rootClass": "planet-pregame",
         "title": "Choose a character",
         "words": "VegaTaken · 1RigelTaken · 2LyraTaken · 3AtlasTaken · 4OrionTaken · 5NovaYoursJunoTaken · 7MiraTaken · 8EchoTaken · 9NovaTap another to changeYoursChoose a characterAssigned for you if time runs out0:29Connection lostControls return when the match is currentRetryTaken by player 1Taken by player 2Taken by player 3Taken by player 4Taken by player 5Taken by player 7Taken by player 8Taken by player 9Co",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
         "buttons": [
           {
             "label": "Vega, taken by player 1",
@@ -5529,7 +5801,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-C55naYVB.js",
+            "source": "assets/phone-GsUB7Iak.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
