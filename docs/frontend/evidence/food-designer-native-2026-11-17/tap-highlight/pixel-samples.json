@@ -1,0 +1,284 @@
+[
+  {
+    "size": "390x844",
+    "insetSamples": [
+      {
+        "xy": [
+          46,
+          715
+        ],
+        "before": [
+          241,
+          184,
+          75
+        ],
+        "immediate": [
+          36,
+          92,
+          120
+        ],
+        "settled": [
+          26,
+          33,
+          46
+        ],
+        "original": [
+          36,
+          92,
+          120
+        ],
+        "expectedTapHighlight": [
+          36,
+          92,
+          119
+        ]
+      },
+      {
+        "xy": [
+          343,
+          715
+        ],
+        "before": [
+          241,
+          184,
+          75
+        ],
+        "immediate": [
+          36,
+          92,
+          120
+        ],
+        "settled": [
+          26,
+          33,
+          46
+        ],
+        "original": [
+          36,
+          92,
+          120
+        ],
+        "expectedTapHighlight": [
+          36,
+          92,
+          119
+        ]
+      },
+      {
+        "xy": [
+          46,
+          774
+        ],
+        "before": [
+          241,
+          184,
+          75
+        ],
+        "immediate": [
+          36,
+          92,
+          120
+        ],
+        "settled": [
+          26,
+          33,
+          46
+        ],
+        "original": [
+          36,
+          92,
+          120
+        ],
+        "expectedTapHighlight": [
+          36,
+          92,
+          119
+        ]
+      },
+      {
+        "xy": [
+          343,
+          774
+        ],
+        "before": [
+          241,
+          184,
+          75
+        ],
+        "immediate": [
+          36,
+          92,
+          120
+        ],
+        "settled": [
+          26,
+          33,
+          46
+        ],
+        "original": [
+          36,
+          92,
+          120
+        ],
+        "expectedTapHighlight": [
+          36,
+          92,
+          119
+        ]
+      }
+    ],
+    "fillPixelBlend": {
+      "immediate": {
+        "pixels": 5376,
+        "matchingAllChannelsWithin1": 5376,
+        "matchingAllChannelsWithin2": 5376
+      },
+      "original": {
+        "pixels": 5376,
+        "matchingAllChannelsWithin1": 5376,
+        "matchingAllChannelsWithin2": 5376
+      }
+    }
+  },
+  {
+    "size": "430x932",
+    "insetSamples": [
+      {
+        "xy": [
+          46,
+          803
+        ],
+        "before": [
+          241,
+          184,
+          75
+        ],
+        "immediate": [
+          36,
+          92,
+          120
+        ],
+        "settled": [
+          26,
+          33,
+          46
+        ],
+        "original": [
+          36,
+          92,
+          120
+        ],
+        "expectedTapHighlight": [
+          36,
+          92,
+          119
+        ]
+      },
+      {
+        "xy": [
+          383,
+          803
+        ],
+        "before": [
+          241,
+          184,
+          75
+        ],
+        "immediate": [
+          36,
+          92,
+          120
+        ],
+        "settled": [
+          26,
+          33,
+          46
+        ],
+        "original": [
+          36,
+          92,
+          120
+        ],
+        "expectedTapHighlight": [
+          36,
+          92,
+          119
+        ]
+      },
+      {
+        "xy": [
+          46,
+          862
+        ],
+        "before": [
+          241,
+          184,
+          75
+        ],
+        "immediate": [
+          36,
+          92,
+          120
+        ],
+        "settled": [
+          26,
+          33,
+          46
+        ],
+        "original": [
+          36,
+          92,
+          120
+        ],
+        "expectedTapHighlight": [
+          36,
+          92,
+          119
+        ]
+      },
+      {
+        "xy": [
+          383,
+          862
+        ],
+        "before": [
+          241,
+          184,
+          75
+        ],
+        "immediate": [
+          36,
+          92,
+          120
+        ],
+        "settled": [
+          26,
+          33,
+          46
+        ],
+        "original": [
+          36,
+          92,
+          120
+        ],
+        "expectedTapHighlight": [
+          36,
+          92,
+          119
+        ]
+      }
+    ],
+    "fillPixelBlend": {
+      "immediate": {
+        "pixels": 5376,
+        "matchingAllChannelsWithin1": 5376,
+        "matchingAllChannelsWithin2": 5376
+      },
+      "original": {
+        "pixels": 5376,
+        "matchingAllChannelsWithin1": 5376,
+        "matchingAllChannelsWithin2": 5376
+      }
+    }
+  }
+]

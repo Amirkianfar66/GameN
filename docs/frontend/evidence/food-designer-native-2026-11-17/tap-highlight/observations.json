@@ -1,0 +1,296 @@
+{
+  "scope": "Desktop Chromium mobile emulation. One trusted RELEASE touch per approved viewport. The fixture holds the original READ and command response throughout each observation.",
+  "source": "8f93cc42062b9bf0b2541a5001d9baad19d5a9a3",
+  "sameRuntimeAs": "0aef655b56ed1a83701b2a8c5342534979fdaf4a",
+  "verifiedBundle": [
+    {
+      "path": "app.html",
+      "bytes": 447,
+      "sha256": "57fe216f5ed3a117e14b1ae7a4002072e10078706cd29608356d8146ce87363c"
+    },
+    {
+      "path": "food-composition.json",
+      "bytes": 1290,
+      "sha256": "4d45df43e4d11cb3bd30c310804462a22f1412927156dd2347ca7002246139e4"
+    },
+    {
+      "path": "assets/app-8F0jlne8.js",
+      "bytes": 2588843,
+      "sha256": "b1a4a04609592e653aee1fdccf8f1085314b0616336d065898b70c63f6c1494f"
+    },
+    {
+      "path": "assets/app-ByO_Qyj3.css",
+      "bytes": 257541,
+      "sha256": "d76ce58fba972d3f4f7209921372519516d6e154026caed5b884d4b81570bc9f"
+    }
+  ],
+  "sameHeadersAs": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "sameArtAs": "6e285791f5bcffb9a6480aefd11bcddecba3be7bb2348e8f11e95324f995b25e",
+  "viewports": [
+    {
+      "size": [
+        390,
+        844
+      ],
+      "touchEndAtMs": 544.8000001907349,
+      "originalSha": "92a8f8c6672b81c16cfb1eab06c3ea7522db01db5a877e908c609b2c3df0a3ee",
+      "before": {
+        "observedAtMs": 430.5,
+        "rect": [
+          16,
+          690,
+          358,
+          104
+        ],
+        "attributes": {
+          "class": "fs-ctl",
+          "type": "button",
+          "id": "food-panel-main",
+          "data-face": "[\"RELEASE\",\"Starts the panel clicking\",\"release\",null,null]",
+          "data-act": "release",
+          "aria-label": "RELEASE. Starts the panel clicking.",
+          "data-next": ""
+        },
+        "buttonText": "RELEASEStarts the panel clicking",
+        "active": false,
+        "focusVisible": false,
+        "focused": false,
+        "style": {
+          "-webkit-tap-highlight-color": "rgba(51, 181, 229, 0.4)",
+          "background-color": "rgb(241, 184, 75)",
+          "color": "rgb(21, 25, 35)",
+          "opacity": "1",
+          "box-shadow": "rgb(10, 13, 20) 0px 4px 0px 0px, rgba(241, 184, 75, 0.35) 0px 0px 0px 3px",
+          "transform": "none",
+          "outline-color": "rgb(21, 25, 35)",
+          "outline-style": "none",
+          "outline-width": "3px",
+          "transition-property": "all",
+          "animation-name": "none"
+        },
+        "documentTapHighlight": "rgba(51, 181, 229, 0.4)",
+        "gate": false,
+        "feedback": null,
+        "image": "390x844-before.png",
+        "sha256": "43e00d69d9c3fa2392b4aeabb39c3f5500cfcfb0851906241fdfc3d646d17966"
+      },
+      "immediate": {
+        "observedAtMs": 545.6000001430511,
+        "rect": [
+          16,
+          693,
+          358,
+          104
+        ],
+        "attributes": {
+          "class": "fs-ctl",
+          "type": "button",
+          "id": "food-panel-main",
+          "data-face": "[\"RELEASE\",\"Sending…\",\"release\",null,null]",
+          "data-act": "release",
+          "aria-label": "RELEASE. Sending….",
+          "aria-disabled": "true",
+          "aria-busy": "true",
+          "data-sending": ""
+        },
+        "buttonText": "RELEASESending…",
+        "active": true,
+        "focusVisible": false,
+        "focused": false,
+        "style": {
+          "-webkit-tap-highlight-color": "rgba(51, 181, 229, 0.4)",
+          "background-color": "rgb(32, 40, 55)",
+          "color": "rgb(185, 196, 211)",
+          "opacity": "0.7",
+          "box-shadow": "rgb(10, 13, 20) 0px 1px 0px 0px",
+          "transform": "matrix(1, 0, 0, 1, 0, 3)",
+          "outline-color": "rgb(185, 196, 211)",
+          "outline-style": "none",
+          "outline-width": "3px",
+          "transition-property": "all",
+          "animation-name": "none"
+        },
+        "documentTapHighlight": "rgba(51, 181, 229, 0.4)",
+        "gate": true,
+        "feedback": "sending",
+        "image": "390x844-immediate.png",
+        "sha256": "92a8f8c6672b81c16cfb1eab06c3ea7522db01db5a877e908c609b2c3df0a3ee"
+      },
+      "settled": {
+        "observedAtMs": 1616.2000000476837,
+        "rect": [
+          16,
+          693,
+          358,
+          104
+        ],
+        "attributes": {
+          "class": "fs-ctl",
+          "type": "button",
+          "id": "food-panel-main",
+          "data-face": "[\"RELEASE\",\"Sending…\",\"release\",null,null]",
+          "data-act": "release",
+          "aria-label": "RELEASE. Sending….",
+          "aria-disabled": "true",
+          "aria-busy": "true",
+          "data-sending": ""
+        },
+        "buttonText": "RELEASESending…",
+        "active": false,
+        "focusVisible": false,
+        "focused": false,
+        "style": {
+          "-webkit-tap-highlight-color": "rgba(51, 181, 229, 0.4)",
+          "background-color": "rgb(32, 40, 55)",
+          "color": "rgb(185, 196, 211)",
+          "opacity": "0.7",
+          "box-shadow": "rgb(10, 13, 20) 0px 1px 0px 0px",
+          "transform": "matrix(1, 0, 0, 1, 0, 3)",
+          "outline-color": "rgb(185, 196, 211)",
+          "outline-style": "none",
+          "outline-width": "3px",
+          "transition-property": "all",
+          "animation-name": "none"
+        },
+        "documentTapHighlight": "rgba(51, 181, 229, 0.4)",
+        "gate": true,
+        "feedback": "sending",
+        "image": "390x844-settled.png",
+        "sha256": "473df624affe4e38e06c22c9b2ace349e77ff86f8b930fe4d0462004a9b54921"
+      }
+    },
+    {
+      "size": [
+        430,
+        932
+      ],
+      "touchEndAtMs": 367.09999990463257,
+      "originalSha": "2382887ff5c912288e5ac3cc89a6df13420451c3e9428dc76669771728752723",
+      "before": {
+        "observedAtMs": 277.2999999523163,
+        "rect": [
+          16,
+          778,
+          398,
+          104
+        ],
+        "attributes": {
+          "class": "fs-ctl",
+          "type": "button",
+          "id": "food-panel-main",
+          "data-face": "[\"RELEASE\",\"Starts the panel clicking\",\"release\",null,null]",
+          "data-act": "release",
+          "aria-label": "RELEASE. Starts the panel clicking.",
+          "data-next": ""
+        },
+        "buttonText": "RELEASEStarts the panel clicking",
+        "active": false,
+        "focusVisible": false,
+        "focused": false,
+        "style": {
+          "-webkit-tap-highlight-color": "rgba(51, 181, 229, 0.4)",
+          "background-color": "rgb(241, 184, 75)",
+          "color": "rgb(21, 25, 35)",
+          "opacity": "1",
+          "box-shadow": "rgb(10, 13, 20) 0px 4px 0px 0px, rgba(241, 184, 75, 0.35) 0px 0px 0px 3px",
+          "transform": "none",
+          "outline-color": "rgb(21, 25, 35)",
+          "outline-style": "none",
+          "outline-width": "3px",
+          "transition-property": "all",
+          "animation-name": "none"
+        },
+        "documentTapHighlight": "rgba(51, 181, 229, 0.4)",
+        "gate": false,
+        "feedback": null,
+        "image": "430x932-before.png",
+        "sha256": "cf22c74ba2084b1bc7227bdddbe23cb3d67961696ece0ba91a8c1193d23ca798"
+      },
+      "immediate": {
+        "observedAtMs": 367.7000000476837,
+        "rect": [
+          16,
+          781,
+          398,
+          104
+        ],
+        "attributes": {
+          "class": "fs-ctl",
+          "type": "button",
+          "id": "food-panel-main",
+          "data-face": "[\"RELEASE\",\"Sending…\",\"release\",null,null]",
+          "data-act": "release",
+          "aria-label": "RELEASE. Sending….",
+          "aria-disabled": "true",
+          "aria-busy": "true",
+          "data-sending": ""
+        },
+        "buttonText": "RELEASESending…",
+        "active": true,
+        "focusVisible": false,
+        "focused": false,
+        "style": {
+          "-webkit-tap-highlight-color": "rgba(51, 181, 229, 0.4)",
+          "background-color": "rgb(32, 40, 55)",
+          "color": "rgb(185, 196, 211)",
+          "opacity": "0.7",
+          "box-shadow": "rgb(10, 13, 20) 0px 1px 0px 0px",
+          "transform": "matrix(1, 0, 0, 1, 0, 3)",
+          "outline-color": "rgb(185, 196, 211)",
+          "outline-style": "none",
+          "outline-width": "3px",
+          "transition-property": "all",
+          "animation-name": "none"
+        },
+        "documentTapHighlight": "rgba(51, 181, 229, 0.4)",
+        "gate": true,
+        "feedback": "sending",
+        "image": "430x932-immediate.png",
+        "sha256": "2382887ff5c912288e5ac3cc89a6df13420451c3e9428dc76669771728752723"
+      },
+      "settled": {
+        "observedAtMs": 1450,
+        "rect": [
+          16,
+          781,
+          398,
+          104
+        ],
+        "attributes": {
+          "class": "fs-ctl",
+          "type": "button",
+          "id": "food-panel-main",
+          "data-face": "[\"RELEASE\",\"Sending…\",\"release\",null,null]",
+          "data-act": "release",
+          "aria-label": "RELEASE. Sending….",
+          "aria-disabled": "true",
+          "aria-busy": "true",
+          "data-sending": ""
+        },
+        "buttonText": "RELEASESending…",
+        "active": false,
+        "focusVisible": false,
+        "focused": false,
+        "style": {
+          "-webkit-tap-highlight-color": "rgba(51, 181, 229, 0.4)",
+          "background-color": "rgb(32, 40, 55)",
+          "color": "rgb(185, 196, 211)",
+          "opacity": "0.7",
+          "box-shadow": "rgb(10, 13, 20) 0px 1px 0px 0px",
+          "transform": "matrix(1, 0, 0, 1, 0, 3)",
+          "outline-color": "rgb(185, 196, 211)",
+          "outline-style": "none",
+          "outline-width": "3px",
+          "transition-property": "all",
+          "animation-name": "none"
+        },
+        "documentTapHighlight": "rgba(51, 181, 229, 0.4)",
+        "gate": true,
+        "feedback": "sending",
+        "image": "430x932-settled.png",
+        "sha256": "77ec847b48b2e1aa8acf2d28bb29aedebe71f610d226bc611f64d61c1e8d130e"
+      }
+    }
+  ],
+  "browser": "Google Chrome 157.0.8103.79"
+}

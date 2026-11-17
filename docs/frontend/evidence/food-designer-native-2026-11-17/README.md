@@ -48,3 +48,5 @@ node apps/game/dev/phone/food-causal-capture.mjs \
   --baseline-hosted-output="$FOOD_REVIEW_HOSTING_ARTIFACT" \
   --output="$food_review_output/causal"
 ```
+
+The blue rectangle in the immediate RELEASE captures is Chromium’s transient touch highlight. A [supplementary before/immediate/settled comparison](tap-highlight/README.md) holds the same command pending and demonstrates the tint clearing without a source or app-state change. Original captures are preserved.
