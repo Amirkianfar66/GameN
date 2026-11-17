@@ -83,8 +83,9 @@ export function createPregameScreens(root,{session,preferences,draft,hooks}){
     onOpen:count=>op('create',{operation:'create',playerCount:count})}),
    input:m=>hostSetupInput(m,ui,prefs())},
   'host-lobby':{mount:(host,input)=>mountHostLobby(host,input,{
-    // G6: there is no command for a host to leave or close a lobby; Leave does nothing until one exists.
-    onLeave:()=>{},onCopy:()=>void copyCode(),
+    // G6: there is no command for a host to leave or close a lobby, so the input draws Leave unavailable and no
+    // handler is given for it.
+    onCopy:()=>void copyCode(),
     onAdmit:id=>op(`approveAdmission:${id}`,{operation:'approveAdmission',matchId:model.matchId,admissionId:id}),
     onBots:count=>op('setBots',{operation:'setBots',matchId:model.matchId,count}),
     onStart:()=>op('beginSetup',{operation:'beginSetup',matchId:model.matchId})}),
@@ -95,9 +96,10 @@ export function createPregameScreens(root,{session,preferences,draft,hooks}){
      op('requestAdmission',request);}});return form;},
    input:m=>joinInput(m,ui,draft,prefs())},
   'join-wait':{mount:(host,input)=>mountJoinWait(host,input,{
-    // G6: there is no command to withdraw a request or leave an admitted lobby; Cancel and Leave do nothing until
-    // one exists. The request lives in the session until it settles, so Back to menu can't drop it either.
-    onCancel:()=>{},onLeave:()=>{},onBack:()=>{},onCheck:()=>void session.refresh()}),
+    // G6: there is no command to withdraw a request or leave an admitted lobby, and the request lives in the
+    // session until it settles, so Back to menu can't drop it either. The input draws Cancel, Leave and Back to
+    // menu unavailable, and no handler is given for them.
+    onCheck:()=>void session.refresh()}),
    input:m=>waitInput(m,ui,draft,prefs())},
   recover:{mount:(host,input)=>mountRecover(host,input,{onBack:()=>go('menu'),onMatchId:text=>{ui.recover.matchId=String(text);rerender();},onCode:({length})=>{ui.recover.codeLength=length;rerender();},
     onRecover:({matchId,recoveryCode})=>{

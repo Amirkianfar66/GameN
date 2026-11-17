@@ -4,7 +4,8 @@
 // map the session's model, and this phone's own drafts, to each component's input. They decide no rule: every
 // availability is the session's (`busy`, `canChoose`, `canReady`, the connection) or today's own arithmetic
 // moved here unchanged (the bot range and Start's seats to fill, G2). Where the model gives nothing (a team mix,
-// a refusal code, a recovery code's length, a closed flag), the input says nothing (G1, G3–G5).
+// a refusal code, a recovery code's length, a closed flag), the input says nothing (G1, G3–G5). Where the game has
+// no command (leaving a lobby, withdrawing a request), the control is drawn unavailable with NO_COMMAND's words (G6).
 import {CREW_NAME_MAX_LENGTH,CrewDisplayNameSchema} from '@mothership/contracts';
 import {planetRoleLook} from '@mothership/presentation';
 import {CREW} from '../crew-drawing/crew.mjs';
@@ -17,11 +18,18 @@ export const ENTRY_MODES=Object.freeze(['menu','display','host','join','recover'
 export const PLAYER_COUNTS=Object.freeze([7,8,9]);
 /** The connection's words for the phone's own Reduce Motion (Frontend's to review): Display settings' lock. */
 export const MOTION_LOCK_REASON='On, because this phone asks for less motion';
+/**
+ * The connection's words for a control the game has no command for yet (G6, the Lead's decision of 17 November
+ * 2026): host Leave, waiting's Cancel and Leave, and Back to menu once a request settles. Each is drawn dimmed
+ * and refused, with these words as its description, rather than a button that does nothing.
+ */
+export const NO_COMMAND_REASON='Not available in this test';
 /** The session's own word for a request it registered; it is not a refusal. */
 export const REGISTERED='Request registered.';
 const CODE=/^[A-Z0-9]{6}$/;
 const seatNumber=seatId=>Number(String(seatId).slice(5));
 const control=(enabled,busy=false,reason=null)=>({enabled:!!enabled,busy:!!busy,reason});
+const noCommand=()=>control(false,false,NO_COMMAND_REASON);
 const own=model=>model.members.find(member=>member.seatId===model.selfSeatId)??null;
 
 /** The phone's local state the screens read: navigation, drafts and the command it last sent (G10). */
@@ -45,7 +53,7 @@ export function pregameScreen(model,ui){
  if(model.pendingAdmission)return 'join-wait';
  if(!model.matchId){
   if(model.connection!=='live')return null;
-  return ui.mode==='display'?'display':ui.mode==='host'&&HOST_SETUP_READY?'host-setup':ui.mode==='join'?'join':ui.mode==='recover'?'recover':'menu';
+  return ui.mode==='display'?'display':ui.mode==='host'?'host-setup':ui.mode==='join'?'join':ui.mode==='recover'?'recover':'menu';
  }
  if(model.connection==='error'||model.status===null)return null;
  const seated=!!own(model);
@@ -82,16 +90,10 @@ export function refusal(model,ui,op){
 
 // ── The menu and Display settings ────────────────────────────────────────────────────────────────────────
 
-/**
- * Host setup draws each count's team mix, which the game doesn't give yet (G1): until it does, or the Lead
- * decides otherwise, Host is not offered. Set to true once host setup can be drawn.
- */
-export const HOST_SETUP_READY=false;
-
 /** The main menu: each choice available while the session is free (it is live here); no offline note (G14). */
 export function menuInput(model,ui,prefs){
  const free=control(!model.busy);
- return {notice:null,join:free,host:HOST_SETUP_READY?free:control(false),recover:free,settings:{enabled:true},reducedMotion:prefs.reduced};
+ return {notice:null,join:free,host:free,recover:free,settings:{enabled:true},reducedMotion:prefs.reduced};
 }
 
 /** Display settings: the stored choice, the phone's own Reduce Motion as the lock (G9), and the text size. */
@@ -101,7 +103,11 @@ export function displayInput(prefs){
 
 // ── Host setup and the lobby ─────────────────────────────────────────────────────────────────────────────
 
-/** Host setup: today's three counts, the draft count and Open room from the session's busy flag. */
+/**
+ * Host setup: today's three counts, the draft count and Open room from the session's busy flag. The game gives no
+ * team mix yet, so each count goes with `mix: null` and no line is drawn under 7/8/9 (G1 (a), the Lead's decision
+ * of 17 November 2026; host-setup 0.1.1). The mix stays the engine's to give.
+ */
 export function hostSetupInput(model,ui,prefs,{mix=()=>null}={}){
  return {counts:PLAYER_COUNTS.map(value=>({value,mix:mix(value)})),count:ui.hostCount,open:control(!model.busy,busyWith(model,ui,'create')),
   error:refusal(model,ui,'create'),reducedMotion:prefs.reduced};
@@ -123,7 +129,7 @@ export function hostLobbyInput(model,ui,prefs){
   admit:control(free,busyWith(model,ui,`approveAdmission:${request.id}`))}));
  return {roomCode:model.roomCode,copied:ui.lobby.copied,toast:ui.lobby.toast,seats:model.playerCount?{filled:model.members.length,total:model.playerCount}:null,members,requests,
   bots:{count:counts.bots,max:counts.max,enabled:free,busy:busyWith(model,ui,'setBots'),reason:null},
-  start:control(free&&counts.missing===0,busyWith(model,ui,'beginSetup'),counts.startReason),notice:null,reducedMotion:prefs.reduced};
+  start:control(free&&counts.missing===0,busyWith(model,ui,'beginSetup'),counts.startReason),leave:noCommand(),notice:null,reducedMotion:prefs.reduced};
 }
 
 // ── Join and waiting ─────────────────────────────────────────────────────────────────────────────────────
@@ -154,7 +160,8 @@ export function joinRequest(draft){
  * authorization error is the session's own words under the line, as today's waiting view shows them.
  */
 export function waitInput(model,ui,draft,prefs){
- const name=String(draft.displayName).trim()||null,base={name,check:control(!model.busy),error:model.connection==='error'?model.message:null,reducedMotion:prefs.reduced};
+ const name=String(draft.displayName).trim()||null,base={name,check:control(!model.busy),cancel:noCommand(),leave:noCommand(),back:noCommand(),
+  error:model.connection==='error'?model.message:null,reducedMotion:prefs.reduced};
  const request=model.pendingAdmission;
  if(request)return {...base,view:request.status==='closed'?'closed':request.status==='declined'?'declined':'pending',roomCode:request.roomCode};
  const members=[...model.members].sort((a,b)=>seatNumber(a.seatId)-seatNumber(b.seatId)).map(member=>({seat:seatNumber(member.seatId),name:member.displayName}));

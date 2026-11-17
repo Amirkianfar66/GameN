@@ -119,7 +119,8 @@ const LOOK = `(() => {
   const box = n => { if (!n) return null; const r = n.getBoundingClientRect(); return { x: Math.round(r.x * 100) / 100, y: Math.round(r.y * 100) / 100, width: Math.round(r.width * 100) / 100, height: Math.round(r.height * 100) / 100 }; };
   const text = n => n ? n.textContent.replace(/\\s+/g, ' ').trim() : null;
   const control = b => ({ label: b.getAttribute('aria-label') ?? text(b), intent: b.dataset.intent ?? null, value: b.dataset.value ?? null, disabled: b.getAttribute('aria-disabled') === 'true' || b.disabled,
-    busy: b.getAttribute('aria-busy') === 'true', pressed: b.getAttribute('aria-pressed') ?? b.getAttribute('aria-checked'), box: box(b) });
+    busy: b.getAttribute('aria-busy') === 'true', pressed: b.getAttribute('aria-pressed') ?? b.getAttribute('aria-checked'),
+    reason: (id => id ? text(document.getElementById(id)) : null)(b.getAttribute('aria-describedby')), box: box(b) });
   const root = host?.firstElementChild ?? null, model = window.planetHarness?.app.session.getModel() ?? null;
   const shell = host?.querySelector('.ms-phone-shell');
   return {
@@ -154,9 +155,7 @@ const STATES = {
   menu: { url: 'scenario=join', steps: async page => { await page.waitFor(SCREEN('menu'), 'the main menu');
       // The brand intro plays first on the app's first entry (today's, unchanged); the menu is under it.
       await page.waitFor("!document.querySelector('.pregame-overlay')", 'the brand intro over', 8000); await page.waitFor("document.querySelector('.planet-pregame-hero')", 'the hero\'s still'); },
-    facts: s => ({ menu: /ms-main-menu/.test(s.component), choices: ['Join', 'Recover my seat', 'Display settings'].every(label => !!button(s, label) && !button(s, label).disabled),
-      // Host waits on host setup's team mix (G1): drawn, not offered.
-      hostWaits: !!button(s, 'Host') && button(s, 'Host').disabled,
+    facts: s => ({ menu: /ms-main-menu/.test(s.component), choices: ['Host', 'Join', 'Recover my seat', 'Display settings'].every(label => !!button(s, label) && !button(s, label).disabled),
       hero: s.hero?.svg && s.hero.box.height > 100, noFilm: s.film === null, noNotice: !/No connection/.test(s.words), nothingSent: s.sent.length === 0 }) },
   display: { from: 'menu', steps: async page => { await page.evaluate(tap('.planet-pregame-host [data-intent="settings"]')); await page.waitFor(SCREEN('display'), 'the Display page'); },
     facts: s => ({ page: /ms-display-page|ms-display-settings/.test(s.component) && /Display/.test(s.words), back: !!button(s, 'Menu'), motion: /Reduce motion/.test(s.words), sizes: ['Standard', 'Large', 'Largest'].every(l => !!button(s, l)) }),
@@ -185,7 +184,9 @@ const STATES = {
       await page.waitFor(SCREEN('join-wait'), 'waiting for the host');
     },
     facts: s => ({ wait: /ms-join-wait/.test(s.component) && /Waiting for the host/.test(s.words) && /Room PLANET · as Dev/.test(s.words), sent: s.sent.join() === 'requestAdmission',
-      pending: s.model?.pending === 'pending' || s.model?.pending === null, check: !!button(s, 'Check again') }),
+      pending: s.model?.pending === 'pending' || s.model?.pending === null, check: !!button(s, 'Check again'),
+      // G6: no command to withdraw a request, so Cancel is drawn unavailable with the connection's words.
+      cancelOff: button(s, 'Cancel')?.disabled === true && button(s, 'Cancel')?.reason === 'Not available in this test' }),
     after: async (page, seen) => {
       // Check again reads the session at once, as today's "Check admission".
       await page.evaluate("[...document.querySelectorAll('.planet-pregame-host button')].find(b=>/Check again/.test(b.textContent)).click()");
@@ -198,7 +199,7 @@ const STATES = {
       await page.evaluate(serve$("v.admission={...v.admission,status:'admitted'};v.selfSeatId='seat-4';v.isHost=false;v.status='lobby';v.playerCount=9;v.members=[1,2,3,4,5].map(n=>({seatId:`seat-${n}`,displayName:n===4?'Dev':`Crew ${n}`,characterId:null,controller:n===2?'bot':'human',ready:false}))"));
       await page.waitFor(SCREEN('join-wait') + "&&/Seat 4/.test(document.querySelector('.planet-pregame-host').textContent)", 'admitted, Seat 4');
     },
-    facts: s => ({ admitted: /You’re in · Seat 4/.test(s.words) && /Players · 5 of 9/.test(s.words) && /Dev \(you\)/.test(s.words), leave: !!button(s, 'Leave') }) },
+    facts: s => ({ admitted: /You’re in · Seat 4/.test(s.words) && /Players · 5 of 9/.test(s.words) && /Dev \(you\)/.test(s.words), leaveOff: button(s, 'Leave')?.disabled === true && button(s, 'Leave')?.reason === 'Not available in this test' }) },
   recover: { url: 'scenario=join', steps: async page => {
       await page.waitFor(SCREEN('menu') + "&&!document.querySelector('.pregame-overlay')", 'the menu, after the brand intro', 8000);
       await page.evaluate(tap('.planet-pregame-host [data-intent="recover"]'));
@@ -219,6 +220,23 @@ const STATES = {
       await page.waitFor("document.querySelector('.planet-container .ms-phone-shell')", 'the match, in the shell');
       return { recovered: /Seat 6 is yours again/.test(file.words) && file.sent.includes('redeemRecovery'), codeNotKept: !kept, continueToMatch: true };
     } },
+  'host-setup': { url: 'scenario=join', steps: async page => {
+      await page.waitFor(SCREEN('menu') + "&&!document.querySelector('.pregame-overlay')", 'the menu, after the brand intro', 8000);
+      await page.evaluate(tap('.planet-pregame-host [data-intent="host"]'));
+      await page.waitFor(SCREEN('host-setup'), 'host setup');
+    },
+    // G1 (a), the Lead's decision of 17 November: the game gives no team mix yet, so no line is drawn under 7/8/9.
+    facts: s => ({ setup: /ms-host-setup/.test(s.component), counts: s.buttons.filter(b => b.intent === 'count').map(b => b.label).join() === '7,8,9',
+      chosen: s.buttons.find(b => b.intent === 'count' && b.pressed === 'true')?.label === '7', open: !!button(s, 'Open room') && !button(s, 'Open room').disabled, nothingSent: s.sent.length === 0 }),
+    after: async page => {
+      const noMix = await page.evaluate("(() => { const b = document.querySelector('.planet-pregame-host [data-intent=\"count\"]'), n = b?.parentElement?.nextElementSibling; return !!n && (n.hidden || n.textContent.trim() === ''); })()");
+      await page.evaluate(tap('.planet-pregame-host [data-intent="count"][data-value="8"]'));
+      await page.waitFor("document.querySelector('.planet-pregame-host [data-intent=\"count\"][data-value=\"8\"]')?.getAttribute('aria-checked')==='true'", 'eight chosen');
+      await page.evaluate("[...document.querySelectorAll('.planet-pregame-host button')].find(b=>/Open room/.test(b.textContent)).click()");
+      await page.waitFor(SCREEN('host-lobby'), 'the room open, the host\'s lobby', 8000);
+      const sent = await page.evaluate("window.planetHarness.requests.filter(r=>r.operation==='create').map(r=>r.playerCount)");
+      return { noMix, createdWithEight: sent.join() === '8', lobby: true };
+    } },
   'host-lobby': { url: 'scenario=host', steps: async page => {
       await page.waitFor(SCREEN('host-lobby'), 'the host\'s lobby');
       // Five of nine seats, and one phone asking to join.
@@ -226,7 +244,9 @@ const STATES = {
       await page.waitFor("/Asking to join · 1/.test(document.querySelector('.planet-pregame-host').textContent)", 'a request');
     },
     facts: s => ({ lobby: /ms-host-lobby/.test(s.component) && /PLANET/.test(s.words.replace(/\s/g, '')), seats: /5 of 9/.test(s.words), request: !!button(s, 'Admit') && !button(s, 'Admit').disabled,
-      startOff: button(s, 'Start character selection')?.disabled === true && /4 more seats to fill/.test(s.words), bots: /Up to 9/.test(s.words) }),
+      startOff: button(s, 'Start character selection')?.disabled === true && /4 more seats to fill/.test(s.words), bots: /Up to 9/.test(s.words),
+      // G6: no command to leave a lobby, so Leave is drawn unavailable with the connection's words.
+      leaveOff: button(s, 'Leave')?.disabled === true && button(s, 'Leave')?.reason === 'Not available in this test' }),
     after: async page => {
       await page.evaluate("[...document.querySelectorAll('.planet-pregame-host button')].find(b=>/Copy/.test(b.textContent)).click()");
       await page.waitFor("document.querySelector('.ms-k-toast')", 'the copy toast');

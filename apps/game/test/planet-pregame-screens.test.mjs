@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {HOST_SETUP_READY,createPregameUi,pregameScreen,withheldStatus,busyWith,refusal,menuInput,displayInput,hostSetupInput,lobbyCounts,hostLobbyInput,joinInput,joinRequest,waitInput,
+import {NO_COMMAND_REASON,createPregameUi,pregameScreen,withheldStatus,busyWith,refusal,menuInput,displayInput,hostSetupInput,lobbyCounts,hostLobbyInput,joinInput,joinRequest,waitInput,
  recoverInput,charactersInput,roleInput,boardingInput,stageClock,roomCodeDraft,CHARACTERS,MOTION_LOCK_REASON,REGISTERED} from '../hosted/planet/pregame-input.mjs';
 import {createPlanetPreferences} from '../hosted/planet/preferences.mjs';
 import {nextMainMenuInput,MAIN_MENU_DEFAULTS} from '../../../design/phone-ui/components/main-menu/main-menu.mjs';
 import {nextDisplaySettingsInput,DISPLAY_SETTINGS_DEFAULTS} from '../../../design/phone-ui/components/display-settings/display-settings.mjs';
 import {nextHostLobbyInput,HOST_LOBBY_DEFAULTS} from '../../../design/phone-ui/components/host-room/host-lobby.mjs';
+import {nextHostSetupInput,HOST_SETUP_DEFAULTS} from '../../../design/phone-ui/components/host-room/host-setup.mjs';
 import {nextJoinFormInput,JOIN_FORM_DEFAULTS} from '../../../design/phone-ui/components/join-room/join-form.mjs';
 import {nextJoinWaitInput,JOIN_WAIT_DEFAULTS} from '../../../design/phone-ui/components/join-room/join-wait.mjs';
 import {nextRecoverInput,RECOVER_DEFAULTS} from '../../../design/phone-ui/components/recover/recover.mjs';
@@ -33,8 +34,8 @@ const ui=(over={})=>Object.assign(createPregameUi(),over);
 test('which screen: the menu and its four screens before a match; the app\'s own view when the session is not live or uncertain',()=>{
  assert.equal(pregameScreen(entry(),ui()),'menu');
  for(const [mode,screen]of [['display','display'],['join','join'],['recover','recover'],['menu','menu']])assert.equal(pregameScreen(entry(),ui({mode})),screen,mode);
- // Host setup waits on its team mix (G1): until then Host is not offered, and the menu stays.
- assert.equal(HOST_SETUP_READY,false);assert.equal(pregameScreen(entry(),ui({mode:'host'})),'menu');
+ // Host setup is drawn without the team mix the game doesn't give yet (G1 (a); host-setup 0.1.1).
+ assert.equal(pregameScreen(entry(),ui({mode:'host'})),'host-setup');
  // Today's Reconnect and Retry stay: there is no offline signal to give the menu (G14).
  assert.equal(pregameScreen(entry({connection:'error'}),ui()),null);
  assert.equal(pregameScreen(entry({connection:'connecting'}),ui()),null);
@@ -70,7 +71,7 @@ test('withheld: hidden is concealed, reconnecting is stale; an authorization err
 test('the menu and Display settings: every choice while the session is free, no offline note (G14), the phone\'s own Reduce Motion as the lock (G9)',()=>{
  const menu=menuInput(entry(),ui(),prefs);
  assert.equal(menu.notice,null);
- assert.deepEqual([menu.join,menu.host,menu.recover].map(c=>c.enabled),[true,HOST_SETUP_READY,true]);
+ assert.deepEqual([menu.join,menu.host,menu.recover].map(c=>c.enabled),[true,true,true]);
  assert.equal(menuInput(entry({busy:true}),ui(),prefs).join.enabled,false);
  nextMainMenuInput(MAIN_MENU_DEFAULTS,menu);
  const free=displayInput({...prefs,reducedMotion:true,textScale:1.5});
@@ -101,13 +102,16 @@ test('the lobby: today\'s bot range and seats to fill, moved unchanged (G2); mem
  assert.deepEqual(hostLobbyInput(model({isHost:true,selfSeatId:null}),ui(),prefs).start,{enabled:true,busy:false,reason:null});
  // A host with a seat is the lobby's host row.
  assert.equal(hostLobbyInput(model({isHost:true,selfSeatId:'seat-1'}),ui(),prefs).members[0].kind,'host');
- nextHostLobbyInput(HOST_LOBBY_DEFAULTS,lobby);
+ // G6: no command to leave a lobby, so Leave is drawn unavailable with the connection's words.
+ assert.deepEqual(lobby.leave,{enabled:false,busy:false,reason:NO_COMMAND_REASON});assert.equal(NO_COMMAND_REASON,'Not available in this test');
+ assert.deepEqual(nextHostLobbyInput(HOST_LOBBY_DEFAULTS,lobby).leave,lobby.leave);
 });
 
-test('host setup: today\'s counts and draft; no team mix until the game gives one (G1)',()=>{
+test('host setup: today\'s counts and draft; no team mix until the game gives one, so no line under 7/8/9 (G1 (a))',()=>{
  const setup=hostSetupInput(entry(),ui({hostCount:8}),prefs);
  assert.deepEqual(setup.counts.map(c=>c.value),[7,8,9]);assert.equal(setup.count,8);
  assert.ok(setup.counts.every(c=>c.mix===null));
+ nextHostSetupInput(HOST_SETUP_DEFAULTS,setup);
  assert.deepEqual(hostSetupInput(entry(),ui(),prefs,{mix:n=>`mix ${n}`}).counts[0],{value:7,mix:'mix 7'});
  assert.equal(hostSetupInput(entry({message:'That operation is not currently allowed.'}),ui({lastOp:'create'}),prefs).error,'That operation is not currently allowed.');
 });
@@ -132,7 +136,8 @@ test('join: the draft as the contract writes it, the name\'s rule, the session\'
 test('waiting: the request\'s state, then the seat once admitted; the session\'s error words under the line',()=>{
  const pending=waitInput(entry({pendingAdmission:{kind:'player',roomCode:'K7Q2XM',status:null}}),ui(),draft({displayName:'Dev'}),prefs);
  assert.deepEqual({view:pending.view,code:pending.roomCode,name:pending.name,error:pending.error},{view:'pending',code:'K7Q2XM',name:'Dev',error:null});
- nextJoinWaitInput(JOIN_WAIT_DEFAULTS,pending);
+ // G6: no command to withdraw a request, leave a lobby or drop a settled request, so all three are unavailable.
+ for(const name of ['cancel','leave','back'])assert.deepEqual(nextJoinWaitInput(JOIN_WAIT_DEFAULTS,pending)[name],{enabled:false,busy:false,reason:NO_COMMAND_REASON},name);
  for(const status of ['closed','declined'])assert.equal(waitInput(entry({pendingAdmission:{kind:'player',roomCode:'K7Q2XM',status}}),ui(),draft(),prefs).view,status);
  assert.equal(waitInput(entry({connection:'error',message:'The admission request could not be verified.',pendingAdmission:{kind:'player',roomCode:'K7Q2XM',status:null}}),ui(),draft(),prefs).error,'The admission request could not be verified.');
  const admitted=waitInput(model({members:members.slice(0,5)}),ui(),draft({displayName:'Crew 4'}),prefs);
