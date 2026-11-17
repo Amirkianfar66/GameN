@@ -17,6 +17,8 @@
 // room scene draws the people offered; the board, those in other rooms. Move chooses a position, not a person
 // (sheets 20, 26 and 27.1; the Lead's Q1–Q4, 16 November): its bar and chip are moveBar() and moveChip(), its
 // check is the same check with the position, and once accepted it says movedToast(). Pass's is passedToast().
+// The Disabler's position during a Blackout (sheet 30; the owner's decision of 16 November, d7ab5220, gives it
+// to Actions, beside Move) is blackoutBar(): "Choose a position", then "Position A3 fixed".
 // The Hospital panel's request (PANEL_CODE) is the Hospital panel component's (design/phone-ui/components/
 // hospital-panel; the Lead's Q3, 16 November): Actions draws only its sheet 45, "Panel request was sent, but no
 // answer came back.", which names no number, and every other part refuses it, naming that component.
@@ -29,7 +31,7 @@
 import { createControlPolicy, createKit, seatNumber } from '../kit/kit.mjs';
 import { TILE_STATES, createPlayParts } from '../play-parts/play-parts.mjs';
 
-export const ACTIONS_VERSION = 'actions-0.2.1';
+export const ACTIONS_VERSION = 'actions-0.2.2';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const TURNS = Object.freeze(['own', 'other']);
 const AFTER_KINDS = Object.freeze(['registered', 'accepted', 'active', 'captured']);
@@ -84,6 +86,9 @@ export const ACTION_WORDS = Object.freeze({
   moveChoose: 'Choose an empty position', moveOrBoard: 'Choose an empty position · or another room on the Board',
   moveBoard: 'Choose an empty position · uses this round’s move', moveFull: room => `No empty position in ${room} · choose one on the Board`,
   moveChip: 'Other rooms on the Board',
+  // The Disabler's position during a Blackout (screens-more.mjs blackout(), sheet 30).
+  positionChoose: 'Choose a position', positionAny: room => `${room} · any position, even empty`,
+  positionFixed: slot => `Position ${slot} fixed`, positionLater: 'Resolves after the window · no effect shown now',
 });
 
 /** After Register's stamp for each kind: its words, its tone (an outline while it waits), and whether it waits. */
@@ -391,6 +396,24 @@ export function moveBar({ where = 'room', room = null, here = false, elsewhere =
   if (!isText(room)) throw new TypeError('In the room, the bar names the viewer\'s room');
   if (!here) return { icon: l.icon, title: l.title, sub: ACTION_WORDS.moveFull(room) };
   return { icon: l.icon, title: ACTION_WORDS.moveWithin(room), sub: elsewhere ? ACTION_WORDS.moveOrBoard : ACTION_WORDS.moveChoose };
+}
+/**
+ * The Disabler's position bar during a Blackout (sheet 30; screens-more.mjs blackout()): the shell's target bar
+ * while the dark room's positions are offered (SELECT_BLACKOUT_SLOT, from the view's blackoutTargeting).
+ *   - Choosing: "Choose a position" with "Room A · any position, even empty", the room the request is bound to
+ *     (blackoutTargeting.boundRoom).
+ *   - Once the server has the position (blackoutTargeting.selectedSlotId, `fixed`): "Position A3 fixed" with
+ *     "Resolves after the window · no effect shown now". The offer ends then, so the position can't change.
+ * The pack's position mark is its icon. The room scene draws the positions offered (targets.slots, any position,
+ * even a taken one); the bar names no player and shows no effect.
+ */
+export function blackoutBar({ room = null, fixed = null } = {}) {
+  if (fixed !== null && fixed !== undefined) {
+    if (!isText(fixed)) throw new TypeError('fixed is the position the server has, such as "A3", or null');
+    return { icon: 'position', title: ACTION_WORDS.positionFixed(fixed), sub: ACTION_WORDS.positionLater };
+  }
+  if (!isText(room)) throw new TypeError('The bar names the room the Disabler chooses in');
+  return { icon: 'position', title: ACTION_WORDS.positionChoose, sub: ACTION_WORDS.positionAny(room) };
 }
 /** In the room, while the MOVE offer has a position in another room: the chip to the Board, "Other rooms on the Board" (sheet 20). Else null. */
 export function moveChip({ elsewhere = false } = {}) {

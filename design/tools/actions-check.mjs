@@ -98,14 +98,19 @@ const EXPECT = {
   'move-error': checkOf('Move to A5|Room A', 'Cancel|Register move', { facts: 1, error: 'The server did not accept the move. Choose a position again.' }),
   'move-unknown': { part: 'unknown', sheet: 'Outcome unknown', notice: 'Move to A5 was sent, but no answer came back.', footer: 'Retry the same|Check receipt' },
   'move-moved': { part: null, sheet: null, target: null, toast: 'Moved to A5' },
+  // The Disabler's position during a Blackout (sheet 30). `dark`: the dark room hides its people, so no crew is
+  // expected there; the room is checked to be dark.
+  'blackout-pick': { part: null, sheet: null, target: 'Choose a position|Room A · any position, even empty', chip: null, slots: 'A1,A2,A3,A4,A5', lighting: 'dark', dark: true },
+  'blackout-fixed': { part: null, sheet: null, target: 'Position A3 fixed|Resolves after the window · no effect shown now', chip: null, slots: 'A1,A2,A3*,A4,A5', lighting: 'dark', dark: true },
   passed: { part: null, sheet: null, toast: 'Turn passed' },
   'move-stale': { part: null, sheet: null, target: 'Move within Room A|Choose an empty position · or another room on the Board', banner: 'Connection lost' },
   'largest-move': { part: null, sheet: null, target: 'Move within Room A|Choose an empty position · or another room on the Board', chip: 'Other rooms on the Board', slots: 'A5' },
+  'largest-blackout': { part: null, sheet: null, target: 'Position A3 fixed|Resolves after the window · no effect shown now', chip: null, slots: 'A1,A2,A3*,A4,A5', lighting: 'dark', dark: true },
   'largest-move-check': checkOf('Move to A5|Room A', 'Cancel|Register move', { facts: 1 }),
 };
 /** The text-size states, each at its own size. */
 const OWN_SIZE = { 'small-tiles': '320x568', 'large-tiles': '390x844', 'largest-tiles': '320x568', 'largest-check': '320x568', 'largest-after': '320x568',
-  'largest-move': '320x568', 'largest-move-check': '320x568' };
+  'largest-move': '320x568', 'largest-move-check': '320x568', 'largest-blackout': '320x568' };
 /** The private words that must never be in a concealed page. */
 const PRIVATE = ['Rescue', 'Doctor', 'injections', 'Private talk', 'Your turn', 'Actions ·'];
 
@@ -178,6 +183,7 @@ try {
           steps: all('.ms-pp-steps li').filter(shown).length, people: all('.ms-ac-after-people .ms-k-row').length,
           notice: t(q('.ms-k-notice p')), banner: t(q('.ms-ps-banner b')), toast: t(q('.ms-k-toast-text')),
           slots: room && room.querySelectorAll('.ms-rs-slot').length ? [...room.querySelectorAll('.ms-rs-slot')].map(n => n.dataset.value + (n.hasAttribute('data-picked') ? '*' : '')).join(',') : null,
+          lighting: room?.dataset.lighting ?? null,
           page: document.body.innerText, figures: room ? room.querySelectorAll('.ms-rs-fig svg').length : 0 };
       })()`);
       const art = page.requests().filter(url => /\.svg$/.test(url)).map(url => url.slice(origin.length + 1));
@@ -189,12 +195,12 @@ try {
       const bytes = Buffer.from(data, 'base64');
       await writeFile(file, bytes);
       // `board`: the stage is the board's drawing, not in this preview, so no crew is expected there.
-      const { board: onBoard = false, ...want } = EXPECT[state];
+      const { board: onBoard = false, dark = false, ...want } = EXPECT[state];
       const leaked = PRIVATE.filter(w => seen.page.includes(w));
       const mismatched = want.concealed
         ? (seen.part !== null && seen.status !== 'concealed') || seen.sheet !== null || leaked.length || seen.figures !== 0 ? ['concealed'] : []
         : Object.entries(want).filter(([key, value]) => (key === 'offered' ? seen.offered < value : seen[key] !== value)).map(([key]) => key);
-      const drawn = mismatched.length === 0 && (want.concealed || onBoard || seen.figures > 0);
+      const drawn = mismatched.length === 0 && (want.concealed || onBoard || (dark && seen.figures === 0) || seen.figures > 0);
       const ok = seen.violations.every(v => v.kind !== 'unexpected') && problems.length === 0 && drawn;
       if (!ok) failed += 1;
       delete seen.page;

@@ -12,7 +12,7 @@
 
 import { ROOM_FIXTURES, SELF, board, seatOf } from '../../../prototype/fixtures.mjs';
 import { afterRegister } from '../../../prototype/screens-game.mjs';
-import { ACTION_WORDS, actionsSheet, afterSheet, checkSheet, moveBar, moveChip, movedToast, passSheet, passedToast, targetBar, targetChip, targetListSheet, unknownSheet } from '../actions.mjs';
+import { ACTION_WORDS, actionsSheet, blackoutBar, afterSheet, checkSheet, moveBar, moveChip, movedToast, passSheet, passedToast, targetBar, targetChip, targetListSheet, unknownSheet } from '../actions.mjs';
 
 const ROOM = 'Room A';
 const seats = board({ place: ROOM_FIXTURES['room-a'].place });
@@ -113,6 +113,16 @@ const moveCheckState = (caption, sheetNo, position, { phase = 'ready', error = n
   part: { kind: 'check', input: { type: 'MOVE', position, facts: FACTS.MOVE, error } },
 });
 const MOVE_A = { slot: EMPTY_A[0], room: ROOM };
+/**
+ * The Disabler during a Blackout (sheet 30): the dark room, every position offered (any position, even a taken
+ * one), the Blackout's dark bar, and the position bar (blackoutBar()). No one's turn; Pass is off.
+ */
+const ROOM_A_SLOTS = ['A1', 'A2', 'A3', 'A4', 'A5'];
+const darkBar = seconds => ({ kind: 'phase', icon: 'dark', title: 'Blackout', sub: 'Dark · positions fixed', tone: 'dark', round: 3, timer: { remainingMs: seconds * 1000 }, promises: { count: 0 }, menu: {} });
+const blackoutState = (caption, sheetNo, { fixed = null, seconds = 8 } = {}) => state(caption, sheetNo, {
+  shell: { bar: darkBar(seconds), tabs: tabs({ own: false }), target: blackoutBar({ room: ROOM, fixed }) },
+  scene: { active: null, lighting: 'dark', targets: { slots: ROOM_A_SLOTS, picked: fixed } },
+});
 const MOVE_B = { slot: EMPTY_B[0], room: 'Room B' };
 
 /** Every state, by key: its caption, the sheet it comes from, and its inputs. */
@@ -207,6 +217,9 @@ export const ACTIONS_STATES = Object.freeze({
     scene: { active: SELF },
     part: { kind: 'unknown', input: { type: 'MOVE', position: MOVE_A } },
   }),
+  // The Disabler's position during a Blackout (sheet 30; the owner's decision of 16 November gives it to Actions).
+  'blackout-pick': blackoutState('Blackout · the Disabler chooses a position', '30'),
+  'blackout-fixed': blackoutState('Blackout · “Position A3 fixed”', '30', { fixed: 'A3', seconds: 6 }),
   'move-moved': state(`Moved · “Moved to ${MOVE_A.slot}”, this phone’s toast (Q2)`, '20+', {
     shell: { bar: turnBar(SELF, 30), tabs: tabs(), toast: movedToast({ slot: MOVE_A.slot, id: 'move-1' }) },
     // The viewer now stands at the position, which everyone sees (the room scene's people, from the board).
@@ -227,6 +240,7 @@ export const ACTIONS_STATES = Object.freeze({
   'largest-check': { ...checkState('Largest text · the check', '56-like', 'RESCUE', [who(5)]), sizes: ['320x568'], text: 200 },
   'largest-after': { ...afterState('Largest text · registered', '56-like', 'RESCUE', who(5)), sizes: ['320x568'], text: 200 },
   'largest-move': { ...moveState('Largest text · Move within the room', '56-like'), sizes: ['320x568'], text: 200 },
+  'largest-blackout': { ...blackoutState('Largest text · “Position A3 fixed”', '56-like', { fixed: 'A3', seconds: 6 }), sizes: ['320x568'], text: 200 },
   'largest-move-check': { ...moveCheckState('Largest text · Move’s check', '56-like', MOVE_A), sizes: ['320x568'], text: 200 },
 });
 
@@ -260,6 +274,8 @@ export const PACK_FRAMES = Object.freeze({
   'large-tiles': { frame: 'actions&role=Doctor&active=4', text: 150 },
   // Move: sheet 20's bar and chip, the board's bar (26 and 27.1); and 27.3's "Turn passed".
   'move-room': { frame: 'room&room=room-a&state=move' },
+  'blackout-pick': { frame: 'blackout&state=pick' },
+  'blackout-fixed': { frame: 'blackout&state=chosen' },
   'move-board': { frame: 'board&state=move' },
   // The pack's room shows its own control here ("Window · Hospital"): the room scene's (#261), compared in its own
   // agreement, not this component's chip.

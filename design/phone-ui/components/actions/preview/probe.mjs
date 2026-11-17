@@ -17,7 +17,8 @@
 //   after     the stamp, its words and tone for each kind; the headline, the detail, the people, the steps;
 //             no time line after a reload; nothing drawn outside the sheet (nothing on the target)
 //   words     the frames and the shell's words: the sheets' ids, titles, subs and buttons; the target bar
-//             (Supply's second pick, the board); the chip; the toast; Pass without a next player
+//             (Supply's second pick, the board; the Disabler's position bar, sheet 30, and its refusals); the chip;
+//             the toast; Pass without a next player
 //   footer    the sheets' buttons in the real shell: live, each is taken; reconnecting, Cancel (the check's and
 //             Pass's) and Done are taken, being this phone's own (local), and Register, Pass, Retry the same and
 //             Check receipt, which stand for commands, are refused, described by the banner's words
@@ -40,7 +41,7 @@
 //             device's) is there at once; the sending spinner stands still with Reduce motion
 // With the device's Reduce motion emulated, only the motion check runs (the page's mode says which).
 
-import { ACTION_WORDS, actionsSheet, afterSheet, checkActions, checkAfterRegister, checkSheet, mountActionCheck, mountActions, mountAfterRegister, mountOutcomeUnknown,
+import { ACTION_WORDS, actionsSheet, afterSheet, blackoutBar, checkActions, checkAfterRegister, checkSheet, mountActionCheck, mountActions, mountAfterRegister, mountOutcomeUnknown,
   mountTargetList, moveBar, moveChip, movedToast, passSheet, passedToast, registeredToast, targetBar, targetChip, targetListSheet, unknownSheet } from '../actions.mjs';
 import { mountPhoneShell } from '../../phone-shell/phone-shell.mjs';
 import { ACTIONS_STATES } from './states.mjs';
@@ -203,7 +204,10 @@ export async function runActionsProbe({ sizes, versions }) {
       const sheets = [actionsSheet({ role: 'Doctor', room: 'Room A' }), targetListSheet({ type: 'RESCUE' }), checkSheet({ type: 'RESCUE' }), checkSheet({ type: 'REQUEST_HACK', phase: 'sending' }),
         afterSheet({ type: 'PROTECT' }), unknownSheet({ type: 'RESCUE' }), passSheet({ next: { seat: 'seat-5', name: 'Eli' } }), passSheet({})];
       const said = sheets.map(s => [s.id, s.title, s.sub ?? null, (s.actions ?? []).map(a => `${a.id}:${a.label}${a.busy ? ':busy' : ''}${a.local ? ':local' : ''}`).join('|') || null]);
-      const bars = [targetBar({ type: 'RESCUE' }), targetBar({ type: 'SUPPLY' }), targetBar({ type: 'SUPPLY', picked: ['seat-1'] }), targetBar({ type: 'RESCUE', where: 'board' })].map(b => `${b.icon}|${b.title}|${b.sub}`);
+      const bars = [targetBar({ type: 'RESCUE' }), targetBar({ type: 'SUPPLY' }), targetBar({ type: 'SUPPLY', picked: ['seat-1'] }), targetBar({ type: 'RESCUE', where: 'board' }),
+        blackoutBar({ room: 'Room A' }), blackoutBar({ room: 'Room A', fixed: 'A3' })].map(b => `${b.icon}|${b.title}|${b.sub}`);
+      // The Disabler's bar (sheet 30) names its room while choosing, and needs one; "fixed" is a position.
+      const refusals = [() => blackoutBar(), () => blackoutBar({ room: 'Room A', fixed: '' })].map(fn => { try { fn(); return null; } catch (e) { return e.message; } });
       const chips = [targetChip({ kind: 'other-rooms', count: 1 }), targetChip({ kind: 'list' })].map(c => `${c.id}|${c.label}|${c.icon}`);
       const toasts = [registeredToast({ type: 'RESCUE', id: 'c-1' }), registeredToast({ type: 'REQUEST_HACK', kind: 'accepted', id: 'c-2' }), registeredToast({ type: 'ACTIVATE_CLONE', kind: 'active', id: 'c-3' }),
         registeredToast({ type: 'ENGINEER_SUPPRESS', kind: 'captured', id: 'c-4' })].map(t => t.text);
@@ -211,9 +215,11 @@ export async function runActionsProbe({ sizes, versions }) {
         ['action-check', 'Check and register', null, 'cancel:Cancel:local|register:Requesting…:busy'], ['action-after', 'Grant Protection', null, 'done:Done:local'], ['action-unknown', 'Outcome unknown', null, 'retry:Retry the same|check:Check receipt'],
         ['pass', 'Pass your turn?', 'The turn goes to Eli · Player 5', 'cancel:Cancel:local|pass:Pass'], ['pass', 'Pass your turn?', null, 'cancel:Cancel:local|pass:Pass']];
       return { ok: JSON.stringify(said) === JSON.stringify(want)
-        && JSON.stringify(bars) === JSON.stringify(['rescue|Rescue|Choose a player', 'supply|Supply|Choose two players', 'supply|Supply|Choose the second player', 'rescue|Rescue|Choose a player · every room'])
+        && JSON.stringify(bars) === JSON.stringify(['rescue|Rescue|Choose a player', 'supply|Supply|Choose two players', 'supply|Supply|Choose the second player', 'rescue|Rescue|Choose a player · every room',
+          'position|Choose a position|Room A · any position, even empty', 'position|Position A3 fixed|Resolves after the window · no effect shown now'])
+        && refusals.every(r => typeof r === 'string')
         && JSON.stringify(chips) === JSON.stringify(['other-rooms|Other rooms · 1|board', 'list|List|players'])
-        && JSON.stringify(toasts) === JSON.stringify(['Rescue registered', 'Private talk accepted', 'Clone active', 'Navigation suppressed']), said, bars, chips, toasts };
+        && JSON.stringify(toasts) === JSON.stringify(['Rescue registered', 'Private talk accepted', 'Clone active', 'Navigation suppressed']), said, bars, chips, toasts, refusals };
     });
 
     await check('footer', async () => {
