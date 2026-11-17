@@ -1,6 +1,6 @@
 # Host controls: Designer's runtime component
 
-**Version:** `host-controls-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on #295, with the Lead's six answers below, against the phone shell 0.2.6. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
+**Version:** `host-controls-0.1.1` (17 November: Retry, [below](#retry-011-the-leads-answer-of-17-november)). **Status (16 November 2026):** built to the interface the Lead Designer approved on #295, with the Lead's six answers below, against the phone shell 0.2.6. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
 
 **What it is:** the host's controls in a match, as sheet 15 draws them: their own sheet, opened from the Settings sheet's Host controls row (#294), in plain words, with a recovery code for each seat. It is #222 item 28, P3. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -79,6 +79,7 @@ host.dispose();                                             // safe twice; after
 | `seats` | The host's | `[{ seat, name, character, enabled, busy, reason }]`: the seats Frontend lists for a code, each offered unless Frontend says otherwise (answer 6) |
 | `abort` | The host's | `{ enabled, busy, reason }`: the abort's state; the row opens the confirm, the footer's Abort match sends it |
 | `code` | The host's, private | `null`, or `{ seat, name, matchId, revealed, value, minutes }`: the issued code. `value` only while `revealed` (given hidden, it is refused); `minutes` left, from the server's `expiresAt` (answer 4) |
+| `retry` | The host's | `null`, or `{ enabled, busy }` (0.1.1): while the session's own request has an unknown outcome and waits to be sent again. The list's footer then has Retry; the rows are refused with Frontend's words |
 
 **The component decides nothing:** it never works out whether a deadline has passed, whether a bot can act, who may have a code, how long a code lasts, or whether the match may end. Frontend gives each state from the session; the reasons and receipts are Frontend's words.
 
@@ -93,7 +94,7 @@ host.dispose();                                             // safe twice; after
 | `onIssueRecovery(seat)` | A seat's row: Frontend sends `issueRecovery`, and shows the code view with the issued code |
 | `onAbortAsk()` | The Abort match row: Frontend shows the confirm view (nothing is sent) |
 | `onFocusReturn({ intent, value })` | As the other components' |
-| The shell's `onSheetAction(id)` | `reveal` / `hide`: Frontend shows or hides the code; `copy`: Frontend copies the code and shows "Copied"; `keep`: back to the list; `abort`: Frontend sends `abort` |
+| The shell's `onSheetAction(id)` | `reveal` / `hide`: Frontend shows or hides the code; `copy`: Frontend copies the code and shows "Copied"; `keep`: back to the list; `abort`: Frontend sends `abort`; `retry` (0.1.1): Frontend sends the session's request again (`session.retry()`) |
 
 Each reports a tap, and only that.
 
@@ -119,6 +120,15 @@ The agreement draws the frozen pack's `host-controls` screen beside the sheet (i
 
 - **The shell, as it is:** compared with shell 0.2.6 (since 0.2.5 it draws the pack's sheet head with Back (18 px at its left, the title at 72) and the footer's two equal halves at the Larger text); nothing is patched and nothing is recorded as the shell's. (This build's first record found both under 0.2.4; the Lead settled them in the shell.)
 - **Accepted, at the Largest text only:** beside the long "Works once · 15 minutes" the pack's timer icon shrinks to under 24 px; the card's keeps its 24 px, as the kit's icons never shrink (`.ms-k-ic`, `flex: none`). That case compares the icon's place and height, and records its width.
+
+## Retry (0.1.1, the Lead's answer of 17 November)
+
+The pre-game connection (#308, part 8) found that the host has no Retry in the match once the old host controls leave: a session request with an unknown outcome (a host command whose answer was lost, or one restored after a reload as "A previous session request needs an exact retry") waits to be sent again, and until then the session sends nothing else, so every command is refused and the match's end can't return to the lobby. The Lead decided it on 17 November: it fills a state sheet 15 doesn't draw, so it is the Lead's to decide, like the entry screens' G6, and needs no owner approval.
+- **The input:** `retry: null | { enabled, busy }`, from Frontend.
+- **The list's footer** has "Retry", the kit's primary button, while it is given. It stands for the session's request, so it is a command, not local: while reconnecting the shell refuses it with the banner's words, as Abort match. The code card's and the confirm's footers are unchanged.
+- **The rows** are refused with Frontend's words, the session's own ("Session request outcome unknown. Retry the original request."), as any refusal is.
+- **It reports** through the shell's `onSheetAction('retry')`; Frontend calls `session.retry()`.
+- **Checked:** the preview's `retry` state and the check's captures of it at both sizes; the probe's retry check (the footer's word, look and intent, its report, busy, gone when not given, the confirm's footer unchanged, the rows' words); and the test (the input, its refusals, and the frame in each view).
 
 ## Check
 

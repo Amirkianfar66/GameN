@@ -72,6 +72,9 @@ export const codeOf = (revealed, minutes = 15) => ({ seat: dev.seat, name: dev.n
 export const inputOf = (extra = {}) => ({ view: 'list', viewer: SELF, versions, deadline: ON, bots: ON, abort: ON, seats: SEATS, code: null, ...extra });
 /** Frontend's words for a refusal, standing in. */
 export const REFUSED = Object.freeze({ deadline: 'The deadline has not passed yet' });
+/** The session's words while its own request's outcome is unknown (0.1.1, Retry), standing in. */
+export const UNSURE = 'Session request outcome unknown. Retry the original request.';
+const waits = Object.freeze({ enabled: false, reason: UNSURE });
 const copied = { id: 'copied', text: HOST_WORDS.copied, icon: 'check' };
 
 /** Each state Frontend checks: the component's input, the shell's extra input, and the text size. */
@@ -84,6 +87,7 @@ export const PREVIEW_STATES = Object.freeze({
   copied: { caption: 'Code · copied (the shell’s toast)', input: inputOf({ view: 'code', code: codeOf(false) }), shell: { toast: copied } },
   abort: { caption: 'Abort · confirm · sheet 15', input: inputOf({ view: 'abort' }) },
   aborting: { caption: 'Abort in flight', input: inputOf({ view: 'abort', abort: { enabled: true, busy: true } }) },
+  retry: { caption: 'Retry · the session’s request waits to be sent again (0.1.1)', input: inputOf({ deadline: waits, bots: waits, abort: waits, seats: SEATS.map(s => ({ ...s, ...waits })), retry: { enabled: true } }) },
   stale: { caption: 'Reconnecting · commands wait', input: inputOf({ status: 'stale' }), shell: { status: 'stale', banner: { kind: 'reconnecting' } } },
   largest: { caption: 'Code · revealed · Largest text (200 %)', input: inputOf({ view: 'code', code: codeOf(true) }), text: 200 },
 });

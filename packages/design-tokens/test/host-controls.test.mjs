@@ -95,7 +95,7 @@ test('its words are the pack\'s (sheet 15)', () => {
   assert.ok(read('design/phone-ui/prototype/ui.mjs').includes(`toast = (text, icon = 'check')`) && more.includes(`toast('${HOST_WORDS.copied}')`), 'the pack\'s "Copied" toast, with the check');
   assert.equal(HOST_WORDS.seat(3, 'Cleo'), '3 · Cleo');
   assert.equal(HOST_WORDS.terms(1), 'Works once · 1 minute');
-  assert.equal(HOST_CONTROLS_VERSION, 'host-controls-0.1.0');
+  assert.equal(HOST_CONTROLS_VERSION, 'host-controls-0.1.1');
 });
 
 test('its inputs are checked, and refused with a reason', () => {
@@ -163,7 +163,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   assert.match(csp, /default-src 'none'/);
   assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
   const captures = Object.entries(record.captures);
-  assert.equal(captures.length, 20, 'sheet 15\'s four states and the copy, a command in flight and refused, the abort in flight, reconnecting and the Largest text, at two sizes');
+  assert.equal(captures.length, 22, 'sheet 15\'s four states and the copy, a command in flight and refused, the abort in flight, Retry (0.1.1), reconnecting and the Largest text, at two sizes');
   for (const [key, c] of captures) {
     assert.ok(c.ok && c.drawn, `${key} passed and drew what its state asks`);
     assert.deepEqual(c.problems, [], `${key}: no page error or failed request`);
@@ -191,4 +191,18 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   const accepted = agree.checks.filter(c => c.detail.accepted);
   assert.equal(accepted.length, 1);
   assert.ok(/Largest/.test(accepted[0].id) && accepted[0].detail.accepted.screen.w === 24 && accepted[0].detail.accepted.pack.w < 24);
+});
+
+test('Retry (0.1.1): null unless Frontend gives it; in the list\'s footer only, the kit\'s primary and a command, not local', () => {
+  assert.equal(HOST_CONTROLS_DEFAULTS.retry, null);
+  assert.equal(nextHostControlsInput(HOST_CONTROLS_DEFAULTS, {}).retry, null);
+  assert.deepEqual(nextHostControlsInput(HOST_CONTROLS_DEFAULTS, { retry: {} }).retry, { enabled: true, busy: false });
+  assert.deepEqual(nextHostControlsInput(HOST_CONTROLS_DEFAULTS, { retry: { enabled: false, busy: true } }).retry, { enabled: false, busy: true });
+  for (const bad of ['retry', 1, true, []]) assert.throws(() => nextHostControlsInput(HOST_CONTROLS_DEFAULTS, { retry: bad }), /retry is null/);
+  assert.deepEqual(hostControlsSheet({}).actions, [], 'no Retry until given');
+  assert.deepEqual(hostControlsSheet({ retry: { enabled: true } }).actions, [{ id: 'retry', label: HOST_WORDS.retry, kind: 'primary', enabled: true, busy: false }]);
+  assert.equal(HOST_WORDS.retry, 'Retry');
+  assert.ok(!('local' in hostControlsSheet({ retry: {} }).actions[0]), 'it stands for the session\'s request: refused while reconnecting');
+  assert.deepEqual(hostControlsSheet({ view: 'abort', retry: {} }).actions.map(a => a.id), ['keep', 'abort'], 'the confirm\'s footer is unchanged');
+  assert.deepEqual(hostControlsSheet({ view: 'code', retry: {}, code: { seat: 4, name: 'Dev', matchId: 'm', revealed: false } }).actions.map(a => a.id), ['reveal', 'copy']);
 });

@@ -21,10 +21,15 @@
 // leaves the page when hidden, when the view changes, when the viewer changes, when concealed and on dispose
 // (answer 4). The minutes left are Frontend's, from the server's expiresAt and the trusted clock; the component
 // never counts down.
+//
+// Retry (0.1.1; the Lead's answer of 17 November to the pre-game connection's part 8): when the session's own request
+// has an unknown outcome, every command waits for it to be sent again. Frontend then gives `retry`, and the list's
+// footer has "Retry", the kit's primary button, standing for that command (not local); the refused rows keep
+// Frontend's words. It fills a state sheet 15 doesn't draw.
 
 import { createControlPolicy, createKit } from '../kit/kit.mjs';
 
-export const HOST_CONTROLS_VERSION = 'host-controls-0.1.0';
+export const HOST_CONTROLS_VERSION = 'host-controls-0.1.1';
 const VIEWS = Object.freeze(['list', 'code', 'abort']);
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 /** The sheet's id, the same for the three views, so the shell keeps its body (and this content) through them. */
@@ -47,6 +52,8 @@ export const HOST_WORDS = Object.freeze({
   reveal: 'Reveal', hide: 'Hide', copy: 'Copy', copied: 'Copied',
   confirm: 'Abort the match?', confirmLine: 'It ends now for everyone, with no winner.',
   keep: 'Keep playing', abortConfirm: 'Abort match',
+  /** The list's footer while the session's request waits to be sent again (0.1.1): the kit's word, as the shell's banner. */
+  retry: 'Retry',
 });
 /** The pack's dots for a hidden code: the same whatever the code, so its length is never on the page. */
 export const CODE_MASK = '•••••• •••••• •••••• •••••• ••••••';
@@ -55,7 +62,7 @@ const OFF = Object.freeze({ enabled: false, busy: false, reason: null });
 /** Every input, with its default: the list, nothing offered until Frontend gives it, no code. */
 export const HOST_CONTROLS_DEFAULTS = Object.freeze({
   view: 'list', status: 'live', interactive: true, reducedMotion: false, viewer: null, versions: null,
-  deadline: OFF, bots: OFF, abort: OFF, seats: Object.freeze([]), code: null,
+  deadline: OFF, bots: OFF, abort: OFF, seats: Object.freeze([]), code: null, retry: null,
 });
 
 const isText = value => typeof value === 'string' && value.length > 0;
@@ -76,6 +83,12 @@ function checkSeats(seats) {
     seen.add(s.seat);
     return Object.freeze({ seat: s.seat, name: s.name, character: isText(s.character) ? s.character : null, ...checkCommand(`Seat ${s.seat}`, { enabled: true, ...s }) });
   }));
+}
+/** Retry: null, or { enabled, busy } (0.1.1), Frontend's while the session's request waits to be sent again. */
+function checkRetry(retry) {
+  if (retry === null || retry === undefined) return null;
+  if (typeof retry !== 'object' || Array.isArray(retry)) throw new TypeError('retry is null, or { enabled, busy }');
+  return Object.freeze({ enabled: retry.enabled !== false, busy: retry.busy === true });
 }
 function checkCode(code) {
   if (code === null || code === undefined) return null;
@@ -102,6 +115,7 @@ export function nextHostControlsInput(previous, input = {}) {
   for (const name of ['deadline', 'bots', 'abort']) next[name] = checkCommand(name, next[name]);
   next.seats = checkSeats(next.seats ?? []);
   next.code = checkCode(next.code);
+  next.retry = checkRetry(next.retry);
   const viewerChanged = 'viewer' in input && previous.viewer !== input.viewer;
   if (next.status === 'concealed' || (viewerChanged && !('code' in input))) next.code = null;
   return next;
@@ -130,7 +144,9 @@ export function hostControlsSheet(input) {
       { id: 'abort', label: W.abortConfirm, kind: 'warn', enabled: s.abort.enabled, busy: s.abort.busy, reason: s.abort.reason },
     ] };
   }
-  return { ...frame, title: W.title, actions: [] };
+  // The list: Retry in its footer only while Frontend gives it (0.1.1), the command it stands for, not local.
+  const actions = s.retry ? [{ id: 'retry', label: W.retry, kind: 'primary', enabled: s.retry.enabled, busy: s.retry.busy }] : [];
+  return { ...frame, title: W.title, actions };
 }
 
 /**

@@ -32,12 +32,14 @@ const COMPONENT = join(REPO, 'design/phone-ui/components/host-controls');
 const REVIEW = join(COMPONENT, 'review');
 const SIZES = { '390x844': [390, 844], '430x932': [430, 932] };
 /** Each state at the two development sizes (preview.mjs PREVIEW_STATES). */
-const STATES = ['list', 'busy', 'refused', 'code', 'revealed', 'copied', 'abort', 'aborting', 'stale', 'largest'];
+const STATES = ['list', 'busy', 'refused', 'code', 'revealed', 'copied', 'abort', 'aborting', 'retry', 'stale', 'largest'];
 /** The preview's sample code (preview.mjs SAMPLE_CODE): in the page only while revealed. */
 const SAMPLE_CODE = 'q7Hc2-Lm9xT-4ZpWd-8rVnK-2bYs6-Jt';
 const MASK = '•••••• •••••• •••••• •••••• ••••••';
 const ROWS = 'Check the deadline|Run bots|1 · Ava|2 · Ben|3 · Cleo|4 · Dev|5 · Eli|Abort match';
 const RECONNECTING = 'Controls return when the match is current';
+/** The session's words for its request's unknown outcome (preview.mjs UNSURE), on every refused row while Retry shows (0.1.1). */
+const UNSURE = 'Session request outcome unknown. Retry the original request.';
 
 /** The preview bundled as the game bundles the component (component-check.mjs). */
 const bundle = () => bundlePreview({ repo: REPO, root: join(COMPONENT, 'preview'), name: 'host-controls-check' });
@@ -68,6 +70,10 @@ const EXPECT = {
   copied: s => card(s, false) && s.toast === 'Copied',
   abort: s => confirm(s) && !s.abortBusy,
   aborting: s => confirm(s) && s.abortBusy,
+  // 0.1.1: the session's request waits to be sent again: Retry in the list's footer, the kit's primary, a command (not local).
+  retry: s => common(s) && s.title === 'Host controls' && s.rows === ROWS && s.foot === 'Retry' && s.retryPrimary && s.retryIntent === 'sheet-action' && !s.codeInPage
+    && s.refused.join() === 'deadline,bots,issue-recovery,issue-recovery,issue-recovery,issue-recovery,issue-recovery,abort-ask' && s.dimmed.length === 8
+    && s.reasons.every(r => r === UNSURE) && s.deadlineLine === UNSURE,
   // Reconnecting: the commands wait with the banner's words, not dimmed; the confirm still opens.
   stale: s => list(s) && s.banner && s.refused.join() === 'deadline,bots,issue-recovery,issue-recovery,issue-recovery,issue-recovery,issue-recovery' && s.dimmed.length === 0 && s.reasons.every(r => r === RECONNECTING),
   largest: s => card(s, true) && s.root === 32,
@@ -102,6 +108,7 @@ try {
           meta: words(q('.ms-hc-meta')), note: words(q('.ms-k-group-note')), confirm: q('.ms-k-wait') ? [q('.ms-k-wait-title').textContent, q('.ms-k-wait-line').textContent].join('|') : null,
           foot: foot.map(b => b.textContent.trim()).join('|'), footLocal: foot.length === 2,
           abortWarn: foot[1]?.classList.contains('ms-k-btn-warn') ?? false, abortBusy: foot[1]?.getAttribute('aria-busy') === 'true',
+          retryPrimary: foot.length === 1 && foot[0].classList.contains('ms-k-btn-primary'), retryIntent: foot[0]?.dataset.intent ?? null,
           toast: words(shell.querySelector('.ms-ps-toast')), banner: shown(shell.querySelector('.ms-ps-banner')),
           codeInPage: document.documentElement.outerHTML.includes(${JSON.stringify(SAMPLE_CODE)}),
           cut: qa('.ms-k-row-title, .ms-k-row-sub, .ms-k-group-label, .ms-k-group-note, .ms-hc-card > *, .ms-k-wait-title, .ms-k-wait-line').filter(shown).filter(n => n.scrollWidth > n.clientWidth + 0.5).map(n => n.textContent) };
