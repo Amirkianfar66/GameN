@@ -1,0 +1,2300 @@
+{
+  "tool": "design/tools/ship-travel-check.mjs",
+  "component": "design/phone-ui/components/ship-travel",
+  "version": "ship-travel-0.1.0",
+  "sourceCommit": "bf935dc46a55d88a3c278e024427fef4a406387d",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels, the poster comparison at 1x; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "poster": {
+    "file": "apps/game/candidates/planet-library/transit.poster.webp",
+    "sha256": "cd2ee84274ed955176005b4ed0bb44c353e26cf3f5585b5ff1ce515c8903daa2",
+    "approvalRecord": "docs/integration/planet-library-art-approval-2026-11-06.json",
+    "approvedSha256": "cd2ee84274ed955176005b4ed0bb44c353e26cf3f5585b5ff1ce515c8903daa2",
+    "frame": {
+      "t": 1200,
+      "width": 1920,
+      "height": 1080,
+      "variant": "full",
+      "sha256": "cd2ee84274ed955176005b4ed0bb44c353e26cf3f5585b5ff1ce515c8903daa2"
+    },
+    "ok": true
+  },
+  "captures": {
+    "390x844/setting/full": {
+      "file": "design/phone-ui/components/ship-travel/review/390x844-setting.jpg",
+      "sha256": "5f3f8af4ae1db1d837cbea0183e25127bcf7c6283bccd15239c7268435b4fe65",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 4000,
+        "beat": "cruise",
+        "still": false,
+        "running": false,
+        "state": "setting",
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "430x932/setting/full": {
+      "file": "design/phone-ui/components/ship-travel/review/430x932-setting.jpg",
+      "sha256": "b1c07f96491f7f643ff25396526cf604e7f0bde140fed9fb2d5f23df0f77a167",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 4000,
+        "beat": "cruise",
+        "still": false,
+        "running": false,
+        "state": "setting",
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "390x844/enter/full": {
+      "file": "design/phone-ui/components/ship-travel/review/390x844-enter.jpg",
+      "sha256": "fffc17849f12052376d667faeac3728b3f2bdf61058e7335af68881ec757dc5e",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 600,
+        "beat": "enter",
+        "still": false,
+        "running": false,
+        "state": "setting",
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "430x932/enter/full": {
+      "file": "design/phone-ui/components/ship-travel/review/430x932-enter.jpg",
+      "sha256": "b2c8ad8a7c4ab430fd9d0824c4f26859dfc60e7ec801cf75a8ee6a5db4aaa745",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 600,
+        "beat": "enter",
+        "still": false,
+        "running": false,
+        "state": "setting",
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "390x844/settle/full": {
+      "file": "design/phone-ui/components/ship-travel/review/390x844-settle.jpg",
+      "sha256": "bc6db4450b537666bfe9105f5288b42104f3d0c97f85ae886fe9a5bfc18b36a0",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 14400,
+        "beat": "settle",
+        "still": false,
+        "running": false,
+        "state": "setting",
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "430x932/settle/full": {
+      "file": "design/phone-ui/components/ship-travel/review/430x932-settle.jpg",
+      "sha256": "26948efcb35352c58e23c1360b5d7d395f1c2d5672ea2bb49774a25ae8f6785b",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 14400,
+        "beat": "settle",
+        "still": false,
+        "running": false,
+        "state": "setting",
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "390x844/moved/full": {
+      "file": "design/phone-ui/components/ship-travel/review/390x844-moved.jpg",
+      "sha256": "20e230648b715a2dba8d12b93db98d341d22f09198073cbb3b15f1571cba5a4b",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 15000,
+        "beat": "still",
+        "still": true,
+        "running": false,
+        "state": "moved",
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "label": "The ship moved one step. Destination hidden.",
+      "motion": null,
+      "pill": "One step on the route · destination hidden",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "The ship moved",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "430x932/moved/full": {
+      "file": "design/phone-ui/components/ship-travel/review/430x932-moved.jpg",
+      "sha256": "de2daffb9174868933f7b48e63d792987e8f9a2dfc1beb28d0b32900e00b94d8",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 15000,
+        "beat": "still",
+        "still": true,
+        "running": false,
+        "state": "moved",
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "label": "The ship moved one step. Destination hidden.",
+      "motion": null,
+      "pill": "One step on the route · destination hidden",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "The ship moved",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "390x844/reduced/full": {
+      "file": "design/phone-ui/components/ship-travel/review/390x844-reduced.jpg",
+      "sha256": "299822e27c84099dfed92baed5883d91f92aa4c2d34c9def23e6a09f3bb36aca",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 15000,
+        "beat": "still",
+        "still": true,
+        "running": false,
+        "state": "setting",
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": "reduced",
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "430x932/reduced/full": {
+      "file": "design/phone-ui/components/ship-travel/review/430x932-reduced.jpg",
+      "sha256": "9e2f3eb630a58ddfce4c9fe40d0e7604149526233c47cdd3a7fc41974ef61873",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 15000,
+        "beat": "still",
+        "still": true,
+        "running": false,
+        "state": "setting",
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": "reduced",
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "390x844/stale/full": {
+      "file": "design/phone-ui/components/ship-travel/review/390x844-stale.jpg",
+      "sha256": "e555375110f939bc2d5a70948d970e0c1a3821b4094e1e86ed77090d1d5c71f6",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 9000,
+        "beat": "cruise",
+        "still": false,
+        "running": false,
+        "state": "setting",
+        "status": "stale",
+        "reduced": false,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": "Connection lost",
+      "shell": "Reconnecting…",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "430x932/stale/full": {
+      "file": "design/phone-ui/components/ship-travel/review/430x932-stale.jpg",
+      "sha256": "579de875da7c800229bebc5f710142731bba68ccf3aa51503b49c3db917b5bef",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 9000,
+        "beat": "cruise",
+        "still": false,
+        "running": false,
+        "state": "setting",
+        "status": "stale",
+        "reduced": false,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": "Connection lost",
+      "shell": "Reconnecting…",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "390x844/concealed/full": {
+      "file": "design/phone-ui/components/ship-travel/review/390x844-concealed.jpg",
+      "sha256": "99a68f750804b822934f4b097ffc19b4bd930d84cde5386037b5030a5c60af9f",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": null,
+        "beat": null,
+        "still": false,
+        "running": false,
+        "state": "setting",
+        "status": "concealed",
+        "reduced": false,
+        "shown": false
+      },
+      "label": "Hidden",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": false,
+      "layersShown": 0,
+      "banner": null,
+      "shell": null,
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": null,
+      "problems": []
+    },
+    "430x932/concealed/full": {
+      "file": "design/phone-ui/components/ship-travel/review/430x932-concealed.jpg",
+      "sha256": "bad6056478a50a87d7e4a3aeaa79035b233b84b92bb5504d81b27a649a223242",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": null,
+        "beat": null,
+        "still": false,
+        "running": false,
+        "state": "setting",
+        "status": "concealed",
+        "reduced": false,
+        "shown": false
+      },
+      "label": "Hidden",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": false,
+      "layersShown": 0,
+      "banner": null,
+      "shell": null,
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": null,
+      "problems": []
+    },
+    "390x844/noclock/full": {
+      "file": "design/phone-ui/components/ship-travel/review/390x844-noclock.jpg",
+      "sha256": "d406d6342c48d1f975aa1a21803ea27689c1b45aa9c6c7e52d6ea08ae82bc863",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 15000,
+        "beat": "still",
+        "still": true,
+        "running": false,
+        "state": "setting",
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "430x932/noclock/full": {
+      "file": "design/phone-ui/components/ship-travel/review/430x932-noclock.jpg",
+      "sha256": "1d4860dec1d2f19fbe63f20e697b4a9f2293b44ed61fd6d4ada90b867b000b61",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 15000,
+        "beat": "still",
+        "still": true,
+        "running": false,
+        "state": "setting",
+        "status": "live",
+        "reduced": false,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "390x844/setting/reduced": {
+      "file": "design/phone-ui/components/ship-travel/review/390x844-setting-reduced.jpg",
+      "sha256": "299822e27c84099dfed92baed5883d91f92aa4c2d34c9def23e6a09f3bb36aca",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 15000,
+        "beat": "still",
+        "still": true,
+        "running": false,
+        "state": "setting",
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "430x932/setting/reduced": {
+      "file": "design/phone-ui/components/ship-travel/review/430x932-setting-reduced.jpg",
+      "sha256": "9e2f3eb630a58ddfce4c9fe40d0e7604149526233c47cdd3a7fc41974ef61873",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 15000,
+        "beat": "still",
+        "still": true,
+        "running": false,
+        "state": "setting",
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "390x844/enter/reduced": {
+      "file": "design/phone-ui/components/ship-travel/review/390x844-enter-reduced.jpg",
+      "sha256": "1fc7958b379d71f9dac85cc2c6a7daa7641e67e777ef8c8133973e4829c7baf9",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 15000,
+        "beat": "still",
+        "still": true,
+        "running": false,
+        "state": "setting",
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "430x932/enter/reduced": {
+      "file": "design/phone-ui/components/ship-travel/review/430x932-enter-reduced.jpg",
+      "sha256": "4a8a4e7a3e98f60fc9260abc77a2e9f112bf651f8305f9300f8c48b0266587ce",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 15000,
+        "beat": "still",
+        "still": true,
+        "running": false,
+        "state": "setting",
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "390x844/settle/reduced": {
+      "file": "design/phone-ui/components/ship-travel/review/390x844-settle-reduced.jpg",
+      "sha256": "f64dfbd3a4d4e1f7a5c0ff127fd825391fab08995cd48755ff7e4e74a12e2961",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 15000,
+        "beat": "still",
+        "still": true,
+        "running": false,
+        "state": "setting",
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "430x932/settle/reduced": {
+      "file": "design/phone-ui/components/ship-travel/review/430x932-settle-reduced.jpg",
+      "sha256": "0fdbf02f2c1af005d0f9d8f29c58730ec5ff86e1c4e2b02ca116078371207233",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 15000,
+        "beat": "still",
+        "still": true,
+        "running": false,
+        "state": "setting",
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "390x844/moved/reduced": {
+      "file": "design/phone-ui/components/ship-travel/review/390x844-moved-reduced.jpg",
+      "sha256": "e990f9dbe54b7e15c8540ee15f116a558327e66f4456f1ae3edfbad3e3aaf325",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 15000,
+        "beat": "still",
+        "still": true,
+        "running": false,
+        "state": "moved",
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "label": "The ship moved one step. Destination hidden.",
+      "motion": null,
+      "pill": "One step on the route · destination hidden",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "The ship moved",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "430x932/moved/reduced": {
+      "file": "design/phone-ui/components/ship-travel/review/430x932-moved-reduced.jpg",
+      "sha256": "de2daffb9174868933f7b48e63d792987e8f9a2dfc1beb28d0b32900e00b94d8",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 15000,
+        "beat": "still",
+        "still": true,
+        "running": false,
+        "state": "moved",
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "label": "The ship moved one step. Destination hidden.",
+      "motion": null,
+      "pill": "One step on the route · destination hidden",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "The ship moved",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "390x844/reduced/reduced": {
+      "file": "design/phone-ui/components/ship-travel/review/390x844-reduced-reduced.jpg",
+      "sha256": "299822e27c84099dfed92baed5883d91f92aa4c2d34c9def23e6a09f3bb36aca",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 15000,
+        "beat": "still",
+        "still": true,
+        "running": false,
+        "state": "setting",
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": "reduced",
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "430x932/reduced/reduced": {
+      "file": "design/phone-ui/components/ship-travel/review/430x932-reduced-reduced.jpg",
+      "sha256": "9e2f3eb630a58ddfce4c9fe40d0e7604149526233c47cdd3a7fc41974ef61873",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 15000,
+        "beat": "still",
+        "still": true,
+        "running": false,
+        "state": "setting",
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": "reduced",
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "390x844/stale/reduced": {
+      "file": "design/phone-ui/components/ship-travel/review/390x844-stale-reduced.jpg",
+      "sha256": "0693271bf9bdd992e0eba4ffc270773aec41d44d7ab19e7168f4d5f6c9f16457",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 15000,
+        "beat": "still",
+        "still": true,
+        "running": false,
+        "state": "setting",
+        "status": "stale",
+        "reduced": true,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": "Connection lost",
+      "shell": "Reconnecting…",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "430x932/stale/reduced": {
+      "file": "design/phone-ui/components/ship-travel/review/430x932-stale-reduced.jpg",
+      "sha256": "8bb816c1011106da40994837aebe705f213ddb8499da92d3c00dba8d4e1e971d",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 15000,
+        "beat": "still",
+        "still": true,
+        "running": false,
+        "state": "setting",
+        "status": "stale",
+        "reduced": true,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": "Connection lost",
+      "shell": "Reconnecting…",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "390x844/concealed/reduced": {
+      "file": "design/phone-ui/components/ship-travel/review/390x844-concealed-reduced.jpg",
+      "sha256": "99a68f750804b822934f4b097ffc19b4bd930d84cde5386037b5030a5c60af9f",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": null,
+        "beat": null,
+        "still": false,
+        "running": false,
+        "state": "setting",
+        "status": "concealed",
+        "reduced": true,
+        "shown": false
+      },
+      "label": "Hidden",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": false,
+      "layersShown": 0,
+      "banner": null,
+      "shell": null,
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": null,
+      "problems": []
+    },
+    "430x932/concealed/reduced": {
+      "file": "design/phone-ui/components/ship-travel/review/430x932-concealed-reduced.jpg",
+      "sha256": "bad6056478a50a87d7e4a3aeaa79035b233b84b92bb5504d81b27a649a223242",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": null,
+        "beat": null,
+        "still": false,
+        "running": false,
+        "state": "setting",
+        "status": "concealed",
+        "reduced": true,
+        "shown": false
+      },
+      "label": "Hidden",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": false,
+      "layersShown": 0,
+      "banner": null,
+      "shell": null,
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": null,
+      "problems": []
+    },
+    "390x844/noclock/reduced": {
+      "file": "design/phone-ui/components/ship-travel/review/390x844-noclock-reduced.jpg",
+      "sha256": "299822e27c84099dfed92baed5883d91f92aa4c2d34c9def23e6a09f3bb36aca",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 15000,
+        "beat": "still",
+        "still": true,
+        "running": false,
+        "state": "setting",
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    },
+    "430x932/noclock/reduced": {
+      "file": "design/phone-ui/components/ship-travel/review/430x932-noclock-reduced.jpg",
+      "sha256": "9e2f3eb630a58ddfce4c9fe40d0e7604149526233c47cdd3a7fc41974ef61873",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "frame": {
+        "window": "synthetic-nav-r3",
+        "t": 15000,
+        "beat": "still",
+        "still": true,
+        "running": false,
+        "state": "setting",
+        "status": "live",
+        "reduced": true,
+        "shown": true
+      },
+      "label": "The ship is travelling. Destination hidden.",
+      "motion": null,
+      "pill": "Same 15 seconds every round",
+      "pillShown": true,
+      "layersShown": 3,
+      "banner": null,
+      "shell": "Setting course",
+      "edge": true,
+      "safe": {
+        "top": 47,
+        "bottom": 34
+      },
+      "urgent": false,
+      "filmBox": [
+        0,
+        0
+      ],
+      "pillGap": 58,
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "time: each moment shows the clock's frame, clamped to the window",
+          "ok": true,
+          "detail": {
+            "seen": [
+              {
+                "at": -500,
+                "t": 0,
+                "beat": "enter",
+                "ok": true
+              },
+              {
+                "at": 0,
+                "t": 0,
+                "beat": "enter",
+                "ok": true
+              },
+              {
+                "at": 600,
+                "t": 600,
+                "beat": "enter",
+                "ok": true
+              },
+              {
+                "at": 1200,
+                "t": 1200,
+                "beat": "cruise",
+                "ok": true
+              },
+              {
+                "at": 4000,
+                "t": 4000,
+                "beat": "cruise",
+                "ok": true
+              },
+              {
+                "at": 13800,
+                "t": 13800,
+                "beat": "settle",
+                "ok": true
+              },
+              {
+                "at": 14400,
+                "t": 14400,
+                "beat": "settle",
+                "ok": true
+              },
+              {
+                "at": 15000,
+                "t": 15000,
+                "beat": "still",
+                "ok": true
+              },
+              {
+                "at": 21000,
+                "t": 15000,
+                "beat": "still",
+                "ok": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "time: a phone that opens at 9 s shows 9 s at once, and the ship is already there",
+          "ok": true,
+          "detail": {
+            "frame": {
+              "window": "w1",
+              "t": 9000,
+              "beat": "cruise",
+              "still": false,
+              "running": true,
+              "state": "setting",
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            },
+            "ship": "translate(0px, 5.442px)"
+          }
+        },
+        {
+          "id": "time: two phones on the same clock draw the same picture",
+          "ok": true,
+          "detail": {
+            "a": [
+              "translate(298.67 0)",
+              "translate(512 0)",
+              "translate(725.33 0)",
+              "translate(1269.33 0)",
+              "translate(256 0)",
+              "translate(1162.67 0)"
+            ],
+            "b": [
+              "translate(298.67 0)",
+              "translate(512 0)",
+              "translate(725.33 0)",
+              "translate(1269.33 0)",
+              "translate(256 0)",
+              "translate(1162.67 0)"
+            ]
+          }
+        },
+        {
+          "id": "time: it follows the trusted clock, frame by frame",
+          "ok": true,
+          "detail": {
+            "ts": [
+              2400,
+              2800,
+              3200,
+              3600,
+              4000,
+              4400
+            ]
+          }
+        },
+        {
+          "id": "time: at the end it holds the last picture, the still, and asks for no more frames",
+          "ok": true,
+          "detail": {
+            "frame": {
+              "window": "w1",
+              "t": 15000,
+              "beat": "still",
+              "still": true,
+              "running": false,
+              "state": "setting",
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            },
+            "requested": 0
+          }
+        },
+        {
+          "id": "time: the film's last picture is the poster's pose",
+          "ok": true,
+          "detail": {
+            "drawn": {
+              "depths": [
+                "translate(0 0)",
+                "translate(0 0)",
+                "translate(0 0)",
+                "translate(0 0)",
+                "translate(0 0)",
+                "translate(0 0)"
+              ],
+              "ship": "",
+              "streaks": 1056,
+              "streakPaths": 2,
+              "open": "0"
+            }
+          }
+        },
+        {
+          "id": "time: a new window is a new film, from its own start",
+          "ok": true,
+          "detail": {
+            "frame": {
+              "window": "w2",
+              "t": 1000,
+              "beat": "enter",
+              "still": false,
+              "running": true,
+              "state": "setting",
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        },
+        {
+          "id": "time: a 2 s window enters for 1 s and settles for 1 s",
+          "ok": true,
+          "detail": {
+            "at999": "enter",
+            "at1000": "settle"
+          }
+        },
+        {
+          "id": "still: \"moved\" shows the still, the poster's pose, with its caption and name",
+          "ok": true,
+          "detail": {
+            "frame": {
+              "window": "w1",
+              "t": 15000,
+              "beat": "still",
+              "still": true,
+              "running": false,
+              "state": "moved",
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            },
+            "drawn": {
+              "depths": [
+                "translate(0 0)",
+                "translate(0 0)",
+                "translate(0 0)",
+                "translate(0 0)",
+                "translate(0 0)",
+                "translate(0 0)"
+              ],
+              "ship": "",
+              "streaks": 1056,
+              "streakPaths": 2,
+              "open": "0"
+            }
+          }
+        },
+        {
+          "id": "still: with no trusted clock, or no window, the still, the same on every phone",
+          "ok": true,
+          "detail": {
+            "noClock": {
+              "window": "w1",
+              "t": 15000,
+              "beat": "still",
+              "still": true,
+              "running": false,
+              "state": "setting",
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            },
+            "noWindow": {
+              "window": null,
+              "t": 15000,
+              "beat": "still",
+              "still": true,
+              "running": false,
+              "state": "setting",
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        },
+        {
+          "id": "reduced: the game's Reduce motion shows the still, marked data-motion=\"reduced\", and asks for no frames",
+          "ok": true,
+          "detail": {
+            "frame": {
+              "window": "w1",
+              "t": 15000,
+              "beat": "still",
+              "still": true,
+              "running": false,
+              "state": "setting",
+              "status": "live",
+              "reduced": true,
+              "shown": true
+            },
+            "requested": 0
+          }
+        },
+        {
+          "id": "reduced: the still comes in with one 80 ms fade, and nothing else moves",
+          "ok": true,
+          "detail": {
+            "animations": [
+              80
+            ]
+          }
+        },
+        {
+          "id": "reduced: turned off mid-window, it seeks to the clock",
+          "ok": true,
+          "detail": {
+            "frame": {
+              "window": "w1",
+              "t": 6500,
+              "beat": "cruise",
+              "still": false,
+              "running": true,
+              "state": "setting",
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        },
+        {
+          "id": "lifecycle: suspended, it stands still and asks for no frames",
+          "ok": true,
+          "detail": {
+            "held": 3000,
+            "frame": {
+              "window": "w1",
+              "t": 3000,
+              "beat": "cruise",
+              "still": false,
+              "running": false,
+              "state": "setting",
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        },
+        {
+          "id": "lifecycle: resumed, it seeks to the clock, replaying nothing",
+          "ok": true,
+          "detail": {
+            "frame": {
+              "window": "w1",
+              "t": 5000,
+              "beat": "cruise",
+              "still": false,
+              "running": true,
+              "state": "setting",
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        },
+        {
+          "id": "lifecycle: reconnecting (stale), it stands still where it was",
+          "ok": true,
+          "detail": {
+            "frame": {
+              "window": "w1",
+              "t": 5000,
+              "beat": "cruise",
+              "still": false,
+              "running": false,
+              "state": "setting",
+              "status": "stale",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        },
+        {
+          "id": "lifecycle: live again, it seeks to the clock",
+          "ok": true,
+          "detail": {
+            "frame": {
+              "window": "w1",
+              "t": 7000,
+              "beat": "cruise",
+              "still": false,
+              "running": true,
+              "state": "setting",
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        },
+        {
+          "id": "lifecycle: concealed, nothing of the film is drawn or named, and no frames run",
+          "ok": true,
+          "detail": {
+            "frame": {
+              "window": "w1",
+              "t": 7000,
+              "beat": "cruise",
+              "still": false,
+              "running": false,
+              "state": "setting",
+              "status": "concealed",
+              "reduced": false,
+              "shown": false
+            }
+          }
+        },
+        {
+          "id": "lifecycle: shown again, it seeks to the clock",
+          "ok": true,
+          "detail": {
+            "frame": {
+              "window": "w1",
+              "t": 8000,
+              "beat": "cruise",
+              "still": false,
+              "running": true,
+              "state": "setting",
+              "status": "live",
+              "reduced": false,
+              "shown": true
+            }
+          }
+        },
+        {
+          "id": "lifecycle: one frame loop at most, whatever the updates",
+          "ok": true,
+          "detail": {
+            "waiting": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "id": "lifecycle: dispose() twice is safe; after it nothing runs and frame() is null",
+          "ok": true,
+          "detail": {
+            "threw": null,
+            "requested": 0
+          }
+        },
+        {
+          "id": "caption: 24 px above the bottom safe area the shell gives, and it follows a change",
+          "ok": true,
+          "detail": {
+            "safe34": 58,
+            "safe0": 24
+          }
+        },
+        {
+          "id": "privacy: every input the film does not know is refused, a course's above all",
+          "ok": true,
+          "detail": {
+            "refused": [
+              {
+                "input": [
+                  "direction"
+                ],
+                "refused": true
+              },
+              {
+                "input": [
+                  "position"
+                ],
+                "refused": true
+              },
+              {
+                "input": [
+                  "route"
+                ],
+                "refused": true
+              },
+              {
+                "input": [
+                  "tie"
+                ],
+                "refused": true
+              },
+              {
+                "input": [
+                  "offices"
+                ],
+                "refused": true
+              },
+              {
+                "input": [
+                  "destination"
+                ],
+                "refused": true
+              },
+              {
+                "input": [
+                  "window"
+                ],
+                "refused": true
+              },
+              {
+                "input": [
+                  "insets"
+                ],
+                "refused": true
+              }
+            ],
+            "updateRefused": true
+          }
+        },
+        {
+          "id": "privacy: nothing the film draws or says names a course, a side or an office",
+          "ok": true,
+          "detail": {
+            "found": null
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "device Reduce motion: the still, with the game's setting off",
+          "ok": true,
+          "detail": {
+            "frame": {
+              "window": "w1",
+              "t": 15000,
+              "beat": "still",
+              "still": true,
+              "running": false,
+              "state": "setting",
+              "status": "live",
+              "reduced": true,
+              "shown": true
+            },
+            "drawn": {
+              "depths": [
+                "translate(0 0)",
+                "translate(0 0)",
+                "translate(0 0)",
+                "translate(0 0)",
+                "translate(0 0)",
+                "translate(0 0)"
+              ],
+              "ship": "",
+              "streaks": 1056,
+              "streakPaths": 2,
+              "open": "0"
+            }
+          }
+        },
+        {
+          "id": "device Reduce motion: no frames are asked for",
+          "ok": true,
+          "detail": {
+            "requested": 0
+          }
+        },
+        {
+          "id": "device Reduce motion: the still comes in with one 80 ms fade",
+          "ok": true,
+          "detail": {
+            "motion": null
+          }
+        },
+        {
+          "id": "device Reduce motion: \"moved\" is the still with its caption",
+          "ok": true,
+          "detail": {}
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "compare": {
+    "full": {
+      "poster": {
+        "width": 1920,
+        "height": 1080
+      },
+      "shot": {
+        "width": 1920,
+        "height": 1080
+      },
+      "box": {
+        "x": 380,
+        "y": 400,
+        "w": 960,
+        "h": 230
+      },
+      "ship": {
+        "mean": 1.48,
+        "far": 0.0004
+      },
+      "frame": {
+        "mean": 0.76,
+        "far": 0
+      },
+      "controls": {
+        "shifted3px": {
+          "mean": 4.14,
+          "far": 0.0393
+        },
+        "scaled2pct": {
+          "mean": 7.41,
+          "far": 0.0816
+        }
+      },
+      "shotSha256": "6d99af475b32f7e9f11c0e0bbe7e299a974eaf0f23831371495568361696ec1d",
+      "limits": {
+        "ship": 3,
+        "frame": 3,
+        "phone": 3,
+        "controlFactor": 2
+      },
+      "controlsFar": true,
+      "ok": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-kxsW1atx.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": [],
+      "files": [
+        "design/phone-ui/components/ship-travel/review/compare-still-1920x1080.jpg",
+        "design/phone-ui/components/ship-travel/review/compare-diff-1920x1080.jpg"
+      ]
+    },
+    "phones": {
+      "390x844": {
+        "file": "design/phone-ui/components/ship-travel/review/compare-390x844.jpg",
+        "sha256": "700476cb66d9a3197720c89be1341de1eb94799cb2d1431e2ac0825b78a58ec1",
+        "size": {
+          "width": 390,
+          "height": 844,
+          "insets": {
+            "top": 47,
+            "bottom": 34
+          }
+        },
+        "scale": 2,
+        "area": {
+          "x": 0,
+          "y": 99,
+          "w": 390,
+          "h": 745
+        },
+        "ship": {
+          "x": 0,
+          "y": 312,
+          "w": 390,
+          "h": 181
+        },
+        "film": {
+          "mean": 1.11,
+          "far": 0.0004
+        },
+        "shipBox": {
+          "mean": 1.52,
+          "far": 0.0006
+        },
+        "controls": {
+          "shifted3px": {
+            "mean": 4.73,
+            "far": 0.0506
+          }
+        },
+        "ok": true,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-kxsW1atx.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ],
+        "problems": []
+      },
+      "430x932": {
+        "file": "design/phone-ui/components/ship-travel/review/compare-430x932.jpg",
+        "sha256": "17216b2f29501713ccc6070742ef27ded1c21bc283f60596860c521181e89ecc",
+        "size": {
+          "width": 430,
+          "height": 932,
+          "insets": {
+            "top": 47,
+            "bottom": 34
+          }
+        },
+        "scale": 2,
+        "area": {
+          "x": 0,
+          "y": 99,
+          "w": 430,
+          "h": 833
+        },
+        "ship": {
+          "x": 0,
+          "y": 345,
+          "w": 430,
+          "h": 199
+        },
+        "film": {
+          "mean": 1.16,
+          "far": 0.0006
+        },
+        "shipBox": {
+          "mean": 1.65,
+          "far": 0.0013
+        },
+        "controls": {
+          "shifted3px": {
+            "mean": 4.64,
+            "far": 0.0499
+          }
+        },
+        "ok": true,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/index-kxsW1atx.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ],
+        "problems": []
+      }
+    }
+  },
+  "beats": {
+    "file": "design/phone-ui/components/ship-travel/review/beats-390x844.jpg",
+    "sha256": "57f32582585ec32511e4aabf10fcb07a5e5146d67e185460c5df8bd001fc9e13",
+    "moments": [
+      0,
+      150,
+      400,
+      700,
+      1200,
+      7500,
+      13800,
+      14300,
+      14800,
+      15000
+    ],
+    "beats": [
+      "enter",
+      "enter",
+      "enter",
+      "enter",
+      "cruise",
+      "cruise",
+      "settle",
+      "settle",
+      "settle",
+      "still"
+    ],
+    "ok": true,
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-kxsW1atx.js",
+        "line": 1,
+        "column": 3180,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}

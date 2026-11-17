@@ -1,0 +1,34 @@
+@import url("../kit/kit.css");
+/*
+ * The ship travel (ship-travel.mjs): runtime source, Designer's. Every rule applies under the film's own root,
+ * .ms-ship-travel, and reaches only its own parts (classes ms-st-). The caption is the kit's paper pill
+ * (kit.css), placed through this component's part, .ms-st-caption; its colours, type and states are the kit's.
+ *
+ * The film is drawn in layers so that a frame redraws little: the field (space, stars, streaks) repaints, the ship
+ * moves as one composited layer, and the front (vignette, grain, letterbox bars) never changes. Reduce motion,
+ * the game's (data-motion="reduced", set by the component) or the device's, shows the still with one 80 ms fade.
+ */
+
+.ms-ship-travel {
+  position: absolute; left: 0; top: 0; overflow: hidden; contain: strict;
+  background: #05060C;
+  -webkit-user-select: none; user-select: none; pointer-events: none;
+}
+.ms-ship-travel .ms-st-layer { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; overflow: hidden; }
+.ms-ship-travel :is(.ms-st-field, .ms-st-ship, .ms-st-front) { will-change: transform; }
+/* The ship's layer moves as a whole (the ship comes in from beyond the left edge, and bobs): it draws past its own
+   box, and the film's root clips it. */
+.ms-ship-travel .ms-st-ship { overflow: visible; }
+.ms-ship-travel .ms-st-open { position: absolute; inset: 0; background: #05060C; opacity: 0; }
+/* Sheet 41's caption: 24 px above the phone's bottom safe area, as the pack's nav screen places it. --ms-st-safe-b is
+   that safe area as the shell gives it (the input `safe`), set by the component. */
+.ms-ship-travel .ms-st-caption {
+  position: absolute; left: 16px; right: 16px;
+  bottom: calc(var(--ms-st-safe-b, 0px) + 24px);
+  display: flex; justify-content: center;
+}
+.ms-ship-travel :is(.ms-st-layer, .ms-st-open, .ms-st-caption)[hidden] { display: none !important; }
+.ms-ship-travel[data-status="concealed"] { background: #05060C; }
+/* Reduce motion: the still comes in with one 80 ms fade, and nothing moves. */
+.ms-ship-travel[data-fade] { animation: ms-st-fade 80ms linear both; }
+@keyframes ms-st-fade { from { opacity: 0; } }
