@@ -1,0 +1,3127 @@
+{
+  "tool": "design/tools/host-room-check.mjs",
+  "component": "design/phone-ui/components/host-room",
+  "sourceCommit": "48177875c8578c2119d9c4058b2843571fdfdb2b",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": {
+    "390x844/setup": {
+      "file": "design/phone-ui/components/host-room/review/390x844-setup.jpg",
+      "sha256": "89ef7513d3e37ee59fddef141ce92c6a71f9f37d8da0db73fd1f9c592bac81c7",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "setup",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Host",
+      "back": "Menu",
+      "heading": "New room",
+      "checked": "9",
+      "mix": "5 Blue · 3 Red · 1 Alien",
+      "rows": [
+        "Players ask to join You admit each one",
+        "Bots fill empty seats Set them in the lobby"
+      ],
+      "open": "Open room",
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": null,
+      "codeName": null,
+      "copy": null,
+      "seats": null,
+      "asking": null,
+      "requests": [],
+      "admits": 0,
+      "admitsRefused": 0,
+      "members": 0,
+      "startRefused": false,
+      "startNote": null,
+      "moreRefused": false,
+      "moreLook": null,
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "430x932/setup": {
+      "file": "design/phone-ui/components/host-room/review/430x932-setup.jpg",
+      "sha256": "efc3ba4f4b760d6789f5651c6af2e18001aa6e8f18dd7c48bb21c9e0f5e3a0be",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "setup",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Host",
+      "back": "Menu",
+      "heading": "New room",
+      "checked": "9",
+      "mix": "5 Blue · 3 Red · 1 Alien",
+      "rows": [
+        "Players ask to join You admit each one",
+        "Bots fill empty seats Set them in the lobby"
+      ],
+      "open": "Open room",
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": null,
+      "codeName": null,
+      "copy": null,
+      "seats": null,
+      "asking": null,
+      "requests": [],
+      "admits": 0,
+      "admitsRefused": 0,
+      "members": 0,
+      "startRefused": false,
+      "startNote": null,
+      "moreRefused": false,
+      "moreLook": null,
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "390x844/setup-7": {
+      "file": "design/phone-ui/components/host-room/review/390x844-setup-7.jpg",
+      "sha256": "90fc5316d4857f61829a686513d1558a35e11d82a909e578b462a414f83cf5a4",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "setup",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Host",
+      "back": "Menu",
+      "heading": "New room",
+      "checked": "7",
+      "mix": "4 Blue · 2 Red · 1 Alien",
+      "rows": [
+        "Players ask to join You admit each one",
+        "Bots fill empty seats Set them in the lobby"
+      ],
+      "open": "Open room",
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": null,
+      "codeName": null,
+      "copy": null,
+      "seats": null,
+      "asking": null,
+      "requests": [],
+      "admits": 0,
+      "admitsRefused": 0,
+      "members": 0,
+      "startRefused": false,
+      "startNote": null,
+      "moreRefused": false,
+      "moreLook": null,
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "430x932/setup-7": {
+      "file": "design/phone-ui/components/host-room/review/430x932-setup-7.jpg",
+      "sha256": "cc459f15343dc718d38b801bf94bccc1b1054b361611b99b99c2f30beec2388d",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "setup",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Host",
+      "back": "Menu",
+      "heading": "New room",
+      "checked": "7",
+      "mix": "4 Blue · 2 Red · 1 Alien",
+      "rows": [
+        "Players ask to join You admit each one",
+        "Bots fill empty seats Set them in the lobby"
+      ],
+      "open": "Open room",
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": null,
+      "codeName": null,
+      "copy": null,
+      "seats": null,
+      "asking": null,
+      "requests": [],
+      "admits": 0,
+      "admitsRefused": 0,
+      "members": 0,
+      "startRefused": false,
+      "startNote": null,
+      "moreRefused": false,
+      "moreLook": null,
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "390x844/opening": {
+      "file": "design/phone-ui/components/host-room/review/390x844-opening.jpg",
+      "sha256": "09f40b8958f14245592dc4d2cba0e24c65a0a8000554d2ec79d75897a971e61e",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "setup",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Host",
+      "back": "Menu",
+      "heading": "New room",
+      "checked": "9",
+      "mix": "5 Blue · 3 Red · 1 Alien",
+      "rows": [
+        "Players ask to join You admit each one",
+        "Bots fill empty seats Set them in the lobby"
+      ],
+      "open": "Opening…",
+      "openRefused": false,
+      "openBusy": true,
+      "error": null,
+      "code": null,
+      "codeName": null,
+      "copy": null,
+      "seats": null,
+      "asking": null,
+      "requests": [],
+      "admits": 0,
+      "admitsRefused": 0,
+      "members": 0,
+      "startRefused": false,
+      "startNote": null,
+      "moreRefused": false,
+      "moreLook": null,
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "430x932/opening": {
+      "file": "design/phone-ui/components/host-room/review/430x932-opening.jpg",
+      "sha256": "459577e13524de780fbc0586fa4c40515e1af176ef4a63daf175637d8c2ed4f1",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "setup",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Host",
+      "back": "Menu",
+      "heading": "New room",
+      "checked": "9",
+      "mix": "5 Blue · 3 Red · 1 Alien",
+      "rows": [
+        "Players ask to join You admit each one",
+        "Bots fill empty seats Set them in the lobby"
+      ],
+      "open": "Opening…",
+      "openRefused": false,
+      "openBusy": true,
+      "error": null,
+      "code": null,
+      "codeName": null,
+      "copy": null,
+      "seats": null,
+      "asking": null,
+      "requests": [],
+      "admits": 0,
+      "admitsRefused": 0,
+      "members": 0,
+      "startRefused": false,
+      "startNote": null,
+      "moreRefused": false,
+      "moreLook": null,
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "390x844/setup-error": {
+      "file": "design/phone-ui/components/host-room/review/390x844-setup-error.jpg",
+      "sha256": "0997745eab68f6e926fb862debe14a658bd36b1350fa1ade414499166cf7e277",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "setup",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Host",
+      "back": "Menu",
+      "heading": "New room",
+      "checked": "9",
+      "mix": "5 Blue · 3 Red · 1 Alien",
+      "rows": [
+        "Players ask to join You admit each one",
+        "Bots fill empty seats Set them in the lobby"
+      ],
+      "open": "Open room",
+      "openRefused": false,
+      "openBusy": false,
+      "error": "The room did not open. Try again.",
+      "code": null,
+      "codeName": null,
+      "copy": null,
+      "seats": null,
+      "asking": null,
+      "requests": [],
+      "admits": 0,
+      "admitsRefused": 0,
+      "members": 0,
+      "startRefused": false,
+      "startNote": null,
+      "moreRefused": false,
+      "moreLook": null,
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "430x932/setup-error": {
+      "file": "design/phone-ui/components/host-room/review/430x932-setup-error.jpg",
+      "sha256": "caadc29e994341ce16bdad38f4dbc38ce9473f92a0e513a703dc6c0418bfb54d",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "setup",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Host",
+      "back": "Menu",
+      "heading": "New room",
+      "checked": "9",
+      "mix": "5 Blue · 3 Red · 1 Alien",
+      "rows": [
+        "Players ask to join You admit each one",
+        "Bots fill empty seats Set them in the lobby"
+      ],
+      "open": "Open room",
+      "openRefused": false,
+      "openBusy": false,
+      "error": "The room did not open. Try again.",
+      "code": null,
+      "codeName": null,
+      "copy": null,
+      "seats": null,
+      "asking": null,
+      "requests": [],
+      "admits": 0,
+      "admitsRefused": 0,
+      "members": 0,
+      "startRefused": false,
+      "startNote": null,
+      "moreRefused": false,
+      "moreLook": null,
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "390x844/lobby": {
+      "file": "design/phone-ui/components/host-room/review/390x844-lobby.jpg",
+      "sha256": "46691f89bdcdf9b8aa9b6993a6bce183c31376eba55d9ea93327f36b65a9658f",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "lobby",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "heading": null,
+      "checked": null,
+      "mix": null,
+      "rows": [],
+      "open": null,
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": "K7Q2XM",
+      "codeName": "Room code K 7 Q 2 X M",
+      "copy": "Copy",
+      "seats": "5 of 9 seats",
+      "asking": null,
+      "requests": [],
+      "admits": 0,
+      "admitsRefused": 0,
+      "members": 5,
+      "startRefused": true,
+      "startNote": "4 more seats to fill",
+      "moreRefused": false,
+      "moreLook": "1",
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": false,
+      "copyInside": true,
+      "copyUnder": false,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "430x932/lobby": {
+      "file": "design/phone-ui/components/host-room/review/430x932-lobby.jpg",
+      "sha256": "7b959205cd9b0ff92304eb2c6ce351913cc3fb432ccbbd9aac3dcee71bbbfe17",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "lobby",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "heading": null,
+      "checked": null,
+      "mix": null,
+      "rows": [],
+      "open": null,
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": "K7Q2XM",
+      "codeName": "Room code K 7 Q 2 X M",
+      "copy": "Copy",
+      "seats": "5 of 9 seats",
+      "asking": null,
+      "requests": [],
+      "admits": 0,
+      "admitsRefused": 0,
+      "members": 5,
+      "startRefused": true,
+      "startNote": "4 more seats to fill",
+      "moreRefused": false,
+      "moreLook": "1",
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": false,
+      "copyInside": true,
+      "copyUnder": false,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "390x844/requests": {
+      "file": "design/phone-ui/components/host-room/review/390x844-requests.jpg",
+      "sha256": "56d8b875f71b543886d5b195d7d4c12acb206155c463ed26b8cc670cba835bdb",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "lobby",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "heading": null,
+      "checked": null,
+      "mix": null,
+      "rows": [],
+      "open": null,
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": "K7Q2XM",
+      "codeName": "Room code K 7 Q 2 X M",
+      "copy": "Copy",
+      "seats": "5 of 9 seats",
+      "asking": "Asking to join · 2",
+      "requests": [],
+      "admits": 2,
+      "admitsRefused": 0,
+      "members": 5,
+      "startRefused": true,
+      "startNote": "4 more seats to fill",
+      "moreRefused": false,
+      "moreLook": "1",
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": true,
+      "copyInside": true,
+      "copyUnder": false,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "430x932/requests": {
+      "file": "design/phone-ui/components/host-room/review/430x932-requests.jpg",
+      "sha256": "37313f99d0611998d1abc1b216d4c8010512fa1e6553b5b5b74a2e2355397e91",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "lobby",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "heading": null,
+      "checked": null,
+      "mix": null,
+      "rows": [],
+      "open": null,
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": "K7Q2XM",
+      "codeName": "Room code K 7 Q 2 X M",
+      "copy": "Copy",
+      "seats": "5 of 9 seats",
+      "asking": "Asking to join · 2",
+      "requests": [],
+      "admits": 2,
+      "admitsRefused": 0,
+      "members": 5,
+      "startRefused": true,
+      "startNote": "4 more seats to fill",
+      "moreRefused": false,
+      "moreLook": "1",
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": false,
+      "copyInside": true,
+      "copyUnder": false,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "390x844/copied": {
+      "file": "design/phone-ui/components/host-room/review/390x844-copied.jpg",
+      "sha256": "8cf13e5be9f1415e1a05a15375928b729c73b7b3a985df85a60908f14c18b016",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "lobby",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "heading": null,
+      "checked": null,
+      "mix": null,
+      "rows": [],
+      "open": null,
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": "K7Q2XM",
+      "codeName": "Room code K 7 Q 2 X M",
+      "copy": "Copied",
+      "seats": "5 of 9 seats",
+      "asking": null,
+      "requests": [],
+      "admits": 0,
+      "admitsRefused": 0,
+      "members": 5,
+      "startRefused": true,
+      "startNote": "4 more seats to fill",
+      "moreRefused": false,
+      "moreLook": "1",
+      "note": null,
+      "toast": "Copied",
+      "toastTop": 109,
+      "scrolls": false,
+      "copyInside": true,
+      "copyUnder": false,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "430x932/copied": {
+      "file": "design/phone-ui/components/host-room/review/430x932-copied.jpg",
+      "sha256": "66946e4b7a39c30cfbcfa026ba3422a5863ae9601a8b56d6537d3f2ea18bdbff",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "lobby",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "heading": null,
+      "checked": null,
+      "mix": null,
+      "rows": [],
+      "open": null,
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": "K7Q2XM",
+      "codeName": "Room code K 7 Q 2 X M",
+      "copy": "Copied",
+      "seats": "5 of 9 seats",
+      "asking": null,
+      "requests": [],
+      "admits": 0,
+      "admitsRefused": 0,
+      "members": 5,
+      "startRefused": true,
+      "startNote": "4 more seats to fill",
+      "moreRefused": false,
+      "moreLook": "1",
+      "note": null,
+      "toast": "Copied",
+      "toastTop": 109,
+      "scrolls": false,
+      "copyInside": true,
+      "copyUnder": false,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "390x844/full": {
+      "file": "design/phone-ui/components/host-room/review/390x844-full.jpg",
+      "sha256": "b6bdc876deab11f76d63211c31d99f98396accee3975c6de3857c41a596b23ca",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "lobby",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "heading": null,
+      "checked": null,
+      "mix": null,
+      "rows": [],
+      "open": null,
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": "K7Q2XM",
+      "codeName": "Room code K 7 Q 2 X M",
+      "copy": "Copy",
+      "seats": "9 of 9 seats",
+      "asking": null,
+      "requests": [],
+      "admits": 0,
+      "admitsRefused": 0,
+      "members": 9,
+      "startRefused": false,
+      "startNote": null,
+      "moreRefused": true,
+      "moreLook": "1",
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": true,
+      "copyInside": true,
+      "copyUnder": false,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "430x932/full": {
+      "file": "design/phone-ui/components/host-room/review/430x932-full.jpg",
+      "sha256": "1508183089fe3fc0822248f855157971a85d34ba2fd0434017390ee29e56c633",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "lobby",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "heading": null,
+      "checked": null,
+      "mix": null,
+      "rows": [],
+      "open": null,
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": "K7Q2XM",
+      "codeName": "Room code K 7 Q 2 X M",
+      "copy": "Copy",
+      "seats": "9 of 9 seats",
+      "asking": null,
+      "requests": [],
+      "admits": 0,
+      "admitsRefused": 0,
+      "members": 9,
+      "startRefused": false,
+      "startNote": null,
+      "moreRefused": true,
+      "moreLook": "1",
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": true,
+      "copyInside": true,
+      "copyUnder": false,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "390x844/offline": {
+      "file": "design/phone-ui/components/host-room/review/390x844-offline.jpg",
+      "sha256": "1738a7cccc80eff5a4f2da438f5c165849e0f42336d9e8d5af7de2cbe999f4f6",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "lobby",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "heading": null,
+      "checked": null,
+      "mix": null,
+      "rows": [],
+      "open": null,
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": "K7Q2XM",
+      "codeName": "Room code K 7 Q 2 X M",
+      "copy": "Copy",
+      "seats": "5 of 9 seats",
+      "asking": "Asking to join · 2",
+      "requests": [],
+      "admits": 2,
+      "admitsRefused": 2,
+      "members": 5,
+      "startRefused": true,
+      "startNote": "No connection. Admit, Bots and Start return when you are back online.",
+      "moreRefused": true,
+      "moreLook": "0.35",
+      "note": "No connection. Admit, Bots and Start return when you are back online.",
+      "toast": null,
+      "toastTop": null,
+      "scrolls": true,
+      "copyInside": true,
+      "copyUnder": false,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "430x932/offline": {
+      "file": "design/phone-ui/components/host-room/review/430x932-offline.jpg",
+      "sha256": "8e2d276357245522f2dd2e17f6ae0dc6d6ce8a409db05ed5bd5f3cf288208a16",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "lobby",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "heading": null,
+      "checked": null,
+      "mix": null,
+      "rows": [],
+      "open": null,
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": "K7Q2XM",
+      "codeName": "Room code K 7 Q 2 X M",
+      "copy": "Copy",
+      "seats": "5 of 9 seats",
+      "asking": "Asking to join · 2",
+      "requests": [],
+      "admits": 2,
+      "admitsRefused": 2,
+      "members": 5,
+      "startRefused": true,
+      "startNote": "No connection. Admit, Bots and Start return when you are back online.",
+      "moreRefused": true,
+      "moreLook": "0.35",
+      "note": "No connection. Admit, Bots and Start return when you are back online.",
+      "toast": null,
+      "toastTop": null,
+      "scrolls": true,
+      "copyInside": true,
+      "copyUnder": false,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "390x844/setup-large": {
+      "file": "design/phone-ui/components/host-room/review/390x844-setup-large.jpg",
+      "sha256": "eaee4d4eb37b45f3c9737d9fe9faad4d178e220d0d6b667917fd5be3c65b3e3e",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "setup",
+      "root": 32,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Host",
+      "back": "Menu",
+      "heading": "New room",
+      "checked": "9",
+      "mix": "5 Blue · 3 Red · 1 Alien",
+      "rows": [
+        "Players ask to join You admit each one",
+        "Bots fill empty seats Set them in the lobby"
+      ],
+      "open": "Open room",
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": null,
+      "codeName": null,
+      "copy": null,
+      "seats": null,
+      "asking": null,
+      "requests": [],
+      "admits": 0,
+      "admitsRefused": 0,
+      "members": 0,
+      "startRefused": false,
+      "startNote": null,
+      "moreRefused": false,
+      "moreLook": null,
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "430x932/setup-large": {
+      "file": "design/phone-ui/components/host-room/review/430x932-setup-large.jpg",
+      "sha256": "9a91cd0142646e7ee8765db2a5dcdbf8c14dc9df877a639c0584dace4aa75759",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "setup",
+      "root": 32,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Host",
+      "back": "Menu",
+      "heading": "New room",
+      "checked": "9",
+      "mix": "5 Blue · 3 Red · 1 Alien",
+      "rows": [
+        "Players ask to join You admit each one",
+        "Bots fill empty seats Set them in the lobby"
+      ],
+      "open": "Open room",
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": null,
+      "codeName": null,
+      "copy": null,
+      "seats": null,
+      "asking": null,
+      "requests": [],
+      "admits": 0,
+      "admitsRefused": 0,
+      "members": 0,
+      "startRefused": false,
+      "startNote": null,
+      "moreRefused": false,
+      "moreLook": null,
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "390x844/lobby-large": {
+      "file": "design/phone-ui/components/host-room/review/390x844-lobby-large.jpg",
+      "sha256": "c718c8d73b522b45e0e28ce9aaee7419521cdd0d157c47491ee1d16599c8e248",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "lobby",
+      "root": 32,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "heading": null,
+      "checked": null,
+      "mix": null,
+      "rows": [],
+      "open": null,
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": "K7Q2XM",
+      "codeName": "Room code K 7 Q 2 X M",
+      "copy": "Copy",
+      "seats": "5 of 9 seats",
+      "asking": "Asking to join · 2",
+      "requests": [],
+      "admits": 2,
+      "admitsRefused": 0,
+      "members": 5,
+      "startRefused": true,
+      "startNote": "4 more seats to fill",
+      "moreRefused": false,
+      "moreLook": "1",
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": true,
+      "copyInside": true,
+      "copyUnder": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "430x932/lobby-large": {
+      "file": "design/phone-ui/components/host-room/review/430x932-lobby-large.jpg",
+      "sha256": "04d49ed047420e3270ff9573dd289bb55afeae440e065088ef9eea8aa0517a24",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "lobby",
+      "root": 32,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "heading": null,
+      "checked": null,
+      "mix": null,
+      "rows": [],
+      "open": null,
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": "K7Q2XM",
+      "codeName": "Room code K 7 Q 2 X M",
+      "copy": "Copy",
+      "seats": "5 of 9 seats",
+      "asking": "Asking to join · 2",
+      "requests": [],
+      "admits": 2,
+      "admitsRefused": 0,
+      "members": 5,
+      "startRefused": true,
+      "startNote": "4 more seats to fill",
+      "moreRefused": false,
+      "moreLook": "1",
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": true,
+      "copyInside": true,
+      "copyUnder": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "setup: the pack’s words, the counts and the chosen count’s mix from Frontend; Back, a count and Open report their taps",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "title": "Host",
+              "back": "Menu",
+              "heading": "New room",
+              "counts": [
+                "7:false",
+                "8:false",
+                "9:true"
+              ],
+              "mix": "5 Blue · 3 Red · 1 Alien",
+              "rows": [
+                "Players ask to join You admit each one",
+                "Bots fill empty seats Set them in the lobby"
+              ],
+              "open": "Open room",
+              "mix7": "4 Blue · 2 Red · 1 Alien",
+              "noMix": true,
+              "taps": [
+                [
+                  "onBack"
+                ],
+                [
+                  "onCount",
+                  7
+                ],
+                [
+                  "onOpen",
+                  9
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "id": "setup: Opening… refused while busy; a failed opening is the kit’s inline error over the foot, with Frontend’s words",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "busy": {
+                "label": "Opening…",
+                "busy": "true",
+                "taps": 0
+              },
+              "error": {
+                "words": "The room did not open. Try again.",
+                "role": "alert",
+                "first": true,
+                "gone": true
+              }
+            }
+          }
+        },
+        {
+          "id": "lobby: the code card, the seats, the bots and Start with Frontend’s reason under it; each tap reports",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "code": "K7Q2XM",
+              "codeName": "Room code K 7 Q 2 X M",
+              "copy": "Copy",
+              "seats": "5 of 9 seats",
+              "bar": "55.5556%",
+              "asking": "Asking to join · 2",
+              "requests": 2,
+              "members": 5,
+              "host": "1 Ava Host",
+              "bots": "Bots Up to 4",
+              "startRefused": true,
+              "startNote": "4 more seats to fill",
+              "startWhy": "4 more seats to fill",
+              "taps": [
+                [
+                  "onLeave"
+                ],
+                [
+                  "onCopy"
+                ],
+                [
+                  "onAdmit",
+                  "adm-table"
+                ],
+                [
+                  "onBots",
+                  1
+                ],
+                [
+                  "onStart"
+                ],
+                [
+                  "onBots",
+                  2
+                ]
+              ],
+              "startNoteAfter": true
+            }
+          }
+        },
+        {
+          "id": "stepper: − refused at none, dimmed; + refused at Frontend’s most, keeping its look as sheet 11 draws Full, with Frontend’s reason; Frontend’s refusal refuses both, dimmed, with its reason",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "atNone": [
+                true,
+                false
+              ],
+              "noneLook": "0.35",
+              "atMost": [
+                false,
+                true
+              ],
+              "mostLook": "1",
+              "mostWhy": "Every seat is taken",
+              "off": [
+                true,
+                true,
+                "Not available now",
+                "Not available now"
+              ],
+              "offLook": [
+                "0.35",
+                "0.35"
+              ],
+              "taps": 0,
+              "value": "2"
+            }
+          }
+        },
+        {
+          "id": "keyed: a request’s Admit keeps its element and the focus while others come and go; when its own request leaves, the focus goes to the screen and onFocusReturn says which",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "kept": {
+                "same": true,
+                "focused": true,
+                "again": true
+              },
+              "returned": {
+                "root": true,
+                "report": [
+                  {
+                    "intent": "admit",
+                    "value": "adm-table"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "offline: the note under the card; with every control enabled it refuses nothing; Frontend’s refusals refuse with the reason; Leave and Copy stay usable",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "alone": {
+                "words": "No connection. Admit, Bots and Start return when you are back online.",
+                "underCard": true,
+                "role": "alert",
+                "refused": [
+                  false,
+                  false,
+                  true,
+                  false
+                ]
+              },
+              "given": {
+                "refused": [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                "why": "No connection. Admit, Bots and Start return when you are back online.",
+                "taps": [
+                  "onLeave",
+                  "onCopy"
+                ]
+              },
+              "gone": true
+            }
+          }
+        },
+        {
+          "id": "toast: once per id, 10 px under the nav bar, gone after 2.4 s; a new id replaces it; a tap at its centre reaches what is under it",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "first": {
+                "words": "Copied",
+                "role": "status",
+                "top": 109,
+                "navBottom": 99,
+                "copy": "Copied"
+              },
+              "through": {
+                "over": true,
+                "none": true,
+                "same": true,
+                "under": "ms-ep-code-label"
+              },
+              "same": true,
+              "replaced": {
+                "words": "Select the room code to copy.",
+                "count": 1
+              },
+              "gone": true
+            }
+          }
+        },
+        {
+          "id": "not interactive: every control refused, nothing dimmed",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "refused": [
+                true,
+                true,
+                true,
+                true,
+                true,
+                true,
+                true
+              ],
+              "off": [],
+              "taps": 0
+            }
+          }
+        },
+        {
+          "id": "insets: Frontend’s safe areas place the screen 8 px under the top one and 16 px over the bottom one; null gives the browser’s",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "given": {
+                "top": 47,
+                "bottom": 34
+              },
+              "browser": {
+                "top": 0,
+                "bottom": 0
+              }
+            }
+          }
+        },
+        {
+          "id": "text: with the Largest text (200 %) the lobby scrolls and its foot is reached; the toast follows the nav bar; at 100, 150 and 200 % the code and Copy stay inside the card at both sizes",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "scrolls": true,
+              "startInView": true,
+              "toastTop": 109,
+              "navBottom": 99,
+              "fits": [
+                {
+                  "size": "390x844",
+                  "text": 100,
+                  "copyInside": true,
+                  "codeInside": true,
+                  "under": false
+                },
+                {
+                  "size": "390x844",
+                  "text": 150,
+                  "copyInside": true,
+                  "codeInside": true,
+                  "under": true
+                },
+                {
+                  "size": "390x844",
+                  "text": 200,
+                  "copyInside": true,
+                  "codeInside": true,
+                  "under": true
+                },
+                {
+                  "size": "430x932",
+                  "text": 100,
+                  "copyInside": true,
+                  "codeInside": true,
+                  "under": false
+                },
+                {
+                  "size": "430x932",
+                  "text": 150,
+                  "copyInside": true,
+                  "codeInside": true,
+                  "under": true
+                },
+                {
+                  "size": "430x932",
+                  "text": 200,
+                  "copyInside": true,
+                  "codeInside": true,
+                  "under": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "input: malformed input is refused",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "refusedAll": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        },
+        {
+          "id": "dispose: safe twice; afterwards nothing fires, layout() is null and nothing is left, the toast with it",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "left": 0,
+              "layout": null,
+              "taps": 0,
+              "reasons": 0
+            }
+          }
+        },
+        {
+          "id": "motion: only the toast moves, in from 8 px over 220 ms, or a plain fade with the game’s Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "atRest": 0,
+              "full": [
+                "ms-k-toast-in"
+              ],
+              "reduced": [
+                "ms-k-fade"
+              ]
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "motion: only the toast moves, in from 8 px over 220 ms; with the device’s Reduce motion a plain fade",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "atRest": 0,
+              "full": [
+                "ms-k-fade"
+              ],
+              "reduced": [
+                "ms-k-fade"
+              ]
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BZVKmnDF.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: setup · 9 at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "recorded": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "group notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 1,
+              "screen": 1
+            },
+            "rows": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icon pictures": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row titles": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row subs": {
+              "pack": 2,
+              "screen": 2
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "large title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg buttons": {
+              "pack": 3,
+              "screen": 3
+            }
+          },
+          "improvement": null
+        }
+      },
+      {
+        "id": "agree: setup · 7 at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "recorded": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "group notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 1,
+              "screen": 1
+            },
+            "rows": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icon pictures": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row titles": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row subs": {
+              "pack": 2,
+              "screen": 2
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "large title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg buttons": {
+              "pack": 3,
+              "screen": 3
+            }
+          },
+          "improvement": null
+        }
+      },
+      {
+        "id": "agree: setup · opening at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "recorded": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "group notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 1,
+              "screen": 1
+            },
+            "rows": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icon pictures": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row titles": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row subs": {
+              "pack": 2,
+              "screen": 2
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "large title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg buttons": {
+              "pack": 3,
+              "screen": 3
+            }
+          },
+          "improvement": null
+        }
+      },
+      {
+        "id": "agree: lobby · 5 of 9 at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "recorded": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "group notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 2,
+              "screen": 2
+            },
+            "rows": {
+              "pack": 6,
+              "screen": 6
+            },
+            "row icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row icon pictures": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row titles": {
+              "pack": 6,
+              "screen": 6
+            },
+            "row subs": {
+              "pack": 2,
+              "screen": 2
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code label": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code": {
+              "pack": 1,
+              "screen": 1
+            },
+            "copy": {
+              "pack": 1,
+              "screen": 1
+            },
+            "copy icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seats": {
+              "pack": 1,
+              "screen": 1
+            },
+            "bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "bar fill": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seat numbers": {
+              "pack": 5,
+              "screen": 5
+            },
+            "row buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stepper": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper value": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper −": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper +": {
+              "pack": 1,
+              "screen": 1
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "improvement": null
+        }
+      },
+      {
+        "id": "agree: lobby · requests at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "recorded": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 3,
+              "screen": 3
+            },
+            "group notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 3,
+              "screen": 3
+            },
+            "rows": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row icons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row icon pictures": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row titles": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row subs": {
+              "pack": 4,
+              "screen": 4
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code label": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code": {
+              "pack": 1,
+              "screen": 1
+            },
+            "copy": {
+              "pack": 1,
+              "screen": 1
+            },
+            "copy icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seats": {
+              "pack": 1,
+              "screen": 1
+            },
+            "bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "bar fill": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seat numbers": {
+              "pack": 5,
+              "screen": 5
+            },
+            "row buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "stepper": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper value": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper −": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper +": {
+              "pack": 1,
+              "screen": 1
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "improvement": null
+        }
+      },
+      {
+        "id": "agree: lobby · copied, with the toast, at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "recorded": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "group notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 2,
+              "screen": 2
+            },
+            "rows": {
+              "pack": 6,
+              "screen": 6
+            },
+            "row icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row icon pictures": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row titles": {
+              "pack": 6,
+              "screen": 6
+            },
+            "row subs": {
+              "pack": 2,
+              "screen": 2
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code label": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code": {
+              "pack": 1,
+              "screen": 1
+            },
+            "copy": {
+              "pack": 1,
+              "screen": 1
+            },
+            "copy icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seats": {
+              "pack": 1,
+              "screen": 1
+            },
+            "bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "bar fill": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seat numbers": {
+              "pack": 5,
+              "screen": 5
+            },
+            "row buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stepper": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper value": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper −": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper +": {
+              "pack": 1,
+              "screen": 1
+            },
+            "toast": {
+              "pack": 1,
+              "screen": 1
+            },
+            "toast icon": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "improvement": null
+        }
+      },
+      {
+        "id": "agree: lobby · full at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "recorded": [
+            {
+              "part": "stepper + 1",
+              "what": "aria-disabled",
+              "pack": null,
+              "screen": "true"
+            }
+          ],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "group notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 2,
+              "screen": 2
+            },
+            "rows": {
+              "pack": 10,
+              "screen": 10
+            },
+            "row icons": {
+              "pack": 4,
+              "screen": 4
+            },
+            "row icon pictures": {
+              "pack": 4,
+              "screen": 4
+            },
+            "row titles": {
+              "pack": 10,
+              "screen": 10
+            },
+            "row subs": {
+              "pack": 5,
+              "screen": 5
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code label": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code": {
+              "pack": 1,
+              "screen": 1
+            },
+            "copy": {
+              "pack": 1,
+              "screen": 1
+            },
+            "copy icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seats": {
+              "pack": 1,
+              "screen": 1
+            },
+            "bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "bar fill": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seat numbers": {
+              "pack": 9,
+              "screen": 9
+            },
+            "row buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stepper": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper value": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper −": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper +": {
+              "pack": 1,
+              "screen": 1
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "improvement": null
+        }
+      },
+      {
+        "id": "agree: setup · 9 with the Largest text (200 %) at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "recorded": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "group notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 1,
+              "screen": 1
+            },
+            "rows": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icon pictures": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row titles": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row subs": {
+              "pack": 2,
+              "screen": 2
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "large title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg buttons": {
+              "pack": 3,
+              "screen": 3
+            }
+          },
+          "improvement": null
+        }
+      },
+      {
+        "id": "agree: lobby · requests with the Large text (150 %) at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "recorded": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 3,
+              "screen": 3
+            },
+            "group notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 3,
+              "screen": 3
+            },
+            "rows": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row icons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row icon pictures": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row titles": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row subs": {
+              "pack": 4,
+              "screen": 4
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code label": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code": {
+              "pack": 1,
+              "screen": 1
+            },
+            "copy": {
+              "pack": 1,
+              "screen": 1
+            },
+            "copy icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seats": {
+              "pack": 1,
+              "screen": 1
+            },
+            "bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "bar fill": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seat numbers": {
+              "pack": 5,
+              "screen": 5
+            },
+            "row buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "stepper": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper value": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper −": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper +": {
+              "pack": 1,
+              "screen": 1
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "improvement": {
+            "what": "the code card's row wraps: Copy under the code, inside the card",
+            "pack": {
+              "copyRight": 411.45,
+              "contentRight": 358,
+              "inside": false
+            },
+            "screen": {
+              "copyRight": 142.25,
+              "contentRight": 358,
+              "inside": true
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: lobby · requests with the Largest text (200 %) at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "recorded": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 3,
+              "screen": 3
+            },
+            "group notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 3,
+              "screen": 3
+            },
+            "rows": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row icons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row icon pictures": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row titles": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row subs": {
+              "pack": 4,
+              "screen": 4
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code label": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code": {
+              "pack": 1,
+              "screen": 1
+            },
+            "copy": {
+              "pack": 1,
+              "screen": 1
+            },
+            "copy icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seats": {
+              "pack": 1,
+              "screen": 1
+            },
+            "bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "bar fill": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seat numbers": {
+              "pack": 5,
+              "screen": 5
+            },
+            "row buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "stepper": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper value": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper −": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper +": {
+              "pack": 1,
+              "screen": 1
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "improvement": {
+            "what": "the code card's row wraps: Copy under the code, inside the card",
+            "pack": {
+              "copyRight": 516.61,
+              "contentRight": 358,
+              "inside": false
+            },
+            "screen": {
+              "copyRight": 161,
+              "contentRight": 358,
+              "inside": true
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: lobby · requests with the Largest text (200 %) at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "recorded": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 3,
+              "screen": 3
+            },
+            "group notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 3,
+              "screen": 3
+            },
+            "rows": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row icons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row icon pictures": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row titles": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row subs": {
+              "pack": 4,
+              "screen": 4
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code label": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code": {
+              "pack": 1,
+              "screen": 1
+            },
+            "copy": {
+              "pack": 1,
+              "screen": 1
+            },
+            "copy icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seats": {
+              "pack": 1,
+              "screen": 1
+            },
+            "bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "bar fill": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seat numbers": {
+              "pack": 5,
+              "screen": 5
+            },
+            "row buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "stepper": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper value": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper −": {
+              "pack": 1,
+              "screen": 1
+            },
+            "stepper +": {
+              "pack": 1,
+              "screen": 1
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "improvement": {
+            "what": "the code card's row wraps: Copy under the code, inside the card",
+            "pack": {
+              "copyRight": 516.61,
+              "contentRight": 398,
+              "inside": false
+            },
+            "screen": {
+              "copyRight": 161,
+              "contentRight": 398,
+              "inside": true
+            }
+          }
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-BZVKmnDF.js",
+        "line": 1,
+        "column": 3328,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}

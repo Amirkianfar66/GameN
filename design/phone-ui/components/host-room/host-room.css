@@ -1,0 +1,15 @@
+@import url("../kit/kit.css");
+@import url("../entry-parts/entry-parts.css");
+
+/*
+ * Host setup's and the host lobby's styles: runtime source, Designer's (host-setup.mjs, host-lobby.mjs). The
+ * phone pack's own values (design/phone-ui/prototype/kit.css .ph, .screen; screens-entry.mjs, sheet 11),
+ * scoped under .ms-host-setup and .ms-host-lobby so nothing here reaches the rest of the app and nothing of
+ * the app's reaches in. The controls, lists, rows and the inline error are the shared kit's (../kit/kit.css),
+ * and the screen, the nav bar, the code card and the toast the entry parts' (../entry-parts/entry-parts.css):
+ * here, only the screens themselves.
+ */
+
+/* Each screen fills its host on the pack's phone canvas (kit.css --canvas, the kit's --ms-k-canvas). */
+.ms-host-setup, .ms-host-lobby { position: absolute; inset: 0; overflow: hidden; isolation: isolate; background: var(--ms-k-canvas); }
+.ms-host-setup:focus, .ms-host-lobby:focus { outline: none; }

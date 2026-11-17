@@ -1,0 +1,2727 @@
+{
+  "tool": "design/tools/host-controls-check.mjs",
+  "component": "design/phone-ui/components/host-controls",
+  "sourceCommit": "15e816dc817b5a53ff0cbe6a23d723f1810a8f7e",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": {
+    "390x844/list": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-list.jpg",
+      "sha256": "a0d673d31b932dddb8b227684ed6d30b745b24cf09f9282b4d99aacd0085cac0",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "Check the deadline|Run bots|1 · Ava|2 · Ben|3 · Cleo|4 · Dev|5 · Eli|Abort match",
+      "labels": "Recovery codes",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": "Asks the server to move on if time is up",
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": null,
+      "foot": "",
+      "footLocal": false,
+      "abortWarn": false,
+      "abortBusy": false,
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "430x932/list": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-list.jpg",
+      "sha256": "a228423effeeaaf6fadef084efc8d8ded4093911d0bcbc241f8ca21d02bcc946",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "Check the deadline|Run bots|1 · Ava|2 · Ben|3 · Cleo|4 · Dev|5 · Eli|Abort match",
+      "labels": "Recovery codes",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": "Asks the server to move on if time is up",
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": null,
+      "foot": "",
+      "footLocal": false,
+      "abortWarn": false,
+      "abortBusy": false,
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "390x844/busy": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-busy.jpg",
+      "sha256": "4e6f6dedb13ca7ac4c31f5aaf9d2b32f32cbe7d02b14ab460d343ca00260c2ee",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "Check the deadline|Run bots|1 · Ava|2 · Ben|3 · Cleo|4 · Dev|5 · Eli|Abort match",
+      "labels": "Recovery codes",
+      "busy": [
+        "bots"
+      ],
+      "spinners": 1,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": "Asks the server to move on if time is up",
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": null,
+      "foot": "",
+      "footLocal": false,
+      "abortWarn": false,
+      "abortBusy": false,
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "430x932/busy": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-busy.jpg",
+      "sha256": "20a58e4fa06898ce044e0ab8815441cdeba0a15f974788f271b83a9172f7c82c",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "Check the deadline|Run bots|1 · Ava|2 · Ben|3 · Cleo|4 · Dev|5 · Eli|Abort match",
+      "labels": "Recovery codes",
+      "busy": [
+        "bots"
+      ],
+      "spinners": 1,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": "Asks the server to move on if time is up",
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": null,
+      "foot": "",
+      "footLocal": false,
+      "abortWarn": false,
+      "abortBusy": false,
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "390x844/refused": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-refused.jpg",
+      "sha256": "d6430a13c742cbf8f3ac92d9e639bdc3b267b292e55981c11d25128967fb22e6",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "Check the deadline|Run bots|1 · Ava|2 · Ben|3 · Cleo|4 · Dev|5 · Eli|Abort match",
+      "labels": "Recovery codes",
+      "busy": [],
+      "spinners": 0,
+      "refused": [
+        "deadline"
+      ],
+      "dimmed": [
+        "deadline"
+      ],
+      "reasons": [
+        "The deadline has not passed yet"
+      ],
+      "deadlineLine": "The deadline has not passed yet",
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": null,
+      "foot": "",
+      "footLocal": false,
+      "abortWarn": false,
+      "abortBusy": false,
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "430x932/refused": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-refused.jpg",
+      "sha256": "d54f2aa8493dafdbb196cda17a66868c1dcfdf336fa3a3572651d56d3ac9eaac",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "Check the deadline|Run bots|1 · Ava|2 · Ben|3 · Cleo|4 · Dev|5 · Eli|Abort match",
+      "labels": "Recovery codes",
+      "busy": [],
+      "spinners": 0,
+      "refused": [
+        "deadline"
+      ],
+      "dimmed": [
+        "deadline"
+      ],
+      "reasons": [
+        "The deadline has not passed yet"
+      ],
+      "deadlineLine": "The deadline has not passed yet",
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": null,
+      "foot": "",
+      "footLocal": false,
+      "abortWarn": false,
+      "abortBusy": false,
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "390x844/code": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-code.jpg",
+      "sha256": "2e3fc23e6806f2c648b8949d08a74575b044f7d9b22edcf883418e0973a43807",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Recovery code",
+      "sub": "Private to this phone",
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": "Recovery for Player 4 · Dev",
+      "matchId": "mtch-8f2c4e",
+      "codeText": "•••••• •••••• •••••• •••••• ••••••",
+      "meta": "Works once · 15 minutes",
+      "note": "Show it only to Player 4. It never appears on the shared display.",
+      "confirm": null,
+      "foot": "Reveal|Copy",
+      "footLocal": true,
+      "abortWarn": false,
+      "abortBusy": false,
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/code": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-code.jpg",
+      "sha256": "8715d31ad98ea391ffc3df587958d0dc196bc9762018b961c3a372ad0f29aa5b",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Recovery code",
+      "sub": "Private to this phone",
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": "Recovery for Player 4 · Dev",
+      "matchId": "mtch-8f2c4e",
+      "codeText": "•••••• •••••• •••••• •••••• ••••••",
+      "meta": "Works once · 15 minutes",
+      "note": "Show it only to Player 4. It never appears on the shared display.",
+      "confirm": null,
+      "foot": "Reveal|Copy",
+      "footLocal": true,
+      "abortWarn": false,
+      "abortBusy": false,
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/revealed": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-revealed.jpg",
+      "sha256": "0cf5b743c7434236ebfee51ecf44973e8f8b00d8aa6e639bc0f6922cf8276255",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Recovery code",
+      "sub": "Private to this phone",
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": "Recovery for Player 4 · Dev",
+      "matchId": "mtch-8f2c4e",
+      "codeText": "q7Hc2-Lm9xT-4ZpWd-8rVnK-2bYs6-Jt",
+      "meta": "Works once · 15 minutes",
+      "note": "Show it only to Player 4. It never appears on the shared display.",
+      "confirm": null,
+      "foot": "Hide|Copy",
+      "footLocal": true,
+      "abortWarn": false,
+      "abortBusy": false,
+      "toast": null,
+      "banner": false,
+      "codeInPage": true,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/revealed": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-revealed.jpg",
+      "sha256": "db9712575f645aca27c2cff2e7003921372b9eab8389b381e4eb07640b586375",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Recovery code",
+      "sub": "Private to this phone",
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": "Recovery for Player 4 · Dev",
+      "matchId": "mtch-8f2c4e",
+      "codeText": "q7Hc2-Lm9xT-4ZpWd-8rVnK-2bYs6-Jt",
+      "meta": "Works once · 15 minutes",
+      "note": "Show it only to Player 4. It never appears on the shared display.",
+      "confirm": null,
+      "foot": "Hide|Copy",
+      "footLocal": true,
+      "abortWarn": false,
+      "abortBusy": false,
+      "toast": null,
+      "banner": false,
+      "codeInPage": true,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/copied": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-copied.jpg",
+      "sha256": "bbfea8d9a61714a3f8d141e1ec09d2180d0a4f9a5a779ceee65d6f0eed60d8b7",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Recovery code",
+      "sub": "Private to this phone",
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": "Recovery for Player 4 · Dev",
+      "matchId": "mtch-8f2c4e",
+      "codeText": "•••••• •••••• •••••• •••••• ••••••",
+      "meta": "Works once · 15 minutes",
+      "note": "Show it only to Player 4. It never appears on the shared display.",
+      "confirm": null,
+      "foot": "Reveal|Copy",
+      "footLocal": true,
+      "abortWarn": false,
+      "abortBusy": false,
+      "toast": "Copied",
+      "banner": false,
+      "codeInPage": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/copied": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-copied.jpg",
+      "sha256": "7e0259f6c3eae69f4f19602f116a48d455eea81c0db9256612b22a5904839776",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Recovery code",
+      "sub": "Private to this phone",
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": "Recovery for Player 4 · Dev",
+      "matchId": "mtch-8f2c4e",
+      "codeText": "•••••• •••••• •••••• •••••• ••••••",
+      "meta": "Works once · 15 minutes",
+      "note": "Show it only to Player 4. It never appears on the shared display.",
+      "confirm": null,
+      "foot": "Reveal|Copy",
+      "footLocal": true,
+      "abortWarn": false,
+      "abortBusy": false,
+      "toast": "Copied",
+      "banner": false,
+      "codeInPage": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/abort": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-abort.jpg",
+      "sha256": "fdd2e850c7fcde6e04995a94c02caa55109c5bdefa82e6421f3046d39b5f9c96",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": "Abort the match?|It ends now for everyone, with no winner.",
+      "foot": "Keep playing|Abort match",
+      "footLocal": true,
+      "abortWarn": true,
+      "abortBusy": false,
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/abort": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-abort.jpg",
+      "sha256": "69324f9ec59c47140d55e41be11244161967c45b018b3efc4a9728ef41c75a37",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": "Abort the match?|It ends now for everyone, with no winner.",
+      "foot": "Keep playing|Abort match",
+      "footLocal": true,
+      "abortWarn": true,
+      "abortBusy": false,
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/aborting": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-aborting.jpg",
+      "sha256": "90fcbfbfd84d5dafefaa79fc5d95ad850e14bb257887cff1d437858e5ee3ce13",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": "Abort the match?|It ends now for everyone, with no winner.",
+      "foot": "Keep playing|Abort match",
+      "footLocal": true,
+      "abortWarn": true,
+      "abortBusy": true,
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/aborting": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-aborting.jpg",
+      "sha256": "709ddff7d9210d2eec7b65a79c1d9ee63621af3d5f6fbed5e07c669e561584e7",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": "Abort the match?|It ends now for everyone, with no winner.",
+      "foot": "Keep playing|Abort match",
+      "footLocal": true,
+      "abortWarn": true,
+      "abortBusy": true,
+      "toast": null,
+      "banner": false,
+      "codeInPage": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/stale": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-stale.jpg",
+      "sha256": "20d063126c0c0a29f41ae9a488a40d589d05e0564f8836a60132fe26c9af84ba",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "Check the deadline|Run bots|1 · Ava|2 · Ben|3 · Cleo|4 · Dev|5 · Eli|Abort match",
+      "labels": "Recovery codes",
+      "busy": [],
+      "spinners": 0,
+      "refused": [
+        "deadline",
+        "bots",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery"
+      ],
+      "dimmed": [],
+      "reasons": [
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current"
+      ],
+      "deadlineLine": "Asks the server to move on if time is up",
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": null,
+      "foot": "",
+      "footLocal": false,
+      "abortWarn": false,
+      "abortBusy": false,
+      "toast": null,
+      "banner": true,
+      "codeInPage": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "430x932/stale": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-stale.jpg",
+      "sha256": "bcf69bb1bbdb403297f08a391d665fa6e020d3c44d005c635fc2f907308cd964",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Host controls",
+      "sub": null,
+      "rows": "Check the deadline|Run bots|1 · Ava|2 · Ben|3 · Cleo|4 · Dev|5 · Eli|Abort match",
+      "labels": "Recovery codes",
+      "busy": [],
+      "spinners": 0,
+      "refused": [
+        "deadline",
+        "bots",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery",
+        "issue-recovery"
+      ],
+      "dimmed": [],
+      "reasons": [
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current",
+        "Controls return when the match is current"
+      ],
+      "deadlineLine": "Asks the server to move on if time is up",
+      "cardLabel": null,
+      "matchId": null,
+      "codeText": null,
+      "meta": null,
+      "note": null,
+      "confirm": null,
+      "foot": "",
+      "footLocal": false,
+      "abortWarn": false,
+      "abortBusy": false,
+      "toast": null,
+      "banner": true,
+      "codeInPage": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "390x844/largest": {
+      "file": "design/phone-ui/components/host-controls/review/390x844-largest.jpg",
+      "sha256": "78b6eeee2ba55b1f74a65198640af45f13dcc977146446cea3c0af66d2343514",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Recovery code",
+      "sub": "Private to this phone",
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": "Recovery for Player 4 · Dev",
+      "matchId": "mtch-8f2c4e",
+      "codeText": "q7Hc2-Lm9xT-4ZpWd-8rVnK-2bYs6-Jt",
+      "meta": "Works once · 15 minutes",
+      "note": "Show it only to Player 4. It never appears on the shared display.",
+      "confirm": null,
+      "foot": "Hide|Copy",
+      "footLocal": true,
+      "abortWarn": false,
+      "abortBusy": false,
+      "toast": null,
+      "banner": false,
+      "codeInPage": true,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/largest": {
+      "file": "design/phone-ui/components/host-controls/review/430x932-largest.jpg",
+      "sha256": "a76aa94056d8ea0cd2469e5cc3116c14182a776c7c594d689e377ef5acb8f655",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "name": "group:Host controls",
+      "detent": "large",
+      "back": true,
+      "title": "Recovery code",
+      "sub": "Private to this phone",
+      "rows": "",
+      "labels": "",
+      "busy": [],
+      "spinners": 0,
+      "refused": [],
+      "dimmed": [],
+      "reasons": [],
+      "deadlineLine": null,
+      "cardLabel": "Recovery for Player 4 · Dev",
+      "matchId": "mtch-8f2c4e",
+      "codeText": "q7Hc2-Lm9xT-4ZpWd-8rVnK-2bYs6-Jt",
+      "meta": "Works once · 15 minutes",
+      "note": "Show it only to Player 4. It never appears on the shared display.",
+      "confirm": null,
+      "foot": "Hide|Copy",
+      "footLocal": true,
+      "abortWarn": false,
+      "abortBusy": false,
+      "toast": null,
+      "banner": false,
+      "codeInPage": true,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "report: each row reports its tap, and only that; the keyboard as the finger",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "got": [
+              [
+                "onDeadline"
+              ],
+              [
+                "onBots"
+              ],
+              [
+                "onIssueRecovery",
+                3
+              ],
+              [
+                "onIssueRecovery",
+                5
+              ],
+              [
+                "onAbortAsk"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "command: in flight, only that row is busy with the spinner at its end; the others keep their own state",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "bots": {
+                "busy": true,
+                "spins": true,
+                "dimmed": false,
+                "line": "Bots act if they can",
+                "focus": true
+              },
+              "seat2": {
+                "busy": true,
+                "spins": true,
+                "chevron": true
+              },
+              "deadline": {
+                "busy": false,
+                "spins": false,
+                "refused": false
+              },
+              "seat1": false
+            },
+            "after": {
+              "busy": false,
+              "spins": false,
+              "same": true
+            },
+            "got": [
+              [
+                "onDeadline"
+              ],
+              [
+                "onIssueRecovery",
+                1
+              ]
+            ]
+          }
+        },
+        {
+          "id": "command: refused, the row dimmed, Frontend's reason as its line and its description; the usual line back when offered",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "refused": true,
+              "dimmed": true,
+              "line": "The deadline has not passed yet",
+              "why": "The deadline has not passed yet",
+              "abort": {
+                "refused": true,
+                "dimmed": true,
+                "line": "Only between turns"
+              },
+              "bots": false
+            },
+            "after": {
+              "refused": false,
+              "line": "Asks the server to move on if time is up",
+              "why": null,
+              "abortLine": "Ends with no winner"
+            },
+            "got": []
+          }
+        },
+        {
+          "id": "command: the confirm's Abort match is the shell's footer: busy while the abort is in flight, refused with Frontend's reason",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": [
+              "keep",
+              "abort"
+            ],
+            "inFlight": true,
+            "off": {
+              "refused": true,
+              "why": "Only between turns"
+            },
+            "words": [
+              "Keep playing",
+              "Abort match"
+            ]
+          }
+        },
+        {
+          "id": "reconnect: the commands wait with the banner's words, not dimmed; the confirm still opens",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "waits": [
+              {
+                "refused": true,
+                "dimmed": false,
+                "why": "Controls return when the match is current"
+              },
+              {
+                "refused": true,
+                "dimmed": false,
+                "why": "Controls return when the match is current"
+              },
+              {
+                "refused": true,
+                "dimmed": false,
+                "why": "Controls return when the match is current"
+              }
+            ],
+            "got": [
+              [
+                "onAbortAsk"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "reconnect: the footer's Reveal, Hide, Copy and Keep playing are this phone's own and still work; Abort match waits with the banner's words",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "code": [
+              "hide",
+              "copy"
+            ],
+            "confirm": {
+              "actions": [
+                "keep"
+              ],
+              "keep": false,
+              "abort": true,
+              "dimmed": false,
+              "why": "Controls return when the match is current",
+              "warn": true
+            }
+          }
+        },
+        {
+          "id": "privacy: the code is in the page only while revealed; hidden, the fixed dots",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "hidden": {
+              "inPage": false,
+              "text": "•••••• •••••• •••••• •••••• ••••••"
+            },
+            "shown": {
+              "inPage": true,
+              "text": "q7Hc2-Lm9xT-4ZpWd-8rVnK-2bYs6-Jt",
+              "count": 1
+            },
+            "again": {
+              "inPage": false,
+              "text": "•••••• •••••• •••••• •••••• ••••••"
+            }
+          }
+        },
+        {
+          "id": "privacy: revealed, then reconnecting: Hide is still taken, and once Frontend hides it the code leaves the page",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "live": true,
+            "stale": {
+              "inPage": true,
+              "hide": "Hide",
+              "intent": "sheet-local",
+              "refused": false,
+              "dimmed": false,
+              "copyRefused": false
+            },
+            "actions": [
+              "hide"
+            ],
+            "hidden": {
+              "inPage": false,
+              "text": "•••••• •••••• •••••• •••••• ••••••",
+              "reveal": "Reveal",
+              "attributes": false
+            }
+          }
+        },
+        {
+          "id": "privacy: the code is never in an attribute, a report or the layout",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "attributes": false,
+              "reports": false,
+              "layout": false,
+              "sheet": false,
+              "actions": [
+                "hide",
+                "copy"
+              ]
+            }
+          }
+        },
+        {
+          "id": "privacy: the code leaves the page when the viewer changes, and is kept only if the same update gives the new viewer's",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "dropped": {
+              "inPage": false,
+              "card": true
+            },
+            "given": true
+          }
+        },
+        {
+          "id": "privacy: the code leaves the page while concealed, refused if given then, and comes back only when given",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "hidden": false,
+            "givenHidden": false,
+            "back": false,
+            "given": true
+          }
+        },
+        {
+          "id": "privacy: the code leaves the page when the view changes and on dispose; given while hidden, it is refused",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "onList": false,
+            "back": true,
+            "disposed": false,
+            "refusedHidden": true
+          }
+        },
+        {
+          "id": "minutes: the minutes left as Frontend gives them, never counted down here; no line without them",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": "Works once · 5 minutes",
+            "later": "Works once · 5 minutes",
+            "one": "Works once · 1 minute",
+            "none": null
+          }
+        },
+        {
+          "id": "focus: each row keeps its element and the focus; a focused seat that leaves the list returns the focus once",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "kept": true,
+            "gone": {
+              "row": false,
+              "active": true
+            },
+            "returns": [
+              [
+                "onFocusReturn",
+                {
+                  "intent": "issue-recovery",
+                  "value": "4"
+                }
+              ]
+            ]
+          }
+        },
+        {
+          "id": "focus: a focus in a view that ends returns to the content, reported once",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "active": true,
+            "returns": [
+              [
+                "onFocusReturn",
+                {
+                  "intent": "abort-ask",
+                  "value": null
+                }
+              ]
+            ]
+          }
+        },
+        {
+          "id": "words: the content's name; the sheet's frame and footer from hostControlsSheet() for each view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "name": "group,Host controls",
+              "list": {
+                "title": "Host controls",
+                "sub": null,
+                "back": true,
+                "foot": ""
+              },
+              "hidden": {
+                "title": "Recovery code",
+                "sub": "Private to this phone",
+                "back": true,
+                "foot": "Reveal|Copy"
+              },
+              "shown": {
+                "title": "Recovery code",
+                "sub": "Private to this phone",
+                "back": true,
+                "foot": "Hide|Copy"
+              },
+              "confirm": {
+                "title": "Host controls",
+                "sub": null,
+                "back": true,
+                "foot": "Keep playing|Abort match"
+              },
+              "confirmWords": [
+                "Abort the match?",
+                "It ends now for everyone, with no winner."
+              ]
+            }
+          }
+        },
+        {
+          "id": "layout: at 390 × 844, the list and the card 16 px in, in the large sheet",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "listIn": [
+              16,
+              16
+            ],
+            "cardIn": [
+              16,
+              16
+            ],
+            "detent": "large"
+          }
+        },
+        {
+          "id": "layout: at 430 × 932, the list and the card 16 px in, in the large sheet",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "listIn": [
+              16,
+              16
+            ],
+            "cardIn": [
+              16,
+              16
+            ],
+            "detent": "large"
+          }
+        },
+        {
+          "id": "layout: the list with the Largest text (200 %): every word whole, the last part reached by scrolling, the footer in view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "cut": [],
+            "reachable": true,
+            "foot": true
+          }
+        },
+        {
+          "id": "layout: the revealed code with the Largest text (200 %): every word whole, the last part reached by scrolling, the footer in view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "cut": [],
+            "reachable": true,
+            "foot": true
+          }
+        },
+        {
+          "id": "dispose: safe twice; afterwards nothing is left in the sheet and nothing fires",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "body": 0,
+              "calls": 0,
+              "connected": false,
+              "inPage": false
+            }
+          }
+        },
+        {
+          "id": "motion: the spinner turns, and stands still with the game's Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": "ms-k-spin",
+            "reduced": "none"
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "motion: the spinner stands still with the device's Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": "none",
+            "reduced": "none"
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CsH1QTNl.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: Host controls at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 3,
+              "screen": 3
+            },
+            "rows": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row icons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row icon drawings": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row portraits": {
+              "pack": 5,
+              "screen": 5
+            },
+            "row titles": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row lines": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row chevrons": {
+              "pack": 6,
+              "screen": 6
+            },
+            "row chevron drawings": {
+              "pack": 6,
+              "screen": 6
+            },
+            "code card": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "note": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: Host controls at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 3,
+              "screen": 3
+            },
+            "rows": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row icons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row icon drawings": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row portraits": {
+              "pack": 5,
+              "screen": 5
+            },
+            "row titles": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row lines": {
+              "pack": 8,
+              "screen": 8
+            },
+            "row chevrons": {
+              "pack": 6,
+              "screen": 6
+            },
+            "row chevron drawings": {
+              "pack": 6,
+              "screen": 6
+            },
+            "code card": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "note": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: the code, hidden, at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "footer icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code card lines": {
+              "pack": 6,
+              "screen": 6
+            },
+            "code card icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: the code, revealed, at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "footer icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code card lines": {
+              "pack": 6,
+              "screen": 6
+            },
+            "code card icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: the code, revealed, at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "footer icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code card lines": {
+              "pack": 6,
+              "screen": 6
+            },
+            "code card icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: the code, copied, with the toast, at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "footer icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "toast": {
+              "pack": 1,
+              "screen": 1
+            },
+            "toast icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code card lines": {
+              "pack": 6,
+              "screen": 6
+            },
+            "code card icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: the abort's confirm at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "footer icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "note": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm tile": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm line": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: the abort's confirm at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "footer icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "note": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm tile": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm line": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: the code, revealed, with the Largest text (200 %) at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "footer icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "toast": {
+              "pack": 0,
+              "screen": 0
+            },
+            "toast icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "code card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code card lines": {
+              "pack": 6,
+              "screen": 6
+            },
+            "code card icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            },
+            "confirm": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "confirm line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": {
+            "what": "the timer icon keeps its 24 px (the kit's icons never shrink); the pack's shrinks beside the long line",
+            "pack": {
+              "x": 32,
+              "y": 688.21875,
+              "w": 21.828125,
+              "h": 24
+            },
+            "screen": {
+              "x": 32,
+              "y": 688.21875,
+              "w": 24,
+              "h": 24
+            }
+          }
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-CsH1QTNl.js",
+        "line": 1,
+        "column": 6048,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}
