@@ -256,6 +256,55 @@ After the Pre-game Animation builder's blockout comparison of a shared eye-level
 
 **What it does not settle:** the game's room capacities stay as recorded above (Room A and Room B hold five) unless the owner changes them. If per-place views are chosen for the game, a room of five needs either a fifth view or a limit of four.
 
+**A third option, asked the same day,** after the Option 1 example ([the test page](https://claude.ai/artifact/PbhNtcYhaDjrNMsFcrL12M), version 1794921470-5f56) and a side-by-side picture of both options. Word for word:
+
+> Do we have a 3rd option as 2.5D eye view of character? Is it something possible to test?
+
+The Lead answered that a 2.5D room can be built and tested:
+- **What it is:** one simple 3D set per room, with the crew standing in it as the approved flat drawings, drawn live from any camera.
+- **What it needs:** a 3D renderer that the game doesn't have. `three` is an unreviewed dependency in `apps/game` today.
+- **The Lead's recommendation:** keep it out of the first human test.
+
+A test that cost nothing was started.
+
+**The owner's choice, minutes later.** Word for word:
+
+> ok so for now we can confirm Option 1 with image generation but I want each image generation integrated with the code one  keep the ambient color of it for example in Room B is feeling Purple so lets more integrate the image and code design to have something feel same, we can test 1 image together
+
+**What it decides:**
+- **Option 1, for now.**
+  - Each room is one shared eye-level picture, the same for every player in it, made with the image tool.
+  - Room B's camera is "Deep, raised back".
+  - Per-place views, sideways phones and 2.5D are not chosen for now.
+- **Each picture keeps its room's colours from the code.**
+  - For Room B, that is its family in tokens 0.5.0: `#2A1446`, `#4B2079`, `#7A3CAD`, `#AE6CD3`, `#DCB6EE`. The source is `color.room.roomB`, also `FAMILIES['room-b']` in `design/room-pilot/rooms.mjs`.
+  - Every other room keeps its own family the same way.
+  - This refines the earlier "Darker, more noir" answer: Room B stays dark and moody, but purple. The first Option 1 picture drifted to grey-brown.
+- **The picture and the code are made to feel like one.**
+  - The code's own ambient fills the picture's openings: the window's voyage, the screens, the lights and the tank's bubbles.
+  - The crew take the room's light and a floor shadow.
+- **One picture first.**
+  - Room B is tested together with the owner before any other room is generated.
+  - This is the owner's approval for that one picture, and for one re-run if it fails the sheet's checks.
+
+**What it means for the work:**
+- **The Pre-game Animation builder** makes the shared-view sheet's next version, with the guide coloured in Room B's family and the palette in the prompt. After the picture, it builds a test page:
+  - the picture with the code's ambient and all five crew;
+  - live, at 390 × 844 and 430 × 932;
+  - beside today's Room B.
+- **The Lead** reviews the sheet and names it in the go.
+- **The image session** makes the picture and records it.
+- **The 2.5D test is paused.** It stays a later option.
+- **The places.**
+  - Room B keeps its five places, their ids and their order (the 11 October hard rule).
+  - Option 1's coordinates go to the owner with the picture.
+  - Then they go into Designer's reviewed room scenes, and into Integration's runtime ports and pins.
+
+**What it does not settle:**
+- **The human test.** The Lead's recommendation that it ships on today's rooms still waits for the owner's answer.
+- **The other rooms' pictures.** They wait for the Room B test.
+- **The game's rooms.** Until the owner approves a new room, today's approved rooms and places stay in the game.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
