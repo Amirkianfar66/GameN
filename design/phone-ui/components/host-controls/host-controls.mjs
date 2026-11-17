@@ -29,7 +29,7 @@
 
 import { createControlPolicy, createKit } from '../kit/kit.mjs';
 
-export const HOST_CONTROLS_VERSION = 'host-controls-0.1.1';
+export const HOST_CONTROLS_VERSION = 'host-controls-0.1.2';
 const VIEWS = Object.freeze(['list', 'code', 'abort']);
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 /** The sheet's id, the same for the three views, so the shell keeps its body (and this content) through them. */
@@ -57,6 +57,19 @@ export const HOST_WORDS = Object.freeze({
 });
 /** The pack's dots for a hidden code: the same whatever the code, so its length is never on the page. */
 export const CODE_MASK = '•••••• •••••• •••••• •••••• ••••••';
+
+/**
+ * Where the code and the Match ID may wrap (0.1.2, the Lead's rule of 17 November): only between groups, and a group
+ * never splits, so a player copying them out by hand never reads half a group on each line. The mask's groups are its
+ * own (between its spaces). The server's code is 32 base64url characters with no separator of its own, so its groups
+ * are the mask's six; a hyphen or underscore inside it is a character of the code, not a place to wrap. The Match ID
+ * (the server's UUID) wraps after its hyphens. Nothing is drawn between the groups and no character is added: the
+ * code reads as the pack draws it, and its text, selected and copied by hand, is the code itself.
+ */
+export const CODE_GROUP = 6;
+export const codeGroups = value => Array.from({ length: Math.ceil(value.length / CODE_GROUP) }, (_, i) => value.slice(i * CODE_GROUP, (i + 1) * CODE_GROUP));
+export const maskGroups = () => CODE_MASK.split(' ');
+export const matchIdGroups = value => value.split(/(?<=-)/);
 
 const OFF = Object.freeze({ enabled: false, busy: false, reason: null });
 /** Every input, with its default: the list, nothing offered until Frontend gives it, no code. */
@@ -242,14 +255,28 @@ export function mountHostControls(host, input = {}, handlers = {}) {
     root.append(card, note);
     parts = { card, label, matchId, value, meta, note };
   }
+  /**
+   * Draws a line as its groups, each a span that never wraps (0.1.2): between them the mask's own space, or a break
+   * that adds no character (<wbr>), so the line's text stays the value. Redrawn only when its text changes.
+   */
+  function drawGroups(line, groups, { spaced = false } = {}) {
+    const text = groups.join(spaced ? ' ' : '');
+    if (line.textContent === text && line.querySelectorAll(':scope > .ms-hc-group').length === groups.length) return;
+    const doc = line.ownerDocument, nodes = [];
+    groups.forEach((group, i) => {
+      if (i) nodes.push(spaced ? doc.createTextNode(' ') : doc.createElement('wbr'));
+      nodes.push(kit.text(kit.h('span', 'ms-hc-group'), group));
+    });
+    line.replaceChildren(...nodes);
+  }
   function paintCode() {
     const p = parts, c = state.code;
     p.card.hidden = p.note.hidden = !c;
-    if (!c) { kit.text(p.value, ''); return; }
+    if (!c) { p.value.replaceChildren(); return; }
     kit.text(p.label, W.codeFor(c.seat, c.name));
-    kit.text(p.matchId, c.matchId);
+    drawGroups(p.matchId, matchIdGroups(c.matchId));
     // Revealed, the code; hidden, the fixed dots: the page never holds the code hidden.
-    kit.text(p.value, c.revealed ? c.value : CODE_MASK);
+    if (c.revealed) drawGroups(p.value, codeGroups(c.value)); else drawGroups(p.value, maskGroups(), { spaced: true });
     if (c.revealed) p.value.dataset.revealed = ''; else delete p.value.dataset.revealed;
     kit.text(p.meta.lastChild, c.minutes ? W.terms(c.minutes) : '');
     p.meta.hidden = !c.minutes;

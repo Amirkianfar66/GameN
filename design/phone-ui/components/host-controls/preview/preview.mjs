@@ -67,8 +67,15 @@ const ON = Object.freeze({ enabled: true });
 export const SEATS = Object.freeze(ROSTER.slice(0, 5).map(p => Object.freeze({ seat: p.seat, name: p.name, character: p.character, enabled: true })));
 export const MATCH_ID = 'mtch-8f2c4e';
 export const SAMPLE_CODE = 'q7Hc2-Lm9xT-4ZpWd-8rVnK-2bYs6-Jt';
+/**
+ * Standing in for the server's own (0.1.2): a code as `issueRecovery` makes it (randomBytes(24) in base64url: 32
+ * characters, a hyphen or underscore among them) and a Match ID as `create` makes it (a UUID). Synthetic, not a code.
+ */
+export const REAL_CODE = 'Zq3x_9Lk-T2vWm8RbYc4N7hJ-pQs0FdE';
+export const REAL_MATCH_ID = '3f2a1b4c-9d8e-4f7a-b6c5-1234567890ab';
 const dev = seatOf(SELF);
-export const codeOf = (revealed, minutes = 15) => ({ seat: dev.seat, name: dev.name, matchId: MATCH_ID, revealed, value: revealed ? SAMPLE_CODE : null, minutes });
+export const codeOf = (revealed, minutes = 15, { matchId = MATCH_ID, value = SAMPLE_CODE } = {}) => ({ seat: dev.seat, name: dev.name, matchId, revealed, value: revealed ? value : null, minutes });
+const realOf = revealed => codeOf(revealed, 15, { matchId: REAL_MATCH_ID, value: REAL_CODE });
 export const inputOf = (extra = {}) => ({ view: 'list', viewer: SELF, versions, deadline: ON, bots: ON, abort: ON, seats: SEATS, code: null, ...extra });
 /** Frontend's words for a refusal, standing in. */
 export const REFUSED = Object.freeze({ deadline: 'The deadline has not passed yet' });
@@ -90,6 +97,9 @@ export const PREVIEW_STATES = Object.freeze({
   retry: { caption: 'Retry · the session’s request waits to be sent again (0.1.1)', input: inputOf({ deadline: waits, bots: waits, abort: waits, seats: SEATS.map(s => ({ ...s, ...waits })), retry: { enabled: true } }) },
   stale: { caption: 'Reconnecting · commands wait', input: inputOf({ status: 'stale' }), shell: { status: 'stale', banner: { kind: 'reconnecting' } } },
   largest: { caption: 'Code · revealed · Largest text (200 %)', input: inputOf({ view: 'code', code: codeOf(true) }), text: 200 },
+  // 0.1.2: the server's own formats, revealed: the code wraps only between its groups of six, the Match ID after a hyphen.
+  real: { caption: 'Code · revealed · the server’s format (0.1.2)', input: inputOf({ view: 'code', code: realOf(true) }) },
+  'real-largest': { caption: 'Code · revealed · the server’s format · Largest text (0.1.2)', input: inputOf({ view: 'code', code: realOf(true) }), text: 200 },
 });
 
 const intents = [];
@@ -130,7 +140,7 @@ if (params.get('agree')) {
     .catch(error => ({ mode: 'error', ok: false, checks: [], error: String(error?.stack ?? error) }));
 } else if (params.get('probe')) {
   document.body.classList.add('pv-single');
-  probe = document.fonts.ready.then(() => import('./probe.mjs')).then(m => m.runHostControlsProbe({ sizes: PREVIEW_SIZES, mountState, disposeState, inputOf, codeOf, SAMPLE_CODE, SEATS, REFUSED }))
+  probe = document.fonts.ready.then(() => import('./probe.mjs')).then(m => m.runHostControlsProbe({ sizes: PREVIEW_SIZES, mountState, disposeState, inputOf, codeOf, SAMPLE_CODE, REAL_CODE, REAL_MATCH_ID, SEATS, REFUSED }))
     .catch(error => ({ mode: 'error', ok: false, checks: [], error: String(error?.stack ?? error) }));
 } else if (params.get('single')) {
   document.body.classList.add('pv-single');

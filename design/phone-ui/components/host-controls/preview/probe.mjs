@@ -23,11 +23,11 @@
 //   motion    the spinner turns, and stands still with Reduce motion (the game's, or the device's)
 // With the device's Reduce motion emulated, only the motion check runs (the page's mode says which).
 
-import { hostControlsSheet, HOST_WORDS, CODE_MASK } from '../host-controls.mjs';
+import { hostControlsSheet, HOST_WORDS, CODE_MASK, codeGroups, maskGroups, matchIdGroups } from '../host-controls.mjs';
 
 const frames = () => new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
 
-export async function runHostControlsProbe({ sizes, mountState, disposeState, inputOf, codeOf, SAMPLE_CODE, SEATS, REFUSED }) {
+export async function runHostControlsProbe({ sizes, mountState, disposeState, inputOf, codeOf, SAMPLE_CODE, REAL_CODE, REAL_MATCH_ID, SEATS, REFUSED }) {
   const deviceReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const mode = deviceReduced ? 'device-reduced' : 'full';
   const frame = document.createElement('div');
@@ -64,7 +64,8 @@ export async function runHostControlsProbe({ sizes, mountState, disposeState, in
   const spins = node => !!node.querySelector('.ms-k-row-trail > .ms-k-spinner');
   const line = node => node.querySelector('.ms-k-row-sub')?.textContent ?? null;
   /** Whether the code is anywhere in the page's markup (its text or any attribute). */
-  const inPage = () => document.documentElement.outerHTML.includes(SAMPLE_CODE);
+  // In the markup or in the text (0.1.2: the code is drawn in groups, so the text is where it reads whole).
+  const inPage = (code = SAMPLE_CODE) => document.documentElement.outerHTML.includes(code) || document.body.textContent.includes(code);
   const inAttributes = () => [...document.querySelectorAll('*')].some(n => [...n.attributes].some(a => a.value.includes(SAMPLE_CODE)));
 
   if (mode === 'full') {
@@ -164,11 +165,25 @@ export async function runHostControlsProbe({ sizes, mountState, disposeState, in
       const ok = code.join() === 'hide,copy' && confirm.actions.join() === 'keep' && !confirm.keep && confirm.abort && !confirm.dimmed && confirm.why === 'Controls return when the match is current' && confirm.warn;
       return { ok, code, confirm };
     });
+    await check('wrap: the code and the Match ID are drawn in groups that never wrap, their text the value itself (0.1.2)', async () => {
+      const s = mount(inputOf({ view: 'code', code: codeOf(false, 15, { matchId: REAL_MATCH_ID, value: REAL_CODE }) }));
+      const line = sel => { const n = s.q(sel), groups = [...n.querySelectorAll(':scope > .ms-hc-group')];
+        return { text: n.textContent, groups: groups.map(g => g.textContent), nowrap: groups.every(g => getComputedStyle(g).whiteSpace === 'nowrap'),
+          breaks: n.querySelectorAll(':scope > wbr').length, wordBreak: getComputedStyle(n).wordBreak }; };
+      const hidden = line('.ms-hc-code'), id = line('.ms-hc-match-id');
+      s.update({ code: codeOf(true, 15, { matchId: REAL_MATCH_ID, value: REAL_CODE }) });
+      const shown = line('.ms-hc-code');
+      disposeState(s.m);
+      const ok = hidden.text === CODE_MASK && hidden.groups.join() === maskGroups().join() && hidden.nowrap && hidden.breaks === 0 && hidden.wordBreak === 'normal'
+        && shown.text === REAL_CODE && shown.groups.join() === codeGroups(REAL_CODE).join() && shown.groups.every(g => g.length <= 6) && shown.nowrap && shown.breaks === shown.groups.length - 1
+        && id.text === REAL_MATCH_ID && id.groups.join() === matchIdGroups(REAL_MATCH_ID).join() && id.groups.length === 5 && id.nowrap && id.breaks === 4;
+      return { ok, hidden, shown, id };
+    });
     await check('privacy: the code is in the page only while revealed; hidden, the fixed dots', async () => {
       const s = mount(inputOf({ view: 'code', code: codeOf(false) }));
       const hidden = { inPage: inPage(), text: s.q('.ms-hc-code').textContent };
       s.update({ code: codeOf(true) });
-      const shown = { inPage: inPage(), text: s.q('.ms-hc-code').textContent, count: document.documentElement.outerHTML.split(SAMPLE_CODE).length - 1 };
+      const shown = { inPage: inPage(), text: s.q('.ms-hc-code').textContent, count: document.body.textContent.split(SAMPLE_CODE).length - 1 };
       s.update({ code: codeOf(false) });
       const again = { inPage: inPage(), text: s.q('.ms-hc-code').textContent };
       disposeState(s.m);

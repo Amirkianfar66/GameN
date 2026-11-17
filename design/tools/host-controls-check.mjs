@@ -32,9 +32,12 @@ const COMPONENT = join(REPO, 'design/phone-ui/components/host-controls');
 const REVIEW = join(COMPONENT, 'review');
 const SIZES = { '390x844': [390, 844], '430x932': [430, 932] };
 /** Each state at the two development sizes (preview.mjs PREVIEW_STATES). */
-const STATES = ['list', 'busy', 'refused', 'code', 'revealed', 'copied', 'abort', 'aborting', 'retry', 'stale', 'largest'];
+const STATES = ['list', 'busy', 'refused', 'code', 'revealed', 'copied', 'abort', 'aborting', 'retry', 'stale', 'largest', 'real', 'real-largest'];
 /** The preview's sample code (preview.mjs SAMPLE_CODE): in the page only while revealed. */
 const SAMPLE_CODE = 'q7Hc2-Lm9xT-4ZpWd-8rVnK-2bYs6-Jt';
+/** The server's formats, standing in (preview.mjs REAL_CODE, REAL_MATCH_ID; 0.1.2): 32 base64url characters, a UUID. */
+const REAL_CODE = 'Zq3x_9Lk-T2vWm8RbYc4N7hJ-pQs0FdE';
+const REAL_MATCH_ID = '3f2a1b4c-9d8e-4f7a-b6c5-1234567890ab';
 const MASK = '•••••• •••••• •••••• •••••• ••••••';
 const ROWS = 'Check the deadline|Run bots|1 · Ava|2 · Ben|3 · Cleo|4 · Dev|5 · Eli|Abort match';
 const RECONNECTING = 'Controls return when the match is current';
@@ -57,9 +60,12 @@ let failed = 0;
 /** What every state shows, and what each one adds, from the sheet's own DOM. */
 const common = s => s.name === 'group:Host controls' && s.cut.length === 0 && s.detent === 'large' && s.back;
 const list = s => common(s) && s.title === 'Host controls' && s.sub === null && s.rows === ROWS && s.labels === 'Recovery codes' && s.foot === '' && !s.codeInPage;
-const card = (s, revealed) => common(s) && s.title === 'Recovery code' && s.sub === 'Private to this phone' && s.cardLabel === 'Recovery for Player 4 · Dev' && s.matchId === 'mtch-8f2c4e'
-  && s.codeText === (revealed ? SAMPLE_CODE : MASK) && s.codeInPage === revealed && s.meta === 'Works once · 15 minutes' && s.note === 'Show it only to Player 4. It never appears on the shared display.'
-  && s.foot === (revealed ? 'Hide|Copy' : 'Reveal|Copy') && s.footLocal;
+/** 0.1.2: the code and the Match ID wrap only between their groups: no group on two lines, nothing past the card. */
+const whole = s => [s.wrap.code, s.wrap.matchId].every(w => w && w.split.length === 0 && !w.overflow);
+const card = (s, revealed, { matchId = 'mtch-8f2c4e', code = SAMPLE_CODE } = {}) => common(s) && s.title === 'Recovery code' && s.sub === 'Private to this phone' && s.cardLabel === 'Recovery for Player 4 · Dev' && s.matchId === matchId
+  && s.codeText === (revealed ? code : MASK) && s.codeInPage === revealed && s.meta === 'Works once · 15 minutes' && s.note === 'Show it only to Player 4. It never appears on the shared display.'
+  && s.foot === (revealed ? 'Hide|Copy' : 'Reveal|Copy') && s.footLocal && whole(s);
+const real = s => card(s, true, { matchId: REAL_MATCH_ID, code: REAL_CODE });
 const confirm = s => common(s) && s.title === 'Host controls' && s.confirm === 'Abort the match?|It ends now for everyone, with no winner.' && s.foot === 'Keep playing|Abort match' && s.abortWarn && !s.codeInPage;
 const EXPECT = {
   list: s => list(s) && s.busy.length === 0 && s.refused.length === 0 && s.root === 16,
@@ -77,7 +83,11 @@ const EXPECT = {
   // Reconnecting: the commands wait with the banner's words, not dimmed; the confirm still opens.
   stale: s => list(s) && s.banner && s.refused.join() === 'deadline,bots,issue-recovery,issue-recovery,issue-recovery,issue-recovery,issue-recovery' && s.dimmed.length === 0 && s.reasons.every(r => r === RECONNECTING),
   largest: s => card(s, true) && s.root === 32,
+  real: s => real(s) && s.root === 16,
+  'real-largest': s => real(s) && s.root === 32,
 };
+/** The code each state may show (the check's privacy fact looks for it in the markup and in the text). */
+const CODE_OF = state => (state.startsWith('real') ? REAL_CODE : SAMPLE_CODE);
 try {
   await mkdir(REVIEW, { recursive: true });
   for (const state of STATES) {
@@ -110,7 +120,12 @@ try {
           abortWarn: foot[1]?.classList.contains('ms-k-btn-warn') ?? false, abortBusy: foot[1]?.getAttribute('aria-busy') === 'true',
           retryPrimary: foot.length === 1 && foot[0].classList.contains('ms-k-btn-primary'), retryIntent: foot[0]?.dataset.intent ?? null,
           toast: words(shell.querySelector('.ms-ps-toast')), banner: shown(shell.querySelector('.ms-ps-banner')),
-          codeInPage: document.documentElement.outerHTML.includes(${JSON.stringify(SAMPLE_CODE)}),
+          codeInPage: document.documentElement.outerHTML.includes(${JSON.stringify(CODE_OF(state))}) || document.body.textContent.includes(${JSON.stringify(CODE_OF(state))}),
+          // 0.1.2: each line's groups, the lines they take, any group split over two lines, and whether the line runs past its box.
+          wrap: Object.fromEntries([['code', '.ms-hc-code'], ['matchId', '.ms-hc-match-id']].map(([key, sel]) => { const n = q(sel); if (!shown(n)) return [key, null];
+            const groups = [...n.querySelectorAll(':scope > .ms-hc-group')];
+            return [key, { groups: groups.map(g => g.textContent), lines: new Set(groups.map(g => Math.round(g.getBoundingClientRect().top))).size,
+              split: groups.filter(g => g.getClientRects().length !== 1).map(g => g.textContent), overflow: n.scrollWidth > n.clientWidth + 0.5 }]; })),
           cut: qa('.ms-k-row-title, .ms-k-row-sub, .ms-k-group-label, .ms-k-group-note, .ms-hc-card > *, .ms-k-wait-title, .ms-k-wait-line').filter(shown).filter(n => n.scrollWidth > n.clientWidth + 0.5).map(n => n.textContent) };
       })()`);
       const requests = page.requests().filter(url => /\.svg$/.test(url)).map(url => url.slice(origin.length + 1));
@@ -126,7 +141,7 @@ try {
       if (!ok) failed += 1;
       results[`${sizeKey}/${state}`] = { file: file.slice(REPO.length + 1), sha256: sha256(bytes), ok, drawn: asked, ...seen, requests, problems };
       await page.close();
-      console.log(`${ok ? 'ok  ' : 'FAIL'} ${sizeKey} ${state}: "${seen.title}" ${seen.foot || 'no footer'}, code in page ${seen.codeInPage}, root ${seen.root}px, unexpected violations ${seen.violations.filter(v => v.kind === 'unexpected').length}, problems ${problems.length}${asked ? '' : `, NOT AS EXPECTED ${JSON.stringify(seen).slice(0, 900)}`}`);
+      console.log(`${ok ? 'ok  ' : 'FAIL'} ${sizeKey} ${state}: "${seen.title}" ${seen.foot || 'no footer'}, code in page ${seen.codeInPage}${seen.wrap.code ? `, code ${seen.wrap.code.lines} line(s), Match ID ${seen.wrap.matchId.lines}, split ${seen.wrap.code.split.length + seen.wrap.matchId.split.length}` : ''}, root ${seen.root}px, unexpected violations ${seen.violations.filter(v => v.kind === 'unexpected').length}, problems ${problems.length}${asked ? '' : `, NOT AS EXPECTED ${JSON.stringify(seen).slice(0, 900)}`}`);
     }
   }
   // The lifecycle probe, as the page comes and with the device's Reduce motion; then the agreement with the pack.

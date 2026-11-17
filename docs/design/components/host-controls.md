@@ -1,6 +1,6 @@
 # Host controls: Designer's runtime component
 
-**Version:** `host-controls-0.1.1` (17 November: Retry, [below](#retry-011-the-leads-answer-of-17-november)). **Status (16 November 2026):** built to the interface the Lead Designer approved on #295, with the Lead's six answers below, against the phone shell 0.2.6. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
+**Version:** `host-controls-0.1.2` (17 November: the code and the Match ID wrap only between groups, [below](#the-codes-wrap-012-the-leads-rule-of-17-november); 0.1.1: Retry, [below](#retry-011-the-leads-answer-of-17-november)). **Status (16 November 2026):** built to the interface the Lead Designer approved on #295, with the Lead's six answers below, against the phone shell 0.2.6. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
 
 **What it is:** the host's controls in a match, as sheet 15 draws them: their own sheet, opened from the Settings sheet's Host controls row (#294), in plain words, with a recovery code for each seat. It is #222 item 28, P3. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -105,10 +105,10 @@ Each reports a tap, and only that.
 | The list | On the sheet's glass: the kit's rows with steel icon tiles (the timer, the bot), "Recovery codes" and the seats' rows (portrait, "n · Name", "New code", chevron), 14 px, then the Abort match row (the warning on paper, chevron) |
 | A command in flight | That row only refused (`aria-busy`), the kit's spinner at its end (the pack draws none; answer 2) |
 | A command refused | The row dimmed and refused, Frontend's reason as its line in place of the usual one and as its description (answer 2) |
-| The code card | Sheet 15's own: "Recovery for Player 4 · Dev" in capitals, "Match ID" and the ID, "Code" and the dots or the code (mono, broken anywhere), the timer and "Works once · 15 minutes" |
+| The code card | Sheet 15's own: "Recovery for Player 4 · Dev" in capitals, "Match ID" and the ID, "Code" and the dots or the code (mono), the timer and "Works once · 15 minutes". The ID and the code wrap only between their groups (0.1.2) |
 | The note | "Show it only to Player 4. It never appears on the shared display." |
 | The confirm | The kit's waiting block: the warning tile, "Abort the match?", "It ends now for everyone, with no winner." |
-| Larger text | The rows' words wrap; the card's code breaks anywhere; the sheet scrolls |
+| Larger text | The rows' words wrap; the card's ID and code wrap between their groups, each whole; the sheet scrolls |
 
 **Motion:** the spinner while a command is in flight; with Reduce motion it stands still. The sheet's and the toast's are the shell's.
 
@@ -120,6 +120,15 @@ The agreement draws the frozen pack's `host-controls` screen beside the sheet (i
 
 - **The shell, as it is:** compared with shell 0.2.6 (since 0.2.5 it draws the pack's sheet head with Back (18 px at its left, the title at 72) and the footer's two equal halves at the Larger text); nothing is patched and nothing is recorded as the shell's. (This build's first record found both under 0.2.4; the Lead settled them in the shell.)
 - **Accepted, at the Largest text only:** beside the long "Works once · 15 minutes" the pack's timer icon shrinks to under 24 px; the card's keeps its 24 px, as the kit's icons never shrink (`.ms-k-ic`, `flex: none`). That case compares the icon's place and height, and records its width.
+- **The code's wrap (0.1.2), recorded in each code case:** the pack's code line breaks anywhere (`word-break: break-all`); the component's wraps only between groups. Each code case compares that line's look but its `word-break`, records both as `wrap`, and passes only while every group is whole. Where keeping a group whole takes more lines (the Largest text: three lines for the pack's two), the line is taller by whole lines, and the card and everything under it in the body sit lower by just that much, which is compared; the frame doesn't move.
+
+## The code's wrap (0.1.2, the Lead's rule of 17 November)
+
+Reviewing #308's part 8, the Lead found the hidden code at 390 × 844 wrapping as "•••••• •••••• •••••• •••••• •••••" with one "•" on a second line: the pack's code line breaks anywhere (`word-break: break-all`), and a real code would split inside a group the same way, which invites misreading when a player copies it out. **The rule:** the code, hidden and revealed, wraps only between groups, and a group never splits. It is a wrap fix, not a change of look.
+- **The groups:** the mask's are its own, between its spaces (`maskGroups()`). The server's code (`issueRecovery`: `randomBytes(24)` in base64url) is 32 characters with no separator of its own, so its groups are the mask's six (`codeGroups()`, `CODE_GROUP`); a hyphen or underscore in it is a character of the code, not a place to wrap. The Match ID, which the player also types into Recover, is the server's UUID: it wraps after its hyphens (`matchIdGroups()`).
+- **Drawn:** each group a span that never wraps (`white-space: nowrap`); between them the mask's own space, or a break that adds no character (`<wbr>`). Nothing is drawn between the groups, so the code reads as the pack draws it, and its text, selected and copied by hand, is the value itself.
+- **Privacy:** unchanged. The code is drawn in pieces, so the probe and the check now look for it in the page's text as well as its markup.
+- **Checked:** two new states in the server's formats (`real`, `real-largest`: a 32-character base64url code with a hyphen and an underscore, and a UUID Match ID), captured at both sizes; on every code capture the check records each line's groups and the lines they take, and fails on a group over two lines or a line past its box. The probe's wrap check holds the text, the groups and the breaks; the test holds the groups of the mask, the server's code, the pack's sample and UUIDs.
 
 ## Retry (0.1.1, the Lead's answer of 17 November)
 
@@ -132,9 +141,16 @@ The pre-game connection (#308, part 8) found that the host has no Retry in the m
 
 ## Check
 
-`node design/tools/host-controls-check.mjs` bundles the preview with Vite and serves it with the production headers. It captures 11 states at 390 × 844 and 430 × 932 (with 0.1.1's Retry): the list, Run bots in flight, Check the deadline refused, the code hidden, revealed and copied, the confirm, the abort in flight, reconnecting, and the revealed code at the Largest text; each asserts the code is in the page only while revealed. Then it runs the probe (as the page comes and with the device's Reduce motion) and the agreement.
+`node design/tools/host-controls-check.mjs` bundles the preview with Vite and serves it with the production headers. It captures 13 states at 390 × 844 and 430 × 932 (with 0.1.1's Retry and 0.1.2's server formats): the list, Run bots in flight, Check the deadline refused, the code hidden, revealed and copied, the confirm, the abort in flight, reconnecting, the revealed code at the Largest text, and the server's code and Match ID at the Standard and Largest text; each asserts the code is in the page only while revealed, and on the code's card, that each group is whole. Then it runs the probe (as the page comes and with the device's Reduce motion) and the agreement.
 
-**Recorded against `48538396` (clean, `host-controls-0.1.1`):** #294 merged at `31d29815`, bringing kit 0.8.2 and shell 0.2.11 (#265 at `a0900240`) and the entry screens' `followTextSize`. **22 of 22 captures**, the probe **24 of 24** (with the new retry check) and the agreement 9 of 9 pass. Against `15e816dc`'s record, the 20 earlier captures differ only by encoding noise, nothing above the threshold; the two `retry` captures are new.
+**Recorded against `2fcb32b1` (clean, `host-controls-0.1.2`):** **26 of 26 captures**, the probe **25 of 25** (with the wrap check) and the agreement **9 of 9** pass, each code case recording its wrap. On every code capture each group is whole and no line runs past the card:
+- **the hidden code at 390 × 844** (`code`, `copied`) takes two lines, its fifth group whole on the second, where the pack's left one dot; at 430 × 932 it takes one;
+- **the server's code** (`real`) takes one line at both sizes, and its UUID two, after its fourth hyphen at 390 × 844; at the Largest text (`real-largest`) the code takes three lines at 390 × 844 and two at 430 × 932, and the UUID three;
+- **the pack's sample at the Largest text** (`largest`) takes three lines at 390 × 844 where the pack's takes two; the agreement records the extra line (44.8 px) and the body under it lower by that much.
+
+Against `ea7db89d`'s record, the captures that change are those: `code` and `copied` at 390 × 844 (the mask's second line) and `largest` at 390 × 844 (the extra line); the two `busy` captures differ in the spinner's frame; `revealed`, and `code` and `copied` at 430 × 932, differ only where the Match ID and the code are now drawn in spans, by sub-pixel glyph placement (no change at a glance, the agreement's boxes within half a pixel); the others by encoding noise. The four `real` captures are new.
+
+**Before, recorded against `48538396` (clean, `host-controls-0.1.1`):** #294 merged at `31d29815`, bringing kit 0.8.2 and shell 0.2.11 (#265 at `a0900240`) and the entry screens' `followTextSize`. **22 of 22 captures**, the probe **24 of 24** (with the new retry check) and the agreement 9 of 9 pass. Against `15e816dc`'s record, the 20 earlier captures differ only by encoding noise, nothing above the threshold; the two `retry` captures are new.
 
 **Before, recorded against `15e816dc` (clean):** #294 merged at `eed46538`, bringing kit 0.8.0, shell 0.2.8 (#265 at `0e5a0b8a`) and `entry-parts-0.4.0`. 20 of 20 captures, the probe 23 of 23 and the agreement 9 of 9 pass. Against `644da15d`'s record no capture differs by more than JPEG noise (no pixel by more than 24 levels), the toast in "Copied" among them: the shell's toast is now the kit's, drawn the same.
 
