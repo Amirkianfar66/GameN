@@ -64,10 +64,11 @@ export function shellPicking(action){
 
 /**
  * The round stamp's moment (#288's "ROUND 1", which the Pre-game builder's connection mounts on the shell's cover):
- * Round 1's first phase, Before turns, the round's first that shows the room. The engine opens a match there, and
- * Food Supply opens only at a later round's start, so Round 1 has one. Public facts only: the round and the
- * phase's kind, id and start. A phone that arrives late gets the same window, and the stamp's own clock finds it
- * past and draws nothing.
+ * Round 1's first Before turns, the round's first phase that shows the room. Without the Food rules the engine
+ * opens a match there; with them it opens Food Supply at once (lifecycle.ts), whose surface covers the shell, and
+ * Before turns follows it, so the stamp lands when the room first shows, after Food Supply. Either way Round 1 has
+ * one Before turns. Public facts only: the round and the phase's kind, id and start. A phone that arrives late gets
+ * the same window, and the stamp's own clock finds it past and draws nothing.
  */
 export function roundStart(model){
  const p=model?.phase;
