@@ -18,6 +18,8 @@
 //   refused   not interactive: every control refused, nothing dimmed, the boxes read-only, typing unreported
 //   insets    Frontend's safe areas, or the browser's
 //   text      with the Largest text the screen scrolls and its foot is reached
+//   text later  mounted at the Standard text, then the Largest and a part opened: laid out as one mounted at
+//             the Largest (the kit's followTextSize, 0.8.1)
 //   input     malformed input is refused
 //   dispose   after dispose(), nothing is left and nothing fires
 //   motion    only the spinner turns; with Reduce motion (the game's or the device's) it stands still
@@ -207,6 +209,29 @@ export async function runRecoverProbe({ sizes, typeCode, MATCH_ID, CODE_LENGTH }
       m.s.dispose();
       document.documentElement.style.fontSize = '';
       return { ok: seen.scrolls && seen.footInView, seen };
+    });
+
+    await check('text later: mounted at the Standard text, then the Largest set and a part opened (the code refused under its box, and the recovered seat), the screen lays out as one mounted at the Largest (kit 0.8.1 followTextSize)', async () => {
+      const html = document.documentElement.style;
+      const boxes = m => {
+        const f = m.root.getBoundingClientRect();
+        return [...m.root.querySelectorAll('button, input, .ms-k-row, .ms-k-list, .ms-k-error, .ms-k-field, h1, h2, p')].filter(n => n.getClientRects().length)
+          .map(n => { const r = n.getBoundingClientRect(); return [r.top - f.top, r.left - f.left, r.width, r.height].map(v => Math.round(v * 100) / 100); });
+      };
+      const late = async (first, then) => {
+        html.fontSize = '100%'; const m = mount(first); await frames();
+        html.fontSize = '200%'; await frames();
+        m.s.update(then); await frames(); await frames();
+        const seen = boxes(m); m.s.dispose(); return seen;
+      };
+      const fresh = async input => { html.fontSize = '200%'; const m = mount(input); await frames(); await frames(); const seen = boxes(m); m.s.dispose(); return seen; };
+      const seen = {
+        refused: { late: await late({}, { codeError: RECOVER_WORDS.refused }), fresh: await fresh({ codeError: RECOVER_WORDS.refused }) },
+        recovered: { late: await late({}, { view: 'recovered', seat: 4 }), fresh: await fresh({ view: 'recovered', seat: 4 }) },
+      };
+      html.fontSize = '';
+      const same = v => v.late.length > 0 && JSON.stringify(v.late) === JSON.stringify(v.fresh);
+      return { ok: same(seen.refused) && same(seen.recovered), seen };
     });
 
     await check('input: malformed input is refused', async () => {

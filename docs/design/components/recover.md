@@ -1,6 +1,6 @@
 # Recover: Designer's runtime component
 
-**Version:** `recover-0.1.0`. **Status (16 November 2026):** the interface is approved by the Lead Designer (#291 at `c7840a9e`), with the decisions below, and posted on #4 for Frontend. It is built on kit 0.5.1 and entry-parts 0.3.0, now merged to kit 0.8.0, shell 0.2.8 and entry-parts 0.4.0 (#265 at `0e5a0b8a`, through #287 and #289 at `2f501780`), with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (`docs/design/owner-decisions.md`, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
+**Version:** `recover-0.1.1` (17 November: it calls the kit's `followTextSize`, [below](#the-text-size-after-the-screen-is-mounted)). **Status (16 November 2026):** the interface is approved by the Lead Designer (#291 at `c7840a9e`), with the decisions below, and posted on #4 for Frontend. It is built on kit 0.5.1 and entry-parts 0.3.0, now merged to kit 0.8.0, shell 0.2.8 and entry-parts 0.4.0 (#265 at `0e5a0b8a`, through #287 and #289 at `2f501780`), with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (`docs/design/owner-decisions.md`, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
 
 **What it is:** the screen a player uses to take their seat back with the host's code, as sheet 14 draws it. It is #222 item 25, P3. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -120,6 +120,10 @@ recover.dispose();              // safe twice, and empties the code's box; after
 
 **Added in the build:** `focus('matchId' | 'code')`, as join's form, where Frontend wants the focus (the sheet draws the Match ID's box ringed while typing); and `clearCode()`, as the interface proposed.
 
+## The text size, after the screen is mounted
+
+The Lead, 17 November (`recover-0.1.1`): in Chromium a phone root's container re-reads its em only while something inside it uses one of its queries, so a part opened after the text size changes could keep the old size's layout. Recover calls the kit's `followTextSize(root)` (kit 0.8.1, #265) once it is mounted, and disposes it with the screen. The probe's **text later** check mounts it at the Standard text, sets the Largest, then opens a part (the code refused under its box; the recovered seat), and holds every box to Recover mounted at the Largest. Nothing is drawn differently.
+
 ## Checks
 
 `node design/tools/recover-check.mjs` bundles the preview with Vite, serves it with the production headers (SHA-256 `424e5dec…`, `lib/component-check.mjs`), and in desktop Chromium at 2× pixels:
@@ -130,7 +134,9 @@ recover.dispose();              // safe twice, and empties the code's box; after
 
 ### Checks run on this version
 
-On `a20f6f72`, clean: #289 merged at `2f501780` (kit 0.8.0 and shell 0.2.8, #265 at `0e5a0b8a`; `entry-parts-0.4.0`); the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`. 18 of 18 captures, the probe 14 of 14 and the agreement 7 of 7 pass. Against `e31ee89f`'s record, 17 captures are byte-identical; "Checking…" at 390 × 844 differs only by the busy spinner's frame.
+**On `e6314827` (`recover-0.1.1`), clean,** with the main menu (#278 at `56ff22fe`: kit 0.8.2) merged, headers SHA-256 `424e5dec…`: **18 of 18 captures pass**, 17 byte-identical to the last record's; the Checking… capture at 390 × 844 changes only where its spinner turns. The probe passes **15 of 15**, with the new **text later** check. The agreement passes **7 of 7**.
+
+Before that: On `a20f6f72`, clean: #289 merged at `2f501780` (kit 0.8.0 and shell 0.2.8, #265 at `0e5a0b8a`; `entry-parts-0.4.0`); the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`. 18 of 18 captures, the probe 14 of 14 and the agreement 7 of 7 pass. Against `e31ee89f`'s record, 17 captures are byte-identical; "Checking…" at 390 × 844 differs only by the busy spinner's frame.
 
 Before, on `e31ee89f`, clean (kit 0.5.1 at `3fb12935`; `entry-parts-0.3.0`):
 - **Captures:** **18 of 18 pass**: the nine states at 390 × 844 and 430 × 932. Each asserts:
