@@ -1,0 +1,356 @@
+{
+  "schema": "mothership.designer-component-sources/1",
+  "component": "design/phone-ui/components/food",
+  "baseline": {
+    "commit": "68000faa1fa6f508d2a6cfe766f88eff9cf4ab3d",
+    "pins": "docs/integration/food-consumer-source-2026-11-13.json",
+    "note": "Each file is its pinned source's bytes with the listed differences applied in order, each replacing a text that occurs exactly once. No other byte differs."
+  },
+  "files": [
+    {
+      "file": "food-geometry.mjs",
+      "source": "apps/game/hosted/planet/food-geometry.mjs",
+      "sourceSha256": "2e2fe108ba3337fbeee54a8abcf4715e1a7724a2340b613f8395d9326a67e78c",
+      "sourceBytes": 1443,
+      "sha256": "2e2fe108ba3337fbeee54a8abcf4715e1a7724a2340b613f8395d9326a67e78c",
+      "bytes": 1443,
+      "differences": []
+    },
+    {
+      "file": "food-machine.mjs",
+      "source": "apps/game/hosted/planet/food-machine.mjs",
+      "sourceSha256": "c9f66e018ceb88793c7d82ab93e53ae7d8747dc2aaf0d8e8dc21b1be90d0921a",
+      "sourceBytes": 24394,
+      "sha256": "c9f66e018ceb88793c7d82ab93e53ae7d8747dc2aaf0d8e8dc21b1be90d0921a",
+      "bytes": 24394,
+      "differences": []
+    },
+    {
+      "file": "food-scene.mjs",
+      "source": "apps/game/hosted/planet/food-scene.mjs",
+      "sourceSha256": "807ee7596c6dd792a6ed6ba907f66ceb5e6570b4d7a3dbb770fca95373b4dba4",
+      "sourceBytes": 3694,
+      "sha256": "807ee7596c6dd792a6ed6ba907f66ceb5e6570b4d7a3dbb770fca95373b4dba4",
+      "bytes": 3694,
+      "differences": []
+    },
+    {
+      "file": "food-pose.mjs",
+      "source": "apps/game/hosted/planet/food-pose.mjs",
+      "sourceSha256": "8a18d3ab986be0743e7bf278e9cae6da7e3b2b43c96ddfcaff89f4f31aed28fa",
+      "sourceBytes": 6888,
+      "sha256": "8a18d3ab986be0743e7bf278e9cae6da7e3b2b43c96ddfcaff89f4f31aed28fa",
+      "bytes": 6888,
+      "differences": []
+    },
+    {
+      "file": "food-display.mjs",
+      "source": "apps/game/hosted/planet/food-display.mjs",
+      "sourceSha256": "b1f4acbfddf638d9976d47edb4e9de8e50453807597257a4a80aec0fb4f60c2e",
+      "sourceBytes": 9836,
+      "sha256": "b1f4acbfddf638d9976d47edb4e9de8e50453807597257a4a80aec0fb4f60c2e",
+      "bytes": 9836,
+      "differences": []
+    },
+    {
+      "file": "food-ui.mjs",
+      "source": "apps/game/hosted/planet/food-ui.mjs",
+      "sourceSha256": "e83708b3077eec00e678080e27a6754acd2fa4a75556cfd06c57e729b7b37a51",
+      "sourceBytes": 14436,
+      "sha256": "e83708b3077eec00e678080e27a6754acd2fa4a75556cfd06c57e729b7b37a51",
+      "bytes": 14436,
+      "differences": []
+    },
+    {
+      "file": "food-icons.mjs",
+      "source": "apps/game/hosted/planet/food-icons.mjs",
+      "sourceSha256": "467d7fcfd89d4426e94084f52f5ade73cb351b13df424357de4c6fb2fb01e45a",
+      "sourceBytes": 18628,
+      "sha256": "467d7fcfd89d4426e94084f52f5ade73cb351b13df424357de4c6fb2fb01e45a",
+      "bytes": 18628,
+      "differences": []
+    },
+    {
+      "file": "food-gauge.mjs",
+      "source": "apps/game/hosted/planet/food-gauge.mjs",
+      "sourceSha256": "ac146ab507f520faa4b59686183927e0be5eeee71efc6becfa631e6e5058797a",
+      "sourceBytes": 1107,
+      "sha256": "ac146ab507f520faa4b59686183927e0be5eeee71efc6becfa631e6e5058797a",
+      "bytes": 1107,
+      "differences": []
+    },
+    {
+      "file": "food-tags.mjs",
+      "source": "apps/game/hosted/planet/food-tags.mjs",
+      "sourceSha256": "65ec72fd81f6c8c419bb4083a04e972f2c05150be64927f0c2c68860bdff788e",
+      "sourceBytes": 1024,
+      "sha256": "65ec72fd81f6c8c419bb4083a04e972f2c05150be64927f0c2c68860bdff788e",
+      "bytes": 1024,
+      "differences": []
+    },
+    {
+      "file": "food-kit.css",
+      "source": "apps/game/hosted/planet/food-kit.css",
+      "sourceSha256": "5a0e9684629772faccf45ac452f0d4a44cd9688a3b8f556b08eb07664df3106c",
+      "sourceBytes": 57285,
+      "sha256": "5a0e9684629772faccf45ac452f0d4a44cd9688a3b8f556b08eb07664df3106c",
+      "bytes": 57285,
+      "differences": []
+    },
+    {
+      "file": "food.css",
+      "source": "apps/game/hosted/planet/food.css",
+      "sourceSha256": "5a60cb0dcdd6053f56ce3c1c6bc8806977ddcee7f696122672bdb73a623658b6",
+      "sourceBytes": 30798,
+      "sha256": "09cc06b932da17c7b23f4a20b4863aed1ab35d313351dd4b851a68bebddb4710",
+      "bytes": 32317,
+      "differences": [
+        {
+          "kind": "correction",
+          "fix": 4,
+          "was": ".planet-food:is(.fs-card[data-scrolls]), .planet-food :is(.fs-card[data-scrolls]) { -webkit-mask-image: linear-gradient(#000 calc(100% - 36px), transparent); mask-image: linear-gradient(#000 calc(100% - 36px), transparent); }\n",
+          "now": ".planet-food:is(.fs-card[data-scrolls]), .planet-food :is(.fs-card[data-scrolls]) { -webkit-mask-image: linear-gradient(#000 calc(100% - 36px), transparent); mask-image: linear-gradient(#000 calc(100% - 36px), transparent); }\n/* No card is faded as a whole, corrected (sources.json, fix 4): the fade above fades a card's background and its edge\n   with its words, so that what lies behind the card shows through its foot. In the component only a card's words\n   fade, in their scroller (.fs-card-body[data-scrolls], below). Written under the component's own mark, as the role\n   row's rules are: the frozen port's surface cannot take it, and it outweighs the rule above whichever sheet comes last. */\n.planet-food[data-food-component] :is(.fs-card[data-scrolls]) { -webkit-mask-image: none; mask-image: none; }\n",
+          "why": "The port fades a card that scrolls as a whole, its background and its edge with its words: what lies behind the card shows through its foot. No card of the component is faded so. An outcome card and a request card scroll their words inside them, and only those fade. The one card that can still scroll as a whole is the briefing, at the largest text in a phone 320 px wide and 568 px tall, by 4 px of its own padding: it stays opaque there too. The rule is under the component's mark, so it reaches no other surface."
+        },
+        {
+          "kind": "correction",
+          "fix": 3,
+          "was": "/* A name tag holds a whole name: when the tag would leave the view, its state (\"· Offline\", \"· Out\") goes to a\n",
+          "now": "/* The role row, corrected (sources.json, fix 3): the Partner's label is two whole pieces, the seat number with its name\n   (\"8 Hana\") and the rest (\"· Winch\"). Where they do not fit side by side beside the pill, they stand one above the\n   other; where a piece does not fit beside the pill either, the label takes a line of its own. No word is broken.\n   Both rules are written under the component's own mark (data-food-component, on the root the component draws). In a\n   page that also holds the frozen port's sheets and surface, the port's surface can never take them, and they outweigh\n   the port's rules for the row whatever order the sheets load in. */\n.planet-food[data-food-component] :is(.fs-role) { flex-wrap: wrap; row-gap: 4px; }\n.planet-food[data-food-component] :is(.fs-who) { flex: 1 1 0%; flex-wrap: wrap; justify-content: flex-end; row-gap: 0; min-width: min-content; white-space: nowrap; overflow-wrap: normal; }\n/* A name tag holds a whole name: when the tag would leave the view, its state (\"· Offline\", \"· Out\") goes to a\n",
+          "why": "At the larger text the role row squeezed the Partner's label: the seat number left its name and a word broke inside (\"· / Winc / h\"). The label is now two unbreakable pieces that wrap whole. The row is still dropped at the largest text, as before. The two rules are under the component's mark, so they reach no other surface."
+        }
+      ]
+    },
+    {
+      "file": "food-ink.mjs",
+      "source": "apps/game/hosted/planet/food-ink.mjs",
+      "sourceSha256": "acb622bd83d090ab432538435a9b28e2c8c357517d0fe8b7a04b5a9d83d2859d",
+      "sourceBytes": 2408,
+      "sha256": "9feddc2b8cdbc83d9ffc7f0b5d9722e72fa8e82c76d34f4d94d591fa6bd42e48",
+      "bytes": 2460,
+      "differences": [
+        {
+          "kind": "import-path",
+          "was": "import {INK, pathOfPoly, spline, waver} from '../crew-drawing/ink.mjs';",
+          "now": "import {INK, pathOfPoly, spline, waver} from '../../../../apps/game/hosted/crew-drawing/ink.mjs';",
+          "why": "The hosted game's admitted crew ink, from the component's folder."
+        },
+        {
+          "kind": "import-path",
+          "was": "export {INK, inkCanvas, shade, tint} from '../crew-drawing/ink.mjs';",
+          "now": "export {INK, inkCanvas, shade, tint} from '../../../../apps/game/hosted/crew-drawing/ink.mjs';",
+          "why": "The same file, re-exported."
+        }
+      ]
+    },
+    {
+      "file": "food-render.mjs",
+      "source": "apps/game/hosted/planet/food-render.mjs",
+      "sourceSha256": "0a55d7499b2942ff96e65ce7f8b304c2b9b0fea37e982b8081e73993aba52cc6",
+      "sourceBytes": 35737,
+      "sha256": "91eb3ddb53458b49264a37a862c73bc304975d50d495ac9a51fc87a05dd3d561",
+      "bytes": 36679,
+      "differences": [
+        {
+          "kind": "connector-seam",
+          "was": "import {createFoodHoldInput} from '@mothership/game';\n",
+          "now": "",
+          "why": "The contact adapter stays Frontend's: the component reports contacts and imports nothing of the game's client."
+        },
+        {
+          "kind": "import-path",
+          "was": "import {crewPortraitVariable} from '../crew-runtime.mjs';",
+          "now": "import {crewPortraitVariable} from '../../../../apps/game/hosted/crew-runtime.mjs';",
+          "why": "The hosted game's public crew portraits, from the component's folder."
+        },
+        {
+          "kind": "import-path",
+          "was": "import './food-host.css';",
+          "now": "import './food-surface.css';",
+          "why": "The surface's own ten rules of food-host.css; its three rules for the ordinary app stay Frontend's."
+        },
+        {
+          "kind": "connector-seam",
+          "was": "boardMode=()=> 'room',bars=()=>({top:0,bottom:0})}={}){",
+          "now": "boardMode=()=> 'room',bars=()=>({top:0,bottom:0}),contacts}={}){",
+          "why": "The contact reporter is given, not built here."
+        },
+        {
+          "kind": "connector-seam",
+          "was": "const hold=createFoodHoldInput({down:()=>controller.holdDown(),up:()=>controller.holdUp(),held:()=>controller.getModel().physicalHolding||controller.getModel().needsContactOff});",
+          "now": "const hold=contacts;",
+          "why": "Every use of hold below is unchanged: the same calls now report each contact instead of matching it. createFoodHoldInput stays Frontend's."
+        },
+        {
+          "kind": "connector-seam",
+          "was": " const blur=event=>{if(event?.target!==win)return;release();controller.setVisible(false);};\n const visibility=()=>{if(document.visibilityState==='hidden'){release();controller.setVisible(false);}else resume();};\n const resume=()=>controller.setVisible(document.visibilityState!=='hidden');\n",
+          "now": "",
+          "why": "Blur, focus and visibility are Frontend's: it calls suspend() and resume()."
+        },
+        {
+          "kind": "connector-seam",
+          "was": " win.addEventListener('blur',blur,true);win.addEventListener('focus',resume);document.addEventListener('visibilitychange',visibility,true);document.addEventListener('mothership:preferences-change',preferencesChanged);\n",
+          "now": "",
+          "why": "The same, and the app's preferences event: a changed setting arrives through update()."
+        },
+        {
+          "kind": "connector-seam",
+          "was": " return {openTasks(){screen='tasks';lastStructure=null;render();},close,refresh:render,release,\n",
+          "now": " return {openTasks(){screen='tasks';lastStructure=null;render();},close,refresh:render,release,relayout:preferencesChanged,\n  suspend(){release();if(raf!==null){win.cancelAnimationFrame(raf);raf=null;}},resume(){if(disposed||raf!==null)return;raf=win.requestAnimationFrame(tick);render();},\n",
+          "why": "The lifecycle the component offers: suspend() releases and stops the frames, resume() starts them and draws the current moment, relayout() is what the preferences event did."
+        },
+        {
+          "kind": "connector-seam",
+          "was": "   win.removeEventListener('blur',blur,true);win.removeEventListener('focus',resume);document.removeEventListener('visibilitychange',visibility,true);document.removeEventListener('mothership:preferences-change',preferencesChanged);frame.remove();",
+          "now": "   frame.remove();",
+          "why": "The listeners removed above are not there to remove."
+        },
+        {
+          "kind": "component-mark",
+          "was": "const frame=h('div.planet-food.ph');",
+          "now": "const frame=h('div.planet-food.ph',{'data-food-component':''});",
+          "why": "The root the component draws says it is the component's (data-food-component). The corrected style rules are written under that mark: in a page that also holds the frozen port's sheets and surface, the port's surface can never take a corrected rule, and a corrected rule outweighs the port's whatever order the sheets load in."
+        },
+        {
+          "kind": "correction",
+          "fix": 1,
+          "was": "node.className='pt food-portrait';node.style.width=`${size}px`;node.style.height=`${size}px`;",
+          "now": "node.className='pt food-portrait';",
+          "why": "The top bar's portraits take the kit's size (.tb-who .pt: 32 px), as the approved package's do. The port set each portrait's size inline (36 px), which the kit's rule cannot reach, so the Task's title sat 8 px too far right."
+        },
+        {
+          "kind": "correction",
+          "fix": 2,
+          "was": "replace(nodes.instrument,instrument(v));",
+          "now": "const meter=instrument(v);nodes.instrument.hidden=!meter;replace(nodes.instrument,meter);",
+          "why": "With no instrument the dock has no slot and no gap for one, as the approved package's dock (the instrument or nothing, then the controls). The port kept the empty slot, whose gap made the dock 10 px taller."
+        },
+        {
+          "kind": "correction",
+          "fix": 4,
+          "was": "  const card=taskCard(v,now),cardChanged=(card?.key??null)!==nodes.cardKey;\n  if(cardChanged){nodes.cardKey=card?.key??null;replace(nodes.cards,card?.node);if(card)focusCard();else if(document.activeElement===document.body)nodes.controls.querySelector('button:not([hidden])')?.focus({preventScroll:true});}\n  else if(card?.key==='briefing'){put(nodes.cards.querySelector('.fs-count'),v.briefingLeft);}\n",
+          "now": "  const card=taskCard(v,now),cardChanged=(card?.key??null)!==nodes.cardKey;\n  // An outcome card stays inside the view (sources.json, fix 4): it ends 12 px above the view's lower edge and scrolls there.\n  // Its limit is given before it is shown, so that it never shows taller, and again whenever the view's height changes.\n  const limit=card&&card.key!=='briefing'?`max(${Math.round(nodes.view.getBoundingClientRect().bottom-frame.getBoundingClientRect().top)-top-36}px, min(calc(100% - var(--top) - 36px), 6rem))`:null;\n  if(limit)card.node.style.maxHeight=limit;\n  if(cardChanged){nodes.cardKey=card?.key??null;replace(nodes.cards,card?.node);if(card)focusCard();else if(document.activeElement===document.body)nodes.controls.querySelector('button:not([hidden])')?.focus({preventScroll:true});}\n  else if(card?.key==='briefing'){put(nodes.cards.querySelector('.fs-count'),v.briefingLeft);}\n  else if(limit&&limit!==nodes.limit)nodes.cards.querySelector('.fs-card').style.maxHeight=limit;\n  nodes.limit=limit;\n",
+          "why": "At the larger text an outcome card ran over the role row, and at the largest over the hint. It now ends 12 px above the view's lower edge, as far inside the view as it is from its sides, and its words scroll inside it when they need more. It keeps the port's own limit as the most it may take, and 6rem as the least (the largest text on a phone under about 640 px tall), so that its words stay in sight there. The briefing is left alone: by the package's rule it never scrolls."
+        },
+        {
+          "kind": "correction",
+          "fix": 4,
+          "was": "h('span.stamp.fs-stamp',{'data-tone':tone},stamp),h('h2',title),body)};",
+          "now": "h('div.fs-card-body',{style:{margin:'-16px',padding:'16px',outlineOffset:'-5px'}},h('span.stamp.fs-stamp',{'data-tone':tone},stamp),h('h2',title),body))};",
+          "why": "An outcome card's words are in a scroller inside the card (.fs-card-body), as a request card's are. The port faded a card that scrolls as a whole, its background and its edge with its words: once the card ends inside the view, the scene behind it showed through its foot. Now only the words fade, with the port's own fade for a card's words, and the card stays opaque to its edge. The scroller takes the card's whole inside, its 16 px of padding with it (a margin of -16 px and a padding of 16 px, set on the scroller itself): what scrolls, and where it is cut, is what the port's card scrolls and cuts, so the tilted stamp is whole and, where the words fit, no pixel changes. Its focus ring is drawn inside it, where the card does not cut it."
+        },
+        {
+          "kind": "correction",
+          "fix": 4,
+          "was": "  for(const node of frame.querySelectorAll('.fs-card,.fs-card-body'))attr(node,'data-scrolls',node.scrollHeight>node.clientHeight+1?'':null);\n",
+          "now": "  // A card's words that scroll take a place in the Tab order, so that the keys can scroll them (sources.json, fixes 4 and 5).\n  for(const node of frame.querySelectorAll('.fs-card,.fs-card-body')){const scrolls=node.scrollHeight>node.clientHeight+1;attr(node,'data-scrolls',scrolls?'':null);if(node.matches('.fs-card-body'))attr(node,'tabindex',scrolls?'0':null);}\n",
+          "why": "The port's outcome card scrolled as a whole and held the focus, so the arrow keys scrolled it. Its words now scroll inside it, and a request card's words scroll at the larger text since correction 5: the words take a place in the Tab order while they scroll, so that the keys still reach them. They take none where they fit."
+        },
+        {
+          "kind": "correction",
+          "fix": 5,
+          "was": "maxHeight:`calc(100% - var(--top) - ${tight?20:72}px)`}",
+          "now": "maxHeight:`max(calc(100% - var(--top) - var(--bottom) - ${tight?36:88}px), min(calc(100% - var(--top) - ${tight?20:72}px), 13rem))`}",
+          "why": "At the larger text a request card ran over the tab bar. It now ends 28 px above the tab bar, which is 8 px clear of the Pass button that stands 20 px above the bar, and its words scroll above Decline, Join and the time to answer, which stay whole. It keeps the port's reach over the tab bar only where ending above it would leave the card under 13rem tall (the largest text on a phone under about 700 px tall), so that its words stay in sight there."
+        },
+        {
+          "kind": "correction",
+          "fix": 7,
+          "was": "h('div.fs-card-body',h('span.stamp.fs-stamp',{'data-tone':'accent'},'Partner request'),",
+          "now": "h('div.fs-card-body',{style:{margin:'-16px -16px 0',padding:'16px 16px 0',outlineOffset:'-5px'}},h('span.stamp.fs-stamp',{'data-tone':'accent'},'Partner request'),",
+          "why": "A request card's stamp was cut at its upper right corner, at every text size: the scroller its words are in began at the stamp's own line, and the tilted stamp is drawn above that line. The approved Food flow (design/food-supply/review/flow.png, frame 4) draws the stamp whole. The scroller now takes the card's inside at its top and its sides, the 16 px of padding with it (a margin of -16 px and a padding of 16 px there, set on the scroller itself), so the stamp is whole. Its lower edge is where it was: the answers and the time to answer do not move, and the words still scroll and fade above them. Its focus ring is drawn inside it, where the card does not cut it."
+        },
+        {
+          "kind": "correction",
+          "fix": 7,
+          "was": "h('div.fs-card-body',h('span.stamp.fs-stamp','Too late'),",
+          "now": "h('div.fs-card-body',{style:{margin:'-16px -16px 0',padding:'16px 16px 0',outlineOffset:'-5px'}},h('span.stamp.fs-stamp','Too late'),",
+          "why": "The same for the other card with an answer under its words, Too late to join: its stamp was cut at its upper right corner in the same way, and its scroller takes the card's inside at its top and its sides in the same way. Its OK button does not move."
+        },
+        {
+          "kind": "correction",
+          "fix": 6,
+          "was": "node=sourceHeader(v,now),focus=document.activeElement?.id;\n  if(old)old.replaceWith(node);else frame.prepend(node);if(focus==='food-settings')node.querySelector('#food-settings')?.focus({preventScroll:true});",
+          "now": "node=sourceHeader(v,now),held=old?.contains(document.activeElement)?document.activeElement.dataset.tb:null;\n  if(old)old.replaceWith(node);else frame.prepend(node);if(held)node.querySelector(`[data-tb=\"${held}\"]`)?.focus({preventScroll:true});",
+          "why": "The top bar is drawn again once a second, and after a text-size change. It gave the focus back to Settings only, by its id; Promises lost it. Either of the bar's two buttons now gets it back, by its data-tb mark."
+        },
+        {
+          "kind": "correction",
+          "fix": 6,
+          "was": " const focus=document.activeElement?.id,scroll=frame.querySelector('.sheet-body')?.scrollTop??0;\n",
+          "now": " const active=document.activeElement,held=frame.contains(active)&&active!==frame?active:null,focus=active?.id,scroll=frame.querySelector('.sheet-body')?.scrollTop??0;\n  // A sheet or card that is built again gives the focus back (sources.json, fix 6): a control with no id is found by its mark.\n  const mark=held&&!focus?['data-go','data-tab','data-tb'].map(key=>held.hasAttribute(key)?`[${key}=\"${win.CSS.escape(held.getAttribute(key))}\"]`:null).find(Boolean)??null:null,inDialog=!!held?.closest('.fs-card,.sheet');\n",
+          "why": "A sheet or card that was built again (after a text-size change, or by any change of what it shows) gave the focus back only to a control with an id. Close, Back, the rows of Start a Task and the tabs have none, and the sheet or card itself has none: the focus went to the page. What held the focus is now remembered by its id, or by its data-go, data-tab or data-tb mark, or as the sheet or card itself."
+        },
+        {
+          "kind": "correction",
+          "fix": 6,
+          "was": "const next=focus?frame.querySelector(`#${win.CSS.escape(focus)}`):null;if(next){const body=frame.querySelector('.sheet-body');if(body)body.scrollTop=scroll;next.focus({preventScroll:true});}else if(flowKey!==lastFlowKey)focusCard();}",
+          "now": "const next=focus?frame.querySelector(`#${win.CSS.escape(focus)}`):mark?frame.querySelector(mark):null;if(next){const body=frame.querySelector('.sheet-body');if(body)body.scrollTop=scroll;next.focus({preventScroll:true});}else if(flowKey!==lastFlowKey||inDialog)focusCard();}",
+          "why": "The same control gets the focus back; where it is gone, or the sheet or card itself held the focus, the sheet or card takes it, as a new one does."
+        }
+      ]
+    },
+    {
+      "file": "food-notice.mjs",
+      "source": "apps/game/hosted/planet/food-app.mjs",
+      "sourceSha256": "b169d22ca1680f82f9a71b39d554b9f8cd038b4bb20bc64a02601f00d9c6380f",
+      "sourceBytes": 3270,
+      "sha256": "cb08ee8739c17dde8a79517be4b909348af4c3efa18ac439f16607d03bcce4d0",
+      "bytes": 1248,
+      "differences": [
+        {
+          "kind": "connector-seam",
+          "was": "import {createFoodTaskController,readPlanetView,readPlanetFood} from '@mothership/game';\n",
+          "now": "",
+          "why": "The connector stays Frontend's."
+        },
+        {
+          "kind": "connector-seam",
+          "was": "import {mountFoodRenderer} from './food-render.mjs';\n",
+          "now": "",
+          "why": "Only the shared display's notice is taken from this file."
+        },
+        {
+          "kind": "connector-seam",
+          "was": "/** Bind both Food surfaces to the existing session feed, never a second poller. */\nexport function mountFoodApp(root,{session,game,transport,binding,ports,recovery,assets,preferences,renderer}){\n const controller=createFoodTaskController(session.foodTransport(),{...ports,recovery},{binding,readClock:()=>transport.readClock?.()??{status:'unsynced'}});\n let identities=transport.identities?.()??[],view=null,disposed=false;\n const foodRoot=root.ownerDocument.createElement('div');root.append(foodRoot);\n view=mountFoodRenderer(foodRoot,controller,{identities:()=>identities,ordinary:()=>game.getModel(),assets,preferences,\n  navigate:next=>renderer.navigate(next),settings:()=>renderer.navigate('settings'),surface:next=>renderer.foodSurface(next),boardMode:()=>renderer.view,bars:()=>renderer.bars()});\n const stop=transport.listen({matchId:binding.matchId,seatId:binding.seatId},{snapshot:s=>{\n  const ordinary=readPlanetView(s.value,binding.matchId,binding.seatId),food=ordinary&&readPlanetFood(s,ordinary,binding.seatId);\n  if(!ordinary||!food?.playerView){controller.disconnect('authorization');return;}\n  identities=transport.identities?.()??identities;\n  if(controller.observe(food.playerView,{matchId:ordinary.matchId,versions:food.playerView.versions,phaseId:ordinary.phase.id,round:ordinary.round,serverNowMs:food.serverTimeMs},s.fresh)){\n   if(controller.getModel().canCheck)void controller.checkReceipts();\n  }\n },error:kind=>controller.disconnect(kind??'network')});\n return {controller,recovery,setVisible(value){if(!value)view?.release();controller.setVisible(value);},\n  openTasks(){view?.openTasks();},refresh(){view?.refresh();},\n  detach(){view?.dispose();view=null;foodRoot.remove();},\n  dispose(){if(disposed)return;disposed=true;view?.dispose();view=null;stop();controller.dispose();foodRoot.remove();}};\n}\n\n",
+          "now": "",
+          "why": "mountFoodApp, the connector, stays Frontend's."
+        },
+        {
+          "kind": "connector-seam",
+          "was": "const top=root.parentElement?.querySelector('.planet-header')?.getBoundingClientRect().height??0;",
+          "now": "const top=game.top();",
+          "why": "A component can't reach into the app's page: the ordinary header's height is given."
+        },
+        {
+          "kind": "component-mark",
+          "was": "frame=ui.h('div.planet-food.ph');",
+          "now": "frame=ui.h('div.planet-food.ph',{'data-food-component':''});",
+          "why": "The root the component draws says it is the component's (data-food-component). The corrected style rules are written under that mark: in a page that also holds the frozen port's sheets and surface, the port's surface can never take a corrected rule, and a corrected rule outweighs the port's whatever order the sheets load in."
+        }
+      ]
+    },
+    {
+      "file": "food-surface.css",
+      "source": "apps/game/hosted/planet/food-host.css",
+      "sourceSha256": "b9d7444da95f6d363e511b36d241947b95993c043225c0b46934fda36f9f44b3",
+      "sourceBytes": 1584,
+      "sha256": "0aa89d8121b50ca8c53fc522c753c1467cd8060a33c7ebe3bf4fb47a7a27bd26",
+      "bytes": 1089,
+      "differences": [
+        {
+          "kind": "host-rule",
+          "was": "/* The approved gauge inside the ordinary native clock column uses the same\n   scoped kit tokens without turning the ordinary header into a Food screen. */\n.planet-app .planet-header > .food-native-clock { grid-column: 4; grid-row: 1; height: auto; background: transparent; }\n@container (max-width: 22.5rem) {\n .planet-app .planet-header > .food-native-clock { grid-column: 3; grid-row: 2; }\n}\n",
+          "now": "",
+          "why": "The ordinary header's own layout stays Frontend's."
+        },
+        {
+          "kind": "host-rule",
+          "was": ".planet-app[data-food-chrome=\"true\"] > :is(.planet-header,.planet-nav) { display: none !important; }\n",
+          "now": "",
+          "why": "Hiding the ordinary app's bars stays Frontend's."
+        }
+      ]
+    }
+  ]
+}
