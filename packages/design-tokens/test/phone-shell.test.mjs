@@ -137,7 +137,7 @@ test('its words are the pack\'s: the hero, the tabs, the bar and the two banners
   assert.ok(read('design/phone-ui/prototype/screens-more.mjs').includes("'My card'"), 'sheet 25: My card');
   assert.deepEqual(GAME_TABS, ['switch', 'actions', 'hero', 'card', 'panels'], 'the pack\'s tab order');
   assert.deepEqual(TALK_BUTTONS, ['promises', 'my-card']);
-  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.2.11');
+  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.2.12');
   assert.ok(TOAST_MS > 0);
 });
 
@@ -155,6 +155,10 @@ test('the clock shows what it is given: m:ss of the whole seconds left, rounded 
 test('inputs are checked, and refused with a reason', () => {
   const refuses = (input, pattern) => assert.throws(() => nextPhoneShellInput(PHONE_SHELL_DEFAULTS, input), pattern);
   refuses({ status: 'offline' }, /Status is live, stale, concealed/);
+  // 0.2.12: a target bar's Cancel is there unless the choice is final (`cancel: false`), and the flag is a boolean.
+  refuses({ target: { title: 'Position A3 fixed', cancel: 'no' } }, /target.cancel is true or false/);
+  assert.equal(nextPhoneShellInput(PHONE_SHELL_DEFAULTS, { target: { title: 'Rescue' } }).target.cancel, true);
+  assert.equal(nextPhoneShellInput(PHONE_SHELL_DEFAULTS, { target: { title: 'Position A3 fixed', cancel: false } }).target.cancel, false);
   refuses({ bar: { kind: 'hero' } }, /A bar's kind is turn, phase, pair/);
   refuses({ bar: { kind: 'turn' } }, /who is \{ seat, name, character \}/);
   refuses({ bar: { kind: 'turn', who: { seat: 4 } } }, /needs a name/);

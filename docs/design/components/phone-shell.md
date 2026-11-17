@@ -1,6 +1,6 @@
 # Phone shell: Designer's runtime component
 
-**Version:** `phone-shell-0.2.11`, with `component-kit-0.8.2`. **Status (17 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its three files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
+**Version:** `phone-shell-0.2.12`, with `component-kit-0.8.2`. **Status (17 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its three files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
 
 **What it is:** the match's frame on a phone, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
 
@@ -104,6 +104,11 @@ shell.dispose();             // removes the element and its listeners
   - While reconnecting, Frontend gives the reconnecting banner in its place, since Retry is the way back. The shell draws the one kind it is given, and draws a new kind afresh.
 - **The toast is the kit's (0.2.8, kit 0.8.0).** The shell draws its toast with `kit.toast` and sets `--ms-k-toast-top` to the overlays' place. It looks and moves as before. It now takes no tap: a tap where it lies reaches what is under it, such as a sheet's Close or a part in the cover. How long it shows (`TOAST_MS`) and once per `id` stay the shell's. The Pre-game builder wrote the patch, so the lobby's toast (#287) is the same one.
 - **The toast's words wrap (kit 0.8.2).** Words too long for one line wrap inside the phone instead of being cut. The in-game animation builder found "That phase closed · choices cleared" (sheet 45) cut at the Large and Largest text. The shell itself is unchanged.
+- **A final target bar (0.2.12).** `target.cancel: false` keeps the bar's words with no Cancel.
+  - The rules make the Disabler's fixed position final: `offers.ts` offers `SELECT_BLACKOUT_SLOT` only while none is fixed.
+  - Sheet 30's fixed frame keeps a Cancel that goes back to choosing. That can't exist, and a Cancel that only hid the bar would read as undo.
+  - The Gameplay UI builder found it on #310. The conflict between the sheet and the rule goes to #222.
+  - If Cancel had the focus when the bar became final, the focus comes back to the shell and is reported once.
 - **The text size changing in a match (0.2.11, kit 0.8.1).** A part opened after the text size changes now takes the new size's rules, as a part open through the change does. The Gameplay builder found it on its Actions test page.
   - **What went wrong.** At 200 % on 390 × 844, a target bar opened after the change stood side by side, 294 px tall, and its chip's label was cut again: 0.2.8's layout. A sheet opened afterwards kept Cancel and "Register Rescue" side by side, and in its body a row's value stayed beside its title and Card · Knowledge · Resources stayed a row. A shell mounted at 200 % draws the bar stacked, 238 px tall.
   - **Why.** In Chromium (153), a container reads its em again for its queries only while something inside it uses one of them. With nothing open, nothing in the shell did, so what opened next took the old size's rules.
@@ -165,7 +170,7 @@ shell.dispose();             // removes the element and its listeners
 | `bar.menu` | Phone | `null` (hidden), or `{ open, enabled }` |
 | `tabs` | This viewer's | `null` (no tab bar: a shared display); `{ variant: 'talk', open, enabled, reasons }`; or `{ variant: 'game', view: 'room' \| 'board', open: 'actions' \| 'card' \| 'panels' \| null, hero, enabled, reasons, badges }` |
 | `tabs.hero` | This viewer's | `{ mode: 'pass' \| 'vote' \| 'voted', enabled, busy, reason }`. Left out, Pass is unavailable, as the pack's `pass-off` |
-| `target` | This viewer's | `null`, or `{ icon, title, sub }`: the target bar, with Cancel |
+| `target` | This viewer's | `null`, or `{ icon, title, sub, cancel }`: the target bar, with Cancel. `cancel: false` (0.2.12) draws it with no Cancel, for a choice made and final, such as the Disabler's fixed position: its words stay and nothing reads as undo. Anything but a boolean is refused |
 | `chip` | This viewer's | `null`, or `{ id, label, icon, tone: 'paper' \| 'steel', enabled }` |
 | `banner` | Phone, or this viewer's | `null`; `{ kind: 'reconnecting', busy }`, the phone's; or `{ kind: 'out' }`, an eliminated player's, which is this viewer's (0.2.8) |
 | `toast` | This viewer's | `null`, or `{ id, text, icon }`: shown once per `id`, for `TOAST_MS` (2.4 s), then it fades |
@@ -374,8 +379,12 @@ Listed, not omitted:
     - `film` draws no top bar and runs edge to edge, with the reconnecting banner at the bar's place (107 px at a 47 px safe area).
     - `poster` runs edge to edge under a phase bar, with no tabs.
     - `card` draws the Card sheet's "Hide card" in the head, before Close.
-  - **The lifecycle probe** (`preview/probe.mjs`): 28 of 28 checks pass.
-    - **As the page comes (27):** focus, refused taps, reconnecting, an eliminated player's banner, privacy, the clock, layout, the layers, larger text, the text size changing, no bar, edge to edge, the cover's reach, the backdrop, head actions, the footer's actions, the private talk's buttons, the toast (three times), a phase bar's words, the large-content view, dispose and motion.
+  - **The lifecycle probe** (`preview/probe.mjs`): 29 of 29 checks pass.
+    - **As the page comes (28):** focus, refused taps, reconnecting, an eliminated player's banner, privacy, the clock, layout, the layers, larger text, the text size changing, no bar, edge to edge, the cover's reach, the backdrop, head actions, the footer's actions, the private talk's buttons, the toast (three times), a phase bar's words, the large-content view, dispose and motion.
+      - **A final target bar (0.2.12):** it is made final while Cancel has the focus.
+        - The bar keeps its element, its words and `role="status"`, with no Cancel.
+        - The focus comes back to the shell, reported once.
+        - Cancel is back when the choice can be left again, and `cancel: 'no'` is refused.
       - **The toast at larger text (kit 0.8.2):** four of the game's toasts at 100, 150 and 200 % on 390 × 844 and 430 × 932, and at 100 and 200 % on 320 × 568: 32 toasts. The four are "The ship moved · Round 12 complete", "That phase closed · choices cleared", "Captain election open" and "Turn passed".
         - Each stays inside the phone less 16 px a side.
         - Every line of its words lies inside its words' box and on its paper, rounded corners included.

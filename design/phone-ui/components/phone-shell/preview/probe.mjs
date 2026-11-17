@@ -4,7 +4,8 @@
 // under whatever headers serve the page (design/tools/phone-shell-check.mjs serves the production ones),
 // and reports what it saw. Each check is one behaviour Frontend relies on:
 //   focus     a focused control keeps its element and the focus through ordinary updates; the focused
-//             control ending moves the focus to the shell and reports it once (onFocusReturn)
+//             control ending moves the focus to the shell and reports it once (onFocusReturn); a final target bar
+//             (target.cancel false, 0.2.12) keeps its words with no Cancel
 //   refused   an unavailable, busy or non-interactive control takes no tap, and says why
 //   stale     reconnecting, only Retry, ⋮, the target bar's Cancel and a sheet's back and close work
 //   out       an eliminated player's banner (0.2.8): the pack's words and icon, no Retry, the controls as given;
@@ -121,6 +122,30 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       s.shell.dispose();
       return { ok: detail.kept && detail.focusOnShell && returns.length === 1 && returns[0][1]?.intent === 'sheet-action' && returns[0][1]?.value === 'pass'
         && detail.cancelReturn.length === 1 && detail.cancelReturn[0]?.intent === 'cancel-target', ...detail };
+    });
+
+    // 0.2.12: a choice made and final (the Disabler's fixed position, sheet 30) keeps its bar's words with no Cancel, so
+    // nothing reads as undo; the rule makes the position final (#310's change 3).
+    await check('focus: a final target bar (target.cancel false, 0.2.12) keeps its words and element with no Cancel; made final while Cancel has the focus, the focus comes back to the shell, reported once; Cancel is back when the choice can be left again', async () => {
+      const choosing = { icon: 'rescue', title: 'Choose a position', sub: 'Room A · any position, even empty' };
+      const fixed = { icon: 'rescue', title: 'Position A3 fixed', sub: 'Resolves after the window · no effect shown now', cancel: false };
+      const s = mount({ ...own(), target: choosing });
+      const node = s.q('.ms-ps-target');
+      s.q('[data-intent="cancel-target"]').focus();
+      s.shell.update({ target: fixed });
+      await Promise.resolve();
+      await Promise.resolve();
+      const returns = named(s.calls, 'onFocusReturn').map(r => r[1]);
+      const final = { same: s.q('.ms-ps-target') === node, cancel: !!s.q('[data-intent="cancel-target"]'), title: s.q('.ms-ps-target b')?.textContent ?? null,
+        sub: s.q('.ms-ps-target .ms-ps-text span')?.textContent ?? null, role: node.getAttribute('role'), marked: node.hasAttribute('data-final'),
+        focusOnShell: document.activeElement === s.root, returns: returns.length, returned: returns[0]?.intent ?? null };
+      s.shell.update({ target: choosing });
+      const again = { same: s.q('.ms-ps-target') === node, cancel: !!s.q('[data-intent="cancel-target"]'), marked: node.hasAttribute('data-final') };
+      let refused = false;
+      try { s.shell.update({ target: { ...fixed, cancel: 'no' } }); } catch (error) { refused = /target.cancel is true or false/.test(String(error)); }
+      s.shell.dispose();
+      return { ok: final.same && !final.cancel && final.title === 'Position A3 fixed' && final.sub === fixed.sub && final.role === 'status' && final.marked
+        && final.focusOnShell && final.returns === 1 && final.returned === 'cancel-target' && again.same && again.cancel && !again.marked && refused, final, again, refused };
     });
 
     await check('refused: an unavailable hero takes no tap and is described by its reason; a busy one takes none; an offered one fires once', async () => {
