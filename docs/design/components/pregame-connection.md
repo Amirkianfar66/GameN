@@ -1,0 +1,126 @@
+# Pre-game connection: the screens before the match drawn by Designer's components
+
+**Status (17 November 2026):** a draft, in progress, for the Lead Designer's review, then Frontend's. It is not in the game yet.
+- Integration first approves the source fence's marked hunk and the pins that refuse the changed files (see [The gates](#the-gates)).
+- This is not a release. It is release 4 of the owner's plan of 16 November 2026 (#222; `docs/design/owner-decisions.md` at `d54c15bd`).
+- It is stacked on the [shell connection](shell-connection.md) (#307), merged at `4892423e` (#307 at `d1068424`: shell 0.2.11, kit 0.8.1, the phase bars). The parts come in by merge commits: the entry chain (#295 at `87960b65`), character selection (#292 at `a5590266`), the role stage (#268 at `c20cac9f`), boarding (#272 at `3efbd4e7`), and join and waiting again for the game's gaps (#289 at `98b67ef4`, with #287's `147a66d6`).
+
+**What it is:** before the match, the Planet app mounts Designer's pre-game components as they are, one at a time in its root, instead of its own forms. The look and the motion come from `design/`; the app keeps the data, the commands and the lifecycle.
+
+| Screen | Component | Sheet |
+| --- | --- | --- |
+| Main menu, with the brand film's still as its hero | `main-menu-0.1.0` (#278) | 10 |
+| Display settings, before a match | `display-settings-0.1.0` (#294) | 32 |
+| Host setup | `host-setup-0.1.1` (#287) | 11 |
+| The host's lobby | `host-lobby-0.1.2` (#287) | 11 |
+| Join, then waiting and admitted | `join-form-0.1.0`, `join-wait-0.1.1` (#289) | 12, 13 |
+| Recover, through "Seat n is yours again" | `recover-0.1.0` (#291) | 14 |
+| Character selection | `character-select-0.1.0` (#292) | 16 |
+| The role stage | `role-stage-0.1.0`, `role-card-0.1.0` (#268) | 17, 18 |
+| Boarding | `boarding-stage-0.1.0` (#272) | 19 |
+
+**Still to come:** Settings and Host controls in the match (part 8, waiting on the Lead's sheet hook), and the round stamp (part 9, waiting on G18).
+
+## Files
+
+| Path | What |
+| --- | --- |
+| `apps/game/hosted/planet/pregame-input.mjs` | Pure: which screen a session state shows (`pregameScreen`), what a withheld screen is told (`withheldStatus`), and each component's input from the session's model and this phone's drafts |
+| `apps/game/hosted/planet/pregame-screens.mjs` | The manager: mounts one screen at a time, updates it only when its input changes, routes each intent to the session's existing operations or to local navigation, and draws the hero's still |
+| `apps/game/hosted/planet/pregame-connection.css` | Gives the root the phone's height and canvas, and sizes the hero's still. Nothing of a component's |
+| `apps/game/hosted/planet/app.mjs` | One marked block asks the manager first; the old entry tabs and forms, the waiting branch, the choosing grid, the role card and the lobby's host controls leave `lobbyView()` |
+| `apps/game/hosted/planet/preferences.mjs` | `state()`, `setReducedMotion()`, `setTextScale()` and `subscribe()` for Display settings (G9); `get()` and `controls()` unchanged |
+| `apps/game/hosted/vite.config.mjs` | The marked `pre-game connection` fence: exactly the components' 22 runtime files |
+| `apps/game/test/planet-pregame-screens.test.mjs` | The adapter's test |
+| `apps/game/dev/planet-emulator/capture.mjs` | The emulator run's pre-game steps, moved to the new screens (below) |
+| `design/tools/pregame-connection-check.mjs` | The check, and its record in `design/phone-ui/review/pregame-connection/` |
+
+## Routing
+
+`pregameScreen(model, ui)` gives the screen, or `null` for the app's own view:
+- **No match:** the menu, or the screen its choice opened (Display settings, host setup, Join, Recover), while the session is live. Not live, or uncertain: today's Reconnect and Retry (G14).
+- **A pending request:** waiting, until it settles.
+- **The lobby:** the host's lobby for the host; waiting, admitted, for a seated phone; an admitted shared display keeps its own screens.
+- **Choosing, reading, boarding:** character selection, the role stage and boarding for a seated phone; a display boards with the crew. A seatless host device keeps today's screens (G15).
+- **Recover's answer** holds the screen until Continue, even once the match runs.
+- An authorization error, and every status after boarding, are the app's own.
+
+## As last seen, and hidden (G11, as the Lead refined it)
+
+- While the session withholds a matched screen's data, the mounted screen stays. Reconnecting, the stages get `status: 'stale'` only; hidden, `'concealed'` only. The lobby and waiting have no status input, so they get `interactive: false` only.
+- The manager keeps no copy of the session's data.
+- An authorization error drops the screen.
+
+## The game's gaps (#222)
+
+Where the game gives nothing, the input says nothing; no screen works out a rule.
+
+| Gap | What the connection does |
+| --- | --- |
+| G1 | **The team mix (the Lead, 17 November: (a)).** Host setup opens with each count's `mix: null`, and no line is drawn under 7/8/9 (`host-setup-0.1.1`). The mix stays the engine's to give |
+| G2 | The bot range and "n more seats to fill" are today's arithmetic, moved into the adapter unchanged |
+| G3 | Refusals are the session's own words, shown on the screen that sent the command |
+| G4 | No recovery code length, and no seat for an issued code |
+| G5 | Character selection is never drawn closed or assigned |
+| G6 | **No command to leave or withdraw (the Lead, 17 November).** The host's Leave, and waiting's Cancel, Leave and Back to menu, are passed `{ enabled: false, reason: 'Not available in this test' }` (`NO_COMMAND_REASON`): dimmed and refused by the kit's control policy, with the words as their description, and no handler. Not a button that does nothing, nor a local leave the session's resume would undo (`host-lobby-0.1.2`, `join-wait-0.1.1`) |
+| G7 | The role card's facts are null until there is accepted copy |
+| G9 | Display settings' Reduce motion is the stored choice; the phone's own is its lock |
+| G10 | One busy flag becomes one busy control: the command this phone last sent |
+| G11 | Above |
+| G12 | The waiting name after a reload is the draft's, which a reload empties |
+| G13 | The menu and Display are local entry modes (Frontend's navigation) |
+| G14 | No offline note: the session can't tell it apart on the entry screen |
+| G15 | A seatless host device keeps today's screens while players choose, read and board |
+| G16, G17 | The pack's role card: no knowledge lines (they stay on the Card tab), no manual conceal; Show role calls `revealRole(true)` |
+| G18 | The round stamp waits on the trusted clock and Round 1 detection |
+
+## The boundary
+
+The `BEGIN pre-game connection` / `END pre-game connection` hunk in `apps/game/hosted/vite.config.mjs` adds exactly the components' 22 runtime files to `allowedSources`: `main-menu`, `entry-parts`, `display-settings`, `host-room`, `join-room`, `recover`, `character-select`, `role-stage` and `boarding-stage`, each component's `.mjs` and `.css` and never a `preview/` or `review/`. The kit, the shell and the icon family are admitted by the shell's and the room's hunks.
+
+## The gates
+
+These refuse the changed files until Integration approves. The gates themselves are untouched.
+- `npm run check:sources` refuses `app.mjs` first (the Food release's pin), as on #284 and #307, so `verify` fails there. The pins behind it have not been walked yet on this branch.
+- The fence hunk in `vite.config.mjs`.
+
+## Evidence
+
+### The adapter's test
+
+`apps/game/test/planet-pregame-screens.test.mjs`: 14 of 14. Routing and the withheld states; every input against its component's own checker (`next…Input`); busy per command (G10) and the lobby's arithmetic (G2); host setup with no mix (G1) and the three missing commands unavailable with the words (G6); the gaps left empty; the role card without knowledge; the preferences API.
+
+### The check
+
+`GAMEN_PHONE_ART_BASE=<clean worktree of origin/main> node design/tools/pregame-connection-check.mjs` builds Frontend's phone harness (`apps/game/dev/phone`: the real Planet app and its session over a synthetic connection) from this tree, with art from origin/main, serves it with the hosted game's production headers (`createHostedPreviewHeaders`, SHA-256 `424e5dec…`), and drives it in desktop Chromium at 390 × 844 and 430 × 932 at 2×. Each capture also checks that no unexpected policy report, failed request or page error occurred, and that none of the old pre-game view is left.
+
+The states: the menu (after today's brand intro); Display settings, where Largest sets the root's size and stores it; host setup, with no line under 7/8/9, 8 chosen and Open room sending `create` with 8, then the lobby; Join, typed as a person types; waiting, with Cancel unavailable and Check again reading at once; admitted, with Leave unavailable; Recover, through "Seat 6 is yours again" and Continue, with the code box emptied and nothing stored naming the code; the host's lobby, with a request, Admit, Copy's toast, Start unavailable with "4 more seats to fill" and Leave unavailable; character selection, choosing Nova; reconnecting, kept as last seen, and Retry; the role stage, hidden and back, then Ready; boarding, today's film skipped, holding, then "Waiting for the ship".
+
+### The emulator run
+
+`apps/game/dev/planet-emulator/capture.mjs` (CI's `backend-emulator` job, against the real Auth, Firestore and Functions emulators) drove today's pre-game controls by their ids. Its pre-game steps now drive the new screens: each screen by the name the connection gives it, each control by its intent, used only once available.
+- Host: the menu's Host, then Open room (7 players, as before).
+- Join: the menu's Join, the code and the name typed, Shared display chosen for the display, Ask to join.
+- Admit: each request's Admit, found by its name, with its kind checked from the session.
+- Bots: + six times, each waiting for the server; then Start character selection; then c4.
+- The role stage: the run taps Show role, as the old run tapped Reveal, where the session hasn't shown the role (the setup flows before 3; flow 3 shows it by itself). The pack has no conceal toggle (G17), so the non-phone run's case `human-reading-concealed` becomes `human-reading-card`, and the phone run's `explicit-conceal-after-foreground` goes: it checks instead that a fresh foreground shows the role again.
+- Ready on the role stage; Recover by its two boxes, Recover seat, then Continue.
+
+Its in-match steps use the ids the shell connection replaced (`#planet-top-settings`, `#planet-nav-card`, `#planet-close`): they are the shell connection's and part 8's.
+
+**Run here** (17 November), with CI's step: `firebase emulators:exec --only auth,firestore,functions` with CI's environment (`MOTHERSHIP_PLANET_ASSET_MANIFEST_VERSION=design-0.6.0`), after `npm run build` and the emulator preview's Vite build, on `4892423e` with this script:
+- **Passed:** `host-created`, `display-pending`, `display-admitted`, `human-character-selected`, `human-reading-card`, `human-running` and `public-running`: the whole pre-game half, from the menu to both phones' running match.
+- **Then it stops** at the in-match step, `host.tap('#planet-top-settings')` ("Timed out waiting for: usable native control"), as it does on the shell connection.
+- **Recover**, which comes after that step, was run with a local copy that issued the code by `session.operate({ operation: 'issueRecovery' })` instead of the in-match sheet (not committed): the menu's Recover, the two boxes, Recover seat and Continue reached the running match in the same seat, with `redeemRecovery` accepted and no admission left. The copy then failed only on its own stand-in for the Card tab (`privateArea` is filled once the Card tab opens).
+- The emulators also log "Planet deadline has not elapsed" from the deadline task while a stage runs; the run doesn't depend on it.
+
+### Not run
+
+- The merge gate's comparison (`compare.json`).
+- Physical phones, Safari, screen readers and a live match.
+
+## Open
+
+- **For the Lead:** part 8's sheet hook; G18's clock; the renewed acceptances of `host-setup-0.1.1`, `host-lobby-0.1.2` and `join-wait-0.1.1` (#287, #289).
+- **For Integration:** the fence hunk and the pins.
+- **For Frontend:** the review of `app.mjs`, `preferences.mjs` and the emulator run's steps.
