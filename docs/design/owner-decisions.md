@@ -194,10 +194,21 @@ After the Pre-game Animation builder's blockout comparison of a shared eye-level
   - Posted on #96, the capacity issue.
 - **The Board stays as it is for now.** Release 3 (#310) keeps choosing Move and Rescue across rooms on the Board. "No action" on the Board's simple view belongs to the new room design, not the test release.
 - **The Private Room has two places,** so two views.
-- **Still open: the Blackout's fixed position (sheet 30).** The question is whether its bar keeps Cancel.
-  - The rule makes the position final, so a Cancel there only hides the bar.
-  - Removing it is a departure from sheet 30 and needs the owner's explicit approval (AGENTS.md). Release 3 keeps Cancel meanwhile.
-  - The Lead explained the question again, and the owner hasn't answered yet.
+- **The Blackout's fixed position (sheet 30): answered below.**
+
+**The owner's approval of a departure from sheet 30, the same day,** after the Lead explained the question step by step. Word for word:
+
+> remove the Cancel in Blackout
+
+| Record | |
+| --- | --- |
+| **Sheet and state** | Sheet 30, the Blackout. The target bar after the Disabler has fixed a position: "Position A3 fixed · Resolves after the window · no effect shown now" |
+| **The departure** | That bar has no Cancel (shell 0.2.12's `target.cancel: false`, given by Actions' `blackoutBar({ fixed: true })`). Its words stay |
+| **Not changed** | The Cancel while a position is still being chosen ("Choose a position · …"), as T2 has it: "While a target is chosen, Cancel is in the target bar" |
+| **Why** | The rule makes a fixed position final, so the sheet's Cancel could not return to choosing. A Cancel that only hides the bar reads as undo. The Gameplay UI builder found the conflict on #310 |
+| **Approvals** | Designer's agreement: the Lead Designer recommended it on 17 November 2026. The owner's explicit approval: the message above, the same day (AGENTS.md, the phone gate's item 4) |
+| **Scope** | The Blackout's fixed-position bar only, from release 3 (#310), through Actions 0.2.4 on #273 |
+| **Date** | 17 November 2026 |
 
 **The owner's arrangement for the per-place test, the same day,** after the Lead explained both options. Word for word:
 
