@@ -204,6 +204,8 @@ Every row inherits those start/stop rules. “Loop” always means a bounded, su
 
 Keep a rescued person's identity/figure visible through the result; use the authoritative post-Rescue location/slot rather than assuming they stay in bed or choosing an exit. No food dispenser in Hospital. A full Hospital or permanent elimination is decided by the engine; artwork cannot allocate another bed or retain a phantom target.
 
+The current four-bed rule distinguishes a retained body from an overflow removal. A supplied Eliminated body still occupying H1–H4 needs a completely still pose and inactive medical equipment; it must not breathe or disappear merely because its film ended. An overflow-removed player is offboard and receives no bed or target. Bed occupancy and health are separate authoritative inputs.
+
 ## 9. Jail — five positions, confinement without new powers
 
 **Layer map:** rear wall/security door → bench/cot backs and security fixtures → J1–J5 bodies → seat surfaces/hand props → hands → bench fronts, door jamb and safe near bars → semantic overlays. No exterior layer is required: retain the windowless cell. The B↔Jail interior window is not a space window.
@@ -262,6 +264,8 @@ Supply is a participant-only task surface, not a sixth ordinary destination. Oth
 
 Keep the approved position beside Command and width ratio **1:2**. It is a presentation annex, not a new playable location, capacity or targeting exception. Walks are public where the authorized pair is public; conversation/declared side/Promises remain pair-private. Use the existing full **60-second conversation**, separate from declaration and claim stages. Entrance cannot consume that time; wire it to an approved presentation boundary. If a boundary/input is missing, report it before runtime adoption rather than adding client delay. Reconnect restores the current stage without replaying entry. No new voice/network feature is implied by animated talking.
 
+Backend's source review confirms that the current public-Hack decision places entrance within the **5-second result phase**, followed by the full 60-second conversation, with a nonblocking exit afterward. Reuse that timing; do not ask for a new entry stage. The active pair and phase clock already exist. A guaranteed exit cue across a delayed phase update, or exact historical walking origins, may need a focused presentation contract: the existing adapter can lose its exit when the previous phase expires before the next snapshot arrives. The optional `AWAITING_DECLARATION` sheet in #293 also needs an agreed adapter state because current private `hackFeedback` appears only during result/talk. Neither gap permits inventing claim information or replaying entry on reconnect.
+
 ## 12. Cross-room characters, events and interaction rules
 
 The 20 ordinary station activities above preserve the approved #230 concepts. An activity belongs to the **slot**, not a secret role. A supplied seat keeps its identity, slot target, name and permitted status when decorative body movement temporarily leaves its resting pose. Rig layers require unique instance ID prefixes for SVG masks/gradients and reuse of mounted geometry, not whole-figure reconstruction every frame.
@@ -288,11 +292,15 @@ Extend existing component contracts rather than inventing a parallel API. The fo
 
 Use the existing mount/update/suspend/resume/dispose semantics. New private input must be supplied after conceal/viewer change. A stale room is visibly stale and has no active controls. Offscreen/suspended views release animation work; resumed views reconcile current state. No late response or event callback may revive a disposed screen. Mechanism prediction/interpolation follows the existing Food contract, not an invented decorative clock.
 
+Food's public finalized stock is a **ship-wide** dose count, not a per-room inventory. Private `PLAYER_CURRENT` stock belongs to the viewer's authorized reality. `ownMeals` supplies that player's recorded placement when available and `ATE`, `NO_DOSE` or `IN_HOSPITAL`; it can drive a reviewed own-seat cue. Public `turnEnds` supplies ordered completion IDs/times, never meal origins. Public or other-seat visits and room dispenser availability need an explicit audience/publication contract, including Sync handling. A current finalized board slot is not evidence of an earlier meal's location. Keep those extensions separate from the existing Food Task and the first Room B slice.
+
 ### Two distinct window systems
 
 Exterior apertures show one shared decorative space voyage with room-specific framing/offsets. They reveal no real navigation totals, hidden direction, tie, branch/reality or game result.
 
 Interior gameplay windows remain exactly **A↔B, A↔Hospital, B↔Jail**. Current drawing stations are **A1/B1 for A↔B, A2 for A↔Hospital, B2 for B↔Jail**, as implemented in `planet-game/social.ts`. Endpoint occupants may view when permitted; Hospital/Jail have no drawing station. Drawings are attributed player claims, appended in chronological order and expired with their round. They are not verified facts or a new voice channel. Keep the exterior and interior aperture IDs/masks separate.
+
+Preserve access to both authorized windows in A or B. The current #299 station sheet hides the room's second window; the connection must not turn that presentation choice into a new viewing restriction. Designer corrects the canonical entry/sheet if needed; Frontend supplies the already-filtered window offers and reviews navigation/focus.
 
 ## 13. Required asset and component handoff
 
