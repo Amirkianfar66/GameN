@@ -1,8 +1,8 @@
 {
   "tool": "design/tools/kit-check.mjs",
   "component": "design/phone-ui/components/kit",
-  "version": "component-kit-0.8.0",
-  "sourceCommit": "5ac3354f6099b7d9f1701e743d0e0b9f8a40144e",
+  "version": "component-kit-0.8.1",
+  "sourceCommit": "1f5ad81b734a5951472e9672d5cf8383a70d52ad",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), 390 px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.",
   "headers": [
@@ -276,9 +276,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-BJ-NyWzJ.js",
+          "source": "assets/page-ByB9-opA.js",
           "line": 1,
-          "column": 3872,
+          "column": 3873,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -287,24 +287,24 @@
     },
     "kit-100": {
       "file": "design/phone-ui/components/kit/review/kit-100.jpg",
-      "sha256": "092e5c7f32b16d1231ef3ef05a8a4a0c0a3d96d769bad13980e2ff7700506d74",
+      "sha256": "eb991e435ba8575281e0871ab5f52bf017eed00bf0309e1bfecc07da87cc044f",
       "size": {
         "width": 390,
-        "height": 12066
+        "height": 12063
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-BJ-NyWzJ.js",
+          "source": "assets/page-ByB9-opA.js",
           "line": 1,
-          "column": 3872,
+          "column": 3873,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "65da703ed358869eaa646b0eaa3d511ea1409b764d01c3bcf257ee2682a1bbe2"
+      "measurementSha256": "77182d03367715b13fa26503317e301bbeb3141a146ee09bb7e46aba3d9ff02d"
     },
     "pack-200": {
       "file": "design/phone-ui/components/kit/review/pack-200.jpg",
@@ -318,9 +318,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-BJ-NyWzJ.js",
+          "source": "assets/page-ByB9-opA.js",
           "line": 1,
-          "column": 3872,
+          "column": 3873,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -339,9 +339,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-BJ-NyWzJ.js",
+          "source": "assets/page-ByB9-opA.js",
           "line": 1,
-          "column": 3872,
+          "column": 3873,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],

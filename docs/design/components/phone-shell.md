@@ -350,7 +350,7 @@ Listed, not omitted:
   | `packages/design-tokens/test/phone-shell.test.mjs` | 8 of 8: the runtime-safe graph (the kit's files in it), every style scoped (a kit control styled only inside the shell's own parts, and of the kit's properties only the toast's top), the pinned pack unchanged, the pack's words (both banners'), the clock, the inputs' refusals, the privacy rules (an eliminated player's banner this viewer's, the reconnecting one the phone's) and the check's record, with the phase bars' states, their agreement cases and the lit Blackout's steadiness (0.2.10) |
 | `packages/design-tokens/test/phase-bars.test.mjs` | 11 of 11 (0.2.10): the runtime-safe graph, which adds no file to the shell's; every word found in the pack's own screens; each row of the words table, and the shell taking every bar; the round, the clock, Promises and ⋮ as given; the amber rule; the ring; a missing fact drawing the title alone; every phase of the contract drawn or refused by name; no offer, role or rule read; the toast; and each agreement case's pack input held to the pack's source |
   | `packages/design-tokens/test/kit.test.mjs` | 7 of 7, with the kit's own check: every builder agrees with the pinned pack's, the toast included ([the kit's page](kit.md)) |
-  | `npm run test:design` | 397 of 397, after `npm run build`, with Node 22.21.1 and npm 10.9.4 (on 0.2.10's record) |
+  | `npm run test:design` | 398 of 398, after `npm run build`, with Node 22.21.1 and npm 10.9.4 (on 0.2.11's record) |
   | `npm run test:tooling` | 356 of 356 |
   | `npm run test:frontend` | Pass, with the production exclusion: no fixture, test or development module reachable |
   | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck`, `check:browser-dependencies` | Pass |
@@ -410,7 +410,11 @@ Listed, not omitted:
     - In each case 10 to 20 parts sit in the same place, with the same words and states.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
   - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
-    - Recorded on `62c0bca4`, with kit 0.8.0 and shell 0.2.10, and the source clean. Against `97a7eebb`'s record (shell 0.2.9):
+    - Recorded on `1f5ad81b`, with kit 0.8.1 and shell 0.2.11, and the source clean. Against `62c0bca4`'s record (shell 0.2.10):
+      - No bar, tab, sheet or overlay moved: what 0.2.11 changes shows only when the text size changes on a live phone, which the probe's new check measures.
+      - 19 captures are unchanged byte for byte, and 13 with no pixel more than 32 of 255 apart.
+      - 32 differ in at most 56 pixels, all inside the room's picture (its ambient motion), between 310 and 539 px from the top.
+    - Before: `62c0bca4`, with kit 0.8.0 and shell 0.2.10, and the source clean. Against `97a7eebb`'s record (shell 0.2.9):
       - 25 captures are new: the twelve phase states at both sizes, and `phase-large` at 320 × 568.
       - `dark` changed at both sizes, in the bar only: its line and its clock, 10,307 pixels each, all between 57 and 90 px from the top. Before, "Lights out" at 0:18; now "Dark · positions fixed" at 0:08, amber.
       - `result` changed at both sizes, in the round button only: 12,078 and 12,076 pixels. The unavailable Vote is now paper with dimmed words, as the pack draws it.
