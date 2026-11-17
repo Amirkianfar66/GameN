@@ -326,6 +326,72 @@ A test that cost nothing was started.
 - **The camera.** The owner wrote this as their first comment. Whether the rooms use Option 1 or a view from each place comes next.
 - **The code's ambient in the picture's openings.** That test page is on hold until the camera is settled.
 
+**A view from each place in Rooms A and B, the same day.** After the colour, the owner returned to the camera. Word for word:
+
+> Honestly, I think the the idea of each player eye is better Idea because it helps game concept as each player can see Minimum 1 and Maximum 3  , because then some actions are not visible on some players and you should trust other players  what they saw inside room, what do you think before you act?
+
+The Lead agreed, on one condition: the picture alone hides nothing. A rule must say who sees whom, and the server must do the hiding. The owner then wrote:
+
+> About the option consider each room A and B can have maximum of 5 players . Each user can see 3 players.  What do you think?
+
+> In your opinion what is the best angle for each person vision control 90 degree or 80 or something else
+
+The Lead recommended about 90°. The owner then gave a design file, with a summary that begins:
+
+> Check this and give me your feedback : This design gives each player a **personal, fixed view of Room A or Room B**, with one consistent blind spot when all five places are occupied.
+
+The file is kept byte for byte at [room-visibility/gamen-room-visibility-design-v1.json](room-visibility/gamen-room-visibility-design-v1.json), sha256 `36edd4c7ade15cab02dbdfa64cd799edb27e9c3ee338cfb6aea35397ac1ba3df`. The Lead recomputed it from its coordinates, and everything matches:
+- every list of who sees whom;
+- all 32 combinations of occupied places;
+- the margins, 7.6° inside the view for the nearest seen person and 25.3° outside it for the nearest unseen one.
+
+[room-visibility/README.md](room-visibility/README.md) has the checks and the phone sizes. The Lead recommended adopting it with additions, and asked whether the Hospital and the Jail also need blind places. The owner answered:
+
+> Because in Hospital and jail locations are fixed and defined by app and they are limited to 4 and private meeting room and task room they are fixed and limited to 2
+
+The Lead then recommended one shared view for each fixed room. The owner:
+
+> Yes go as your recommendation
+
+**What it decides:**
+- **Rooms A and B get a view from each place.** This replaces "Option 1, for now" (recorded above) for these two rooms. The geometry is the owner's file, layout `perimeter-five-v1`:
+  - five places on the walls, each with a fixed view 90° across;
+  - in a full room, each player sees three of the other four and is seen by three;
+  - each player's blind place is just off their right shoulder, and nobody is seen from behind.
+- **The Lead's additions, adopted with it:**
+  - **Entry order:** B1 → A, B2 → B, B3 → C, B4 → D, B5 → E, and the same for Room A. Two players entering an empty room see each other, and any three see at least one other. Integration maps the places, keeping each place's functions.
+  - **Presence is public:** the person in a player's blind place shows as a chip on the right edge, for example "Juno · out of view". That chip is also how they are targeted where the rules allow it.
+  - **Compact rooms,** about 4–4.5 m across, so people stay near today's size.
+  - **The picture may be drawn a little wider than the rule** (about 96–100°), so the people at the sides and their tags clear the screen's edges. The rule stays 90°, and the layout test decides.
+  - **The camera** sits at eye height, about 1.6 m, looking level or a little down.
+- **The fixed rooms get one shared view each, with no blind places.** Everyone in the room sees everyone:
+  - the Hospital and the Jail have four fixed places;
+  - the Private Room and the Task Room have two;
+  - the Command Room has one.
+- **Pictures:** 15 in all, five each for Rooms A and B and one for each of the other five rooms. Each is in its room's colour family from the code (the colour approval above). They are made after the owner sees the layout test.
+- **New crew drawings:** each crew member is seen from the front and from about 35° and about 72° on their right. That makes two new angles each, 18 in all, shown to the owner before anyone draws them.
+
+**What it means for the work:**
+- **The Pre-game Animation builder** makes a layout test of Room B with exactly this geometry, with no new pictures:
+  - the five views;
+  - room sizes of 4, 4.5 and 5 m;
+  - the 90° rule against a slightly wider picture;
+  - the stand-in crew and the out-of-view chip;
+  - tags and press areas at both phone sizes and at 100% and 200% text;
+  - nobody half visible.
+  - The Lead checks it, then the owner sees it.
+- **Backend and Balance,** through Integration ([#222](https://github.com/Amirkianfar66/GameN/issues/222)), propose the observation rule for the owner's approval:
+  - what a player who didn't see an action is told;
+  - what the Board and the shared display show of it.
+  - The server sends each player only what they saw.
+- **Integration** maps the five places and the per-player projection. The Jail's four places are already with it ([#96](https://github.com/Amirkianfar66/GameN/issues/96)).
+- **The image session** waits for a go after the layout test.
+
+**What it does not settle:**
+- **The observation rule.** Until it exists, the blind places hide nothing.
+- **The human test.** The Lead's recommendation that it ships on today's rooms still waits for the owner's own answer.
+- **Other rules.** Capacities, movement, targeting, the Blackout and private information stay as they are, except the Jail at four, which is with Integration.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
