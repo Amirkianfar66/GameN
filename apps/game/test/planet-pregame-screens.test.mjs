@@ -9,7 +9,7 @@ import {nextHostLobbyInput,HOST_LOBBY_DEFAULTS} from '../../../design/phone-ui/c
 import {nextHostSetupInput,HOST_SETUP_DEFAULTS} from '../../../design/phone-ui/components/host-room/host-setup.mjs';
 import {nextRoundStampInput,ROUND_STAMP_DEFAULTS} from '../../../design/phone-ui/components/round-stamp/round-stamp.mjs';
 import {roundStart} from '../hosted/planet/shell-input.mjs';
-import {HOST_COMMANDS,createHostUi,hostControlsOffered,settingsSheetInput,hostControlsInput,hostReceipt,hostRetrySent,hostSettle} from '../hosted/planet/pregame-input.mjs';
+import {HOST_COMMANDS,createHostUi,hostControlsOffered,settingsSheetInput,hostControlsInput,hostReceipt,hostRetrySent,hostSettle,keptArt} from '../hosted/planet/pregame-input.mjs';
 import {nextHostControlsInput,hostControlsSheet,HOST_CONTROLS_DEFAULTS,CODE_MASK} from '../../../design/phone-ui/components/host-controls/host-controls.mjs';
 import {nextJoinFormInput,JOIN_FORM_DEFAULTS} from '../../../design/phone-ui/components/join-room/join-form.mjs';
 import {nextJoinWaitInput,JOIN_WAIT_DEFAULTS} from '../../../design/phone-ui/components/join-room/join-wait.mjs';
@@ -344,4 +344,21 @@ test('Host controls\' requests settle once: the card for the seat asked, kept wh
  assert.equal(hostControlsInput(running({recoveryCode:'SYNTHETIC-RECOVERY-CODE'}),gameView(),step.ui).code,null);
  // One the session never took up (it sends nothing while busy or uncertain) stays unsettled, with no receipt.
  step=hostSettle(running(),hostUi({lastOp:'runBots'}),'asked');assert.equal(step.sent,'asked');assert.equal(step.receipt,null);
+});
+
+test('the match\'s art stays while the same match\'s data is withheld; another match, or none, sets it as before',()=>{
+ const pins={assetManifestVersion:'design-0.8.0'},other={assetManifestVersion:'design-0.9.0'};
+ // Live: the session's versions, remembered for its match.
+ let step=keptArt({matchId:'m1',versions:pins},null);
+ assert.deepEqual(step,{versions:pins,seen:{matchId:'m1',versions:pins}});
+ // Reconnecting, or back before the first fresh read: the same match, no versions: the last ones seen stay.
+ step=keptArt({matchId:'m1',versions:null},step.seen);
+ assert.equal(step.versions,pins);assert.deepEqual(step.seen,{matchId:'m1',versions:pins});
+ // Another match, with no versions yet: none, and nothing remembered.
+ assert.deepEqual(keptArt({matchId:'m2',versions:null},step.seen),{versions:null,seen:null});
+ // No match (the menu, before a match): none.
+ assert.deepEqual(keptArt({matchId:null,versions:null},step.seen),{versions:null,seen:null});
+ // A match's own versions always win, and are what is remembered.
+ assert.deepEqual(keptArt({matchId:'m1',versions:other},step.seen),{versions:other,seen:{matchId:'m1',versions:other}});
+ assert.deepEqual(keptArt(null,null),{versions:null,seen:null});
 });

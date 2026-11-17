@@ -13,6 +13,7 @@ import {labelPhoneControl} from './phone-controls.mjs';
 // BEGIN pre-game connection (release 4 of the owner's plan of 16 November 2026): Designer's pre-game components.
 import {createPregameScreens} from './pregame-screens.mjs';
 import {createMatchSettings} from './match-settings.mjs';
+import {keptArt} from './pregame-input.mjs';
 // END pre-game connection
 import '../comic-tokens.css';
 import '../comic.css';
@@ -46,6 +47,8 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  let setupSettings=false,recoveryShown=false,hostState=null,food=null,foodPublic=null,foodAssets=null;
  // BEGIN pre-game connection (part 8): the match's Settings sheet and Host controls, one manager per match.
  let matchSettings=null;
+ // The art's last versions for the match the session names (keptArt): kept while that match's data is withheld.
+ let artSeen=null;
  // END pre-game connection
  const entryDraft={roomCode:'',displayName:'',kind:'player'};
  // BEGIN pre-game connection: the menu, Display settings, host, join, recover, characters, the role stage and boarding.
@@ -112,7 +115,9 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
    renderer:renderer??{navigate(){},foodSurface(){},get view(){return 'room';},bars(){return {top:0,bottom:0};}}});
  }
  function render(next){
-  if(disposed)return;model=next;if(planetHasFood(model.versions)&&!foodAssets){foodAssets=createFoodAssets(document);void foodAssets.load();}setCrewPictureSurface(root,model.versions);libraryAssets.setVersions(model.versions);
+  if(disposed)return;model=next;if(planetHasFood(model.versions)&&!foodAssets){foodAssets=createFoodAssets(document);void foodAssets.load();}
+  // pre-game connection: while the same match's data is withheld (reconnecting, or back before the first fresh read), its art stays on the last versions seen for it, so a screen kept as last seen keeps its pictures; another match, or none, sets them as before.
+  const art=keptArt(model,artSeen);artSeen=art.seen;setCrewPictureSurface(root,art.versions);libraryAssets.setVersions(art.versions);
   if(!model.ownRole)roleOpen=false;
   pregame.update(model,{visible:document.visibilityState==='visible',focused:document.hasFocus(),uid:connection.currentUid()});presentation.sync();
   if(terminalReturn)terminalReturn.hidden=!canReturnToLobby();

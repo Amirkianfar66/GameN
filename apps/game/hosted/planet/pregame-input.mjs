@@ -325,3 +325,16 @@ export function hostSettle(session,ui,sent){
  if(!session.uncertain)next.lastOp=null;
  return {sent:null,ui:next,receipt:hostReceipt(session,ui)};
 }
+
+/**
+ * The match's art while its data is withheld (the Lead, 17 November): reconnecting, or a phone back before the
+ * session's first fresh read, gives no versions, and the app took the library art and the crew's pictures off, so a
+ * screen kept as last seen (character selection's grid and foot) lost its portraits. While the session names the same
+ * match, the art stays on the last versions this app saw for it: the match's public pins, nothing private. Another
+ * match, or none, sets them as before. `seen` is { matchId, versions } or null; returns { versions, seen }.
+ */
+export function keptArt(model,seen){
+ if(model?.versions)return {versions:model.versions,seen:{matchId:model.matchId,versions:model.versions}};
+ if(model?.matchId&&seen?.matchId===model.matchId)return {versions:seen.versions,seen};
+ return {versions:null,seen:null};
+}

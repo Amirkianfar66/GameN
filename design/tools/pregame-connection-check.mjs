@@ -138,6 +138,9 @@ const LOOK = `(() => {
     rootClass: document.getElementById('planet-root')?.className ?? null,
     title: text(host?.querySelector('h1, .ms-ep-large, .ms-ep-nav-title, .ms-ps-name')),
     words: (text(host) ?? '').slice(0, 400),
+    // The library art switched on for the match's pins (art.mjs), and each portrait on the screen drawing a picture.
+    art: document.documentElement.dataset.art ?? '',
+    portraits: host ? [...host.querySelectorAll('.ms-k-pt:not(.ms-k-pt-empty)')].filter(n => n.getClientRects().length).map(n => getComputedStyle(n).backgroundImage !== 'none') : [],
     buttons: host ? [...host.querySelectorAll('button')].filter(b => b.getClientRects().length).map(control) : [],
     inputs: host ? [...host.querySelectorAll('input')].map(i => ({ type: i.type, value: i.type === 'password' ? (i.value ? '•' : '') : i.value, label: i.getAttribute('aria-label') ?? (i.labels?.[0] ? text(i.labels[0]) : null) })) : [],
     shell: shell ? { status: shell.dataset.status, bar: shell.dataset.bar ?? null, banner: text(shell.querySelector('.ms-ps-banner')), toast: text(shell.querySelector('.ms-ps-toast')) } : null,
@@ -313,7 +316,8 @@ const STATES = {
       await page.waitFor(`${SESSION}.getModel().canChoose`, 'choosing offered');
     },
     facts: s => ({ select: /ms-char-select/.test(s.component) && s.shell?.status === 'live', grid: s.buttons.filter(b => b.intent === 'choose').length === 9,
-      offered: s.buttons.some(b => b.intent === 'choose' && !b.disabled), clock: /\d:\d\d/.test(s.words) }),
+      offered: s.buttons.some(b => b.intent === 'choose' && !b.disabled), clock: /\d:\d\d/.test(s.words),
+      portraits: s.portraits.length >= 9 && s.portraits.every(Boolean), art: s.art.length > 0 }),
     after: async page => {
       await page.evaluate("document.querySelector('.planet-pregame-host [data-intent=\"choose\"][data-value=\"c6\"]').click()");
       await page.waitFor("window.planetHarness.requests.some(r=>r.operation==='chooseCharacter'&&r.characterId==='c6')", 'the choice sent');
@@ -324,7 +328,10 @@ const STATES = {
       await page.evaluate(`${H}.setReadFailure(true);${SESSION}.refresh()`);
       await page.waitFor(`${SESSION}.getModel().connection!=='live'&&document.querySelector('.planet-pregame-host .ms-phone-shell')?.dataset.status==='stale'`, 'reconnecting, as last seen');
     },
-    facts: s => ({ stale: s.shell?.status === 'stale' && /Connection lost/.test(s.shell.banner ?? ''), keptGrid: s.buttons.filter(b => b.intent === 'choose').length === 9 && /Nova/.test(s.words) }),
+    // As last seen: the grid, and its pictures. The session withholds the match's data, so the art stays on the last
+    // pins this app saw for the same match (the Lead, 17 November): the nine cells' and the foot's portraits draw.
+    facts: (s, looks) => ({ stale: s.shell?.status === 'stale' && /Connection lost/.test(s.shell.banner ?? ''), keptGrid: s.buttons.filter(b => b.intent === 'choose').length === 9 && /Nova/.test(s.words),
+      portraitsKept: s.portraits.length === 10 && s.portraits.every(Boolean), artKept: s.art.length > 0 && s.art === looks.characters?.art }),
     after: async (page, seen) => {
       await page.evaluate(`${H}.setReadFailure(false)`);
       await page.evaluate("document.querySelector('.planet-pregame-host [data-intent=\"retry\"]').click()");
@@ -401,6 +408,33 @@ const STATES = {
       await page.waitFor("!document.querySelector('.ms-round-stamp')&&window.planetHarness.app.game?.getModel().round===2", 'the stamp disposed in Round 2', 4000);
       return { words: held.words === 'Round 1', ariaHidden: held.hidden === 'true', noTaps: held.taps === 'none', live: held.status === 'live', standing: held.opacity === 1, one: held.count === 1,
         onTheServersWindow: held.atMount?.state === 'running' && held.atMount.t >= 150 && held.atMount.t < 1400, atMountMs: Math.round(held.atMount?.t ?? -1),
+        goneByItself: gone.mounted && gone.opacity < 0.05, disposedInRound2: true };
+    } },
+  // Reduce motion on (this phone's Display settings, stored): the stamp's Reduce motion form (round-stamp 0.1.0,
+  // ROUND_STAMP_REDUCED): an 80 ms fade in, standing at its size with no scale or travel, an 80 ms fade out, gone at
+  // 1,400 ms as the full form. Held at 600 ms for the capture; let go, it goes by itself; disposed in Round 2.
+  'round-stamp-reduced': { url: 'scenario=reading', inMatch: true, prefs: { reduced: true, textScale: 1 }, steps: async page => {
+      await page.waitFor(SCREEN('role'), 'the role stage, before the match');
+      await page.evaluate(roundOne(150));
+      await page.waitFor("(()=>{const a=document.querySelector('.ms-phone-shell .ms-round-stamp .ms-rs-mark')?.getAnimations()[0];return !!a&&a.playState==='running'})()", 'the stamp fading in', 4000);
+      await page.evaluate("(()=>{const a=document.querySelector('.ms-phone-shell .ms-round-stamp .ms-rs-mark').getAnimations()[0];window.__stamp={t:Number(a.currentTime),state:a.playState,frames:a.effect.getKeyframes().map(k=>({offset:k.offset,opacity:k.opacity,transform:k.transform??null}))};a.pause();a.currentTime=600;return true;})()");
+    },
+    facts: s => ({ running: s.model?.status === 'running' && s.model.connection === 'live' }),
+    after: async page => {
+      const held = await page.evaluate(`(() => { const root = document.querySelector('.ms-phone-shell .ms-round-stamp'), mark = root?.querySelector('.ms-rs-mark');
+        return { words: root?.textContent.replace(/\\s+/g, ' ').trim() ?? null, motion: root?.dataset.motion ?? null, html: document.documentElement.dataset.motion ?? null,
+          opacity: mark ? Number(getComputedStyle(mark).opacity) : null, transform: mark ? getComputedStyle(mark).transform : null, atMount: window.__stamp, count: document.querySelectorAll('.ms-round-stamp').length }; })()`);
+      await page.evaluate("(()=>{const a=document.querySelector('.ms-round-stamp .ms-rs-mark').getAnimations()[0];a.play();return true;})()");
+      await page.waitFor("document.querySelector('.ms-round-stamp .ms-rs-mark')?.getAnimations().length===0", 'the stamp gone by itself', 4000);
+      const gone = await page.evaluate("(() => { const mark = document.querySelector('.ms-round-stamp .ms-rs-mark'); return { mounted: !!mark, opacity: Number(getComputedStyle(mark).opacity) }; })()");
+      await page.evaluate(roundTwo);
+      await page.waitFor("!document.querySelector('.ms-round-stamp')&&window.planetHarness.app.game?.getModel().round===2", 'the stamp disposed in Round 2', 4000);
+      const frames = held.atMount?.frames ?? [];
+      return { words: held.words === 'Round 1', reduced: held.motion === 'reduced' && held.html === 'reduced', one: held.count === 1,
+        // Its form: opacity only (no scale, no travel), whole between the fade in and the fade out.
+        noScaleOrTravel: frames.length > 0 && frames.every(k => k.transform === null || k.transform === 'none') && (held.transform === 'none' || held.transform === 'matrix(1, 0, 0, 1, 0, 0)'),
+        fades: frames[0]?.opacity === '0' && frames.at(-1)?.opacity === '0' && frames.some(k => k.opacity === '1' && Math.abs(k.offset - 80 / 1400) < 0.001),
+        standing: held.opacity === 1, onTheServersWindow: held.atMount?.state === 'running' && held.atMount.t >= 150 && held.atMount.t < 1400, atMountMs: Math.round(held.atMount?.t ?? -1),
         goneByItself: gone.mounted && gone.opacity < 0.05, disposedInRound2: true };
     } },
   // A phone that arrives (or comes back, from Food's surface or a lock) after the stamp's length: Round 1's Before
