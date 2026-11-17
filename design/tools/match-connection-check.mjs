@@ -193,6 +193,10 @@ const LOOK = `(() => {
       captions: [...document.querySelectorAll('.planet-stage button[data-move-room]')].filter(b => !b.disabled).map(b => b.dataset.moveRoom) },
     old: document.querySelectorAll('.planet-header:not(.planet-bar-measure), .planet-nav, #planet-pass, .planet-sheet, .planet-target-bar, #planet-check').length,
     status: (() => { const s = document.querySelector('.planet-status'); return s && !s.hidden ? text(s) : null; })(),
+    // What the phone shows (the shell, without what is hidden or only for screen readers), and the current step the
+    // screen-reader facts keep (#ms-action-step, the shell connection's), recorded as it is.
+    shown: (() => { const s = document.querySelector('.ms-phone-shell'); if (!s) return ''; const c = s.cloneNode(true); c.querySelectorAll('.ms-visually-hidden, [hidden]').forEach(n => n.remove()); return text(c); })(),
+    hiddenStep: document.getElementById('ms-action-step')?.textContent ?? null,
     model: model ? { connection: model.connection, concealed: model.concealed, phase: model.phase?.kind ?? null, panel: model.panel, ownSeatId: model.ownSeatId, round: model.round,
       action: model.action ? { type: model.action.type, step: model.action.step, selected: model.action.selected } : null, recovery: model.recovery } : null,
     commands: (window.planetHarness?.requests ?? []).filter(r => r.operation === 'command').map(r => ({ type: r.request.command.type, ...r.request.command })),
@@ -275,7 +279,8 @@ const STATES = {
     facts: s => ({ frame: s.sheet?.title === 'Rescue' && foot(s) === 'done:Done', stamp: s.actions?.stamp === 'REGISTERED', headline: s.actions?.headline === 'Rescue of Crew 3 registered.',
       detail: s.actions?.detail === 'This is not a result. Registered actions are resolved at the end of the round.',
       timeLine: JSON.stringify(s.actions?.timeline) === JSON.stringify([`Registered · Round ${s.model?.round} · your turn`, `End of Round ${s.model?.round} · Rescue is resolved, after the attacks`]),
-      sent: s.commands.length === 1 && s.commands[0].type === 'RESCUE' && s.commands[0].targetSeatId === 'seat-3', nothingOnTarget: !s.stage.presses.length, noGenericLine: !s.page.includes('Resolution is pending') }),
+      sent: s.commands.length === 1 && s.commands[0].type === 'RESCUE' && s.commands[0].targetSeatId === 'seat-3', nothingOnTarget: !s.stage.presses.length,
+      noGenericLine: s.shown.length > 0 && !s.shown.includes('Resolution is pending') }),
     after: async page => {
       await page.evaluate(tap(FOOT('done')));
       await page.waitFor("!document.querySelector('.ms-ps-sheet')", 'Done closed it');
