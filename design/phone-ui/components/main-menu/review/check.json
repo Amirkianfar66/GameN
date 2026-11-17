@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/main-menu-check.mjs",
   "component": "design/phone-ui/components/main-menu",
-  "sourceCommit": "48177875c8578c2119d9c4058b2843571fdfdb2b",
+  "sourceCommit": "3678d54848c5da3b1f47944eafe315c455849b6a",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
