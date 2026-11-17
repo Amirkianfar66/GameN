@@ -224,3 +224,16 @@ export function boardingInput(model,prefs,{visible}){
  return {status:stageStatus(model,{visible}),viewer:model.selfSeatId,clock:clock?{elapsedMs:clock.elapsedMs,endsAtMs:clock.endsAtMs}:null,
   view:clock&&clock.elapsedMs>=clock.endsAtMs?'waiting':'holding',skip:null,reducedMotion:prefs.reduced};
 }
+
+// ── The round stamp (part 9) ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * The round stamp's input (#288, "ROUND 1" over the room as Round 1 begins), or null while it isn't mounted: no
+ * moment (the shell connection's roundStart(model): Round 1's Before turns, public facts only), or the room view
+ * isn't showing. The clock is the shell connection's trusted server time, or null (the stamp then draws nothing);
+ * the status is the shell's own. The stamp keeps its own time: a late phone finds its window past and draws nothing.
+ */
+export function roundStampInput(moment,{clock=null,status,reducedMotion,room}){
+ if(!moment||!room)return null;
+ return {round:moment.round,window:{id:moment.window.id,startedAt:moment.window.startedAt},clock:clock??null,status,reducedMotion:!!reducedMotion};
+}

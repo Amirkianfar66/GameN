@@ -111,6 +111,16 @@ const tap = selector => `(() => { const n = document.querySelector(${JSON.string
 const type = (selector, text) => `(() => { const n = document.querySelector(${JSON.stringify(selector)}); n.focus(); n.value = ${JSON.stringify(text)}; n.dispatchEvent(new InputEvent('input', { bubbles: true })); return true; })()`;
 /** Replaces the harness's session value (the server's answer), then reads it. */
 const serve$ = body => `(async () => { const h = ${H}, v = structuredClone(h.value), now = h.now(); ${body}; await h.replace(v); })()`;
+/**
+ * A fresh match at Round 1's Before turns, begun `ago` ms before the server's now: the harness's running board,
+ * at Round 1 (the board finalized through round 0, its shared checkpoint the match's first), as a phone meets it after
+ * boarding. Its game is new, so the
+ * controller's first view is Round 1 (it refuses a round that goes back).
+ */
+const roundOne = ago => `(async () => { const h = ${H}, now = h.now(), next = h.fixture('board'), p = next.playerView; p.round = 1; p.board.finalizedRound = 0; p.navigation.lastMovedRound = 0; if (p.board.checkpoint !== undefined) p.board.checkpoint = 'INITIAL';
+  p.phase = { id: 'planet-phase-round-1', kind: 'PRE_TURN', startedAt: now - ${ago}, endsAt: now - ${ago} + 15000 }; next.publicView = h.publicPlanet(p); await h.replace(next); })()`;
+/** The next round's Before turns, as the server moves on. */
+const roundTwo = serve$("const p=v.playerView;p.round=2;p.board.finalizedRound=1;p.navigation.lastMovedRound=1;if(p.board.checkpoint!==undefined)p.board.checkpoint='ROUND_FINALIZED';p.phase={id:'planet-phase-round-2',kind:'PRE_TURN',startedAt:now-150,endsAt:now-150+15000};p.viewRevision+=1;v.publicView=h.publicPlanet(p)");
 const SCREEN = name => `document.querySelector('.planet-pregame-host')?.dataset.screen===${JSON.stringify(name)}`;
 
 /** What the phone shows now: the pre-game screen, its words and controls, what is left of the old view, and the session. */
@@ -324,6 +334,32 @@ const STATES = {
       await page.waitFor("/Waiting for the ship/.test(document.querySelector('.planet-pregame-host').textContent)", 'the interval over');
     },
     facts: s => ({ waiting: /Starting Round 1/.test(s.words) && /Waiting for the ship/.test(s.words) }) },
+  // Part 9: the round stamp (#288) on the shell's cover as Round 1's Before turns begins, by the shell connection's
+  // moment and server clock (G18). From the role stage, the match starts at Round 1 begun 150 ms ago; the stamp is
+  // caught running on the server's window, then held at 600 ms (standing) for the capture, as its own check holds it.
+  'round-stamp': { url: 'scenario=reading', inMatch: true, steps: async page => {
+      await page.waitFor(SCREEN('role'), 'the role stage, before the match');
+      await page.evaluate(roundOne(150));
+      try { await page.waitFor("(()=>{const a=document.querySelector('.ms-phone-shell .ms-round-stamp .ms-rs-mark')?.getAnimations()[0];return !!a&&a.playState==='running'})()", 'the stamp landing', 4000); }
+      catch (error) { console.log('DIAG', JSON.stringify(await page.evaluate("(()=>{const g=window.planetHarness.app.game?.getModel?.();return {game:!!window.planetHarness.app.game,round:g?.round,phase:g?.phase?.kind,connection:g?.connection,message:window.planetHarness.app.session.getModel().message,stamp:document.querySelectorAll('.ms-round-stamp').length}})()"))); throw error; }
+      await page.evaluate("(()=>{const a=document.querySelector('.ms-phone-shell .ms-round-stamp .ms-rs-mark').getAnimations()[0];window.__stamp={t:Number(a.currentTime),state:a.playState};a.pause();a.currentTime=600;return true;})()");
+    },
+    facts: s => ({ running: s.model?.status === 'running' && s.model.connection === 'live' }),
+    after: async page => {
+      const held = await page.evaluate(`(() => { const root = document.querySelector('.ms-phone-shell .ms-round-stamp'), mark = root?.querySelector('.ms-rs-mark');
+        return { words: root?.textContent.replace(/\\s+/g, ' ').trim() ?? null, hidden: root?.getAttribute('aria-hidden'), taps: root ? getComputedStyle(root).pointerEvents : null,
+          status: root?.dataset.status ?? null, opacity: mark ? Number(getComputedStyle(mark).opacity) : null, atMount: window.__stamp, count: document.querySelectorAll('.ms-round-stamp').length }; })()`);
+      // Let it run on from 600 ms: it fades and goes by itself at 1,400 ms, and stays mounted while the window lasts.
+      await page.evaluate("(()=>{const a=document.querySelector('.ms-round-stamp .ms-rs-mark').getAnimations()[0];a.play();return true;})()");
+      await page.waitFor("document.querySelector('.ms-round-stamp .ms-rs-mark')?.getAnimations().length===0", 'the stamp gone by itself', 4000);
+      const gone = await page.evaluate("(() => { const mark = document.querySelector('.ms-round-stamp .ms-rs-mark'); return { mounted: !!mark, opacity: Number(getComputedStyle(mark).opacity) }; })()");
+      // Round 2: no moment, so the stamp is disposed.
+      await page.evaluate(roundTwo);
+      await page.waitFor("!document.querySelector('.ms-round-stamp')&&window.planetHarness.app.game?.getModel().round===2", 'the stamp disposed in Round 2', 4000);
+      return { words: held.words === 'Round 1', ariaHidden: held.hidden === 'true', noTaps: held.taps === 'none', live: held.status === 'live', standing: held.opacity === 1, one: held.count === 1,
+        onTheServersWindow: held.atMount?.state === 'running' && held.atMount.t >= 150 && held.atMount.t < 1400, atMountMs: Math.round(held.atMount?.t ?? -1),
+        goneByItself: gone.mounted && gone.opacity < 0.05, disposedInRound2: true };
+    } },
 };
 
 /** The record so far, when this run adds to it: the same candidate, art and headers. */
@@ -379,7 +415,8 @@ try {
         const extra = await state.extra?.(page, seen) ?? {};
         const own = state.facts?.(seen, looks, extra) ?? {};
         const checks = {
-          screen: !!seen.screen && seen.rootClass === 'planet-pregame' && !!seen.component,
+          // A pre-game state shows one of the connection's screens; an in-match state (the round stamp) none, the match's own.
+          screen: state.inMatch ? seen.screen === null && seen.rootClass === 'planet-container' : !!seen.screen && seen.rootClass === 'planet-pregame' && !!seen.component,
           noOldView: seen.old === 0,
           policy: seen.violations.every(v => v.kind !== 'unexpected'),
           problems: problems.length === 0,

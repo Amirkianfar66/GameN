@@ -1,12 +1,14 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {NO_COMMAND_REASON,createPregameUi,pregameScreen,withheldStatus,busyWith,refusal,menuInput,displayInput,hostSetupInput,lobbyCounts,hostLobbyInput,joinInput,joinRequest,waitInput,
+import {NO_COMMAND_REASON,roundStampInput,createPregameUi,pregameScreen,withheldStatus,busyWith,refusal,menuInput,displayInput,hostSetupInput,lobbyCounts,hostLobbyInput,joinInput,joinRequest,waitInput,
  recoverInput,charactersInput,roleInput,boardingInput,stageClock,roomCodeDraft,CHARACTERS,MOTION_LOCK_REASON,REGISTERED} from '../hosted/planet/pregame-input.mjs';
 import {createPlanetPreferences} from '../hosted/planet/preferences.mjs';
 import {nextMainMenuInput,MAIN_MENU_DEFAULTS} from '../../../design/phone-ui/components/main-menu/main-menu.mjs';
 import {nextDisplaySettingsInput,DISPLAY_SETTINGS_DEFAULTS} from '../../../design/phone-ui/components/display-settings/display-settings.mjs';
 import {nextHostLobbyInput,HOST_LOBBY_DEFAULTS} from '../../../design/phone-ui/components/host-room/host-lobby.mjs';
 import {nextHostSetupInput,HOST_SETUP_DEFAULTS} from '../../../design/phone-ui/components/host-room/host-setup.mjs';
+import {nextRoundStampInput,ROUND_STAMP_DEFAULTS} from '../../../design/phone-ui/components/round-stamp/round-stamp.mjs';
+import {roundStart} from '../hosted/planet/shell-input.mjs';
 import {nextJoinFormInput,JOIN_FORM_DEFAULTS} from '../../../design/phone-ui/components/join-room/join-form.mjs';
 import {nextJoinWaitInput,JOIN_WAIT_DEFAULTS} from '../../../design/phone-ui/components/join-room/join-wait.mjs';
 import {nextRecoverInput,RECOVER_DEFAULTS} from '../../../design/phone-ui/components/recover/recover.mjs';
@@ -215,4 +217,22 @@ test('preferences: the stored choice apart from the phone\'s own Reduce Motion, 
  preferences.setTextScale(3);preferences.setReducedMotion('yes');assert.equal(heard,2,'only real changes are saved and heard');
  stop();preferences.setTextScale(1);assert.equal(heard,2);
  preferences.dispose();
+});
+
+test('the round stamp (part 9): Round 1\'s Before turns over the room, with the shell\'s clock and status; nothing else',()=>{
+ const clock=Object.freeze({now:()=>1_000_600});
+ const phase={id:'phase-r1-pre',kind:'PRE_TURN',startedAt:1_000_000,endsAt:1_015_000,nowMs:1_000_500,trusted:true,expired:false};
+ const moment=roundStart({round:1,phase});
+ const input=roundStampInput(moment,{clock,status:'live',reducedMotion:false,room:true});
+ assert.deepEqual({...input,clock:null},{round:1,window:{id:'phase-r1-pre',startedAt:1_000_000},clock:null,status:'live',reducedMotion:false});
+ assert.equal(input.clock,clock);
+ // The stamp's own checker takes it: its keys only, and nothing of a player.
+ assert.deepEqual(Object.keys(nextRoundStampInput(ROUND_STAMP_DEFAULTS,input)).sort(),Object.keys(ROUND_STAMP_DEFAULTS).sort());
+ // Not mounted: another round or phase, no moment, or the room view not showing.
+ assert.equal(roundStampInput(roundStart({round:2,phase}),{clock,status:'live',reducedMotion:false,room:true}),null);
+ assert.equal(roundStampInput(roundStart({round:1,phase:{...phase,kind:'TURN'}}),{clock,status:'live',reducedMotion:false,room:true}),null);
+ assert.equal(roundStampInput(moment,{clock,status:'live',reducedMotion:false,room:false}),null);
+ // No trusted clock: mounted, with none, so the stamp draws nothing. The shell's status goes as it is.
+ for(const status of ['live','stale','concealed'])nextRoundStampInput(ROUND_STAMP_DEFAULTS,roundStampInput(moment,{clock:null,status,reducedMotion:true,room:true}));
+ assert.equal(roundStampInput(moment,{clock:undefined,status:'stale',reducedMotion:true,room:true}).clock,null);
 });

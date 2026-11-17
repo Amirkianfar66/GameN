@@ -18,8 +18,9 @@
 | Character selection | `character-select-0.1.0` (#292) | 16 |
 | The role stage | `role-stage-0.1.0`, `role-card-0.1.0` (#268) | 17, 18 |
 | Boarding | `boarding-stage-0.1.0` (#272) | 19 |
+| "ROUND 1" over the room as Round 1 begins (part 9) | `round-stamp-0.1.0` (#288), on the shell's cover | 19 |
 
-**Still to come:** Settings and Host controls in the match (part 8, waiting on the Lead's sheet hook), and the round stamp (part 9, waiting on G18).
+**Still to come:** Settings and Host controls in the match (part 8, waiting on the Lead's sheet hook).
 
 ## Files
 
@@ -30,7 +31,8 @@
 | `apps/game/hosted/planet/pregame-connection.css` | Gives the root the phone's height and canvas, and sizes the hero's still. Nothing of a component's |
 | `apps/game/hosted/planet/app.mjs` | One marked block asks the manager first; the old entry tabs and forms, the waiting branch, the choosing grid, the role card and the lobby's host controls leave `lobbyView()` |
 | `apps/game/hosted/planet/preferences.mjs` | `state()`, `setReducedMotion()`, `setTextScale()` and `subscribe()` for Display settings (G9); `get()` and `controls()` unchanged |
-| `apps/game/hosted/vite.config.mjs` | The marked `pre-game connection` fence: exactly the components' 22 runtime files |
+| `apps/game/hosted/planet/render.mjs` | One marked block (`round stamp`): mounts the round stamp on the shell's cover as Round 1's Before turns shows the room, and disposes it (part 9) |
+| `apps/game/hosted/vite.config.mjs` | The marked `pre-game connection` fence: exactly the components' 24 runtime files |
 | `apps/game/test/planet-pregame-screens.test.mjs` | The adapter's test |
 | `apps/game/dev/planet-emulator/capture.mjs` | The emulator run's pre-game steps, moved to the new screens (below) |
 | `design/tools/pregame-connection-check.mjs` | The check, and its record in `design/phone-ui/review/pregame-connection/` |
@@ -74,9 +76,16 @@ Where the game gives nothing, the input says nothing; no screen works out a rule
 | G16, G17 | The pack's role card: no knowledge lines (they stay on the Card tab), no manual conceal; Show role calls `revealRole(true)` |
 | G18 | The round stamp waits on the trusted clock and Round 1 detection |
 
+## The round stamp (part 9)
+
+Designer's round stamp (#288, "ROUND 1" over the room as Round 1 begins, accepted by the Lead at `8be96ef7`) is mounted by the renderer, as the shell connection's page asks, with its moment and clock (G18, #307 at `a58e8b64`).
+- **When:** while `roundStart(model)` gives a window (Round 1's Before turns, public facts only) and the room view shows. It is disposed when the window ends, the room view leaves, or the renderer is disposed.
+- **Its input** (`roundStampInput` in `pregame-input.mjs`): the round and the window from `roundStart`, the shell connection's `serverClock.current()` (or none, so nothing is drawn), the shell's own status (`live`, `stale`, `concealed`), and the game's Reduce motion. One stamp at most, updated only when what it draws changes; it is suspended and resumed with the shell.
+- **The stamp keeps its own time:** a late phone finds its window past and draws nothing; it never advances the game, takes no taps and is hidden from assistive technology.
+
 ## The boundary
 
-The `BEGIN pre-game connection` / `END pre-game connection` hunk in `apps/game/hosted/vite.config.mjs` adds exactly the components' 22 runtime files to `allowedSources`: `main-menu`, `entry-parts`, `display-settings`, `host-room`, `join-room`, `recover`, `character-select`, `role-stage` and `boarding-stage`, each component's `.mjs` and `.css` and never a `preview/` or `review/`. The kit, the shell and the icon family are admitted by the shell's and the room's hunks.
+The `BEGIN pre-game connection` / `END pre-game connection` hunk in `apps/game/hosted/vite.config.mjs` adds exactly the components' 24 runtime files to `allowedSources`: `main-menu`, `entry-parts`, `display-settings`, `host-room`, `join-room`, `recover`, `character-select`, `role-stage`, `boarding-stage` and `round-stamp`, each component's `.mjs` and `.css` and never a `preview/` or `review/`. The kit, the shell and the icon family are admitted by the shell's and the room's hunks.
 
 ## The gates
 
@@ -88,13 +97,13 @@ These refuse the changed files until Integration approves. The gates themselves 
 
 ### The adapter's test
 
-`apps/game/test/planet-pregame-screens.test.mjs`: 14 of 14. Routing and the withheld states; every input against its component's own checker (`next…Input`); busy per command (G10) and the lobby's arithmetic (G2); host setup with no mix (G1) and the three missing commands unavailable with the words (G6); the gaps left empty; the role card without knowledge; the preferences API.
+`apps/game/test/planet-pregame-screens.test.mjs`: 15 of 15. Routing and the withheld states; every input against its component's own checker (`next…Input`); busy per command (G10) and the lobby's arithmetic (G2); host setup with no mix (G1) and the three missing commands unavailable with the words (G6); the gaps left empty; the role card without knowledge; the preferences API; the round stamp's input (Round 1's Before turns over the room only, with the shell's clock and status, taken by the stamp's own checker).
 
 ### The check
 
 `GAMEN_PHONE_ART_BASE=<clean worktree of origin/main> node design/tools/pregame-connection-check.mjs` builds Frontend's phone harness (`apps/game/dev/phone`: the real Planet app and its session over a synthetic connection) from this tree, with art from origin/main, serves it with the hosted game's production headers (`createHostedPreviewHeaders`, SHA-256 `424e5dec…`), and drives it in desktop Chromium at 390 × 844 and 430 × 932 at 2×. Each capture also checks that no unexpected policy report, failed request or page error occurred, and that none of the old pre-game view is left.
 
-The states: the menu (after today's brand intro); Display settings, where Largest sets the root's size and stores it; host setup, with no line under 7/8/9, 8 chosen and Open room sending `create` with 8, then the lobby; Join, typed as a person types; waiting, with Cancel unavailable and Check again reading at once; admitted, with Leave unavailable; Recover, through "Seat 6 is yours again" and Continue, with the code box emptied and nothing stored naming the code; the host's lobby, with a request, Admit, Copy's toast, Start unavailable with "4 more seats to fill" and Leave unavailable; character selection, choosing Nova; reconnecting, kept as last seen, and Retry; the role stage, hidden and back, then Ready; boarding, today's film skipped, holding, then "Waiting for the ship".
+The states: the menu (after today's brand intro); Display settings, where Largest sets the root's size and stores it; host setup, with no line under 7/8/9, 8 chosen and Open room sending `create` with 8, then the lobby; Join, typed as a person types; waiting, with Cancel unavailable and Check again reading at once; admitted, with Leave unavailable; Recover, through "Seat 6 is yours again" and Continue, with the code box emptied and nothing stored naming the code; the host's lobby, with a request, Admit, Copy's toast, Start unavailable with "4 more seats to fill" and Leave unavailable; character selection, choosing Nova; reconnecting, kept as last seen, and Retry; the role stage, hidden and back, then Ready; boarding, today's film skipped, holding, then "Waiting for the ship". **The round stamp:** from the role stage, the match starts at Round 1's Before turns, begun 150 ms before; the stamp is caught running on the server's window (at about 180 ms), held at 600 ms for the capture, standing over the room ("Round 1", hidden from assistive technology, taking no taps); let go, it fades and goes by itself; at Round 2's Before turns it is disposed. The controller refuses a round that goes back, so the state starts a fresh match at Round 1, as a phone meets it after boarding.
 
 ### The emulator run
 
