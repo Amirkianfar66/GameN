@@ -1,0 +1,13 @@
+@import url("../kit/kit.css");
+
+/*
+ * The results reveal (results-reveal.mjs): runtime styles, Designer's. Every rule sits under the component's
+ * own root, .ms-results-reveal: the host the result window is mounted in. It fills the shell's cover and takes
+ * no taps; the window in it takes its own, so the room under it takes none. The window places itself against
+ * this host exactly as it does against the cover.
+ * Nothing here moves the host. The rise and Reduce motion's fade are Web Animations that results-reveal.mjs
+ * starts and lets go, so at rest no transform, opacity, transition or animation is set.
+ */
+.ms-results-reveal { position: absolute; inset: 0; pointer-events: none; }
+/* Concealed (results-reveal.mjs sets hidden): nothing drawn. */
+.ms-results-reveal[hidden] { display: none; }
