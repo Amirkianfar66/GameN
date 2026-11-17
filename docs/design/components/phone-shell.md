@@ -350,7 +350,7 @@ Listed, not omitted:
   | --- | --- |
   | `packages/design-tokens/test/phone-shell.test.mjs` | 8 of 8: the runtime-safe graph (the kit's files in it), every style scoped (a kit control styled only inside the shell's own parts, and of the kit's properties only the toast's top), the pinned pack unchanged, the pack's words (both banners'), the clock, the inputs' refusals, the privacy rules (an eliminated player's banner this viewer's, the reconnecting one the phone's) and the check's record, with the phase bars' states, their agreement cases and the lit Blackout's steadiness (0.2.10) |
 | `packages/design-tokens/test/phase-bars.test.mjs` | 11 of 11 (0.2.10): the runtime-safe graph, which adds no file to the shell's; every word found in the pack's own screens; each row of the words table, and the shell taking every bar; the round, the clock, Promises and ⋮ as given; the amber rule; the ring; a missing fact drawing the title alone; every phase of the contract drawn or refused by name; no offer, role or rule read; the toast; and each agreement case's pack input held to the pack's source |
-  | `packages/design-tokens/test/kit.test.mjs` | 7 of 7, with the kit's own check: every builder agrees with the pinned pack's, the toast included ([the kit's page](kit.md)) |
+  | `packages/design-tokens/test/kit.test.mjs` | 8 of 8, with the kit's own check: every builder agrees with the pinned pack's, the toast included, and `followTextSize` (0.8.1) ([the kit's page](kit.md)) |
   | `npm run test:design` | 398 of 398, after `npm run build`, with Node 22.21.1 and npm 10.9.4 (on 0.2.11's record) |
   | `npm run test:tooling` | 356 of 356 |
   | `npm run test:frontend` | Pass, with the production exclusion: no fixture, test or development module reachable |
@@ -417,7 +417,13 @@ Listed, not omitted:
     - In each case 10 to 20 parts sit in the same place, with the same words and states.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
   - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
-    - Recorded on `1f5ad81b`, with kit 0.8.1 and shell 0.2.11, and the source clean. Against `62c0bca4`'s record (shell 0.2.10):
+    - Recorded on `f0c24a26`, with kit 0.8.2 and shell 0.2.11, and the source clean. Against `1f5ad81b`'s record (kit 0.8.1):
+      - No bar, tab, sheet or overlay moved.
+      - At the Standard text the toast is unchanged: the `closed` captures, which show it, differ only inside the room's picture.
+      - What 0.8.2 changes shows at the Large and Largest text, which the probe's new check measures.
+      - 18 captures are unchanged byte for byte, and 10 with no pixel more than 32 of 255 apart.
+      - 36 differ in at most 2,236 pixels, all inside the room's picture (its ambient motion), between 310 and 564 px from the top.
+    - Before: `1f5ad81b`, with kit 0.8.1 and shell 0.2.11, and the source clean. Against `62c0bca4`'s record (shell 0.2.10):
       - No bar, tab, sheet or overlay moved: what 0.2.11 changes shows only when the text size changes on a live phone, which the probe's new check measures.
       - 19 captures are unchanged byte for byte, and 13 with no pixel more than 32 of 255 apart.
       - 32 differ in at most 56 pixels, all inside the room's picture (its ambient motion), between 310 and 539 px from the top.
