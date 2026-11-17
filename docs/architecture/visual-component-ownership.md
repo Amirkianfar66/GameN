@@ -64,6 +64,14 @@ The [phone visual merge gate](../../AGENTS.md#phone-interface-specification-and-
 
 A departure from an approved sheet still needs Designer's agreement and the owner's approval recorded in the owner-decision document. This workflow approval is not a blanket approval of visual exceptions. Each role reports what it actually checked, including any untested physical devices.
 
+## Assigned game-side connections: owner clarification, 17 November 2026
+
+The owner reaffirmed that Frontend must not rebuild Designer's work and explicitly assigned Designer some of the connections that mount the visual components in the actual game. **Using code does not make a task Frontend-owned.** Designer owns visual code, including character rigs and acting, mechanisms, exterior animation, visual effects, finishing filters and visual states, as well as the specifically assigned game-side mounts. The [seven-room production brief](room-scene-production-brief-2026-11-17.md) applies this clarification to the room redesign.
+
+Each connection task names one implementation owner and its exact files before edits begin. Designer implements the assigned mount/composition changes; Frontend reviews them for authorized data, commands, navigation, lifecycle, recovery, accessibility behavior and performance. Frontend remains the implementation owner for those functional services and their adapters. A mount takes already-authorized component inputs and reports intent through the agreed callbacks; it does not acquire private state or implement eligibility, networking or gameplay. Integration coordinates edits where a connection touches an existing controller. The two agents must not concurrently edit that controller or build alternate connections.
+
+Reuse the existing Designer room connection in #284 and the canonical components behind it. A missing visual capability is corrected in Designer's source. A missing functional field or handler is supplied by its functional owner. Frontend reviews the result rather than recreating it. This allocation preserves the existing visual acceptance and release gates and does not make the room redesign a prerequisite for the Food reliability release.
+
 ## Track delivery through the playable release
 
 Integration is accountable for completion through deployment. Keep one feature record in the existing deliverable issue; [#222](https://github.com/Amirkianfar66/GameN/issues/222) carries the current phone/release backlog. Link that record from related PRs rather than maintaining another feature ledger in each handoff. Record the owner request and approved design, observable acceptance criteria, one implementation owner, intended release, exact evidence and actual deployment identity.
