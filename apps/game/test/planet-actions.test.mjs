@@ -150,8 +150,9 @@ test('the toasts: "Turn passed" once the view has moved the turn on, "Moved to B
  assert.equal(passed.stage,'passed');
  assert.deepEqual(actionsToast(nextTurn,{flow:passed}),passedSaid);
  assert.deepEqual(actionsToast(nextTurn,{flow:actionsFlow(passed,nextTurn)}),passedSaid,'the same id, so the shell shows it once');
- // Another seat active in the same phase is the turn moved on too.
+ // Another seat active in the same phase is the turn moved on too, and so is a later phase with the viewer active again.
  assert.equal(actionsFlow(passWaiting,model({activeSeatId:'seat-5'})).stage,'passed');
+ assert.equal(actionsFlow(passWaiting,model({phase:{...turn,id:'turn-2'}})).stage,'passed');
  // The view first: the controller clears the in-flight send at the phase change; the next turn's view says it.
  assert.deepEqual(actionsToast(nextTurn,{flow:actionsFlow(passSent,nextTurn)}),passedSaid);
  // Not accepted: still the viewer's turn, so the flow ends with no toast. A later phase drops a pass already said.
