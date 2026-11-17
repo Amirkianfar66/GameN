@@ -1,0 +1,114 @@
+<title>The Last Two Doses</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* Layout: a storyboard wall. The story's panels in reading order, each with its line beneath; the notes after. One dark look by choice. */
+:root {
+  --bg: #0A0807; --panel: #15110E; --line: #2E2620; --fg: #EDE3D2; --muted: #A89A88; --amber: #FFB347; --teal: #3FE0D0;
+  --display: "Archivo Narrow", "Arial Narrow", system-ui, sans-serif; --body: "IBM Plex Sans", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); font: 15px/1.55 var(--body); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 28px 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 28px; }
+header { display: grid; gap: 10px; max-width: 70ch; }
+.eyebrow { font: 500 12px var(--mono); text-transform: uppercase; letter-spacing: 0.1em; color: var(--amber); }
+h1 { font: 700 44px/1.05 var(--display); letter-spacing: 0.005em; margin: 0; text-wrap: balance; }
+h2 { font: 700 18px var(--display); text-transform: uppercase; letter-spacing: 0.07em; color: var(--amber); margin: 0; }
+p { margin: 0; }
+.lede { color: var(--muted); font-size: 16px; }
+.board { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 22px 18px; }
+.panel { margin: 0; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.panel img { display: block; width: 100%; height: auto; aspect-ratio: 390 / 844; border-radius: 14px; outline: 1px solid var(--line); background: #000; }
+figcaption { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; align-items: baseline; }
+.num { font: 400 13px var(--mono); color: var(--amber); font-variant-numeric: tabular-nums; }
+figcaption strong { font: 700 17px var(--display); letter-spacing: 0.02em; }
+figcaption p { grid-column: 2; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; border-top: 1px solid var(--line); padding-top: 24px; }
+.notes section { display: grid; gap: 10px; align-content: start; min-width: 0; }
+ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; color: var(--muted); }
+li strong { color: var(--fg); font-weight: 500; }
+a { color: var(--teal); }
+a:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+@media (max-width: 520px) { h1 { font-size: 34px; } .board { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 12px; } figcaption p { font-size: 13px; } }
+</style>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">The Doctor · story panels before the animation</span>
+    <h1>The Last Two Doses</h1>
+    <p class="lede">The medic of Colony Nine, told darkly, in eight stills. Mira plays the Doctor, drawn in the new hand-inked finish; everyone else is a shape with no face. The pictures carry no words. The lines under them are the story as I imagine it, for you to react to before any of it moves.</p>
+  </header>
+
+  <div class="board">
+    <figure class="panel">
+      <img src="panel-1.jpg" width="390" height="844" alt="Panel 1, Colony Nine" loading="eager">
+      <figcaption><span class="num">01</span><strong>Colony Nine</strong><p>The fever came in with the dust. By the second winter there was a quarantine beacon on every mast, and one door in the colony still lit.</p></figcaption>
+    </figure>
+    <figure class="panel">
+      <img src="panel-2.jpg" width="390" height="844" alt="Panel 2, The ward" loading="eager">
+      <figcaption><span class="num">02</span><strong>The ward</strong><p>She learned the sound of every cot: the breathing, and the silences between. The sheets were drawn up one at a time.</p></figcaption>
+    </figure>
+    <figure class="panel">
+      <img src="panel-3.jpg" width="390" height="844" alt="Panel 3, The relief ship" loading="eager">
+      <figcaption><span class="num">03</span><strong>The relief ship</strong><p>The relief ship came down through the storm, circled the ward once, and climbed away. Nobody aboard would land.</p></figcaption>
+    </figure>
+    <figure class="panel">
+      <img src="panel-4.jpg" width="390" height="844" alt="Panel 4, Two doses left" loading="eager">
+      <figcaption><span class="num">04</span><strong>Two doses left</strong><p>Twelve wells in the case. Ten empty. She counted them every night, as if the number might change.</p></figcaption>
+    </figure>
+    <figure class="panel">
+      <img src="panel-5.jpg" width="390" height="844" alt="Panel 5, Two beds" loading="lazy">
+      <figcaption><span class="num">05</span><strong>Two beds</strong><p>Two beds. Two doses, and each of them needed both. She never told anyone what she did that night.</p></figcaption>
+    </figure>
+    <figure class="panel">
+      <img src="panel-6.jpg" width="390" height="844" alt="Panel 6, The seal" loading="lazy">
+      <figcaption><span class="num">06</span><strong>The seal</strong><p>At dawn the order came to seal the ward. She was on the outside of the door.</p></figcaption>
+    </figure>
+    <figure class="panel">
+      <img src="panel-7.jpg" width="390" height="844" alt="Panel 7, Burning clean" loading="lazy">
+      <figcaption><span class="num">07</span><strong>Burning clean</strong><p>From the climb, she watched the colony burn clean. She kept the case on her knees the whole way up.</p></figcaption>
+    </figure>
+    <figure class="panel">
+      <img src="panel-8.jpg" width="390" height="844" alt="Panel 8, Aboard" loading="lazy">
+      <figcaption><span class="num">08</span><strong>Aboard</strong><p>Years later, aboard the Mothership, she still carries it. Whatever this voyage asks of her, she has chosen before.</p></figcaption>
+    </figure>
+  </div>
+
+  <div class="notes">
+    <section>
+      <h2>Each place, its own light</h2>
+      <ul>
+        <li><strong>Colony Nine outside:</strong> rust dust, a pale sun, amber quarantine beacons, one lit door.</li>
+        <li><strong>The ward:</strong> ochre walls under one swinging lamp, with a monitor's green trace.</li>
+        <li><strong>The hatch:</strong> cold steel, lit by the departing ship's cyan-white searchlight, with the ward's amber behind her.</li>
+        <li><strong>The case:</strong> one desk lamp and the two vials glowing.</li>
+        <li><strong>Two beds:</strong> near black, with one cold doorway behind her and her shadow thrown toward us.</li>
+        <li><strong>The seal:</strong> blue-grey steel under turning amber beacons, and a handprint on the glass from inside.</li>
+        <li><strong>The climb:</strong> the cosmic language in saturated teal, magenta and gold, orbital rings and a far ringed giant, with the colony a ring of fire below.</li>
+        <li><strong>Aboard:</strong> the film's own frame, the injector by her face.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>What is drawn new</h2>
+      <ul>
+        <li>Seven new places in the new ink. Panel 8 is taken from the animation test.</li>
+        <li>Mira in seven new poses on the approved rig: walking, reading, a hand on the glass, standing between the beds, a palm on the door, and seated. Each pose has its own face and light.</li>
+        <li>Her case, her hand coming into the lamplight, and the people in the beds as faceless shapes.</li>
+      </ul>
+      <h2>Kept from the film's rules</h2>
+      <ul>
+        <li>No team colour in any picture; the cosmic colours stay clear of the three teams' colours.</li>
+        <li>The card's mark is the medical cross. Nobody but the player's own character has a face.</li>
+        <li>Panel 5 never shows what she chose.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Next</h2>
+      <ul>
+        <li>Tell me which panels feel right, which go too dark, and what's missing.</li>
+        <li>The role film is 10 seconds with five beats, so the animation can't tell all eight. My suggestion: the opener aboard (8), then 4 → 5 → 7 as the memory, and the title.</li>
+        <li>These are stills drawn for this page. They are not in the game.</li>
+      </ul>
+    </section>
+  </div>
+</div>
