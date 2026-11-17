@@ -37,11 +37,15 @@
 //             centre reaches the control under it (kit 0.8.0)
 //   motion    the sheet slides and the toast drops in (the kit's, 0.8.0), or each fades in 80 ms with Reduce
 //             motion (the game's, or the device's)
+//   words     a phase bar's line changing (the lit Blackout's "Lights out in 0:03", then 0:02; ../phase-bars.mjs,
+//             0.2.10) builds only the bar's left part again: the bar keeps its height, Promises, the round, the
+//             clock and ⋮ keep their elements and places, the focus stays, and no layout is reported
 //   hud       a long press on a capped tab label shows its word large, and only then
 //   dispose   after dispose(), nothing is left and nothing fires
 // With the device's Reduce motion emulated, only the motion check runs (the page's mode says which).
 
 import { mountPhoneShell, TOAST_MS, RECONNECTING, OUT } from '../phone-shell.mjs';
+import { phaseBar } from '../phase-bars.mjs';
 import { createKit } from '../../kit/kit.mjs';
 
 const wait = ms => new Promise(done => setTimeout(done, ms));
@@ -650,6 +654,34 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       hit?.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, clientX: x, clientY: y }));
       s.shell.dispose();
       return { ok: none && over && hit === under && taps === 1, none, over, hit: hit === under ? 'the control' : hit?.className ?? null, taps };
+    });
+
+    await check('words: the lit Blackout\'s line counts down (Lights out in 0:03, 0:02, 0:01) and the lights go out; the bar keeps its height, its right side keeps its elements and places, the focus stays and no layout is reported', async () => {
+      // The bar as phase-bars.mjs gives it at each second of the lit five, then dark: only its words and its clock change.
+      const at = (lightsOutMs, dark = false) => phaseBar({ phase: 'BLACKOUT', dark, lightsOutMs, round: 3, remainingMs: 10000 + lightsOutMs, promises: { count: 1 }, menu: {} });
+      const s = mount({ ...own(), bar: at(3000), tabs: { variant: 'game', view: 'room', hero: { mode: 'pass', enabled: false } } });
+      await frames();
+      const parts = ['.ms-ps-tb', '.ms-ps-promises', '.ms-ps-round', '.ms-ps-timer', '.ms-ps-menu'];
+      const read = () => ({ sub: s.q('.ms-ps-sub')?.textContent ?? null, clock: s.q('.ms-ps-timer')?.lastChild.textContent ?? null, tone: s.q('.ms-ps-tb').dataset.tone ?? null, who: s.q('.ms-ps-who'),
+        nodes: parts.map(p => s.q(p)), boxes: parts.map(p => { const r = s.q(p).getBoundingClientRect(); return [r.left, r.top, r.width, r.height].map(v => Math.round(v * 100) / 100); }),
+        bars: s.shell.layout().bars, focused: document.activeElement === s.q('.ms-ps-promises') });
+      s.q('.ms-ps-promises').focus();
+      const seen = [read()];
+      const layouts = named(s.calls, 'onLayout').length;
+      for (const [ms, dark] of [[2000, false], [1000, false], [0, true]]) {
+        s.shell.update({ bar: at(ms, dark) });
+        await frames();
+        seen.push(read());
+      }
+      const first = seen[0];
+      const steady = seen.every(m => m.nodes.every((n, i) => n === first.nodes[i]) && JSON.stringify(m.boxes) === JSON.stringify(first.boxes) && JSON.stringify(m.bars) === JSON.stringify(first.bars) && m.focused);
+      // The left part is built again for each new line, so a stale line can never stay.
+      const rebuilt = seen.every((m, i) => i === 0 || m.who !== seen[i - 1].who);
+      const reported = named(s.calls, 'onLayout').length - layouts;
+      const detail = { subs: seen.map(m => m.sub), clocks: seen.map(m => m.clock), tones: seen.map(m => m.tone), boxes: first.boxes, bars: first.bars, steady, rebuilt, reported };
+      s.shell.dispose();
+      return { ok: steady && rebuilt && reported === 0 && JSON.stringify(detail.subs) === JSON.stringify(['Lights out in 0:03', 'Lights out in 0:02', 'Lights out in 0:01', 'Dark · positions fixed'])
+        && JSON.stringify(detail.clocks) === JSON.stringify(['0:13', '0:12', '0:11', '0:10']) && JSON.stringify(detail.tones) === JSON.stringify([null, null, null, 'dark']), ...detail };
     });
 
     await check('hud: a long press shows a capped tab\'s word large at 200% text, and nothing at 100%', async () => {
