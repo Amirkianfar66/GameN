@@ -116,6 +116,8 @@ const settle = async node => {
 
 /** A ring's share, rounded to a hundredth; null where the clock has no ring. */
 const ringOf = node => (node ? Math.round(Number(node.style.getPropertyValue('--p')) * 100) / 100 : null);
+/** A part's computed colour, or null when the part is missing. */
+const paint = (node, property) => (node ? node.ownerDocument.defaultView.getComputedStyle(node)[property] : null);
 
 const visible = node => !!node && node.getClientRects().length > 0 && getComputedStyle(node).visibility !== 'hidden';
 function box(frame, node) {
@@ -172,6 +174,9 @@ export async function runPhoneShellAgreement({ size, versions }) {
       ['hero unavailable', pack.querySelector('.hero')?.getAttribute('aria-disabled') === 'true', root.querySelector('.ms-ps-hero')?.getAttribute('aria-disabled') === 'true'],
       ['hero name', pack.querySelector('.hero')?.getAttribute('aria-label'), root.querySelector('.ms-ps-hero')?.getAttribute('aria-label')],
       ['hero word', words(pack.querySelector('.hero b')), words(root.querySelector('.ms-ps-hero-label'))],
+      // The round button's fill and ink (0.2.10): an unavailable Vote is paper with dimmed words, as the pack's cascade draws it.
+      ['hero fill', paint(pack.querySelector('.hero'), 'backgroundColor'), paint(root.querySelector('.ms-ps-hero'), 'backgroundColor')],
+      ['hero ink', paint(pack.querySelector('.hero'), 'color'), paint(root.querySelector('.ms-ps-hero'), 'color')],
       ['switch name', pack.querySelector('.tab[data-tab="switch"]')?.getAttribute('aria-label'), root.querySelector('.ms-ps-tab[data-value="switch"]')?.getAttribute('aria-label')],
       ['promises name', pack.querySelector('.tb-promises')?.getAttribute('aria-label') ?? null, root.querySelector('.ms-ps-promises')?.getAttribute('aria-label') ?? null],
       ['menu name', pack.querySelector('.tb-menu')?.getAttribute('aria-label') ?? null, root.querySelector('.ms-ps-menu')?.getAttribute('aria-label') ?? null],

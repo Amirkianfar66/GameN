@@ -107,6 +107,11 @@ shell.dispose();             // removes the element and its listeners
   - Before, the shell drew whatever words it was given, and only the votes had theirs (#267): every other phase showed the game's own names, such as "Round begins".
   - The shell draws as before, and does not import the words. Nothing of its looks, layout or inputs changed.
   - The preview's `dark`, `stale`, `target-stale` and `poster` states now call the functions. `dark` and its agreement case said "Lights out" at 18 s, which were the preview's own words and longer than the 15 s phase. They now draw the pack's specimen: "Dark · positions fixed" at 8 s, amber.
+- **An unavailable Vote is paper (0.2.10).** The round button's mode rules now follow its unavailable rule, as the pack's cascade has them (`kit.css`: `.hero[data-mode="vote"]` after `.hero[aria-disabled="true"]`). So an unavailable Vote, the 5 s result's (sheet 38), is paper with dimmed words, as the pack draws it. Before, it was steel.
+  - The shell connection (#307) found it in the real app. The agreement compared the round button's mode and state, not its colours.
+  - It now compares the round button's fill and its words' colour in every case, and `phase-result` holds the unavailable Vote.
+  - Pass, unavailable, stays steel, as the pack draws it.
+- **⋮ on a shared display (0.2.10, the handoff only).** A display keeps ⋮: Settings is the one sheet a display opens, with its preferences and, when it hosts, the host's controls. The handoff said a display uses the bar "without Promises or ⋮ today", which would have left a hosting display without its controls in a match. The shell drew ⋮ whenever it was given, so nothing in it changes.
 - **The target bar below a banner, and at the Largest text (0.2.9).** Two findings from the Gameplay builder's Move test page.
   - **Below a banner.** While a banner shows, the target bar stays 8 px below it, as a docked sheet does (0.2.0).
     - Before, the two sat at the same place with the banner over the bar, so Retry lay over the bar's Cancel.
@@ -327,7 +332,7 @@ Listed, not omitted:
 | The sheets' contents: the Actions tiles, Card, Panels, Promises, Settings and the ballot | Their components, next |
 | The private-talk capsule in the stage | Its component, next |
 | The board in the stage, and its "List" | Its component, next |
-| A shared display's own top bar | Its sheet; a display uses the bar without Promises or ⋮ today |
+| A shared display's own top bar | Its sheet. Today a display uses the player's bar without Promises; its ⋮ opens Settings |
 | A window for "The ship moved" | The projection, which opens the next round in the same step as the move. `movedBar()` holds the words; when it shows is Frontend's |
 
 ## Checks run on this version
