@@ -94,9 +94,25 @@ The owner's messages are quoted as written.
 
 **The human test:** the Lead recommends that it ships on today's rooms, so nothing in it waits for the redesign; the owner has not answered yet. The game mounts the room scene component, so the new rooms can come later inside it with no change to the game.
 
+**The owner's answers, the same day,** to the Lead's two questions (Room B's rear wall, and which image tool):
+
+> Keep the window as we have animated integrated space sky for all game  move the atom screen to the right wall. my image tool can be 1 agent session here it on Codex,
+
+and, correcting how the Lead first read the second half:
+
+> sorry i did not say codex agent to be image creator , I said it can be session here for images or an agent in codex , as you suggest
+
+- **Room B keeps its exterior window,** with the shared animated sky every window shows. The owner's own picture had put an instrument screen there. The atom display goes on the small screen on the right wall, as #309's B03 has it.
+- **Who makes the pictures:** a session in the Designer team, or an agent in Codex, as the Lead suggests. It is not decided until the owner answers the Lead's suggestion.
+- **The terms, for OpenAI's image model.** A Codex agent would use it, and the Lead suggests it for a session here too. The Lead checked [OpenAI's Terms of Use](https://openai.com/policies/row-terms-of-use/):
+  - the user owns the output, and OpenAI assigns to the user any rights it has in it;
+  - AI output must not be presented as made by a person, so each plate's record says it was generated, with its tool, its prompt and its date.
+
+  Whether purely generated pictures can be protected by copyright is a separate question, which these terms don't settle.
+
 **What it leaves open:**
-- Which image tool the owner uses, and its terms.
-- Each room's composition and camera. Room A is the pilot, for the owner to see first.
+- Who makes the pictures (above).
+- Each room's composition and camera. Room B is the first slice (#309), for the owner to see first.
 
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
