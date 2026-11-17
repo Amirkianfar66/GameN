@@ -80,10 +80,10 @@ function eye(cv, eyeSpec, [lx, ly]) {
   cv.raw(out + eyeSpec.lashes.map(pathTag).join(''));
 }
 
-function lids(cv, closed) {
+function lids(cv, closed, id = FACE_CHARACTER) {
   if (closed <= 0.001) return;
-  const head = HEADS[FACE_CHARACTER];
-  lidPaths(FACE_CHARACTER, closed).forEach(({ lid, lash }, i) => {
+  const head = HEADS[id];
+  lidPaths(id, closed).forEach(({ lid, lash }, i) => {
     const [cx, cy, rx, ry] = head.eyes[i];
     const clip = cv.uid('lid');
     cv.def(`<clipPath id="${clip}"><ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}"/></clipPath>`);
@@ -140,3 +140,18 @@ export function actingHead(cv, face = {}) {
 
 /** A stable key for a face: the same face is drawn once. */
 export const faceKey = face => [face.look ?? 'ahead', (face.lids ?? 0).toFixed(2), face.brow ?? 'rest', face.mouth ?? 'closed', (face.sway ?? 0).toFixed(1), (face.lift ?? 0).toFixed(1)].join('|');
+
+// ── The face in pieces: each its own small picture, laid over the head's traced art as the film plays ──
+
+/** The eyes: the look (pupils drawn again) and the lids. For a character without face drawings, the lids alone. */
+export function eyesPiece(cv, { look = 'ahead', lids: closed = 0 } = {}, id = FACE_CHARACTER) {
+  if (id === FACE_CHARACTER && look !== 'ahead') {
+    const at = Array.isArray(look) ? look : LOOKS[look];
+    eye(cv, MIRA.far, at); eye(cv, MIRA.near, at);
+  }
+  lids(cv, closed, id);
+}
+export const browPiece = (cv, name) => brow(cv, name);
+export const mouthPiece = (cv, name) => mouth(cv, name);
+/** Each piece's box in the head's frame. */
+export const PIECE_BOX = Object.freeze({ eyes: [-14, -10, 28, 15], brow: [-5, -17, 20, 12], mouth: [-11, 5, 11, 9] });

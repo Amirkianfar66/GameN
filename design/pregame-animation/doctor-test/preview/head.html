@@ -1,0 +1,46 @@
+<title>Doctor Film Animation Test</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* Layout: a screening room. Two phones on one clock, the controls under them, the notes below. One dark look by choice. */
+:root {
+  --bg: #0B0E15; --panel: #131925; --line: #283247; --fg: #E8E2D4; --muted: #9AA3B6; --lamp: #FFC66E;
+  --display: "Archivo Narrow", "Arial Narrow", system-ui, sans-serif; --body: "IBM Plex Sans", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); font: 15px/1.55 var(--body); }
+.wrap { max-width: 1040px; margin: 0 auto; padding-block: 24px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 24px; }
+h1, h2 { font-family: var(--display); font-weight: 700; letter-spacing: 0.01em; text-wrap: balance; margin: 0; }
+h1 { font-size: 30px; line-height: 1.15; }
+h2 { font-size: 19px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--lamp); }
+p { margin: 0; max-width: 68ch; }
+.lede { color: var(--muted); }
+.rough { display: inline-block; font: 500 12px var(--mono); text-transform: uppercase; letter-spacing: 0.08em; border: 1px solid var(--lamp); color: var(--lamp); padding: 2px 8px; border-radius: 3px; margin-bottom: 10px; }
+#stages { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+figure { margin: 0; display: grid; gap: 8px; justify-items: center; }
+figcaption { font: 500 13px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.phone { position: relative; overflow: hidden; border-radius: 22px; outline: 1px solid var(--line); background: #000; }
+.screen { position: absolute; left: 0; top: 0; transform-origin: 0 0; overflow: hidden; }
+.screen svg { display: block; }
+.cap { position: absolute; background: #F1E6D2; color: #0B0E15; font: 700 13px/1.25 var(--display); padding: 5px 8px; border: 2px solid #0B0E15; text-transform: uppercase; }
+.bar { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; justify-content: center; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.group { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.group > span { font: 12px var(--mono); color: var(--muted); margin-right: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+button { font: 500 14px var(--body); color: var(--fg); background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 6px 12px; cursor: pointer; }
+button[aria-pressed="true"], button.primary { background: var(--lamp); color: #0B0E15; border-color: var(--lamp); }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--lamp); outline-offset: 2px; }
+#scrub { width: min(420px, 100%); accent-color: var(--lamp); }
+.readout { font: 13px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+#fps { color: var(--lamp); }
+#status { font: 13px var(--mono); color: var(--muted); text-align: center; }
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.notes section { display: grid; gap: 10px; align-content: start; min-width: 0; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; vertical-align: top; padding: 6px 8px 6px 0; border-bottom: 1px solid var(--line); }
+th { font: 500 12px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tablebox { overflow-x: auto; }
+ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+</style>

@@ -1,0 +1,77 @@
+[
+ {
+  "size": "390x844",
+  "dpr": 2,
+  "cpu": 1,
+  "status": "Ready. First frame after 1970 ms; all 84 pictures after 10126 ms; 107.9 MB of pictures held, on this device.",
+  "mb": 107.9,
+  "novel": {
+   "fps": 59.9,
+   "over34": 0,
+   "frames": 189,
+   "paintMs": 0.46
+  },
+  "today": {
+   "fps": 20,
+   "over34": 63,
+   "frames": 74
+  }
+ },
+ {
+  "size": "390x844",
+  "dpr": 2,
+  "cpu": 4,
+  "status": "Ready. First frame after 9809 ms; all 84 pictures after 48844 ms; 107.9 MB of pictures held, on this device.",
+  "mb": 107.9,
+  "novel": {
+   "fps": 10,
+   "over34": 38,
+   "frames": 38,
+   "paintMs": 3.31
+  },
+  "today": {
+   "fps": 5,
+   "over34": 21,
+   "frames": 21
+  }
+ },
+ {
+  "size": "430x932",
+  "dpr": 2,
+  "cpu": 1,
+  "status": "Ready. First frame after 2404 ms; all 84 pictures after 12065 ms; 131.9 MB of pictures held, on this device.",
+  "mb": 131.9,
+  "novel": {
+   "fps": 30,
+   "over34": 2,
+   "frames": 158,
+   "paintMs": 13.99
+  },
+  "today": {
+   "fps": 20,
+   "over34": 57,
+   "frames": 89
+  }
+ },
+ {
+  "size": "430x932",
+  "dpr": 2,
+  "cpu": 4,
+  "status": "Ready. First frame after 11822 ms; all 84 pictures after 56603 ms; 131.9 MB of pictures held, on this device.",
+  "mb": 131.9
+ },
+ {
+  "size": "390x844",
+  "dpr": 3,
+  "cpu": 1,
+  "status": "Ready. First frame after 4546 ms; all 84 pictures after 20536 ms; 228.2 MB of pictures held, on this device.",
+  "mb": 228.2
+ },
+ {
+  "size": "430x932",
+  "dpr": 3,
+  "cpu": 1,
+  "status": "Ready. First frame after 5592 ms; all 84 pictures after 24289 ms; 272.8 MB of pictures held, on this device.",
+  "mb": 272.8
+ }
+]

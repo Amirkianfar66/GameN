@@ -115,7 +115,7 @@ const FACE_A = {
 
 const CHART = { item: 'clipboard', itemAt: [2, -14], itemAngle: -14 };
 const reading = over => ({
-  ...STAND, view: 'front', order: ['armF', 'legF', 'legN', 'neck', 'torso', 'armN', 'head'],
+  ...STAND, view: 'front', order: ['legF', 'legN', 'neck', 'torso', 'armF', 'armN', 'head'],
   sF: [39, 75], eF: [30, 104], wF: [38, 112], handF: { angle: -70, ...CHART },
   sN: [84, 73], eN: [90, 102], wN: [64, 100], handN: { angle: 196 },
   ...over,

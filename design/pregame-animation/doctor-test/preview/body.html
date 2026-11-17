@@ -1,0 +1,87 @@
+<div class="wrap">
+  <header>
+    <span class="rough">Test page · not in the game</span>
+    <h1>The Doctor's film, 0–4 s, as character animation in a new world</h1>
+    <p class="lede">Mira takes the injector from the bench and raises it to her face. Its glint opens into orbital rings, and the memory of Colony Nine folds out of them: she looks up from a chart under a swinging lamp. The same crew, redrawn in a hand-inked graphic-novel finish, in a world of layered machinery. Today's approved film plays beside it on the same clock.</p>
+  </header>
+
+  <div id="stages">
+    <figure><div class="phone"><div class="screen" id="today"></div></div><figcaption>Today's film</figcaption></figure>
+    <figure><div class="phone"><div class="screen" id="mine"></div></div><figcaption id="minecap">New world</figcaption></figure>
+  </div>
+
+  <div class="bar" role="group" aria-label="Playback">
+    <div class="group"><button id="play" class="primary">Play</button><button id="replay">Replay</button></div>
+    <div class="group"><input id="scrub" type="range" min="0" max="4000" step="1" value="0" aria-label="Time"><span class="readout" id="clock">0.00 s</span></div>
+    <div class="group"><span>Speed</span><button data-speed="1" aria-pressed="true">1×</button><button data-speed="0.25" aria-pressed="false">¼×</button><button data-speed="0.1" aria-pressed="false">⅒×</button></div>
+    <div class="group"><span>Phone</span><button data-size="390x844" aria-pressed="true">390 × 844</button><button data-size="430x932" aria-pressed="false">430 × 932</button></div>
+    <div class="group"><span>Look</span><button data-world="novel" aria-pressed="true">New world</button><button data-world="today" aria-pressed="false">Rough pass</button></div>
+    <div class="group"><span>Crew</span><button data-char="c8" aria-pressed="true">Mira</button><button data-char="c4" aria-pressed="false">Atlas</button></div>
+    <div class="group"><span>Show</span><button data-show="both" aria-pressed="true">Both</button><button data-show="mine" aria-pressed="false">Animation</button><button data-show="today" aria-pressed="false">Today</button></div>
+    <div class="group"><label><input type="checkbox" id="reduce"> Reduce motion</label></div>
+    <div class="group"><span class="readout" id="fps">– fps</span></div>
+  </div>
+  <p id="status">Drawing the pictures…</p>
+
+  <div class="notes">
+    <section>
+      <h2>The new world</h2>
+      <ul>
+        <li><strong>The crew, redefined:</strong> the same faces, hair and suits, drawn again in a heavier ink. A swelling silhouette line, hatching where the light falls away, worn cloth, and gear that has seen use: a harness with a work-light, a belt pouch, repair tape on the forearm.</li>
+        <li><strong>The briefing room</strong> is a ready room on the dock's service deck. Bolted bulkhead plates, pipes with a valve and a gauge, a rag tied round a leaking joint, sagging cables, a ribbed duct with a turning fan, a wall terminal and a workbench of tools. Its light is cold steel, with two warm accents: the desk lamp on her hand and face, and the terminal's cyan.</li>
+        <li><strong>Through the port</strong> is the cosmic view: a ringed giant, a swirling nebula in teal, magenta and gold, orbits with moons running on them, the docked ship's lights, and a tug crossing.</li>
+        <li><strong>Colony Nine</strong> is rust and ochre. A patched prefab ward, a dripping pipe, a fan, the dust storm wheeling in the porthole, a monitor's green trace, and the lamp swinging its light across the cots.</li>
+        <li><strong>The cut at 3,000 ms</strong> is a cosmic event. Orbital rings open from the glint and rush outward, changing scale. Light swirls, and it all folds back into the ward's lamp.</li>
+      </ul>
+      <h2>The acting</h2>
+      <ul>
+        <li>0–4,000 ms: the only stretch where the character acts at a readable size.</li>
+        <li>Key poses and breakdowns are posed on the approved rig. The in-betweens follow a timing chart, on twos (a new drawing every 1/12 s). The camera, light, smoke and machinery move on every screen frame.</li>
+        <li>The actions: a breath and a sink back before the reach, a stretch on the reach, a settle on the grip, an arc on the lift and an overshoot at the face. The hair follows through. The eyes lead the head. A slow blink marks the decision.</li>
+        <li>No words on screen and no sound. Reduce motion shows two held pictures, each faded in gently.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>New drawings</h2>
+      <div class="tablebox"><table>
+        <thead><tr><th>Part</th><th>Drawings</th></tr></thead>
+        <tbody>
+          <tr><td>Face</td><td>Brows: lifted, knit, soft. Mouths: parted, pressed, breath. Pupils for five looks.</td></tr>
+          <tr><td>Hands</td><td>Open and reaching; closing</td></tr>
+          <tr><td>Gear</td><td>Harness with buckle and work-light, belt pouch, forearm repair tape</td></tr>
+          <tr><td>Finish</td><td>Silhouette line, shadow hatching, cloth wear on every drawing of the crew</td></tr>
+          <tr><td>Body</td><td>12 key poses in the room and 5 in the ward, on the rig</td></tr>
+          <tr><td>Places</td><td>The ready room in 5 depth planes and the ward in 2, plus 14 moving parts</td></tr>
+        </tbody>
+      </table></div>
+      <p class="lede">The face drawings are Mira's. Atlas uses the rig's head with blinks, to show the body acting on a heavier build.</p>
+      <h2>What a neighbour could see</h2>
+      <div class="tablebox"><table>
+        <thead><tr><th>ms</th><th>Visible</th></tr></thead>
+        <tbody>
+          <tr><td class="n">0–2,650</td><td>The room, the card with the medical cross, the injector and the player's own character, as today. The terminal shows only traces, bars and lights: no words or numbers.</td></tr>
+          <tr><td class="n">2,650–3,300</td><td>Rings and swirling light, the same for every role.</td></tr>
+          <tr><td class="n">3,000–4,000</td><td>The ward, cots with no faces, and the player's own character with a chart. Today's narration words are not shown.</td></tr>
+        </tbody>
+      </table></div>
+      <p class="lede">The cosmic colours are teal, magenta, gold and indigo, chosen to stay at least 30 (CIE76) from the three team colours. Violet was left out because it sits near the Alien's purple.</p>
+    </section>
+    <section>
+      <h2>Cost</h2>
+      <div class="tablebox" id="cost"><table>
+        <thead><tr><th>New world</th><th>390 × 844</th><th>430 × 932</th></tr></thead>
+        <tbody>
+          <tr><td>Frames a second, desktop speed</td><td class="n">59.9</td><td class="n">30.0</td></tr>
+          <tr><td>Frames a second, CPU slowed 4×</td><td class="n">10.0</td><td class="n">not run</td></tr>
+          <tr><td>Today's film, desktop / slowed 4×</td><td class="n">20.0 / 5.0</td><td class="n">20.0 / –</td></tr>
+          <tr><td>First frame after (desktop / 4×)</td><td class="n">2.0 s / 9.8 s</td><td class="n">2.4 s / 11.8 s</td></tr>
+          <tr><td>All 84 pictures drawn after (desktop / 4×)</td><td class="n">10.1 s / 48.8 s</td><td class="n">12.1 s / 56.6 s</td></tr>
+          <tr><td>Memory, 2 px a point</td><td class="n">107.9 MB</td><td class="n">131.9 MB</td></tr>
+          <tr><td>Memory, 3 px a point</td><td class="n">228.2 MB</td><td class="n">272.8 MB</td></tr>
+        </tbody>
+      </table></div>
+      <p class="lede">Against the boarding pilot's 112 MB budget, only 390 × 844 at 2 px a point fits. Drawing all the pictures takes 10 s on this desktop and 49 s slowed 4×, so it would not finish within the card's 20 s of reading. 62 MB of the memory is the 40 body drawings. Holding the still stretches on fours, drawing the bodies at 2 px a point on 3× phones, and dropping each shot's drawings once it has passed would cut it. Those changes are not made yet.</p>
+      <p class="lede">Desktop Chromium, headless, drawing in software, by the boarding pilot's method. The slowdown is Chromium's CPU throttle, a rough stand-in for a slower phone. <strong>No phone was measured.</strong> The status line above shows this device's own numbers.</p>
+    </section>
+  </div>
+</div>
