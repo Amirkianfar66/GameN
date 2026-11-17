@@ -426,7 +426,12 @@ Listed, not omitted:
     - In each case 10 to 20 parts sit in the same place, with the same words and states.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
   - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
-    - Recorded on `f0c24a26`, with kit 0.8.2 and shell 0.2.11, and the source clean. Against `1f5ad81b`'s record (kit 0.8.1):
+    - Recorded on `ad5a0159`, with kit 0.8.2 and shell 0.2.12, and the source clean. Against `f0c24a26`'s record (shell 0.2.11):
+      - No bar, tab, sheet or overlay moved. The target bar with Cancel (`target`, `target-stale`, `target-large`) draws as before: Cancel is now added after the bar's words rather than with them, in the same place.
+      - A final bar shows only on a live phone, which the probe's new check measures.
+      - 18 captures are unchanged byte for byte, and 11 with no pixel more than 32 of 255 apart.
+      - 35 differ in at most 1,428 pixels, all inside the room's picture (the figures' idle motion), between 310 and 558 px from the top.
+    - Before: `f0c24a26`, with kit 0.8.2 and shell 0.2.11, and the source clean. Against `1f5ad81b`'s record (kit 0.8.1):
       - No bar, tab, sheet or overlay moved.
       - At the Standard text the toast is unchanged: the `closed` captures, which show it, differ only inside the room's picture.
       - What 0.8.2 changes shows at the Large and Largest text, which the probe's new check measures.
