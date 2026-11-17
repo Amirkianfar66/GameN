@@ -276,7 +276,7 @@ test('a Blackout window holds one frame, lit and dark, through any resize, until
 
 test('0.4.0: stand-ins and the recoil are plain inputs, checked on the way in', async () => {
   const { nextRoomSceneInput, ROOM_SCENE_DEFAULTS, ROOM_SCENE_VERSION } = await import('../../../design/phone-ui/components/room-scene/room-scene.mjs');
-  assert.equal(ROOM_SCENE_VERSION, 'room-scene-0.5.0');
+  assert.equal(ROOM_SCENE_VERSION, 'room-scene-0.5.1');
   assert.deepEqual([ROOM_SCENE_DEFAULTS.standIns, ROOM_SCENE_DEFAULTS.brace], [[], null]);
   const next = nextRoomSceneInput(ROOM_SCENE_DEFAULTS, { standIns: ['seat-4', 6], brace: { seat: 'seat-4', dx: 6, dy: -3, extra: true } });
   assert.deepEqual(next.standIns, ['seat-4', 6]);
@@ -320,7 +320,7 @@ test('0.5.0: the tags\' layout is pure, the board\'s by default, and apart, insi
   }
 });
 
-test('the offers and the room\'s control are this viewer\'s: dropped when concealed or when the viewer changes', async () => {
+test('the offers and the room\'s control are this viewer\'s: dropped when concealed or when the viewer changes; concealed drops the people too (0.5.1)', async () => {
   const { nextRoomSceneInput, ROOM_SCENE_DEFAULTS } = await import('../../../design/phone-ui/components/room-scene/room-scene.mjs');
   const targets = { seats: [3, 6], picked: [6] }, control = { id: 'windows', label: 'Windows · 2', icon: 'window' };
   const shown = nextRoomSceneInput(ROOM_SCENE_DEFAULTS, { room: 'room-b', self: 4, targets, control });
@@ -342,6 +342,62 @@ test('the offers and the room\'s control are this viewer\'s: dropped when concea
   const own = { seats: [2], picked: [] };
   assert.deepEqual(nextRoomSceneInput(shown, { self: 5, targets: own }).targets, own);
   assert.throws(() => nextRoomSceneInput(shown, { hold: 3 }), /hold is a Blackout window's id, true, or null/);
+  // 0.5.1: concealed keeps nothing this viewer was shown, and a wake that gives the status alone brings none of it
+  // back (#309's finding 2): the people, who is "you", whose turn it is, the films' stand-ins and recoil.
+  const people = [{ seat: 4, slot: 'B2', character: 'c4', name: 'Ava', health: 'Healthy' }, { seat: 6, slot: 'B3', character: 'c6', name: 'Gus', health: 'Injured' }];
+  const full = nextRoomSceneInput(ROOM_SCENE_DEFAULTS, { room: 'room-b', self: 4, active: 6, people, standIns: ['seat-6'], brace: { seat: 'seat-4', dx: 4, dy: 0 }, targets, control });
+  const hidden = nextRoomSceneInput(full, { status: 'concealed' });
+  assert.deepEqual([hidden.people, hidden.self, hidden.active, hidden.standIns, hidden.brace, hidden.targets, hidden.control], [[], null, null, [], null, null, null]);
+  const woke = nextRoomSceneInput(hidden, { status: 'live' });
+  assert.deepEqual([woke.people, woke.self, woke.active, woke.standIns, woke.brace], [[], null, null, [], null], 'a status-only wake shows the room empty');
+  assert.deepEqual(nextRoomSceneInput(hidden, { people, self: 4 }).people, [], 'given while concealed, dropped');
+  const fresh = nextRoomSceneInput(woke, { people, self: 4, active: 6 });
+  assert.deepEqual([fresh.people.length, fresh.self, fresh.active], [2, 4, 6], 'a fresh input brings them back');
+});
+
+test('0.5.1: a Blackout window\'s held frame survives a remount (Board → Room), coordinates only; concealed keeps the frame', async () => {
+  const { roomSceneFrame, roomScenePlaces, nextRoomSceneInput, ROOM_SCENE_DEFAULTS } = await import('../../../design/phone-ui/components/room-scene/room-scene.mjs');
+  const room = 'room-b', slots = slotsOf(room, 9);
+  const people = slots.slice(0, 3).map((slot, i) => ({ seat: i + 1, slot: slot.id, character: `c${i + 1}`, name: `P${i + 1}`, health: 'Healthy' }));
+  const small = { width: 390, height: 653 }, large = { width: 430, height: 741 };
+  const at = (size, more = {}) => ({ room, roster: 9, size, insets: { top: 46, bottom: 8 }, people, lighting: 'lit', hold: null, status: 'live', heldFrame: null, ...more });
+  const places = (state, frame) => squares(roomScenePlaces(state, frame));
+  // What hold() gives (the mounted scene's method; the probe checks it in the browser): the frame's geometry alone.
+  const holdOf = frame => ({ context: frame.context, window: frame.window ?? null, k: frame.k, tx: frame.tx, ty: frame.ty, zoom: frame.zoom,
+    panel: { width: frame.panel.width, height: frame.panel.height, cap: frame.panel.cap, pad: frame.panel.pad }, cold: !!frame.cold });
+  // The lit preview of window blackout-3, then dark: the frame this scene holds.
+  const lit = roomSceneFrame(at(small, { hold: 'blackout-3' }));
+  const dark = roomSceneFrame(at(small, { hold: 'blackout-3', lighting: 'dark', people: [] }), lit);
+  assert.equal(dark.held, true);
+  const held = holdOf(dark);
+  assert.deepEqual(Object.keys(held).sort(), ['cold', 'context', 'k', 'panel', 'tx', 'ty', 'window', 'zoom']);
+  assert.ok(!JSON.stringify(held).includes('P1') && !('people' in held), 'no person rides along');
+  // The Board, then Room again in the same dark window, in another size: a new scene given the held frame keeps
+  // every press square; without it, the dark room with nobody given frames every place (the cold fallback).
+  const back = roomSceneFrame(at(large, { hold: 'blackout-3', lighting: 'dark', people: [], heldFrame: held }));
+  assert.equal(back.held, true);
+  assert.deepEqual(places(at(large), back), places(at(small), lit));
+  const cold = roomSceneFrame(at(large, { hold: 'blackout-3', lighting: 'dark', people: [] }));
+  assert.equal(cold.cold, true);
+  assert.notDeepEqual(places(at(large), cold), places(at(small), lit));
+  // The hold handed over is used only within its window, room and roster: otherwise the scene frames afresh.
+  assert.equal(roomSceneFrame(at(large, { hold: 'blackout-4', lighting: 'dark', people: [], heldFrame: held })).held, false, 'another window');
+  assert.equal(roomSceneFrame(at(large, { heldFrame: held })).held, false, 'the window over, the lights on');
+  assert.equal(roomSceneFrame({ ...at(large, { hold: 'blackout-3', lighting: 'dark', people: [], heldFrame: held }), room: 'room-a' }).held, false, 'another room');
+  assert.equal(roomSceneFrame(at(large, { roster: 8, hold: 'blackout-3', lighting: 'dark', people: [], heldFrame: held })).held, false, 'another roster');
+  // The input takes only that shape: anything else (a person, a seat, a missing number) is refused.
+  assert.deepEqual(nextRoomSceneInput(ROOM_SCENE_DEFAULTS, { heldFrame: held }).heldFrame, held);
+  for (const bad of [{ ...held, people }, { ...held, seat: 4 }, { ...held, k: Number.NaN }, { ...held, panel: { width: 390 } }, { ...held, window: 3 }, { ...held, cold: 'no' }, 'blackout-3']) {
+    assert.throws(() => nextRoomSceneInput(ROOM_SCENE_DEFAULTS, { heldFrame: bad }), /heldFrame is what hold\(\) gives/, JSON.stringify(bad));
+  }
+  // Concealed, the room keeps the frame it had, though its people are gone from the input; mounted concealed with
+  // nothing framed, every place is framed.
+  const shown = roomSceneFrame(at(small));
+  const concealed = roomSceneFrame(at(large, { status: 'concealed', people: [] }), shown);
+  assert.deepEqual(places(at(small), concealed), places(at(small), shown));
+  const blind = roomSceneFrame(at(small, { status: 'concealed', people: [] }));
+  const every = roomSceneFrame(at(small, { lighting: 'dark', people: [] }));
+  assert.deepEqual([blind.k, blind.tx, blind.ty], [every.k, every.tx, every.ty], 'every place, as the dark room opened with nobody given');
 });
 
 test('inputs: unknown rooms, rosters, lights and states are refused; seat numbers read from seat ids', async () => {
@@ -398,7 +454,7 @@ test('the check\'s record: every capture passed under the production headers, at
     for (const c of run.checks) assert.ok(c.ok, `probe ${mode}: ${c.id}`);
   }
   const groups = probe.full.checks.map(c => c.id.split(':')[0]);
-  for (const [group, count] of Object.entries({ held: 2, private: 6, time: 11, focus: 3, films: 3, tags: 3 })) {
+  for (const [group, count] of Object.entries({ held: 3, private: 7, time: 11, focus: 3, films: 3, tags: 3 })) {
     assert.equal(groups.filter(g => g === group).length, count, `probe: the ${group} checks`);
   }
   assert.deepEqual(probe['device-reduced'].checks.map(c => c.id.split(':')[0]), ['device-reduced']);
