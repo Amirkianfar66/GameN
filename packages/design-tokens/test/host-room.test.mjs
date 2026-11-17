@@ -136,7 +136,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   assert.ok(record.sourceClean, 'recorded against a clean source');
   assert.match(record.headers.find(h => h.key === 'Content-Security-Policy')?.value ?? '', /default-src 'none'/);
   const captures = Object.entries(record.captures);
-  assert.equal(captures.length, 22, 'eleven states at two sizes');
+  assert.equal(captures.length, 26, 'thirteen states at two sizes');
   for (const [key, c] of captures) {
     assert.ok(c.ok && c.drawn, `${key} passed and drew what its state asks`);
     assert.deepEqual(c.problems, [], `${key}: no page error or failed request`);
