@@ -7,7 +7,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  CODE_MASK, HOST_CONTROLS_DEFAULTS, HOST_CONTROLS_VERSION, HOST_SHEET_ID, HOST_WORDS, hostControlsSheet, nextHostControlsInput,
+  CODE_GROUP, CODE_MASK, HOST_CONTROLS_DEFAULTS, HOST_CONTROLS_VERSION, HOST_SHEET_ID, HOST_WORDS, codeGroups, hostControlsSheet, maskGroups, matchIdGroups, nextHostControlsInput,
 } from '../../../design/phone-ui/components/host-controls/host-controls.mjs';
 
 const REPO = resolve(fileURLToPath(new URL('../../../', import.meta.url)));
@@ -95,7 +95,7 @@ test('its words are the pack\'s (sheet 15)', () => {
   assert.ok(read('design/phone-ui/prototype/ui.mjs').includes(`toast = (text, icon = 'check')`) && more.includes(`toast('${HOST_WORDS.copied}')`), 'the pack\'s "Copied" toast, with the check');
   assert.equal(HOST_WORDS.seat(3, 'Cleo'), '3 · Cleo');
   assert.equal(HOST_WORDS.terms(1), 'Works once · 1 minute');
-  assert.equal(HOST_CONTROLS_VERSION, 'host-controls-0.1.1');
+  assert.equal(HOST_CONTROLS_VERSION, 'host-controls-0.1.2');
 });
 
 test('its inputs are checked, and refused with a reason', () => {
@@ -163,14 +163,23 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   assert.match(csp, /default-src 'none'/);
   assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
   const captures = Object.entries(record.captures);
-  assert.equal(captures.length, 22, 'sheet 15\'s four states and the copy, a command in flight and refused, the abort in flight, Retry (0.1.1), reconnecting and the Largest text, at two sizes');
+  assert.equal(captures.length, 26, 'sheet 15\'s four states and the copy, a command in flight and refused, the abort in flight, Retry (0.1.1), reconnecting, the Largest text, and the server\'s formats at both text sizes (0.1.2), at two sizes');
   for (const [key, c] of captures) {
     assert.ok(c.ok && c.drawn, `${key} passed and drew what its state asks`);
     assert.deepEqual(c.problems, [], `${key}: no page error or failed request`);
     assert.ok(c.violations.every(v => v.kind.startsWith('known:')), `${key}: no unexpected policy report`);
     assert.ok(existsSync(join(REPO, c.file)), `${key}: ${c.file}`);
     assert.deepEqual(c.cut, [], `${key}: every word whole`);
-    assert.equal(c.codeInPage, /\/(?:revealed|largest)$/.test(key), `${key}: the code in the page only while revealed`);
+    assert.equal(c.codeInPage, /\/(?:revealed|largest|real|real-largest)$/.test(key), `${key}: the code in the page only while revealed`);
+    // 0.1.2: on the code's card, the code and the Match ID wrap only between their groups, and nothing runs past the card.
+    if (c.wrap.code) for (const line of [c.wrap.code, c.wrap.matchId]) assert.ok(line.split.length === 0 && !line.overflow && line.lines >= 1, `${key}: ${line.groups.join('|')} wraps only between groups`);
+  }
+  // The Lead's case (17 November): at 390 × 844 the hidden code wraps at a space, its last group whole; the server's code and UUID keep every group whole.
+  const hidden = record.captures['390x844/code'].wrap.code;
+  assert.deepEqual(hidden.groups, maskGroups());
+  for (const key of ['390x844/real', '430x932/real', '390x844/real-largest', '430x932/real-largest']) {
+    assert.deepEqual(record.captures[key].wrap.code.groups, codeGroups(record.captures[key].codeText), `${key}: the code in its groups of ${CODE_GROUP}`);
+    assert.equal(record.captures[key].wrap.matchId.groups.length, 5, `${key}: the UUID in its five groups`);
   }
   for (const size of ['390x844', '430x932']) assert.ok(record.captures[`${size}/abort`].abortWarn, `${size}: Abort match is the warn button`);
   assert.deepEqual(Object.keys(record.probe).sort(), ['device-reduced', 'full']);
@@ -179,7 +188,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
   }
   const ids = record.probe.full.checks.map(c => c.id);
-  for (const group of ['report', 'command', 'reconnect', 'privacy', 'minutes', 'focus', 'words', 'layout', 'dispose', 'motion']) assert.ok(ids.some(id => id.startsWith(`${group}:`)), `probe group ${group}`);
+  for (const group of ['report', 'command', 'reconnect', 'privacy', 'wrap', 'minutes', 'focus', 'words', 'layout', 'dispose', 'motion']) assert.ok(ids.some(id => id.startsWith(`${group}:`)), `probe group ${group}`);
   // The Lead's privacy checks (#295, answer 4, and the reconnecting Hide), each its own.
   for (const pattern of [/only while revealed/, /revealed, then reconnecting: Hide is still taken/, /never in an attribute, a report or the layout/, /when the viewer changes/, /while concealed/]) assert.ok(ids.some(id => pattern.test(id)), `probe: ${pattern}`);
   const agree = record.agree;
@@ -205,4 +214,25 @@ test('Retry (0.1.1): null unless Frontend gives it; in the list\'s footer only, 
   assert.ok(!('local' in hostControlsSheet({ retry: {} }).actions[0]), 'it stands for the session\'s request: refused while reconnecting');
   assert.deepEqual(hostControlsSheet({ view: 'abort', retry: {} }).actions.map(a => a.id), ['keep', 'abort'], 'the confirm\'s footer is unchanged');
   assert.deepEqual(hostControlsSheet({ view: 'code', retry: {}, code: { seat: 4, name: 'Dev', matchId: 'm', revealed: false } }).actions.map(a => a.id), ['reveal', 'copy']);
+});
+
+test('wrap (0.1.2): the code and the Match ID are drawn in groups, and nothing is added to their text', () => {
+  assert.equal(CODE_GROUP, 6);
+  assert.deepEqual(maskGroups(), ['••••••', '••••••', '••••••', '••••••', '••••••'], 'the mask\'s own groups, between its spaces');
+  assert.equal(maskGroups().join(' '), CODE_MASK);
+  // The server's code: randomBytes(24) in base64url, 32 characters; a hyphen or an underscore is a character, not a group's end.
+  const code = 'Zq3x_9Lk-T2vWm8RbYc4N7hJ-pQs0FdE';
+  assert.equal(code.length, 32);
+  assert.deepEqual(codeGroups(code), ['Zq3x_9', 'Lk-T2v', 'Wm8RbY', 'c4N7hJ', '-pQs0F', 'dE']);
+  for (const value of [code, 'q7Hc2-Lm9xT-4ZpWd-8rVnK-2bYs6-Jt', 'SYNTHETIC-RECOVERY-CODE', 'abc', 'abcdef', 'abcdefg']) {
+    const groups = codeGroups(value);
+    assert.equal(groups.join(''), value, `${value}: nothing added or lost`);
+    assert.ok(groups.every(g => g.length >= 1 && g.length <= CODE_GROUP));
+  }
+  assert.deepEqual(codeGroups('q7Hc2-Lm9xT-4ZpWd-8rVnK-2bYs6-Jt'), ['q7Hc2-', 'Lm9xT-', '4ZpWd-', '8rVnK-', '2bYs6-', 'Jt'], 'the pack\'s sample keeps its own groups');
+  // The server's Match ID, a UUID: it wraps after a hyphen, each group whole.
+  assert.deepEqual(matchIdGroups('3f2a1b4c-9d8e-4f7a-b6c5-1234567890ab'), ['3f2a1b4c-', '9d8e-', '4f7a-', 'b6c5-', '1234567890ab']);
+  assert.deepEqual(matchIdGroups('mtch-8f2c4e'), ['mtch-', '8f2c4e']);
+  assert.deepEqual(matchIdGroups('planetlocal'), ['planetlocal']);
+  for (const value of ['3f2a1b4c-9d8e-4f7a-b6c5-1234567890ab', 'mtch-8f2c4e', 'planet-local']) assert.equal(matchIdGroups(value).join(''), value);
 });

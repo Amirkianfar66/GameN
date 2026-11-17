@@ -13,6 +13,12 @@
 // One accepted difference, at the Largest text only: beside the long "Works once · 15 minutes" the pack's timer
 // icon shrinks to under its 24 px (its .ic may shrink); the card's keeps its 24 px, as the kit's icons never shrink
 // (.ms-k-ic, flex: none). That case compares the icon's place and height, and records its width.
+//
+// And the code's wrap (0.1.2, the Lead's rule of 17 November): the pack's code line breaks anywhere (word-break:
+// break-all), which can leave one dot, or one character of a code, on a line of its own. The component's wraps only
+// between the code's groups, each whole. Each code case compares that line's look but its word-break, records the
+// two as `wrap`, and holds that every group is whole; where keeping a group whole takes more lines (the Largest
+// text), the line is taller by whole lines and everything under it sits lower by just that much, which is compared.
 
 import { MORE_SCREENS } from '../../../prototype/screens-more.mjs';
 
@@ -121,17 +127,42 @@ export async function runHostControlsAgreement({ sizes, mountState, disposeState
     await frames();
     const differences = [], parts = {};
     let accepted = null;
+    // The code's wrap (0.1.2): the pack's code line is the card's line that breaks anywhere; the component's, .ms-hc-code.
+    const packCode = [...pack.querySelectorAll('.code-card > *')].filter(visible).find(n => getComputedStyle(n).wordBreak === 'break-all') ?? null;
+    const mineCode = host.querySelector('.ms-hc-code');
+    let wrap = null, shift = 0, below = Infinity;
+    if (packCode && visible(mineCode)) {
+      const pa = box(pack, packCode), pb = box(host, mineCode), line = parseFloat(getComputedStyle(mineCode).lineHeight);
+      const extra = pb.h - pa.h, lines = Math.round(extra / line);
+      const whole = [...mineCode.querySelectorAll(':scope > .ms-hc-group')].every(g => g.getClientRects().length === 1);
+      if (whole && lines >= 0 && Math.abs(extra - lines * line) <= TOLERANCE && ['x', 'y', 'w'].every(k => Math.abs(pa[k] - pb[k]) <= TOLERANCE)) {
+        shift = extra; below = pa.y + pa.h - TOLERANCE;
+        wrap = { what: 'the code wraps only between its groups, each whole (0.1.2); the pack\'s breaks anywhere', pack: { wordBreak: getComputedStyle(packCode).wordBreak, h: pa.h },
+          screen: { wordBreak: getComputedStyle(mineCode).wordBreak, h: pb.h }, lines, shift };
+      }
+    }
+    /**
+     * Where a part of the sheet's body should sit once the code's wrap has taken `shift` more: the code line and its card
+     * taller, the body's parts under it lower. The frame (the sheet, its head and footer) stays where it is.
+     */
+    const inBody = new Set(BODY.map(([name]) => name));
+    const expected = (name, pa, na) => !shift || !inBody.has(name) ? pa : na === packCode || na.matches('.code-card') ? { ...pa, h: pa.h + shift } : pa.y >= below ? { ...pa, y: pa.y + shift } : pa;
     for (const [name, packSel, mineSel, compareWords, props] of [...FRAME, ...BODY]) {
       const a = [...pack.querySelectorAll(packSel)].filter(visible), b = [...host.querySelectorAll(mineSel)].filter(visible);
       parts[name] = { pack: a.length, screen: b.length };
       if (a.length !== b.length) { differences.push({ part: name, what: 'count', pack: a.length, screen: b.length }); continue; }
       a.forEach((na, i) => {
-        const nb = b[i], pa = box(pack, na), pb = box(host, nb);
-        if (c.iconKept && name === 'code card icon' && pa.w < pb.w - TOLERANCE && Math.abs(pb.w - 24) <= TOLERANCE && ['x', 'y', 'h'].every(k => Math.abs(pa[k] - pb[k]) <= TOLERANCE)) {
+        const nb = b[i], pa = box(pack, na), pb = box(host, nb), ea = expected(name, pa, na);
+        if (c.iconKept && name === 'code card icon' && pa.w < pb.w - TOLERANCE && Math.abs(pb.w - 24) <= TOLERANCE && ['x', 'y', 'h'].every(k => Math.abs(ea[k] - pb[k]) <= TOLERANCE)) {
           accepted = { what: 'the timer icon keeps its 24 px (the kit\'s icons never shrink); the pack\'s shrinks beside the long line', pack: pa, screen: pb };
-        } else if (!near(pa, pb)) differences.push({ part: `${name} ${i + 1}`, what: 'box', pack: pa, screen: pb });
+        } else if (!near(ea, pb)) differences.push({ part: `${name} ${i + 1}`, what: 'box', pack: pa, screen: pb });
         if (compareWords && textOf(na) !== textOf(nb)) differences.push({ part: `${name} ${i + 1}`, what: 'words', pack: textOf(na), screen: textOf(nb) });
-        if (props) { const la = looks(na, props), lb = looks(nb, props); if (JSON.stringify(la) !== JSON.stringify(lb)) differences.push({ part: `${name} ${i + 1}`, what: 'look', pack: la, screen: lb }); }
+        if (props) {
+          // The code line's word-break is its wrap (recorded above, while each group is whole); the rest of its look is compared.
+          const kept = wrap && na === packCode ? props.filter(p => p !== 'wordBreak') : props;
+          const la = looks(na, kept), lb = looks(nb, kept);
+          if (JSON.stringify(la) !== JSON.stringify(lb)) differences.push({ part: `${name} ${i + 1}`, what: 'look', pack: la, screen: lb });
+        }
         if (na.tagName === 'svg' && drawing(na) !== drawing(nb)) differences.push({ part: `${name} ${i + 1}`, what: 'drawing', pack: drawing(na).slice(0, 160), screen: drawing(nb).slice(0, 160) });
         for (const attr of STATE_ATTRS) {
           // A name is compared as a name: the shell names its sheet by its title (aria-labelledby), the pack by aria-label.
@@ -145,7 +176,8 @@ export async function runHostControlsAgreement({ sizes, mountState, disposeState
     const pictureOf = node => (node.tagName === 'IMG' ? node.src.replace(/^.*\//, '') : (getComputedStyle(node).backgroundImage.match(/([^/"]+\.svg)/)?.[1]?.replace(/-[A-Za-z0-9_-]{8}\.svg$/, '.svg') ?? null));
     const packPictures = [...pack.querySelectorAll('.sheet .row > .pt')].map(pictureOf), minePictures = [...host.querySelectorAll('.ms-host-controls .ms-k-row .ms-k-pt')].map(pictureOf);
     if (JSON.stringify(packPictures) !== JSON.stringify(minePictures)) differences.push({ part: 'portraits', what: 'files', pack: packPictures, screen: minePictures });
-    checks.push({ id: `agree: ${c.id}`, ok: differences.length === 0 && (!c.iconKept || accepted !== null), detail: { differences, parts, accepted } });
+    // A code case passes only with its wrap recorded: each group whole, and the lines it took.
+    checks.push({ id: `agree: ${c.id}`, ok: differences.length === 0 && (!c.iconKept || accepted !== null) && (!packCode || wrap !== null), detail: { differences, parts, accepted, ...(packCode ? { wrap } : {}) } });
     disposeState(mounted);
     pack.remove();
     host.remove();
