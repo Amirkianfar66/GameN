@@ -3,11 +3,11 @@
 **Status (16 November 2026):** a draft for the Lead Designer's review, then Frontend's. It is not in the game yet.
 - Integration first approves the source fence's marked hunk and the pins that refuse the changed files: `app.mjs`, `render.mjs`, `phone.css` and `planet.css`, and, through the drawing-port fence, `vite.config.mjs`, which the room connection's hunk already meets (see [The gates](#the-gates)).
 - This is not a release.
-- It is stacked on the room connection (`5f1b1c83`, [its page](room-connection.md)) and the phone shell (#265), merged at `9e296ccc` (#265 at `0e5a0b8a`) and again at `5347df3f` (#265 at `bb567d7e`, shell 0.2.9).
+- It is stacked on the room connection (`5f1b1c83`, [its page](room-connection.md)) and the phone shell (#265), merged at `9e296ccc` (#265 at `0e5a0b8a`) again at `5347df3f` (#265 at `bb567d7e`, shell 0.2.9), and at `8c64f77c` (#265 at `60afd967`, shell 0.2.10, with the phase bars' words).
 
 **What it is:**
-- On a phone, the Planet app's match is framed by Designer's [phone shell](phone-shell.md) (`phone-shell-0.2.9`, with `component-kit-0.8.0`), used as it is:
-  - the top bar, the tabs with the round button (Pass, Vote, Voted), and the private talk's two buttons;
+- On a phone, the Planet app's match is framed by Designer's [phone shell](phone-shell.md) (`phone-shell-0.2.10`, with `component-kit-0.8.0`), used as it is:
+  - the top bar, with the shell's own words for each game step that has no active player (0.2.10), the tabs with the round button (Pass, Vote, Voted), and the private talk's two buttons;
   - the target bar with Cancel, the floating chip, both banners and the toast;
   - the docked sheet's frame: its title, line, Back, Close and footer actions.
 - The shell replaces the app's own header, tab bar, Pass button, sheet frame and target bar. None of them is left in the page.
@@ -18,11 +18,11 @@
 
 | Path | What |
 | --- | --- |
-| `apps/game/hosted/planet/shell-input.mjs` | New, pure. It maps the presentation model to the shell's input (`shellInput`), the shell's intents to the calls the game already makes (`shellHandlers`), where the focus goes back (`shellFocusOrder`), and adds and removes the renderer's page listeners together (`connectShellLifecycle`) |
+| `apps/game/hosted/planet/shell-input.mjs` | New, pure. It maps the presentation model to the shell's input (`shellInput`), with the facts for a phase's words (`shellPhaseFacts`), the shell's intents to the calls the game already makes (`shellHandlers`), where the focus goes back (`shellFocusOrder`), and adds and removes the renderer's page listeners together (`connectShellLifecycle`) |
 | `apps/game/hosted/planet/render.mjs` | Mounts the shell once, mounts the stage in `shell.stage`, the game's sheet content in `shell.sheetBody`, Food's gauge in `shell.slot('clock')`, and the result window and the status line in `shell.slot('cover')`. It updates, suspends, resumes and disposes the shell. It no longer draws the header, the tab bar, the Pass button, the sheet's frame or the target bar |
 | `apps/game/hosted/planet/app.mjs` | Imports `phone-shell.css`, and gives the renderer Retry's reconnect: the session's `refresh()` |
 | `apps/game/hosted/planet/phone.css`, `planet.css` | The old chrome's rules are removed. The game's two generic button rules keep off the shell's and the kit's controls. The stage fills the shell's stage; the result window and the status line sit in the cover |
-| `apps/game/hosted/vite.config.mjs` | One marked hunk: the shell's two files and the kit's two join the hosted build's `allowedSources` |
+| `apps/game/hosted/vite.config.mjs` | One marked hunk: the shell's three files (`phase-bars.mjs` with shell 0.2.10) and the kit's two join the hosted build's `allowedSources` |
 | `apps/game/test/planet-phone-shell.test.mjs` | The mapping, privacy, the intents, the focus and the lifecycle |
 | `design/tools/shell-connection-check.mjs` | The check: the real app, under the production headers, at both phone sizes |
 | `design/tools/lib/phone-ui-native-parts.mjs` | The merge gate's comparison: each step that taps a match control names the shell's control beside today's, so the same steps drive a build from before and after this |
@@ -47,9 +47,9 @@ As the handoff's "Frontend's connection" maps them, with what it leaves open.
 | --- | --- |
 | `status` | `concealed` when the model is concealed or Food's surface owns the screen (active, or its Task over the whole screen); `live` when the connection is live; otherwise `stale` |
 | `interactive`, `viewer` | `true`; `viewer` is `ownSeatId`, `null` on a shared display. A display has no tabs, Promises, target bar or chip, so its only controls are ⋮, the Settings sheet's Close and Retry. The handoff's input table gives a display `interactive: false`, which would refuse ⋮ too (below) |
-| `bar` | A turn when lit, in an ordinary turn with an active seat. The pair on the two talking phones. Otherwise the phase, with today's names (`render.mjs` `phaseNames` before this) and the pack's icons; the Blackout's `dark` tone and moon in the dark. Its line is the board's label, as today's header said; Setting course adds "The course is being set." |
-| `bar` while not live | "Reconnecting…" (or "Connecting…") with "Showing Round n as last seen", the round this phone last saw live (sheet 45) |
-| `bar.timer` | The phase's time while trusted, amber from 10 s. A ring for the 5 s result and the 6 s presentation, with no amber (sheet 07) |
+| `bar` | A turn when lit, in an ordinary turn with an active seat. The pair on the two talking phones. Otherwise the phase. **Before turns, the Officer's appointment, the Blackout, Ship synchronized and Setting course take Designer's words,** from the shell's `phaseBar()` (shell 0.2.10, [below](#the-phase-bars-words)). The votes, Food Supply and a talk seen by others keep today's names (`render.mjs` `phaseNames` before this) with the pack's icons, and the board's label as their line, as today's header said |
+| `bar` while not live | The shell's `reconnectingBar()`: "Reconnecting…" with "Showing Round n as last seen", the round this phone last saw live (sheet 45). On the first connect, before it has seen a round, the shell's `loadingBar()`: "Loading the ship", with no round, Promises or ⋮, in place of "Connecting…" |
+| `bar.timer` | The phase's time while trusted, amber from 10 s. A ring for the 5 s result and the 6 s presentation, with no amber (sheet 07). For the phases `phaseBar()` draws, the amber and the ring are the function's: never amber on everyone else's New Officer and Setting course |
 | `bar.promises` | As the handoff: on a player's phone, none during the two fixed presentations and none on a display |
 | `bar.menu` | ⋮ on every phone, **a shared display's included.** Settings is the one panel the controller opens on a display (`openPanel`), with the display's preferences and, when the display hosts, the host's controls; today's header offered it there. The handoff says a display uses the bar "without Promises or ⋮ today"; following it would leave a hosting display without its controls during the match |
 | `tabs` | As the handoff. **An eliminated player:** Actions unavailable, described by "You’re out. You can still watch." (sheet 44); the Board, Card and Panels stay. The presentation offers an eliminated seat nothing to act on (`packages/presentation/src/planet/model.ts`) |
@@ -91,6 +91,31 @@ Nothing in the connection works out who may act: every enabled state comes from 
 - **The result window and the status line,** in the shell's cover: between the bars, under the shell's sheet, banners and toast, as the pack layers them. At the app's root they lay over everything of the shell, which is its own stacking context. The handoff names the cover for the result window's component (#267).
 - **The board view and the private-talk capsule** in the stage, as before.
 
+## The phase bars' words
+
+For a phase with no active player the bar's words are Designer's, held once in `design/phone-ui/components/phone-shell/phase-bars.mjs` ([the words and the amber rule](phone-shell.md#the-phase-bars-words)). `shellBar()` calls `phaseBar()` with the phase's kind, the round, the trusted time left and the phase's length, and with `shellPhaseFacts(model)`:
+
+| Input | From the presentation model |
+| --- | --- |
+| `hasOfficer` | `offices.officerSeatId` is set |
+| `chooser` | `offices.captainSeatId`, named from `identities` as the turn bar's `who` is: the display name, or "Player n" |
+| `blocked` | `offices.blockedSeatId` is set |
+| `dark` | `dark`, the same fact that darkens the room |
+| `lightsOutMs` | While lit: `presentation.blackout.previewEndsAt` less `presentation.nowMs`, the trusted time. The presentation holds both only while the time is trusted; without it the model is dark already |
+| `own` | This phone has the deciding player's own choice open: the controller's draft of `APPOINT_OFFICER` in the appointment, or of `BLOCK_MOVE` before turns. Today that choice is begun from Actions and shown as the target bar; the Officer's and the Captain's own sheets come with their component |
+| `office` | The office this viewer holds, from the public `offices` and `ownSeatId`, while its Navigation is open: the Navigation page from Panels, or the draft of `CHOOSE_NAV_DIRECTION` or `CONFIRM_NAVIGATION` |
+| `promises`, `menu` | As for every bar. `phaseBar()` drops Promises on Ship synchronized |
+
+- **Nothing is worked out.** No offer, role or private fact is read: a test gives the model every private field at once and the bar does not change. A Disabler's position and the Alien's Blackhole change nothing of the public bar.
+- **The bar follows what is open.** Until the Captain opens the appointment, the Captain's phone shows everyone's bar, "New Officer · Name chooses"; with it open, "Appoint Officer · Random if time runs out". The Officer's block and the offices' Navigation go the same way.
+- **The board's label is no longer these phases' line.** It still is for the votes, Food Supply and a talk seen by others.
+
+**What the model doesn't hold:**
+
+- **A count for "Loading the ship".** The pack draws "Room 3 of 5"; the model holds no count of pictures, so the bar is the title alone.
+- **A moment for "The ship moved".** The model holds `navigation.lastMovedRound`, but nothing in the app shows the move yet: ship travel (#269) is not connected. So `movedBar()` has no caller here; it comes with ship travel's connection.
+- **Why an office can't act.** With nothing open, that phone shows everyone's bar.
+
 ## The boundary
 
 - **The hunk.** Marked `BEGIN shell connection` / `END shell connection` in `apps/game/hosted/vite.config.mjs`. It adds four entries to `allowedSources`: `phone-shell/phone-shell.mjs`, `phone-shell/phone-shell.css`, `kit/kit.mjs` and `kit/kit.css` (`icons.mjs` is in the room connection's hunk). Nothing else; the shell's and the kit's `preview/` and `review/` are never imported.
@@ -109,7 +134,7 @@ These refuse the changed files until Integration approves. Each was found by rev
 | --- | --- |
 | `npm run check:sources` | In order: `app.mjs`, then `render.mjs` ("Food consumer source: content differs", `scripts/food-consumer-source.mjs`, the frozen Food release; as on the base, where the room connection changed both); then, new here, `phone.css` ("Phone UI production consumer: current content differs") and `planet.css` ("Runtime art release: content differs"). With all four reverted it passes, so `check:sources` accepts the `vite.config.mjs` hunk and the new files |
 | The hosted Vite build, plugin `reviewed-crew-drawing-release` | `app.mjs` first, as on the base |
-| `npm run test:design` | 25 of 386 fail, every one on the Food release's refusal of `app.mjs`, which the room connection already meets (its page records 25 of 370) |
+| `npm run test:design` | 25 of 397 fail, every one on the Food release's refusal of `app.mjs`, which the room connection already meets (its page records 25 of 370). Before shell 0.2.10's eleven tests of the phase bars, which pass, it was 25 of 386 |
 | `npm run test:tooling` | 68 of 356 fail, every one on that same refusal (the room connection's page: 68 of 356) |
 | The same suites with `app.mjs` and `render.mjs` reverted | Every failure moves to the next pin: 25 of 386 design tests and 65 of 356 tooling tests, all on "Phone UI production consumer: current content differs: `phone.css`" |
 | The same suites with all four reverted | 4 of 386 design tests and 6 of 356 tooling tests fail, every one on the drawing-port fence's three findings on `vite.config.mjs` (next row) |
@@ -118,7 +143,7 @@ These refuse the changed files until Integration approves. Each was found by rev
 **Also pinned:** `app.mjs` and `render.mjs` by `phone-ui-production-consumer-approval.json`, `crew-consumer-approval-2026-11-07.json` and `pregame-production-consumer-approval-2026-11-08.json`; the Food record also pins `vite.config.mjs` (from the room connection's page).
 
 **These pass:**
-- `test:frontend`: 226 of 226 and 858 of 858 (the room connection's 845 and this one's 13), and the production exclusion (see [The boundary](#the-boundary) for what it covers);
+- `test:frontend`: 226 of 226 and 860 of 860 (the room connection's 845 and this one's 15), and the production exclusion (see [The boundary](#the-boundary) for what it covers);
 - `typecheck`, `build`, `check:toolchain`, `check:workspace`, and `node design/tools/check-assets.mjs` (15 passed);
 - `packages/design-tokens/test/phone-ui-native-compare.test.mjs`: 7 of 7, with the doubled selectors.
 
@@ -128,8 +153,10 @@ These refuse the changed files until Integration approves. Each was found by rev
 
 ### Tests
 
-`apps/game/test/planet-phone-shell.test.mjs` passes 13 of 13. Every input it builds is accepted by the shell's own `checkBar`, `checkTabs` and `nextPhoneShellInput`. It covers:
-- the bar: another player's turn, your turn, every phase name, the Blackout lit and dark, the pair, reconnecting with the round last seen;
+`apps/game/test/planet-phone-shell.test.mjs` passes 15 of 15. Every input it builds is accepted by the shell's own `checkBar`, `checkTabs` and `nextPhoneShellInput`. It covers:
+- the bar: another player's turn, your turn, each of the game's own phase names, the pair, reconnecting with the round last seen, and "Loading the ship" on the first connect;
+- the phase bars' words: before turns with an Officer, with a block shown, with no Officer and with the Officer's block open; the appointment for everyone else, never amber, and for the Captain with it open; the Blackout lit, with the time to lights-out, and dark; Ship synchronized's ring; Setting course in all four navigation phases, for everyone and for an office with its Navigation open; a shared display;
+- the facts for those words: each read from the model, unchanged by any offer, role or private field, and every phase either `phaseBar()`'s or one of the game's own;
 - the clock: the time as given, amber from 10 s, the ring without amber for the two fixed presentations, no clock while untrusted;
 - Promises and ⋮;
 - the tabs: the view, the open tab, the round button's modes and the result's Vote unavailable, the talk's buttons, an eliminated player's Actions;
@@ -147,7 +174,13 @@ These refuse the changed files until Integration approves. Each was found by rev
 - It serves them with the hosted game's production headers (`createHostedPreviewHeaders`, headers SHA-256 `424e5dec…`, the same as the shell's and the room scene's checks).
 - It drives the app at 390 × 844 and 430 × 932, in one browser, one page at a time. `--only` draws some states and adds them to the record when it names the same candidate, art and headers; this record was made in batches.
 
-**Result:** 34 of 34 captures pass: seventeen states at both sizes, recorded on `00e679e9` (shell 0.2.9) with the source clean and the art from `64e55516`, in one run. The helper's first record, on `45afe011` (shell 0.2.8), also passed 34 of 34.
+**Result:** 40 of 40 captures pass: twenty states at both sizes, recorded on `154ac2d8` (shell 0.2.10, with the phase bars' words) with the source clean and the art from `64e55516`, in one run. Before it, `00e679e9` (shell 0.2.9) and the helper's first record, `45afe011` (shell 0.2.8), each passed 34 of 34.
+
+Against `00e679e9`'s record:
+- `before`, `appointment` and `course` are new, at both sizes.
+- `blackout` and `target` changed in the top bar, by its words: "Dark · positions fixed", and "Block a move · Before turns · Officer".
+- `result` changed in the round button: an unavailable Vote is paper with dimmed words, as shell 0.2.10 draws it.
+- In every other capture the bars and the tabs are the same, pixel for pixel, but for a clock's digits in `voted`. What differs is inside the stage: the room's picture, which moves.
 
 | State | What it shows and checks |
 | --- | --- |
@@ -155,7 +188,7 @@ These refuse the changed files until Integration approves. Each was found by rev
 | `own` | Your turn: "Your turn" and, in amber, "Player 6 · Crew 6"; Pass usable; the room scene in the stage |
 | `pass` | "Pass your turn?" with Cancel and Pass, and nothing sent. Then Pass sends `PASS_TURN`, once, and the sheet closes |
 | `actions` | The Actions sheet: the game's tiles in the shell's frame, the Actions tab open. Then Escape from inside the sheet closes it, and the focus goes back to the Actions tab |
-| `target` | The Officer's block from Actions: the target bar "Block movement" with Cancel, no sheet, three people offered in the scene, the round button kept (T2). Then Cancel ends the choosing |
+| `target` | The Officer's block from Actions: the top bar "Block a move · Before turns · Officer", the target bar "Block movement" with Cancel, no sheet, three people offered in the scene, the round button kept (T2). Then Cancel ends the choosing, and the top bar is everyone's again |
 | `reconnecting` | The reading fails: the bar "Reconnecting… · Showing Round 6 as last seen", the banner with Retry, every tab and the round button refused, the room dimmed. Then Retry reads the session again |
 | `eliminated` | This viewer's seat Eliminated: "You’re out · You can watch. Your role stays private.", no Retry, the figure down in its place; Actions and Pass unavailable, the Board, Card and Panels usable |
 | `vote`, `ballot`, `voted` | A Jail vote: the round button as Vote. Then the ballot, "Jail vote", large, with the game's roster and Abstain, which Close leaves. Then the registered ballot: Voted |
@@ -163,7 +196,10 @@ These refuse the changed files until Integration approves. Each was found by rev
 | `talk` | A private talk on a talking phone: the pair bar "Crew 6 + Crew 1 · Private talk", Promises and My card in place of the tabs, the capsule's tags above them |
 | `food-gauge` | The Food release: its gauge beside the shell's clock, the shell live under the Food match |
 | `food-surface` | Food's own surface over the screen: the shell concealed (its bars empty, no control), Food's bar and tabs exactly over the shell's, and a tap on either reaching Food |
-| `blackout` | The Blackout's dark bar and the moon, the clock amber |
+| `blackout` | The Blackout's dark bar and the moon, "Dark · positions fixed", the clock amber |
+| `before` | Before turns, on the Officer's phone with nothing open: "Before turns · Officer block · Blackhole", the hourglass, the clock, Promises and ⋮ |
+| `appointment` | The Officer's appointment, on the Captain's phone with nothing open: "New Officer · Crew 6 chooses". Then the appointment from Actions: "Appoint Officer · Random if time runs out" |
+| `course` | Setting course, on the Officer's phone with nothing open: "Setting course · The offices are setting it". Then Navigation from Panels: "Setting course · Officer · private" |
 | `display` | A shared display: no tabs, no Promises, ⋮ the only control, the whole board. Then ⋮ opens Settings with the display's preferences |
 | `concealed` | The page hidden: the bars' empty material only, the tab bar's shape kept |
 
@@ -176,7 +212,10 @@ Each capture also passes with: the shell mounted and the stage in it; none of th
 - **The sheets' contents, the result window and the end of the match** are the game's own until their components.
 - **The ballot's footer:** the pack's is Abstain · "Vote for Name". The game's Abstain is in the sheet's body, and its Vote is the footer's action at the check.
 - **The 6 s Ship synchronized presentation** keeps the tabs. The pack draws it edge to edge without them, which comes with the film's component.
-- **A phase's line** is the board's label (as "Current board · shared: …"), where the pack's specimens have other lines.
+- **A phase's line** is the pack's for the phases `phaseBar()` draws (shell 0.2.10). For the votes, Food Supply and a talk seen by others it is still the board's label (as "Current board · shared: …"), where the pack's specimens have other lines: their words come with #267's `ballotBar()` and `resultBar()` and the private talk's `talkBar()`.
+- **The deciding player's own bar** shows once their choice is open, not from the phase's start: the pack opens the Captain's and the Officer's sheets by itself (sheet 40), which comes with their component.
+- **"Loading the ship"** has no "Room n of 5": the model holds no count.
+- **"The ship moved"** is not shown: ship travel (#269) is not connected.
 - **A display** uses the player's bar without Promises, with ⋮ (above): its own bar is a later sheet.
 - **The bars and the bands:** with no safe areas (desktop Chromium's `env()` is 0) the shell's bars are 52 and 58 px, so the stage is 390 × 734 and 430 × 822. The shell's preview emulates 47 and 34 px safe areas, so its bars are 99 and 92 px and its stage 390 × 653. Today's bars left the room connection 390 × 716, so the bands it describes with today's art stay, a little taller, until `room-drawing-1.0.0`. On a phone the shell adds the real safe areas itself (`insets: null`).
 
@@ -191,7 +230,7 @@ Each capture also passes with: the shell mounted and the stage in it; none of th
   - the pass sheet's missing line and note (above);
   - the harness's sample names, rooms and rounds;
   - the pack's frames carry 47 and 34 px safe areas, so its bars are taller;
-  - **in the shell itself:** an unavailable Vote (the result) is steel, where the pack's is paper with dimmed words, because the pack's `.hero[data-mode="vote"]` rule follows its unavailable rule (`prototype/kit.css` lines 196–197). The shell's agreement compares the round button's mode and state, not its fill. For the Lead.
+  - **in the shell itself:** an unavailable Vote (the result) is steel, where the pack's is paper with dimmed words, because the pack's `.hero[data-mode="vote"]` rule follows its unavailable rule (`prototype/kit.css` lines 196–197). The shell's agreement compares the round button's mode and state, not its fill. For the Lead. **Since then:** shell 0.2.10 draws it paper and its agreement compares the fill; the check's `result` capture above shows it. This comparison has not been run again.
 
 ### Not run
 
@@ -203,7 +242,9 @@ Each capture also passes with: the shell mounted and the stage in it; none of th
 - **For the Lead:**
   - the differences above, chiefly the pass sheet's missing line;
   - the words of an eliminated player's Actions reason;
-  - ⋮ on a shared display, which the handoff leaves out and the connection keeps for the display's Settings.
+  - ⋮ on a shared display, which the handoff leaves out and the connection keeps for the display's Settings;
+  - **the first connect has no ⋮:** the pack's Loading bar has none, so Settings can't be opened until the match shows. "Connecting…" had it;
+  - **the first connect still shows the reconnecting banner,** "Connection lost", under "Loading the ship": `shellBanner()` gives it whenever the phone is not live. Sheet 45's Loading frame has no banner.
 - **For Integration:**
   - the fence hunk;
   - the pins on `app.mjs`, `render.mjs`, `phone.css` and `planet.css`, and the drawing-port fence's on `vite.config.mjs`, which the room connection's hunk already meets;

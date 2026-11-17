@@ -20,6 +20,8 @@
 //   talk                     a private talk: the pair bar and the talk's two buttons
 //   food-gauge, food-surface the Food release's gauge beside the clock; Food's own surface over the shell
 //   blackout                 the Blackout's dark bar
+//   before, appointment,     the phase bars (shell 0.2.10, phase-bars.mjs): before turns; the Officer's appointment,
+//   course                   everyone's bar and then the Captain's own; setting course, everyone's and then an office's own
 //   display, concealed       a shared display (no tabs or Promises; ⋮ opens Settings); a hidden page
 // A capture passes with no unexpected policy report, no failed request and no page error; the shell mounted with
 // the stage in it and none of the old header, nav, sheet or target bar left; and the state's own facts. It writes
@@ -233,12 +235,14 @@ const STATES = {
       await page.waitFor("document.querySelector('.ms-ps-target')&&document.querySelectorAll('.planet-stage .ms-rs-press').length===3", 'the target bar and three people offered');
     },
     facts: s => ({ targetBar: s.target?.title === 'Block movement' && !!s.target.sub && !!s.target.cancel && !s.target.cancel.disabled, noSheet: s.sheet === null, offered: s.stage.presses.join() === 'seat-1,seat-2,seat-3',
-      heroStays: s.hero?.mode === 'pass' }),
+      heroStays: s.hero?.mode === 'pass',
+      // The Officer's own bar while the block is open (sheet 40, phase-bars.mjs).
+      ownBar: s.bar?.kind === 'phase' && s.bar.name === 'Block a move' && s.bar.sub === 'Before turns · Officer' }),
     after: async page => {
       await page.evaluate(tap('.ms-ps-target [data-intent="cancel-target"]'));
       await page.waitFor(`${game}.getModel().action===null`, 'Cancel ended the choosing');
       const seen = await page.evaluate(LOOK);
-      return { cancelled: seen.target === null && seen.stage.presses.length === 0 };
+      return { cancelled: seen.target === null && seen.stage.presses.length === 0, everyonesBar: seen.bar?.name === 'Before turns' && seen.bar.sub === 'Officer block · Blackhole' };
     } },
   reconnecting: { page: 'phone', url: 'scenario=board', steps: async page => {
       await page.evaluate('window.planetHarness.setReadFailure(true);window.planetHarness.app.session.refresh()');
@@ -310,7 +314,40 @@ const STATES = {
   blackout: { page: 'phone', url: 'scenario=blackout', steps: async page => {
       await page.waitFor(`${game}.getModel().dark&&document.querySelector('.ms-ps-tb')?.dataset.tone==='dark'`, 'the Blackout\'s dark');
     },
-    facts: s => ({ dark: s.bar?.tone === 'dark' && s.bar.name === 'Blackout' && s.bar.glyph === 'dark', clock: !!s.bar?.clock }) },
+    facts: s => ({ dark: s.bar?.tone === 'dark' && s.bar.name === 'Blackout' && s.bar.glyph === 'dark', clock: !!s.bar?.clock, words: s.bar?.sub === 'Dark · positions fixed' }) },
+  // The phase bars (shell 0.2.10): Designer's words for a phase with no active player, from phase-bars.mjs, on the
+  // harness's own scenarios. Each deciding player's phone shows everyone's bar until their own choice is open.
+  before: { page: 'phone', url: 'scenario=block', steps: async page => {
+      await page.waitFor(`${game}.getModel().phase?.kind==='PRE_TURN'&&document.querySelector('.ms-ps-tb')?.dataset.kind==='phase'`, 'before turns');
+    },
+    facts: s => ({ bar: s.bar?.kind === 'phase' && s.bar.name === 'Before turns' && s.bar.sub === 'Officer block · Blackhole' && s.bar.glyph === 'plain', clock: /^\d:\d\d$/.test(s.bar?.clock ?? ''),
+      promisesMenu: !!s.bar?.promises && s.bar.menu, noTarget: s.target === null && s.sheet === null }) },
+  appointment: { page: 'phone', url: 'scenario=appointment', steps: async page => {
+      await page.waitFor(`${game}.getModel().phase?.kind==='OFFICER_APPOINTMENT'&&document.querySelector('.ms-ps-tb')?.dataset.kind==='phase'`, 'the Officer\'s appointment');
+    },
+    // The Captain's phone before the appointment is opened: everyone's bar, which names the Captain.
+    facts: s => ({ bar: s.bar?.kind === 'phase' && s.bar.name === 'New Officer' && s.bar.sub === 'Crew 6 chooses', clock: /^\d:\d\d$/.test(s.bar?.clock ?? '') }),
+    after: async page => {
+      await page.evaluate(tap(TAB('actions')));
+      await page.waitFor("document.querySelector('#planet-action-APPOINT_OFFICER')", 'the appointment offered in Actions');
+      await page.evaluate(tap('#planet-action-APPOINT_OFFICER'));
+      await page.waitFor(`${game}.getModel().action?.type==='APPOINT_OFFICER'&&document.querySelector('.ms-ps-name')?.textContent==='Appoint Officer'`, 'the Captain\'s own bar');
+      const seen = await page.evaluate(LOOK);
+      return { ownBar: seen.bar?.name === 'Appoint Officer' && seen.bar.sub === 'Random if time runs out' };
+    } },
+  course: { page: 'phone', url: 'scenario=tie', steps: async page => {
+      await page.waitFor(`${game}.getModel().phase?.kind?.startsWith('NAV_')&&document.querySelector('.ms-ps-tb')?.dataset.kind==='phase'`, 'setting course');
+    },
+    // The Officer's phone with nothing of Navigation open: everyone's neutral bar, never amber.
+    facts: s => ({ bar: s.bar?.kind === 'phase' && s.bar.name === 'Setting course' && s.bar.sub === 'The offices are setting it', clock: /^\d:\d\d$/.test(s.bar?.clock ?? '') }),
+    after: async page => {
+      await page.evaluate(tap(TAB('panels')));
+      await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='panels'", 'Panels');
+      await page.evaluate(tap('.ms-ps-sheet [data-planet-action="panel"][data-value="navigation"]'));
+      await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='navigation'&&document.querySelector('.ms-ps-sub')?.textContent==='Officer · private'", 'the Officer\'s own bar with Navigation open');
+      const seen = await page.evaluate(LOOK);
+      return { ownBar: seen.bar?.name === 'Setting course' && seen.bar.sub === 'Officer · private' && seen.sheet?.title === 'Navigation' };
+    } },
   display: { page: 'phone', url: 'scenario=display', steps: async page => {
       await page.waitFor(`${game}.getModel().surface==='display'&&document.querySelector('.ms-phone-shell')?.dataset.tabs==='none'`, 'the shared display');
     },
