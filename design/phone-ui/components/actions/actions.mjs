@@ -22,6 +22,9 @@
 // The Hospital panel's request (PANEL_CODE) is the Hospital panel component's (design/phone-ui/components/
 // hospital-panel; the Lead's Q3, 16 November): Actions draws only its sheet 45, "Panel request was sent, but no
 // answer came back.", which names no number, and every other part refuses it, naming that component.
+// Pass and the Disabler's position have sheet 45 here too (0.2.3, A13; the Lead, 17 November): "Pass was sent,
+// …" and "Position A3 was sent, …". Their own sheet and bar are passSheet() and blackoutBar(); every other part
+// refuses them. After Register's words, where Frontend's copy has none, and every time line are afterWords().
 //
 // What it never does: decide which actions a role has or which are offered, why one is not, who can be
 // chosen, what an action costs or does, or whether it was accepted. Every state, line, reason, person, fact
@@ -31,7 +34,7 @@
 import { createControlPolicy, createKit, seatNumber } from '../kit/kit.mjs';
 import { TILE_STATES, createPlayParts } from '../play-parts/play-parts.mjs';
 
-export const ACTIONS_VERSION = 'actions-0.2.2';
+export const ACTIONS_VERSION = 'actions-0.2.3';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const TURNS = Object.freeze(['own', 'other']);
 const AFTER_KINDS = Object.freeze(['registered', 'accepted', 'active', 'captured']);
@@ -62,6 +65,10 @@ export const ACTION_LOOKS = Object.freeze({
   // The Hospital panel's request (the Lead's Q3): sheet 45 alone is Actions', as "Panel request". It takes no one,
   // so "Outcome unknown" can never name the number the patient entered.
   PANEL_CODE: look('panel', 'Hospital panel', 'Hospital panel', 'Panel request', null, null, 'Panel request', 0),
+  // Sheet 45 alone (A13): Pass is the round button's, with passSheet() and passedToast(); the Disabler's position is
+  // blackoutBar()'s. "Outcome unknown" names them as "Pass" and "Position A3", with the position as Move's.
+  PASS_TURN: look('pass', 'Pass', 'Pass', 'Pass', null, null, 'Pass', 0),
+  SELECT_BLACKOUT_SLOT: look('position', 'Position', 'Position', 'Position', null, null, 'Position', 0),
 });
 
 /** The pack's words (screens-game.mjs actions(), room() and screens-more.mjs system()). */
@@ -89,6 +96,28 @@ export const ACTION_WORDS = Object.freeze({
   // The Disabler's position during a Blackout (screens-more.mjs blackout(), sheet 30).
   positionChoose: 'Choose a position', positionAny: room => `${room} · any position, even empty`,
   positionFixed: slot => `Position ${slot} fixed`, positionLater: 'Resolves after the window · no effect shown now',
+  position: slot => `Position ${slot}`,
+  // After Register (sheets 29, 29.1 and 29.2): the handoff's table, as the pack's afterRegister() writes it
+  // (screens-game.mjs). The lines where Frontend's copy has none, and every time line (afterWords()).
+  after: Object.freeze({
+    registered: 'Registered', accepted: 'Accepted', activeNow: 'Active now', captured: 'Captured', you: 'you',
+    yourTurn: n => `Round ${n} · your turn`, whenAccepted: n => `Round ${n} · when the server accepted it`,
+    endOfRound: n => `End of Round ${n}`, round: n => `Round ${n}`,
+    rescueResolved: 'Rescue is resolved, after the attacks', withTheRound: 'Resolved with the round’s actions',
+    protectionActive: them => `Protection for ${them}: active`, oneWeaponEach: 'Each gets one weapon',
+    shotResolved: 'Resolved; Protection and Clone are checked then',
+    laterThisRound: 'Later this round', litThenDark: '5 s lit, then 10 s dark', whileDark: 'While it is dark', frozenPosition: 'You choose a frozen position',
+    afterThisTurn: 'After this turn', declare: them => `Up to 15 s for ${them} to declare a side`, then: 'Then', claimThenTalk: '5 s for the claim, then 60 s to talk',
+    cloneEnds: 'Ends after that round’s attacks', navigation: 'This round’s navigation', weightRemoved: 'Their weight is removed',
+    blackout: 'Blackout registered.', blackoutDetail: 'This is not a result. Nothing changes until the lights go out later this round.',
+    talk: who => `Private talk with ${who} accepted.`, talkDetail: 'It starts after this turn. The top bar shows each step.',
+    clone: 'Clone active.',
+    // The round it ends is the projection's (abilities.clone.expiresAfterRound); without it, the sentence without it.
+    cloneDetail: until => `Active from now${until === null ? '' : `, through the attacks at the end of Round ${until}`}. It used your main action for this round.`,
+    suppress: 'Navigation suppressed.',
+    // Who was captured is the projection's (abilities.engineerCapture); without it, the room the capture takes, unnamed.
+    suppressDetail: capture => `Captured now: ${capture === null ? 'the players in the other room' : `the ${capture.count} player${capture.count === 1 ? '' : 's'} in ${capture.room}`}. Their navigation weight is removed this round. Only you are told.`,
+  }),
 });
 
 /** After Register's stamp for each kind: its words, its tone (an outline while it waits), and whether it waits. */
@@ -116,6 +145,11 @@ const lookOf = (type, what = 'type') => {
 function notPanel(type, what) {
   if (type === 'PANEL_CODE') throw new TypeError(`PANEL_CODE ${what} the Hospital panel component's (design/phone-ui/components/hospital-panel); Actions draws only its "Outcome unknown"`);
 }
+/** Pass and the Disabler's position (A13) have their own sheet and bar: here only sheet 45 takes them, and every other part says where they are. */
+const OWN_PLACE = Object.freeze({ PASS_TURN: 'the round button\'s passSheet() and passedToast()', SELECT_BLACKOUT_SLOT: 'blackoutBar()' });
+function notOwn(type, what) {
+  if (Object.hasOwn(OWN_PLACE, type)) throw new TypeError(`${type} ${what}: it is ${OWN_PLACE[type]}; Actions draws only its "Outcome unknown"`);
+}
 
 // ── Inputs ──────────────────────────────────────────────────────────────
 const COMMON = Object.freeze({ viewer: null, status: 'live', interactive: true, reducedMotion: false, versions: null });
@@ -142,14 +176,18 @@ function checkLines(list, what) {
   if (!Array.isArray(list) || !list.every(isText)) throw new TypeError(`${what} are lines of text`);
   return Object.freeze([...list]);
 }
-/** Move's position (the Lead's Q1 and Q4): its label, as the bar and the toast say it ("A3"), and its room. Move's alone. */
+/**
+ * A position: its label, as the bar and the toast say it ("A3"), and its room. Move's (the Lead's Q1 and Q4), and
+ * the Disabler's in sheet 45 (A13), alone.
+ */
+const POSITIONED = Object.freeze({ MOVE: 'Move', SELECT_BLACKOUT_SLOT: 'The Disabler\'s position' });
 function checkPosition(value, type) {
   const given = value !== null && value !== undefined;
-  if (type !== 'MOVE') {
-    if (given) throw new TypeError('position is Move\'s alone: { slot, room }');
+  if (!Object.hasOwn(POSITIONED, type)) {
+    if (given) throw new TypeError('position is Move\'s and the Disabler\'s alone: { slot, room }');
     return null;
   }
-  if (!given || !isText(value.slot)) throw new TypeError('Move needs its position: { slot, room }');
+  if (!given || !isText(value.slot)) throw new TypeError(`${POSITIONED[type]} needs its position: { slot, room }`);
   return Object.freeze({ slot: value.slot, room: optionalText(value.room, 'position.room') });
 }
 
@@ -183,6 +221,7 @@ function checkTiles(list) {
     if (!t || typeof t !== 'object') throw new TypeError(`tiles[${i}] is { type, state, note, reason, badge }`);
     lookOf(t.type, `tiles[${i}].type`);
     notPanel(t.type, `is not an action tile (tiles[${i}]): the Hospital's own control and the Panels row open`);
+    notOwn(t.type, `is not an action tile (tiles[${i}])`);
     if (seen.has(t.type)) throw new TypeError(`tiles lists ${t.type} twice`);
     seen.add(t.type);
     const state = t.state ?? 'available';
@@ -207,6 +246,7 @@ export const TARGET_LIST_DEFAULTS = Object.freeze({ ...COMMON, type: null, group
 const LIST = part(TARGET_LIST_DEFAULTS, ['type', 'groups', 'picked'], next => {
   if (next.type !== null) lookOf(next.type);
   notPanel(next.type, 'has no list: its keypad is');
+  notOwn(next.type, 'has no list');
   if (!Array.isArray(next.groups)) throw new TypeError('groups is [{ room, people }]');
   const seen = new Set();
   const groups = next.groups.map((g, i) => {
@@ -229,6 +269,7 @@ export const ACTION_CHECK_DEFAULTS = Object.freeze({ ...COMMON, type: null, targ
 const CHECK = part(ACTION_CHECK_DEFAULTS, ['type', 'targets', 'position', 'facts', 'error'], next => {
   if (next.type !== null) lookOf(next.type);
   notPanel(next.type, 'has no check: its keypad and Submit are');
+  notOwn(next.type, 'has no check');
   let error = next.error ?? null;
   if (error !== null) {
     if (!isText(error.text)) throw new TypeError('error is { text, detail }, or null');
@@ -244,6 +285,7 @@ const AFTER = part(AFTER_REGISTER_DEFAULTS, ['type', 'kind', 'title', 'detail', 
   if (next.type !== null) lookOf(next.type);
   if (next.type === 'MOVE') throw new TypeError('A move has no After Register: it happens at once, and movedToast() says so (Q2)');
   notPanel(next.type, 'has no After Register: its records are');
+  notOwn(next.type, 'has no After Register');
   if (!AFTER_KINDS.includes(next.kind)) throw new TypeError(`kind is ${AFTER_KINDS.join(', ')}, not ${JSON.stringify(next.kind)}`);
   let people = next.people ?? null;
   if (people !== null) {
@@ -289,6 +331,12 @@ export function actionWords({ type, targets = [], viewer = null, position = null
     const what = ACTION_WORDS.moveTo(position.slot);
     return { title: what, sub: position.room ?? null, what };
   }
+  // Sheet 45 alone (A13): "Position A3 was sent, but no answer came back."
+  if (type === 'SELECT_BLACKOUT_SLOT') {
+    if (!position || !isText(position.slot)) throw new TypeError('The Disabler\'s position needs its position: { slot, room }');
+    const what = ACTION_WORDS.position(position.slot);
+    return { title: what, sub: position.room ?? null, what };
+  }
   const verb = l.verb ?? l.title;
   if (targets.length === 2) {
     const what = `${verb} ${ACTION_WORDS.and(named(targets[0], viewer), named(targets[1], viewer))}`;
@@ -315,6 +363,7 @@ export function actionsSheet({ role = null, room = null } = {}) {
 export function targetListSheet({ type }) {
   const l = lookOf(type);
   notPanel(type, 'has no list: its keypad is');
+  notOwn(type, 'has no list');
   if (type === 'MOVE') throw new TypeError('Move has no list: its positions are the room scene\'s and the board\'s');
   return { id: 'action-list', title: ACTION_WORDS.list, sub: ACTION_WORDS.listSub(l.title), back: true, close: false };
 }
@@ -325,6 +374,7 @@ export function targetListSheet({ type }) {
 export function checkSheet({ type, phase = 'ready', canRegister = true }) {
   const l = lookOf(type);
   notPanel(type, 'has no check: its keypad and Submit are');
+  notOwn(type, 'has no check');
   if (!l.register) throw new TypeError(`${type} has no check of this component's`);
   if (!['ready', 'sending'].includes(phase)) throw new TypeError('phase is ready or sending');
   const sending = phase === 'sending';
@@ -338,29 +388,101 @@ export function afterSheet({ type }) {
   const l = lookOf(type);
   if (type === 'MOVE') throw new TypeError('A move has no After Register: it happens at once, and movedToast() says so (Q2)');
   notPanel(type, 'has no After Register: its records are');
+  notOwn(type, 'has no After Register');
   return { id: 'action-after', title: l.title, close: false, actions: [{ id: 'done', label: ACTION_WORDS.done, kind: 'secondary', local: true }] };
+}
+
+/** After Register's stamp by command (sheets 29.1 and 29.2); every other is REGISTERED. */
+const AFTER_KIND = Object.freeze({ REQUEST_HACK: 'accepted', ACTIVATE_CLONE: 'active', ENGINEER_SUPPRESS: 'captured' });
+/** The commands with an After Register of this component's: the handoff's table. */
+const AFTER_TYPES = Object.freeze(['RESCUE', 'PROTECT', 'SUPPLY', 'REGISTER_SHOT', 'REQUEST_BLACKOUT', 'REQUEST_HACK', 'ACTIVATE_CLONE', 'ENGINEER_SUPPRESS']);
+const roundOrNull = (value, what) => {
+  if (value === null || value === undefined) return null;
+  if (!(Number.isSafeInteger(value) && value >= 1)) throw new TypeError(`${what} is a round number, or null`);
+  return value;
+};
+/**
+ * After Register's words (the handoff's After Register table; the pack's afterRegister(), screens-game.mjs;
+ * sheets 29, 29.1 and 29.2): { kind, title, detail, steps }, as mountAfterRegister() takes them.
+ *   - kind: the stamp: REGISTERED; ACCEPTED for a private talk, ACTIVE for a Clone, CAPTURED for the Engineer.
+ *   - title and detail: the pack's where Frontend's copy has no line: a Blackout, a private talk (in the pack's
+ *     name), a Clone and the Engineer. For Rescue, Protection, Supply and a shot both are null: they are Frontend's
+ *     (en.action.acceptedTarget and acceptedDetail; en.action.compound.supplyAccepted and supplyDetail).
+ *   - steps: the time line, from `round`, the round the server reports. With no round there is none (L6).
+ * `targets` are the people the action took, as the check has them; the viewer is "yourself" in a headline and
+ * "you" in a line. The projection's own facts, which a screen's model may not carry: `expiresAfterRound` (when the
+ * Clone ends), `activeFromRound` (when Protection starts) and `capture` (the Engineer's: { room, count }). Without
+ * one, its words stay out. Nothing is worked out from the rules.
+ */
+export function afterWords({ type, round = null, targets = [], viewer = null, expiresAfterRound = null, activeFromRound = null, capture = null } = {}) {
+  lookOf(type);
+  if (type === 'MOVE') throw new TypeError('A move has no After Register: it happens at once, and movedToast() says so (Q2)');
+  notPanel(type, 'has no After Register: its records are');
+  notOwn(type, 'has no After Register');
+  if (!AFTER_TYPES.includes(type)) {
+    throw new TypeError(['ACTIVATE_SHIP_HACK', 'ACTIVATE_BLACKHOLE'].includes(type)
+      ? `${type} has no After Register until the projection says what follows (L7): the toast and the tile say it`
+      : `${type} has no After Register of this component's: it is the Hacker component's`);
+  }
+  const now = roundOrNull(round, 'round'), until = roundOrNull(expiresAfterRound, 'expiresAfterRound'), from = roundOrNull(activeFromRound, 'activeFromRound');
+  if (until !== null && type !== 'ACTIVATE_CLONE') throw new TypeError('expiresAfterRound is the Clone\'s alone');
+  if (from !== null && type !== 'PROTECT') throw new TypeError('activeFromRound is Protection\'s alone');
+  let taken = null;
+  if (capture !== null && capture !== undefined) {
+    if (type !== 'ENGINEER_SUPPRESS') throw new TypeError('capture is the Engineer\'s alone');
+    if (!isText(capture.room) || !(Number.isSafeInteger(capture.count) && capture.count >= 0)) throw new TypeError('capture is { room, count }');
+    taken = Object.freeze({ room: capture.room, count: capture.count });
+  }
+  if (viewer !== null && viewer !== undefined && !isSeat(viewer)) throw new TypeError('viewer is a seat, or null');
+  const me = viewer === null || viewer === undefined ? null : seatOf(viewer);
+  const one = checkTargets(targets, type)[0] ?? null;
+  const W = ACTION_WORDS.after;
+  const them = one ? (me !== null && one.seat === me ? W.you : one.name) : null;
+  if (type === 'REQUEST_HACK' && now !== null && !one) throw new TypeError('The private talk\'s time line names the other player: targets is [one person]');
+  if (type === 'PROTECT' && from !== null && !one) throw new TypeError('Protection\'s later step names who it protects: targets is [one person]');
+  const [title, detail] = {
+    REQUEST_BLACKOUT: [W.blackout, W.blackoutDetail],
+    REQUEST_HACK: [one ? W.talk(named(one, me)) : null, W.talkDetail],
+    ACTIVATE_CLONE: [W.clone, W.cloneDetail(until)],
+    ENGINEER_SUPPRESS: [W.suppress, W.suppressDetail(taken)],
+  }[type] ?? [null, null];
+  const step = (state, head, sub) => Object.freeze({ state, title: head, sub });
+  const registered = () => step('done', W.registered, W.yourTurn(now));
+  const steps = now === null ? [] : {
+    RESCUE: () => [registered(), step('next', W.endOfRound(now), W.rescueResolved)],
+    PROTECT: () => [registered(), step('next', W.endOfRound(now), W.withTheRound), ...(from === null ? [] : [step('later', W.round(from), W.protectionActive(them))])],
+    SUPPLY: () => [registered(), step('next', W.endOfRound(now), W.oneWeaponEach)],
+    REGISTER_SHOT: () => [registered(), step('next', W.endOfRound(now), W.shotResolved)],
+    REQUEST_BLACKOUT: () => [registered(), step('next', W.laterThisRound, W.litThenDark), step('later', W.whileDark, W.frozenPosition)],
+    REQUEST_HACK: () => [step('done', W.accepted, W.yourTurn(now)), step('next', W.afterThisTurn, W.declare(them)), step('later', W.then, W.claimThenTalk)],
+    ACTIVATE_CLONE: () => [step('done', W.activeNow, W.whenAccepted(now)), ...(until === null ? [] : [step('next', W.endOfRound(until), W.cloneEnds)])],
+    ENGINEER_SUPPRESS: () => [step('done', W.captured, W.whenAccepted(now)), step('next', W.navigation, W.weightRemoved)],
+  }[type]();
+  return Object.freeze({ kind: AFTER_KIND[type] ?? 'registered', title, detail, steps: Object.freeze(steps) });
 }
 /**
  * Sheet 45's "Outcome unknown": "Retry the same" and "Check receipt", each busy while it asks. The Hospital panel's
- * request too (PANEL_CODE, the Lead's Q3): both stand for commands, as for every action.
+ * request too (PANEL_CODE, the Lead's Q3): both stand for commands, as for every action. `canRetry` and `canCheck`
+ * are Frontend's (0.2.3, A14): a button the projection does not allow now keeps its place, unusable.
  */
-export function unknownSheet({ type, busy = null } = {}) {
+export function unknownSheet({ type, busy = null, canRetry = true, canCheck = true } = {}) {
   if (type !== undefined && type !== null) lookOf(type);
   if (![null, 'retry', 'check'].includes(busy)) throw new TypeError('busy is retry, check, or null');
   return { id: 'action-unknown', title: ACTION_WORDS.unknown, close: false, actions: [
-    { id: 'retry', label: ACTION_WORDS.retrySame, kind: 'secondary', icon: 'retry', busy: busy === 'retry', enabled: busy === null || busy === 'retry' },
-    { id: 'check', label: ACTION_WORDS.checkReceipt, kind: 'primary', icon: 'check', busy: busy === 'check', enabled: busy === null || busy === 'check' },
+    { id: 'retry', label: ACTION_WORDS.retrySame, kind: 'secondary', icon: 'retry', busy: busy === 'retry', enabled: busy === 'retry' || (busy === null && !!canRetry) },
+    { id: 'check', label: ACTION_WORDS.checkReceipt, kind: 'primary', icon: 'check', busy: busy === 'check', enabled: busy === 'check' || (busy === null && !!canCheck) },
   ] };
 }
 /**
  * Pass asks once (27.3): "The turn goes to Eli · Player 5" when the next player is known (B5), else no sub. Cancel only
  * closes the sheet (local: it works while reconnecting, except while Pass is sending); Pass stands for PASS_TURN.
+ * `canPass` is Frontend's (0.2.3, A14): while the projection does not allow it, Pass keeps its place, unusable.
  */
-export function passSheet({ next = null, busy = false } = {}) {
+export function passSheet({ next = null, busy = false, canPass = true } = {}) {
   const who = next ? person(next, 'next') : null;
   return { id: 'pass', title: ACTION_WORDS.passTitle, sub: who ? ACTION_WORDS.passNext(who.name, who.seat) : null, close: false, actions: [
     { id: 'cancel', label: ACTION_WORDS.cancel, kind: 'secondary', local: true, enabled: !busy },
-    { id: 'pass', label: ACTION_WORDS.pass, kind: 'primary', icon: 'pass', busy: !!busy },
+    { id: 'pass', label: ACTION_WORDS.pass, kind: 'primary', icon: 'pass', busy: !!busy, enabled: !!busy || !!canPass },
   ] };
 }
 /**
@@ -374,6 +496,7 @@ export function targetBar({ type, where = 'room', picked = [] }) {
   if (type === 'SUBMIT_CODE') throw new TypeError('The final Code has no target bar: it is the Hacker component\'s codeSheet() and mountFinalCode()');
   if (type === 'MOVE') throw new TypeError('Move chooses a position, not a person: its target bar is moveBar()');
   notPanel(type, 'has no target bar: its keypad is');
+  notOwn(type, 'is not targetBar()\'s');
   if (!['room', 'board'].includes(where)) throw new TypeError('where is room or board');
   const sub = l.people === 2 ? (picked.length ? ACTION_WORDS.chooseSecond : ACTION_WORDS.chooseTwo) : ACTION_WORDS.choosePlayer;
   return { icon: l.icon, title: l.title, sub: where === 'board' ? ACTION_WORDS.everyRoom(sub) : sub };
@@ -433,6 +556,7 @@ export function registeredToast({ type, kind = 'registered', id }) {
   const l = lookOf(type);
   if (type === 'MOVE') throw new TypeError('A move\'s toast is movedToast(): "Moved to A3" (Q2)');
   notPanel(type, 'has no toast (the Lead\'s Q4): its records are');
+  notOwn(type, 'has no registeredToast()');
   if (!AFTER_KINDS.includes(kind)) throw new TypeError(`kind is ${AFTER_KINDS.join(', ')}`);
   if (!isText(String(id ?? ''))) throw new TypeError('A toast needs the command\'s id, so it shows once');
   return { id: String(id), text: ACTION_WORDS.toast[kind](l.noun), icon: 'check' };

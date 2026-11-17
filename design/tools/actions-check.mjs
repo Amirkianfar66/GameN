@@ -77,6 +77,9 @@ const EXPECT = {
   unknown: { part: 'unknown', sheet: 'Outcome unknown', notice: 'Rescue Eli was sent, but no answer came back.', footer: 'Retry the same|Check receipt' },
   'unknown-blackout': { part: 'unknown', sheet: 'Outcome unknown', notice: 'Request Blackout was sent, but no answer came back.', footer: 'Retry the same|Check receipt' },
   'unknown-panel': { part: 'unknown', sheet: 'Outcome unknown', notice: 'Panel request was sent, but no answer came back.', footer: 'Retry the same|Check receipt' },
+  // Pass and the Disabler's position (0.2.3, A13): their sheet 45; the position's in the dark room.
+  'unknown-pass': { part: 'unknown', sheet: 'Outcome unknown', notice: 'Pass was sent, but no answer came back.', footer: 'Retry the same|Check receipt' },
+  'unknown-position': { part: 'unknown', sheet: 'Outcome unknown', notice: 'Position A3 was sent, but no answer came back.', footer: 'Retry the same|Check receipt', lighting: 'dark', dark: true },
   pass: { part: 'pass', sheet: 'Pass your turn?', sub: 'The turn goes to Eli · Player 5', note: 'Your move stays open on the other turns this round.', footer: 'Cancel|Pass' },
   stale: tilesOf(DOCTOR, { banner: 'Connection lost', refused: true }),
   concealed: { concealed: true },
