@@ -1,0 +1,16 @@
+<!doctype html>
+<!-- mothership:dev-only · The phone shell's preview: the runtime component (../phone-shell.mjs) with the room scene (../../room-scene/room-scene.mjs) in its stage, on the phone pack's synthetic fixtures, at the two development phone sizes. Not the game, not a release. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Phone shell · preview</title>
+<!-- Unbundled, the preview resolves the game's two package imports here; the bundled check (design/tools/phone-shell-check.mjs) needs none. -->
+<script type="importmap">{ "imports": { "@mothership/contracts": "../../../../../packages/contracts/dist/index.js", "zod": "../../../../../node_modules/zod/index.js" } }</script>
+<link rel="stylesheet" href="../phone-shell.css">
+<link rel="stylesheet" href="../../room-scene/room-scene.css">
+<link rel="stylesheet" href="./preview.css">
+<script type="module" src="./preview.mjs"></script>
+</head>
+<body></body>
+</html>

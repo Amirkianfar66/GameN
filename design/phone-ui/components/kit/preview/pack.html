@@ -1,0 +1,16 @@
+<!doctype html>
+<!-- mothership:dev-only · The pack's half of the kit's comparison (design/tools/kit-check.mjs): every case of cases.mjs drawn with the pinned pack's builders (../../../prototype/ui.mjs) and only the pack's own styles (kit.css, and screens.css for the result's paper card). Not the game, not a release. -->
+<html lang="en" data-side="pack">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Component kit · the pack's half</title>
+<!-- Unbundled, the page resolves the game's two package imports here; the bundled check needs none. -->
+<script type="importmap">{ "imports": { "@mothership/contracts": "../../../../../packages/contracts/dist/index.js", "zod": "../../../../../node_modules/zod/index.js" } }</script>
+<link rel="stylesheet" href="../../../prototype/kit.css">
+<!-- The pack's screens: their contextual rules only (none restyles a shared component), for the result's paper card. -->
+<link rel="stylesheet" href="../../../prototype/screens.css">
+<script type="module" src="./page.mjs"></script>
+</head>
+<body></body>
+</html>

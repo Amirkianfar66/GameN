@@ -1,0 +1,382 @@
+/*
+ * The phone interface's shared kit: runtime source, Designer's (kit.mjs builds the elements). One look
+ * for every component's controls: buttons, the icon button, the segmented control, the stepper, the
+ * switch, grouped lists and their rows, fields and code boxes, the inline error, portraits, the seat
+ * number, the 3 × 3 cells with their states, stamps, pills and the caption tag. These are the phone
+ * pack's own values (design/phone-ui/prototype/kit.css, which the frozen Food release pins, so it stays
+ * as it is; the kit's check draws the pack's ui.mjs builders beside these and compares them).
+ *
+ * Scope: everything applies inside an element with the class ms-kit, which each component adds to its
+ * own root. A glass surface (the shell's docked sheet) marks itself data-ms-surface="glass", and a paper
+ * card (a result's body) data-ms-surface="paper"; inside them the pack's glass and paper forms apply.
+ * Nothing here reaches an element without an ms-k- class.
+ *
+ * Weight: the root rule weighs nothing (:where(.ms-kit)) and every other rule one class (.ms-kit :where(…)),
+ * so any rule a component writes in its own parts outranks the kit, whatever order the stylesheets load in
+ * (each component's stylesheet imports this one, so a later copy must never undo an earlier component).
+ * Order alone decides between the kit's own rules, and this file is ordered as the pack's cascade resolves:
+ * the base forms, the glass forms, the states, the glass states, the paper forms, the list form and motion.
+ */
+
+/* ── The root: the pack's tokens and page text ───────────────────────── */
+:where(.ms-kit) {
+  --ms-k-canvas: #10141C;
+  --ms-k-surface-1: #171D29;
+  --ms-k-surface-2: #202837;
+  --ms-k-surface-3: #2A3346;
+  --ms-k-surface-4: #343F55;
+  --ms-k-paper: #F4EBDD;
+  --ms-k-paper-deep: #CBBBA2;
+  --ms-k-paper-shade: #E3D6C2;
+  --ms-k-ink: #151923;
+  --ms-k-text: #F4EBDD;
+  --ms-k-text-2: #B9C4D3;
+  --ms-k-text-3: #8696AE;
+  --ms-k-accent: #F1B84B;
+  --ms-k-on-accent: #151923;
+  --ms-k-caption: #F7C52B;
+  --ms-k-steel-mid: #55657E;
+  --ms-k-steel-light: #8696AE;
+  /* The teams' colours (the pack's --faction-*, 0.8.0), for a view that may show a team: a player's own card, or
+     the roles once the match has ended. A component never uses them for a team its viewer may not see. */
+  --ms-k-faction-blue: #70AFFF;
+  --ms-k-faction-red: #FF8C8C;
+  --ms-k-faction-alien: #C4A4FF;
+  --ms-k-hairline: rgba(185, 196, 211, 0.16);
+  --ms-k-glass-fill: rgba(8, 11, 18, 0.24);
+  --ms-k-glass-fill-2: rgba(255, 255, 255, 0.14);
+  --ms-k-glass-line: rgba(255, 255, 255, 0.1);
+  --ms-k-shadow-ink: 4px 4px 0 #05070B;
+  --ms-k-radius-control: 14px;
+  --ms-k-radius-group: 14px;
+  --ms-k-target: 44px;
+  --ms-k-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, "Segoe UI", sans-serif;
+  --ms-k-letter: "Arial Narrow", "Helvetica Neue", "Inter Display", Arial, sans-serif;
+  --ms-k-mono: ui-monospace, "SF Mono", "JetBrains Mono", monospace;
+  --ms-k-t-card: 220ms;
+  --ms-k-ease: cubic-bezier(0.2, 0, 0, 1);
+  /* What a filled icon's cut-outs show (kit.css :root --ic-knock), unless its own surface says otherwise. */
+  --ic-knock: var(--ms-k-canvas);
+  /* The pack's page text (kit.css body), for a component root that sets none of its own. */
+  font: 400 1rem/1.4 var(--ms-k-font);
+  color: var(--ms-k-text);
+  -webkit-font-smoothing: antialiased;
+}
+/* On glass the pack's greys are lighter (kit.css .sheet: --text-secondary, --text-tertiary), also inside a
+   component whose own .ms-kit root sits on the glass (a sheet's content), which would otherwise reset them. */
+.ms-kit :where([data-ms-surface="glass"], [data-ms-surface="glass"] .ms-kit) { --ms-k-text-2: #DCE3EC; --ms-k-text-3: #D3DBE5; }
+
+/* ── Every kit element ───────────────────────────────────────────────── */
+/* As the pack's `* { box-sizing: border-box }`: the elements, not their ::before and ::after. */
+.ms-kit :where([class^="ms-k-"], [class*=" ms-k-"]) { box-sizing: border-box; }
+.ms-kit :where(.ms-k-btn, .ms-k-icon-btn, .ms-k-seg-btn, .ms-k-stepper-btn, .ms-k-switch, .ms-k-row, .ms-k-cell) { font: inherit; color: inherit; margin: 0; }
+.ms-kit :where(.ms-k-btn, .ms-k-icon-btn, .ms-k-seg-btn, .ms-k-stepper-btn, .ms-k-switch, button.ms-k-row, button.ms-k-cell) { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ms-kit :where(:is(.ms-k-btn, .ms-k-icon-btn, .ms-k-seg-btn, .ms-k-stepper-btn, .ms-k-switch, .ms-k-row, .ms-k-cell):focus-visible) { outline: 3px solid #FFD36D; outline-offset: 2px; }
+.ms-kit :where(.ms-k-ic) { flex: none; }
+/* An icon's holder takes no box of its own: the icon sits in its control as the pack's does. */
+.ms-kit :where(.ms-k-btn-icon, .ms-k-icon-btn-icon, .ms-k-pill-icon, .ms-k-seg-icon, .ms-k-input-icon, .ms-k-toast-icon) { display: contents; }
+.ms-kit :where(.ms-k-vh) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.ms-kit :where([class^="ms-k-"][hidden], [class*=" ms-k-"][hidden]) { display: none !important; }
+
+/* ── Buttons (kit.css .btn) ─────────────────────────────────────────── */
+.ms-kit :where(.ms-k-btn) { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 0 18px; border-radius: var(--ms-k-radius-control); border: 0; font: 600 1.0625rem/1.2 var(--ms-k-font); letter-spacing: -0.01em; text-align: center; }
+.ms-kit :where(.ms-k-btn .ms-k-ic) { width: 22px; height: 22px; }
+.ms-kit :where(.ms-k-btn-primary) { background: var(--ms-k-accent); color: var(--ms-k-on-accent); box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.18); --ic-knock: var(--ms-k-accent); }
+.ms-kit :where(.ms-k-btn-secondary) { background: var(--ms-k-surface-3); color: var(--ms-k-text); }
+.ms-kit :where(.ms-k-btn-tinted) { background: rgba(241, 184, 75, 0.16); color: var(--ms-k-accent); }
+.ms-kit :where(.ms-k-btn-plain) { background: none; color: var(--ms-k-accent); min-height: var(--ms-k-target); padding: 0 8px; }
+.ms-kit :where(.ms-k-btn-outline) { background: none; color: var(--ms-k-text); box-shadow: inset 0 0 0 1.5px rgba(244, 235, 221, 0.35); }
+.ms-kit :where(.ms-k-btn-warn) { background: none; color: var(--ms-k-paper); box-shadow: inset 0 0 0 2px var(--ms-k-paper); }
+.ms-kit :where(.ms-k-btn[data-off]) { opacity: 0.4; }
+.ms-kit :where(.ms-k-btn[aria-busy="true"]) { color: transparent !important; }
+.ms-kit :where(.ms-k-btn[aria-busy="true"])::after { content: ""; position: absolute; width: 20px; height: 20px; border-radius: 50%; border: 2.5px solid var(--ms-k-on-accent); border-right-color: transparent; animation: ms-k-spin 0.8s linear infinite; }
+.ms-kit :where(.ms-k-btn-secondary[aria-busy="true"])::after { border-color: var(--ms-k-text); border-right-color: transparent; }
+.ms-kit :where(.ms-k-btn-block) { width: 100%; }
+.ms-kit :where(.ms-k-btn-sm) { min-height: 36px; padding: 0 12px; font-size: 0.9375rem; border-radius: 10px; }
+.ms-kit :where(.ms-k-btn-sm)::before { content: ""; position: absolute; inset: -4px 0; }
+@keyframes ms-k-spin { to { transform: rotate(360deg); } }
+.ms-kit :where(.ms-k-icon-btn) { flex: none; position: relative; width: var(--ms-k-target); height: var(--ms-k-target); padding: 1px 6px; border: 0; border-radius: 50%; background: none; display: grid; place-items: center; color: var(--ms-k-text-2); }
+.ms-kit :where(.ms-k-icon-btn)::before { content: ""; position: absolute; inset: 7px; border-radius: 50%; background: var(--ms-k-surface-3); }
+.ms-kit :where(.ms-k-icon-btn .ms-k-ic) { position: relative; width: 18px; height: 18px; }
+.ms-kit :where(.ms-k-icon-btn[data-off]) { opacity: 0.4; }
+
+/* ── The segmented control, the stepper, the switch ──────────────────── */
+.ms-kit :where(.ms-k-seg) { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: 3px; gap: 3px; border-radius: 12px; background: var(--ms-k-surface-1); box-shadow: inset 0 0 0 1px var(--ms-k-hairline); }
+.ms-kit :where(.ms-k-seg-btn) { min-height: 44px; border: 0; border-radius: 9px; background: none; color: var(--ms-k-text-2); font: 600 1rem/1.1 var(--ms-k-font); display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.ms-kit :where(.ms-k-seg-btn .ms-k-ic) { width: 18px; height: 18px; }
+.ms-kit :where(.ms-k-seg-btn:is([aria-pressed="true"], [aria-checked="true"])) { background: var(--ms-k-surface-4); color: var(--ms-k-text); box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35); }
+.ms-kit :where(.ms-k-stepper) { display: inline-flex; align-items: center; border-radius: 12px; background: var(--ms-k-surface-1); box-shadow: inset 0 0 0 1px var(--ms-k-hairline); }
+.ms-kit :where(.ms-k-stepper-btn) { width: var(--ms-k-target); height: var(--ms-k-target); border: 0; background: none; display: grid; place-items: center; color: var(--ms-k-text); }
+.ms-kit :where(.ms-k-stepper-btn .ms-k-ic) { width: 18px; height: 18px; }
+.ms-kit :where(.ms-k-stepper-btn[data-off]) { opacity: 0.35; }
+.ms-kit :where(.ms-k-stepper-value) { min-width: 34px; text-align: center; font: 600 1.0625rem/1 var(--ms-k-font); font-variant-numeric: tabular-nums; }
+.ms-kit :where(.ms-k-switch) { flex: none; width: 51px; height: 31px; padding: 1px 6px; border-radius: 16px; background: var(--ms-k-surface-4); position: relative; border: 0; }
+.ms-kit :where(.ms-k-switch)::before { content: ""; position: absolute; inset: -7px -2px; }
+.ms-kit :where(.ms-k-switch)::after { content: ""; position: absolute; top: 2px; left: 2px; width: 27px; height: 27px; border-radius: 50%; background: #F7F2EA; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35); transition: transform var(--ms-k-t-card) var(--ms-k-ease); }
+.ms-kit :where(.ms-k-switch[aria-checked="true"]) { background: var(--ms-k-accent); }
+.ms-kit :where(.ms-k-switch[aria-checked="true"])::after { transform: translateX(20px); }
+.ms-kit :where(.ms-k-switch[data-off]) { opacity: 0.4; }
+
+/* ── Portraits and the seat number (before the rows and cells that size them) ── */
+.ms-kit :where(.ms-k-pt) { display: block; flex: none; width: 44px; height: 44px; overflow: clip; background: center / contain no-repeat; }
+.ms-kit :where(.ms-k-pt-empty) { display: grid; place-items: center; overflow: visible; border-radius: 26%; background: var(--ms-k-surface-3); color: var(--ms-k-text-3); box-shadow: inset 0 0 0 1.5px var(--ms-k-hairline); }
+/* The badge is sized in its own em (22 px at the 13 px default), so it grows with the player's text size. */
+.ms-kit :where(.ms-k-num) { display: inline-grid; place-items: center; min-width: calc(22em / 13); height: calc(22em / 13); padding: 0 calc(5em / 13); border-radius: 999px; background: var(--ms-k-paper); color: var(--ms-k-ink); font: 800 0.8125rem/1 var(--ms-k-font); font-variant-numeric: tabular-nums; }
+
+/* ── Grouped lists and rows ─────────────────────────────────────────── */
+.ms-kit :where(.ms-k-group-label) { margin: 18px 4px 7px; font: 600 0.8125rem/1.2 var(--ms-k-font); color: var(--ms-k-text-2); text-transform: uppercase; letter-spacing: 0.04em; }
+.ms-kit :where(.ms-k-group-note) { margin: 7px 4px 0; font: 400 0.8125rem/1.35 var(--ms-k-font); color: var(--ms-k-text-3); }
+/* The section head (screens.css .section-head; 0.7.0): a title in capitals, and a line at the right. */
+.ms-kit :where(.ms-k-section-head) { display: flex; align-items: baseline; justify-content: space-between; margin: 4px 2px 10px; }
+.ms-kit :where(.ms-k-section-title) { margin: 0; font: 700 0.8125rem/1.2 var(--ms-k-font); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ms-k-text-2); }
+.ms-kit :where(.ms-k-section-aside) { font: 500 0.8125rem/1.2 var(--ms-k-font); color: var(--ms-k-text-3); }
+/* The notice (screens.css .registered; 0.7.0): an icon or a stamp centred over its lines, and what follows them. */
+.ms-kit :where(.ms-k-notice) { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 18px 0 8px; text-align: center; }
+.ms-kit :where(.ms-k-notice > p) { box-sizing: border-box; margin: 0; color: var(--ms-k-text-2); font: 500 0.9375rem/1.35 var(--ms-k-font); }
+.ms-kit :where(.ms-k-list) { margin: 0; padding: 0; list-style: none; border-radius: var(--ms-k-radius-group); background: var(--ms-k-surface-1); overflow: hidden; box-shadow: inset 0 0 0 1px var(--ms-k-hairline); }
+.ms-kit :where(.ms-k-list-item) { margin: 0; padding: 0; }
+.ms-kit :where(.ms-k-row) { position: relative; display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 7px 14px; width: 100%; border: 0; background: none; text-align: left; }
+.ms-kit :where(.ms-k-row + .ms-k-row, .ms-k-list-item + .ms-k-list-item > .ms-k-row)::before { content: ""; position: absolute; top: 0; right: 0; left: 52px; height: 1px; background: var(--ms-k-hairline); }
+/* A lead (a portrait) and a trail (a switch, a stepper) sit in the row itself, as the pack places them. */
+.ms-kit :where(.ms-k-row-lead, .ms-k-row-trail) { display: contents; }
+.ms-kit :where(.ms-k-row-icon) { flex: none; width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; color: var(--ms-k-ink); background: var(--ms-k-steel-light); --ic-knock: var(--ms-k-steel-light); }
+.ms-kit :where(.ms-k-row-icon .ms-k-ic) { width: 19px; height: 19px; }
+.ms-kit :where(.ms-k-row-icon[data-tint="amber"]) { background: var(--ms-k-accent); --ic-knock: var(--ms-k-accent); }
+.ms-kit :where(.ms-k-row-icon[data-tint="paper"]) { background: var(--ms-k-paper); --ic-knock: var(--ms-k-paper); }
+.ms-kit :where(.ms-k-row-icon[data-tint="steel"]) { background: var(--ms-k-steel-light); }
+.ms-kit :where(.ms-k-row-icon[data-tint="teal"]) { background: #57BBA8; --ic-knock: #57BBA8; }
+.ms-kit :where(.ms-k-row-icon[data-tint="slate"]) { background: #8FA3C4; --ic-knock: #8FA3C4; }
+.ms-kit :where(.ms-k-row-main) { flex: 1; min-width: 0; }
+.ms-kit :where(.ms-k-row-title) { display: block; font: 500 1.0625rem/1.25 var(--ms-k-font); letter-spacing: -0.01em; }
+.ms-kit :where(.ms-k-row-sub) { display: block; font: 400 0.8125rem/1.3 var(--ms-k-font); color: var(--ms-k-text-2); margin-top: 1px; }
+.ms-kit :where(.ms-k-row-value) { flex: none; color: var(--ms-k-text-2); font: 400 1rem/1.2 var(--ms-k-font); display: inline-flex; align-items: center; gap: 6px; }
+.ms-kit :where(.ms-k-row-chev) { flex: none; width: 16px; height: 16px; color: var(--ms-k-steel-mid); }
+.ms-kit :where(.ms-k-row .ms-k-pt) { width: 36px; height: 36px; }
+.ms-kit :where(.ms-k-row[data-off] :is(.ms-k-row-main, .ms-k-row-icon)) { opacity: 0.45; }
+
+/* ── Fields, code boxes and the inline error ────────────────────────── */
+.ms-kit :where(.ms-k-field) { display: block; margin-bottom: 14px; }
+.ms-kit :where(.ms-k-field-label) { display: block; margin: 0 4px 6px; font: 600 0.875rem/1.2 var(--ms-k-font); color: var(--ms-k-text-2); }
+/* The box is the pack's .input; the real input inside it carries the box's type and shows the pack's placeholder. */
+.ms-kit :where(.ms-k-input) { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 14px; border-radius: 13px; background: var(--ms-k-surface-1); box-shadow: inset 0 0 0 1.5px var(--ms-k-hairline); font: 500 1.0625rem/1.2 var(--ms-k-font); }
+.ms-kit :where(.ms-k-input[data-mono]) { font-family: var(--ms-k-mono); letter-spacing: 0.04em; }
+.ms-kit :where(.ms-k-input-text) { flex: 1; min-width: 0; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; font: inherit; letter-spacing: inherit; color: inherit; text-shadow: inherit; outline: none; }
+.ms-kit :where(.ms-k-input-text)::placeholder { color: var(--ms-k-text-3); opacity: 1; }
+.ms-kit :where(.ms-k-input-count) { margin-left: auto; color: var(--ms-k-text-3); font-size: 0.8125rem; font-variant-numeric: tabular-nums; }
+.ms-kit :where(.ms-k-code) { display: grid; grid-template-columns: repeat(6, 1fr); gap: 7px; }
+/* Tall enough for a letter's tail at any text size (Q at 200%): 56 px, or 1.75 of the letter's own size. */
+.ms-kit :where(.ms-k-code-box) { height: max(56px, 1.75em); border-radius: 12px; background: var(--ms-k-surface-1); box-shadow: inset 0 0 0 1.5px var(--ms-k-hairline); display: grid; place-items: center; font: 700 1.5rem/1 var(--ms-k-mono); }
+/* Errors are paper and ink with a warning shape: never red. */
+.ms-kit :where(.ms-k-error) { display: flex; gap: 8px; align-items: flex-start; margin: 8px 2px 0; padding: 10px 12px; border-radius: 12px; background: rgba(244, 235, 221, 0.08); font: 500 0.9375rem/1.35 var(--ms-k-font); color: var(--ms-k-paper); }
+.ms-kit :where(.ms-k-error .ms-k-ic) { width: 20px; height: 20px; color: var(--ms-k-accent); --ic-knock: var(--ms-k-surface-1); }
+/* ── A waiting block (screens.css .wait, .big-icon and .spinner) ── */
+.ms-kit :where(.ms-k-wait) { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; padding: 28px 8px 8px; }
+.ms-kit :where(.ms-k-wait-tile) { width: 76px; height: 76px; border-radius: 24px; display: grid; place-items: center; background: var(--ms-k-surface-2); color: var(--ms-k-accent); --ic-knock: var(--ms-k-surface-2); box-shadow: inset 0 0 0 1px var(--ms-k-hairline); }
+.ms-kit :where(.ms-k-wait-tile .ms-k-ic) { width: 40px; height: 40px; }
+.ms-kit :where(.ms-k-wait-title) { margin: 6px 0 0; font: 700 1.5rem/1.2 var(--ms-k-font); letter-spacing: -0.01em; }
+.ms-kit :where(.ms-k-wait[data-size="small"] .ms-k-wait-title) { font-size: 1.25rem; }
+.ms-kit :where(.ms-k-wait-line) { margin: 0; color: var(--ms-k-text-2); font: 500 1rem/1.4 var(--ms-k-font); }
+.ms-kit :where(.ms-k-spinner) { display: inline-block; width: 16px; height: 16px; border-radius: 50%; border: 2.4px solid currentColor; border-right-color: transparent; animation: ms-k-spin 0.8s linear infinite; vertical-align: -3px; }
+
+/* ── The tile, who and the facts (0.6.0; screens.css .tile, .confirm-who, .facts) ── */
+/* Moved from the Gameplay builder's play-parts when Promises needed them too: the pack's values on the kit's tokens. */
+.ms-kit :where(.ms-k-tiles) { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.ms-kit :where(.ms-k-tile) {
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; min-height: 104px; padding: 12px 6px 10px;
+  margin: 0; border: 0; border-radius: 16px; background: var(--ms-k-surface-3); color: var(--ms-k-text); font: inherit; text-align: center;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.ms-kit :where(.ms-k-tile:focus-visible) { outline: 3px solid #FFD36D; outline-offset: 2px; }
+.ms-kit :where(.ms-k-tile-icon) { position: relative; width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: var(--ms-k-paper); color: var(--ms-k-ink); --ic-knock: var(--ms-k-paper); }
+.ms-kit :where(.ms-k-tile-icon .ms-k-ic) { width: 28px; height: 28px; }
+.ms-kit :where(.ms-k-tile-name) { font: 600 0.9375rem/1.15 var(--ms-k-font); }
+.ms-kit :where(.ms-k-tile-note) { font: 500 0.75rem/1.2 var(--ms-k-font); color: var(--ms-k-text-2); }
+/* A card's art in place of the icon (0.7.0; sheet 25's side cards, the pack's .hack-card svg): the tile's width, at the card's own shape. */
+.ms-kit :where(.ms-k-tile-art) { display: block; width: 100%; }
+.ms-kit :where(.ms-k-tile-art svg) { box-sizing: border-box; display: block; width: 100%; height: auto; }
+/* A note with its icon before it (0.7.0; the private talk's lock, the pack's .declare-sides .tile small). */
+.ms-kit :where(.ms-k-tile-note[data-has-icon]) { display: inline-flex; align-items: center; gap: 4px; }
+.ms-kit :where(.ms-k-tile-note[data-has-icon] .ms-k-ic) { width: 14px; height: 14px; flex: 0 1 auto; }
+.ms-kit :where(.ms-k-tile-badge) { position: absolute; top: 8px; right: 8px; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; background: var(--ms-k-ink); color: var(--ms-k-paper); font: 700 0.75rem/22px var(--ms-k-font); box-shadow: 0 0 0 1.5px rgba(244, 235, 221, 0.4); }
+.ms-kit :where(.ms-k-tile-stamp) { position: absolute; left: 50%; top: 40px; transform: translateX(-50%) rotate(-6deg); padding: 3px 7px 2px; border: 2px solid var(--ms-k-ink); border-radius: 5px; background: var(--ms-k-paper); color: var(--ms-k-ink); font: 800 0.6875rem/1 var(--ms-k-letter); letter-spacing: 0.06em; box-shadow: 2px 2px 0 #05070B; white-space: nowrap; }
+.ms-kit :where(.ms-k-tile [hidden]) { display: none; }
+.ms-kit :where(.ms-k-who) { display: flex; align-items: center; gap: 14px; padding: 4px 0 6px; }
+.ms-kit :where(.ms-k-who-lead) { display: flex; flex: none; }
+/* After the portrait's own rule, which it outranks by order: the pack's .confirm-who .pt. */
+.ms-kit :where(.ms-k-who-lead .ms-k-pt) { width: 64px; height: 64px; }
+.ms-kit :where(.ms-k-who-lead[data-form="pair"] .ms-k-pt + .ms-k-pt) { margin-left: -14px; box-shadow: 0 0 0 2px var(--ms-k-surface-2); }
+/* An action's own tile. The pack's .confirm-who span rule reaches it too: its 2 px top margin and its type. */
+.ms-kit :where(.ms-k-who-lead[data-form="icon"]) { width: 64px; height: 64px; margin-top: 2px; border-radius: 18px; display: grid; place-items: center; background: var(--ms-k-paper); color: var(--ms-k-ink); --ic-knock: var(--ms-k-paper); font: 500 0.9375rem/1.35 var(--ms-k-font); }
+.ms-kit :where(.ms-k-who-lead[data-form="icon"] .ms-k-ic) { width: 36px; height: 36px; }
+.ms-kit :where(.ms-k-who-title) { display: block; font: 700 1.25rem/1.2 var(--ms-k-font); }
+.ms-kit :where(.ms-k-who-sub) { display: block; margin-top: 2px; font: 500 0.9375rem/1.35 var(--ms-k-font); color: var(--ms-k-text-2); }
+.ms-kit :where(.ms-k-who [hidden]) { display: none; }
+.ms-kit :where(.ms-k-facts) { margin: 10px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.ms-kit :where(.ms-k-fact) { display: flex; gap: 10px; align-items: flex-start; font: 500 0.9375rem/1.35 var(--ms-k-font); color: var(--ms-k-text-2); }
+.ms-kit :where(.ms-k-fact > .ms-k-ic) { flex: none; width: 20px; height: 20px; color: var(--ms-k-accent); --ic-knock: var(--ms-k-surface-2); }
+.ms-kit :where(.ms-k-facts[hidden]) { display: none; }
+
+/* ── The 3 × 3 and its cells ────────────────────────────────────────── */
+.ms-kit :where(.ms-k-grid9) { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.ms-kit :where(.ms-k-grid-wrap) { container: ms-k-grid / inline-size; }
+.ms-kit :where(.ms-k-cell) { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px 9px; border-radius: 16px; border: 0; background: var(--ms-k-surface-1); box-shadow: inset 0 0 0 1.5px var(--ms-k-hairline); min-width: 0; }
+.ms-kit :where(.ms-k-cell .ms-k-pt) { width: 100%; max-width: 92px; height: auto; aspect-ratio: 1; }
+.ms-kit :where(.ms-k-cell-name) { display: flex; align-items: center; gap: 5px; max-width: 100%; font: 600 0.875rem/1.2 var(--ms-k-font); }
+.ms-kit :where(.ms-k-cell-label) { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ms-kit :where(.ms-k-cell-note) { font: 500 0.75rem/1.2 var(--ms-k-font); color: var(--ms-k-text-2); min-height: 0.9rem; }
+.ms-kit :where(.ms-k-cell-mark) { position: absolute; top: 4px; right: 4px; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--ms-k-accent); color: var(--ms-k-on-accent); border: 2.5px solid var(--ms-k-ink); }
+.ms-kit :where(.ms-k-cell-mark .ms-k-ic) { width: 15px; height: 15px; }
+.ms-kit :where(.ms-k-count) { position: absolute; top: 6px; left: 6px; min-width: 30px; height: 30px; padding: 0 7px; border-radius: 15px; background: var(--ms-k-ink); color: var(--ms-k-paper); font: 800 1.0625rem/30px var(--ms-k-font); font-variant-numeric: tabular-nums; text-align: center; box-shadow: 0 0 0 2px rgba(244, 235, 221, 0.5); }
+.ms-kit :where(.ms-k-you) { position: absolute; top: 6px; left: 6px; padding: 2px 7px; border-radius: 8px; background: var(--ms-k-paper); color: var(--ms-k-ink); font: 800 0.6875rem/1.3 var(--ms-k-letter); letter-spacing: 0.06em; text-transform: uppercase; }
+
+/* ── Comic accents: stamps, pills, the caption tag ──────────────────── */
+.ms-kit :where(.ms-k-stamp) { display: inline-block; padding: 5px 12px 4px; border: 3px solid var(--ms-k-ink); border-radius: 7px; background: var(--ms-k-paper); color: var(--ms-k-ink); font: 800 1.125rem/1 var(--ms-k-letter); letter-spacing: 0.06em; text-transform: uppercase; transform: rotate(-4deg); box-shadow: var(--ms-k-shadow-ink); }
+.ms-kit :where(.ms-k-stamp[data-tone="amber"]) { background: var(--ms-k-accent); }
+/* Waiting, not a result: an outline only (a registered action, an accepted request). */
+.ms-kit :where(.ms-k-stamp[data-tone="pending"]) { background: transparent; color: var(--ms-k-paper); border-color: var(--ms-k-paper); border-style: dashed; }
+.ms-kit :where(.ms-k-stamp[data-tone="gold"]) { background: var(--ms-k-caption); }
+.ms-kit :where(.ms-k-stamp[data-tone="steel"]) { background: var(--ms-k-steel-light); }
+.ms-kit :where(.ms-k-pill) { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 11px; border-radius: 999px; background: var(--ms-k-surface-3); color: var(--ms-k-text-2); font: 600 0.8125rem/1 var(--ms-k-font); white-space: nowrap; }
+.ms-kit :where(.ms-k-pill .ms-k-ic) { width: 15px; height: 15px; }
+.ms-kit :where(.ms-k-pill[data-tone="amber"]) { background: rgba(241, 184, 75, 0.16); color: var(--ms-k-accent); }
+.ms-kit :where(.ms-k-pill[data-tone="paper"]) { background: var(--ms-k-paper); color: var(--ms-k-ink); --ic-knock: var(--ms-k-paper); }
+.ms-kit :where(.ms-k-pill[data-tone="accent"]) { background: var(--ms-k-accent); color: var(--ms-k-on-accent); --ic-knock: var(--ms-k-accent); }
+.ms-kit :where(.ms-k-caption) { display: inline-block; padding: 4px 10px 3px; background: var(--ms-k-caption); color: var(--ms-k-ink); border: 2px solid var(--ms-k-ink); font: 800 0.9375rem/1 var(--ms-k-letter); letter-spacing: 0.06em; text-transform: uppercase; transform: skewX(-9deg) rotate(-1.4deg); box-shadow: 3px 3px 0 #05070B; }
+.ms-kit :where(.ms-k-caption-text) { display: inline-block; transform: skewX(9deg); }
+
+/* The paper card (kit.css .comic, 0.6.0): the caller fills it and pads it, as the pack's screens do. */
+.ms-kit :where(.ms-k-comic) { position: relative; display: block; background: var(--ms-k-paper); color: var(--ms-k-ink); border: 3px solid var(--ms-k-ink); border-radius: 12px; box-shadow: var(--ms-k-shadow-ink); }
+
+/* ── The toast (kit.css .toast; 0.8.0) ─────────────────────────────────── */
+/* Over what it lies on, centred, 10 px under --ms-k-toast-top (where its owner's bar ends: the pack's --top), as wide as
+   its words and never wider than the phone less 16 px a side. Words that don't fit on one line wrap onto the next, so
+   every word shows (0.8.2: before, they were cut, "That phase closed · choi…" at the Large and Largest text, as the
+   in-game animation builder measured). Its corners are as round as a one-line toast's ends (half its one line, the
+   icon's 20 px or the words' 1.2 em, and the 9 px padding), so one line is the pack's pill and a wrapped toast's paper
+   still holds its words. It has no action, so it takes no tap: a tap reaches what is under it (Copy, Retry, a sheet's
+   Close). It drops in from 8 px up over 220 ms on the sheet's ease and, leaving, fades out over 180 ms (the shell's
+   toast since 0.1.0); its owner removes it after. */
+.ms-kit :where(.ms-k-toast) { position: absolute; left: 50%; top: calc(var(--ms-k-toast-top, 0px) + 10px); z-index: 70; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; width: max-content; max-width: calc(100% - 32px); padding: 9px 16px 9px 12px; border-radius: calc(max(20px, 1.2em) / 2 + 9px); background: var(--ms-k-paper); color: var(--ms-k-ink); font: 600 0.9375rem/1.2 var(--ms-k-font); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45); white-space: normal; pointer-events: none; --ic-knock: var(--ms-k-paper); animation: ms-k-toast-in 220ms cubic-bezier(0.16, 0.84, 0.3, 1) both; transition: opacity 180ms linear; }
+.ms-kit :where(.ms-k-toast .ms-k-ic) { width: 20px; height: 20px; }
+.ms-kit :where(.ms-k-toast-text) { text-align: start; overflow-wrap: anywhere; }
+.ms-kit :where(.ms-k-toast[data-leaving]) { opacity: 0; }
+@keyframes ms-k-toast-in { from { opacity: 0; transform: translate(-50%, -8px); } }
+
+/* ── On glass, the base forms (the shell's docked sheet: data-ms-surface="glass") ── */
+/* As the pack renders it (kit.css .sheet …, in its cascade order): lists and cells are solid surface-3 on
+   glass; inputs, steppers, code boxes and empty portraits are a thin dark layer with a light edge. They come
+   after the base forms and before the states, so every state (selected, confirmed, winner, focus) still wins. */
+.ms-kit :where([data-ms-surface="glass"] :is(.ms-k-list, .ms-k-cell)) { background: var(--ms-k-surface-3); box-shadow: none; }
+.ms-kit :where([data-ms-surface="glass"] :is(.ms-k-input, .ms-k-stepper, .ms-k-code-box, .ms-k-pt-empty)) { background: var(--ms-k-glass-fill); box-shadow: inset 0 0 0 1px var(--ms-k-glass-line); }
+.ms-kit :where([data-ms-surface="glass"] .ms-k-pill:not([data-tone])) { background: var(--ms-k-glass-fill-2); }
+.ms-kit :where([data-ms-surface="glass"] .ms-k-icon-btn)::before { background: var(--ms-k-glass-fill-2); }
+.ms-kit :where([data-ms-surface="glass"] .ms-k-btn-secondary) { background: rgba(8, 11, 18, 0.3); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16); }
+.ms-kit :where([data-ms-surface="glass"] .ms-k-seg) { background: rgba(0, 0, 0, 0.25); box-shadow: inset 0 0 0 1px var(--ms-k-glass-line); }
+
+/* The tile on glass (kit.css .sheet .tile); dark words on a light fill take no halo (.sheet … .mini-stamp). */
+.ms-kit :where([data-ms-surface="glass"] .ms-k-tile) { background: var(--ms-k-glass-fill); box-shadow: inset 0 0 0 1px var(--ms-k-glass-line); }
+.ms-kit :where([data-ms-surface="glass"] .ms-k-tile-stamp) { text-shadow: none; }
+
+/* ── The states ─────────────────────────────────────────────────────── */
+.ms-kit :where(.ms-k-input:focus-within, .ms-k-input[data-focus]) { box-shadow: inset 0 0 0 2px var(--ms-k-accent); }
+.ms-kit :where(.ms-k-input[data-invalid]) { box-shadow: inset 0 0 0 2px var(--ms-k-paper); }
+.ms-kit :where(.ms-k-code-box[data-focus]) { box-shadow: inset 0 0 0 2px var(--ms-k-accent); }
+.ms-kit :where(.ms-k-code[data-invalid] .ms-k-code-box) { box-shadow: inset 0 0 0 2px var(--ms-k-paper); }
+.ms-kit :where(.ms-k-cell[data-state="selected"]) { box-shadow: inset 0 0 0 3px var(--ms-k-accent); background: rgba(241, 184, 75, 0.12); }
+.ms-kit :where(.ms-k-cell[data-state="selected"] .ms-k-cell-note) { color: var(--ms-k-text); }
+.ms-kit :where(.ms-k-cell[data-state="confirmed"]) { box-shadow: inset 0 0 0 3px var(--ms-k-accent); }
+.ms-kit :where(.ms-k-cell:is([data-state="taken"], [data-state="ineligible"]) :is(.ms-k-pt, .ms-k-cell-name)) { opacity: 0.38; }
+.ms-kit :where(.ms-k-cell:is([data-state="taken"], [data-state="ineligible"]) .ms-k-cell-note) { color: var(--ms-k-text-2); }
+.ms-kit :where(.ms-k-cell[data-state="empty"]) { background: none; box-shadow: inset 0 0 0 1.5px rgba(185, 196, 211, 0.1); }
+.ms-kit :where(.ms-k-cell[data-state="winner"]) { box-shadow: inset 0 0 0 3px var(--ms-k-caption), 0 0 0 4px rgba(247, 197, 43, 0.18); background: rgba(247, 197, 43, 0.12); }
+.ms-kit :where(.ms-k-cell[data-state="faded"] :is(.ms-k-pt, .ms-k-cell-name)) { opacity: 0.55; }
+.ms-kit :where(.ms-k-cell[data-state="winner"] .ms-k-count) { background: var(--ms-k-caption); color: var(--ms-k-ink); box-shadow: 0 0 0 2px var(--ms-k-ink); }
+
+/* The tile's states (screens.css .tile[data-state]; sending is the pack's submitting). */
+.ms-kit :where(.ms-k-tile[data-state="selected"]) { box-shadow: inset 0 0 0 3px var(--ms-k-accent); background: rgba(241, 184, 75, 0.12); }
+.ms-kit :where(.ms-k-tile[data-state="selected"] .ms-k-tile-icon) { background: var(--ms-k-accent); --ic-knock: var(--ms-k-accent); }
+.ms-kit :where(.ms-k-tile:is([data-state="unavailable"], [data-state="spent"]) .ms-k-tile-icon) { background: var(--ms-k-surface-4); color: var(--ms-k-steel-light); --ic-knock: var(--ms-k-surface-4); }
+.ms-kit :where(.ms-k-tile:is([data-state="unavailable"], [data-state="spent"]) .ms-k-tile-name) { color: var(--ms-k-text-2); }
+/* An unavailable card's art fades to grey (0.7.0; the pack's .declare-sides .tile[data-state="unavailable"] .hack-card). */
+.ms-kit :where(.ms-k-tile[data-state="unavailable"] .ms-k-tile-art:not([data-node])) { opacity: 0.35; filter: grayscale(1); }
+.ms-kit :where(.ms-k-tile[data-state="registered"]) { box-shadow: inset 0 0 0 2px var(--ms-k-paper); }
+.ms-kit :where(.ms-k-tile[data-state="registered"] .ms-k-tile-icon) { background: var(--ms-k-ink); color: var(--ms-k-paper); box-shadow: inset 0 0 0 2px var(--ms-k-paper); --ic-knock: var(--ms-k-ink); }
+/* A tile that cannot be chosen now is the pack's div, not its button: no hand, and on glass the sheet's halo
+   reaches its words (a button's own styles drop the halo; the pack's .sheet sets it, as the shell's sheet does). */
+.ms-kit :where(.ms-k-tile:is([data-state="sending"], [data-state="registered"], [data-state="unavailable"], [data-state="spent"])) { cursor: auto; text-shadow: inherit; }
+.ms-kit :where(.ms-k-tile[data-state="sending"] .ms-k-tile-icon .ms-k-ic) { visibility: hidden; }
+.ms-kit :where(.ms-k-tile[data-state="sending"] .ms-k-tile-icon)::after { content: ""; position: absolute; width: 22px; height: 22px; border-radius: 50%; border: 3px solid var(--ms-k-ink); border-right-color: transparent; animation: ms-k-spin 0.8s linear infinite; }
+
+/* ── On glass, the states ───────────────────────────────────────────── */
+.ms-kit :where([data-ms-surface="glass"] .ms-k-seg-btn:is([aria-pressed="true"], [aria-checked="true"])) { background: var(--ms-k-glass-fill-2); }
+.ms-kit :where([data-ms-surface="glass"] .ms-k-cell[data-state="selected"]) { background: rgba(56, 42, 12, 0.42); }
+/* Dark words on a light fill take no halo: it would only darken round them. */
+.ms-kit :where([data-ms-surface="glass"] :is(.ms-k-btn-primary, .ms-k-num, .ms-k-you, .ms-k-count, .ms-k-stamp:not([data-tone="pending"]), .ms-k-caption, .ms-k-pill[data-tone="paper"], .ms-k-pill[data-tone="accent"])) { text-shadow: none; }
+
+/* ── On paper (a result's body: data-ms-surface="paper"; the pack's screens.css .result-body …) ── */
+/* After the states, as the pack's screens.css comes after its kit.css: the paper card restyles every cell. */
+.ms-kit :where([data-ms-surface="paper"] .ms-k-cell) { background: var(--ms-k-paper-shade); box-shadow: inset 0 0 0 1.5px rgba(21, 25, 35, 0.15); color: var(--ms-k-ink); padding: 6px 4px 7px; }
+.ms-kit :where([data-ms-surface="paper"] .ms-k-cell .ms-k-pt) { max-width: 74px; }
+.ms-kit :where([data-ms-surface="paper"] .ms-k-cell .ms-k-cell-note) { color: rgba(21, 25, 35, 0.72); }
+.ms-kit :where([data-ms-surface="paper"] .ms-k-cell .ms-k-num) { background: var(--ms-k-ink); color: var(--ms-k-paper); }
+/* The count holds the top-left corner, so "You" takes the top-right one (a result has no check mark). */
+.ms-kit :where([data-ms-surface="paper"] .ms-k-cell .ms-k-you) { left: auto; right: 6px; }
+.ms-kit :where([data-ms-surface="paper"] .ms-k-cell[data-state="winner"]) { background: #FBE7A1; box-shadow: inset 0 0 0 3px var(--ms-k-ink); }
+.ms-kit :where([data-ms-surface="paper"] .ms-k-cell[data-state="empty"]) { background: none; box-shadow: inset 0 0 0 1.5px rgba(21, 25, 35, 0.12); }
+.ms-kit :where([data-ms-surface="paper"] .ms-k-cell[data-state="ineligible"] :is(.ms-k-pt, .ms-k-cell-name)) { opacity: 0.4; }
+
+/* ── The list form of the 3 × 3 ─────────────────────────────────────── */
+/* Where the 3 × 3 has under 13 of its em across (200% text, or 150% on the smallest phone), names would be
+   cut to a letter: the roster becomes a list in seat order, every name whole; empty seats drop out. */
+@container ms-k-grid (max-width: 13em) {
+  .ms-kit :where(.ms-k-grid9) { grid-template-columns: 1fr; gap: 6px; }
+  .ms-kit :where(.ms-k-grid9 .ms-k-cell) { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "pt name count" ". note badge"; align-items: center; column-gap: 8px; row-gap: 2px; padding: 6px 10px; text-align: left; }
+  .ms-kit :where(.ms-k-grid9 .ms-k-cell .ms-k-pt) { grid-area: pt; width: calc(0.8125rem * 22 / 13); height: calc(0.8125rem * 22 / 13); max-width: none; }
+  .ms-kit :where(.ms-k-grid9 .ms-k-cell .ms-k-count) { grid-area: count; position: static; font-size: 0.8125rem; min-width: calc(22em / 13); height: calc(22em / 13); line-height: calc(22em / 13); padding: 0 calc(5em / 13); border-radius: 999px; }
+  .ms-kit :where(.ms-k-grid9 .ms-k-cell .ms-k-cell-name) { grid-area: name; min-width: 0; }
+  .ms-kit :where(.ms-k-grid9 .ms-k-cell .ms-k-cell-label) { white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; }
+  .ms-kit :where(.ms-k-grid9 .ms-k-cell .ms-k-cell-note) { grid-area: note; min-width: 0; min-height: 0; text-align: left; }
+  .ms-kit :where(.ms-k-grid9 .ms-k-cell :is(.ms-k-you, .ms-k-cell-mark)) { grid-area: badge; position: static; justify-self: end; }
+  .ms-kit :where(.ms-k-grid9 .ms-k-cell[data-state="empty"]) { display: none; }
+}
+/* On paper the 3 × 3 keeps the pack's 8 px gap in both its forms (screens.css .result-body .grid9 comes after the list form). */
+.ms-kit :where([data-ms-surface="paper"] .ms-k-grid9) { gap: 8px; }
+
+/* ── Larger text on a narrow phone ──────────────────────────────────── */
+/* A phone-sized root that kit parts sit in (the shell's; an entry screen's) carries .ms-k-phone: the container
+   the two rules below ask. They fix text that overlaps or is cut, with the pack's own rules for these two
+   parts (#228); nothing changes at the Standard text, where every phone 320 px or wider is 20 em or more across. */
+.ms-kit:where(.ms-k-phone), .ms-kit :where(.ms-k-phone) { container: ms-k-phone / inline-size; }
+/* followTextSize()'s box (kit.mjs, 0.8.1): 1 em tall and never seen, so the root learns when its text size changes and
+   sets its container up again (Chromium kept the old size's em for parts added afterwards). */
+.ms-kit :where(.ms-k-em) { position: absolute; inset-block-start: 0; inset-inline-start: 0; width: 0; height: 1em; overflow: hidden; visibility: hidden; pointer-events: none; }
+/* Under 19 em across (the Large or Largest text on any phone up to 456 px wide): a row's value goes under its
+   title instead of beside it, so neither runs into the other ("Promises" and "Given 0/1 · Received 1/1"). A long
+   value wraps. The lead (icon, portrait) and the trail (chevron, switch, stepper) keep their places at the sides. */
+@container ms-k-phone (max-width: 19em) {
+  .ms-kit :where(.ms-k-row:has(> .ms-k-row-value:not([hidden]))) { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; column-gap: 0; row-gap: 2px; }
+  .ms-kit :where(.ms-k-row:has(> .ms-k-row-value:not([hidden])) > .ms-k-row-icon, .ms-k-row:has(> .ms-k-row-value:not([hidden])) > .ms-k-row-lead > .ms-k-pt) { grid-column: 1; grid-row: 1 / span 2; margin-inline-end: 12px; }
+  .ms-kit :where(.ms-k-row:has(> .ms-k-row-value:not([hidden])) > .ms-k-row-main) { grid-column: 2; grid-row: 1; }
+  .ms-kit :where(.ms-k-row > .ms-k-row-value) { grid-column: 2; grid-row: 2; justify-self: start; text-align: left; flex-wrap: wrap; }
+  .ms-kit :where(.ms-k-row:has(> .ms-k-row-value:not([hidden])) > :is(.ms-k-row-chev, .ms-k-row-trail > :is(.ms-k-switch, .ms-k-stepper))) { grid-column: 3; grid-row: 1 / span 2; margin-inline-start: 12px; }
+}
+/* Under 15 em across (the Largest text on any phone, or Large on the smallest): a segmented control whose words
+   don't fit side by side (Card · Knowledge · Resources) stacks its options, one per row, each still 44 px. One
+   of short options (7 · 8 · 9) doesn't ask to (seg's `stack`), and stays a row. */
+@container ms-k-phone (max-width: 15em) {
+  .ms-kit :where(.ms-k-seg[data-stack]) { grid-auto-flow: row; }
+}
+
+/* ── Reduce motion: the game's (data-motion="reduced" on a component's root) or the device's ── */
+.ms-kit:where([data-motion="reduced"]) :where(.ms-k-btn, .ms-k-switch)::after { animation: none; transition-duration: 80ms; }
+@media (prefers-reduced-motion: reduce) { .ms-kit :where(.ms-k-btn, .ms-k-switch)::after { animation: none; transition-duration: 80ms; } }
+/* The waiting block's spinner stands still, as a busy button's does. */
+.ms-kit:where([data-motion="reduced"]) :where(.ms-k-spinner) { animation: none; }
+@media (prefers-reduced-motion: reduce) { .ms-kit :where(.ms-k-spinner) { animation: none; } }
+/* The tile's sending spinner stands still, as the kit's other spinners do (0.6.0). */
+.ms-kit:where([data-motion="reduced"]) :where(.ms-k-tile[data-state="sending"] .ms-k-tile-icon)::after { animation: none; }
+@media (prefers-reduced-motion: reduce) { .ms-kit :where(.ms-k-tile[data-state="sending"] .ms-k-tile-icon)::after { animation: none; } }
+/* The toast fades in over 80 ms without its drop (0.8.0, the shell's since 0.1.0); it still fades out. */
+.ms-kit:where([data-motion="reduced"]) :where(.ms-k-toast) { animation: ms-k-fade 80ms linear both; }
+@media (prefers-reduced-motion: reduce) { .ms-kit :where(.ms-k-toast) { animation: ms-k-fade 80ms linear both; } }
+@keyframes ms-k-fade { from { opacity: 0; } }
