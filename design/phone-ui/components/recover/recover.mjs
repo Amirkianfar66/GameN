@@ -13,10 +13,10 @@
 // The box is emptied once the seat is recovered and on dispose, and the code is never put in an attribute, a
 // report or the layout. What it never does: work out whether a code was accepted, how long one lasts, or why.
 
-import { createControlPolicy, createKit } from '../kit/kit.mjs';
+import { createControlPolicy, createKit, followTextSize } from '../kit/kit.mjs';
 import { createEntryParts } from '../entry-parts/entry-parts.mjs';
 
-export const RECOVER_VERSION = 'recover-0.1.0';
+export const RECOVER_VERSION = 'recover-0.1.1';
 const VIEWS = Object.freeze(['form', 'recovered']);
 
 /** The pack's words (screens-entry.mjs, recover; sheet 14), and the connection's (the Lead's review of #291, question 2). */
@@ -98,6 +98,8 @@ export function mountRecover(host, input = {}, handlers = {}) {
   screen.append(nav);
   root.append(screen);
   host.append(root);
+  // A phone root outside the shell: a part opened after the text size changes takes the new size's rules (kit 0.8.1).
+  const textSize = followTextSize(root);
   // The form's boxes live for the screen's life, so the Match ID and the code keep their typing across views.
   const { field: idField, input: idBox } = kit.field({ label: RECOVER_WORDS.matchId, value: '', placeholder: RECOVER_WORDS.matchIdHint, mono: true, autocomplete: 'off' });
   idBox.id = `${uid}-match`;
@@ -238,6 +240,7 @@ export function mountRecover(host, input = {}, handlers = {}) {
     root.removeEventListener('input', onInput);
     root.removeEventListener('keydown', onKey);
     policy.dispose();
+    textSize.dispose();
     root.remove();
   }
 

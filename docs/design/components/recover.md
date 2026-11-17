@@ -1,6 +1,6 @@
 # Recover: Designer's runtime component
 
-**Version:** `recover-0.1.0`. **Status (16 November 2026):** the interface is approved by the Lead Designer (#291 at `c7840a9e`), with the decisions below, and posted on #4 for Frontend. It is built on kit 0.5.1 and entry-parts 0.3.0, now merged to kit 0.8.0, shell 0.2.8 and entry-parts 0.4.0 (#265 at `0e5a0b8a`, through #287 and #289 at `2f501780`), with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (`docs/design/owner-decisions.md`, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
+**Version:** `recover-0.1.1` (17 November: it calls the kit's `followTextSize`, [below](#the-text-size-after-the-screen-is-mounted)). **Status (16 November 2026):** the interface is approved by the Lead Designer (#291 at `c7840a9e`), with the decisions below, and posted on #4 for Frontend. It is built on kit 0.5.1 and entry-parts 0.3.0, now merged to kit 0.8.0, shell 0.2.8 and entry-parts 0.4.0 (#265 at `0e5a0b8a`, through #287 and #289 at `2f501780`), with its preview, probe, agreement with the pack, check and test, as the owner's 16 November decision has each part built without waiting for Frontend (`docs/design/owner-decisions.md`, #280). It is not in the game yet: Integration first admits its files with the kit's graph. It is not a release.
 
 **What it is:** the screen a player uses to take their seat back with the host's code, as sheet 14 draws it. It is #222 item 25, P3. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -119,6 +119,10 @@ recover.dispose();              // safe twice, and empties the code's box; after
 4. **Reconnecting** is the shell's banner over the room, not this screen.
 
 **Added in the build:** `focus('matchId' | 'code')`, as join's form, where Frontend wants the focus (the sheet draws the Match ID's box ringed while typing); and `clearCode()`, as the interface proposed.
+
+## The text size, after the screen is mounted
+
+The Lead, 17 November (`recover-0.1.1`): in Chromium a phone root's container re-reads its em only while something inside it uses one of its queries, so a part opened after the text size changes could keep the old size's layout. Recover calls the kit's `followTextSize(root)` (kit 0.8.1, #265) once it is mounted, and disposes it with the screen. The probe's **text later** check mounts it at the Standard text, sets the Largest, then opens a part (the code refused under its box; the recovered seat), and holds every box to Recover mounted at the Largest. Nothing is drawn differently.
 
 ## Checks
 
