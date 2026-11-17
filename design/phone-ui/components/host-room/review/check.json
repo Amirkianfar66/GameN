@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/host-room-check.mjs",
   "component": "design/phone-ui/components/host-room",
-  "sourceCommit": "193743f7521a2eddb8e9e1dc3974b64a306ed65b",
+  "sourceCommit": "37d9f616872357eaacbb37d028042e391aaf941f",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -45,7 +45,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -56,6 +56,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Host",
       "back": "Menu",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": true,
       "heading": "New room",
       "checked": "9",
       "mix": "5 Blue · 3 Red · 1 Alien",
@@ -107,7 +111,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -118,6 +122,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Host",
       "back": "Menu",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": true,
       "heading": "New room",
       "checked": "9",
       "mix": "5 Blue · 3 Red · 1 Alien",
@@ -169,7 +177,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -180,6 +188,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Host",
       "back": "Menu",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": true,
       "heading": "New room",
       "checked": "7",
       "mix": "4 Blue · 2 Red · 1 Alien",
@@ -231,7 +243,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -242,6 +254,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Host",
       "back": "Menu",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": true,
       "heading": "New room",
       "checked": "7",
       "mix": "4 Blue · 2 Red · 1 Alien",
@@ -286,14 +302,14 @@
     },
     "390x844/opening": {
       "file": "design/phone-ui/components/host-room/review/390x844-opening.jpg",
-      "sha256": "09f40b8958f14245592dc4d2cba0e24c65a0a8000554d2ec79d75897a971e61e",
+      "sha256": "cd59fdef8f488d9eecb1df34688dd4d6c405096a9c7a1a225a0b4beca18dbaee",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -304,6 +320,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Host",
       "back": "Menu",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": true,
       "heading": "New room",
       "checked": "9",
       "mix": "5 Blue · 3 Red · 1 Alien",
@@ -348,14 +368,14 @@
     },
     "430x932/opening": {
       "file": "design/phone-ui/components/host-room/review/430x932-opening.jpg",
-      "sha256": "5e8042867fcb79bc6c5e3e840050d0aef78907d0367283e204ba001347ceee9e",
+      "sha256": "459577e13524de780fbc0586fa4c40515e1af176ef4a63daf175637d8c2ed4f1",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -366,6 +386,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Host",
       "back": "Menu",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": true,
       "heading": "New room",
       "checked": "9",
       "mix": "5 Blue · 3 Red · 1 Alien",
@@ -417,7 +441,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -428,6 +452,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Host",
       "back": "Menu",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": true,
       "heading": "New room",
       "checked": "9",
       "mix": "5 Blue · 3 Red · 1 Alien",
@@ -479,7 +507,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -490,6 +518,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Host",
       "back": "Menu",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": true,
       "heading": "New room",
       "checked": "9",
       "mix": "5 Blue · 3 Red · 1 Alien",
@@ -541,7 +573,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -552,6 +584,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Lobby",
       "back": "Leave",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": false,
       "heading": null,
       "checked": null,
       "mix": null,
@@ -600,7 +636,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -611,6 +647,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Lobby",
       "back": "Leave",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": false,
       "heading": null,
       "checked": null,
       "mix": null,
@@ -659,7 +699,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -670,6 +710,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Lobby",
       "back": "Leave",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": false,
       "heading": null,
       "checked": null,
       "mix": null,
@@ -718,7 +762,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -729,6 +773,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Lobby",
       "back": "Leave",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": false,
       "heading": null,
       "checked": null,
       "mix": null,
@@ -777,7 +825,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -788,6 +836,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Lobby",
       "back": "Leave",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": false,
       "heading": null,
       "checked": null,
       "mix": null,
@@ -836,7 +888,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -847,6 +899,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Lobby",
       "back": "Leave",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": false,
       "heading": null,
       "checked": null,
       "mix": null,
@@ -895,7 +951,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -906,6 +962,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Lobby",
       "back": "Leave",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": false,
       "heading": null,
       "checked": null,
       "mix": null,
@@ -954,7 +1014,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -965,6 +1025,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Lobby",
       "back": "Leave",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": false,
       "heading": null,
       "checked": null,
       "mix": null,
@@ -1013,7 +1077,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1024,6 +1088,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Lobby",
       "back": "Leave",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": false,
       "heading": null,
       "checked": null,
       "mix": null,
@@ -1072,7 +1140,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1083,6 +1151,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Lobby",
       "back": "Leave",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": false,
       "heading": null,
       "checked": null,
       "mix": null,
@@ -1122,6 +1194,264 @@
       },
       "problems": []
     },
+    "390x844/setup-nomix": {
+      "file": "design/phone-ui/components/host-room/review/390x844-setup-nomix.jpg",
+      "sha256": "151df46d160321538add679ea6ca170a1704e22c79f2fa3fb550afd2802eb539",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-OQaNMF_O.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "setup",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Host",
+      "back": "Menu",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": false,
+      "heading": "New room",
+      "checked": "9",
+      "mix": null,
+      "rows": [
+        "Players ask to join You admit each one",
+        "Bots fill empty seats Set them in the lobby"
+      ],
+      "open": "Open room",
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": null,
+      "codeName": null,
+      "copy": null,
+      "seats": null,
+      "asking": null,
+      "requests": [],
+      "admits": 0,
+      "admitsRefused": 0,
+      "members": 0,
+      "startRefused": false,
+      "startNote": null,
+      "moreRefused": false,
+      "moreLook": null,
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "430x932/setup-nomix": {
+      "file": "design/phone-ui/components/host-room/review/430x932-setup-nomix.jpg",
+      "sha256": "eaed4002b419ff9d6e49445ab9b14646569d21c1c565fad62798977d653ee0f5",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-OQaNMF_O.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "setup",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Host",
+      "back": "Menu",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": false,
+      "heading": "New room",
+      "checked": "9",
+      "mix": null,
+      "rows": [
+        "Players ask to join You admit each one",
+        "Bots fill empty seats Set them in the lobby"
+      ],
+      "open": "Open room",
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": null,
+      "codeName": null,
+      "copy": null,
+      "seats": null,
+      "asking": null,
+      "requests": [],
+      "admits": 0,
+      "admitsRefused": 0,
+      "members": 0,
+      "startRefused": false,
+      "startNote": null,
+      "moreRefused": false,
+      "moreLook": null,
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": false,
+      "copyInside": null,
+      "copyUnder": null,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "390x844/lobby-noleave": {
+      "file": "design/phone-ui/components/host-room/review/390x844-lobby-noleave.jpg",
+      "sha256": "28e1044e0e3fad35843f70219dea9ad61be328a9b9b35866532d7bc1da55841d",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-OQaNMF_O.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "lobby",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "backRefused": true,
+      "backDimmed": true,
+      "backReason": "Not available in this test",
+      "mixShown": false,
+      "heading": null,
+      "checked": null,
+      "mix": null,
+      "rows": [],
+      "open": null,
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": "K7Q2XM",
+      "codeName": "Room code K 7 Q 2 X M",
+      "copy": "Copy",
+      "seats": "5 of 9 seats",
+      "asking": "Asking to join · 2",
+      "requests": [],
+      "admits": 2,
+      "admitsRefused": 0,
+      "members": 5,
+      "startRefused": true,
+      "startNote": "4 more seats to fill",
+      "moreRefused": false,
+      "moreLook": "1",
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": true,
+      "copyInside": true,
+      "copyUnder": false,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
+    "430x932/lobby-noleave": {
+      "file": "design/phone-ui/components/host-room/review/430x932-lobby-noleave.jpg",
+      "sha256": "e09c494a33104a6b5ce9363d7319336b39226d7b67b91d7b71f12b9317cc8c80",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-OQaNMF_O.js",
+          "line": 1,
+          "column": 3328,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "lobby",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "backRefused": true,
+      "backDimmed": true,
+      "backReason": "Not available in this test",
+      "mixShown": false,
+      "heading": null,
+      "checked": null,
+      "mix": null,
+      "rows": [],
+      "open": null,
+      "openRefused": false,
+      "openBusy": false,
+      "error": null,
+      "code": "K7Q2XM",
+      "codeName": "Room code K 7 Q 2 X M",
+      "copy": "Copy",
+      "seats": "5 of 9 seats",
+      "asking": "Asking to join · 2",
+      "requests": [],
+      "admits": 2,
+      "admitsRefused": 0,
+      "members": 5,
+      "startRefused": true,
+      "startNote": "4 more seats to fill",
+      "moreRefused": false,
+      "moreLook": "1",
+      "note": null,
+      "toast": null,
+      "toastTop": null,
+      "scrolls": false,
+      "copyInside": true,
+      "copyUnder": false,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "problems": []
+    },
     "390x844/setup-large": {
       "file": "design/phone-ui/components/host-room/review/390x844-setup-large.jpg",
       "sha256": "eaee4d4eb37b45f3c9737d9fe9faad4d178e220d0d6b667917fd5be3c65b3e3e",
@@ -1131,7 +1461,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1142,6 +1472,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Host",
       "back": "Menu",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": true,
       "heading": "New room",
       "checked": "9",
       "mix": "5 Blue · 3 Red · 1 Alien",
@@ -1193,7 +1527,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1204,6 +1538,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Host",
       "back": "Menu",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": true,
       "heading": "New room",
       "checked": "9",
       "mix": "5 Blue · 3 Red · 1 Alien",
@@ -1255,7 +1593,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1266,6 +1604,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Lobby",
       "back": "Leave",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": false,
       "heading": null,
       "checked": null,
       "mix": null,
@@ -1314,7 +1656,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1325,6 +1667,10 @@
       "canvas": "rgb(16, 20, 28)",
       "title": "Lobby",
       "back": "Leave",
+      "backRefused": false,
+      "backDimmed": false,
+      "backReason": null,
+      "mixShown": false,
       "heading": null,
       "checked": null,
       "mix": null,
@@ -1406,6 +1752,35 @@
                   9
                 ]
               ]
+            }
+          }
+        },
+        {
+          "id": "the game’s gaps: a count given without its mix draws no line (G1); Leave unavailable is dimmed and refused, with Frontend’s reason, and reports nothing (G6)",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "setupSeen": {
+                "hidden": true,
+                "words": "",
+                "back": "5 Blue · 3 Red · 1 Alien"
+              },
+              "leaveSeen": {
+                "refused": true,
+                "dimmed": true,
+                "reason": "Not available in this test",
+                "taps": [],
+                "after": {
+                  "refused": false,
+                  "reason": null,
+                  "taps": [
+                    [
+                      "onLeave"
+                    ]
+                  ]
+                }
+              }
             }
           }
         },
@@ -1741,7 +2116,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1777,7 +2152,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DPIaumJB.js",
+          "source": "assets/index-OQaNMF_O.js",
           "line": 1,
           "column": 3328,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3116,7 +3491,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-DPIaumJB.js",
+        "source": "assets/index-OQaNMF_O.js",
         "line": 1,
         "column": 3328,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
