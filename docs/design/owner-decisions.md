@@ -6,6 +6,98 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 17 November 2026: every room redesigned in one cyber-comic-noir style, room by room, with who builds what
+
+**Recorded by the Lead Designer from the owner's message to the Lead.**
+
+**What was given.** Four pictures and a written brief:
+- **Two room pictures from the owner:** Room A in blue steel, with a round window onto a planet, and Room B, a violet laboratory. Each fills a phone, under bars like the game's.
+- **Two frames from an outside artist's animation:** a city street and a ship among asteroids. Like the two frames of 17 November [below](#17-november-2026-generated-backgrounds-and-one-noir-filter-for-the-pre-game-animation-test), they are mood references, described in words. They are not given to a tool as pictures, and the team names no artist in a prompt.
+- **A description of the look the owner wants,** which begins: "The most useful description is **illustrative 3D science-fiction animation with an inked graphic-novel finish**." It ends with the same direction for the Designer that the owner gave on 16 November, quoted [below](#16-november-2026-a-hand-inked-graphic-novel-world-for-the-pre-game-animation-test).
+
+**The brief,** as written:
+
+> Consider Frontend agent should not rebuild the Designer agent work at all, so some connects should be by designer for easier integration and avoid future issues, The goal is to **redesign all GameN rooms in a consistent cyber-comic-noir style, with visual depth, animation and clearly defined interactive elements**. This includes Room A, Room B, Command Room, Hospital, Jail, Supply Room and Private Room.
+>
+> Each room needs both a **layer map** and an **item-by-item specification**. These form the shared reference for Claude Designer and the Frontend agent.
+>
+> Each scene has three main depth groups:
+>
+> - **Far:** animated exterior views through windows, such as stars, planets and other space elements. These animations appear within the window openings. Rooms without exterior windows do not need an artificial exterior layer.
+> - **Middle:** the room’s structure, including walls, floor, ceiling, window frames and fixed equipment.
+> - **Foreground:** elements such as table edges, pipes and furniture fronts that create depth and partially overlap characters.
+>
+> These groups can contain multiple assets. For example, a desk may need separate back, surface and front pieces so a character’s body appears behind it while their hands rest on top.
+>
+> For **every item**, define:
+>
+> - Its position, depth and relationship to surrounding objects.
+> - Which parts are still artwork and which require separate movable pieces.
+> - Its animation: what moves, what triggers it, whether it loops and when it stops.
+> - Its interaction: whether players can use it, how they use it and what feedback they receive.
+> - Its possible states, such as open/closed, active/inactive or full/empty.
+> - Whether its behaviour is decorative, automatic or driven by an authorized gameplay event.
+>
+> An item can be **both animated and interactive**. A Hospital panel combines a static housing, changing display content and player input.
+>
+> **Image generation** supplies environment artwork, prop components and character appearance references. Moving objects can use generated image parts, with their movement controlled by code. Characters remain separate from backgrounds and perform activities appropriate to their positions, such as working at a computer or handling boxes. Decorative activities make the environment feel alive; gameplay outcomes follow the authoritative game state.
+>
+> **A shared visual finishing filter** unifies backgrounds, props and characters. Harmonize exposure, contrast, colour, ink-like shadows and subtle halftone textures while preserving each location’s atmosphere and keeping faces and interactive objects readable. Use adjustments for different rooms and depth layers. Keep UI, team colours and meaningful status indicators outside the environmental filter.
+>
+> Bake static finishing effects into artwork where practical, and match animated elements to that appearance. Support **Reduce Motion** for decorative animation and camera movement. The underlying artwork must also agree on perspective, scale and lighting.
+>
+> **Implementation responsibilities are divided as follows:**
+>
+> - **Claude Designer owns the visual implementation:** artwork, reusable visual components, layout, styles, character rigs and acting, visual effects, exterior animations, filter treatment and visual states. Claude also writes the specifically assigned connections that mount these components in the game.
+> - **Frontend owns the application’s functional integration:** authorized data, server communication, commands, navigation, recovery, accessibility behaviour and runtime performance. Frontend reviews Claude’s game-side connections against these responsibilities.
+> - **Backend owns gameplay authority:** rules, permissions, outcomes, timing and information visibility.
+> - **Integration coordinates compatible versions, review, merge and deployment.**
+>
+> **Using code does not automatically make a task the Frontend agent’s responsibility.** Visual and animation code belongs to Claude Designer. Each integration task must have one named implementation owner, with the other agent reviewing it.
+>
+> The preview and the actual game must consume the **same canonical visual components**. Frontend should connect those components rather than recreate their appearance. Required visual corrections go back into Claude’s canonical source.
+>
+> The handoff includes registered assets, masks, contact points, animation pivots, interaction areas, component inputs and callbacks, and reference compositions for mobile Room and Board views—with enough margins for planned camera movement.
+
+**What it decides:**
+- **Which rooms:** all seven are redesigned in one style: Room A, Room B, the Command Room, the Hospital, the Jail, the Supply Room (Food Supply's) and the Private Room (the private talk's).
+- **What each room gets:**
+  - a layer map, in the three depth groups (far, middle, foreground);
+  - an item-by-item specification, with the six points above for every item;
+  - a handoff with the parts the last paragraph lists.
+
+  Designer and Frontend both work from them.
+- **Where the pictures come from:**
+  - Image generation makes the environments, the props' parts and references for how the characters look.
+  - Code moves whatever moves.
+  - The characters stay apart from the backgrounds and act at their places.
+  - What players see happen in the game comes from the authoritative game state.
+- **The finish:** one shared filter, tuned for each room and depth, and baked into still pictures where it can be. The UI, the teams' colours and any status that means something stay outside it.
+- **Who builds what:**
+  - Designer owns the look in code as well as in pictures, and writes the connections it is given that mount its components in the game.
+  - Frontend owns the game's functional side and reviews those connections.
+  - Backend owns the rules, and Integration owns versions, review, merge and deployment.
+  - Every integration task has one named implementation owner, and the other side reviews it.
+  - This confirms and widens the owner's 15 November decision that Designer connects its parts.
+- **One source:** the preview and the game use the same canonical components. Visual fixes go back into Designer's source, not into a copy.
+
+**What it changes:** the 17 November record below kept generated pictures out of the game's rooms and left open whether the method would go beyond the Doctor test. It now goes to every room. The rules recorded there apply to every room picture:
+- the tool's terms allow commercial use;
+- each picture is kept with its tool, its prompt and its date;
+- outside frames are references in words only.
+
+**What stays the same until the owner approves the new rooms:**
+- The approved rooms (`room-drawing-1.0.0`) stay in the game.
+- Each room keeps its five places (the 11 October hard rule).
+- The characters are the nine approved crew (`design-0.9.0`), as separate rigs. Any change to their drawing for the new finish is shown to the owner before it is used.
+- Components show authorized state and send the player's intent. They decide no outcome.
+
+**The human test:** the Lead recommends that it ships on today's rooms, so nothing in it waits for the redesign; the owner has not answered yet. The game mounts the room scene component, so the new rooms can come later inside it with no change to the game.
+
+**What it leaves open:**
+- Which image tool the owner uses, and its terms.
+- Each room's composition and camera. Room A is the pilot, for the owner to see first.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
