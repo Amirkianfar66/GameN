@@ -48,7 +48,7 @@ What each step gives the shell and the sheet's body. Every frame, bar, chip and 
 | Passed | `PASS_TURN` at `accepted` | no sheet; `passedToast()`: "Turn passed" | |
 | Move | `MOVE` at `slots` (the tile chose the viewer's room) | no sheet; `moveBar()`: "Move within Room B" with "Choose an empty position · or another room on the Board"; `moveChip()`; on the board, "Move · uses this round’s move" | none; the scene's positions |
 | Move's check | `MOVE` at `confirm` | `checkSheet({ type: 'MOVE' })`: "Register move" | the check: "Move to B5", "Room B", the fact |
-| Moved | `MOVE` at `accepted` | no sheet; `movedToast()`: "Moved to B5" | |
+| Moved | the board has the viewer at the picked position, once this phone's `MOVE` has settled, with its `accepted` step or without one | no sheet; `movedToast()`: "Moved to B5", with or after the view that moves the viewer, never before it | |
 | The Disabler's position | `SELECT_BLACKOUT_SLOT` at `slots`, then `sending` and `accepted` | no sheet; `blackoutBar()`: "Choose a position · Room A · any position, even empty", under the phase bar's "Blackout · Dark · positions fixed" | none; the scene's positions in the dark, the tapped one marked once sent |
 | Fixed | no action, `blackoutTargeting.selectedSlotId` | no sheet; `blackoutBar({ fixed })`: "Position A3 fixed · Resolves after the window · no effect shown now" | none; the position marked |
 
@@ -70,6 +70,7 @@ So the connection holds this phone's own pick:
 - It is held through the "Outcome unknown" that follows this phone's own send. The controller keeps one unsettled command until it settles, so that recovery is that command.
 - It is dropped when the action ends, when the page is hidden, and for a new viewer or match.
 - It names the person or position in the check, "Outcome unknown" and "Moved to B5", and marks them in the scene.
+- A move is held a little longer, within its phase: "Moved to B5" waits until the public board has the viewer at the position (the Lead's question, 17 November). The controller gives the accepted step only when the receipt comes before the next view, for one revision (A5), so the view that moves the viewer can come after it or instead of it. A rejected move, or the phase ending, drops it with no toast.
 
 It is this phone's own tap, not data from the server. A model that carries the command (A2, A4) would replace it.
 
@@ -100,7 +101,7 @@ The Lead's change of 17 November: the handoff's [After Register](../phone-ui-han
 | Retry the same, Check receipt | `retry()`, `checkReceipt()` |
 | Cancel on the bar | back to the tiles: `openPanel('actions')`. Once the Disabler's position is fixed, only hidden: `dismiss()` (T2), until shell 0.2.12's bar without Cancel (the Lead's decision, [Open](#open)) |
 | Cancel in the check | back to the tiles; a move back to choosing, with nothing picked (Q1). While it sends, back to the tiles: it recalls nothing (L5) |
-| The chips | "Other rooms · n" and "Other rooms on the Board": the board view. "List": the List; its Back closes it |
+| The chips | "Other rooms · n" and "Other rooms on the Board": the board view. "List": the List; its Back closes it. The List has no ✕ (`close: false`, sheet 29), so the shell never sends its Close; Escape, the shell connection's, dismisses whatever is open, as Close does |
 
 Nothing here works out who may act. Every usable control comes from the model's offers and its `canConfirm`, `canRetry` and `canCheck`.
 
@@ -132,7 +133,7 @@ Nothing here works out who may act. Every usable control comes from the model's 
   - It was also run on throwaway copies of `4367f7e0` and of `9ba0858e` with `app.mjs`, `render.mjs`, `phone.css` and `planet.css` back at `origin/main`, the four files the base's pins name. There it passes.
   - So this change pins no new file: `check:sources` accepts the new hunk, `actions-input.mjs`, the changed mappers, the tests and the check.
 - **The other pins** the shell connection's page names fall on the same files: the hosted build's `reviewed-crew-drawing-release` on `app.mjs`, and the drawing-port fence on `vite.config.mjs`, which the room and shell connections' hunks already changed. They were not re-run here.
-- **These pass:** `typecheck`, `build`, and the game's tests, 875 of 875 on `6bcef045` (the shell connection's 864 and this one's 11), as 871 of 871 on `1e723308`.
+- **These pass:** `typecheck`, `build`, and the game's tests, 875 of 875 on `e49cd1cd` (the shell connection's 864 and this one's 11), as 871 of 871 on `1e723308`.
 
 ## Evidence
 
@@ -147,12 +148,14 @@ Nothing here works out who may act. Every usable control comes from the model's 
 - the parts' inputs: After Register's lines and time line for every action of the handoff's table, through this phone's taps, the viewer as "yourself", and none without the pick; Pass's and the Disabler's position's "Outcome unknown";
 - the taps: Move's replay, the Disabler's one tap, and nothing after dispose;
 - Cancel, and the shell's routing of every new id;
+- "Moved to B4" once the board has the viewer there: with the receipt first (no toast over the old board, none after a view that has not moved the viewer, then once), accepted with the view already moved, with the view first (nothing while it sends), not accepted, and the phase ending;
 - the screen-reader step at After Register (A16): the part's headline, with and without the pick and for the Engineer, and none at the check, with no frame, on a display or for Blackhole's toast;
 - privacy: concealed and on a display, none of it;
 - the scene's marks.
 
-**A mutation run** made 33 changes to the connection's source, each restored from its saved bytes. Every one is caught by the three connection test files (this one, the shell's and the room scene's), on `04500fd0` and again on `a890057a`.
-- It adds A16's two (the headline's source, and the frame it is limited to), and four on the lines new in the merge of #307's `aabb4417`: the closed phase passed to the toast, the closed toast first, and the host sheet's footer and Back first.
+**A mutation run** made 38 changes to the connection's source, each restored from its saved bytes. Every one is caught by the three connection test files (this one, the shell's and the room scene's), on `e49cd1cd`.
+- It adds six on the move's toast: the toast itself, the toast before the board shows it, the board's check, the wait after the accepted step, the accepted step already moved, and the position's match. The old toast mutation, and two whose lines moved, now point at the new lines.
+- The run of 33, on `04500fd0` and again on `a890057a`, added A16's two (the headline's source, and the frame it is limited to), and four on the lines new in the merge of #307's `aabb4417`: the closed phase passed to the toast, the closed toast first, and the host sheet's footer and Back first.
 - The run of 27, on `aef40283`, added the Lead's changes: After Register's words and time line (Frontend's headline and detail, the private talk's detail, the round, the pick, the viewer as "yourself", Supply's order), the flags `canRetry`, `canCheck` and `canPass`, and the positions of Pass's and the Disabler's "Outcome unknown".
 - Two of the earlier 20 fell with the code they changed (the connection's own `usable()`, which `actions-0.2.3`'s flags replace).
 - The earlier runs, of 20, were on `4367f7e0` and again on `9ba0858e`. The first run missed one, Retry's busy "Outcome unknown"; its test is `4367f7e0`.
@@ -164,8 +167,9 @@ Nothing here works out who may act. Every usable control comes from the model's 
 - It serves it with the hosted game's production headers (`createHostedPreviewHeaders`, headers SHA-256 `424e5dec…`, the shell's and the room scene's).
 - It drives the real app at 390 × 844 and 430 × 932.
 
-**Result:** 36 of 36 captures pass: eighteen states at both sizes, recorded on `6bcef045` (#307's `aabb4417` and `f81cd06a` merged in, and A16) with the source clean and the art from `64e55516`, in one run.
-- **Against the record on `7d1e51cc`** (before `f81cd06a`): every recorded field of the 36 captures is the same, but for the bundle's file name in the known Zod report and `430x932-blackout`'s clock (0:09, where it read 0:08); 2 are byte for byte the same. Pixel by pixel, Actions' sheets are unchanged: the game's sheet rules had not reached its parts. What differs is the room's ambient motion (the windows' voyage, a blink).
+**Result:** 36 of 36 captures pass: eighteen states at both sizes, recorded on `e49cd1cd` (the move's toast once the board has the viewer there) with the source clean and the art from `64e55516`, in one run.
+- **Against the record on `6bcef045`:** every recorded field of the 36 captures is the same, but for the bundle's file name in the known Zod report, the viewer's place (now recorded) and `moved` at both sizes. There the receipt over the old board gives no toast, with the viewer at Room B B1; the toast comes with the view that has the viewer at B5, Pass live again and the room's Windows control back, as once the accepted step has passed. 2 are byte for byte the same.
+- **The record on `6bcef045`, against the one on `7d1e51cc`** (before `f81cd06a`): every recorded field of the 36 captures is the same, but for the bundle's file name in the known Zod report and `430x932-blackout`'s clock (0:09, where it read 0:08); 2 are byte for byte the same. Pixel by pixel, Actions' sheets are unchanged: the game's sheet rules had not reached its parts. What differs is the room's ambient motion (the windows' voyage, a blink).
 - **The record on `7d1e51cc`, against the one on `1e723308`:** 2 captures are byte for byte the same, and every recorded field of the 36 is the same, but for the bundle's file name in the known Zod report and these:
   - the hidden checkpoint, now recorded;
   - `rescue-after` and `suppress`: the hidden step and checkpoint say the headline, and their new checks pass;
@@ -186,7 +190,7 @@ Nothing here works out who may act. Every usable control comes from the model's 
 | `blackhole` | "Activate Blackhole" with its fact; then the toast "Blackhole registered" over the tiles, the tile REGISTERED, no After Register |
 | `move` | The Move tile: Room B's position B5 in the room, "Move within Room B · Choose an empty position · or another room on the Board", "Other rooms on the Board" |
 | `move-check` | "Move to B5", "Room B", "Entering or repositioning spends this round’s movement.", B5 marked, "Register move". Then Cancel returns to choosing with nothing picked |
-| `moved` | Register sends `MOVE { destination: 'Room B', slotId: 'B5' }`; "Moved to B5", no sheet |
+| `moved` | Register sends `MOVE { destination: 'Room B', slotId: 'B5' }`. The harness answers with an accepted receipt and moves no one, so the check plays the server's part: over the old board (the viewer at B1) there is no toast; then the view with the viewer at B5 brings "Moved to B5", with no sheet |
 | `move-board` | On the board: "Move · Choose an empty position · uses this round’s move", B5 and the Command Room's caption. Then that caption and C1 open "Move to C1" |
 | `pass` | "Pass your turn?" with Cancel and Pass; then `PASS_TURN` once and "Turn passed" |
 | `blackout` | The dark Room A: "Choose a position · Room A · any position, even empty" under the phase bar's "Blackout · Dark · positions fixed", and five positions. Then one tap of A3 sends `SELECT_BLACKOUT_SLOT` for A3, the bar kept, no sheet |
@@ -205,7 +209,7 @@ The harness answers a command at once, so "Registering…" is not drawn here; th
 ### The merge gate's comparison
 
 `design/tools/phone-ui-native-compare.mjs --only pass,actions,targeting,target-check,registered,clone,blackout,reconnecting`:
-- The build is the check's own bundle (`--keep`): it names `6bcef045`, clean, with art from `64e55516`. The pack is read at `a890057a`, the record's commit, clean.
+- The build is the check's own bundle (`--keep`): it names `e49cd1cd`, clean, with art from `64e55516`. The pack is read at `a231403b`, the record's commit, clean.
 - Every part was drawn with no problem met, the steps reaching Actions' tiles, the scene's person and the footer's Register.
 - Its `compare.json` is in `design/phone-ui/review/match-connection/`; its pictures stay outside the repository.
 - **In the pairs:** the tiles, the bar, the check, After Register and "Pass your turn?" take the pack's form in the pack's places. After Register now has the pack's headline, detail and time line: "Rescue of Crew 3 registered.", then "Registered · Round 6 · your turn" and "End of Round 6 · Rescue is resolved, after the attacks". The differences are listed next.
@@ -233,7 +237,7 @@ The connection works around none of these by inventing data. Where it holds this
 | A2 | The check's person, and a move's position, are not in the model once chosen. Held from this phone's tap here | Frontend |
 | A3 | No rejected step: the controller drops the draft, so the check cannot stay open with its error (L6). The status line says it | Frontend |
 | A4 | The recovery names no command, person, position or id. Named here from this phone's own send only; otherwise "Outcome unknown" has an empty body | Frontend |
-| A5 | Accepted lasts one revision, so After Register closes itself at the next view | Frontend |
+| A5 | Accepted lasts one revision, so After Register closes itself at the next view. The controller gives it only when the receipt comes before the next view: when the view comes first, there is no After Register, "Turn passed" or Hack Ship's and Blackhole's toast. Move's toast waits for the board instead | Frontend |
 | A6, B5, B6 | Pass: no next player; `movementSpent` only under Card | Backend, Frontend |
 | A7, B2, B3 | Under Actions: no role, no injections count, no tiles' lines | Frontend |
 | B7 | The check's facts are Frontend's copy | Frontend |
