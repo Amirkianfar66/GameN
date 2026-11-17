@@ -1,24 +1,33 @@
 import assert from 'node:assert/strict';
+import {randomUUID} from 'node:crypto';
+import {writeFileSync} from 'node:fs';
 import {performance} from 'node:perf_hooks';
 import {setTimeout as sleep} from 'node:timers/promises';
+import {createFoodInboxIntent,createPlanetFoodInbox} from '../../dist/planet-food-inbox.js';
+import {PLANET_FOOD_INBOX_VERSION} from '../../dist/planet-food-inbox-types.js';
 import {withPlanetRequestTiming} from '../../dist/planet-game.js';
 import {createLoopbackFoodStore} from './firestore.mjs';
+import {createFoodStorageTrace} from './trace.mjs';
 import {createFoodTaskCoordinator} from './coordinator.mjs';
 import {startFoodTaskOwner} from './drive.mjs';
 import {envelope, seedTwoHumanTask} from './fixture.mjs';
 
 // One paired synthetic script. No browser or network-hop timestamps are included.
-const [variant = 'baseline', run = 'pilot', duration = '14000', roster = '7'] = process.argv.slice(2);
-assert.ok(['baseline', 'coordinator', 'owner-fifo'].includes(variant));
+const [variant = 'baseline', run = 'pilot', duration = '14000', roster = '7', traceFile] = process.argv.slice(2);
+assert.ok(['baseline', 'coordinator', 'owner-fifo', 'owner-inbox-hop'].includes(variant));
 const spanMs = Number(duration), count = Number(roster);
 assert.ok([7, 9].includes(count) && spanMs >= 10000 && spanMs <= 33000);
 
-const adapter = createLoopbackFoodStore();
+const useInbox = variant === 'owner-inbox-hop';
+const traces = [];
+const trace = traceFile ? createFoodStorageTrace(row => { if (recording) traces.push(row); }) : undefined;
+const adapter = createLoopbackFoodStore({trace});
 const pending = new Map(), timers = new Set(), subscriptions = [], errors = [], measurements = [], stages = {};
 const jobs = new Map(), seenOutbox = new Set();
 const traffic = {logicalReads: 0, logicalWrites: 0, logicalWriteBytes: 0, sdkCallbacks: 0};
 const publications = {player: 0, public: 0};
 const appendQueue = {depths: [], waitMs: []};
+const inboxTiming = {intakeMs: [], selectionMs: []};
 const contacts = {received: 0, admitted: 0, applied: 0, readRenewals: 0};
 const presses = new Map();
 let active = false, recording = false, clock, elapsed, owner, deadlineDrift = [], presenceDrift = [], baselineCpu = [], candidateCpu = [], depths = [];
@@ -99,7 +108,7 @@ const toContext = ({command: _command, ...context}) => context;
 function summarize(values) {
   if (!values.length) return {n: 0, median: null, max: null};
   values.sort((a, b) => a - b);
-  return {n: values.length, median: values[Math.ceil(values.length / 2) - 1], max: values.at(-1)};
+  return {n: values.length, median: values[Math.ceil(values.length / 2) - 1], p95: values[Math.ceil(values.length * .95) - 1], max: values.at(-1)};
 }
 let cleanup = 'closed', drained = false;
 try {
@@ -122,9 +131,10 @@ try {
     };
   }
   h.reload({clock, engine: instrumented});
-  const c = createFoodTaskCoordinator({store, clock, admissionMode: variant === 'owner-fifo' ? 'owner-fifo' : 'shared-cursor', randomSamples: () => Array(64).fill(.2), onEvent(row) {
+  const c = createFoodTaskCoordinator({store, clock, admissionMode: variant === 'owner-fifo' || useInbox ? 'owner-fifo' : 'shared-cursor', randomSamples: () => Array(64).fill(.2), onEvent(row) {
     if (!recording) return;
     const at = elapsed();
+    trace?.emit(`lifecycle:${row.stage}`, {elapsedMs: at, kind: row.kind, queueDepth: row.queueDepth, queueWaitMs: row.queueWaitMs});
     if (row.stage === 'received') {
       if (row.kind === 'heartbeat') contacts.received++;
       recordCommand(row.commandId, {receivedMs: at});
@@ -144,6 +154,43 @@ try {
   }});
   const taskId = task.options.taskId;
   if (variant !== 'baseline') await c.openTask({session});
+  const inbox = useInbox ? createPlanetFoodInbox(store) : null;
+  const scope = {version: PLANET_FOOD_INBOX_VERSION, matchId: h.matchId, phaseId: session.state.phase.id, taskId};
+  const awaiting = new Map();
+  let scanning = false, scanAgain = false;
+  async function drainInbox() {
+    scanAgain = true;
+    if (scanning) return;
+    scanning = true;
+    try {
+      while (scanAgain) {
+        scanAgain = false;
+        for (;;) {
+          const before = performance.now(), intent = await inbox.next(scope);
+          if (!intent) break;
+          inboxTiming.selectionMs.push(performance.now() - before);
+          const admitted = await c.admitInbox(intent, inbox.consume);
+          awaiting.get(intent.id)?.resolve(admitted);
+        }
+      }
+    } catch (error) {
+      for (const waiter of awaiting.values()) waiter.reject(error);
+    } finally { scanning = false; }
+  }
+  async function fromInbox(uid, request, original) {
+    const {seatId, bindingRevision: revision} = session.members.find(member => member.uid === uid);
+    const intent = createFoodInboxIntent(scope, {uid, seatId, revision}, request, original);
+    const {promise, resolve, reject} = Promise.withResolvers();
+    void promise.catch(() => {});
+    awaiting.set(intent.id, {resolve, reject});
+    try {
+      const before = performance.now();
+      await inbox.intake(intent, clock());
+      inboxTiming.intakeMs.push(performance.now() - before);
+      void drainInbox();
+      return await promise;
+    } finally { awaiting.delete(intent.id); }
+  }
   function lookup(uid, request) {
     void issue('receiptLookup', () => c.receipt(taskId, uid, toContext(request)), out => {
       if (out?.phase === 'applied') {
@@ -159,7 +206,8 @@ try {
       controlSessionId: t.controlSessionId, expectedControlRevision: t.controlRevision, input});
     presses.set(request.commandId, {label, offerObservedMs: elapsed()});
     if (variant !== 'baseline') {
-      void issue(label, () => c.submit(taskId, uid, request), () => lookup(uid, request));
+      void issue(label, () => useInbox ? fromInbox(uid, {operation: 'foodCommand', request}, request.commandId)
+        : c.submit(taskId, uid, request), () => lookup(uid, request));
     } else {
       recordCommand(request.commandId, {receivedMs: elapsed()});
       void issue(label, () => h.invoke(uid, 'foodCommand', {request}), (out, receiptMs) => {
@@ -231,7 +279,9 @@ try {
       if (!busy && (variant !== 'baseline' || elapsed() - lastRead.get(uid) >= 1000)) {
         busy = true;
         if (variant === 'baseline') contacts.received++;
-        const beat = variant !== 'baseline' ? () => c.heartbeat(taskId, uid) : () => h.invoke(uid, 'foodHeartbeat', {matchId: h.matchId, taskId});
+        const beat = useInbox ? () => fromInbox(uid, {operation: 'foodHeartbeat', matchId: h.matchId, taskId}, randomUUID())
+          : variant !== 'baseline' ? () => c.heartbeat(taskId, uid)
+            : () => h.invoke(uid, 'foodHeartbeat', {matchId: h.matchId, taskId});
         void issue('heartbeat', beat).finally(() => { busy = false; });
       }
       schedule(1000, presence);
@@ -245,6 +295,7 @@ try {
   let cap;
   drained = await Promise.race([closing.then(() => true), new Promise(resolve => { cap = setTimeout(() => resolve(false), 25_000); })]);
   clearTimeout(cap);
+  trace?.emit('comparison:tail', {elapsedMs: elapsed(), unresolved: [...pending.values()], ownerSettled: owner ? drained : null});
   const tail = {boundedMs: 25_000, settledAfterWindow: measurements.filter(row => row.endMs > spanMs).length,
     unresolved: [...pending.values()], ownerSettled: owner ? drained : null};
   recording = false;
@@ -255,7 +306,8 @@ try {
   const latency = Object.fromEntries([...new Set(measurements.map(row => row.label))].map(label => [label,
     summarize(measurements.filter(row => row.label === label).map(row => row.ms))]));
   process.stdout.write(JSON.stringify({variant, run, count, scenario: 'two-human-down-release', viewerCount: viewers.length,
-    spanMs, mode: 'offer-driven closed loop', commands: [...presses.values()], latency, tail, traffic, sdk: stages, contacts, publications,
+    spanMs, mode: 'offer-driven closed loop',
+    inboxHop: useInbox ? {intakeMs: summarize(inboxTiming.intakeMs), selectionMs: summarize(inboxTiming.selectionMs)} : null, commands: [...presses.values()], latency, tail, traffic, sdk: stages, contacts, publications,
     deadlineDriftMs: summarize(deadlineDrift), presenceDriftMs: summarize(presenceDrift), queueDepth: summarize(depths),
     appendQueueDepth: summarize(appendQueue.depths), appendQueueWaitMs: summarize(appendQueue.waitMs),
     engineCpuMs: summarize(variant === 'baseline' ? baselineCpu : candidateCpu), errors, cleanup}) + '\n');
@@ -266,5 +318,6 @@ try {
   const stopped = owner?.stop();
   if (drained) await stopped;
   for (const unsubscribe of subscriptions) unsubscribe();
+  if (traceFile) writeFileSync(traceFile, traces.map(row => JSON.stringify(row)).join('\n') + '\n');
   await adapter.close();
 }

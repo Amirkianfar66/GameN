@@ -8,8 +8,8 @@ export function envelope(view, command, commandId = randomUUID()) {
     foodStepId: view.step.stepId, round: view.round, commandId, command};
 }
 
-export async function seedTwoHumanTask(store, count = 7, {assetManifestVersion} = {}) {
-  const h = await planetServiceHarness({count, humans: count, store, assetManifestVersion,
+export async function seedTwoHumanTask(store, count = 7, {assetManifestVersion,foodAuthorityProfile,submitJoin,humans = count} = {}) {
+  const h = await planetServiceHarness({count, humans, store, assetManifestVersion, foodAuthorityProfile,
     setupFlowVersion: 3, engineProfile: 'food-task-1.4', sample: .2});
   const display = await h.admission(h.display, 'display', 'Table');
   ok(await h.approve(display));
@@ -23,9 +23,8 @@ export async function seedTwoHumanTask(store, count = 7, {assetManifestVersion} 
   assert.equal(ok(asked).receipt.status, 'accepted');
   const view = (await h.read(h.players[1])).foodPlayerView;
   const {requestId, requestRevision} = view.offers.find(offer => offer.type === 'TASK_ANSWER');
-  const joined = await h.invoke(h.players[1], 'foodCommand', {
-    request: envelope(view, {type: 'TASK_ANSWER', requestId, requestRevision, answer: 'JOIN'}),
-  });
+  const request = envelope(view, {type: 'TASK_ANSWER', requestId, requestRevision, answer: 'JOIN'});
+  const joined = await (submitJoin ? submitJoin(h,h.players[1],request) : h.invoke(h.players[1], 'foodCommand', {request}));
   assert.equal(ok(joined).receipt.status, 'accepted');
   const session = await h.current();
   const {task} = session.state.food.step;

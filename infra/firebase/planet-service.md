@@ -12,8 +12,59 @@ Before any Admin SDK initialization, the existing exact project, loopback Emulat
 - `MOTHERSHIP_PLANET_ASSET_MANIFEST_VERSION=design-0.6.0` selects the approved candidate artwork for newly created matches. Production requires an explicit valid asset identity; historical sessions retain their saved identity. The emulator alone defaults to `0.0.0-no-assets`.
 - `MOTHERSHIP_PLANET_SETUP_FLOW_VERSION` accepts unset/`1` (historical setup), `2` (R17 boarding), or `3` (the versioned 20-second card plus 10-second role film and separate boarding). Unsupported values fail startup. Saved sessions retain their creation setting.
 - `MOTHERSHIP_PLANET_ENGINE_PROFILE` accepts `phone-private-choices-1.2` for the private-offer candidate or `blackout-before-vote-1.3` for the separately versioned pre-vote Blackout successor. Absence preserves engine 1.1; unknown profiles fail startup. This is independent of setup flow and artwork. No setting is activated by this code change.
+- The separately approved Food engine uses `MOTHERSHIP_PLANET_ENGINE_PROFILE=food-task-1.4`. Its optional technical coordinator candidate is `MOTHERSHIP_PLANET_FOOD_AUTHORITY_PROFILE=food-owner-inbox-1`. The latter is valid only with the Food engine and never enables creation or selects new art/rules. Absence keeps the existing authority path for newly created matches; saved matches keep their own profile.
 
 Use the existing `MOTHERSHIP_ALLOWED_ORIGINS` canonical HTTPS allowlist in production. The endpoint verifies revoked Firebase ID tokens and App Check. App Check bypass is available only after the complete exact loopback `demo-mothership` environment guard succeeds. Caller UID is obtained from Auth and never accepted from JSON. Requests are strict shared operation envelopes, JSON POST only, up to 16,384 raw bytes; responses use `no-store, private`. There is no player-facing task callback.
+
+## Food coordinator candidate, 16 November 2026
+
+This section describes the candidate, not a deployed or enabled setting. See the
+[measured evidence and limits](../../docs/backend/food-coordinator-ingress-reliability-2026-11-16.md)
+and [delivery issue #274](https://github.com/Amirkianfar66/GameN/issues/274).
+
+The existing `planetDeadlineTask` also accepts the strict private `food-inbox`
+wake. One fenced owner processes the active Food Task for at most 45 seconds,
+with persisted ownership-expiry wakes and ordered append, apply and renewal. The
+existing dispatch trigger and repair schedule handle these outbox records. No new
+public worker endpoint, collection access permission, IAM grant or queue is part
+of this change. The normal queue's ten concurrent dispatch slots are shared with
+ordinary deadlines; a single local success does not establish cloud capacity.
+
+The authenticated `planetApi` gains `foodWatch` and `foodClock`, selected only by
+a verified session's versioned `foodStream` offer. They use the existing direct
+Functions URL, Auth, App Check and origin guard. Push projection and paired clock
+reads never enter the gameplay queue or renew gameplay presence. A bounded
+45-second watch carries only the caller's authorized snapshot. Semantic updates
+are coalesced; a planned return includes the final authorized session. Revocation
+and failures never carry a private snapshot. Exact receipts and participant
+heartbeats remain independently requested.
+
+Fixed one-second SSE comments prove transport progress only; they carry no
+gameplay event or clock sample. The server stops them if a successful audience
+recheck is more than two seconds old. They never turn a stale snapshot into a
+fresh one. The client must require a fresh verified frame and paired time on
+reconnect, preserve original unknown commands, and fence old connections.
+
+Before activation, verify the isolated packaged artifact, real private dispatch,
+normal and interrupted phone inputs under production headers, and Designer's
+acceptance of affected interaction states. `package-backend.mjs --planet
+--verify-install` checks the five exports and private task metadata without
+production credentials or database reads. CI runs the opted-in Food cold-start
+test in its own Functions suite, separate from historical profiles. Neither a
+local emulator test nor the synthetic HTTP bridge establishes deployed latency.
+
+Rollout is limited to the already authorized staging project. Deploy compatible
+code to all five existing Planet functions and publish the reviewed client before
+opting new matches in. Confirm the saved profile, private route and actual boot
+owner in a fresh test match; an environment variable or delivered crate alone is
+insufficient. Retain current gameplay/art/setup selections and historical matches.
+Keep the profile off if the performance, recovery, visual or release checks fail.
+
+Rollback disables the creation opt-in only. Do not relabel existing opted-in
+matches or remove the worker/client support they need to finish or be explicitly
+aborted. Reverting the whole backend while such matches exist is not a safe
+rollback. Confirm post-deploy identity and actual control behavior before marking
+the issue Deployed.
 
 ## Private workers
 

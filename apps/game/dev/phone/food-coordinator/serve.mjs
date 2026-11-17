@@ -28,7 +28,9 @@ async function close() {
 }
 try {
   bridge = await startFoodTrialBridge({...lab, applySignal: signal, bundle, artwork});
-  await writeFile(links, JSON.stringify({origin: bridge.origin, urls: bridge.urls}, null, 2) + '\n', {mode: 0o600, flag: 'wx'});
+  await writeFile(links, JSON.stringify({origin: bridge.origin, variant: lab.variant ?? null,
+    backendSource: lab.backendSource ?? null, urls: bridge.urls}, null, 2) + '\n',
+    {mode: 0o600, flag: 'wx'});
   process.once('SIGINT', () => { void close(); });
   process.once('SIGTERM', () => { void close(); });
   console.log('Loopback Food trial ready at ' + bridge.origin + '. Actor links are in ' + links);
@@ -38,7 +40,7 @@ try {
     await once(process.stdin, 'data', {signal: closing.signal});
     process.stdin.pause();
     await bridge.start();
-    console.log('Food Task clock started.');
+    console.log('Food trial clock started.');
   }
 } catch (error) {
   const cancelled = stopping && error.name === 'AbortError';

@@ -1,0 +1,304 @@
+{
+  "baseline": {
+    "source": "e98dc45bc7fd48ffa42ac078f976334552819bc0",
+    "result": "full workload passed",
+    "metrics": [
+      {
+        "localBootstrapMs": 44,
+        "heartbeats": 62,
+        "heartbeatP95Ms": 268,
+        "heartbeatMaxMs": 384,
+        "controlCount": 3,
+        "controlP95Ms": 275,
+        "controlMaxMs": 275,
+        "ownerHandoffs": 0,
+        "watchdogs": 9,
+        "staleParticipantSamples": 0,
+        "participantSamples": 288,
+        "freshWithEngineDue": 29,
+        "botWakes": 47,
+        "observerReads": 47,
+        "returnDriftMs": 86,
+        "staleReasons": {},
+        "sampledStaleSpanMs": {
+          "n": 0,
+          "p95": null,
+          "max": null
+        },
+        "staleSpansCensored": 0,
+        "stagedHeartbeatMs": {
+          "receivedToIntakeAck": {
+            "n": 62,
+            "p95": 36,
+            "max": 56
+          },
+          "receivedToAdmittedClock": {
+            "n": 62,
+            "p95": 164,
+            "max": 253
+          },
+          "appendAckToApplyAck": {
+            "n": 62,
+            "p95": 60,
+            "max": 80
+          },
+          "receivedToApplyAck": {
+            "n": 62,
+            "p95": 222,
+            "max": 321
+          },
+          "receivedToExactResponse": {
+            "n": 62,
+            "p95": 268,
+            "max": 384
+          },
+          "applyAckToExactResponse": {
+            "n": 62,
+            "p95": 60,
+            "max": 64
+          }
+        },
+        "stagedControlMs": {
+          "receivedToIntakeAck": {
+            "n": 3,
+            "p95": 25,
+            "max": 25
+          },
+          "receivedToAdmittedClock": {
+            "n": 3,
+            "p95": 151,
+            "max": 151
+          },
+          "appendAckToApplyAck": {
+            "n": 3,
+            "p95": 64,
+            "max": 64
+          },
+          "receivedToApplyAck": {
+            "n": 3,
+            "p95": 223,
+            "max": 223
+          },
+          "receivedToExactResponse": {
+            "n": 3,
+            "p95": 275,
+            "max": 275
+          },
+          "applyAckToExactResponse": {
+            "n": 3,
+            "p95": 52,
+            "max": 52
+          }
+        },
+        "unavailableHeartbeats": []
+      }
+    ]
+  },
+  "incompleteCandidate": {
+    "source": "8dc01dad4ed59e77eea57e603edd5c4675234cdf",
+    "result": "read-only digest mismatch stopped bot and observer traffic; trial failed",
+    "metrics": [
+      {
+        "heartbeatCount": 12,
+        "heartbeatMaxMs": 159,
+        "downToExactReceiptMs": 132
+      },
+      {
+        "localBootstrapMs": 28,
+        "heartbeats": 62,
+        "heartbeatP95Ms": 250,
+        "heartbeatMaxMs": 291,
+        "controlCount": 3,
+        "controlP95Ms": 195,
+        "controlMaxMs": 195,
+        "ownerHandoffs": 0,
+        "watchdogs": 9,
+        "staleParticipantSamples": 0,
+        "participantSamples": 284,
+        "freshWithEngineDue": 26,
+        "botWakes": 15,
+        "observerReads": 16,
+        "returnDriftMs": 88,
+        "staleReasons": {},
+        "sampledStaleSpanMs": {
+          "n": 0,
+          "p95": null,
+          "max": null
+        },
+        "staleSpansCensored": 0,
+        "stagedHeartbeatMs": {
+          "receivedToIntakeAck": {
+            "n": 62,
+            "p95": 38,
+            "max": 43
+          },
+          "receivedToAdmittedClock": {
+            "n": 62,
+            "p95": 199,
+            "max": 218
+          },
+          "appendAckToApplyAck": {
+            "n": 62,
+            "p95": 37,
+            "max": 39
+          },
+          "receivedToApplyAck": {
+            "n": 62,
+            "p95": 236,
+            "max": 256
+          },
+          "receivedToExactResponse": {
+            "n": 62,
+            "p95": 250,
+            "max": 291
+          },
+          "applyAckToExactResponse": {
+            "n": 62,
+            "p95": 56,
+            "max": 65
+          }
+        },
+        "stagedControlMs": {
+          "receivedToIntakeAck": {
+            "n": 3,
+            "p95": 29,
+            "max": 29
+          },
+          "receivedToAdmittedClock": {
+            "n": 3,
+            "p95": 101,
+            "max": 101
+          },
+          "appendAckToApplyAck": {
+            "n": 3,
+            "p95": 39,
+            "max": 39
+          },
+          "receivedToApplyAck": {
+            "n": 3,
+            "p95": 147,
+            "max": 147
+          },
+          "receivedToExactResponse": {
+            "n": 3,
+            "p95": 195,
+            "max": 195
+          },
+          "applyAckToExactResponse": {
+            "n": 3,
+            "p95": 58,
+            "max": 58
+          }
+        },
+        "unavailableHeartbeats": []
+      }
+    ]
+  },
+  "candidate": {
+    "source": "2cc1fa9f5a27d5255d6b705d75a847acb53aa759",
+    "result": "13 scoped tests passed",
+    "metrics": [
+      {
+        "heartbeatCount": 12,
+        "heartbeatMaxMs": 161,
+        "downToExactReceiptMs": 136
+      },
+      {
+        "localBootstrapMs": 26,
+        "heartbeats": 62,
+        "heartbeatP95Ms": 224,
+        "heartbeatMaxMs": 289,
+        "controlCount": 3,
+        "controlP95Ms": 267,
+        "controlMaxMs": 267,
+        "ownerHandoffs": 0,
+        "watchdogs": 9,
+        "staleParticipantSamples": 0,
+        "participantSamples": 288,
+        "freshWithEngineDue": 22,
+        "botWakes": 47,
+        "observerReads": 47,
+        "returnDriftMs": 78,
+        "staleReasons": {},
+        "sampledStaleSpanMs": {
+          "n": 0,
+          "p95": null,
+          "max": null
+        },
+        "staleSpansCensored": 0,
+        "stagedHeartbeatMs": {
+          "receivedToIntakeAck": {
+            "n": 62,
+            "p95": 34,
+            "max": 84
+          },
+          "receivedToAdmittedClock": {
+            "n": 62,
+            "p95": 150,
+            "max": 216
+          },
+          "appendAckToApplyAck": {
+            "n": 62,
+            "p95": 36,
+            "max": 47
+          },
+          "receivedToApplyAck": {
+            "n": 62,
+            "p95": 185,
+            "max": 254
+          },
+          "receivedToExactResponse": {
+            "n": 62,
+            "p95": 224,
+            "max": 289
+          },
+          "applyAckToExactResponse": {
+            "n": 62,
+            "p95": 57,
+            "max": 62
+          }
+        },
+        "stagedControlMs": {
+          "receivedToIntakeAck": {
+            "n": 3,
+            "p95": 26,
+            "max": 26
+          },
+          "receivedToAdmittedClock": {
+            "n": 3,
+            "p95": 159,
+            "max": 159
+          },
+          "appendAckToApplyAck": {
+            "n": 3,
+            "p95": 43,
+            "max": 43
+          },
+          "receivedToApplyAck": {
+            "n": 3,
+            "p95": 209,
+            "max": 209
+          },
+          "receivedToExactResponse": {
+            "n": 3,
+            "p95": 267,
+            "max": 267
+          },
+          "applyAckToExactResponse": {
+            "n": 3,
+            "p95": 58,
+            "max": 58
+          }
+        },
+        "unavailableHeartbeats": []
+      },
+      {
+        "simultaneousTasks": 2,
+        "heartbeats": 16,
+        "normalDeadline": "advanced",
+        "heartbeatP95Ms": 244,
+        "heartbeatMaxMs": 244
+      }
+    ]
+  }
+}

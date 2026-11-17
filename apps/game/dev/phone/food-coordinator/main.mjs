@@ -1,11 +1,12 @@
 globalThis[Symbol.for('mothership:dev-only')]=true;
 
 import {createPlanetController, createPlanetSession} from '@mothership/game';
-import {postHostedPlanetRequest} from '../../../dist/browser/planet-request.js';
+import {PLANET_FOOD_TASK_PINS} from '@mothership/contracts';
+import {postHostedPlanetFoodDelivery, postHostedPlanetRequest} from '../../../dist/browser/planet-request.js';
 import {loadArt} from '../../../hosted/art.mjs';
 import {setCrewPictureSurface} from '../../../hosted/crew-runtime.mjs';
 import {mountPlanetRenderer} from '../../../hosted/planet/render.mjs';
-import {mountFoodApp} from '../../../hosted/planet/food-app.mjs';
+import {foodPresentationFor} from '../../../hosted/planet/food-presentation.mjs';
 import {createFoodAssets} from '../../../hosted/planet/food-assets.mjs';
 import {createPlanetPreferences} from '../../../hosted/planet/preferences.mjs';
 import {PLANET_LIBRARY_MEDIA} from '../../../hosted/planet/library-assets.mjs';
@@ -57,32 +58,33 @@ async function start() {
   const ports = {clock: {now: () => performance.now()}, ids: {next: () => crypto.randomUUID()}, unresolved: storage('ordinary'),
     scheduler: {setTimeout: (fn, ms) => window.setTimeout(fn, ms), clearTimeout: value => window.clearTimeout(value)}};
   const visible = () => document.visibilityState === 'visible' && document.hasFocus();
+  const observation = observeFoodTrial(root, binding);
   const session = binding.arm === 'push'
     ? createFoodPushSession({binding, ports, request, identities: binding.identities})
-    : await startBaseline(binding, ports, storage, ticket, visible());
+    : await startBaseline(binding, ports, storage, ticket, visible(), observation);
   const ordinaryTransport = session.gameTransport('player');
   session.setVisible(visible());
 
   // Both trial arms mount the same installed Food controller and Designer
   // renderer with the same surrounding Planet board. Only the feed ports vary.
-  const observation = observeFoodTrial(root, binding);
   const game = createPlanetController(ordinaryTransport, ports, {matchId: binding.matchId, surface: 'player'});
+  const presentation = foodPresentationFor({...PLANET_FOOD_TASK_PINS, assetManifestVersion: 'design-0.9.0'});
   let food;
   root.classList.add('planet-container');
   const gameRoot = document.createElement('div');
   root.append(gameRoot);
   const renderer = mountPlanetRenderer(gameRoot, game, {cinematics: PLANET_LIBRARY_MEDIA,
-    settings: parent => preferences.controls(parent), food: {openTasks: () => food?.openTasks()}});
+    settings: parent => preferences.controls(parent), food: {openTasks: () => food?.openTasks(), gauge: presentation.gauge}});
   const observeTransport = {...ordinaryTransport, listen(audience, listener) {
     return ordinaryTransport.listen(audience, {
       snapshot(packet) {
         setCrewPictureSurface(root, packet.food?.publicView.versions);
-        observation.project(packet, session.frameMetadata?.(packet), listener.snapshot);
+        observation.project(packet, session.frameMetadata?.(packet) ?? observation.deliveryMetadata(packet), listener.snapshot);
       },
       error(kind) { observation.invalidate(); listener.error(kind); },
     });
   }};
-  food = mountFoodApp(gameRoot, {session: {foodTransport: () => observation.wrapFoodTransport(session.foodTransport())},
+  food = presentation.mountPlayer(gameRoot, {session: {foodTransport: () => observation.wrapFoodTransport(session.foodTransport())},
     game, transport: observeTransport, binding, ports, recovery: storage('food'), assets,
     preferences: preferences.get, renderer});
   observation.attach(food.controller);
@@ -103,7 +105,9 @@ async function start() {
   root.dataset.trial = 'ready';
   window.foodCoordinatorTrial = {
     artReady,
-    report: () => ({arm: binding.arm, ...observation.report(), delivery: session.report?.() ?? null}),
+    report: () => ({arm: binding.arm, variant: binding.variant ?? null, backendSource: binding.backendSource ?? null,
+      ...observation.report(), delivery: session.report?.() ?? null, connection: game.getModel().connection,
+      phase: game.getModel().phase?.kind ?? null, foodStep: game.getModel().food?.step?.kind ?? null}),
     dispose() {
       setVisible(false);
       document.removeEventListener('visibilitychange', syncVisibility);
@@ -123,22 +127,50 @@ async function start() {
   };
 }
 
-async function startBaseline(binding, ports, storage, ticket, visible) {
+async function startBaseline(binding, ports, storage, ticket, visible, observation) {
   const projectId = 'gamen-mothership-staging', key = 'loopback-diagnostic-key', messagingSenderId = '100000000001';
   const config = {projectId, apiKey: key, appId: '1:' + messagingSenderId + ':web:local',
     messagingSenderId, authDomain: projectId + '.firebaseapp.com', pageOrigin: 'https://' + projectId + '.web.app',
     recaptchaEnterpriseSiteKey: key};
+  const production = binding.arm === 'production';
+  const proof = {
+    getIdToken: async () => ticket, getAppCheckToken: async () => key,
+    fetch: (_url, init) => {
+      if (production) observation.deliveryRequest(JSON.parse(init.body).operation);
+      return fetch(production ? '/trial/planetApi' : '/trial/baseline', init);
+    },
+  };
   const connection = {
     mode: 'authenticated', currentUid: () => binding.uid, signIn: async () => binding.uid,
-    request: value => postHostedPlanetRequest(config, {
-      getIdToken: async () => ticket, getAppCheckToken: async () => key,
-      fetch: (_url, init) => fetch('/trial/baseline', init),
-    }, value, ports),
+    request: (value, signal) => postHostedPlanetRequest(config, proof, value, ports, signal),
+    ...(production ? {foodDelivery: {
+      watch: (value, signal, receive, keepalive) => postHostedPlanetFoodDelivery(config, proof, value, signal, frame => {
+        observation.deliveryFrame(frame);
+        receive(frame);
+      }, () => {
+        observation.deliveryPulse();
+        keepalive();
+      }),
+      clock: (value, signal) => postHostedPlanetFoodDelivery(config, proof, value, signal),
+    }} : {}),
   };
   const session = createPlanetSession(connection, ports, {resume: storage('resume'), requests: storage('setup')});
   session.setVisible(visible);
   await session.start(binding.matchId);
-  if (session.getModel().selfSeatId !== binding.seatId) {
+  const active = session.getModel();
+  const admitted = production && active.matchId === binding.matchId && active.connection === 'stale'
+    ? await new Promise(resolve => {
+      let unsubscribe;
+      const timer = setTimeout(() => { unsubscribe?.(); resolve(null); }, 8500);
+      const finish = model => {
+        if (model.connection === 'stale') return;
+        clearTimeout(timer);
+        queueMicrotask(() => unsubscribe?.());
+        resolve(model);
+      };
+      unsubscribe = session.subscribe(finish);
+    }) : active;
+  if (admitted?.selfSeatId !== binding.seatId) {
     session.dispose();
     throw Error('Trial baseline binding unavailable');
   }

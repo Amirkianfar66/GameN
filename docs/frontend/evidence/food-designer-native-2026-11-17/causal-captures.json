@@ -1,0 +1,260 @@
+{
+  "scope": "Desktop Chromium with synthetic seat-bound snapshots and controllable transport. Browser touch. Production response headers.",
+  "candidate": {
+    "commit": "0aef655b56ed1a83701b2a8c5342534979fdaf4a",
+    "dirty": ""
+  },
+  "timingScope": "Browser monotonic samples around synthetic receipt/READ gates. The script does not measure hosted credentials, HTTP or server timings.",
+  "art": {
+    "source": "6722dbc545d88076c1ae55da6ec72c635d471a43",
+    "manifestSha256": "26e673534600c0409af4c8c9c08c53ba9596c47b1ca7b3643f358d33505f120b",
+    "bundleSha256": "bc381ada656d211c9ba99cb67bedd5a4fa352a72701a6790fc850b4dcfda390b",
+    "inventorySha256": "6e285791f5bcffb9a6480aefd11bcddecba3be7bb2348e8f11e95324f995b25e",
+    "files": 67
+  },
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844,
+      "panel": {
+        "releaseGateToAcceptedObservationMs": 5.6000001430511475,
+        "oldReadSettlementToNextReadMs": 0.09999990463256836
+      },
+      "winch": {
+        "closureLedReceiptLookup": true,
+        "lookupStillBlockedWhenClosureRetired": true
+      }
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "panel": {
+        "releaseGateToAcceptedObservationMs": 4.799999952316284,
+        "oldReadSettlementToNextReadMs": 0
+      },
+      "winch": {
+        "closureLedReceiptLookup": true,
+        "lookupStillBlockedWhenClosureRetired": true
+      }
+    }
+  ],
+  "captures": [
+    {
+      "file": "390x844-panel-release-sending.png",
+      "viewport": [
+        390,
+        844
+      ],
+      "part": "food-panel-03",
+      "label": "panel-release-sending",
+      "sha256": "92a8f8c6672b81c16cfb1eab06c3ea7522db01db5a877e908c609b2c3df0a3ee"
+    },
+    {
+      "file": "390x844-panel-lock-from-new-read.png",
+      "viewport": [
+        390,
+        844
+      ],
+      "part": "food-panel-04",
+      "label": "panel-lock-from-new-read",
+      "sha256": "db681c30dcdb1e21253ebdb0262fe8feafd644ce846f190a92a0562926e3dded"
+    },
+    {
+      "file": "390x844-winch-recovered-release-sending.png",
+      "viewport": [
+        390,
+        844
+      ],
+      "part": "food-winch-03",
+      "label": "winch-recovered-release-sending",
+      "sha256": "5b58e4499b5d597aa32b6c45cbfb5b21ba820f2e2d911ceddb87cf5dd904984e"
+    },
+    {
+      "file": "390x844-winch-key-after-closure.png",
+      "viewport": [
+        390,
+        844
+      ],
+      "part": "food-winch-12",
+      "label": "winch-key-after-closure",
+      "sha256": "6da9fb428a3b94efb7f0064e793e81cc552bfd5a30d91afccf183782ba4aac1d"
+    },
+    {
+      "file": "430x932-panel-release-sending.png",
+      "viewport": [
+        430,
+        932
+      ],
+      "part": "food-panel-03",
+      "label": "panel-release-sending",
+      "sha256": "2382887ff5c912288e5ac3cc89a6df13420451c3e9428dc76669771728752723"
+    },
+    {
+      "file": "430x932-panel-lock-from-new-read.png",
+      "viewport": [
+        430,
+        932
+      ],
+      "part": "food-panel-04",
+      "label": "panel-lock-from-new-read",
+      "sha256": "b8adf7a25c455d3a46e25e459bfb18abe4fc99f59294c507aa5c1095b0c29288"
+    },
+    {
+      "file": "430x932-winch-recovered-release-sending.png",
+      "viewport": [
+        430,
+        932
+      ],
+      "part": "food-winch-03",
+      "label": "winch-recovered-release-sending",
+      "sha256": "e8187dd7141f10077eadf61f56e5cb142c801e306608cbeb385e5ad4b05f1378"
+    },
+    {
+      "file": "430x932-winch-key-after-closure.png",
+      "viewport": [
+        430,
+        932
+      ],
+      "part": "food-winch-12",
+      "label": "winch-key-after-closure",
+      "sha256": "4f735b54d35f6fa0ff6b1d932cca464103c9f96c0052d9fffee4cf28cdcea28e"
+    }
+  ],
+  "policy": [
+    {
+      "directive": "script-src",
+      "blocked": "eval",
+      "path": "/assets/app-8F0jlne8.js",
+      "line": 1,
+      "column": 3180,
+      "kind": "Caught Zod eval probe"
+    },
+    {
+      "directive": "script-src",
+      "blocked": "eval",
+      "path": "/assets/app-8F0jlne8.js",
+      "line": 1,
+      "column": 3180,
+      "kind": "Caught Zod eval probe"
+    },
+    {
+      "directive": "script-src",
+      "blocked": "eval",
+      "path": "/assets/app-8F0jlne8.js",
+      "line": 1,
+      "column": 3180,
+      "kind": "Caught Zod eval probe"
+    },
+    {
+      "directive": "script-src",
+      "blocked": "eval",
+      "path": "/assets/app-8F0jlne8.js",
+      "line": 1,
+      "column": 3180,
+      "kind": "Caught Zod eval probe"
+    },
+    {
+      "directive": "script-src",
+      "blocked": "eval",
+      "path": "/assets/app-8F0jlne8.js",
+      "line": 1,
+      "column": 3180,
+      "kind": "Caught Zod eval probe"
+    },
+    {
+      "directive": "script-src",
+      "blocked": "eval",
+      "path": "/assets/app-8F0jlne8.js",
+      "line": 1,
+      "column": 3180,
+      "kind": "Caught Zod eval probe"
+    }
+  ],
+  "composition": {
+    "composition": "apps/game/hosted/planet/food-canonical-app.mjs",
+    "canonicalModules": [
+      "apps/game/hosted/planet/food-canonical-app.mjs",
+      "apps/game/hosted/planet/food-component-view.mjs",
+      "design/phone-ui/components/food/food-display.mjs",
+      "design/phone-ui/components/food/food-gauge.mjs",
+      "design/phone-ui/components/food/food-geometry.mjs",
+      "design/phone-ui/components/food/food-icons.mjs",
+      "design/phone-ui/components/food/food-ink.mjs",
+      "design/phone-ui/components/food/food-input.mjs",
+      "design/phone-ui/components/food/food-kit.css",
+      "design/phone-ui/components/food/food-machine.mjs",
+      "design/phone-ui/components/food/food-notice.mjs",
+      "design/phone-ui/components/food/food-pose.mjs",
+      "design/phone-ui/components/food/food-render.mjs",
+      "design/phone-ui/components/food/food-scene.mjs",
+      "design/phone-ui/components/food/food-surface.css",
+      "design/phone-ui/components/food/food-tags.mjs",
+      "design/phone-ui/components/food/food-ui.mjs",
+      "design/phone-ui/components/food/food.css",
+      "design/phone-ui/components/food/food.mjs"
+    ],
+    "frozenModules": [],
+    "css": [
+      {
+        "path": "assets/app-ByO_Qyj3.css",
+        "sha256": "d76ce58fba972d3f4f7209921372519516d6e154026caed5b884d4b81570bc9f"
+      }
+    ]
+  },
+  "fixtureFiles": [
+    {
+      "path": "app.html",
+      "bytes": 447,
+      "sha256": "57fe216f5ed3a117e14b1ae7a4002072e10078706cd29608356d8146ce87363c"
+    },
+    {
+      "path": "food-composition.json",
+      "bytes": 1290,
+      "sha256": "4d45df43e4d11cb3bd30c310804462a22f1412927156dd2347ca7002246139e4"
+    },
+    {
+      "path": "assets/app-8F0jlne8.js",
+      "bytes": 2588843,
+      "sha256": "b1a4a04609592e653aee1fdccf8f1085314b0616336d065898b70c63f6c1494f"
+    },
+    {
+      "path": "assets/app-ByO_Qyj3.css",
+      "bytes": 257541,
+      "sha256": "d76ce58fba972d3f4f7209921372519516d6e154026caed5b884d4b81570bc9f"
+    }
+  ],
+  "fixtureUrl": "http://127.0.0.1:51809/app.html",
+  "browser": "Google Chrome 157.0.8103.79",
+  "passed": true
+}

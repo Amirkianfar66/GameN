@@ -7,16 +7,23 @@ import {dirname,join} from 'node:path';
 import {phoneReviewBase} from '../dev/phone/review-base.mjs';
 
 const git=(root,...args)=>execFileSync('git',['-C',root,...args],{encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
+const dataPath='scripts/asset-capabilities.json';
 function fixture(t){
  const directory=mkdtempSync(join(tmpdir(),'gamen-phone-review-base-')),candidate=join(directory,'candidate'),art=join(directory,'art');mkdirSync(candidate);
  t.after(()=>rmSync(directory,{recursive:true,force:true}));git(candidate,'init','-q','-b','main');git(candidate,'config','user.name','Review fixture');git(candidate,'config','user.email','review-fixture@example.invalid');
  for(const path of ['apps/game/hosted/comic-assets.mjs','apps/game/hosted/build/planet-library-art.mjs','scripts/crew-drawing-art.mjs','scripts/pregame-art-release.mjs','scripts/shared-verifier.mjs']){const file=join(candidate,path);mkdirSync(dirname(file),{recursive:true});writeFileSync(file,path==='scripts/pregame-art-release.mjs'?"import './shared-verifier.mjs';\n":"export const reviewed = true;\n");}
+ writeFileSync(join(candidate,'scripts/shared-verifier.mjs'),"import data from './asset-capabilities.json' with {type:'json'};\nexport {data};\n");
+ writeFileSync(join(candidate,dataPath),'{"reviewed":true}\n');
  git(candidate,'add','.');git(candidate,'commit','-qm','Reviewed baseline');const head=git(candidate,'rev-parse','HEAD');git(candidate,'update-ref','refs/remotes/origin/main',head);git(candidate,'worktree','add','--detach',art,head);
  return{candidate,art,head};
 }
 test('phone review accepts a clean main snapshot while recording its exact transitive verifier inputs',t=>{
  const f=fixture(t);writeFileSync(join(f.candidate,'native-under-review.mjs'),'candidate UI change');const base=phoneReviewBase(f.candidate,f.art);
- assert.equal(base.head,f.head);assert.equal(base.mainHead,f.head);assert.equal(base.sourceTreeClean,true);assert.ok(base.tooling.some(x=>x.path==='scripts/shared-verifier.mjs'));assert.ok(base.tooling.every(x=>x.sha256.length===64&&x.bytes>0));
+ assert.equal(base.head,f.head);assert.equal(base.mainHead,f.head);assert.equal(base.sourceTreeClean,true);assert.ok(base.tooling.some(x=>x.path==='scripts/shared-verifier.mjs'));assert.ok(base.tooling.some(x=>x.path===dataPath));assert.ok(base.tooling.every(x=>x.sha256.length===64&&x.bytes>0));
+});
+test('candidate JSON tooling data must match the approved main bytes',t=>{
+ const f=fixture(t);writeFileSync(join(f.candidate,dataPath),'{"reviewed":false}\n');
+ assert.throws(()=>phoneReviewBase(f.candidate,f.art),/tooling differs from baseline: scripts\/asset-capabilities.json/);
 });
 test('a dirty artwork snapshot cannot become review authority',t=>{
  const f=fixture(t);writeFileSync(join(f.art,'scripts/shared-verifier.mjs'),'uncommitted');assert.throws(()=>phoneReviewBase(f.candidate,f.art),/baseline must be clean/);

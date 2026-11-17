@@ -19,9 +19,9 @@ export function createFoodTrialTrace({now, timeOriginMs, seatId}) {
   const offset = (from, to) => from !== null && to !== null ? to - from : null;
   const rowsAt = ids => ids.flatMap(id => rows.has(id) ? [rows.get(id)] : []);
   return {
-    input({kind, eventType, trusted, disabled}) {
+    input({kind, eventType, trusted, disabled, next = null, hazard = null, stop = null}) {
       if (inputs.length === limit) { dropped.inputs++; return null; }
-      const entry = {number: inputs.length + 1, kind, eventType, trusted, disabled, atMs: now(), submitted: false};
+      const entry = {number: inputs.length + 1, kind, eventType, trusted, disabled, next, hazard, stop, atMs: now(), submitted: false};
       inputs.push(entry);
       return entry.number;
     },
@@ -69,32 +69,47 @@ export function createFoodTrialTrace({now, timeOriginMs, seatId}) {
     // The adapter supplies exact command-to-frame correlation. A revision
     // advance alone is never a witness. A paint sample is recorded only if the
     // same state remains present after a visible rendering opportunity.
-    projected({epoch, sequence, receivedAtMs, commandIds}, witness) {
+    projected({epoch, sequence, receivedAtMs, publishedAtServerMs = null, commandIds, production = false}, witness) {
       const atMs = now();
       if (!Number.isFinite(receivedAtMs) || receivedAtMs > atMs) return [];
-      return rowsAt(commandIds).flatMap(({observation: row}) => {
-        if (row.authority || !witness(row.kind)) return [];
-        const authority = {epoch, sequence, receivedAtMs, domAtMs: atMs, renderAtMs: null};
-        row.authority = authority;
-        return [() => {
-          if (witness(row.kind)) authority.renderAtMs = now();
-        }];
+      const slot = production ? 'observedEffect' : 'authority';
+      const matches = (production ? [...rows.values()] : rowsAt(commandIds)).flatMap(({request, observation: row}) => {
+        if (row[slot]?.renderAtMs != null || receivedAtMs < row.attempts[0].sentAtMs) return [];
+        const outcome = witness(request);
+        return outcome ? [{request, row, outcome}] : [];
+      });
+      // The production stream carries no command witness. Report only a unique
+      // visible change matching a submitted input, separately from its receipt.
+      if (production && matches.length !== 1) return [];
+      return matches.map(({request, row, outcome}) => {
+        const effect = {epoch, sequence, receivedAtMs, publishedAtServerMs, domAtMs: atMs, renderAtMs: null, outcome};
+        row[slot] = effect;
+        return () => {
+          if (row[slot] === effect && witness(request) === outcome) effect.renderAtMs = now();
+        };
       });
     },
 
     report() {
       return structuredClone({
-        clock: {domain: 'document performance.now', timeOriginMs},
+        clock: {domain: 'document performance.now', timeOriginMs, publicationDomain: 'coordinator process performance.now'},
         inputs, dropped,
         commands: [...rows.values()].map(({observation: row}) => {
-          const inputAt = inputs[row.inputNumber - 1]?.atMs ?? null;
-          const settled = row.receipt?.status === 'accepted' && row.receipt.effect !== 'NO_CHANGE';
+          const input = inputs[row.inputNumber - 1];
+          const inputAt = input?.trusted ? input.atMs : null;
+          const settled = row.receipt?.status === 'accepted' && ['APPLIED', 'GESTURE_CLOSED', 'RECOVERED_CLOSED'].includes(row.receipt.effect);
+          const authority = settled ? row.authority : null, observed = settled ? row.observedEffect ?? null : null;
           return {
-            ...row,
+            ...row, authority, observedEffect: observed,
             eventToPendingDomMs: offset(inputAt, row.pendingDomAtMs),
             eventToPendingRenderMs: offset(inputAt, row.pendingRenderAtMs),
             eventToVerifiedReceiptMs: offset(inputAt, row.receipt?.atMs ?? null),
-            eventToAuthoritativeRenderMs: settled ? offset(inputAt, row.authority?.renderAtMs ?? null) : null,
+            eventToAuthoritativeFrameMs: offset(inputAt, authority?.receivedAtMs ?? null),
+            eventToAuthoritativeDomMs: offset(inputAt, authority?.domAtMs ?? null),
+            eventToAuthoritativeRenderMs: offset(inputAt, authority?.renderAtMs ?? null),
+            eventToObservedEffectFrameMs: offset(inputAt, observed?.receivedAtMs ?? null),
+            eventToObservedEffectDomMs: offset(inputAt, observed?.domAtMs ?? null),
+            eventToObservedEffectRenderMs: offset(inputAt, observed?.renderAtMs ?? null),
           };
         }),
       });
@@ -131,6 +146,7 @@ export function createFoodTrialTrace({now, timeOriginMs, seatId}) {
         atMs: attempt.replyAtMs, source, status: receipt.status,
         authorityStampMs: receipt.receivedAt,
         effect: receipt.status === 'accepted' && receipt.result.kind === 'INPUT' ? receipt.result.effect : null,
+        requestState: receipt.status === 'accepted' && receipt.result.kind === 'REQUEST' ? receipt.result.state : null,
         code: receipt.status === 'rejected' ? receipt.code : null,
       };
     } catch {

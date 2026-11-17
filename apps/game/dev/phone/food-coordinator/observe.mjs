@@ -13,21 +13,66 @@ const controls = {
 const keyPress = event => event.key === ' ' || event.key === 'Enter';
 const disabled = node => node.disabled || node.getAttribute('aria-disabled') === 'true' || !!node.closest('[inert]');
 
-export function observeFoodTrial(root, {seatId}) {
+// Both samples come from the authorized task model and its actual visible DOM.
+// A pre-existing state or a different contact is not this input's result.
+export function foodRenderEffect(request, before, after) {
+  const command = request.command;
+  if (command.type !== 'TASK_PRESS' || !before || !after
+    || [before, after].some(state => state.taskId !== command.taskId || state.controlSessionId !== command.controlSessionId)) return null;
+  const {input} = command;
+  if (input.kind === 'PANEL_RELEASE' && before.panel === 'release' && after.panel === 'lock') return 'Panel moving';
+  if (input.kind === 'PANEL_LOCK' && before.panel === 'lock' && after.panel === 'release') return 'Panel locked';
+  if (input.kind === 'KEY' && before.key === 'available' && ['turned', 'delivered'].includes(after.key)) {
+    return after.key === 'delivered' ? 'Delivered' : 'Key turned';
+  }
+  if (input.kind !== 'HOLD') return null;
+  if (input.edge === 'UP') {
+    return before.hold?.sequence === input.gestureSequence && ['held', 'pending'].includes(before.hold.state)
+      && after.hold?.state === 'off' ? 'Hold cleared' : null;
+  }
+  if (after.hold?.sequence !== input.gestureSequence || after.hold.crateId !== input.crateId
+    || before.hold?.state === after.hold.state) return null;
+  return after.hold.state === 'held' ? 'Crate held' : after.hold.state === 'pending' ? 'Hold pending' : null;
+}
+
+export function observeFoodTrial(root, {seatId, arm: trialArm}) {
   const document = root.ownerDocument, win = document.defaultView;
   const trace = createFoodTrialTrace({now: () => win.performance.now(), timeOriginMs: win.performance.timeOrigin, seatId});
   const heldPointers = new Set(), heldKeys = new Set(), scheduled = new Set();
-  const frames = [];
+  const frames = [], lifecycle = [];
+  const wireFrames = [], wireRequests = [], wirePulses = [], availability = [], metadata = new Map();
   let droppedFrames = 0;
   let activeEvent = null, controller = null, stop = null, generation = 0;
+  let lastAvailability = null;
 
   const surface = () => root.querySelector('.planet-food.ph:not([hidden])');
   const control = kind => controls[kind] ? surface()?.querySelector(controls[kind]) : null;
   const visible = () => document.visibilityState === 'visible';
+  const deliveryKey = (view, serverNowMs) => JSON.stringify([view?.phaseId, view?.viewRevision, serverNowMs]);
+  function recordAvailability() {
+    const model = controller?.getModel(), board = surface();
+    const state = {fresh: model?.fresh ?? false, stage: model?.view?.participantTask?.stage ?? null,
+      screen: board?.dataset.screen ?? null, physicalHold: model?.physicalHolding ?? false,
+      enabled: ['HOLD_DOWN', 'PANEL_RELEASE', 'PANEL_LOCK', 'KEY'].filter(kind => {
+        const node = control(kind);
+        return node && !disabled(node) && !node.closest('[hidden]');
+      })};
+    const key = JSON.stringify(state);
+    if (key !== lastAvailability && availability.length < 512) {
+      lastAvailability = key;
+      availability.push({atMs: win.performance.now(), ...state});
+    }
+  }
+  const mutations = trialArm === 'production' ? new win.MutationObserver(recordAvailability) : null;
+  mutations?.observe(root, {subtree: true, childList: true, attributes: true,
+    attributeFilter: ['data-screen', 'aria-disabled', 'disabled', 'hidden', 'inert', 'data-holding']});
 
   function arm(event, kind, node) {
+    const stop = kind === 'PANEL_LOCK' ? Number(/(?:locked at|now at) stop ([1-7])\./.exec(surface()?.querySelector('.fs-view')?.getAttribute('aria-label') ?? '')?.[1]) : null;
     activeEvent = {event, kind, number: trace.input({
       kind, eventType: event.type, trusted: event.isTrusted, disabled: node ? disabled(node) : null,
+      next: node?.hasAttribute('data-next') ?? null, hazard: node?.hasAttribute('data-hazard') ?? null,
+      stop: Number.isSafeInteger(stop) ? stop : null,
     })};
   }
 
@@ -63,9 +108,16 @@ export function observeFoodTrial(root, {seatId}) {
     heldPointers.clear();
     heldKeys.clear();
   }
-  function visibility() { if (!visible()) invalidate(); }
-  win.addEventListener('blur', invalidate);
-  document.addEventListener('visibilitychange', visibility);
+  function noteLifecycle(event) {
+    if (lifecycle.length < 64) {
+      lifecycle.push({event: event.type, observedAtMs: win.performance.now(), visible: visible(), focused: document.hasFocus(),
+        physicalHold: controller?.getModel().physicalHolding ?? false});
+    }
+    if (event.type === 'blur' || !visible()) invalidate();
+  }
+  win.addEventListener('blur', noteLifecycle);
+  win.addEventListener('focus', noteLifecycle);
+  document.addEventListener('visibilitychange', noteLifecycle);
 
   function frame(callback) {
     const handle = win.requestAnimationFrame(() => {
@@ -97,29 +149,59 @@ export function observeFoodTrial(root, {seatId}) {
     if (shown()) afterRender(trace.pendingDom(request.commandId, shown));
   }
 
-  function outcome(kind) {
+  function taskRender() {
     const model = controller?.getModel(), board = surface(), task = model?.view?.participantTask;
-    if (!model?.fresh || !board) return false;
-    if (kind === 'TASK_ASK') return model.view.invitation?.state === 'PENDING' && !!board.querySelector('[data-food="wait"]');
-    if (!task || board.dataset.screen !== 'food-task') return false;
-    if (kind === 'JOIN') return !!board.querySelector('.fs-screen');
-    if (kind === 'PANEL_RELEASE') return !task.panel.locked && !!control('PANEL_LOCK');
-    if (kind === 'PANEL_LOCK') return task.panel.locked && !!control('PANEL_RELEASE');
-    if (kind === 'HOLD_DOWN') return !!task.ownGesture?.currentHolder && !!control(kind)?.hasAttribute('data-holding');
-    if (kind === 'HOLD_UP') {
-      const gesture = task.ownGesture, hold = control(kind);
-      return !!gesture && gesture.currentHolder === null && gesture.pendingIntent === null
-        && (hold?.getAttribute('aria-pressed') === 'false' || !!control('KEY'));
+    if (!model?.fresh || !task || board?.dataset.screen !== 'food-task') return null;
+    const release = control('PANEL_RELEASE'), lock = control('PANEL_LOCK');
+    const panel = task.panel.locked && release && !release.closest('[hidden], [inert]') ? 'release'
+      : !task.panel.locked && lock && !lock.closest('[hidden], [inert]') ? 'lock' : null;
+    const node = control('HOLD_DOWN'), keyNode = control('KEY'), gesture = task.ownGesture;
+    let hold = null;
+    if (gesture && node && !node.closest('[hidden], [inert]')) {
+      if (gesture.currentHolder && node.hasAttribute('data-holding')) hold = {state: 'held', ...gesture.currentHolder};
+      else if (gesture.pendingIntent && node.hasAttribute('data-pending')) hold = {state: 'pending', ...gesture.pendingIntent};
+      else if (!gesture.currentHolder && !gesture.pendingIntent && node.getAttribute('aria-pressed') === 'false') hold = {state: 'off'};
     }
-    return kind === 'KEY' && task.people.some(person => person.seatId === seatId && person.keyTurned)
-      && (!!control(kind)?.hasAttribute('data-turned') || !!board.querySelector('[aria-label="Delivered"]'));
+    if (gesture && !gesture.currentHolder && !gesture.pendingIntent && keyNode && !keyNode.closest('[hidden], [inert]')) {
+      hold = {state: 'off'};
+    }
+    const own = task.people.find(person => person.seatId === seatId);
+    const key = own?.keyTurned && board.querySelector('[aria-label="Delivered"]') ? 'delivered'
+      : keyNode && !keyNode.closest('[hidden], [inert]') && own
+        ? own.keyTurned && keyNode.hasAttribute('data-turned') ? 'turned' : !own.keyTurned ? 'available' : null
+        : null;
+    return {taskId: task.taskId, controlSessionId: task.controlSessionId, panel, hold, key};
   }
 
   return {
     attach(foodController) {
       controller = foodController;
       stop?.();
-      stop = controller.subscribe(model => trace.feedback(model.feedback));
+      stop = controller.subscribe(model => {
+        trace.feedback(model.feedback);
+        trace.feedback(model.recoveryFeedback);
+        if (mutations) recordAvailability();
+      });
+    },
+    deliveryFrame(raw) {
+      if (wireFrames.length === 512 || !['snapshot', 'closed'].includes(raw?.kind)) return;
+      const {kind, frameEpoch: epoch, frameSequence: sequence} = raw;
+      const fresh = kind === 'snapshot' ? raw.fresh : null;
+      const reason = kind === 'closed' ? raw.reason : null;
+      const view = raw.snapshot?.foodPlayerView, receivedAtMs = win.performance.now();
+      wireFrames.push({kind, epoch, sequence, fresh, reason, receivedAtMs, stage: view?.participantTask?.stage ?? null});
+      if (kind === 'snapshot' && fresh && view) {
+        metadata.set(deliveryKey(view, raw.serverTimeMs), {epoch, sequence, receivedAtMs, production: true});
+      }
+    },
+    deliveryRequest(operation) {
+      if (wireRequests.length < 512) wireRequests.push({operation, atMs: win.performance.now()});
+    },
+    deliveryPulse() {
+      if (wirePulses.length < 512) wirePulses.push(win.performance.now());
+    },
+    deliveryMetadata(packet) {
+      return metadata.get(deliveryKey(packet.food?.playerView, packet.food?.serverTimeMs));
     },
     wrapFoodTransport(transport) {
       return {...transport,
@@ -143,6 +225,7 @@ export function observeFoodTrial(root, {seatId}) {
     project(packet, marker, forward) {
       const receivedAtMs = marker?.receivedAtMs ?? win.performance.now();
       const view = packet.food?.playerView;
+      const before = marker?.production || marker?.commandIds.length ? taskRender() : null;
       forward(packet);
       if (!view) return;
       const model = controller?.getModel(), displayed = model?.view;
@@ -152,27 +235,37 @@ export function observeFoodTrial(root, {seatId}) {
       };
       if (!displayed || displayed.serverNowMs !== view.serverNowMs || !accepted()) return;
       if (frames.length < 512) {
-        frames.push({receivedAtMs, domObservedAtMs: win.performance.now(), sequence: marker?.sequence ?? null,
-          stage: view.participantTask?.stage ?? null, surfaceVisible: !!surface()});
+        const task = view.participantTask;
+        frames.push({receivedAtMs, domObservedAtMs: win.performance.now(), epoch: marker?.epoch ?? null, sequence: marker?.sequence ?? null,
+          stage: task?.stage ?? null, surfaceVisible: !!surface(),
+          ...(trialArm === 'production' ? {lockedStop: task?.panel.locked ? task.panel.stop + 1 : null,
+            outcome: task?.outcome?.kind ?? null, ownOut: !!task?.people.find(person => person.seatId === seatId)?.death} : {})});
       } else droppedFrames++;
-      if (!marker) return;
-      for (const confirm of trace.projected(marker, kind => accepted() && outcome(kind))) afterRender(confirm);
+      if (!before) return;
+      for (const confirm of trace.projected(marker, request => accepted() && foodRenderEffect(request, before, taskRender()))) {
+        afterRender(confirm);
+      }
     },
     invalidate,
     report() {
       return {...trace.report(), viewport: {width: win.innerWidth, height: win.innerHeight},
-        motion: surface()?.dataset.motion ?? null, visible: visible(), frames: structuredClone(frames), droppedFrames,
+        motion: surface()?.dataset.motion ?? null, visible: visible(), focused: document.hasFocus(),
+        frames: structuredClone(frames), droppedFrames, lifecycle: structuredClone(lifecycle),
+        ...(mutations ? {wireFrames: structuredClone(wireFrames), wireRequests: structuredClone(wireRequests),
+          wirePulses: structuredClone(wirePulses), availability: structuredClone(availability)} : {}),
         paintBoundary: 'Observed DOM state and a subsequent visible rendering opportunity'};
     },
     dispose() {
       invalidate();
+      mutations?.disconnect();
       stop?.();
       controller = null;
       for (const handle of scheduled) win.cancelAnimationFrame(handle);
       scheduled.clear();
       for (const type of inputEvents) win.removeEventListener(type, capture, true);
-      win.removeEventListener('blur', invalidate);
-      document.removeEventListener('visibilitychange', visibility);
+      win.removeEventListener('blur', noteLifecycle);
+      win.removeEventListener('focus', noteLifecycle);
+      document.removeEventListener('visibilitychange', noteLifecycle);
     },
   };
 }

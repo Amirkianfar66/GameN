@@ -12,6 +12,7 @@ function initializeRuntime() {
   return {app, configuration, service: createProductionPlanetService({store: createFirestorePlanetStore(getFirestore(app)),
     assetManifestVersion: configuration.assetManifestVersion, enabled: configuration.creationEnabled,
     ...(configuration.setupFlowVersion === undefined ? {} : {setupFlowVersion: configuration.setupFlowVersion}),
+    ...(configuration.foodAuthorityProfile === undefined ? {} : {foodAuthorityProfile: configuration.foodAuthorityProfile}),
     ...(configuration.engineProfile === undefined ? {} : {engineProfile: configuration.engineProfile})})};
 }
 let runtime: ReturnType<typeof initializeRuntime> | undefined;

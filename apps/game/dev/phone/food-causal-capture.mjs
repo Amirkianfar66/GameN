@@ -12,6 +12,7 @@ import {fileURLToPath} from 'node:url';
 import {build} from 'vite';
 import {connect,launchBrowser,openPage} from '../../../../design/tools/lib/chrome.mjs';
 import {applyHostedPreviewHeaders,createHostedPreviewHeaders} from '../../../../scripts/hosted-preview-policy.mjs';
+import {foodPresentationBuild} from './food-presentation-vite.mjs';
 
 const root=fileURLToPath(new URL('../../../../',import.meta.url));
 const fixture=join(root,'apps/game/dev/phone/food');
@@ -23,6 +24,8 @@ function pathArg(name){
  return resolve(value);
 }
 const output=pathArg('output'),hosted=pathArg('baseline-hosted-output');
+const recoveryFeedbackOnly=process.argv.includes('--recovery-feedback-only');
+const winchSmoke=process.argv.includes('--winch-smoke');
 const releaseBytes=await readFile(join(hosted,'preview-release.json')),release=JSON.parse(releaseBytes);
 const project='gamen-mothership-staging',headers=createHostedPreviewHeaders(project);
 assert.equal(release.projectId,project);
@@ -62,6 +65,7 @@ function stage(page,caseId,refresh){
  return page.evaluate(harness+'.causal.stage('+JSON.stringify(caseId)+','+refresh+')');
 }
 async function capture(page,part,label){
+ if(winchSmoke)return;
  const size=await page.evaluate('[innerWidth,innerHeight]');
  const file=size.join('x')+'-'+label+'.png';
  const result=await page.send('Page.captureScreenshot',{format:'png',fromSurface:true});
@@ -133,10 +137,10 @@ async function winch(page,origin){
  const before=(await trace(page)).filter(event=>['foodCommand','foodReceipt'].includes(event.operation));
  assert.deepEqual(before.slice(0,2).map(event=>event.operation),['foodCommand','foodReceipt']);
  assert.equal(before[0].input,'HOLD_RECOVER_OFF');
- await page.waitFor("document.querySelector('#food-control-hold')?.getAttribute('aria-busy')==='true'",'closure Sending feedback');
+ await page.waitFor(model+".feedback?.status==='unknown'&&"+model+".recoveryFeedback?.status==='sending'",'uncertain original while recovery is in flight');
  await capture(page,'food-winch-03','winch-recovered-release-sending');
  await page.evaluate(harness+".causal.open('foodCommand')");
- await page.waitFor(model+".feedback?.receipt?.result?.effect==='RECOVERED_CLOSED'",'verified high-water closure');
+ await page.waitFor(model+".recoveryFeedback?.receipt?.result?.effect==='RECOVERED_CLOSED'",'verified high-water closure');
  assert.equal(await page.evaluate(model+'.pendingCount'),0);
  assert.equal(await page.evaluate(model+'.canKey'),false);
  await stage(page,'food-winch-12',true);
@@ -149,12 +153,44 @@ async function winch(page,origin){
  return {closureLedReceiptLookup:true,lookupStillBlockedWhenClosureRetired:true};
 }
 
+async function releaseFeedback(page,origin,width){
+ const motion=width===430?'reduced':'normal';
+ await page.goto(origin+'app.html?case=food-winch-02&causal=release-feedback&safe=47,34&motion='+motion,harness+'?.ready');
+ await page.waitFor(model+'.canHold','Winch Hold offered');
+ await touch(page,'#food-control-hold',false);
+ await page.waitFor(model+".feedback?.status==='accepted'",'exact original DOWN receipt');
+ await page.evaluate(harness+".causal.park('foodCommand');"+harness+".causal.park('foodRecovery')");
+ await page.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+ await page.waitFor(waiting('foodCommand'),'original UP in flight');
+ await stage(page,'food-winch-03',true);
+ await page.waitFor(waiting('foodRecovery'),'automatic contact reconciliation in flight');
+ await page.evaluate(harness+".causal.open('foodCommand')");
+ await page.waitFor(model+".feedback?.name==='let-go'&&"+model+".feedback?.status==='accepted'",'verified original UP accepted');
+ await stage(page,'food-winch-12',true);
+ await page.evaluate(harness+".causal.open('foodRecovery')");
+ await page.waitFor(model+".recoveryFeedback?.receipt?.code==='STALE_RECOVERY'",'separate stale reconciliation receipt');
+ await page.waitFor(model+'.canKey && document.querySelector("#food-control-key")?.getAttribute("aria-disabled")===null','KEY from the authorized landed state');
+ const facts=await page.evaluate(`(() => {
+   const h=window.foodAppHarness, m=h.app.food.getModel();
+   const up=h.sent.find(q=>q.operation==='foodCommand'&&q.request.command.input?.edge==='UP');
+   return {originalUpAccepted:!!up&&m.feedback?.commandId===up.request.commandId&&m.feedback.status==='accepted',
+     recoveryReceipt:m.recoveryFeedback?.receipt?.code,canKey:m.canKey,
+     falseRejection:document.querySelector('.food-notices')?.textContent.includes('Your let-go was not done')??false,
+     motion:document.querySelector('.planet-food.ph')?.dataset.motion};
+ })()`);
+ assert.deepEqual(facts,{originalUpAccepted:true,recoveryReceipt:'STALE_RECOVERY',canKey:true,falseRejection:false,motion});
+ await capture(page,'food-winch-12','winch-key-with-accepted-original-up');
+ await inspectPage(page);
+ return facts;
+}
+
 await mkdir(output,{recursive:true});
 try{
  // The fixture bundles the current app. The art files are the verified, immutable
  // baseline bytes, while the registered-hosted consumer follows its own admission.
- await build({root:fixture,publicDir:false,configFile:false,logLevel:'warn',
+ await build({root:fixture,publicDir:false,configFile:false,logLevel:'warn',plugins:[foodPresentationBuild()],
   build:{outDir:buildDir,emptyOutDir:true,cssMinify:false,target:'es2022',rollupOptions:{input:join(fixture,'app.html')}}});
+ report.composition=JSON.parse(await readFile(join(buildDir,'food-composition.json')));
  const files=(await readdir(buildDir,{recursive:true,withFileTypes:true})).filter(entry=>entry.isFile());
  report.fixtureFiles=await Promise.all(files.map(async entry=>{
   const file=join(entry.parentPath,entry.name),bytes=await readFile(file);
@@ -178,7 +214,7 @@ try{
  for(const {key,value}of headers)assert.equal(response.headers.get(key),value,key);
  await response.text();
  chrome=await launchBrowser();report.browser=chrome.version;browser=await connect(chrome.endpoint);
- for(const [width,height]of [[390,844],[430,932]]){
+ for(const [width,height]of winchSmoke?[[390,844]]:[[390,844],[430,932]]){
   const page=await openPage(browser,{width,height,mobile:true});
   try{
    await page.send('Page.addScriptToEvaluateOnNewDocument',{source:[
@@ -187,7 +223,9 @@ try{
     'directive:e.violatedDirective,blocked:e.blockedURI,path:new URL(e.sourceFile||location.href).pathname,line:e.lineNumber,column:e.columnNumber',
     '}));',
    ].join('\n')});
-   report.viewports.push({width,height,panel:await panel(page,origin),winch:await winch(page,origin)});
+   if(winchSmoke)report.viewports.push({width,height,winch:await winch(page,origin)});
+   else if(recoveryFeedbackOnly)report.viewports.push({width,height,releaseFeedback:await releaseFeedback(page,origin,width)});
+   else report.viewports.push({width,height,panel:await panel(page,origin),winch:await winch(page,origin)});
   }finally{await page.close();}
  }
  report.passed=true;

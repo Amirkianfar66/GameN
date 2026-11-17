@@ -1,10 +1,13 @@
 import { PlanetVersionsSchema, PLANET_GAME_PINS, PLANET_PHONE_ENGINE_PROFILE, PLANET_BLACKOUT_ENGINE_PROFILE, PLANET_FOOD_TASK_ENGINE_PROFILE } from '@mothership/contracts';
+import { PLANET_FOOD_OWNER_INBOX_PROFILE } from '@mothership/game-api';
 import { assertRuntimeEnvironment } from './runtime.js';
 import type { RuntimeConfiguration } from './runtime.js';
 
 export interface PlanetRuntimeConfiguration extends RuntimeConfiguration {
   creationEnabled: boolean; setupFlowVersion?: 2|3; engineProfile?:typeof PLANET_PHONE_ENGINE_PROFILE|typeof PLANET_BLACKOUT_ENGINE_PROFILE|typeof PLANET_FOOD_TASK_ENGINE_PROFILE;
   requestTimingEnabled?: boolean;
+  /** New-match selection only; saved matches dispatch by their own stored profile. */
+  foodAuthorityProfile?: typeof PLANET_FOOD_OWNER_INBOX_PROFILE;
 }
 
 /** Planet has its own creation switch and artwork pin. Legacy release switches remain separate. */
@@ -25,6 +28,9 @@ export function assertPlanetRuntimeEnvironment(environment: Record<string, strin
   }
   const engineProfile=environment['MOTHERSHIP_PLANET_ENGINE_PROFILE'];
   if(engineProfile!==undefined&&engineProfile!==PLANET_PHONE_ENGINE_PROFILE&&engineProfile!==PLANET_BLACKOUT_ENGINE_PROFILE&&engineProfile!==PLANET_FOOD_TASK_ENGINE_PROFILE)throw new Error('Unsupported Planet engine profile');
+  const foodAuthorityProfile = environment['MOTHERSHIP_PLANET_FOOD_AUTHORITY_PROFILE'];
+  if (foodAuthorityProfile !== undefined && (foodAuthorityProfile !== PLANET_FOOD_OWNER_INBOX_PROFILE
+    || engineProfile !== PLANET_FOOD_TASK_ENGINE_PROFILE)) throw new Error('Unsupported Planet Food authority profile');
   const assetManifestVersion = environment['MOTHERSHIP_PLANET_ASSET_MANIFEST_VERSION']
     ?? (configuration.emulator ? '0.0.0-no-assets' : undefined);
   if (!PlanetVersionsSchema.safeParse({ ...PLANET_GAME_PINS, assetManifestVersion }).success
@@ -34,5 +40,6 @@ export function assertPlanetRuntimeEnvironment(environment: Record<string, strin
   return { ...configuration, assetManifestVersion: assetManifestVersion!, creationEnabled: enabled === 'true',
     ...(requestTiming === 'true' ? {requestTimingEnabled: true} : {}),
     ...(setupFlowVersion === '2' ? {setupFlowVersion: 2 as const} : setupFlowVersion === '3' ? {setupFlowVersion: 3 as const} : {}),
-    ...(engineProfile===undefined?{}:{engineProfile}) };
+    ...(engineProfile===undefined?{}:{engineProfile}),
+    ...(foodAuthorityProfile === undefined ? {} : {foodAuthorityProfile}) };
 }

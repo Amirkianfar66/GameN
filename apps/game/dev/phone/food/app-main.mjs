@@ -60,6 +60,13 @@ const connection={mode:'synthetic',currentUid:()=>uid,signIn:async()=>uid,async 
   record=copy(chromeCase.pass.after);receipts.set(request.request.commandId,copy(chromeCase.pass.receipt));return {ok:true,serverTimeMs:record.now,result:{receipt:copy(chromeCase.pass.receipt)}};
  }
  if(request.operation==='foodCommand'){
+  if(causal==='release-feedback'&&request.request.command.input?.kind==='HOLD_RECOVER_OFF'){
+   const {command,...context}=request.request,receivedAt=record.now;
+   const gate=waitAt('foodRecovery');if(gate)await gate;
+   const receipt={...context,status:'rejected',receivedAt,code:'STALE_RECOVERY',requestClosure:null};
+   receipts.set(context.commandId,receipt);
+   return {ok:true,serverTimeMs:record.now,result:{receipt}};
+  }
   if(causal){
    const receipt=reply(request.request),gate=waitAt('foodCommand');
    if(gate)await gate;

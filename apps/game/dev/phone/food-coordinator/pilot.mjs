@@ -1,17 +1,15 @@
 globalThis[Symbol.for('mothership:dev-only')]=true;
 
-import {resolve} from 'node:path';
-import {pathToFileURL} from 'node:url';
 import {performance} from 'node:perf_hooks';
+import {loadReviewedFoodBackend, reviewedFoodBackend} from './backend.mjs';
 
 // The Backend experiment owns seeding, Firestore, engine and owner scheduling.
 // This starts its unchanged driver once the operator has opened the two pages.
 export async function prepareFoodTrial({onEvent}) {
-  const backend = process.env.GAMEN_FOOD_COORDINATOR_BACKEND;
-  if (!backend) throw Error('Set GAMEN_FOOD_COORDINATOR_BACKEND to the reviewed Backend worktree');
-  const path = name => pathToFileURL(resolve(backend, 'services/game-api/dev/food-task-coordinator', name)).href;
+  const load = loadReviewedFoodBackend();
   const [{createLoopbackFoodStore}, {createFoodTaskCoordinator}, {seedTwoHumanTask}, {startFoodTaskOwner}] =
-    await Promise.all(['firestore.mjs', 'coordinator.mjs', 'fixture.mjs', 'drive.mjs'].map(name => import(path(name))));
+    await Promise.all(['firestore.mjs', 'coordinator.mjs', 'fixture.mjs', 'drive.mjs']
+      .map(name => load('dev/food-task-coordinator/' + name)));
   const store = createLoopbackFoodStore();
   try {
     const assetManifestVersion = 'design-0.9.0';
@@ -22,14 +20,15 @@ export async function prepareFoodTrial({onEvent}) {
     }
     let openedAt = null, driver = null;
     const serverNow = () => openedAt === null ? startAt : startAt + Math.floor(performance.now() - openedAt);
-    const coordinator = createFoodTaskCoordinator({store, clock: serverNow, onEvent});
+    const admissionMode = 'owner-fifo';
+    const coordinator = createFoodTaskCoordinator({store, clock: serverNow, admissionMode, onEvent});
     const taskId = await coordinator.openTask({session});
     const identities = session.members.map(({seatId, characterId, displayName}) => ({seatId, characterId, displayName}));
     const actors = [
       {label: 'winch', uid: seed.winch, seatId: task.options.winchSeatId},
       {label: 'panel', uid: seed.panel, seatId: task.options.panelSeatId},
     ].map(actor => ({...actor, identities, arm: 'push', matchId: session.state.matchId}));
-    return {coordinator, taskId, actors, serverNow,
+    return {coordinator, taskId, actors, serverNow, variant: admissionMode, backendSource: reviewedFoodBackend,
       async startTrial() {
         if (openedAt !== null) return;
         openedAt = performance.now();

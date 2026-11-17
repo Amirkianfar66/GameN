@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: two-human fixture art pin defaults to service evidence and can opt into native Food
+ok 1 - two-human fixture art pin defaults to service evidence and can opt into native Food
+  ---
+  duration_ms: 75.400333
+  type: 'test'
+  ...
+# Subtest: seven-player, two-human Food Task with shared-cursor ingress, takeover and audience push
+ok 2 - seven-player, two-human Food Task with shared-cursor ingress, takeover and audience push
+  ---
+  duration_ms: 12109.326291
+  type: 'test'
+  ...
+# Subtest: seven-player, two-human Food Task with owner-fifo ingress, takeover and audience push
+ok 3 - seven-player, two-human Food Task with owner-fifo ingress, takeover and audience push
+  ---
+  duration_ms: 1821.425167
+  type: 'test'
+  ...
+# Subtest: the same authoritative input times deliver the same Food result once in both durable runtimes
+ok 4 - the same authoritative input times deliver the same Food result once in both durable runtimes
+  ---
+  duration_ms: 5717.519042
+  type: 'test'
+  ...
+# Subtest: operator push restores freshness for the same projection without ticking the display
+ok 5 - operator push restores freshness for the same projection without ticking the display
+  ---
+  duration_ms: 1038.183667
+  type: 'test'
+  ...
+# Subtest: owner renewal and durable heartbeat append use one FIFO
+ok 6 - owner renewal and durable heartbeat append use one FIFO
+  ---
+  duration_ms: 882.812875
+  type: 'test'
+  ...
+# Subtest: a published own-command witness requires the issuing seat binding
+ok 7 - a published own-command witness requires the issuing seat binding
+  ---
+  duration_ms: 1200.858667
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 23022.776334

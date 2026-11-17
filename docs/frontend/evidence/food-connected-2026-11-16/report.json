@@ -1,0 +1,431 @@
+{
+  "date": "2026-11-16",
+  "scope": "Representative authorized browser usability with two isolated automated Chromium contexts and Firestore v1.20.2 on loopback. Focus emulation enabled except during the real hide step. No percentile or physical-device claim.",
+  "initial": {
+    "clientSource": "06f8937858c953edd62349607c807afac8d99b60",
+    "backendSource": "0d2969db3ad851cb489fd2e3ed5706e5d4ec9942",
+    "runnerSha256": "dc485934df89671eda3dccb05009ea64900a0fd576d5d847bdca8ce17000a658",
+    "localReportSha256": "390e7547a71511c012f8d8515276d08d0aa955e48bd80368dae18ccc42ce3f36",
+    "results": {
+      "invitations": "passed",
+      "timed": "passed"
+    },
+    "lifecycle": "Unrun after Firestore refused termination with two active SSE watchers.",
+    "cleanup": "All onSnapshot() listeners must be unsubscribed, and all BulkWriter instances must be closed before terminating the client. There are 2 active listeners and 0 open BulkWriter instances."
+  },
+  "verified": {
+    "clientSource": "83fca1ec10e6d6dc3bd87896691f578177ade7ca",
+    "backendSource": "0d2969db3ad851cb489fd2e3ed5706e5d4ec9942",
+    "backendInputs": {
+      "package-lock.json": "e6f3fc29e3953a470c780bb119ffb9ee310d61d1c5988931cb9a7034742e2e9a",
+      "services/game-api/dev/food-task-coordinator/coordinator.mjs": "d298bfcc027652835c3324d8762b0d0c4f2c89e31d9ef9b6c74390431c710d6b",
+      "services/game-api/dev/food-task-coordinator/firestore.mjs": "8492c27279434a7e9a54d9f8b410970e834d6bc104171c43b800ccaffe77c893",
+      "services/game-api/dev/food-task-coordinator/fixture.mjs": "a6ff626354f530f83fc53ddfa560320f292987a9153627c9f7206cdf0eed0a00",
+      "services/game-api/dev/food-task-coordinator/drive.mjs": "4fba8f79ac4194d5d6ef38adfc1052728fabbfe3eb9c13c2457670a3b9580f2d",
+      "services/game-api/dist/planet-game.js": "ade574bda7a3aa30a3470fcae152158e42600975954766d8e2820a6e637299c5",
+      "packages/contracts/dist/index.js": "85160cbcfe7b7fff36953b5b765b87d9dac914084c34b65f6e88162d38e4be1e",
+      "packages/engine/dist/index.js": "266fe7fe1a9ebb989adeed8381b99a18e8cb53273d50a9aa98c11725996fc253"
+    },
+    "backendCheckoutIsolatedAndClean": true,
+    "toolchain": {
+      "node": "22.21.1",
+      "npm": "10.9.4",
+      "firestore": "1.20.2",
+      "firestoreJarSha256": "4a117fc297b1441eac1b7756e80442e86ef88865b9e3caf6f59eabf83da574f8"
+    },
+    "runnerSha256": "f717ea392910892db399f3d207a1c9e2f33eeb22538994b2c2f180cfcdd887ee",
+    "localReportSha256": "8a610025cbb3f6f0c53084c8100bae40fd8698786d0c566378c39b7843910a99",
+    "devBundle": {
+      "index-DzGpfISc.css": "229b0b1b6fa99a7ce7bb6dc16fcf7e9cab5f5ea5636ff87287d1f7cd0e2dc54c",
+      "index-VNvRo5Ac.js": "3414a02fb11bc7e5ec7bb3ebe1f641edb9818c37f481fd83c5725d8a7301bb23"
+    },
+    "artwork": {
+      "source": "055eb2f4dc39129bac63cfde5ff5d65f791c2c4d",
+      "version": "design-0.9.0",
+      "inventorySha256": "02c66347a1643cfd7210dac4a602c44b49bbcdc1907d63c467ae9925eb8ab412",
+      "artFiles": 67
+    },
+    "headers": [
+      {
+        "key": "Cache-Control",
+        "value": "no-store"
+      },
+      {
+        "key": "Content-Security-Policy",
+        "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+      },
+      {
+        "key": "X-Content-Type-Options",
+        "value": "nosniff"
+      },
+      {
+        "key": "X-Frame-Options",
+        "value": "DENY"
+      },
+      {
+        "key": "Referrer-Policy",
+        "value": "no-referrer"
+      },
+      {
+        "key": "X-Robots-Tag",
+        "value": "noindex, nofollow"
+      },
+      {
+        "key": "Permissions-Policy",
+        "value": "camera=(), microphone=(), geolocation=()"
+      }
+    ],
+    "cleanup": "All three browser trials and the disposable Firestore and Chromium process teardown completed.",
+    "trials": [
+      {
+        "name": "invitations",
+        "variant": "ordinary-invitations",
+        "result": "passed",
+        "observed": "Both phones observed briefing after four exact request receipts",
+        "actors": {
+          "crew-1": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "motion": "normal",
+            "commands": [
+              {
+                "input": "TASK_ASK",
+                "trustedInput": true,
+                "receiptStatus": "accepted",
+                "requestState": "PENDING",
+                "effect": null,
+                "refusal": null,
+                "changedOutcome": null,
+                "eventToPendingDomMs": 2.7,
+                "eventToVerifiedReceiptMs": 109.1,
+                "eventToAuthoritativeFrameMs": null,
+                "eventToRenderingOpportunityMs": null
+              },
+              {
+                "input": "JOIN",
+                "trustedInput": true,
+                "receiptStatus": "accepted",
+                "requestState": "JOINED",
+                "effect": null,
+                "refusal": null,
+                "changedOutcome": null,
+                "eventToPendingDomMs": 2,
+                "eventToVerifiedReceiptMs": 107.5,
+                "eventToAuthoritativeFrameMs": null,
+                "eventToRenderingOpportunityMs": null
+              }
+            ]
+          },
+          "crew-2": {
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "motion": "reduced",
+            "commands": [
+              {
+                "input": "DECLINE",
+                "trustedInput": true,
+                "receiptStatus": "accepted",
+                "requestState": "DECLINED",
+                "effect": null,
+                "refusal": null,
+                "changedOutcome": null,
+                "eventToPendingDomMs": 2.7,
+                "eventToVerifiedReceiptMs": 102,
+                "eventToAuthoritativeFrameMs": null,
+                "eventToRenderingOpportunityMs": null
+              },
+              {
+                "input": "TASK_ASK",
+                "trustedInput": true,
+                "receiptStatus": "accepted",
+                "requestState": "PENDING",
+                "effect": null,
+                "refusal": null,
+                "changedOutcome": null,
+                "eventToPendingDomMs": 2.5,
+                "eventToVerifiedReceiptMs": 108.5,
+                "eventToAuthoritativeFrameMs": null,
+                "eventToRenderingOpportunityMs": null
+              }
+            ]
+          }
+        },
+        "captures": [
+          {
+            "path": "invitation-reduced-430x932.png",
+            "size": [
+              430,
+              932
+            ],
+            "sha256": "bd7845566b3b08e4f6591861f42dc31127c18e6a2fa2bf5b8031966edb27e80a"
+          },
+          {
+            "path": "decline-full-390x844.png",
+            "size": [
+              390,
+              844
+            ],
+            "sha256": "f6fc3a40325d298368faf0b68a84466733ea76a040614ca6cdb335f4c344c967"
+          }
+        ]
+      },
+      {
+        "name": "timed",
+        "variant": "owner-fifo",
+        "result": "passed",
+        "observed": "Both exact Key receipts and rendered delivery",
+        "actors": {
+          "winch": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "motion": "normal",
+            "commands": [
+              {
+                "input": "HOLD_DOWN",
+                "trustedInput": true,
+                "receiptStatus": "accepted",
+                "requestState": null,
+                "effect": "APPLIED",
+                "refusal": null,
+                "changedOutcome": "Crate held",
+                "eventToPendingDomMs": 4.7,
+                "eventToVerifiedReceiptMs": 120.9,
+                "eventToAuthoritativeFrameMs": 105.8,
+                "eventToRenderingOpportunityMs": 132.9
+              },
+              {
+                "input": "HOLD_UP",
+                "trustedInput": true,
+                "receiptStatus": "accepted",
+                "requestState": null,
+                "effect": "APPLIED",
+                "refusal": null,
+                "changedOutcome": "Hold cleared",
+                "eventToPendingDomMs": 4.8,
+                "eventToVerifiedReceiptMs": 122.7,
+                "eventToAuthoritativeFrameMs": 101,
+                "eventToRenderingOpportunityMs": 122.7
+              },
+              {
+                "input": "HOLD_RECOVER_OFF",
+                "trustedInput": null,
+                "receiptStatus": "accepted",
+                "requestState": null,
+                "effect": "RECOVERED_CLOSED",
+                "refusal": null,
+                "changedOutcome": null,
+                "eventToPendingDomMs": null,
+                "eventToVerifiedReceiptMs": null,
+                "eventToAuthoritativeFrameMs": null,
+                "eventToRenderingOpportunityMs": null
+              },
+              {
+                "input": "KEY",
+                "trustedInput": true,
+                "receiptStatus": "accepted",
+                "requestState": null,
+                "effect": "APPLIED",
+                "refusal": null,
+                "changedOutcome": "Key turned",
+                "eventToPendingDomMs": 5.3,
+                "eventToVerifiedReceiptMs": 78.7,
+                "eventToAuthoritativeFrameMs": 68.3,
+                "eventToRenderingOpportunityMs": 101.6
+              }
+            ]
+          },
+          "panel": {
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "motion": "reduced",
+            "commands": [
+              {
+                "input": "PANEL_RELEASE",
+                "trustedInput": true,
+                "receiptStatus": "accepted",
+                "requestState": null,
+                "effect": "APPLIED",
+                "refusal": null,
+                "changedOutcome": "Panel moving",
+                "eventToPendingDomMs": 5.3,
+                "eventToVerifiedReceiptMs": 101.7,
+                "eventToAuthoritativeFrameMs": 84.2,
+                "eventToRenderingOpportunityMs": 111.3
+              },
+              {
+                "input": "PANEL_LOCK",
+                "trustedInput": true,
+                "receiptStatus": "accepted",
+                "requestState": null,
+                "effect": "APPLIED",
+                "refusal": null,
+                "changedOutcome": "Panel locked",
+                "eventToPendingDomMs": 5.6,
+                "eventToVerifiedReceiptMs": 101.9,
+                "eventToAuthoritativeFrameMs": 83.2,
+                "eventToRenderingOpportunityMs": 113
+              },
+              {
+                "input": "KEY",
+                "trustedInput": true,
+                "receiptStatus": "accepted",
+                "requestState": null,
+                "effect": "APPLIED",
+                "refusal": null,
+                "changedOutcome": "Delivered",
+                "eventToPendingDomMs": 4.9,
+                "eventToVerifiedReceiptMs": 83.4,
+                "eventToAuthoritativeFrameMs": 64.6,
+                "eventToRenderingOpportunityMs": 88.7
+              }
+            ]
+          }
+        },
+        "captures": [
+          {
+            "path": "delivered-full-390x844.png",
+            "size": [
+              390,
+              844
+            ],
+            "sha256": "0f0faea7f49778cf635d2284dbadb78d3b3064646da5e6aee34905fab44e45af"
+          },
+          {
+            "path": "delivered-reduced-430x932.png",
+            "size": [
+              430,
+              932
+            ],
+            "sha256": "6fb6eccb55930160203174acea1bdf1ba613f73013c8f5a198d37d92e0772604"
+          }
+        ]
+      },
+      {
+        "name": "lifecycle",
+        "variant": "owner-fifo",
+        "result": "passed",
+        "observed": "Causal UP before DOWN acknowledgement and an observed hide/reconnect",
+        "actors": {
+          "winch": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "motion": "normal",
+            "commands": [
+              {
+                "input": "HOLD_DOWN",
+                "trustedInput": true,
+                "receiptStatus": "accepted",
+                "requestState": null,
+                "effect": "APPLIED",
+                "refusal": null,
+                "changedOutcome": "Crate held",
+                "eventToPendingDomMs": 5,
+                "eventToVerifiedReceiptMs": 88,
+                "eventToAuthoritativeFrameMs": 67.6,
+                "eventToRenderingOpportunityMs": 95.9
+              },
+              {
+                "input": "HOLD_UP",
+                "trustedInput": true,
+                "receiptStatus": "accepted",
+                "requestState": null,
+                "effect": "APPLIED",
+                "refusal": null,
+                "changedOutcome": "Hold cleared",
+                "eventToPendingDomMs": 4.6,
+                "eventToVerifiedReceiptMs": 106,
+                "eventToAuthoritativeFrameMs": 94.8,
+                "eventToRenderingOpportunityMs": 115.6
+              },
+              {
+                "input": "HOLD_RECOVER_OFF",
+                "trustedInput": null,
+                "receiptStatus": "rejected",
+                "requestState": null,
+                "effect": null,
+                "refusal": "STALE_RECOVERY",
+                "changedOutcome": null,
+                "eventToPendingDomMs": null,
+                "eventToVerifiedReceiptMs": null,
+                "eventToAuthoritativeFrameMs": null,
+                "eventToRenderingOpportunityMs": null
+              },
+              {
+                "input": "HOLD_DOWN",
+                "trustedInput": true,
+                "receiptStatus": "accepted",
+                "requestState": null,
+                "effect": "NO_CHANGE",
+                "refusal": null,
+                "changedOutcome": null,
+                "eventToPendingDomMs": 4.5,
+                "eventToVerifiedReceiptMs": 124.2,
+                "eventToAuthoritativeFrameMs": null,
+                "eventToRenderingOpportunityMs": null
+              },
+              {
+                "input": "HOLD_UP",
+                "trustedInput": null,
+                "receiptStatus": "accepted",
+                "requestState": null,
+                "effect": "APPLIED",
+                "refusal": null,
+                "changedOutcome": "Hold cleared",
+                "eventToPendingDomMs": null,
+                "eventToVerifiedReceiptMs": null,
+                "eventToAuthoritativeFrameMs": null,
+                "eventToRenderingOpportunityMs": null
+              },
+              {
+                "input": "HOLD_RECOVER_OFF",
+                "trustedInput": null,
+                "receiptStatus": "rejected",
+                "requestState": null,
+                "effect": null,
+                "refusal": "STALE_RECOVERY",
+                "changedOutcome": null,
+                "eventToPendingDomMs": null,
+                "eventToVerifiedReceiptMs": null,
+                "eventToAuthoritativeFrameMs": null,
+                "eventToRenderingOpportunityMs": null
+              }
+            ]
+          },
+          "panel": {
+            "viewport": {
+              "width": 430,
+              "height": 932
+            },
+            "motion": "reduced",
+            "commands": []
+          }
+        },
+        "captures": [],
+        "lifecycle": {
+          "firstUpBeforeDownReceiptMs": 71,
+          "hiddenDocumentConcealedTask": true,
+          "newAuthorizedEpoch": true,
+          "hiddenDurationMs": 14,
+          "originalUpsAccepted": 2
+        }
+      }
+    ]
+  },
+  "unrun": [
+    "Hosted or production inbox transport",
+    "Atomic cutover or parent-match return in production",
+    "Same-seat UID recovery",
+    "Physical phones and Safari",
+    "Network and mixed-bot matrix"
+  ]
+}

@@ -8,7 +8,7 @@ import {createPlanetLibraryAssets} from './art.mjs';
 import {PLANET_LIBRARY_MEDIA} from './library-assets.mjs';
 import {mountPregamePresentation} from './pregame.mjs';
 import {createPlanetPreferences} from './preferences.mjs';
-import {mountFoodApp,mountFoodPublic} from './food-app.mjs';
+import {foodPresentationFor} from './food-presentation.mjs';
 import {createFoodAssets} from './food-assets.mjs';
 import {CREW} from '../crew-drawing/crew.mjs';
 import {labelPhoneControl} from './phone-controls.mjs';
@@ -129,11 +129,11 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  }
  function updateTimer(){const t=document.getElementById('planet-setup-timer');if(t)t.textContent=model.remainingMs===null?'':model.status==='reading'?model.remainingMs>0?model.setupFlowVersion===3&&model.setupClock.status==='synced'?`${model.setupClock.serverNowMs<model.setup.roleFilmStartsAt?'Role card':'Role film'} · ${Math.ceil(model.remainingMs/1000)}s`:`Read for ${Math.ceil(model.remainingMs/1000)}s`:'Ready when you are':`${Math.ceil(model.remainingMs/1000)}s`;}
  function disposeGame(){food?.dispose();food=null;foodPublic?.dispose();foodPublic=null;renderer?.dispose();renderer=null;game?.dispose();game=null;terminalReturn=null;}
- function connectFood(surface){
-  if(!planetHasFood(model.versions))return;
-  if(surface==='display'){const host=el('div');gameRoot.append(host);foodPublic=mountFoodPublic(host,game);return;}
+ function connectFood(surface,presentation){
+  if(!presentation)return;
+  if(surface==='display'){const host=el('div');gameRoot.append(host);foodPublic=presentation.mountDisplay(host,{game,renderer});return;}
   const binding=foodBinding(),recovery=foodRecoveryStore(binding);
-  food=mountFoodApp(gameRoot,{session,game,transport:session.gameTransport(surface),binding,ports,recovery,assets:foodAssets,preferences:preferences.get,
+  food=presentation.mountPlayer(gameRoot,{session,game,transport:session.gameTransport(surface),binding,ports,recovery,assets:foodAssets,preferences:preferences.get,
    renderer:renderer??{navigate(){},foodSurface(){},get view(){return 'room';},bars(){return {top:0,bottom:0};}}});
  }
  function render(next){
@@ -147,10 +147,11 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
    if(key!==nextKey){
     disposeGame();root.className='planet-container';root.replaceChildren();gameRoot=el('div');root.append(gameRoot);key=nextKey;
     game=createPlanetController(session.gameTransport(surface),ports,{matchId:model.matchId,surface});terminalReturn=returnButton();terminalReturn.hidden=true;
+    const foodPresentation=foodPresentationFor(model.versions);
     renderer=mountPlanetRenderer(gameRoot,game,{cinematics:planetHasLibraryArt(model.versions)?PLANET_LIBRARY_MEDIA:[],terminalAction:terminalReturn,
-     food:planetHasFood(model.versions)?{openTasks:()=>food?.openTasks()}:null,
+     food:foodPresentation?{openTasks:()=>food?.openTasks(),gauge:foodPresentation.gauge}:null,
      settings:parent=>{preferences.controls(parent);if(model.isHost&&!game?.getModel().dark)hostControls(parent);}});
-    connectFood(surface);void game.start();
+    connectFood(surface,foodPresentation);void game.start();
    }
    food?.refresh();
    const nextHostState=JSON.stringify([model.isHost,model.busy,model.uncertain,model.recoveryCode,model.pendingAdmissions,model.status,abortConfirm]);if(nextHostState!==hostState){hostState=nextHostState;recoveryShown=false;renderer?.settingsChanged();}return;
@@ -161,7 +162,7 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
    // An abort closes gameplay, but the original command receipt remains readable.
    // Keep its controller, or reconstruct it from UID-bound identifiers after reload.
    food?.detach();foodPublic?.dispose();foodPublic=null;renderer?.dispose();renderer=null;terminalReturn=null;
-   if(!game){key=`${model.matchId}:${surface}:${model.selfSeatId}`;gameRoot=el('div');game=createPlanetController(session.gameTransport(surface),ports,{matchId:model.matchId,surface});connectFood(surface);food?.detach();void game.start();}
+   if(!game){key=`${model.matchId}:${surface}:${model.selfSeatId}`;gameRoot=el('div');game=createPlanetController(session.gameTransport(surface),ports,{matchId:model.matchId,surface});connectFood(surface,foodPresentationFor(model.versions));food?.detach();void game.start();}
   }else if(key){disposeGame();key=null;}
   if(lastStatus!==model.status){roleOpen=false;lastStatus=model.status;}
   const nextSessionKey=JSON.stringify({...model,remainingMs:null,setupClock:null,canChoose:model.canChoose,canReady:model.canReady,commandRecovery:game?.getModel().recovery,commandMessage:game?.getModel().message,foodRecovery:food?.controller.getModel().pendingCount,foodMessage:food?.controller.getModel().message});

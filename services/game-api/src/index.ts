@@ -207,3 +207,6 @@ export {createPlanetService,choosePlanetBotCommand,withPlanetRequestTiming} from
 export type {PlanetDeadlineJob,PlanetPersistence,PlanetTransaction,PlanetEnginePort,PlanetRequestTimingSummary} from './planet-game.js';
 export {createFirestorePlanetStore} from './planet-store.js';
 export {createProductionPlanetService} from './planet-engine.js';
+
+export {PLANET_FOOD_INBOX_VERSION,PLANET_FOOD_OWNER_INBOX_PROFILE} from './planet-food-inbox-types.js';
+export type {EnqueuePlanetFoodInboxWake,PlanetFoodInboxScope,PlanetFoodInboxWake,PlanetFoodInboxWorkResult} from './planet-food-inbox-types.js';

@@ -1,0 +1,1480 @@
+{
+  "tracedSource": "cdc3cafcd52373387a27938c41152149c7c5350f",
+  "correctedSource": "0d2969db3ad851cb489fd2e3ed5706e5d4ec9942",
+  "tracedTrials": [
+    {
+      "trial": "01",
+      "traceSha256": "a5d34a1f0aeae4a0bc7bdb84c68d6e444355f551bcf8587325ddf56ae69f75dd",
+      "result": {
+        "variant": "owner-fifo",
+        "run": "trace-01",
+        "count": 7,
+        "scenario": "two-human-down-release",
+        "viewerCount": 8,
+        "spanMs": 14000,
+        "mode": "offer-driven closed loop",
+        "commands": [
+          {
+            "label": "winchDown",
+            "offerObservedMs": 4097,
+            "receivedMs": 4097,
+            "admittedMs": 4109,
+            "appendAckMs": 4114,
+            "appliedMs": 4194,
+            "correlatedFrameMs": 4204,
+            "receiptMs": 4265,
+            "receiptStatus": "accepted",
+            "effect": "APPLIED",
+            "originalTimeMs": 4109
+          },
+          {
+            "label": "panelRelease",
+            "offerObservedMs": 4660,
+            "receivedMs": 4661,
+            "admittedMs": 4672,
+            "appendAckMs": 4676,
+            "appliedMs": 4720,
+            "correlatedFrameMs": 4735,
+            "receiptMs": 4759,
+            "receiptStatus": "accepted",
+            "effect": "APPLIED",
+            "originalTimeMs": 4672
+          }
+        ],
+        "latency": {
+          "heartbeat": {
+            "n": 22,
+            "median": 33,
+            "max": 2043
+          },
+          "winchDown": {
+            "n": 1,
+            "median": 17,
+            "max": 17
+          },
+          "receiptLookup": {
+            "n": 5,
+            "median": 10,
+            "max": 11
+          },
+          "panelRelease": {
+            "n": 1,
+            "median": 16,
+            "max": 16
+          }
+        },
+        "tail": {
+          "boundedMs": 25000,
+          "settledAfterWindow": 0,
+          "unresolved": [],
+          "ownerSettled": true
+        },
+        "traffic": {
+          "logicalReads": 1135,
+          "logicalWrites": 176,
+          "logicalWriteBytes": 836116,
+          "sdkCallbacks": 487
+        },
+        "sdk": {
+          "sdkRead": {
+            "count": 2334,
+            "totalMs": 8003.441999999997,
+            "maxMs": 2003.461
+          },
+          "sdkAttempt": {
+            "count": 487,
+            "totalMs": 8216.309000000003,
+            "maxMs": 2023.827
+          },
+          "sdkCommitAck": {
+            "count": 77,
+            "totalMs": 161.718,
+            "maxMs": 4.155
+          },
+          "sdkReadWrite": {
+            "count": 79,
+            "totalMs": 6769.670999999999,
+            "maxMs": 3517.424
+          },
+          "sdkReadOnly": {
+            "count": 407,
+            "totalMs": 5225.399000000008,
+            "maxMs": 28.589
+          },
+          "sdkRetryGap": {
+            "count": 1,
+            "totalMs": 3494.186,
+            "maxMs": 3494.186
+          }
+        },
+        "contacts": {
+          "received": 22,
+          "admitted": 20,
+          "applied": 20,
+          "readRenewals": 0
+        },
+        "publications": {
+          "player": 37,
+          "public": 1
+        },
+        "deadlineDriftMs": {
+          "n": 20,
+          "median": 81,
+          "max": 2303
+        },
+        "presenceDriftMs": {
+          "n": 2,
+          "median": 2536,
+          "max": 2556
+        },
+        "queueDepth": {
+          "n": 37,
+          "median": 1,
+          "max": 2
+        },
+        "appendQueueDepth": {
+          "n": 39,
+          "median": 1,
+          "max": 3
+        },
+        "appendQueueWaitMs": {
+          "n": 39,
+          "median": 0.010916999999608379,
+          "max": 2026.3385830000007
+        },
+        "engineCpuMs": {
+          "n": 37,
+          "median": 2.2267920000012964,
+          "max": 29.207958000000872
+        },
+        "errors": [
+          {
+            "label": "heartbeat",
+            "code": "STALE_OWNER",
+            "endMs": 13054
+          },
+          {
+            "label": "heartbeat",
+            "code": "STALE_OWNER",
+            "endMs": 13065
+          }
+        ],
+        "cleanup": "closed"
+      }
+    },
+    {
+      "trial": "02",
+      "traceSha256": "c421aa70dbe7c95e6f9107faf0b7f514a057af6230ebd68171d6ca6766e53e98",
+      "result": {
+        "variant": "owner-fifo",
+        "run": "trace-02",
+        "count": 7,
+        "scenario": "two-human-down-release",
+        "viewerCount": 8,
+        "spanMs": 14000,
+        "mode": "offer-driven closed loop",
+        "commands": [
+          {
+            "label": "winchDown",
+            "offerObservedMs": 4129,
+            "receivedMs": 4129,
+            "admittedMs": 4140,
+            "appendAckMs": 4145,
+            "appliedMs": 4196,
+            "correlatedFrameMs": 4207,
+            "receiptMs": 4226,
+            "receiptStatus": "accepted",
+            "effect": "APPLIED",
+            "originalTimeMs": 4140
+          },
+          {
+            "label": "panelRelease",
+            "offerObservedMs": 4679,
+            "receivedMs": 4679,
+            "admittedMs": 4692,
+            "appendAckMs": 4699,
+            "appliedMs": 4740,
+            "correlatedFrameMs": 4748,
+            "receiptMs": 4781,
+            "receiptStatus": "accepted",
+            "effect": "APPLIED",
+            "originalTimeMs": 4692
+          }
+        ],
+        "latency": {
+          "heartbeat": {
+            "n": 26,
+            "median": 28,
+            "max": 52
+          },
+          "winchDown": {
+            "n": 1,
+            "median": 16,
+            "max": 16
+          },
+          "receiptLookup": {
+            "n": 4,
+            "median": 10,
+            "max": 11
+          },
+          "panelRelease": {
+            "n": 1,
+            "median": 20,
+            "max": 20
+          }
+        },
+        "tail": {
+          "boundedMs": 25000,
+          "settledAfterWindow": 0,
+          "unresolved": [],
+          "ownerSettled": true
+        },
+        "traffic": {
+          "logicalReads": 1441,
+          "logicalWrites": 221,
+          "logicalWriteBytes": 1091898,
+          "sdkCallbacks": 616
+        },
+        "sdk": {
+          "sdkRead": {
+            "count": 2967,
+            "totalMs": 7500.491000000004,
+            "maxMs": 8.929
+          },
+          "sdkAttempt": {
+            "count": 616,
+            "totalMs": 7803.038999999996,
+            "maxMs": 27.346
+          },
+          "sdkCommitAck": {
+            "count": 98,
+            "totalMs": 192.07599999999996,
+            "maxMs": 4.247
+          },
+          "sdkReadWrite": {
+            "count": 98,
+            "totalMs": 1528.0300000000002,
+            "maxMs": 28.166
+          },
+          "sdkReadOnly": {
+            "count": 518,
+            "totalMs": 6617.286000000002,
+            "maxMs": 27.383
+          }
+        },
+        "contacts": {
+          "received": 26,
+          "admitted": 26,
+          "applied": 26,
+          "readRenewals": 0
+        },
+        "publications": {
+          "player": 45,
+          "public": 1
+        },
+        "deadlineDriftMs": {
+          "n": 20,
+          "median": 74,
+          "max": 119
+        },
+        "presenceDriftMs": {
+          "n": 0,
+          "median": null,
+          "max": null
+        },
+        "queueDepth": {
+          "n": 47,
+          "median": 1,
+          "max": 2
+        },
+        "appendQueueDepth": {
+          "n": 48,
+          "median": 1,
+          "max": 3
+        },
+        "appendQueueWaitMs": {
+          "n": 48,
+          "median": 0.008250000000771252,
+          "max": 34.646999999999935
+        },
+        "engineCpuMs": {
+          "n": 47,
+          "median": 0.329874999999447,
+          "max": 14.406542000000627
+        },
+        "errors": [],
+        "cleanup": "closed"
+      }
+    },
+    {
+      "trial": "03",
+      "traceSha256": "63dfb2f52ffebd617772c46fb344f2776b26556541cd95d582f8a4730ac538aa",
+      "result": {
+        "variant": "owner-fifo",
+        "run": "trace-03",
+        "count": 7,
+        "scenario": "two-human-down-release",
+        "viewerCount": 8,
+        "spanMs": 14000,
+        "mode": "offer-driven closed loop",
+        "commands": [
+          {
+            "label": "winchDown",
+            "offerObservedMs": 4128,
+            "receivedMs": 4128,
+            "admittedMs": 4141,
+            "appendAckMs": 4146,
+            "appliedMs": 4196,
+            "correlatedFrameMs": 4205,
+            "receiptMs": 4226,
+            "receiptStatus": "accepted",
+            "effect": "APPLIED",
+            "originalTimeMs": 4141
+          },
+          {
+            "label": "panelRelease",
+            "offerObservedMs": 4683,
+            "receivedMs": 4683,
+            "admittedMs": 4696,
+            "appendAckMs": 4701,
+            "appliedMs": 4745,
+            "correlatedFrameMs": 4754,
+            "receiptMs": 4783,
+            "receiptStatus": "accepted",
+            "effect": "APPLIED",
+            "originalTimeMs": 4696
+          }
+        ],
+        "latency": {
+          "heartbeat": {
+            "n": 20,
+            "median": 30,
+            "max": 10056
+          },
+          "winchDown": {
+            "n": 1,
+            "median": 18,
+            "max": 18
+          },
+          "receiptLookup": {
+            "n": 4,
+            "median": 10,
+            "max": 10
+          },
+          "panelRelease": {
+            "n": 1,
+            "median": 18,
+            "max": 18
+          }
+        },
+        "tail": {
+          "boundedMs": 25000,
+          "settledAfterWindow": 2,
+          "unresolved": [],
+          "ownerSettled": true
+        },
+        "traffic": {
+          "logicalReads": 1058,
+          "logicalWrites": 162,
+          "logicalWriteBytes": 766157,
+          "sdkCallbacks": 454
+        },
+        "sdk": {
+          "sdkRead": {
+            "count": 2175,
+            "totalMs": 14471.075999999995,
+            "maxMs": 8842.714
+          },
+          "sdkAttempt": {
+            "count": 454,
+            "totalMs": 14702.803,
+            "maxMs": 8845.544
+          },
+          "sdkCommitAck": {
+            "count": 72,
+            "totalMs": 137.72899999999998,
+            "maxMs": 4.474
+          },
+          "sdkReadWrite": {
+            "count": 74,
+            "totalMs": 14386.234999999999,
+            "maxMs": 10044.002
+          },
+          "sdkReadOnly": {
+            "count": 378,
+            "totalMs": 4969.047000000002,
+            "maxMs": 26.916
+          },
+          "sdkRetryGap": {
+            "count": 2,
+            "totalMs": 4402.427,
+            "maxMs": 3221.574
+          }
+        },
+        "contacts": {
+          "received": 20,
+          "admitted": 18,
+          "applied": 18,
+          "readRenewals": 0
+        },
+        "publications": {
+          "player": 37,
+          "public": 1
+        },
+        "deadlineDriftMs": {
+          "n": 33,
+          "median": 1861,
+          "max": 8861
+        },
+        "presenceDriftMs": {
+          "n": 2,
+          "median": 9134,
+          "max": 9148
+        },
+        "queueDepth": {
+          "n": 34,
+          "median": 1,
+          "max": 2
+        },
+        "appendQueueDepth": {
+          "n": 37,
+          "median": 1,
+          "max": 3
+        },
+        "appendQueueWaitMs": {
+          "n": 37,
+          "median": 0.007000000000516593,
+          "max": 10044.026291999999
+        },
+        "engineCpuMs": {
+          "n": 34,
+          "median": 0.3125409999997828,
+          "max": 49.12820799999827
+        },
+        "errors": [
+          {
+            "label": "heartbeat",
+            "code": "STALE_OWNER",
+            "endMs": 20073
+          },
+          {
+            "label": "heartbeat",
+            "code": "STALE_OWNER",
+            "endMs": 20085
+          }
+        ],
+        "cleanup": "closed"
+      }
+    }
+  ],
+  "interleavedTrials": [
+    {
+      "trial": "01-fixed",
+      "traceSha256": "0bae09ab160620d5eea0e56b6c7dd135436621ff8432a6d22d6c7a5d57dcf601",
+      "result": {
+        "variant": "owner-fifo",
+        "run": "01-fixed",
+        "count": 7,
+        "scenario": "two-human-down-release",
+        "viewerCount": 8,
+        "spanMs": 14000,
+        "mode": "offer-driven closed loop",
+        "commands": [
+          {
+            "label": "winchDown",
+            "offerObservedMs": 4091,
+            "receivedMs": 4091,
+            "admittedMs": 4103,
+            "appendAckMs": 4108,
+            "appliedMs": 4187,
+            "correlatedFrameMs": 4196,
+            "receiptMs": 4260,
+            "receiptStatus": "accepted",
+            "effect": "APPLIED",
+            "originalTimeMs": 4103
+          },
+          {
+            "label": "panelRelease",
+            "offerObservedMs": 4646,
+            "receivedMs": 4646,
+            "admittedMs": 4661,
+            "appendAckMs": 4665,
+            "appliedMs": 4706,
+            "correlatedFrameMs": 4716,
+            "receiptMs": 4747,
+            "receiptStatus": "accepted",
+            "effect": "APPLIED",
+            "originalTimeMs": 4661
+          }
+        ],
+        "latency": {
+          "heartbeat": {
+            "n": 26,
+            "median": 34,
+            "max": 71
+          },
+          "winchDown": {
+            "n": 1,
+            "median": 17,
+            "max": 17
+          },
+          "receiptLookup": {
+            "n": 5,
+            "median": 10,
+            "max": 11
+          },
+          "panelRelease": {
+            "n": 1,
+            "median": 19,
+            "max": 19
+          }
+        },
+        "tail": {
+          "boundedMs": 25000,
+          "settledAfterWindow": 0,
+          "unresolved": [],
+          "ownerSettled": true
+        },
+        "traffic": {
+          "logicalReads": 1466,
+          "logicalWrites": 225,
+          "logicalWriteBytes": 1108216,
+          "sdkCallbacks": 627
+        },
+        "sdk": {
+          "sdkRead": {
+            "count": 3018,
+            "totalMs": 7913.838000000008,
+            "maxMs": 19.588
+          },
+          "sdkAttempt": {
+            "count": 627,
+            "totalMs": 8263.991000000004,
+            "maxMs": 34.151
+          },
+          "sdkCommitAck": {
+            "count": 99,
+            "totalMs": 195.989,
+            "maxMs": 16.322
+          },
+          "sdkReadWrite": {
+            "count": 99,
+            "totalMs": 1571.3620000000005,
+            "maxMs": 32.145
+          },
+          "sdkReadOnly": {
+            "count": 528,
+            "totalMs": 7042.766999999994,
+            "maxMs": 34.35
+          }
+        },
+        "contacts": {
+          "received": 26,
+          "admitted": 26,
+          "applied": 26,
+          "readRenewals": 0
+        },
+        "publications": {
+          "player": 45,
+          "public": 1
+        },
+        "deadlineDriftMs": {
+          "n": 20,
+          "median": 69,
+          "max": 84
+        },
+        "presenceDriftMs": {
+          "n": 0,
+          "median": null,
+          "max": null
+        },
+        "queueDepth": {
+          "n": 48,
+          "median": 1,
+          "max": 2
+        },
+        "appendQueueDepth": {
+          "n": 48,
+          "median": 1,
+          "max": 3
+        },
+        "appendQueueWaitMs": {
+          "n": 48,
+          "median": 0.01170799999999872,
+          "max": 45.66258299999936
+        },
+        "engineCpuMs": {
+          "n": 48,
+          "median": 0.34100000000034925,
+          "max": 15.046542000000045
+        },
+        "errors": [],
+        "cleanup": "closed"
+      }
+    },
+    {
+      "trial": "01-old",
+      "traceSha256": "4548020760abeed3d212599f84d6cf04c8a04f58b80d6ccc95c596800b57cd7c",
+      "result": {
+        "variant": "owner-fifo",
+        "run": "01-old",
+        "count": 7,
+        "scenario": "two-human-down-release",
+        "viewerCount": 8,
+        "spanMs": 14000,
+        "mode": "offer-driven closed loop",
+        "commands": [
+          {
+            "label": "winchDown",
+            "offerObservedMs": 4095,
+            "receivedMs": 4096,
+            "admittedMs": 4108,
+            "appendAckMs": 4114,
+            "appliedMs": 4185,
+            "correlatedFrameMs": 4193,
+            "receiptMs": 4200,
+            "receiptStatus": "accepted",
+            "effect": "APPLIED",
+            "originalTimeMs": 4108
+          },
+          {
+            "label": "panelRelease",
+            "offerObservedMs": 4650,
+            "receivedMs": 4651,
+            "admittedMs": 4664,
+            "appendAckMs": 4669,
+            "appliedMs": 4707,
+            "correlatedFrameMs": 4719,
+            "receiptMs": 4752,
+            "receiptStatus": "accepted",
+            "effect": "APPLIED",
+            "originalTimeMs": 4664
+          }
+        ],
+        "latency": {
+          "heartbeat": {
+            "n": 26,
+            "median": 37,
+            "max": 64
+          },
+          "winchDown": {
+            "n": 1,
+            "median": 19,
+            "max": 19
+          },
+          "receiptLookup": {
+            "n": 4,
+            "median": 11,
+            "max": 13
+          },
+          "panelRelease": {
+            "n": 1,
+            "median": 19,
+            "max": 19
+          }
+        },
+        "tail": {
+          "boundedMs": 25000,
+          "settledAfterWindow": 0,
+          "unresolved": [],
+          "ownerSettled": true
+        },
+        "traffic": {
+          "logicalReads": 1463,
+          "logicalWrites": 225,
+          "logicalWriteBytes": 1108176,
+          "sdkCallbacks": 626
+        },
+        "sdk": {
+          "sdkRead": {
+            "count": 3013,
+            "totalMs": 8065.675000000004,
+            "maxMs": 12.652
+          },
+          "sdkAttempt": {
+            "count": 626,
+            "totalMs": 8403.55300000001,
+            "maxMs": 31.933
+          },
+          "sdkCommitAck": {
+            "count": 99,
+            "totalMs": 200.88600000000005,
+            "maxMs": 15.804
+          },
+          "sdkReadWrite": {
+            "count": 99,
+            "totalMs": 1563.127,
+            "maxMs": 32.14
+          },
+          "sdkReadOnly": {
+            "count": 527,
+            "totalMs": 7200.688999999996,
+            "maxMs": 31.955
+          }
+        },
+        "contacts": {
+          "received": 26,
+          "admitted": 26,
+          "applied": 26,
+          "readRenewals": 0
+        },
+        "publications": {
+          "player": 45,
+          "public": 1
+        },
+        "deadlineDriftMs": {
+          "n": 20,
+          "median": 69,
+          "max": 86
+        },
+        "presenceDriftMs": {
+          "n": 0,
+          "median": null,
+          "max": null
+        },
+        "queueDepth": {
+          "n": 48,
+          "median": 1,
+          "max": 2
+        },
+        "appendQueueDepth": {
+          "n": 48,
+          "median": 1,
+          "max": 3
+        },
+        "appendQueueWaitMs": {
+          "n": 48,
+          "median": 0.009125000000494765,
+          "max": 47.789958999999726
+        },
+        "engineCpuMs": {
+          "n": 48,
+          "median": 0.3262090000007447,
+          "max": 15.670207999999548
+        },
+        "errors": [],
+        "cleanup": "closed"
+      }
+    },
+    {
+      "trial": "02-fixed",
+      "traceSha256": "069c7c0686641ba19063e36727c6d45339db5c3c1652ec7096248d8697f016da",
+      "result": {
+        "variant": "owner-fifo",
+        "run": "02-fixed",
+        "count": 7,
+        "scenario": "two-human-down-release",
+        "viewerCount": 8,
+        "spanMs": 14000,
+        "mode": "offer-driven closed loop",
+        "commands": [
+          {
+            "label": "winchDown",
+            "offerObservedMs": 4094,
+            "receivedMs": 4094,
+            "admittedMs": 4105,
+            "appendAckMs": 4110,
+            "appliedMs": 4189,
+            "correlatedFrameMs": 4199,
+            "receiptMs": 4261,
+            "receiptStatus": "accepted",
+            "effect": "APPLIED",
+            "originalTimeMs": 4105
+          },
+          {
+            "label": "panelRelease",
+            "offerObservedMs": 4655,
+            "receivedMs": 4656,
+            "admittedMs": 4669,
+            "appendAckMs": 4673,
+            "appliedMs": 4714,
+            "correlatedFrameMs": 4723,
+            "receiptMs": 4755,
+            "receiptStatus": "accepted",
+            "effect": "APPLIED",
+            "originalTimeMs": 4669
+          }
+        ],
+        "latency": {
+          "heartbeat": {
+            "n": 26,
+            "median": 29,
+            "max": 64
+          },
+          "winchDown": {
+            "n": 1,
+            "median": 16,
+            "max": 16
+          },
+          "receiptLookup": {
+            "n": 5,
+            "median": 10,
+            "max": 11
+          },
+          "panelRelease": {
+            "n": 1,
+            "median": 18,
+            "max": 18
+          }
+        },
+        "tail": {
+          "boundedMs": 25000,
+          "settledAfterWindow": 0,
+          "unresolved": [],
+          "ownerSettled": true
+        },
+        "traffic": {
+          "logicalReads": 1466,
+          "logicalWrites": 225,
+          "logicalWriteBytes": 1108216,
+          "sdkCallbacks": 627
+        },
+        "sdk": {
+          "sdkRead": {
+            "count": 3018,
+            "totalMs": 7575.904999999995,
+            "maxMs": 8.503
+          },
+          "sdkAttempt": {
+            "count": 627,
+            "totalMs": 7907.2789999999895,
+            "maxMs": 27.889
+          },
+          "sdkCommitAck": {
+            "count": 99,
+            "totalMs": 184.47599999999994,
+            "maxMs": 15.702
+          },
+          "sdkReadWrite": {
+            "count": 99,
+            "totalMs": 1493.6889999999999,
+            "maxMs": 32.008
+          },
+          "sdkReadOnly": {
+            "count": 528,
+            "totalMs": 6750.04999999999,
+            "maxMs": 27.924
+          }
+        },
+        "contacts": {
+          "received": 26,
+          "admitted": 26,
+          "applied": 26,
+          "readRenewals": 0
+        },
+        "publications": {
+          "player": 45,
+          "public": 1
+        },
+        "deadlineDriftMs": {
+          "n": 20,
+          "median": 72,
+          "max": 88
+        },
+        "presenceDriftMs": {
+          "n": 0,
+          "median": null,
+          "max": null
+        },
+        "queueDepth": {
+          "n": 48,
+          "median": 1,
+          "max": 2
+        },
+        "appendQueueDepth": {
+          "n": 48,
+          "median": 1,
+          "max": 3
+        },
+        "appendQueueWaitMs": {
+          "n": 48,
+          "median": 0.009874999999738066,
+          "max": 44.29454100000021
+        },
+        "engineCpuMs": {
+          "n": 48,
+          "median": 0.31133300000146846,
+          "max": 17.64020900000014
+        },
+        "errors": [],
+        "cleanup": "closed"
+      }
+    },
+    {
+      "trial": "02-old",
+      "traceSha256": "823c6c0282d2ae86be7712c7030c878d9266f1833282cc3f5f50f26cf44f5b1f",
+      "result": {
+        "variant": "owner-fifo",
+        "run": "02-old",
+        "count": 7,
+        "scenario": "two-human-down-release",
+        "viewerCount": 8,
+        "spanMs": 14000,
+        "mode": "offer-driven closed loop",
+        "commands": [
+          {
+            "label": "winchDown",
+            "offerObservedMs": 4092,
+            "receivedMs": 4092,
+            "admittedMs": 4105,
+            "appendAckMs": 4110,
+            "appliedMs": 4182,
+            "correlatedFrameMs": 4189,
+            "receiptMs": 4257,
+            "receiptStatus": "accepted",
+            "effect": "APPLIED",
+            "originalTimeMs": 4105
+          },
+          {
+            "label": "panelRelease",
+            "offerObservedMs": 4649,
+            "receivedMs": 4650,
+            "admittedMs": 4661,
+            "appendAckMs": 4665,
+            "appliedMs": 4709,
+            "correlatedFrameMs": 4720,
+            "receiptMs": 4750,
+            "receiptStatus": "accepted",
+            "effect": "APPLIED",
+            "originalTimeMs": 4661
+          }
+        ],
+        "latency": {
+          "heartbeat": {
+            "n": 26,
+            "median": 31,
+            "max": 61
+          },
+          "winchDown": {
+            "n": 1,
+            "median": 18,
+            "max": 18
+          },
+          "receiptLookup": {
+            "n": 5,
+            "median": 9,
+            "max": 13
+          },
+          "panelRelease": {
+            "n": 1,
+            "median": 16,
+            "max": 16
+          }
+        },
+        "tail": {
+          "boundedMs": 25000,
+          "settledAfterWindow": 0,
+          "unresolved": [],
+          "ownerSettled": true
+        },
+        "traffic": {
+          "logicalReads": 1466,
+          "logicalWrites": 225,
+          "logicalWriteBytes": 1108176,
+          "sdkCallbacks": 627
+        },
+        "sdk": {
+          "sdkRead": {
+            "count": 3018,
+            "totalMs": 7797.351,
+            "maxMs": 9.254
+          },
+          "sdkAttempt": {
+            "count": 627,
+            "totalMs": 8149.0030000000015,
+            "maxMs": 27.46
+          },
+          "sdkCommitAck": {
+            "count": 99,
+            "totalMs": 187.388,
+            "maxMs": 14.887
+          },
+          "sdkReadWrite": {
+            "count": 99,
+            "totalMs": 1528.498,
+            "maxMs": 36.034
+          },
+          "sdkReadOnly": {
+            "count": 528,
+            "totalMs": 6963.994000000005,
+            "maxMs": 27.484
+          }
+        },
+        "contacts": {
+          "received": 26,
+          "admitted": 26,
+          "applied": 26,
+          "readRenewals": 0
+        },
+        "publications": {
+          "player": 45,
+          "public": 1
+        },
+        "deadlineDriftMs": {
+          "n": 20,
+          "median": 68,
+          "max": 82
+        },
+        "presenceDriftMs": {
+          "n": 0,
+          "median": null,
+          "max": null
+        },
+        "queueDepth": {
+          "n": 48,
+          "median": 1,
+          "max": 2
+        },
+        "appendQueueDepth": {
+          "n": 48,
+          "median": 1,
+          "max": 3
+        },
+        "appendQueueWaitMs": {
+          "n": 48,
+          "median": 0.010208999998212676,
+          "max": 47.23554200000035
+        },
+        "engineCpuMs": {
+          "n": 48,
+          "median": 0.3677079999997659,
+          "max": 16.84741699999995
+        },
+        "errors": [],
+        "cleanup": "closed"
+      }
+    },
+    {
+      "trial": "03-fixed",
+      "traceSha256": "34c794803c2621b7e72efd86dd78194e72109736767ba00fd493f1f2f5783dbc",
+      "result": {
+        "variant": "owner-fifo",
+        "run": "03-fixed",
+        "count": 7,
+        "scenario": "two-human-down-release",
+        "viewerCount": 8,
+        "spanMs": 14000,
+        "mode": "offer-driven closed loop",
+        "commands": [
+          {
+            "label": "winchDown",
+            "offerObservedMs": 4095,
+            "receivedMs": 4095,
+            "admittedMs": 4105,
+            "appendAckMs": 4110,
+            "appliedMs": 4194,
+            "correlatedFrameMs": 4202,
+            "receiptMs": 4267,
+            "receiptStatus": "accepted",
+            "effect": "APPLIED",
+            "originalTimeMs": 4105
+          },
+          {
+            "label": "panelRelease",
+            "offerObservedMs": 4653,
+            "receivedMs": 4654,
+            "admittedMs": 4664,
+            "appendAckMs": 4669,
+            "appliedMs": 4714,
+            "correlatedFrameMs": 4727,
+            "receiptMs": 4751,
+            "receiptStatus": "accepted",
+            "effect": "APPLIED",
+            "originalTimeMs": 4664
+          }
+        ],
+        "latency": {
+          "heartbeat": {
+            "n": 26,
+            "median": 28,
+            "max": 61
+          },
+          "winchDown": {
+            "n": 1,
+            "median": 15,
+            "max": 15
+          },
+          "receiptLookup": {
+            "n": 5,
+            "median": 10,
+            "max": 11
+          },
+          "panelRelease": {
+            "n": 1,
+            "median": 16,
+            "max": 16
+          }
+        },
+        "tail": {
+          "boundedMs": 25000,
+          "settledAfterWindow": 0,
+          "unresolved": [],
+          "ownerSettled": true
+        },
+        "traffic": {
+          "logicalReads": 1466,
+          "logicalWrites": 225,
+          "logicalWriteBytes": 1108216,
+          "sdkCallbacks": 627
+        },
+        "sdk": {
+          "sdkRead": {
+            "count": 3018,
+            "totalMs": 7934.447999999995,
+            "maxMs": 16.076
+          },
+          "sdkAttempt": {
+            "count": 627,
+            "totalMs": 8267.234999999997,
+            "maxMs": 30.539
+          },
+          "sdkCommitAck": {
+            "count": 99,
+            "totalMs": 153.90199999999993,
+            "maxMs": 4.589
+          },
+          "sdkReadWrite": {
+            "count": 99,
+            "totalMs": 1517.4580000000003,
+            "maxMs": 30.747
+          },
+          "sdkReadOnly": {
+            "count": 528,
+            "totalMs": 7064.421999999996,
+            "maxMs": 30.561
+          }
+        },
+        "contacts": {
+          "received": 26,
+          "admitted": 26,
+          "applied": 26,
+          "readRenewals": 0
+        },
+        "publications": {
+          "player": 49,
+          "public": 1
+        },
+        "deadlineDriftMs": {
+          "n": 20,
+          "median": 64,
+          "max": 85
+        },
+        "presenceDriftMs": {
+          "n": 0,
+          "median": null,
+          "max": null
+        },
+        "queueDepth": {
+          "n": 48,
+          "median": 1,
+          "max": 2
+        },
+        "appendQueueDepth": {
+          "n": 48,
+          "median": 1,
+          "max": 3
+        },
+        "appendQueueWaitMs": {
+          "n": 48,
+          "median": 0.012625000000298314,
+          "max": 30.198333000000275
+        },
+        "engineCpuMs": {
+          "n": 48,
+          "median": 0.390040999998746,
+          "max": 17.0239160000001
+        },
+        "errors": [],
+        "cleanup": "closed"
+      }
+    },
+    {
+      "trial": "03-old",
+      "traceSha256": "dcd176b6ba18b3a79166ac2d1d6bba538e390374b65d86f0246d22496f4dcd7f",
+      "result": {
+        "variant": "owner-fifo",
+        "run": "03-old",
+        "count": 7,
+        "scenario": "two-human-down-release",
+        "viewerCount": 8,
+        "spanMs": 14000,
+        "mode": "offer-driven closed loop",
+        "commands": [
+          {
+            "label": "winchDown",
+            "offerObservedMs": 4086,
+            "receivedMs": 4086,
+            "admittedMs": 4096,
+            "appendAckMs": 4101,
+            "appliedMs": 4185,
+            "correlatedFrameMs": 4195,
+            "receiptMs": 4257,
+            "receiptStatus": "accepted",
+            "effect": "APPLIED",
+            "originalTimeMs": 4096
+          },
+          {
+            "label": "panelRelease",
+            "offerObservedMs": 4646,
+            "receivedMs": 4647,
+            "admittedMs": 4658,
+            "appendAckMs": 4662,
+            "appliedMs": 4704,
+            "correlatedFrameMs": 4713,
+            "receiptMs": 4745,
+            "receiptStatus": "accepted",
+            "effect": "APPLIED",
+            "originalTimeMs": 4658
+          }
+        ],
+        "latency": {
+          "heartbeat": {
+            "n": 26,
+            "median": 28,
+            "max": 53
+          },
+          "winchDown": {
+            "n": 1,
+            "median": 15,
+            "max": 15
+          },
+          "receiptLookup": {
+            "n": 5,
+            "median": 10,
+            "max": 11
+          },
+          "panelRelease": {
+            "n": 1,
+            "median": 16,
+            "max": 16
+          }
+        },
+        "tail": {
+          "boundedMs": 25000,
+          "settledAfterWindow": 0,
+          "unresolved": [],
+          "ownerSettled": true
+        },
+        "traffic": {
+          "logicalReads": 1457,
+          "logicalWrites": 225,
+          "logicalWriteBytes": 1108176,
+          "sdkCallbacks": 624
+        },
+        "sdk": {
+          "sdkRead": {
+            "count": 3000,
+            "totalMs": 7920.605999999997,
+            "maxMs": 11.689
+          },
+          "sdkAttempt": {
+            "count": 624,
+            "totalMs": 8267.64100000001,
+            "maxMs": 30.015
+          },
+          "sdkCommitAck": {
+            "count": 99,
+            "totalMs": 167.82300000000004,
+            "maxMs": 3.992
+          },
+          "sdkReadWrite": {
+            "count": 99,
+            "totalMs": 1516.7689999999998,
+            "maxMs": 27.059
+          },
+          "sdkReadOnly": {
+            "count": 525,
+            "totalMs": 7095.96900000001,
+            "maxMs": 30.036
+          }
+        },
+        "contacts": {
+          "received": 26,
+          "admitted": 26,
+          "applied": 26,
+          "readRenewals": 0
+        },
+        "publications": {
+          "player": 47,
+          "public": 1
+        },
+        "deadlineDriftMs": {
+          "n": 20,
+          "median": 66,
+          "max": 89
+        },
+        "presenceDriftMs": {
+          "n": 0,
+          "median": null,
+          "max": null
+        },
+        "queueDepth": {
+          "n": 48,
+          "median": 1,
+          "max": 2
+        },
+        "appendQueueDepth": {
+          "n": 48,
+          "median": 1,
+          "max": 3
+        },
+        "appendQueueWaitMs": {
+          "n": 48,
+          "median": 0.008458000000246102,
+          "max": 26.57991600000014
+        },
+        "engineCpuMs": {
+          "n": 48,
+          "median": 0.3872080000001006,
+          "max": 15.817917000000307
+        },
+        "errors": [],
+        "cleanup": "closed"
+      }
+    },
+    {
+      "trial": "04-fixed",
+      "traceSha256": "a9674eddc32314fe11a35fbc33db3c8222157cfd736de0d52473940b088b8728",
+      "result": {
+        "variant": "owner-fifo",
+        "run": "04-fixed",
+        "count": 7,
+        "scenario": "two-human-down-release",
+        "viewerCount": 8,
+        "spanMs": 33000,
+        "mode": "offer-driven closed loop",
+        "commands": [
+          {
+            "label": "winchDown",
+            "offerObservedMs": 4094,
+            "receivedMs": 4094,
+            "admittedMs": 4105,
+            "appendAckMs": 4110,
+            "appliedMs": 4186,
+            "correlatedFrameMs": 4195,
+            "receiptMs": 4262,
+            "receiptStatus": "accepted",
+            "effect": "APPLIED",
+            "originalTimeMs": 4105
+          },
+          {
+            "label": "panelRelease",
+            "offerObservedMs": 4648,
+            "receivedMs": 4648,
+            "admittedMs": 4660,
+            "appendAckMs": 4664,
+            "appliedMs": 4707,
+            "correlatedFrameMs": 4717,
+            "receiptMs": 4748,
+            "receiptStatus": "accepted",
+            "effect": "APPLIED",
+            "originalTimeMs": 4660
+          }
+        ],
+        "latency": {
+          "heartbeat": {
+            "n": 64,
+            "median": 28,
+            "max": 59
+          },
+          "winchDown": {
+            "n": 1,
+            "median": 16,
+            "max": 16
+          },
+          "receiptLookup": {
+            "n": 5,
+            "median": 11,
+            "max": 12
+          },
+          "panelRelease": {
+            "n": 1,
+            "median": 16,
+            "max": 16
+          }
+        },
+        "tail": {
+          "boundedMs": 25000,
+          "settledAfterWindow": 0,
+          "unresolved": [],
+          "ownerSettled": true
+        },
+        "traffic": {
+          "logicalReads": 3646,
+          "logicalWrites": 561,
+          "logicalWriteBytes": 2901000,
+          "sdkCallbacks": 1562
+        },
+        "sdk": {
+          "sdkRead": {
+            "count": 7523,
+            "totalMs": 19510.762999999966,
+            "maxMs": 31.1
+          },
+          "sdkAttempt": {
+            "count": 1562,
+            "totalMs": 20451.813999999955,
+            "maxMs": 39.401
+          },
+          "sdkCommitAck": {
+            "count": 249,
+            "totalMs": 423.42900000000003,
+            "maxMs": 6.086
+          },
+          "sdkReadWrite": {
+            "count": 249,
+            "totalMs": 3767.812999999999,
+            "maxMs": 29.206
+          },
+          "sdkReadOnly": {
+            "count": 1313,
+            "totalMs": 17515.533000000003,
+            "maxMs": 39.416
+          }
+        },
+        "contacts": {
+          "received": 64,
+          "admitted": 64,
+          "applied": 64,
+          "readRenewals": 0
+        },
+        "publications": {
+          "player": 110,
+          "public": 2
+        },
+        "deadlineDriftMs": {
+          "n": 55,
+          "median": 67,
+          "max": 119
+        },
+        "presenceDriftMs": {
+          "n": 0,
+          "median": null,
+          "max": null
+        },
+        "queueDepth": {
+          "n": 121,
+          "median": 1,
+          "max": 2
+        },
+        "appendQueueDepth": {
+          "n": 121,
+          "median": 1,
+          "max": 3
+        },
+        "appendQueueWaitMs": {
+          "n": 121,
+          "median": 0.008916999999200925,
+          "max": 29.961750000000393
+        },
+        "engineCpuMs": {
+          "n": 121,
+          "median": 0.4117079999996349,
+          "max": 52.921707999994396
+        },
+        "errors": [],
+        "cleanup": "closed"
+      }
+    }
+  ]
+}

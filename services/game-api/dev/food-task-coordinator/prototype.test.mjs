@@ -279,3 +279,103 @@ test('operator push restores freshness for the same projection without ticking t
   assert.deepEqual(display.map(frame => [frame.frameSequence, frame.publicView.step?.kind ?? null]), [[1, 'AWAY'], [2, null]]);
   assert.deepEqual(errors, []);
 });
+
+test('owner renewal and durable heartbeat append use one FIFO', {timeout: 30000}, async t => {
+  const adapter = createLoopbackFoodStore();
+  t.after(() => adapter.close());
+  const {session, task, winch} = await seedTwoHumanTask(adapter);
+  const startedAt = task.options.startedAt;
+  let time = startedAt, hold;
+  const operations = [];
+  const coordinator = createFoodTaskCoordinator({clock: () => time, admissionMode: 'owner-fifo', store: {...adapter,
+    async operation(name, run) {
+      operations.push(name);
+      if (hold?.name === name) {
+        hold.entered.resolve();
+        await hold.released.promise;
+      }
+      return run();
+    },
+  }});
+  const taskId = await coordinator.openTask({session}), ownerId = randomUUID();
+  const before = await coordinator.acquire(taskId, ownerId);
+  const actions = {
+    'renew-owner': () => coordinator.acquire(taskId, ownerId),
+    'append-heartbeat': () => coordinator.heartbeat(taskId, winch),
+  };
+  for (const [index, first] of Object.keys(actions).entries()) {
+    const second = Object.keys(actions).find(name => name !== first);
+    time = startedAt + 1500 + index * 500;
+    const initial = operations.length;
+    hold = {name: first, entered: Promise.withResolvers(), released: Promise.withResolvers()};
+    const original = actions[first]();
+    let later;
+    try {
+      await hold.entered.promise;
+      later = actions[second]();
+      await new Promise(resolve => setImmediate(resolve));
+      // The second transport request can start without waiting for a gameplay
+      // apply. Its persistence transaction waits behind the first storage job.
+      assert.deepEqual(operations.slice(initial), [first]);
+      time += 20;
+    } finally { hold.released.resolve(); await Promise.all([original, later]); }
+    const [one, two] = await Promise.all([original, later]);
+    const [renewed, contact] = first === 'renew-owner' ? [one, two] : [two, one];
+    assert.equal(renewed.epoch, before.epoch);
+    assert.equal(contact.admittedAt, time);
+    assert.deepEqual(operations.slice(initial), [first, second]);
+  }
+});
+
+test('a published own-command witness requires the issuing seat binding', {timeout: 30000}, async t => {
+  const store = createLoopbackFoodStore();
+  const subscriptions = [];
+  t.after(async () => { for (const unsubscribe of subscriptions) unsubscribe(); await store.close(); });
+  const {session, task, winch, panel} = await seedTwoHumanTask(store);
+  const start = task.options.startedAt;
+  let time = start;
+  const events = [];
+  const c = createFoodTaskCoordinator({store, clock: () => time, admissionMode: 'owner-fifo', onEvent: event => {
+    if (event.stage === 'published') events.push(event);
+  }});
+  const taskId = await c.openTask({session});
+  const owner = await c.acquire(taskId, randomUUID());
+  for (const offset of [1500, 2800, 4000]) {
+    time = start + offset;
+    await Promise.all([c.heartbeat(taskId, winch), c.heartbeat(taskId, panel)]);
+    await c.runDue(taskId, owner);
+  }
+  const view = (await c.snapshot(taskId, winch)).playerView;
+  const request = envelope(view, chooseFoodBotInput(view).command);
+  await c.submit(taskId, winch, request);
+  await c.runDue(taskId, owner);
+  assert.equal((await c.receipt(taskId, winch, contextOf(request))).receipt.status, 'accepted');
+  const getWitness = async uid => {
+    const frames = [], errors = [];
+    const stop = c.subscribe(taskId, uid, frame => frames.push(frame), error => errors.push(error));
+    subscriptions.push(stop);
+    await until(() => frames.length);
+    stop();
+    assert.deepEqual(errors, []);
+    const frame = frames[0];
+    return events.find(event => event.frameEpoch === frame.frameEpoch && event.frameSequence === frame.frameSequence)?.commandId;
+  };
+  assert.equal(await getWitness(winch), request.commandId);
+  const nextUid = randomUUID();
+  // Model a replacement in this private fixture. The dev coordinator does not
+  // yet implement the production recovery transaction.
+  await store.transaction(async tx => {
+    const head = await tx.get(key(taskId, 'head'));
+    const member = head.members.find(row => row.uid === winch);
+    member.uid = nextUid;
+    member.bindingRevision++;
+    tx.set(key(taskId, 'head'), head);
+  });
+  assert.equal(await getWitness(nextUid), null);
+  await store.transaction(async tx => {
+    const checkpoint = await tx.get(key(taskId, 'state'));
+    delete checkpoint.lastInput.bindingRevision;
+    tx.set(key(taskId, 'state'), checkpoint);
+  });
+  assert.equal(await getWitness(nextUid), null);
+});

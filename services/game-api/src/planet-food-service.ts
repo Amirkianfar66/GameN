@@ -7,6 +7,11 @@ import type {PlanetContext,PlanetDeadlineJob,PlanetEnginePort,PlanetPersistence,
 import {chooseFoodBotInput,canAdmitFoodBotPanelLock,foodBotPanelLockWindowEnd} from './food-bot-policy.js';
 import {PlanetAtomicCreateConflict} from './planet-persistence-errors.js';
 import {beginPlanetTiming,timePlanetStage} from './planet-request-timing.js';
+import {createFoodInboxIntent,createPlanetFoodInbox,foodInboxScopeKey,PlanetFoodInboxConflict} from './planet-food-inbox.js';
+import {createPlanetFoodInboxWorker,LostFoodInboxAuthority} from './planet-food-inbox-worker.js';
+import type {PlanetFoodInboxAuthority,PlanetFoodInboxRoute,PlanetFoodInboxStep} from './planet-food-inbox-worker.js';
+import {PLANET_FOOD_INBOX_VERSION,PLANET_FOOD_OWNER_INBOX_PROFILE} from './planet-food-inbox-types.js';
+import type {EnqueuePlanetFoodInboxWake,PlanetFoodInboxIntent,PlanetFoodInboxRequest,PlanetFoodInboxWake} from './planet-food-inbox-types.js';
 
 export const FOOD_PRESENCE_LEASE_MS=FOOD_TASK_TRANSPORT.presenceLeaseMs;
 export const FOOD_HEARTBEAT_INTERVAL_MS=FOOD_TASK_TRANSPORT.heartbeatMs;
@@ -37,6 +42,7 @@ export interface FoodServiceSession<S extends PlanetStateEnvelope> {
   members:Array<{seatId:SeatId;uid:string|null;bindingRevision:number;controller:'human'|'bot'}>;
   displays:string[];admissions:Array<{uid:string}>;
   setup:unknown;foodService?:FoodServiceState;
+  foodAuthorityProfile?:typeof PLANET_FOOD_OWNER_INBOX_PROFILE;
 }
 interface Control {nextSequence:number;processedSequence:number;lastAdmittedAt:number;advancedThroughAt:number}
 interface TransportRate {since:number;count:number;lastSnapshotAt?:number}
@@ -50,6 +56,8 @@ interface Entry {
 }
 interface Pending {sequence:number;fingerprint:string}
 interface AdmissionResult {sequence:number;response:PlanetServiceResponse|null;refresh?:true}
+class FoodInboxMoved extends Error {}
+const inboxExpectedRefusals=new Set<FailureCode>(['FORBIDDEN','NOT_ALLOWED','NOT_FOUND','RATE_LIMITED','COMMAND_ID_CONFLICT','REQUEST_ID_CONFLICT']);
 class RecoveredAdmission extends Error {}
 interface BotIntent {sequence:number;request:Request;retryAt:number|null;done:boolean}
 interface BotWorkerLease {owner:string;expiresAt:number}
@@ -84,6 +92,12 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
   reject:(code:FailureCode)=>never;
 }){
   const {store,clock}=d;
+  const inbox=store.nextFoodInboxIntent?createPlanetFoodInbox(store,clock):null;
+  const worker=inbox?createPlanetFoodInboxWorker({store,inbox,clock,newId:d.newId,step:stepInbox}):null;
+  function inboxPorts(){
+    if(!inbox||!worker)throw new Error('Missing private Food inbox storage');
+    return {inbox,worker};
+  }
   type HumanBinding={session:T;seatId:SeatId;bindingRevision:number};
   type DetachedHuman=HumanBinding&({operation:'foodCommand'}
     |{operation:'foodHeartbeat';observedControl:Control|null});
@@ -134,7 +148,13 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       foodIds:{requestId:uuid([...base,'request']),taskId:uuid([...base,'task']),
         winchControlSessionId:uuid([...base,'winch']),panelControlSessionId:uuid([...base,'panel'])}};
   }
-  async function inspect(matchId:string):Promise<T|null>{return readOnly(tx=>tx.get<T>('session/'+matchId));}
+  async function inspectSession(tx:PlanetReadTransaction,matchId:string):Promise<T|null>{
+    const saved=await tx.get<T>('session/'+matchId);
+    if(saved&&Object.hasOwn(saved,'foodAuthorityProfile')&&saved.foodAuthorityProfile!==PLANET_FOOD_OWNER_INBOX_PROFILE)
+      throw new Error('Unsupported saved Planet Food authority profile');
+    return saved;
+  }
+  const inspect=(matchId:string)=>readOnly(tx=>inspectSession(tx,matchId));
   const technicalContext=(owner:string,now:number):PlanetContext=>({now,nextPhaseId:owner,nextDeadlineToken:d.newId(),random:[]});
   async function acquireWorker(matchId:string):Promise<string|null>{
     const live=await readOnly(tx=>tx.get<BotWorkerLease>(workerKey(matchId)));
@@ -359,6 +379,14 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     const at=times.length?Math.min(...times):null;
     if(at===null){f.scheduler=null;return;}
     const prior=f.scheduler;
+    const routing=s.foodAuthorityProfile?await activeInboxRoute(tx,s):null;
+    if(routing){
+      if(prior?.phaseId===s.state.phase.id&&prior.endsAt===at)return;
+      const token=uuid(['food-inbox-scheduler',ctx.nextDeadlineToken,s.state.phase.id,at]);
+      f.scheduler={phaseId:s.state.phase.id,token,endsAt:at};
+      if(!store.watchFoodInbox)inboxPorts().worker.stage(tx,routing.scope,'scheduler:'+token,at);
+      return;
+    }
     const old=prior?await tx.get<PlanetDeadlineJob>('deadline/'+hash([s.matchId,prior.phaseId,prior.token])):null;
     if(prior&&prior.phaseId===s.state.phase.id&&prior.endsAt===at&&old?.status!=='complete')return;
     const token=uuid(['food-scheduler',ctx.nextDeadlineToken,s.state.phase.id,at]);
@@ -381,10 +409,12 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     lockWindowEndsAt?:number;
     human?:DetachedHuman;
     trySnapshotWhileWaiting?:boolean;
+    inboxAuthority?:PlanetFoodInboxAuthority;
+    inboxIntent?:PlanetFoodInboxIntent;
   }={}):Promise<AdmissionResult>{
     if(options.human&&options.human.operation!==q?.operation)throw new Error('Invalid detached Food operation');
     let sampled:PlanetContext|undefined,recoveryCode:string|undefined;
-    const preflight=!options.human&&uid!==null&&q?await preflightAdmission(matchId,uid,q):null;
+    const preflight=!options.inboxAuthority&&!options.human&&uid!==null&&q?await preflightAdmission(matchId,uid,q):null;
     if(preflight?.prior)return preflight.prior;
     const perform=(writer?:string):Promise<AdmissionResult>=>store.transaction(async tx=>{
       const s=options.human?.session??await d.load(tx,matchId);if(!isFood(s))d.reject('NOT_ALLOWED');engine();
@@ -396,6 +426,20 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       if(options.human?.operation==='foodHeartbeat'&&hash(observedControl)!==hash(options.human.observedControl))
         return {sequence:0,response:null,refresh:true};
       const control=observedControl??freshControl();
+      if(options.inboxAuthority){
+        const route=await inboxPorts().worker.requireOwner(tx,options.inboxAuthority);
+        if(route.closedAt!==null)d.reject('NOT_ALLOWED');
+        if(control.processedSequence<route.cutoverThrough)throw new Error('Undrained Food cutover prefix');
+      }else if(s.foodAuthorityProfile&&await activeInboxRoute(tx,s))throw new FoodInboxMoved();
+      const settle=(result:AdmissionResult,admittedAt?:number)=>{
+        const intent=options.inboxIntent;
+        if(intent){
+          const resultProgress=result.response?{kind:'resolved' as const,response:result.response}:
+            {kind:'admitted' as const,sequence:result.sequence,admittedAt:admittedAt!};
+          inboxPorts().inbox.consume(tx,intent,resultProgress);
+        }
+        return result;
+      };
       const guard=writer===undefined?null:await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId));
       if(writer!==undefined)requirePrefixOwner(guard,writer,0,clock());
       const renewals=options.bot||options.job?await contacts(tx,matchId):null;
@@ -408,19 +452,21 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         if(prior&&!prior.done){const pending=await tx.get<Entry>(entryKey(matchId,prior.sequence));
           if(!pending)throw new Error('Missing bot input');return {sequence:prior.sequence,response:pending.response};}
       }else if(uid!==null&&q){actor=authorize(s,uid,q);binding=actor?s.members.find(m=>m.seatId===actor)!.bindingRevision:null;}
+      if(options.inboxIntent&&(actor!==options.inboxIntent.binding.seatId||binding!==options.inboxIntent.binding.revision))
+        d.reject('FORBIDDEN');
       const fingerprint=hash(q??{clock:options.job??'read'});
       const rk=q?receiptPath(q,uid??'server-bot',actor):null;
       if(rk){
         const previous=await tx.get<Stored>(rk);
         if(previous){if(previous.fingerprint!==fingerprint)d.reject(q?.operation==='foodCommand'||q?.operation==='command'?'COMMAND_ID_CONFLICT':'REQUEST_ID_CONFLICT');
-          return {sequence:0,response:previous.response};}
+          return settle({sequence:0,response:previous.response});}
       }
       const dk=rk?key('foodPending',rk):options.dedup??null;
       if(dk){const previous=await tx.get<Pending>(dk);if(previous){
         if(previous.fingerprint!==fingerprint)d.reject('COMMAND_ID_CONFLICT');
         const entry=await tx.get<Entry>(entryKey(matchId,previous.sequence));
         if(!entry)throw new Error('Missing admitted Food input');
-        return {sequence:previous.sequence,response:entry.response};}}
+        return settle({sequence:previous.sequence,response:entry.response},entry.context.now);}}
       let sourceJob:PlanetDeadlineJob|null=null;
       if(options.job){
         const current=service(s).scheduler;
@@ -432,6 +478,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       // Only a committed attempt's sample becomes authority. A failed SDK attempt has no receipt point.
       const at=clock();if(!Number.isSafeInteger(at)||at<control.lastAdmittedAt||at<control.advancedThroughAt)throw new Error('Backward Food admission clock');
       if(writer!==undefined)requirePrefixOwner(guard,writer,0,at);
+      if(options.inboxAuthority&&at>=options.inboxAuthority.owner.expiresAt)throw new LostFoodInboxAuthority();
       if(renewals)service(s).leases=effectiveLeases(s,renewals,at);
       if(options.workerOwner!==undefined){
         const lease=await tx.get<BotWorkerLease>(workerKey(matchId));
@@ -499,8 +546,8 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       if(dk)tx.set(dk,{sequence,fingerprint} satisfies Pending);
       if(entry.botIntentPath&&q)tx.set(entry.botIntentPath,{sequence,request:q,retryAt:null,done:false} satisfies BotIntent);
       // Admission itself has no gameplay publication; the private pending prefix still gets a durable wake.
-      if(!options.human)await d.publish(tx,s,ctx);
-      return {sequence,response:null};
+      if(!options.human&&!options.inboxAuthority)await d.publish(tx,s,ctx);
+      return settle({sequence,response:null},at);
     });
     const readWhileWaiting=options.trySnapshotWhileWaiting&&q?.operation==='read'&&uid!==null?async():Promise<AdmissionResult|null>=>{
       const observed=await tryFastRead(matchId,uid,true);
@@ -508,7 +555,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       // original bounded wait and can be reconsidered at its next interval.
       return observed===null||typeof observed==='string'?null:{sequence:0,response:observed};
     }:undefined;
-    try{return options.human?await perform():await withSessionWriter(matchId,owner=>perform(owner),preflight?.beforeClaim,readWhileWaiting);}
+    try{return options.human||options.inboxAuthority?await perform():await withSessionWriter(matchId,owner=>perform(owner),preflight?.beforeClaim,readWhileWaiting);}
     catch(error){
       if(error instanceof RecoveredAdmission&&preflight&&uid!==null&&q){
         const expected=q.operation==='command'&&preflight.actor!==null?{seatId:preflight.actor,bindingRevision:preflight.bindingRevision!}:undefined;
@@ -673,10 +720,19 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     d.record(tx,s,{kind:'OPERATION',operation:q.operation,context:ctx,ingressSequence:entry.sequence});
     return response({matchId:s.matchId},ctx.now);
   }
-  async function updateBotWakes(s:T,at:number,tx:PlanetTransaction):Promise<void>{
+  function botsInFoodOrder(s:T,at:number,scoped:boolean){
+    const step=scoped&&s.state?engine().projectPlanetFoodPublic(s.state,at).step:null;
+    const away=step?.kind==='AWAY'?step.awaySeatIds:null;
+    // The already-admitted prefix is considered before bot planning. During a
+    // scoped AWAY period only the two away seats can obtain Task input offers.
+    return s.members.filter(member=>member.controller==='bot'&&(!away||away.includes(member.seatId)));
+  }
+  async function updateBotWakes(s:T,at:number,tx:PlanetTransaction,scoped=false):Promise<void>{
     if(!s.state||s.status!=='running')return;
-    const f=service(s),e=engine();
-    for(const m of s.members.filter(m=>m.controller==='bot')){
+    const f=service(s),e=engine(),bots=botsInFoodOrder(s,at,scoped);
+    if(scoped)for(const id of Object.keys(f.botWakes) as SeatId[])
+      if(!bots.some(bot=>bot.seatId===id))delete f.botWakes[id];
+    for(const m of bots){
       const intent=await tx.get<BotIntent>(key('foodBotIntent',[s.matchId,m.seatId]));
       if(intent?.retryAt!==null&&intent?.retryAt!==undefined&&intent.retryAt>at){f.botWakes[m.seatId]=intent.retryAt;continue;}
       const v=e.projectPlanetFoodPlayer(s.state,m.seatId,at),decision=chooseFoodBotInput(v);
@@ -686,13 +742,20 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       else delete f.botWakes[m.seatId];
     }
   }
-  async function processOne(matchId:string,owner:string,throughSequence:number):Promise<void>{
+  async function processOne(matchId:string,owner:string,throughSequence:number,inboxAuthority?:PlanetFoodInboxAuthority):Promise<void>{
     await store.transaction(async tx=>{
       const s=await d.load(tx,matchId);
       const control=await tx.get<Control>(controlKey(matchId));
       if(!control||control.processedSequence>=throughSequence)return;
-      const lease=await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId));
-      requirePrefixOwner(lease,owner,throughSequence,clock());
+      const routing=s.foodAuthorityProfile?await activeInboxRoute(tx,s):null;
+      if(inboxAuthority){
+        await inboxPorts().worker.requireOwner(tx,inboxAuthority);
+        if(!routing)throw new LostFoodInboxAuthority();
+      }else{
+        if(routing)throw new FoodInboxMoved();
+        const lease=await tx.get<PrefixWorkerLease>(prefixWorkerKey(matchId));
+        requirePrefixOwner(lease,owner,throughSequence,clock());
+      }
       if(control.processedSequence===control.nextSequence-1)return;
       const path=entryKey(matchId,control.processedSequence+1),entry=await tx.get<Entry>(path);
       if(!entry||entry.response)throw new Error('Invalid Food ingress prefix');
@@ -715,11 +778,13 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
           tx.set(entry.botIntentPath,{sequence:entry.sequence,request:entry.request,done:true,
             retryAt:!entry.response.ok||receipt?.status==='rejected'?entry.context.now+250:null} satisfies BotIntent);
         }
-        await updateBotWakes(s,entry.context.now,tx);
+        await updateBotWakes(s,entry.context.now,tx,inboxAuthority!==undefined);
+        if(s.foodAuthorityProfile)await publishInboxRoute(tx,s,control,entry,routing);
         if(entry.job){const jobKey='deadline/'+hash([matchId,entry.job.phaseId,entry.job.deadlineToken]);
           const old=await tx.get<PlanetDeadlineJob>(jobKey);if(old)tx.set(jobKey,{...old,status:'complete'});}
       }
       tx.set(path,entry);await d.publish(tx,s,entry.context);
+      if(inboxAuthority&&clock()>=inboxAuthority.owner.expiresAt)throw new LostFoodInboxAuthority();
     });
   }
   async function drainThrough(matchId:string,sequence:number):Promise<PlanetServiceResponse>{
@@ -765,6 +830,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     const observed=await readOnly(async tx=>{
       const s=await d.load(tx,matchId);
       if(!isFood(s)||s.status!=='running'||!s.state)return null;
+      if(s.foodAuthorityProfile&&await activeInboxRoute(tx,s))throw new FoodInboxMoved();
       const actor=authorize(s,uid,{operation:'read',matchId});
       const control=await tx.get<Control>(controlKey(matchId));
       // The first processed entry initializes bot wakes. Never bypass it or an admitted prefix.
@@ -783,6 +849,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       // changes this control in the same commit as Session; worker scheduler-only
       // publications do not affect the captured audience projection.
       const control=await tx.get<Control>(controlKey(matchId));
+      if(observed.s.foodAuthorityProfile&&await activeInboxRoute(tx,observed.s))throw new FoodInboxMoved();
       if(!control)return fallback();
       const observedHash=hash(observed.control);
       if(hash(control)!==observedHash){
@@ -839,9 +906,198 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     // A second fence change keeps the existing ordered admission path.
     return next==='refresh'?null:next;
   }
-  async function tryHandle(uid:string,q:Request):Promise<PlanetServiceResponse|undefined>{
+  async function activeInboxRoute(tx:PlanetReadTransaction,s:T):Promise<PlanetFoodInboxRoute|null>{
+    if(!s.foodAuthorityProfile)return null;
+    const route=await inboxPorts().worker.route(tx,s.matchId);
+    return route?.closedAt===null?route:null;
+  }
+
+  async function publishInboxRoute(tx:PlanetTransaction,s:T,control:Control,entry:Entry,current:PlanetFoodInboxRoute|null):Promise<void>{
+    const {worker}=inboxPorts(),at=entry.context.now;
+    const state=s.status==='running'?s.state:null;
+    const projected=state?engine().projectPlanetFoodPublic(state,at):null;
+    const away=projected?.step?.kind==='AWAY'?projected.step.awaySeatIds[0]:null;
+    const task=state&&away?engine().projectPlanetFoodPlayer(state,away,at).participantTask:null;
+    if(current){
+      if(task?.taskId===current.scope.taskId&&state?.phase.id===current.scope.phaseId){
+        if(entry.request?.operation==='redeemRecovery'&&entry.response?.ok)
+          worker.setRoute(tx,{...current,bindingEpoch:current.bindingEpoch+1});
+        return;
+      }
+      if(!tx.create)throw new Error('Atomic Food inbox result is required');
+      const closed={...current,closedAt:at};
+      tx.create('foodInboxResult/'+foodInboxScopeKey(current.scope),{scope:current.scope,closedAt:at,
+        finalIngressSequence:entry.sequence,parentPhaseId:s.state?.phase.id??null,journalSequence:(s as T&{journalSequence?:number}).journalSequence??null});
+      worker.setRoute(tx,closed);
+      service(s).scheduler=null;
+      return;
+    }
+    if(task&&state){
+      const scope={version:PLANET_FOOD_INBOX_VERSION,matchId:s.matchId,phaseId:state.phase.id,taskId:task.taskId};
+      worker.setRoute(tx,{scope,cutoverThrough:control.nextSequence-1,bindingEpoch:0,closedAt:null});
+      service(s).scheduler=null;
+      worker.stage(tx,scope,'join',at,{bootstrap:true});
+    }
+  }
+
+  async function stepInbox(authority:PlanetFoodInboxAuthority):Promise<PlanetFoodInboxStep>{
+    const {worker,inbox}=inboxPorts(),matchId=authority.scope.matchId;
+    const observed=await readOnly(async tx=>{
+      const route=await worker.requireOwner(tx,authority),control=await tx.get<Control>(controlKey(matchId));
+      return {closed:route.closedAt!==null,control};
+    });
+    const {closed,control}=observed;
+    if(!closed&&control&&control.processedSequence<control.nextSequence-1){
+      await processOne(matchId,authority.owner.id,control.nextSequence-1,authority);
+      return 'again';
+    }
+    const intent=await inbox.next(authority.scope);
+    if(intent){
+      let admitted:AdmissionResult|null=null;
+      try{
+        if(closed)d.reject('NOT_ALLOWED');
+        admitted=await admit(matchId,intent.binding.uid,intent.request,{inboxAuthority:authority,inboxIntent:intent});
+      }catch(error){
+        const code=error!==null&&typeof error==='object'&&'code' in error?error.code as FailureCode:null;
+        if(code===null||!inboxExpectedRefusals.has(code))throw error;
+        // This transaction records a refusal without inventing an admission time.
+        // An ambiguous append, ownership loss or SDK failure never lands here.
+        await store.transaction(async tx=>{
+          await worker.requireOwner(tx,authority);
+          if(!await inbox.progress(tx,intent))inbox.consume(tx,intent,{kind:'resolved',response:{
+            ok:false,serverTimeMs:clock(),error:{code},
+          }});
+        });
+      }
+      if(admitted&&!admitted.response&&admitted.sequence>0)
+        await processOne(matchId,authority.owner.id,admitted.sequence,authority);
+      return 'again';
+    }
+    if(closed)return {closed:true,nextAt:null};
+    const before=control?.nextSequence;
+    await runBots(matchId,authority);
+    return readOnly(async tx=>{
+      const after=await tx.get<Control>(controlKey(matchId));
+      if(before!==after?.nextSequence)return 'again';
+      const s=await d.load(tx,matchId);
+      const at=clock(),f=service(s);
+      const future=[s.state?d.engine.planetDeadlineAt(s.state):null,
+        ...Object.values(f.leases).filter(lease=>lease&&!lease.offline).map(lease=>lease!.expiresAt),
+        ...Object.values(f.botWakes)].filter((time):time is number=>typeof time==='number'&&time>at);
+      return {closed:false,nextAt:future.length?Math.min(...future):null};
+    });
+  }
+
+  async function waitForInbox(intent:PlanetFoodInboxIntent):Promise<PlanetServiceResponse>{
+    const began=performance.now(),{inbox}=inboxPorts(),{matchId}=intent.scope;
+    const heartbeat=intent.request.operation==='foodHeartbeat';
+    const authorizeResult=async(tx:PlanetReadTransaction)=>{
+      const s=await d.load(tx,matchId);
+      const actor=authorize(s,intent.binding.uid,intent.request);
+      if(intent.request.operation!=='redeemRecovery'&&(actor!==intent.binding.seatId
+        ||member(s,intent.binding.uid)?.bindingRevision!==(intent.binding.revision??undefined)))d.reject('FORBIDDEN');
+    };
+    const readResult=async(tx:PlanetReadTransaction)=>{
+      const progress=await inbox.progress(tx,intent);
+      if(!progress)return 'inboxResultNoProgress' as const;
+      const result=progress.kind==='resolved'?progress.response:(
+        await tx.get<Entry>(entryKey(matchId,progress.sequence))
+      )?.response;
+      return result??('inboxResultPendingApply' as const);
+    };
+    let pending:'inboxResultNoProgress'|'inboxResultPendingApply'|undefined;
+    while(performance.now()-began<1800){
+      const settled=await readOnly(async tx=>{
+        if(!heartbeat)await authorizeResult(tx);
+        const result=await readResult(tx).catch(async error=>{
+          // Recheck the binding when this snapshot is still readable.
+          if(heartbeat)await authorizeResult(tx);
+          throw error;
+        });
+        // Pending heartbeats do not load the Session. An exact response still
+        // requires the original binding in the same snapshot as that response.
+        if(heartbeat&&typeof result!=='string')await authorizeResult(tx);
+        return result;
+      });
+      if(typeof settled!=='string')return settled;
+      pending=settled;
+      await new Promise<void>(resolve=>setTimeout(resolve,40));
+    }
+    // Preserve the revoked caller's refusal at expiry without polling the
+    // result again after its original wait budget.
+    if(heartbeat)await readOnly(authorizeResult);
+    if(pending)beginPlanetTiming(pending)?.();
+    beginPlanetTiming('inboxResultTimeout')?.();
+    return d.reject('UNAVAILABLE');
+  }
+
+  async function captureInbox(tx:PlanetReadTransaction,matchId:string,uid:string,q:Request){
+    const s=await d.load(tx,matchId),route=await activeInboxRoute(tx,s);
+    if(!route)return null;
+    const actor=authorize(s,uid,q),revision=actor?member(s,uid)!.bindingRevision:null;
+    return {s,route,actor,revision,liveListener:await inboxPorts().worker.liveListener(tx,route.scope)};
+  }
+  type InboxCapture=Awaited<ReturnType<typeof captureInbox>>;
+  async function tryHandleInbox(initial:T,uid:string,q:Request,authorized?:InboxCapture):Promise<PlanetServiceResponse|undefined>{
+    if(!initial.foodAuthorityProfile||q.operation==='receipt'||q.operation==='foodReceipt')return undefined;
+    const {inbox,worker}=inboxPorts(),matchId=initial.matchId;
+    const captured=authorized===undefined?await readOnly(tx=>captureInbox(tx,matchId,uid,q)):authorized;
+    if(!captured)return undefined;
+    const {s,route,actor,revision,liveListener}=captured,at=clock();
+    const verify=async(tx:PlanetReadTransaction)=>{
+      const current=await worker.route(tx,matchId);
+      if(!current||current.closedAt!==null||current.bindingEpoch!==route.bindingEpoch
+        ||foodInboxScopeKey(current.scope)!==foodInboxScopeKey(route.scope))
+        throw new FoodInboxMoved();
+      return worker.needsIntakeWake(tx,route.scope,liveListener);
+    };
+    const binding={uid,seatId:actor,revision};
+    if(q.operation==='read'){
+      const result=d.snapshot(s,uid,at);
+      const task=result.foodPlayerView?.participantTask;
+      if(actor&&task?.taskId===route.scope.taskId&&task.stage!=='ENDED'&&task.people.some(person=>person.seatId===actor&&person.alive)){
+        const beat={operation:'foodHeartbeat' as const,matchId,taskId:route.scope.taskId};
+        const intent=createFoodInboxIntent(route.scope,binding,beat,'snapshot-'+Math.floor(at/FOOD_HEARTBEAT_INTERVAL_MS));
+        await inbox.intake(intent,at,verify);
+      }
+      return response(result,at);
+    }
+    if(q.operation!=='foodCommand'&&q.operation!=='foodHeartbeat'&&q.operation!=='command'
+      &&q.operation!=='abort'&&q.operation!=='issueRecovery'&&q.operation!=='redeemRecovery'&&q.operation!=='advance'&&q.operation!=='runBots')return d.reject('NOT_ALLOWED');
+    const request:PlanetFoodInboxRequest=q;
+    // A duplicate host or ordinary request keeps its existing ID. Distinct
+    // explicit heartbeats are independent; reader fallback is bucketed above.
+    const original='requestId' in q?q.requestId:'request' in q?q.request.commandId:d.newId();
+    if(q.operation==='foodHeartbeat'&&q.taskId!==route.scope.taskId)return d.reject('NOT_ALLOWED');
+    if(q.operation==='foodCommand'&&(q.request.phaseId!==route.scope.phaseId
+      ||q.request.command.type==='TASK_PRESS'&&q.request.command.taskId!==route.scope.taskId))return d.reject('NOT_ALLOWED');
+    const intent=createFoodInboxIntent(route.scope,binding,request,original);
+    try{await inbox.intake(intent,at,verify);}
+    catch(error){
+      if(error instanceof PlanetFoodInboxConflict)
+        return d.reject(q.operation==='foodCommand'||q.operation==='command'?'COMMAND_ID_CONFLICT':'REQUEST_ID_CONFLICT');
+      throw error;
+    }
+    return timePlanetStage('inboxResultWait',()=>waitForInbox(intent));
+  }
+
+  async function tryHandle(uid:string,q:Request,retryRouting=true):Promise<PlanetServiceResponse|undefined>{
+    try{return await handleWithRoute(uid,q);}
+    catch(error){
+      if(!(error instanceof FoodInboxMoved)||!retryRouting)throw error;
+      return tryHandle(uid,q,false);
+    }
+  }
+  async function handleWithRoute(uid:string,q:Request):Promise<PlanetServiceResponse|undefined>{
     const matchId=matchOf(q);if(matchId===null)return undefined;
-    const initial=await timePlanetStage('classification',()=>inspect(matchId));
+    const timed=q.operation==='foodHeartbeat'||q.operation==='foodCommand'&&q.request.command.type==='TASK_PRESS';
+    const {initial,authorized}=await timePlanetStage('classification',()=>readOnly(async tx=>{
+      const initial=await inspectSession(tx,matchId);
+      // Validated load reuses the envelope cached in this same storage snapshot.
+      const authorized=timed&&initial?.foodAuthorityProfile&&isFood(initial)&&initial.state&&initial.status==='running'
+        ?await captureInbox(tx,matchId,uid,q):undefined;
+      return {initial,authorized};
+    }));
     if(!initial||!isFood(initial)){
       if(foodOperation(q))d.reject('NOT_ALLOWED');return undefined;
     }
@@ -861,6 +1117,8 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         return original.response;
       });
     }
+    const privateResult=await tryHandleInbox(initial,uid,q,authorized);
+    if(privateResult!==undefined)return privateResult;
     if(q.operation==='foodCommand')return humanFoodCommand(matchId,uid,q,initial);
     if(q.operation==='foodHeartbeat')return humanFoodHeartbeat(matchId,uid,q);
     if(q.operation==='foodReceipt'||q.operation==='receipt')return timePlanetStage('finalReceipt',()=>readOnly(async tx=>{
@@ -885,6 +1143,14 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     status:'advanced'|'unchanged'|'too-early';retryAfterMs?:number;
   }|undefined>{
     const s=await inspect(job.matchId);if(!s||!isFood(s)||!s.state)return undefined;
+    if(s.foodAuthorityProfile&&await readOnly(tx=>activeInboxRoute(tx,s))){
+      await store.transaction(async tx=>{
+        const path='deadline/'+hash([job.matchId,job.phaseId,job.deadlineToken]);
+        const old=await tx.get<PlanetDeadlineJob>(path);
+        if(old&&old.status!=='complete')tx.set(path,{...old,status:'complete'});
+      });
+      return {status:'unchanged'};
+    }
     const stored=await readOnly(tx=>tx.get<PlanetDeadlineJob>('deadline/'+hash([job.matchId,job.phaseId,job.deadlineToken])));
     if(!stored||stored.status==='complete')return {status:'unchanged'};
     if(stored.sessionWriterRecovery!==undefined){
@@ -925,13 +1191,12 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     await runBots(job.matchId);
     return {status:result.ok&&(result.result as {advanced:boolean}).advanced?'advanced':'unchanged'};
   }
-  async function runBots(matchId:string):Promise<{accepted:number}>{
+  async function runBots(matchId:string,inboxAuthority?:PlanetFoodInboxAuthority):Promise<{accepted:number}>{
     let accepted=0,waitedMs=0,workPasses=0,inputs=0;
     type LockProposal={seatId:SeatId;view:FoodTaskPlayerView;command:FoodTaskCommandRequest['command'];endsAt:number;
       request:Extract<Request,{operation:'foodCommand'}>|null};
     type UpProposal=Pick<LockProposal,'seatId'|'view'|'command'>;
     type Probe={prefix:number|null;work:boolean;nextWakeAt:number|null;lock:LockProposal|null;up?:UpProposal};
-    const botsInOrder=(s:T)=>s.members.filter(m=>m.controller==='bot');
     const plannedLocks=new Map<SeatId,{request:Extract<Request,{operation:'foodCommand'}>;endsAt:number}>();
     const currentPlannedLock=(seat:SeatId,view:FoodTaskPlayerView)=>{
       const planned=plannedLocks.get(seat);if(!planned)return null;const request=planned.request;
@@ -940,9 +1205,23 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       return planned;
     };
     const started=performance.now();
+    const finish=async(sequence:number)=>{
+      if(!inboxAuthority)return drainThrough(matchId,sequence);
+      for(let pass=0;pass<MAX_PREFIX_COMMITS;pass++){
+        const entry=await readOnly(tx=>tx.get<Entry>(entryKey(matchId,sequence)));
+        if(entry?.response)return entry.response;
+        await processOne(matchId,inboxAuthority.owner.id,sequence,inboxAuthority);
+      }
+      throw new Error('Food inbox bot work needs a later continuation');
+    };
     const remaining=()=>Math.floor(Math.min(FOOD_BOT_WALL_BUDGET_MS-(performance.now()-started),FOOD_BOT_WALL_BUDGET_MS-waitedMs));
     const probe=():Promise<Probe>=>readOnly(async tx=>{
         const s=await d.load(tx,matchId),control=await tx.get<Control>(controlKey(matchId));
+        if(s.foodAuthorityProfile){
+          const route=await activeInboxRoute(tx,s);
+          if(!!route!==!!inboxAuthority)return {prefix:null,work:false,nextWakeAt:null,lock:null};
+          if(inboxAuthority)await inboxPorts().worker.requireOwner(tx,inboxAuthority);
+        }
         if(control&&control.processedSequence<control.nextSequence-1)return {prefix:control.nextSequence-1,work:false,nextWakeAt:null,lock:null};
         if(s.status!=='running'||!s.state)return {prefix:null,work:false,nextWakeAt:null,lock:null};
         const renewals=await contacts(tx,matchId),at=clock(),f=service(s),due=engine().planetDeadlineAt(s.state);
@@ -951,7 +1230,7 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         if(Object.values(f.leases).some(l=>l&&!l.offline&&l.expiresAt<=at)
           ||engineDue&&d.engine.hasOnlyDuePlanetFoodWarnings?.(s.state,at)!==true)return {prefix:null,work:true,nextWakeAt:null,lock:null};
         let nextWakeAt:number|null=null;
-        for(const bot of botsInOrder(s)){
+        for(const bot of botsInFoodOrder(s,at,inboxAuthority!==undefined)){
           const intent=await tx.get<BotIntent>(key('foodBotIntent',[matchId,bot.seatId]));
           if(intent&&!intent.done)return {prefix:intent.sequence,work:false,nextWakeAt:null,lock:null};
           if(intent?.retryAt!==null&&intent?.retryAt!==undefined&&intent.retryAt>at){
@@ -980,8 +1259,9 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     // Do not create a lease or scheduler write for an idle session trigger.
     const initial=await probe();
     if(initial.prefix===null&&!initial.work&&(!d.waitForBotWake||initial.nextWakeAt===null))return {accepted};
-    const owner=await acquireWorker(matchId);
+    const owner=inboxAuthority?.owner.id??await acquireWorker(matchId);
     if(owner===null)return {accepted};
+    const ownership=inboxAuthority?{inboxAuthority}:{workerOwner:owner};
     const materializeLock=(proposal:LockProposal)=>{
       if(clock()>=proposal.endsAt)return null;
       const request=proposal.request??{operation:'foodCommand' as const,request:{schemaVersion:1 as const,protocolVersion:3 as const,
@@ -991,26 +1271,26 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
     // The proposal has no command ID until ownership is established. The owned
     // probe still rechecks earlier bots and the original current-window bound.
     const submit=async(seat:SeatId,request:Request,lockWindowEndsAt:number|null):Promise<boolean>=>{
-      const admitted=await admit(matchId,null,request,{bot:seat,workerOwner:owner,...(lockWindowEndsAt===null?{}:{lockWindowEndsAt})});
+      const admitted=await admit(matchId,null,request,{bot:seat,...ownership,...(lockWindowEndsAt===null?{}:{lockWindowEndsAt})});
       if(admitted.refresh){
         if(request.operation==='foodCommand'&&request.request.command.type==='TASK_PRESS'&&request.request.command.input.kind==='PANEL_LOCK'&&lockWindowEndsAt!==null)
           plannedLocks.set(seat,{request,endsAt:lockWindowEndsAt});
         return false;
       }
       plannedLocks.delete(seat);inputs++;
-      const result=admitted.response??await drainThrough(matchId,admitted.sequence);
+      const result=admitted.response??await finish(admitted.sequence);
       if(result.ok&&(result.result as {receipt?:{status:string}}).receipt?.status==='accepted')accepted++;
       return true;
     };
     try{
       if(initial.lock){const planned=materializeLock(initial.lock);if(planned)plannedLocks.set(initial.lock.seatId,planned);}
-      while(workPasses<MAX_BOT_INPUTS&&inputs<MAX_BOT_INPUTS&&remaining()>0){
-      if(!await refreshWorker(matchId,owner))break;
+      while(workPasses<(inboxAuthority?1:MAX_BOT_INPUTS)&&inputs<MAX_BOT_INPUTS&&remaining()>0){
+      if(!inboxAuthority&&!await refreshWorker(matchId,owner))break;
       const pending=await probe();
-      if(pending.prefix!==null){workPasses++;await drainThrough(matchId,pending.prefix);continue;}
+      if(pending.prefix!==null){workPasses++;await finish(pending.prefix);continue;}
       // A session trigger that finds no due work must perform no writes, or it retriggers itself forever.
       if(!pending.work){
-        if(!d.waitForBotWake||pending.nextWakeAt===null)break;
+        if(inboxAuthority||!d.waitForBotWake||pending.nextWakeAt===null)break;
         const delay=Math.min(1000,Math.max(0,pending.nextWakeAt-clock()),remaining());
         if(delay<=0)continue;
         waitedMs+=delay;await d.waitForBotWake(delay);
@@ -1032,16 +1312,17 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
         if(planned)await submit(pending.lock.seatId,planned.request,planned.endsAt);
         continue; // Normal ordered admission itself drains any due warnings before this Lock.
       }
-      const clockInput=await admit(matchId,null,null,{workerOwner:owner});
-      await drainThrough(matchId,clockInput.sequence);
+      const clockInput=await admit(matchId,null,null,ownership);
+      await finish(clockInput.sequence);
       const s=await readOnly(tx=>d.load(tx,matchId));
       if(!s.state||s.status!=='running')break;
+      if(inboxAuthority&&!await readOnly(tx=>activeInboxRoute(tx,s)))break;
       let progressed=false,needsRefresh=false;
-      for(const bot of botsInOrder(s)){
+      for(const bot of botsInFoodOrder(s,inboxAuthority?clock():0,inboxAuthority!==undefined)){
         if(inputs>=MAX_BOT_INPUTS||remaining()<=0)break;
         const intentPath=key('foodBotIntent',[matchId,bot.seatId]);
         const intent=await readOnly(tx=>tx.get<BotIntent>(intentPath));
-        if(intent&&!intent.done){const result=await drainThrough(matchId,intent.sequence);
+        if(intent&&!intent.done){const result=await finish(intent.sequence);
           if(result.ok&&(result.result as {receipt?:{status:string}}).receipt?.status==='accepted')accepted++;progressed=true;continue;}
         const state=await inspect(matchId);if(!state?.state||state.status!=='running')break;
         const now=clock();if(intent?.retryAt!==null&&intent?.retryAt!==undefined&&now<intent.retryAt)continue;
@@ -1068,8 +1349,34 @@ export function createPlanetFoodCoordinator<S extends PlanetStateEnvelope,T exte
       if(needsRefresh)continue;
       if(!progressed&&!d.waitForBotWake)break;
     }}catch(error){if(!(error instanceof LostBotWorkerLease))throw error;}
-    finally{await releaseWorker(matchId,owner);}
+    finally{if(!inboxAuthority)await releaseWorker(matchId,owner);}
     return {accepted};
   }
-  return {tryHandle,tryRunDeadline,runBots,schedule};
+  async function deliveryFence(tx:PlanetReadTransaction,s:T,view:PlanetSessionSnapshot,at:number):Promise<{fresh:boolean;recheckAt?:number}>{
+    const task=view.foodPlayerView?.participantTask;
+    if(!view.foodStream||!task)return {fresh:true};
+    const {worker}=inboxPorts(),route=await activeInboxRoute(tx,s);
+    if(!route||route.scope.taskId!==task.taskId)return {fresh:false};
+    const owner=await worker.readOwner(tx,route.scope);
+    const leases=service(s).leases,own=leases[view.foodPlayerView!.seatId];
+    const expirations=Object.values(leases).filter(lease=>lease&&!lease.offline).map(lease=>lease!.expiresAt);
+    const deadlines=[owner?.expiresAt,...expirations];
+    const future=deadlines.filter((time):time is number=>typeof time==='number'&&time>at);
+    // A due engine boundary does not invalidate the last committed authorized
+    // projection. The owner still applies it before evaluating a new command.
+    const fresh=!!owner&&owner.expiresAt>at&&expirations.every(expiry=>expiry>at)
+      &&(task.stage==='ENDED'||!!own&&!own.offline&&own.taskId===task.taskId&&own.expiresAt>at);
+    return {fresh,...(future.length?{recheckAt:Math.min(...future)}:{})};
+  }
+  async function watchOwner(s:T,view:PlanetSessionSnapshot,changed:()=>void,failed:(error:unknown)=>void):Promise<(()=>void)|undefined>{
+    if(!store.watchPrivateKey||!view.foodStream||!view.foodPlayerView?.participantTask)return undefined;
+    const {worker}=inboxPorts(),route=await readOnly(tx=>activeInboxRoute(tx,s));
+    if(!route||route.scope.taskId!==view.foodPlayerView.participantTask.taskId)return undefined;
+    return store.watchPrivateKey(worker.ownerWatchKey(route.scope),changed,failed);
+  }
+  return {tryHandle,tryRunDeadline,runBots,schedule,deliveryFence,watchOwner,
+    runFoodInbox:(wake:PlanetFoodInboxWake)=>inboxPorts().worker.runFoodInbox(wake),
+    dispatchFoodInboxWake:(id:string,enqueue:EnqueuePlanetFoodInboxWake)=>inboxPorts().inbox.dispatch(id,enqueue),
+    repairFoodInboxWakes:(enqueue:EnqueuePlanetFoodInboxWake)=>inboxPorts().worker.repairWakes(enqueue),
+  };
 }

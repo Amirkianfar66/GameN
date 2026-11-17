@@ -3,7 +3,7 @@ import {readFileSync, appendFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
-const jobs = ['verify', 'backend-emulator', 'backend-declared-hack-emulator',
+const jobs = ['verify', 'backend-emulator', 'backend-food-cold-emulator', 'backend-declared-hack-emulator',
   'backend-board-v2-emulator', 'frontend-emulator', 'frontend-board-v2-emulator'];
 const frontend = new Set(['verify', 'frontend-emulator', 'frontend-board-v2-emulator']);
 // Owner/rule decisions and machine-readable approvals are release inputs, not prose-only changes.

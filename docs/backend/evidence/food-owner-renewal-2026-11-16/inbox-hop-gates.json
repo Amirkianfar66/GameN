@@ -1,0 +1,388 @@
+{
+  "toolchain": {
+    "node": "22.21.1",
+    "firestoreEmulator": "1.20.2"
+  },
+  "runs": [
+    {
+      "gate": "in-process",
+      "source": "b6c68b4005699de2d3be2f9d131ffae254a8a793",
+      "sourceClean": true,
+      "arms": [
+        {
+          "variant": "owner-fifo",
+          "run": "01",
+          "count": 7,
+          "viewerCount": 8,
+          "spanMs": 12000,
+          "tail": {
+            "boundedMs": 25000,
+            "settledAfterWindow": 0,
+            "unresolved": [],
+            "ownerSettled": true
+          },
+          "contacts": {
+            "received": 22,
+            "admitted": 22,
+            "applied": 22,
+            "readRenewals": 0
+          },
+          "inboxHop": null,
+          "errors": [],
+          "heartbeats": {
+            "n": 22,
+            "median": 29,
+            "p95": 61,
+            "max": 62
+          },
+          "inputs": [
+            {
+              "control": "winchDown",
+              "receiptStatus": "accepted",
+              "offerToReceiptMs": 99
+            },
+            {
+              "control": "panelRelease",
+              "receiptStatus": "accepted",
+              "offerToReceiptMs": 101
+            }
+          ]
+        },
+        {
+          "variant": "owner-fifo",
+          "run": "02",
+          "count": 7,
+          "viewerCount": 8,
+          "spanMs": 12000,
+          "tail": {
+            "boundedMs": 25000,
+            "settledAfterWindow": 0,
+            "unresolved": [],
+            "ownerSettled": true
+          },
+          "contacts": {
+            "received": 22,
+            "admitted": 22,
+            "applied": 22,
+            "readRenewals": 0
+          },
+          "inboxHop": null,
+          "errors": [],
+          "heartbeats": {
+            "n": 22,
+            "median": 35,
+            "p95": 48,
+            "max": 63
+          },
+          "inputs": [
+            {
+              "control": "winchDown",
+              "receiptStatus": "accepted",
+              "offerToReceiptMs": 167
+            },
+            {
+              "control": "panelRelease",
+              "receiptStatus": "accepted",
+              "offerToReceiptMs": 95
+            }
+          ]
+        },
+        {
+          "variant": "owner-inbox-hop",
+          "run": "01",
+          "count": 7,
+          "viewerCount": 8,
+          "spanMs": 12000,
+          "tail": {
+            "boundedMs": 25000,
+            "settledAfterWindow": 0,
+            "unresolved": [],
+            "ownerSettled": true
+          },
+          "contacts": {
+            "received": 22,
+            "admitted": 22,
+            "applied": 22,
+            "readRenewals": 0
+          },
+          "inboxHop": {
+            "intakeMs": {
+              "n": 24,
+              "median": 4.998959000000468,
+              "p95": 8.790541000000303,
+              "max": 9.076874999999745
+            },
+            "selectionMs": {
+              "n": 24,
+              "median": 8.680249999999432,
+              "p95": 11.707666999999674,
+              "max": 14.817000000000007
+            }
+          },
+          "errors": [],
+          "heartbeats": {
+            "n": 22,
+            "median": 44,
+            "p95": 69,
+            "max": 71
+          },
+          "inputs": [
+            {
+              "control": "winchDown",
+              "receiptStatus": "accepted",
+              "offerToReceiptMs": 111
+            },
+            {
+              "control": "panelRelease",
+              "receiptStatus": "accepted",
+              "offerToReceiptMs": 110
+            }
+          ]
+        },
+        {
+          "variant": "owner-inbox-hop",
+          "run": "02",
+          "count": 7,
+          "viewerCount": 8,
+          "spanMs": 12000,
+          "tail": {
+            "boundedMs": 25000,
+            "settledAfterWindow": 0,
+            "unresolved": [],
+            "ownerSettled": true
+          },
+          "contacts": {
+            "received": 22,
+            "admitted": 22,
+            "applied": 22,
+            "readRenewals": 0
+          },
+          "inboxHop": {
+            "intakeMs": {
+              "n": 24,
+              "median": 5.90908300000001,
+              "p95": 7.223125000000437,
+              "max": 8.179541000000427
+            },
+            "selectionMs": {
+              "n": 24,
+              "median": 8.147500000000036,
+              "p95": 10.936749999999847,
+              "max": 14.296084000000064
+            }
+          },
+          "errors": [],
+          "heartbeats": {
+            "n": 22,
+            "median": 45,
+            "p95": 66,
+            "max": 70
+          },
+          "inputs": [
+            {
+              "control": "winchDown",
+              "receiptStatus": "accepted",
+              "offerToReceiptMs": 111
+            },
+            {
+              "control": "panelRelease",
+              "receiptStatus": "accepted",
+              "offerToReceiptMs": 106
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "gate": "independent-listener",
+      "source": "7470e408a8ced53bf48be40f65305ba199ae1f9e",
+      "sourceClean": true,
+      "arms": [
+        {
+          "variant": "owner-fifo",
+          "run": "01",
+          "count": 7,
+          "viewerCount": 8,
+          "spanMs": 12000,
+          "tail": {
+            "boundedMs": 25000,
+            "settledAfterWindow": 0,
+            "unresolved": [],
+            "ownerSettled": true
+          },
+          "contacts": {
+            "received": 22,
+            "admitted": 22,
+            "applied": 22,
+            "readRenewals": 0
+          },
+          "inboxHop": null,
+          "errors": [],
+          "heartbeats": {
+            "n": 22,
+            "median": 36,
+            "p95": 53,
+            "max": 55
+          },
+          "inputs": [
+            {
+              "control": "winchDown",
+              "receiptStatus": "accepted",
+              "offerToReceiptMs": 170
+            },
+            {
+              "control": "panelRelease",
+              "receiptStatus": "accepted",
+              "offerToReceiptMs": 96
+            }
+          ]
+        },
+        {
+          "variant": "owner-fifo",
+          "run": "02",
+          "count": 7,
+          "viewerCount": 8,
+          "spanMs": 12000,
+          "tail": {
+            "boundedMs": 25000,
+            "settledAfterWindow": 0,
+            "unresolved": [],
+            "ownerSettled": true
+          },
+          "contacts": {
+            "received": 22,
+            "admitted": 22,
+            "applied": 22,
+            "readRenewals": 0
+          },
+          "inboxHop": null,
+          "errors": [],
+          "heartbeats": {
+            "n": 22,
+            "median": 29,
+            "p95": 51,
+            "max": 57
+          },
+          "inputs": [
+            {
+              "control": "winchDown",
+              "receiptStatus": "accepted",
+              "offerToReceiptMs": 165
+            },
+            {
+              "control": "panelRelease",
+              "receiptStatus": "accepted",
+              "offerToReceiptMs": 96
+            }
+          ]
+        },
+        {
+          "variant": "owner-inbox-hop",
+          "run": "01",
+          "count": 7,
+          "viewerCount": 8,
+          "spanMs": 12000,
+          "tail": {
+            "boundedMs": 25000,
+            "settledAfterWindow": 0,
+            "unresolved": [],
+            "ownerSettled": true
+          },
+          "contacts": {
+            "received": 22,
+            "admitted": 22,
+            "applied": 22,
+            "readRenewals": 0
+          },
+          "inboxHop": {
+            "trigger": "independent Firestore listener with separate intake client",
+            "intakeMs": {
+              "n": 24,
+              "median": 7.421709000000192,
+              "p95": 22.677500000000236,
+              "max": 23.22912499999984
+            },
+            "selectionMs": {
+              "n": 24,
+              "median": 6.864166000000296,
+              "p95": 10.315749999999753,
+              "max": 10.915875000000142
+            }
+          },
+          "errors": [],
+          "heartbeats": {
+            "n": 22,
+            "median": 44,
+            "p95": 72,
+            "max": 77
+          },
+          "inputs": [
+            {
+              "control": "winchDown",
+              "receiptStatus": "accepted",
+              "offerToReceiptMs": 112
+            },
+            {
+              "control": "panelRelease",
+              "receiptStatus": "accepted",
+              "offerToReceiptMs": 110
+            }
+          ]
+        },
+        {
+          "variant": "owner-inbox-hop",
+          "run": "02",
+          "count": 7,
+          "viewerCount": 8,
+          "spanMs": 12000,
+          "tail": {
+            "boundedMs": 25000,
+            "settledAfterWindow": 0,
+            "unresolved": [],
+            "ownerSettled": true
+          },
+          "contacts": {
+            "received": 22,
+            "admitted": 22,
+            "applied": 22,
+            "readRenewals": 0
+          },
+          "inboxHop": {
+            "trigger": "independent Firestore listener with separate intake client",
+            "intakeMs": {
+              "n": 24,
+              "median": 8.732374999999593,
+              "p95": 18.619750000000295,
+              "max": 19.37270800000033
+            },
+            "selectionMs": {
+              "n": 24,
+              "median": 7.240750000000389,
+              "p95": 10.141417000000729,
+              "max": 10.989042000000154
+            }
+          },
+          "errors": [],
+          "heartbeats": {
+            "n": 22,
+            "median": 49,
+            "p95": 67,
+            "max": 73
+          },
+          "inputs": [
+            {
+              "control": "winchDown",
+              "receiptStatus": "accepted",
+              "offerToReceiptMs": 109
+            },
+            {
+              "control": "panelRelease",
+              "receiptStatus": "accepted",
+              "offerToReceiptMs": 107
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
