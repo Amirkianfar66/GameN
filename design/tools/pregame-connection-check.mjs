@@ -360,6 +360,18 @@ const STATES = {
         onTheServersWindow: held.atMount?.state === 'running' && held.atMount.t >= 150 && held.atMount.t < 1400, atMountMs: Math.round(held.atMount?.t ?? -1),
         goneByItself: gone.mounted && gone.opacity < 0.05, disposedInRound2: true };
     } },
+  // A phone that arrives (or comes back, from Food's surface or a lock) after the stamp's length: Round 1's Before
+  // turns began 5 s ago. The stamp is mounted for the window and draws nothing, and nothing runs.
+  'round-stamp-late': { url: 'scenario=reading', inMatch: true, steps: async page => {
+      await page.waitFor(SCREEN('role'), 'the role stage, before the match');
+      await page.evaluate(roundOne(5000));
+      await page.waitFor("!!document.querySelector('.ms-phone-shell .ms-round-stamp')&&window.planetHarness.app.game?.getModel().round===1", 'the late window mounted', 4000);
+    },
+    facts: s => ({ running: s.model?.status === 'running' && s.model.connection === 'live' }),
+    after: async page => {
+      const late = await page.evaluate("(() => { const mark = document.querySelector('.ms-round-stamp .ms-rs-mark'); return { animations: mark.getAnimations().length, opacity: Number(getComputedStyle(mark).opacity), count: document.querySelectorAll('.ms-round-stamp').length }; })()");
+      return { mounted: late.count === 1, nothingDrawn: late.animations === 0 && late.opacity < 0.05 };
+    } },
 };
 
 /** The record so far, when this run adds to it: the same candidate, art and headers. */

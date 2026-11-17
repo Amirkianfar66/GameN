@@ -231,6 +231,8 @@ test('the round stamp (part 9): Round 1\'s Before turns over the room, with the 
  // Not mounted: another round or phase, no moment, or the room view not showing.
  assert.equal(roundStampInput(roundStart({round:2,phase}),{clock,status:'live',reducedMotion:false,room:true}),null);
  assert.equal(roundStampInput(roundStart({round:1,phase:{...phase,kind:'TURN'}}),{clock,status:'live',reducedMotion:false,room:true}),null);
+ // Under the Food rules the match opens in Food Supply: no stamp then; it lands at Round 1's first Before turns.
+ assert.equal(roundStampInput(roundStart({round:1,phase:{...phase,kind:'FOOD_SUPPLY'}}),{clock,status:'live',reducedMotion:false,room:true}),null);
  assert.equal(roundStampInput(moment,{clock,status:'live',reducedMotion:false,room:false}),null);
  // No trusted clock: mounted, with none, so the stamp draws nothing. The shell's status goes as it is.
  for(const status of ['live','stale','concealed'])nextRoundStampInput(ROUND_STAMP_DEFAULTS,roundStampInput(moment,{clock:null,status,reducedMotion:true,room:true}));
