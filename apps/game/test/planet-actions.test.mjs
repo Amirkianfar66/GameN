@@ -157,6 +157,11 @@ test('this phone\'s pick: held from its taps while the model\'s action is that c
  flow=actionsFlow(flow,model({recovery:{status:'unknown',canCheck:true,canRetry:true}}));assert.equal(flow.stage,'unknown');
  assert.equal(actionsFlow(flow,model({connection:'stale',phase:null,recovery:{status:'unknown',canCheck:true,canRetry:false}})).stage,'unknown');
  const retrying=actionsFlow(flow,model({action:action('RESCUE','sending')}));assert.equal(retrying.stage,'retry');
+ // Retrying "the same": the sheet stays "Outcome unknown", its Retry busy, rather than going back to the check.
+ const again=actionsFrame(model({action:action('RESCUE','sending')}),{flow:retrying});
+ assert.deepEqual([again.id,again.actions.map(a=>[a.id,a.busy,a.enabled])],['action-unknown',[['retry',true,true],['check',false,false]]]);
+ assert.equal(actionsPart(model({action:action('RESCUE','sending')}),{frame:again,flow:retrying}).input.type,'RESCUE');
+ assert.equal(actionsFrame(model({action:action('RESCUE','sending')}),{flow:actionsFlow(null,model({action:action('RESCUE','sending')}))}).id,'action-check');
  assert.equal(actionsFlow(retrying,model({action:action('RESCUE','accepted')})).stage,'accepted');
  // Settled (accepted, then the next view; or rejected): nothing is kept.
  assert.equal(actionsFlow(retrying,model()),null);
