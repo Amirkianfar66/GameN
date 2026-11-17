@@ -36,6 +36,8 @@ The owner strengthened this agreement on 14 November after the live staging revi
 
 The owner's 15 November clarification makes Designer accountable for delivering the working, reusable visual component and its assets, not only sheets, screenshots or a stand-alone prototype for Frontend to recreate. Designer's handoff names the importable source and inputs/callbacks; the preview uses that same source. Frontend confirms it can be connected to the real app and reports missing inputs or source changes to Designer. Visual comparisons verify the integrated component; they are not a workflow for repeatedly repairing an independently rebuilt interface.
 
+The owner's **17 November** clarification also assigns specifically named game-side visual mounts to Designer, with Frontend reviewing those connections. Visual and animation code remains Designer-owned. Name one implementation owner and the exact files for each connection; Frontend continues to own authorized-data adapters, requests, navigation, recovery, accessibility behavior and performance. See the [assigned-connections agreement](docs/architecture/visual-component-ownership.md#assigned-game-side-connections-owner-clarification-17-november-2026) and [seven-room production brief](docs/architecture/room-scene-production-brief-2026-11-17.md).
+
 Integrate one representative state early, then extend it. The phone visual merge gate below remains unchanged. Apply this workflow without adding a rewrite to the frozen Food release; existing pinned releases and historical source artifacts remain intact.
 
 This dated ownership agreement supersedes conflicting handoff wording in the original `agents/` briefs, which remain byte-preserved under `docs/bootstrap-source-lock.json` as historical evidence.
