@@ -1,0 +1,269 @@
+{
+  "source": "0aef655b56ed1a83701b2a8c5342534979fdaf4a",
+  "adapter": "60f7e1b01e88a3ceca2073fc3a382587b1927a52",
+  "designer": "714edac976867dafb2e4ba1a2e35b02d93aec39b",
+  "art": {
+    "source": "6722dbc545d88076c1ae55da6ec72c635d471a43",
+    "manifestSha256": "26e673534600c0409af4c8c9c08c53ba9596c47b1ca7b3643f358d33505f120b",
+    "bundleSha256": "bc381ada656d211c9ba99cb67bedd5a4fa352a72701a6790fc850b4dcfda390b",
+    "inventorySha256": "6e285791f5bcffb9a6480aefd11bcddecba3be7bb2348e8f11e95324f995b25e",
+    "files": 67
+  },
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "previewReport": {
+    "path": "../../../../design/phone-ui/components/food/review/check.json",
+    "sha256": "db21e11023fa89c59373c4dd8f4c92421c390042d0dc6dee708f425bd5aa337b"
+  },
+  "captures": [
+    {
+      "part": "food-panel-03",
+      "viewport": [
+        390,
+        844
+      ],
+      "motion": "normal",
+      "nativeMode": "authorized synthetic fixture",
+      "preview": {
+        "path": "../../../../design/phone-ui/components/food/review/390x844-food-panel-03.jpg",
+        "sha256": "34651f98f5b80a60062fb9eae8a8309f1c1502251ededdb5f15dc68356bc97c9",
+        "pixels": [
+          780,
+          1688
+        ]
+      },
+      "native": {
+        "path": "390x844-panel-release-sending.png",
+        "sha256": "92a8f8c6672b81c16cfb1eab06c3ea7522db01db5a877e908c609b2c3df0a3ee",
+        "pixels": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "part": "food-panel-03",
+      "viewport": [
+        430,
+        932
+      ],
+      "motion": "normal",
+      "nativeMode": "authorized synthetic fixture",
+      "preview": {
+        "path": "../../../../design/phone-ui/components/food/review/430x932-food-panel-03.jpg",
+        "sha256": "7a1d33a43e2cb7364a30d7294997edf8dc8a47243d42e2c9a403fa337b061de3",
+        "pixels": [
+          860,
+          1864
+        ]
+      },
+      "native": {
+        "path": "430x932-panel-release-sending.png",
+        "sha256": "2382887ff5c912288e5ac3cc89a6df13420451c3e9428dc76669771728752723",
+        "pixels": [
+          430,
+          932
+        ]
+      }
+    },
+    {
+      "part": "food-panel-04",
+      "viewport": [
+        390,
+        844
+      ],
+      "motion": "normal",
+      "nativeMode": "authorized synthetic fixture",
+      "preview": {
+        "path": "../../../../design/phone-ui/components/food/review/390x844-food-panel-04.jpg",
+        "sha256": "5a21625270aeeb6e922e92d0821eee4297725486e892bab32620ce66490748b3",
+        "pixels": [
+          780,
+          1688
+        ]
+      },
+      "native": {
+        "path": "390x844-panel-lock-from-new-read.png",
+        "sha256": "db681c30dcdb1e21253ebdb0262fe8feafd644ce846f190a92a0562926e3dded",
+        "pixels": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "part": "food-panel-04",
+      "viewport": [
+        430,
+        932
+      ],
+      "motion": "normal",
+      "nativeMode": "authorized synthetic fixture",
+      "preview": {
+        "path": "../../../../design/phone-ui/components/food/review/430x932-food-panel-04.jpg",
+        "sha256": "5c8ef7305afbc35cd93be740cab7e02a748f04c5026958d8ee8d6c3a3f46871e",
+        "pixels": [
+          860,
+          1864
+        ]
+      },
+      "native": {
+        "path": "430x932-panel-lock-from-new-read.png",
+        "sha256": "b8adf7a25c455d3a46e25e459bfb18abe4fc99f59294c507aa5c1095b0c29288",
+        "pixels": [
+          430,
+          932
+        ]
+      }
+    },
+    {
+      "part": "food-winch-03",
+      "viewport": [
+        390,
+        844
+      ],
+      "motion": "normal",
+      "nativeMode": "authorized synthetic fixture",
+      "preview": {
+        "path": "../../../../design/phone-ui/components/food/review/390x844-food-winch-03.jpg",
+        "sha256": "dc9b900d25b9606f34c4ab50a4adca1cf9484b6d92c3e21b65c54f060ccb96ca",
+        "pixels": [
+          780,
+          1688
+        ]
+      },
+      "native": {
+        "path": "390x844-winch-recovered-release-sending.png",
+        "sha256": "5b58e4499b5d597aa32b6c45cbfb5b21ba820f2e2d911ceddb87cf5dd904984e",
+        "pixels": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "part": "food-winch-03",
+      "viewport": [
+        430,
+        932
+      ],
+      "motion": "normal",
+      "nativeMode": "authorized synthetic fixture",
+      "preview": {
+        "path": "../../../../design/phone-ui/components/food/review/430x932-food-winch-03.jpg",
+        "sha256": "34802164ecfdae6a7a918863c5cbe4420320c6fe5bda11b8a3308d79015f2887",
+        "pixels": [
+          860,
+          1864
+        ]
+      },
+      "native": {
+        "path": "430x932-winch-recovered-release-sending.png",
+        "sha256": "e8187dd7141f10077eadf61f56e5cb142c801e306608cbeb385e5ad4b05f1378",
+        "pixels": [
+          430,
+          932
+        ]
+      }
+    },
+    {
+      "part": "food-winch-12",
+      "viewport": [
+        390,
+        844
+      ],
+      "motion": "normal",
+      "nativeMode": "authorized synthetic fixture",
+      "preview": {
+        "path": "../../../../design/phone-ui/components/food/review/390x844-food-winch-12.jpg",
+        "sha256": "8193fefe086454d7743d8394e9d7508492561947d701fccc3e2916b98066db9f",
+        "pixels": [
+          780,
+          1688
+        ]
+      },
+      "native": {
+        "path": "390x844-winch-key-after-closure.png",
+        "sha256": "6da9fb428a3b94efb7f0064e793e81cc552bfd5a30d91afccf183782ba4aac1d",
+        "pixels": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "part": "food-winch-12",
+      "viewport": [
+        430,
+        932
+      ],
+      "motion": "normal",
+      "nativeMode": "authorized synthetic fixture",
+      "preview": {
+        "path": "../../../../design/phone-ui/components/food/review/430x932-food-winch-12.jpg",
+        "sha256": "cfc5d2c631afa1432a179e3e3c967a06923cb4bdfd3316d195e9bb19a6fb1819",
+        "pixels": [
+          860,
+          1864
+        ]
+      },
+      "native": {
+        "path": "430x932-winch-key-after-closure.png",
+        "sha256": "4f735b54d35f6fa0ff6b1d932cca464103c9f96c0052d9fffee4cf28cdcea28e",
+        "pixels": [
+          430,
+          932
+        ]
+      }
+    },
+    {
+      "part": "food-panel-18",
+      "viewport": [
+        390,
+        844
+      ],
+      "motion": "reduced",
+      "nativeMode": "connected watch-silence",
+      "preview": {
+        "path": "../../../../design/phone-ui/components/food/review/390x844-food-panel-18-reduced.jpg",
+        "sha256": "86c5919738584276896ae7494653c1dcc096c5f43bf5124e966a722ae278b8d7",
+        "pixels": [
+          780,
+          1688
+        ]
+      },
+      "native": {
+        "path": "food-panel-18-watch-silence-390x844.png",
+        "sha256": "680f660f2c0fca9ef04da7a9c7b6c34e7a47ae45a4b6a4f8feb08268c344a8cd",
+        "pixels": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "part": "food-panel-18",
+      "viewport": [
+        430,
+        932
+      ],
+      "motion": "reduced",
+      "nativeMode": "connected watch-silence",
+      "preview": {
+        "path": "../../../../design/phone-ui/components/food/review/430x932-food-panel-18-reduced.jpg",
+        "sha256": "6803f7e650413bb5ba05846174d53e5f6d99cc6a7f0188aeb8802d99f24c648d",
+        "pixels": [
+          860,
+          1864
+        ]
+      },
+      "native": {
+        "path": "food-panel-18-watch-silence-430x932.png",
+        "sha256": "37f8470fa2601e645a728fdd3a22ecf865221cbb8f0e4018d5c979e4d197bf00",
+        "pixels": [
+          430,
+          932
+        ]
+      }
+    }
+  ]
+}

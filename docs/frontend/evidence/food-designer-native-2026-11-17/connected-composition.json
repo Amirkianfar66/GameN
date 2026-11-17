@@ -1,0 +1,31 @@
+{
+  "composition": "apps/game/hosted/planet/food-canonical-app.mjs",
+  "canonicalModules": [
+    "apps/game/hosted/planet/food-canonical-app.mjs",
+    "apps/game/hosted/planet/food-component-view.mjs",
+    "design/phone-ui/components/food/food-display.mjs",
+    "design/phone-ui/components/food/food-gauge.mjs",
+    "design/phone-ui/components/food/food-geometry.mjs",
+    "design/phone-ui/components/food/food-icons.mjs",
+    "design/phone-ui/components/food/food-ink.mjs",
+    "design/phone-ui/components/food/food-input.mjs",
+    "design/phone-ui/components/food/food-kit.css",
+    "design/phone-ui/components/food/food-machine.mjs",
+    "design/phone-ui/components/food/food-notice.mjs",
+    "design/phone-ui/components/food/food-pose.mjs",
+    "design/phone-ui/components/food/food-render.mjs",
+    "design/phone-ui/components/food/food-scene.mjs",
+    "design/phone-ui/components/food/food-surface.css",
+    "design/phone-ui/components/food/food-tags.mjs",
+    "design/phone-ui/components/food/food-ui.mjs",
+    "design/phone-ui/components/food/food.css",
+    "design/phone-ui/components/food/food.mjs"
+  ],
+  "frozenModules": [],
+  "css": [
+    {
+      "path": "assets/index-2dvb7LJH.css",
+      "sha256": "b515c87e8926b1765d8591533f90488d4cee805da778d80d0bd117084b7b3ac3"
+    }
+  ]
+}
