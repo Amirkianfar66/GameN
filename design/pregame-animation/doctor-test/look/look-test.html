@@ -1,0 +1,81 @@
+<title>Cyber Noir Look</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* Layout: before-and-after pairs, one per source, then how the look works. One dark look by choice. */
+:root {
+  --bg: #0A0B0D; --line: #2A2E33; --fg: #ECE6DC; --muted: #A39C92; --amber: #FFB347; --teal: #3FE0D0;
+  --display: "Archivo Narrow", "Arial Narrow", system-ui, sans-serif; --body: "IBM Plex Sans", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); font: 15px/1.55 var(--body); }
+.wrap { max-width: 1120px; margin: 0 auto; padding-block: 28px 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 30px; }
+header { display: grid; gap: 10px; max-width: 72ch; }
+.eyebrow { font: 500 12px var(--mono); text-transform: uppercase; letter-spacing: 0.1em; color: var(--amber); }
+h1 { font: 700 42px/1.05 var(--display); margin: 0; text-wrap: balance; }
+h2 { font: 700 17px var(--display); text-transform: uppercase; letter-spacing: 0.07em; color: var(--amber); margin: 0; }
+p { margin: 0; }
+.lede { color: var(--muted); font-size: 16px; }
+.pairs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 500px), 1fr)); gap: 30px 24px; }
+.pair { display: grid; gap: 10px; min-width: 0; }
+.pair h3 { font: 700 19px var(--display); margin: 0; }
+.pair .src { font: 400 12px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.two figure { margin: 0; display: grid; gap: 6px; min-width: 0; }
+.two img { display: block; width: 100%; height: auto; border-radius: 10px; outline: 1px solid var(--line); background: #000; }
+.two figcaption { font: 400 12px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.two figure:last-child figcaption { color: var(--teal); }
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; border-top: 1px solid var(--line); padding-top: 24px; }
+.notes section { display: grid; gap: 10px; align-content: start; min-width: 0; }
+ol, ul { margin: 0; padding-left: 20px; display: grid; gap: 5px; color: var(--muted); }
+li strong { color: var(--fg); font-weight: 500; }
+.n { font-family: var(--mono); font-variant-numeric: tabular-nums; color: var(--fg); }
+</style>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Pre-game films · a finishing look for every layer</span>
+    <h1>Cyber comic noir: one look, many sources</h1>
+    <p class="lede">The same filter over four pictures from two very different sources. One is your painted Room A picture; three are my code-drawn plates. Afterwards they share one world: inked edges, crushed noir shadows, flat comic tones with halftone dots, and only the luminous accents keeping their colour. Each location keeps its own colour script.</p>
+  </header>
+
+  <div class="pairs">
+    <div class="pair"><h3>Room A</h3><span class="src">Your painted picture · steel</span>
+      <div class="two"><figure><img src="rooma-before.jpg" width="852" height="1582" alt="Room A, as painted"><figcaption>Source</figcaption></figure><figure><img src="rooma-after.jpg" width="852" height="1582" alt="Room A, with the noir look"><figcaption>With the look</figcaption></figure></div></div>
+    <div class="pair"><h3>The Hospital</h3><span class="src">Code-drawn · steel</span>
+      <div class="two"><figure><img src="hospital-before.jpg" width="780" height="1688" alt="The Hospital plate, as drawn"><figcaption>Source</figcaption></figure><figure><img src="hospital-after.jpg" width="780" height="1688" alt="The Hospital plate, with the noir look"><figcaption>With the look</figcaption></figure></div></div>
+    <div class="pair"><h3>Colony Nine</h3><span class="src">Code-drawn · rust</span>
+      <div class="two"><figure><img src="street-before.jpg" width="780" height="1688" alt="Colony Nine street, as drawn"><figcaption>Source</figcaption></figure><figure><img src="street-after.jpg" width="780" height="1688" alt="Colony Nine street, with the noir look"><figcaption>With the look</figcaption></figure></div></div>
+    <div class="pair"><h3>The climb</h3><span class="src">Code-drawn · cosmos</span>
+      <div class="two"><figure><img src="climb-before.jpg" width="780" height="1688" alt="The climb, as drawn"><figcaption>Source</figcaption></figure><figure><img src="climb-after.jpg" width="780" height="1688" alt="The climb, with the noir look"><figcaption>With the look</figcaption></figure></div></div>
+  </div>
+
+  <div class="notes">
+    <section>
+      <h2>What the look does, in order</h2>
+      <ol>
+        <li><strong>Exposure matched:</strong> every source lands on the same darks, mid-tones and lights, so a bright painting and a dark drawing start equal.</li>
+        <li><strong>Team colours kept away:</strong> blues go to teal, reds to amber, violets to magenta. Room A's purple doorway moved from <span class="n">31</span> to <span class="n">70</span> away from the Alien purple. All four results are at least <span class="n">39.9</span> from every team colour.</li>
+        <li><strong>Colour script:</strong> one limited palette per location (steel, rust, cosmos). Only the glowing accents keep full colour.</li>
+        <li><strong>Noir contrast:</strong> shadows crushed toward the location's black, with hard light.</li>
+        <li><strong>Comic tones:</strong> flat bands, halftone dots in the shadows, and an ink line drawn along strong edges.</li>
+        <li><strong>Light and print:</strong> bloom on the accents, haze by depth, grain, specks and a vignette.</li>
+      </ol>
+    </section>
+    <section>
+      <h2>Three layers, one picture</h2>
+      <ul>
+        <li><strong>Same steps, tuned by depth.</strong> The far layer gets less contrast, haze and softness. The middle gets full contrast. The foreground gets the deepest blacks and heaviest ink, slightly out of focus. That difference is what makes three flat images feel deep.</li>
+        <li><strong>The filter finishes the match; it can't create it.</strong> Perspective, light direction and scale must already agree, which is why the three prompts share one camera, one light and one style block.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>On the phone</h2>
+      <ul>
+        <li>Each background is filtered once when the images are prepared, never on the phone. This prototype takes about <span class="n">1.6 s</span> a picture on this machine.</li>
+        <li>Mira's drawings get the same grade when they're drawn at load.</li>
+        <li>Only grain, halftone and vignette run every frame, as screen layers, the way the boarding film already does them. That engine avoids per-frame canvas filters because they're slow on phones.</li>
+      </ul>
+    </section>
+  </div>
+</div>
