@@ -137,7 +137,7 @@ test('its words are the pack\'s: the hero, the tabs, the bar and the two banners
   assert.ok(read('design/phone-ui/prototype/screens-more.mjs').includes("'My card'"), 'sheet 25: My card');
   assert.deepEqual(GAME_TABS, ['switch', 'actions', 'hero', 'card', 'panels'], 'the pack\'s tab order');
   assert.deepEqual(TALK_BUTTONS, ['promises', 'my-card']);
-  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.2.8');
+  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.2.9');
   assert.ok(TOAST_MS > 0);
 });
 
@@ -237,12 +237,19 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   assert.match(csp, /img-src 'self' data:/);
   assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
   const captures = Object.entries(record.captures);
-  assert.equal(captures.length, 35, 'seventeen states at two sizes, and the Largest text at 320 × 568');
+  assert.equal(captures.length, 39, 'eighteen states at two sizes, the target bar at the Largest text on both, and the Largest text at 320 × 568');
   for (const [key, c] of captures) {
     assert.ok(c.ok && c.drawn, `${key} passed and drew what its state asks`);
     assert.deepEqual(c.problems, [], `${key}: no page error or failed request`);
     assert.ok(c.violations.every(v => v.kind.startsWith('known:')), `${key}: no unexpected policy report`);
     assert.ok(existsSync(join(REPO, c.file)), `${key}: ${c.file}`);
+  }
+  // 0.2.9: while reconnecting, the target bar 8 px under the banner with its Cancel in reach; at 200 %, Cancel under
+  // the bar's words, the bar inside the phone and the chip's label whole.
+  for (const size of ['390x844', '430x932']) {
+    const stale = record.captures[`${size}/target-stale`].over, large = record.captures[`${size}/target-large`];
+    assert.ok(stale.targetTop >= stale.bannerBottom + 8 && stale.cancelReach, `${size}: the target bar under the banner, Cancel in reach`);
+    assert.ok(large.over.cancelTop >= large.over.wordsBottom && large.over.targetRight <= large.layout.size.width && large.over.chipWhole, `${size}: at 200 %, Cancel under the words and the chip whole`);
   }
   for (const size of ['390x844', '430x932']) {
     assert.deepEqual(record.captures[`${size}/own`].layout.bars, size === '390x844' ? { top: 99, bottom: 92 } : { top: 99, bottom: 92 }, `${size}: the pack's bars`);
