@@ -170,13 +170,22 @@ const SHEET = `(() => {
     revealed: sheet?.querySelector('.ms-hc-code')?.hasAttribute('data-revealed') ?? null,
     toast: text(document.querySelector('.ms-phone-shell .ms-ps-toast')),
     focus: document.activeElement?.dataset?.intent ?? null, focusValue: document.activeElement?.dataset?.value ?? null,
-    secretInPage: document.documentElement.outerHTML.includes('SYNTHETIC-RECOVERY-CODE'),
+    // In the markup or the text: since host-controls 0.1.2 the code is drawn in groups, whole only in the text.
+    secretInPage: document.documentElement.outerHTML.includes('SYNTHETIC-RECOVERY-CODE') || document.body.textContent.includes('SYNTHETIC-RECOVERY-CODE'),
+    // host-controls 0.1.2: the code's and the Match ID's groups, the lines they take, a group over two lines, a line past its box.
+    wrap: [['code', '.ms-hc-code'], ['matchId', '.ms-hc-match-id']].reduce((o, [key, sel]) => { const n = sheet?.querySelector(sel);
+      if (!n || !n.getClientRects().length) { o[key] = null; return o; }
+      const g = [...n.querySelectorAll(':scope > .ms-hc-group')];
+      o[key] = { groups: g.map(e => e.textContent), lines: new Set(g.map(e => Math.round(e.getBoundingClientRect().top))).size,
+        split: g.filter(e => e.getClientRects().length !== 1).length, overflow: n.scrollWidth > n.clientWidth + 0.5 }; return o; }, {}),
     old: document.querySelectorAll('.planet-display-settings, .planet-recovery-secret, #planet-issued-match-id, #planet-issued-recovery-code').length
       + [...document.querySelectorAll('button')].filter(b => /^(Issue recovery for|Check server deadline|Run eligible bots|Confirm abort|Reveal recovery code|Retry original session)/.test(b.textContent)).length,
     sent: (window.planetHarness?.requests ?? []).filter(r => !['read', 'receipt', 'command'].includes(r.operation)).map(r => r.operation + (r.seatId ? ':' + r.seatId : '')),
     fontSize: getComputedStyle(document.documentElement).fontSize, matchIdOfSession: window.planetHarness?.app.session.getModel().matchId ?? null,
   };
 })()`;
+/** host-controls 0.1.2: the code and the Match ID drawn in their groups, each whole, nothing past the card. */
+const wholeGroups = x => ['code', 'matchId'].every(k => x.wrap?.[k] && x.wrap[k].groups.length > 0 && x.wrap[k].split === 0 && !x.wrap[k].overflow);
 const sheetSays = (x, intent, value = null) => x.controls.find(c => c.intent === intent && (value === null || c.value === String(value)));
 const offered = (x, intent, value = null) => !!sheetSays(x, intent, value) && !sheetSays(x, intent, value).disabled;
 const MASK = '•••••• •••••• •••••• •••••• ••••••';
@@ -457,13 +466,15 @@ const STATES = {
     facts: (s, looks, x) => ({ title: x.title === 'Recovery code' && x.sub === 'Private to this phone', issued: x.sent.includes('issueRecovery:seat-6'),
       card: x.card === 'Recovery for Player 6 · Crew 6' && x.matchId === x.matchIdOfSession, masked: x.code === MASK && x.revealed === false && !x.secretInPage,
       note: /Show it only to Player 6\. It never appears on the shared display\./.test(x.words), noMinutes: !/Works once/.test(x.words),
-      footer: offered(x, 'sheet-local', 'reveal') && offered(x, 'sheet-local', 'copy') }) },
+      footer: offered(x, 'sheet-local', 'reveal') && offered(x, 'sheet-local', 'copy'),
+      groups: wholeGroups(x) && x.wrap.code.groups.join(' ') === MASK, infoWrap: x.wrap }) },
   'host-code-revealed': { from: 'host-code', inMatch: true, steps: async page => {
       await page.evaluate(tap('.ms-ps-sheet [data-intent="sheet-local"][data-value="reveal"]'));
       await page.waitFor("document.querySelector('.ms-ps-sheet .ms-hc-code')?.hasAttribute('data-revealed')", 'the code revealed');
     },
     extra: page => page.evaluate(SHEET),
-    facts: (s, looks, x) => ({ revealed: x.code === 'SYNTHETIC-RECOVERY-CODE' && x.revealed === true, footer: offered(x, 'sheet-local', 'hide') && offered(x, 'sheet-local', 'copy') }),
+    facts: (s, looks, x) => ({ revealed: x.code === 'SYNTHETIC-RECOVERY-CODE' && x.revealed === true, footer: offered(x, 'sheet-local', 'hide') && offered(x, 'sheet-local', 'copy'),
+      groups: wholeGroups(x) && x.wrap.code.groups.join('') === 'SYNTHETIC-RECOVERY-CODE', infoWrap: x.wrap }),
     after: async page => {
       // Copy: this phone's clipboard (the check's stand-in records it), and the pack's "Copied" in the shell's toast.
       await page.evaluate("(()=>{Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async t=>{window.__copied=t;}}});return true;})()");

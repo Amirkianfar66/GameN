@@ -3,7 +3,7 @@
 **Status (17 November 2026):** a draft, in progress, for the Lead Designer's review, then Frontend's. It is not in the game yet.
 - Integration first approves the source fence's marked hunk and the pins that refuse the changed files (see [The gates](#the-gates)).
 - This is not a release. It is release 4 of the owner's plan of 16 November 2026 (#222; `docs/design/owner-decisions.md` at `d54c15bd`).
-- It is stacked on the [shell connection](shell-connection.md) (#307), merged last at `bf67ab4d` (#307 at `f81cd06a`: shell 0.2.12, kit 0.8.2, room scene 0.5.1, the host sheet hook, and part 8's sheet rules, which #307 carries since `211b5b58`). The parts come in by merge commits: the entry chain (#295 at `ea7db89d`, with #294, #291, #289, #287 and #278 and their `followTextSize`, and host-controls 0.1.1), character selection (#292 at `a5590266`), the role stage (#268 at `c20cac9f`), boarding (#272 at `3efbd4e7`) and the round stamp (#288 at `8be96ef7`).
+- It is stacked on the [shell connection](shell-connection.md) (#307), merged last at `bf67ab4d` (#307 at `f81cd06a`: shell 0.2.12, kit 0.8.2, room scene 0.5.1, the host sheet hook, and part 8's sheet rules, which #307 carries since `211b5b58`). The parts come in by merge commits: the entry chain (#295 at `ea7db89d`, with #294, #291, #289, #287 and #278 and their `followTextSize`, and host-controls 0.1.1; then #295 at `89922f1b`, host-controls 0.1.2, merged at `b3662788`), character selection (#292 at `a5590266`), the role stage (#268 at `c20cac9f`), boarding (#272 at `3efbd4e7`) and the round stamp (#288 at `8be96ef7`).
 
 **What it is:** before the match, the Planet app mounts Designer's pre-game components as they are, one at a time in its root, instead of its own forms. The look and the motion come from `design/`; the app keeps the data, the commands and the lifecycle.
 
@@ -20,7 +20,7 @@
 | Boarding | `boarding-stage-0.1.0` (#272) | 19 |
 | "ROUND 1" over the room as Round 1 begins (part 9) | `round-stamp-0.1.0` (#288), on the shell's cover | 19 |
 | Settings in the match, from the top bar's ⋮ (part 8) | `display-settings-0.1.1`'s Settings sheet (#294), in the shell's sheet | 32 |
-| Host controls in the match, from Settings' Host controls row (part 8) | `host-controls-0.1.1` (#295), in the shell's sheet | 15 |
+| Host controls in the match, from Settings' Host controls row (part 8) | `host-controls-0.1.2` (#295), in the shell's sheet | 15 |
 
 The entry screens call the kit's `followTextSize` (the Lead, 17 November: main menu 0.1.1, host setup 0.1.2, the lobby 0.1.3, join 0.1.1 and 0.1.2, Recover 0.1.1, Display settings 0.1.1), accepted by the Lead; nothing of them is drawn differently.
 
@@ -101,6 +101,7 @@ The match's ⋮ opens the shell's Settings sheet. Today it held the preferences'
 - **Retry** (host-controls 0.1.1, the Lead's answer of 17 November): while the session's own request has an unknown outcome (a lost answer, or one restored after a reload as an exact retry), every command is refused with the session's words and the list's footer has Retry, which calls `session.retry()`. It was today's "Retry original session request", inside the old host controls. The sheet keeps its own request while the outcome is unknown (`hostSettle` in `pregame-input.mjs`), so a Retry of it settles as the request would have: its receipt, and for a code, the card of the seat this phone asked for.
 - **Admit leaves the match's Settings:** the server refuses admissions outside the lobby (`approveAdmission`), so the old buttons could only fail.
 - **The sheet's old rules keep off** (#307 carries the same selectors since `211b5b58`, as the Lead asked, with the comment's wording that #307 gives): the match's sheet body (`.planet-sheet-body`) carried the game's rules for its own `p` and `button`, which outranked the kit's and reached into both components (the comparison showed it: the text sizes drawn as three dark buttons with none chosen). They now keep off a `.ms-kit` root in the sheet body (`phone.css`, `planet.css`).
+- **The code's wrap** (host-controls 0.1.2, #295 at `89922f1b`, the Lead's rule from part 8's review): the code, hidden and revealed, and the Match ID wrap only between their groups, and a group never splits. At 390 × 844 the hidden code had left one dot on a line of its own (the pack's code line breaks anywhere). Nothing is drawn between the groups and no character is added, so the code reads as the pack draws it and its text is the value: the emulator run still reads the code and the Match ID from the card's text.
 - **A request restored after a reload** isn't the sheet's: the session keeps it privately, with no seat in its model. Retry settles it with no receipt and no card, so a code the phone can't tie to its own request never opens (the Lead's (a), 17 November); the host asks for a new code.
 
 ## The boundary
