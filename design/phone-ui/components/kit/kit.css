@@ -343,6 +343,9 @@
    the two rules below ask. They fix text that overlaps or is cut, with the pack's own rules for these two
    parts (#228); nothing changes at the Standard text, where every phone 320 px or wider is 20 em or more across. */
 .ms-kit:where(.ms-k-phone), .ms-kit :where(.ms-k-phone) { container: ms-k-phone / inline-size; }
+/* followTextSize()'s box (kit.mjs, 0.8.1): 1 em tall and never seen, so the root learns when its text size changes and
+   sets its container up again (Chromium kept the old size's em for parts added afterwards). */
+.ms-kit :where(.ms-k-em) { position: absolute; inset-block-start: 0; inset-inline-start: 0; width: 0; height: 1em; overflow: hidden; visibility: hidden; pointer-events: none; }
 /* Under 19 em across (the Large or Largest text on any phone up to 456 px wide): a row's value goes under its
    title instead of beside it, so neither runs into the other ("Promises" and "Given 0/1 · Received 1/1"). A long
    value wraps. The lead (icon, portrait) and the trail (chevron, switch, stepper) keep their places at the sides. */
