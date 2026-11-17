@@ -195,7 +195,12 @@ At the Largest text the device choice stacks, one option per row (kit 0.5.0's `s
 
 ### Checks run on this version
 
-On `48177875`, clean: #287 merged at `a6faa2a0` (kit 0.8.0 and shell 0.2.8, #265 at `0e5a0b8a`), with `entry-parts-0.4.0`; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`. Against `602e89c7`'s record, 28 of the 30 captures are byte-identical. "Sending…" at 390 × 844 and the waiting screen at the Largest text at 430 × 932 differ only by the busy spinner's frame (33 pixels in a 25 × 20 px patch). The probe and the agreement pass as before. The main menu passes again, its 8 captures byte-identical; so does the host room, 21 of its 22 captures byte-identical to `a6faa2a0`'s and its Opening… at 430 × 932 by the spinner's frame.
+On `b4897667`, clean: `join-wait-0.1.1` (the game's gap, above), with #287's `host-setup-0.1.1` and `host-lobby-0.1.2` merged (its `147a66d6`); the same kit, shell, entry parts and headers (SHA-256 `424e5dec…`).
+- **Captures:** **32 of 32 pass**: the sixteen states at both sizes. Against `48177875`'s record, 28 of the 30 old captures are byte-identical. "Sending…" and the waiting screen at the Largest text, both at 390 × 844, differ only in the busy spinner's patch (48 × 47 and 29 × 29 device pixels). The new `wait-noexit` captures show Leave dimmed and refused, with "Not available in this test" as its description, at both sizes.
+- **The lifecycle probe:** 15 of 15, with the gap's check. **The agreement:** 11 of 11 cases, as before; `wait-noexit` fills a state sheet 13 doesn't draw, so it has no pack case.
+- **The host room and the main menu,** which share the entry parts (0.4.0 here), pass on `3678d548`: the host room 26 of 26, probe 15 of 15, agreement 11 of 11, every capture byte-identical to #287's own record on `37d9f616`; the menu 8 of 8, probe 15 of 15, agreement 6 of 6, every capture byte-identical.
+
+Before, on `48177875`, clean: #287 merged at `a6faa2a0` (kit 0.8.0 and shell 0.2.8, #265 at `0e5a0b8a`), with `entry-parts-0.4.0`; the check on the shared `component-check.mjs`, headers SHA-256 `424e5dec…`. Against `602e89c7`'s record, 28 of the 30 captures are byte-identical. "Sending…" at 390 × 844 and the waiting screen at the Largest text at 430 × 932 differ only by the busy spinner's frame (33 pixels in a 25 × 20 px patch). The probe and the agreement pass as before. The main menu passes again, its 8 captures byte-identical; so does the host room, 21 of its 22 captures byte-identical to `a6faa2a0`'s and its Opening… at 430 × 932 by the spinner's frame.
 
 Before, on `602e89c7`, clean (kit 0.5.1 at `3fb12935`; `entry-parts-0.3.0`):
 - **Captures:** **30 of 30 pass**: the fifteen states at 390 × 844 and 430 × 932. Each asserts:
