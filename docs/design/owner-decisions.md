@@ -199,6 +199,31 @@ After the Pre-game Animation builder's blockout comparison of a shared eye-level
   - Removing it is a departure from sheet 30 and needs the owner's explicit approval (AGENTS.md). Release 3 keeps Cancel meanwhile.
   - The Lead explained the question again, and the owner hasn't answered yet.
 
+**The owner's arrangement for the per-place test, the same day,** after the Lead explained both options. Word for word:
+
+> We can test on 1 room option B as a test so For **Option 2**, I suggest arranging the player stations around the room's perimeter, with **their backs toward the walls and their faces toward the open centre**.
+>
+> This would make the room layout support each player's personal viewpoint:
+>
+> - **Keep the centre open.** Avoid tall equipment or large furniture blocking the view between players.
+> - **Place cameras near each player's eye or shoulder position**, with enough clearance from the wall to keep the camera inside the room.
+> - **Use low or angled workstations.** Players should be able to operate their equipment while facing inward or slightly sideways. A computer mounted directly on the wall would make its user turn their back to the others again.
+> - **Position equipment carefully around faces and hands.** The workstation should communicate what the character is doing without hiding them.
+>
+> From these positions, other characters should mostly appear from the front, at a three-quarter angle or from the side. This should reduce the need for full rear views and help avoid the weak "camera behind the back wall" composition.
+>
+> It will still require multiple viewpoints and some side-facing character artwork. Distant characters, name tags and interactive targets also need to remain readable.
+>
+> **Please try this arrangement in the five-view Room B prototype.** Check every viewpoint at actual mobile size, particularly the most difficult station. The aim is to preserve Option 2's sense of being inside the room while keeping the people and required interactions clearly visible.
+
+**What it sets for the Room B test:**
+- **The layout:** the five stations around the walls, facing an open centre, at low or angled workstations, with each camera at the player's eye or shoulder, inside the room.
+- **The order:**
+  - a blockout of the five views first, checked at 390 × 844 and 430 × 932;
+  - then the five generated pictures.
+- **The Lead's point for the test:** from a station on a ring, the two nearest neighbours stand far to either side. The blockout measures the field of view each station needs, and compares ways to fit all four others: an uneven ring, a slightly wider lens, or a view the player can drag a little.
+- **The crew in the test:** the approved drawings as stand-in cut-outs. New side or three-quarter drawings of the crew go to the owner before anyone draws them.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
