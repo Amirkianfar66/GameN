@@ -34,7 +34,7 @@
 import { createControlPolicy, createKit, seatNumber } from '../kit/kit.mjs';
 import { TILE_STATES, createPlayParts } from '../play-parts/play-parts.mjs';
 
-export const ACTIONS_VERSION = 'actions-0.2.3';
+export const ACTIONS_VERSION = 'actions-0.2.4';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const TURNS = Object.freeze(['own', 'other']);
 const AFTER_KINDS = Object.freeze(['registered', 'accepted', 'active', 'captured']);
@@ -528,14 +528,17 @@ export function moveBar({ where = 'room', room = null, here = false, elsewhere =
  *   - Choosing: "Choose a position" with "Room A · any position, even empty", the room the request is bound to
  *     (blackoutTargeting.boundRoom).
  *   - Once the server has the position (blackoutTargeting.selectedSlotId, `fixed`): "Position A3 fixed" with
- *     "Resolves after the window · no effect shown now". The offer ends then, so the position can't change.
+ *     "Resolves after the window · no effect shown now". The offer ends then, so the position can't change, and the
+ *     bar is final: `cancel: false`, the shell's bar with no Cancel (0.2.12), so nothing reads as undo. Sheet 30 draws a
+ *     Cancel there; its removal is the owner's approval of 17 November 2026 (#280 at f0066a7c). The choosing bar keeps
+ *     its Cancel (T2).
  * The pack's position mark is its icon. The room scene draws the positions offered (targets.slots, any position,
  * even a taken one); the bar names no player and shows no effect.
  */
 export function blackoutBar({ room = null, fixed = null } = {}) {
   if (fixed !== null && fixed !== undefined) {
     if (!isText(fixed)) throw new TypeError('fixed is the position the server has, such as "A3", or null');
-    return { icon: 'position', title: ACTION_WORDS.positionFixed(fixed), sub: ACTION_WORDS.positionLater };
+    return { icon: 'position', title: ACTION_WORDS.positionFixed(fixed), sub: ACTION_WORDS.positionLater, cancel: false };
   }
   if (!isText(room)) throw new TypeError('The bar names the room the Disabler chooses in');
   return { icon: 'position', title: ACTION_WORDS.positionChoose, sub: ACTION_WORDS.positionAny(room) };
