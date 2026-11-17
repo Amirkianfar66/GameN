@@ -26,8 +26,13 @@ export const ROLE_TILES=Object.freeze(['SCAN','SUBMIT_CODE','ACTIVATE_SHIP_HACK'
 export const EVERY_ROLE_TILES=Object.freeze(['MOVE','REQUEST_HACK','REGISTER_SHOT']);
 /** Accepted, these say themselves with the shell's toast and their tile: no After Register until the projection says what follows (L7). */
 const TOAST_ONLY=new Set(['ACTIVATE_SHIP_HACK','ACTIVATE_BLACKHOLE']);
-/** After Register's lines that Frontend's copy has (en.action.acceptedTarget and acceptedDetail), by its kinds. */
-const FRONTEND_AFTER=Object.freeze({RESCUE:'rescue',PROTECT:'protect',REGISTER_SHOT:'shot'});
+/**
+ * After Register's lines that Frontend's copy has, by its kinds: en.action.acceptedTarget's headline for Rescue,
+ * Protection and a shot, and en.action.acceptedDetail's detail for those and for a private talk, whose headline is
+ * the pack's (the Lead, 17 November: Frontend's words where en.ts has them).
+ */
+const FRONTEND_TITLE=Object.freeze({RESCUE:'rescue',PROTECT:'protect',REGISTER_SHOT:'shot'});
+const FRONTEND_DETAIL=Object.freeze({...FRONTEND_TITLE,REQUEST_HACK:'hack'});
 /** The board's own order of rooms, for the list's groups after the viewer's own room. */
 const LOCATIONS=Object.freeze([...BOARD_ROOMS.map(room=>LOCATION_OF[room])]);
 const OFF_BOARD='Off board';
@@ -262,10 +267,8 @@ function afterInput(model,flow){
  const words=afterWords({type,round:known&&Number.isSafeInteger(model.round)?model.round:null,targets:known?picked.map(seat=>person(model,seat)):[],viewer:self});
  const who=seat=>seat===self?en.action.who(seatOrder(seat),true):person(model,seat).name;
  let {title,detail}=words;
- if(Object.hasOwn(FRONTEND_AFTER,type)){
-  title=known?en.action.acceptedTarget[FRONTEND_AFTER[type]](who(picked[0])):null;
-  detail=en.action.acceptedDetail[FRONTEND_AFTER[type]];
- }
+ if(Object.hasOwn(FRONTEND_TITLE,type))title=known?en.action.acceptedTarget[FRONTEND_TITLE[type]](who(picked[0])):null;
+ if(Object.hasOwn(FRONTEND_DETAIL,type))detail=en.action.acceptedDetail[FRONTEND_DETAIL[type]];
  if(type==='SUPPLY'){
   const [first,second]=[...picked].sort((a,b)=>seatOrder(a)-seatOrder(b));
   title=known?en.action.compound.supplyAccepted(who(first),who(second)):null;

@@ -235,7 +235,7 @@ test('the parts\' inputs: the List, the check (and while it sends), After Regist
  assert.deepEqual(said(accepted('PROTECT',['seat-5'])),['registered','Protection for Crew 5 registered.',waits,null,[yours,'End of Round 3 · Resolved with the round’s actions']],'no Protection start in the model (A15): no later step');
  assert.deepEqual(said(accepted('SUPPLY',['seat-5','seat-1'])),['registered','Supply for Crew 1 and Crew 5 registered.',waits,null,[yours,'End of Round 3 · Each gets one weapon']]);
  assert.deepEqual(said(accepted('REGISTER_SHOT',['seat-5'])),['registered','Shot at Crew 5 registered.','This is not a result. Registered shots are resolved at the end of the round.',null,[yours,'End of Round 3 · Resolved; Protection and Clone are checked then']]);
- assert.deepEqual(said(accepted('REQUEST_HACK',['seat-1'])),['accepted','Private talk with Crew 1 accepted.','It starts after this turn. The top bar shows each step.',null,
+ assert.deepEqual(said(accepted('REQUEST_HACK',['seat-1'])),['accepted','Private talk with Crew 1 accepted.','The phase shown at the top of this screen says what happens next.',null,
   ['Accepted · Round 3 · your turn','After this turn · Up to 15 s for Crew 1 to declare a side','Then · 5 s for the claim, then 60 s to talk']]);
  assert.deepEqual(said(accepted('REQUEST_BLACKOUT')),['registered','Blackout registered.','This is not a result. Nothing changes until the lights go out later this round.',null,
   [yours,'Later this round · 5 s lit, then 10 s dark','While it is dark · You choose a frozen position']]);
