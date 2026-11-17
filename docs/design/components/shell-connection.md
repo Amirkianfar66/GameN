@@ -3,10 +3,10 @@
 **Status (16 November 2026):** a draft for the Lead Designer's review, then Frontend's. It is not in the game yet.
 - Integration first approves the source fence's marked hunk and the pins that refuse the changed files: `app.mjs`, `render.mjs`, `phone.css` and `planet.css`, and, through the drawing-port fence, `vite.config.mjs`, which the room connection's hunk already meets (see [The gates](#the-gates)).
 - This is not a release.
-- It is stacked on the room connection (`5f1b1c83`, [its page](room-connection.md)) and the phone shell (#265), merged at `9e296ccc` (#265 at `0e5a0b8a`) again at `5347df3f` (#265 at `bb567d7e`, shell 0.2.9), and at `8c64f77c` (#265 at `60afd967`, shell 0.2.10, with the phase bars' words).
+- It is stacked on the room connection (`5f1b1c83`, [its page](room-connection.md)) and the phone shell (#265), merged at `9e296ccc` (#265 at `0e5a0b8a`) again at `5347df3f` (#265 at `bb567d7e`, shell 0.2.9), at `8c64f77c` (#265 at `60afd967`, shell 0.2.10, with the phase bars' words), and at `4a109dc5` (#265 at `e86ca86b`, shell 0.2.11 with kit 0.8.1: a part opened after the text size changes takes the new size's rules).
 
 **What it is:**
-- On a phone, the Planet app's match is framed by Designer's [phone shell](phone-shell.md) (`phone-shell-0.2.10`, with `component-kit-0.8.0`), used as it is:
+- On a phone, the Planet app's match is framed by Designer's [phone shell](phone-shell.md) (`phone-shell-0.2.11`, with `component-kit-0.8.1`), used as it is:
   - the top bar, with the shell's own words for each game step that has no active player (0.2.10), the tabs with the round button (Pass, Vote, Voted), and the private talk's two buttons;
   - the target bar with Cancel, the floating chip, both banners and the toast;
   - the docked sheet's frame: its title, line, Back, Close and footer actions.
@@ -56,7 +56,7 @@ As the handoff's "Frontend's connection" maps them, with what it leaves open.
 | `tabs.hero` | As the handoff, and **Vote, unavailable, through the 5 s result**, as the pack draws it (sheet 38) and the shell's own agreement case `phase-result` compares it. The handoff's table says Pass there |
 | `target` | While this viewer chooses on the scene or the board (today's rule: the action's seat choices except a ballot or a code, a move's room or position, the Blackout's fixed position): the action's name and prompt, with its icon |
 | `chip` | "Other rooms · n" in the room view when people the action offers stand in other rooms (counted on the public board), or "Other rooms on the Board" for a move; "List" in the board view (sheet 29) |
-| `banner` | As the handoff |
+| `banner` | As the handoff, but none on the first connect, before this phone has seen a round: the pack's Loading frame (sheet 45) has none, since nothing was lost yet. A first connect that fails is an error, and gets the reconnecting banner with Retry |
 | `toast` | A pass the server accepted: the model's registration words, once per phase |
 | `sheet` | The open panel's frame (below) |
 
@@ -243,8 +243,11 @@ Each capture also passes with: the shell mounted and the stage in it; none of th
   - the differences above, chiefly the pass sheet's missing line;
   - the words of an eliminated player's Actions reason;
   - ⋮ on a shared display, which the handoff leaves out and the connection keeps for the display's Settings;
-  - **the first connect has no ⋮:** the pack's Loading bar has none, so Settings can't be opened until the match shows. "Connecting…" had it;
-  - **the first connect still shows the reconnecting banner,** "Connection lost", under "Loading the ship": `shellBanner()` gives it whenever the phone is not live. Sheet 45's Loading frame has no banner.
+- **The Lead's calls on the phase bars (17 November):**
+  - **The first connect has no ⋮,** as the pack's Loading bar has none. Loading the ship takes seconds; if it fails, the reconnecting bar brings ⋮ back with the banner's Retry.
+  - **The first connect has no banner** (above): "Connection lost" under "Loading the ship" said something had been lost before anything was seen.
+  - **The deciding player's own bar follows what is open,** as the shell's contract has it: until the Captain opens the appointment, their phone shows everyone's "New Officer · Name chooses". The office decisions' own sheets (sheet 40), which open by themselves, come with release 3.
+  - **The three new states stay in the check** (`before`, `appointment`, `course`).
 - **For Integration:**
   - the fence hunk;
   - the pins on `app.mjs`, `render.mjs`, `phone.css` and `planet.css`, and the drawing-port fence's on `vite.config.mjs`, which the room connection's hunk already meets;

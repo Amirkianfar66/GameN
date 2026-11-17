@@ -186,7 +186,10 @@ export function shellChip(model,{view='room',room=null}={}){
 }
 
 /** Reconnecting (the phone's) while the match is not current; otherwise an eliminated player's own banner (public on the board). */
-export function shellBanner(model){
+export function shellBanner(model,{lastRound=null}={}){
+ // The first connect, before this phone has seen a round, is the pack's Loading frame (sheet 45), which has no banner:
+ // nothing was lost yet. A failed first connect is an error, and gets the banner and its Retry.
+ if(model.connection==='connecting'&&!Number.isSafeInteger(lastRound))return null;
  if(model.connection!=='live')return {kind:'reconnecting',busy:model.recovery?.status==='checking'};
  if(model.surface!=='player'||model.concealed)return null;
  return ownOut(model)?{kind:'out'}:null;
@@ -254,7 +257,7 @@ export function shellInput(model,{view='room',room=null,food=null,reducedMotion=
  return {
   status,interactive:true,reducedMotion:!!reducedMotion,viewer:display?null:model.ownSeatId??null,versions:model.versions??null,
   bar:shellBar(model,{lastRound}),tabs:display?null:shellTabs(model,{view}),
-  target:hidden?null:shellTarget(model),chip:hidden?null:shellChip(model,{view,room}),banner:hidden?null:shellBanner(model),
+  target:hidden?null:shellTarget(model),chip:hidden?null:shellChip(model,{view,room}),banner:hidden?null:shellBanner(model,{lastRound}),
   toast:hidden?null:shellToast(model),sheet:hidden?null:shellSheet(model,{listOpen}),
  };
 }

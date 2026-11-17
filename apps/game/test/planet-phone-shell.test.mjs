@@ -244,6 +244,13 @@ test('the target bar and the chip, from this viewer\'s own action only',()=>{
 test('banners: reconnecting, the phone\'s (busy while a receipt is checked); an eliminated player\'s own',()=>{
  assert.equal(shellBanner(model()),null);
  assert.deepEqual(shellBanner(model({connection:'stale'})),{kind:'reconnecting',busy:false});
+ // The first connect, before a round was seen, is the Loading frame, with no banner; connecting again after one was
+ // seen, or a first connect that failed, gets the banner and its Retry.
+ assert.equal(shellBanner(model({connection:'connecting',phase:null,round:null})),null);
+ assert.deepEqual(shellBanner(model({connection:'connecting',phase:null,round:null}),{lastRound:3}),{kind:'reconnecting',busy:false});
+ assert.deepEqual(shellBanner(model({connection:'error',phase:null,round:null})),{kind:'reconnecting',busy:false});
+ assert.equal(shellInput(model({connection:'connecting',phase:null,round:null})).banner,null);
+ assert.equal(shellInput(model({connection:'connecting',phase:null,round:null}),{lastRound:3}).banner.kind,'reconnecting');
  assert.deepEqual(shellBanner(model({connection:'error',recovery:{status:'checking',canCheck:false,canRetry:false}})),{kind:'reconnecting',busy:true});
  const out=model({board:{seats:seats.map(s=>s.seatId==='seat-4'?{...s,health:'Eliminated'}:s)}});
  assert.deepEqual(shellBanner(out),{kind:'out'});assert.ok(ownOut(out));assert.ok(!ownOut({...out,surface:'display',ownSeatId:null}));
