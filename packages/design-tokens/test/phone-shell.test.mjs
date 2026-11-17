@@ -55,7 +55,7 @@ test('the component is a runtime source: its whole graph is runtime-safe and in 
   }
   assert.ok(!local.some(p => p.includes('/room-scene/')), 'the shell does not depend on the room scene: Frontend mounts that in the stage');
   // The preview and its probes are development-only, and say so.
-  for (const path of ['preview/index.html', 'preview/preview.css', 'preview/preview.mjs', 'preview/probe.mjs', 'preview/agree.mjs']) {
+  for (const path of ['preview/index.html', 'preview/preview.css', 'preview/preview.mjs', 'preview/probe.mjs', 'preview/agree.mjs', 'preview/phase-cases.mjs']) {
     assert.match(read(`${COMPONENT}/${path}`), /mothership:dev-only/, `${path} is marked development-only`);
   }
   assert.match(read('design/tools/phone-shell-check.mjs'), /^\/\/ mothership:dev-only/);
@@ -137,7 +137,7 @@ test('its words are the pack\'s: the hero, the tabs, the bar and the two banners
   assert.ok(read('design/phone-ui/prototype/screens-more.mjs').includes("'My card'"), 'sheet 25: My card');
   assert.deepEqual(GAME_TABS, ['switch', 'actions', 'hero', 'card', 'panels'], 'the pack\'s tab order');
   assert.deepEqual(TALK_BUTTONS, ['promises', 'my-card']);
-  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.2.8');
+  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.2.11');
   assert.ok(TOAST_MS > 0);
 });
 
@@ -237,13 +237,48 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   assert.match(csp, /img-src 'self' data:/);
   assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
   const captures = Object.entries(record.captures);
-  assert.equal(captures.length, 35, 'seventeen states at two sizes, and the Largest text at 320 × 568');
+  assert.equal(captures.length, 64, 'thirty states at two sizes, the target bar at the Largest text on both, and the Largest text at 320 × 568 for a turn and for a phase');
   for (const [key, c] of captures) {
     assert.ok(c.ok && c.drawn, `${key} passed and drew what its state asks`);
     assert.deepEqual(c.problems, [], `${key}: no page error or failed request`);
     assert.ok(c.violations.every(v => v.kind.startsWith('known:')), `${key}: no unexpected policy report`);
     assert.ok(existsSync(join(REPO, c.file)), `${key}: ${c.file}`);
   }
+  // 0.2.9: while reconnecting, the target bar 8 px under the banner with its Cancel in reach; at 200 %, Cancel under
+  // the bar's words, the bar inside the phone and the chip's label whole.
+  for (const size of ['390x844', '430x932']) {
+    const stale = record.captures[`${size}/target-stale`].over, large = record.captures[`${size}/target-large`];
+    assert.ok(stale.targetTop >= stale.bannerBottom + 8 && stale.cancelReach, `${size}: the target bar under the banner, Cancel in reach`);
+    assert.ok(large.over.cancelTop >= large.over.wordsBottom && large.over.targetRight <= large.layout.size.width && large.over.chipWhole, `${size}: at 200 %, Cancel under the words and the chip whole`);
+  }
+  // 0.2.10, the phase bars (phase-bars.mjs): the pack's words for each row of the words table; the clock amber only
+  // where someone may act; Promises and ⋮ where the pack's bar has them; and the bar's height the same under every one.
+  const WORDS = {
+    before: ['Before turns', 'Officer block · Blackhole', '0:12', false], 'before-start': ['Before turns', 'Turns start at 0:00', '0:09', true],
+    block: ['Block a move', 'Before turns · Officer', '0:11', false], appointment: ['New Officer', 'Ben chooses', '0:09', false],
+    appoint: ['Appoint Officer', 'Random if time runs out', '0:22', false], lit: ['Blackout', 'Lights out in 0:03', '0:13', false],
+    'lit-next': ['Blackout', 'Lights out in 0:02', '0:12', false], dark: ['Blackout', 'Dark · positions fixed', '0:08', true],
+    synchronized: ['Ship synchronized', null, '0:04', false], poster: ['Setting course', 'The offices are setting it', '0:11', false],
+    'course-own': ['Setting course', 'Captain · private', '0:09', true], moved: ['The ship moved', 'Round 3 complete', null, false],
+    loading: ['Loading the ship', 'Room 3 of 5', null, false], stale: ['Reconnecting…', 'Showing Round 3 as last seen', null, false],
+  };
+  for (const size of ['390x844', '430x932']) {
+    for (const [state, [name, sub, timer, urgent]] of Object.entries(WORDS)) {
+      const c = record.captures[`${size}/${state}`];
+      assert.deepEqual([c.kind, c.name, c.sub, c.timer, c.urgent], ['phase', name, sub, timer, urgent], `${size} ${state}: the pack's words, and amber only where someone may act`);
+      assert.equal(c.bar.box[3], record.captures[`${size}/own`].bar.box[3], `${size} ${state}: the bar as tall as a turn's`);
+    }
+    const sync = record.captures[`${size}/synchronized`], loading = record.captures[`${size}/loading`];
+    assert.ok(sync.ring && sync.promises === null && sync.menu, `${size}: Ship synchronized, a ring, ⋮ and no Promises`);
+    assert.ok(loading.round === null && loading.promises === null && !loading.menu, `${size}: Loading the ship, no round, Promises or ⋮`);
+    assert.equal(record.captures[`${size}/dark`].tone, 'dark', `${size}: the dark bar`);
+    assert.equal(record.captures[`${size}/closed`].toast, 'That phase closed · choices cleared', `${size}: the toast of a closed phase`);
+    // The lit Blackout a second apart: the left part is built again for the new line, and nothing else moves.
+    assert.ok(record.steady[size].ok, `${size}: the bar and its right side keep their boxes from 0:03 to 0:02`);
+    for (const part of ['box', 'promises', 'round', 'timer', 'menu']) assert.deepEqual(record.steady[size].lit[part], record.steady[size].next[part], `${size}: ${part}`);
+  }
+  const largePhase = record.captures['320x568/phase-large'];
+  assert.ok(largePhase.name === 'Appoint Officer' && largePhase.bar.nameLines === 2 && largePhase.bar.nameWhole && largePhase.bar.right <= 320, 'at the Largest text a phase\'s title is whole, on two lines, inside the phone');
   for (const size of ['390x844', '430x932']) {
     assert.deepEqual(record.captures[`${size}/own`].layout.bars, size === '390x844' ? { top: 99, bottom: 92 } : { top: 99, bottom: 92 }, `${size}: the pack's bars`);
     assert.equal(record.captures[`${size}/concealed`].buttons, 0, `${size}: concealed, no control`);
@@ -269,8 +304,19 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
   }
   const groups = record.probe.full.checks.map(c => c.id.split(':')[0]);
-  for (const group of ['focus', 'refused', 'stale', 'out', 'private', 'time', 'layout', 'layers', 'large', 'nobar', 'edge', 'reach', 'backdrop', 'head', 'footer', 'talk', 'toast', 'hud', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
-  assert.ok(record.agree.ok && record.agree.checks.length >= 13 && record.agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'the shell agrees with the pinned pack');
+  for (const group of ['focus', 'refused', 'stale', 'out', 'private', 'time', 'layout', 'layers', 'large', 'textsize', 'nobar', 'edge', 'reach', 'backdrop', 'head', 'footer', 'talk', 'toast', 'words', 'hud', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
+  // 0.2.10: the lit Blackout counting down in one mounted shell, then dark: its words and clock change and nothing moves.
+  const words = record.probe.full.checks.find(c => c.id.startsWith('words:')).detail;
+  assert.deepEqual(words.subs, ['Lights out in 0:03', 'Lights out in 0:02', 'Lights out in 0:01', 'Dark · positions fixed']);
+  assert.ok(words.steady && words.rebuilt && words.reported === 0, 'the bar keeps its height and its right side; no layout is reported');
+  assert.ok(record.agree.ok && record.agree.checks.length >= 29 && record.agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'the shell agrees with the pinned pack');
+  // The phase bars too (0.2.10): the pack's own bar for each game step beside what phase-bars.mjs returns for it, and
+  // the Blackout's dark on the pack's own specimen.
+  for (const id of ['words-before', 'words-before-start', 'words-block', 'words-appointment', 'words-appoint', 'large-words-appoint', 'words-lit', 'dark', 'words-synchronized', 'large-words-synchronized',
+    'words-synchronized-44', 'words-course', 'words-course-captain', 'words-course-officer', 'words-moved', 'words-loading', 'words-reconnecting']) {
+    assert.ok(record.agree.checks.some(c => (c.id === `agree: ${id}` || c.id.startsWith(`agree: ${id} at`)) && c.ok), `agreement case ${id}`);
+  }
+  assert.equal(record.agree.checks.find(c => c.id === 'agree: dark').detail.parts.sub.words, 'Dark · positions fixed', 'the dark case compares the pack\'s words');
   // Both banners too (0.2.8): the reconnecting one with Retry, and an eliminated player's, also at the Largest text.
   for (const id of ['banner-stale', 'banner-out', 'large-banner-out']) assert.ok(record.agree.checks.some(c => c.id.startsWith(`agree: ${id}`) && c.ok), `agreement case ${id}`);
   // Its docked sheet too (0.2.5): the head with Back, the title and its line, Close, and the footer's buttons and kinds.
