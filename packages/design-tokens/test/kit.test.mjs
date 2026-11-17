@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { BUTTON_KINDS, CELL_STATES, COMPONENT_KIT_VERSION, PILL_TONES, ROW_TINTS, STAMP_TONES, TILE_STATES, seatNumber } from '../../../design/phone-ui/components/kit/kit.mjs';
+import { BUTTON_KINDS, CELL_STATES, COMPONENT_KIT_VERSION, PILL_TONES, ROW_TINTS, STAMP_TONES, TILE_STATES, followTextSize, seatNumber } from '../../../design/phone-ui/components/kit/kit.mjs';
 import { CASES } from '../../../design/phone-ui/components/kit/preview/cases.mjs';
 import { ACCEPTED } from '../../../design/phone-ui/components/kit/preview/compare.mjs';
 
@@ -46,7 +46,7 @@ test('the kit is a runtime source: its graph is runtime-safe and in the hosted g
   }
   assert.deepEqual([...new Set([...files.values()].flat().filter(s => !s.startsWith('.')))], ['@mothership/contracts']);
   assert.ok(local.includes('design/phone-ui/components/icons.mjs'));
-  assert.equal(COMPONENT_KIT_VERSION, 'component-kit-0.8.0', 'not the #121 phone kit (phone-kit-0.1.0)');
+  assert.equal(COMPONENT_KIT_VERSION, 'component-kit-0.8.1', 'not the #121 phone kit (phone-kit-0.1.0)');
 });
 
 test('its styles apply only inside an ms-kit root, to elements with its own classes', () => {
@@ -135,6 +135,48 @@ test('its toast is the pack\'s .toast at its owner\'s bar foot, with the shell\'
   assert.ok(shell.includes('.ms-phone-shell .ms-ps-toast { --ms-k-toast-top: var(--ms-ps-over-top); }'), 'the shell sets the toast\'s top to its overlays\' place');
   assert.doesNotMatch(shell, /\.ms-ps-toast[^{]*\{[^}]*(?:background|padding|font|animation:|opacity|[{;]\s*top:|pointer-events)/, 'the shell draws no second look for its toast');
   assert.match(read('design/phone-ui/components/phone-shell/phone-shell.mjs'), /kit\.toast\(props\)/);
+});
+
+test('followTextSize (0.8.1): a hidden 1 em box, and the root\'s container set up again once for each change of its text size', () => {
+  // A stand-in for the browser: what the root's style is when its layout is read, and what the box's observer reports.
+  let observed = null, disconnected = false;
+  const seen = [];
+  const style = { props: new Map(),
+    getPropertyValue(name) { return this.props.get(name)?.[0] ?? ''; }, getPropertyPriority(name) { return this.props.get(name)?.[1] ?? ''; },
+    setProperty(name, value, priority = '') { this.props.set(name, [value, priority]); }, removeProperty(name) { this.props.delete(name); } };
+  const doc = { createElement: tag => ({ tag, className: '', attrs: {}, parentNode: null, setAttribute(k, v) { this.attrs[k] = v; }, remove() { if (this.parentNode) this.parentNode.children.splice(this.parentNode.children.indexOf(this), 1); this.parentNode = null; } }),
+    defaultView: { ResizeObserver: class { constructor(fn) { observed = fn; } observe(node) { this.node = node; } disconnect() { disconnected = true; } } } };
+  const root = { ownerDocument: doc, style, children: [], append(node) { node.parentNode = this; this.children.push(node); },
+    get offsetWidth() { seen.push(style.getPropertyValue('container-type') || null); return 390; } };
+  const report = height => observed([{ contentRect: { height } }]);
+  const watch = followTextSize(root);
+  const box = root.children[0];
+  assert.equal(box.className, 'ms-k-em');
+  assert.equal(box.attrs['aria-hidden'], 'true');
+  report(16);
+  assert.deepEqual(seen, [], 'the first size sets nothing up again');
+  report(32);
+  assert.deepEqual(seen, ['normal'], 'off for one layout');
+  assert.equal(style.getPropertyValue('container-type'), '', 'then as its style has it');
+  report(32);
+  assert.deepEqual(seen, ['normal'], 'the same size: nothing');
+  style.setProperty('container-type', 'size', 'important');
+  report(24);
+  assert.deepEqual(seen, ['normal', 'normal']);
+  assert.deepEqual([style.getPropertyValue('container-type'), style.getPropertyPriority('container-type')], ['size', 'important'], 'a root\'s own inline value comes back');
+  box.remove();
+  report(0);
+  assert.equal(box.parentNode, root, 'a root that dropped its children gets its box back');
+  assert.deepEqual(seen, ['normal', 'normal'], 'without setting anything up');
+  watch.dispose();
+  watch.dispose();
+  assert.ok(disconnected && box.parentNode === null, 'dispose() stops watching and takes the box away, once');
+  report(48);
+  assert.deepEqual(seen, ['normal', 'normal'], 'and nothing happens after it');
+  assert.throws(() => followTextSize(null), TypeError);
+  // The box is 1 em tall and never seen or tapped.
+  const rule = KIT_CSS.match(/\.ms-kit :where\(\.ms-k-em\) \{([^}]*)\}/)?.[1] ?? '';
+  for (const part of ['position: absolute', 'width: 0', 'height: 1em', 'visibility: hidden', 'pointer-events: none']) assert.ok(rule.includes(part), part);
 });
 
 test('its comparison with the pack is development only: the pages, the cases, the rules and the tools', () => {

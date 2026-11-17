@@ -137,7 +137,7 @@ test('its words are the pack\'s: the hero, the tabs, the bar and the two banners
   assert.ok(read('design/phone-ui/prototype/screens-more.mjs').includes("'My card'"), 'sheet 25: My card');
   assert.deepEqual(GAME_TABS, ['switch', 'actions', 'hero', 'card', 'panels'], 'the pack\'s tab order');
   assert.deepEqual(TALK_BUTTONS, ['promises', 'my-card']);
-  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.2.10');
+  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.2.11');
   assert.ok(TOAST_MS > 0);
 });
 
@@ -304,7 +304,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
   }
   const groups = record.probe.full.checks.map(c => c.id.split(':')[0]);
-  for (const group of ['focus', 'refused', 'stale', 'out', 'private', 'time', 'layout', 'layers', 'large', 'nobar', 'edge', 'reach', 'backdrop', 'head', 'footer', 'talk', 'toast', 'words', 'hud', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
+  for (const group of ['focus', 'refused', 'stale', 'out', 'private', 'time', 'layout', 'layers', 'large', 'textsize', 'nobar', 'edge', 'reach', 'backdrop', 'head', 'footer', 'talk', 'toast', 'words', 'hud', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
   // 0.2.10: the lit Blackout counting down in one mounted shell, then dark: its words and clock change and nothing moves.
   const words = record.probe.full.checks.find(c => c.id.startsWith('words:')).detail;
   assert.deepEqual(words.subs, ['Lights out in 0:03', 'Lights out in 0:02', 'Lights out in 0:01', 'Dark · positions fixed']);

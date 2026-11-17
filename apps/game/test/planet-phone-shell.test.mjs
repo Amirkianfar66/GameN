@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {connectShellLifecycle,ownOut,ownTalk,shellFocusOrder,shellBanner,shellBar,shellChip,shellHandlers,shellHero,shellInput,shellPicking,shellRuns,shellSheet,shellStatus,shellTabs,shellTarget,shellTimer,shellToast,talkButtons,
- SHELL_PHASE_NAMES} from '../hosted/planet/shell-input.mjs';
+import {connectShellLifecycle,createServerClock,ownOut,ownTalk,roundStart,shellFocusOrder,shellBanner,shellBar,shellChip,shellHandlers,shellHero,shellInput,shellPhaseFacts,shellPicking,shellRuns,shellSheet,shellStatus,shellTabs,shellTarget,shellTimer,shellToast,talkButtons,
+ SHELL_PHASE_ICONS,SHELL_PHASE_NAMES} from '../hosted/planet/shell-input.mjs';
 import {checkBar,checkTabs,clockText,nextPhoneShellInput,PHONE_SHELL_DEFAULTS} from '../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
+import {PHASE_BAR_PHASES,PHASE_BAR_REFUSED,loadingBar,phaseBar,reconnectingBar} from '../../../design/phone-ui/components/phone-shell/phase-bars.mjs';
 
 // The match's frame on a phone is Designer's phone shell (the owner's plan of 16 November 2026, release 2).
 // These cover the game's side: what it gives the shell for each state, whose data reaches it, the intents'
@@ -31,16 +32,15 @@ test('the bar: another player\'s turn, your turn, a phase, the pair, the Blackou
  assert.equal(own.kind,'turn');assert.equal(own.self,true);assert.deepEqual(own.who,{seat:'seat-4',name:'Crew 4',character:'c4'});
  // A seat without a display name keeps the bar's "Player n", as the header did; no character, no portrait.
  assert.deepEqual(shellBar(model({identities:[]})).who,{seat:'seat-5',name:'Player 5',character:null});
- // Phases: today's names, the pack's icons, the board's label as the line under the name.
+ // The game's own phase bars (the votes, Food Supply, the talk for those not in it): today's names, the pack's
+ // icons, the board's label as the line under the name.
  const vote=shellBar(model({phase:phase('JAIL_VOTE'),activeSeatId:null,boardLabel:'After Blackout · Round 3'}));
  assert.deepEqual({kind:vote.kind,title:vote.title,icon:vote.icon,sub:vote.sub,tone:vote.tone},{kind:'phase',title:'Jail vote',icon:'vote',sub:'After Blackout · Round 3',tone:null});
  for(const [kind,name]of Object.entries(SHELL_PHASE_NAMES))assert.equal(checkBar(shellBar(model({phase:phase(kind),activeSeatId:kind==='ORDINARY_TURN'?null:'seat-5'}))).title,name,kind);
- assert.equal(shellBar(model({phase:phase('NAV_TIE')})).title,'NAV TIE');
- assert.equal(shellBar(model({phase:phase('NAV_SETTING'),boardLabel:'Round 3 complete'})).sub,'Round 3 complete · The course is being set.');
- // The Blackout: lit, then the dark bar (tone dark, the moon), with no board label.
- assert.deepEqual((({icon,tone,sub})=>({icon,tone,sub}))(shellBar(model({phase:phase('BLACKOUT'),activeSeatId:null,boardLabel:'Before Blackout · Round 3'}))),{icon:'lit',tone:null,sub:null});
- const dark=shellBar(model({phase:phase('BLACKOUT'),dark:true,board:null,identities:[],activeSeatId:null}));
- assert.deepEqual((({kind,icon,tone,title})=>({kind,icon,tone,title}))(dark),{kind:'phase',icon:'dark',tone:'dark',title:'Blackout'});
+ // The Blackout: lit, then the dark bar (tone dark, the moon), with the pack's lines and never the board's label.
+ assert.deepEqual((({icon,tone,title})=>({icon,tone,title}))(shellBar(model({phase:phase('BLACKOUT'),activeSeatId:null,boardLabel:'Before Blackout · Round 3'}))),{icon:'lit',tone:undefined,title:'Blackout'});
+ const dark=shellBar(model({phase:phase('BLACKOUT'),dark:true,board:null,identities:[],activeSeatId:null,boardLabel:'Before Blackout · Round 3'}));
+ assert.deepEqual((({kind,icon,tone,title,sub})=>({kind,icon,tone,title,sub}))(dark),{kind:'phase',icon:'dark',tone:'dark',title:'Blackout',sub:'Dark · positions fixed'});
  assert.equal(checkBar(dark).tone,'dark');
  // An ordinary turn in the dark is never a turn bar: no stale portrait.
  assert.equal(shellBar(model({dark:true})).kind,'phase');
@@ -52,9 +52,109 @@ test('the bar: another player\'s turn, your turn, a phase, the pair, the Blackou
  assert.equal(shellBar(model({phase:phase('HACK'),activeSeatId:null,talk,ownSeatId:'seat-6'})).kind,'phase');
  // Reconnecting: the phase bar the pack draws (sheet 45), naming the round this phone last saw.
  const stale=shellBar(model({connection:'stale',phase:null,round:null,board:null,identities:[]}),{lastRound:3});
- assert.deepEqual(stale,{kind:'phase',icon:'retry',title:'Reconnecting…',sub:'Showing Round 3 as last seen',round:3,timer:null,promises:{count:0,open:false},menu:{open:false}});
- assert.equal(shellBar(model({connection:'connecting',phase:null,round:null})).title,'Connecting…');
- assert.equal(shellBar(model({connection:'error',phase:null,round:null})).sub,null);
+ assert.deepEqual(stale,{kind:'phase',icon:'retry',title:'Reconnecting…',sub:'Showing Round 3 as last seen',round:3,promises:{count:0,open:false},menu:{open:false}});
+ assert.deepEqual(stale,reconnectingBar({round:3,promises:{count:0,open:false},menu:{open:false}}),'the words are phase-bars.mjs\'s');
+ assert.equal(checkBar(stale).timer,null);
+ // With no round seen yet, the title alone; an error reads the same as any reconnecting.
+ assert.deepEqual(shellBar(model({connection:'error',phase:null,round:null})),{kind:'phase',icon:'retry',title:'Reconnecting…',promises:{count:0,open:false},menu:{open:false}});
+ // Connecting again after a round was seen is reconnecting; a shared display's bar has no Promises.
+ assert.equal(shellBar(model({connection:'connecting',phase:null,round:null}),{lastRound:3}).title,'Reconnecting…');
+ assert.deepEqual(shellBar(model({connection:'stale',surface:'display',ownSeatId:null,phase:null,round:null}),{lastRound:3}),reconnectingBar({round:3,menu:{open:false}}));
+ // The first connect, before this phone has seen a round: the pack's Loading bar (sheet 45), with no round, clock,
+ // Promises or ⋮. The model holds no count of pictures, so it is the title alone.
+ const first=shellBar(model({connection:'connecting',phase:null,round:null}));
+ assert.deepEqual(first,{kind:'phase',icon:'hourglass',title:'Loading the ship'});
+ assert.deepEqual(first,loadingBar());
+ assert.deepEqual((({round,timer,promises,menu})=>({round,timer,promises,menu}))(checkBar(first)),{round:null,timer:null,promises:null,menu:null});
+});
+
+test('a phase with no active player: Designer\'s words (phase-bars.mjs), from facts the model already holds',()=>{
+ const player={promises:{count:0,open:false},menu:{open:false}};
+ const bar=(over={})=>shellBar(model({activeSeatId:null,...over}));
+ const words=b=>[b.icon,b.title,b.sub??null];
+ // Before turns: an Officer and no block; a block shown; no Officer (Round 1); and the Officer's own choice open.
+ const officers={captainSeatId:'seat-5',officerSeatId:'seat-4',blockedSeatId:null};
+ assert.deepEqual(bar({phase:phase('PRE_TURN',{endsAt:15000,remainingMs:12000}),offices:officers}),
+  {kind:'phase',icon:'hourglass',title:'Before turns',sub:'Officer block · Blackhole',round:3,timer:{remainingMs:12000},...player});
+ assert.deepEqual(words(bar({phase:phase('PRE_TURN'),offices:{...officers,blockedSeatId:'seat-2'}})),['hourglass','Before turns','Turns start at 0:00']);
+ assert.deepEqual(words(bar({phase:phase('PRE_TURN'),offices:{captainSeatId:null,officerSeatId:null,blockedSeatId:null}})),['hourglass','Before turns','Turns start at 0:00']);
+ assert.deepEqual(words(bar({phase:phase('PRE_TURN'),offices:null})),['hourglass','Before turns','Turns start at 0:00']);
+ const block=action('BLOCK_MOVE','targets',['seat-1','seat-2','seat-3'],{label:'Block movement'});
+ assert.deepEqual(words(bar({phase:phase('PRE_TURN'),offices:officers,action:block})),['officer','Block a move','Before turns · Officer']);
+ // The board's label is no longer a phase's line here: the pack's line is.
+ assert.equal(bar({phase:phase('PRE_TURN'),offices:officers,boardLabel:'Round 2 complete'}).sub,'Officer block · Blackhole');
+ // The Officer's appointment: everyone else's names the Captain and is never amber; the Captain's own, with the
+ // appointment open, keeps the amber.
+ const others=bar({phase:phase('OFFICER_APPOINTMENT',{endsAt:30000,remainingMs:9000})});
+ assert.deepEqual(others,{kind:'phase',icon:'officer',title:'New Officer',sub:'Crew 5 chooses',round:3,timer:{remainingMs:9000,urgentAtMs:-1},...player});
+ assert.equal(bar({phase:phase('OFFICER_APPOINTMENT'),identities:[]}).sub,'Player 5 chooses');
+ assert.equal(bar({phase:phase('OFFICER_APPOINTMENT'),offices:{captainSeatId:null,officerSeatId:null,blockedSeatId:null}}).sub,undefined,'no Captain named, the title alone');
+ const appoint=action('APPOINT_OFFICER','targets',['seat-1','seat-2'],{label:'Appoint Officer'});
+ const captain=bar({phase:phase('OFFICER_APPOINTMENT',{endsAt:30000,remainingMs:9000}),ownSeatId:'seat-5',action:appoint});
+ assert.deepEqual(words(captain),['officer','Appoint Officer','Random if time runs out']);assert.deepEqual(captain.timer,{remainingMs:9000});
+ // The Captain's phone before the appointment is opened shows everyone's bar: the bar follows what is open.
+ assert.deepEqual(words(bar({phase:phase('OFFICER_APPOINTMENT'),ownSeatId:'seat-5'})),['officer','New Officer','Crew 5 chooses']);
+ // The Blackout: lit, the time to lights-out from the preview's end and the trusted time; then dark.
+ const blackout=phase('BLACKOUT',{startedAt:0,endsAt:15000,nowMs:2000,remainingMs:13000});
+ const presentation={nowMs:2000,startedAt:0,endsAt:15000,events:[],blackout:{windowId:'p-BLACKOUT',previewEndsAt:5000,endsAt:15000},clone:null};
+ assert.deepEqual(bar({phase:blackout,presentation}),{kind:'phase',icon:'lit',title:'Blackout',sub:'Lights out in 0:03',round:3,timer:{remainingMs:13000},...player});
+ assert.equal(bar({phase:blackout,presentation:{...presentation,nowMs:3001}}).sub,'Lights out in 0:02');
+ assert.equal(bar({phase:blackout,presentation:null}).sub,undefined,'no trusted time: the title alone');
+ assert.deepEqual(bar({phase:{...blackout,nowMs:7000,remainingMs:8000},presentation:{...presentation,nowMs:7000},dark:true}),
+  {kind:'phase',icon:'dark',title:'Blackout',sub:'Dark · positions fixed',tone:'dark',round:3,timer:{remainingMs:8000},...player});
+ // Ship synchronized: the ring of the share gone, never amber, ⋮ and no Promises.
+ assert.deepEqual(bar({phase:phase('BLACKHOLE_PRESENTATION',{startedAt:0,endsAt:6000,remainingMs:4000})}),
+  {kind:'phase',icon:'blackhole',title:'Ship synchronized',round:3,timer:{remainingMs:4000,urgentAtMs:-1,ring:1/3},menu:{open:false}});
+ // Setting course, in all four navigation phases: neutral and never amber for everyone; an office's own while its
+ // Navigation is open, the page or one of its two actions.
+ for(const kind of ['NAV_SETTING','NAV_TIE','NAV_CAPTAIN_CONFIRM','NAV_OFFICER_CONFIRM']){
+  const everyone=bar({phase:phase(kind,{endsAt:15000,remainingMs:9000}),boardLabel:'Round 3 complete'});
+  assert.deepEqual(words(everyone),['course','Setting course','The offices are setting it'],kind);assert.equal(everyone.timer.urgentAtMs,-1,kind);
+ }
+ const captainSeat={ownSeatId:'seat-5'},officerSeat={ownSeatId:'seat-4',offices:officers};
+ assert.equal(bar({phase:phase('NAV_SETTING'),...captainSeat}).sub,'The offices are setting it','an office with nothing of Navigation open shows everyone\'s bar');
+ assert.equal(bar({phase:phase('NAV_SETTING'),...captainSeat,panel:'navigation'}).sub,'Captain · private');
+ assert.equal(bar({phase:phase('NAV_SETTING'),...officerSeat,panel:'navigation'}).sub,'Officer · private');
+ assert.equal(bar({phase:phase('NAV_SETTING'),...officerSeat,action:action('CHOOSE_NAV_DIRECTION','targets',['Blue','Red'])}).sub,'Officer · private');
+ assert.equal(bar({phase:phase('NAV_CAPTAIN_CONFIRM'),...captainSeat,action:action('CONFIRM_NAVIGATION','confirm',[])}).sub,'Captain · private');
+ assert.deepEqual(bar({phase:phase('NAV_SETTING',{endsAt:15000,remainingMs:9000}),...captainSeat,panel:'navigation'}).timer,{remainingMs:9000},'an office\'s own keeps the amber');
+ // Someone who holds no office sees everyone's bar, whatever they have open.
+ assert.equal(bar({phase:phase('NAV_SETTING'),panel:'navigation'}).sub,'The offices are setting it');
+ // A shared display: the same words, no Promises, and never an own bar.
+ const display=shellBar(model({surface:'display',ownSeatId:null,activeSeatId:null,phase:phase('PRE_TURN'),offices:officers,action:block}));
+ assert.deepEqual(words(display),['hourglass','Before turns','Officer block · Blackhole']);assert.equal(display.promises,undefined);assert.deepEqual(display.menu,{open:false});
+ // Untrusted time is no clock, as on every bar; the shell takes each of these bars.
+ assert.equal(bar({phase:phase('PRE_TURN',{trusted:false,remainingMs:null})}).timer,undefined);
+ for(const kind of PHASE_BAR_PHASES)assert.equal(checkBar(bar({phase:phase(kind)})).kind,'phase',kind);
+});
+
+test('the facts for a phase bar: each read from the model, none from an offer, a role or a rule',()=>{
+ const base={own:false,chooser:{name:'Crew 5'},hasOfficer:false,blocked:false,dark:false,lightsOutMs:null,office:null};
+ assert.deepEqual(shellPhaseFacts(model({phase:phase('PRE_TURN')})),base);
+ assert.deepEqual(shellPhaseFacts(model({phase:phase('PRE_TURN'),offices:null})),{...base,chooser:null});
+ assert.deepEqual(shellPhaseFacts(model({phase:null,offices:null})),{...base,chooser:null});
+ // Only what is open on this phone makes a bar its own: an offer alone, or the private area, changes nothing.
+ const private_={privateArea:{offers:[{type:'BLOCK_MOVE'},{type:'APPOINT_OFFICER'},{type:'ACTIVATE_BLACKHOLE'},{type:'CONFIRM_NAVIGATION'}],navigation:{position:'B2',direction:'Red',tieChoice:true,confirmation:'CAPTAIN'},
+  role:{name:'Alien',faction:'Alien'},blackoutTargeting:{selectable:true}}};
+ for(const kind of PHASE_BAR_PHASES){
+  const plain=model({phase:phase(kind),activeSeatId:null,ownSeatId:'seat-5'});
+  assert.deepEqual(shellPhaseFacts({...plain,...private_}),shellPhaseFacts(plain),kind);
+  assert.deepEqual(shellBar({...plain,...private_}),shellBar(plain),kind);
+ }
+ // The action that makes a phase's bar its own is that phase's: another phase's draft does not.
+ assert.equal(shellPhaseFacts(model({phase:phase('PRE_TURN'),action:action('APPOINT_OFFICER','targets',['seat-1'])})).own,false);
+ assert.equal(shellPhaseFacts(model({phase:phase('OFFICER_APPOINTMENT'),action:action('BLOCK_MOVE','targets',['seat-1'])})).own,false);
+ assert.equal(shellPhaseFacts(model({phase:phase('BLACKOUT'),action:action('SELECT_BLACKOUT_SLOT','slots',['A1'])})).own,false,'a Disabler\'s position never changes the public Blackout bar');
+ assert.equal(shellPhaseFacts(model({phase:phase('PRE_TURN'),action:action('ACTIVATE_BLACKHOLE','confirm',[])})).own,false,'nor the Alien\'s Blackhole the bar before turns');
+ // The lights-out time needs the presentation's trusted time and the Blackout's own preview end; dark, it is not given.
+ const presentation={nowMs:4200,startedAt:0,endsAt:15000,events:[],blackout:{windowId:'w',previewEndsAt:5000,endsAt:15000},clone:null};
+ assert.equal(shellPhaseFacts(model({phase:phase('BLACKOUT'),presentation})).lightsOutMs,800);
+ assert.equal(shellPhaseFacts(model({phase:phase('BLACKOUT'),presentation,dark:true})).lightsOutMs,null);
+ assert.equal(shellPhaseFacts(model({phase:phase('BLACKOUT'),presentation:{...presentation,blackout:null}})).lightsOutMs,null);
+ // Every phase of the contract's is drawn by phase-bars.mjs or is one of the game's own bars here, and none is both.
+ for(const kind of PHASE_BAR_PHASES){assert.ok(!Object.hasOwn(SHELL_PHASE_NAMES,kind),`${kind}: its name is Designer's`);assert.ok(!Object.hasOwn(SHELL_PHASE_ICONS,kind),`${kind}: its icon too`);}
+ for(const kind of Object.keys(SHELL_PHASE_NAMES))assert.ok(Object.hasOwn(PHASE_BAR_REFUSED,kind),`${kind}: phase-bars.mjs leaves it to the game`);
+ assert.throws(()=>phaseBar({phase:'JAIL_VOTE'}),TypeError);
 });
 
 test('your turn and the clock: the time as given, amber from 10 s, a ring with no amber for the two fixed presentations',()=>{
@@ -70,7 +170,7 @@ test('your turn and the clock: the time as given, amber from 10 s, a ring with n
  assert.deepEqual(shellTimer(result),{remainingMs:2000,urgentAtMs:-1,ring:0.6});
  assert.equal(shellBar(result).icon,'jail');assert.equal(shellBar(result).promises,null);
  const sync=model({phase:{...phase('BLACKHOLE_PRESENTATION'),startedAt:0,endsAt:6000,remainingMs:6000},activeSeatId:null});
- assert.equal(shellTimer(sync).ring,0);assert.equal(shellBar(sync).promises,null);assert.equal(shellBar(sync).icon,'blackhole');
+ assert.deepEqual(shellBar(sync).timer,{remainingMs:6000,urgentAtMs:-1,ring:0});assert.equal(shellBar(sync).promises,undefined);assert.equal(checkBar(shellBar(sync)).promises,null);assert.equal(shellBar(sync).icon,'blackhole');
  assert.equal(shellBar(model({phase:{...phase('VOTE_RESULT'),startedAt:0,endsAt:5000,remainingMs:1000},lastTally:{kind:'CAPTAIN_ELECTION'}})).icon,'captain');
 });
 
@@ -148,6 +248,13 @@ test('the target bar and the chip, from this viewer\'s own action only',()=>{
 test('banners: reconnecting, the phone\'s (busy while a receipt is checked); an eliminated player\'s own',()=>{
  assert.equal(shellBanner(model()),null);
  assert.deepEqual(shellBanner(model({connection:'stale'})),{kind:'reconnecting',busy:false});
+ // The first connect, before a round was seen, is the Loading frame, with no banner; connecting again after one was
+ // seen, or a first connect that failed, gets the banner and its Retry.
+ assert.equal(shellBanner(model({connection:'connecting',phase:null,round:null})),null);
+ assert.deepEqual(shellBanner(model({connection:'connecting',phase:null,round:null}),{lastRound:3}),{kind:'reconnecting',busy:false});
+ assert.deepEqual(shellBanner(model({connection:'error',phase:null,round:null})),{kind:'reconnecting',busy:false});
+ assert.equal(shellInput(model({connection:'connecting',phase:null,round:null})).banner,null);
+ assert.equal(shellInput(model({connection:'connecting',phase:null,round:null}),{lastRound:3}).banner.kind,'reconnecting');
  assert.deepEqual(shellBanner(model({connection:'error',recovery:{status:'checking',canCheck:false,canRetry:false}})),{kind:'reconnecting',busy:true});
  const out=model({board:{seats:seats.map(s=>s.seatId==='seat-4'?{...s,health:'Eliminated'}:s)}});
  assert.deepEqual(shellBanner(out),{kind:'out'});assert.ok(ownOut(out));assert.ok(!ownOut({...out,surface:'display',ownSeatId:null}));
@@ -314,4 +421,34 @@ test('lifecycle: the renderer\'s listeners are added together and dispose leaves
  assert.equal(shellRuns({visible:true,blurred:false}),true);
  assert.equal(shellRuns({visible:false,blurred:false}),false);
  assert.equal(shellRuns({visible:true,blurred:true}),false);
+});
+
+test('the round stamp\'s moment and clock (G18): Round 1\'s Before turns, and the trusted server time while it is trusted',()=>{
+ // Round 1's first phase is Before turns: its window, from public facts only. Any other round or phase: none.
+ const first=model({round:1,phase:phase('PRE_TURN',{id:'p-1',startedAt:5000,endsAt:20000,nowMs:5200}),activeSeatId:null,offices:{captainSeatId:null,officerSeatId:null,blockedSeatId:null}});
+ assert.deepEqual(roundStart(first),{round:1,window:{id:'p-1',startedAt:5000}});
+ assert.equal(roundStart({...first,round:2}),null);
+ assert.equal(roundStart({...first,phase:phase('ORDINARY_TURN',{id:'p-2'})}),null);
+ assert.equal(roundStart({...first,phase:null}),null);
+ assert.equal(roundStart({...first,phase:{...first.phase,id:''}}),null);
+ // A late phone gets the same window: the stamp's own clock decides it is past. Private fields change nothing.
+ assert.deepEqual(roundStart({...first,phase:{...first.phase,nowMs:60000,remainingMs:0}}),roundStart(first));
+ assert.deepEqual(roundStart({...first,privateArea:{role:{name:'Alien'}},ownSeatId:'seat-7'}),roundStart(first));
+ // The clock: the phase's server time plus the time since it arrived, by this phone's monotonic clock.
+ let t=100;const clock=createServerClock({monotonic:()=>t});
+ assert.equal(clock.current(),null,'nothing observed: no clock');
+ clock.observe(first);
+ t=350;assert.equal(clock.current().now(),5200+250);
+ // The same model shown again keeps its first arrival; a new one starts from its own time.
+ clock.observe(first);t=400;assert.equal(clock.current().now(),5200+300);
+ clock.observe({...first,phase:{...first.phase,nowMs:5500}});t=450;assert.equal(clock.current().now(),5500+50);
+ // Untrusted, run out or not live: no clock, and a part given none draws nothing.
+ for(const over of [{phase:{...first.phase,trusted:false,nowMs:null}},{phase:{...first.phase,expired:true}},{connection:'stale'},{connection:'connecting'},{phase:null}]){
+  clock.observe({...first,...over});assert.equal(clock.current(),null,JSON.stringify(over));
+  clock.observe(first);assert.ok(clock.current());
+ }
+ // It never reads anything private.
+ const plain=createServerClock({monotonic:()=>0}),busy=createServerClock({monotonic:()=>0});
+ plain.observe(first);busy.observe({...first,privateArea:{role:{name:'Alien'}},action:action('BLOCK_MOVE','targets',['seat-1'])});
+ assert.equal(plain.current().now(),busy.current().now());
 });

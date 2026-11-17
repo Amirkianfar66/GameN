@@ -24,9 +24,9 @@
 
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
-import { createControlPolicy, createKit } from '../kit/kit.mjs';
+import { createControlPolicy, createKit, followTextSize } from '../kit/kit.mjs';
 
-export const PHONE_SHELL_VERSION = 'phone-shell-0.2.10';
+export const PHONE_SHELL_VERSION = 'phone-shell-0.2.11';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const KINDS = Object.freeze(['turn', 'phase', 'pair']);
 const HERO_MODES = Object.freeze(['pass', 'vote', 'voted']);
@@ -271,6 +271,9 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
   root.append(stage, cover, bar, over, guide);
   host.append(root);
   const kit = createKit(doc);
+  // The text size (0.2.11): a part opened after it changes takes the new size's rules, as one open through the change
+  // does (the kit's followTextSize; before, at 200 % a target bar opened afterwards stood side by side).
+  const textSize = followTextSize(root);
 
   let state = nextPhoneShellInput(PHONE_SHELL_DEFAULTS, input);
   let disposed = false, suspended = false, seq = 0, lastLayout = null, toastShown = null, toastTimer = null, press = null;
@@ -795,6 +798,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     hideHud();
     if (toastTimer) win.clearTimeout(toastTimer);
     observer?.disconnect();
+    textSize.dispose();
     policy.dispose();
     root.removeEventListener('click', onClick);
     root.removeEventListener('pointerdown', onPointerDown);

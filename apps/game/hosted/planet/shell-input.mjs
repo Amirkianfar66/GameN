@@ -6,12 +6,18 @@
 // keeps its default. Nothing here works out who may act from the rules; the controller checks the current
 // offer before it sends anything.
 import {LOCATION_OF} from '../board-v2-drawing/slots-four.mjs';
+import {PHASE_BAR_PHASES,loadingBar,phaseBar,reconnectingBar} from '../../../../design/phone-ui/components/phone-shell/phase-bars.mjs';
 import {actionsChip,actionsFrame,actionsTarget,actionsToast} from './actions-input.mjs';
 
-/** Today's phase names (render.mjs before the shell), as the shell's handoff asks. */
-export const SHELL_PHASE_NAMES=Object.freeze({FOOD_SUPPLY:'Food Supply',ORDINARY_TURN:'Turn',CAPTAIN_ELECTION:'Captain vote',JAIL_VOTE:'Jail vote',VOTE_RESULT:'Vote result',BLACKHOLE_PRESENTATION:'Ship synchronized',OFFICER_APPOINTMENT:'New Officer',NAV_SETTING:'Setting course',BLACKOUT:'Blackout',PRE_TURN:'Round begins',HACK:'Private talk',HACK_DECLARE:'Declare side',HACK_RESULT:'Private claim'});
-/** Each phase bar's icon, as the pack's bars draw them (ui.mjs topBar on sheets 07, 30, 35, 38, 41 and 44). */
-export const SHELL_PHASE_ICONS=Object.freeze({FOOD_SUPPLY:'supply',ORDINARY_TURN:'turn',CAPTAIN_ELECTION:'captain',JAIL_VOTE:'vote',VOTE_RESULT:'jail',BLACKHOLE_PRESENTATION:'blackhole',OFFICER_APPOINTMENT:'officer',NAV_SETTING:'course',NAV_TIE:'course',NAV_CAPTAIN_CONFIRM:'course',NAV_OFFICER_CONFIRM:'course',BLACKOUT:'lit',PRE_TURN:'hourglass',HACK:'talk',HACK_DECLARE:'declare',HACK_RESULT:'talk',FINISHED:'flag'});
+/**
+ * Today's names (render.mjs before the shell) for the phases whose bar is still the game's own: the votes, the
+ * private talk, Food Supply and a turn with no one active. Every other phase's words are Designer's, in
+ * phase-bars.mjs (shell 0.2.10), which shellBar() calls: Before turns, the Officer's appointment, the Blackout,
+ * Ship synchronized and Setting course.
+ */
+export const SHELL_PHASE_NAMES=Object.freeze({FOOD_SUPPLY:'Food Supply',ORDINARY_TURN:'Turn',CAPTAIN_ELECTION:'Captain vote',JAIL_VOTE:'Jail vote',VOTE_RESULT:'Vote result',HACK:'Private talk',HACK_DECLARE:'Declare side',HACK_RESULT:'Private claim'});
+/** Those bars' icons, as the pack's bars draw them (ui.mjs topBar on sheets 07, 35, 38 and 44). */
+export const SHELL_PHASE_ICONS=Object.freeze({FOOD_SUPPLY:'supply',ORDINARY_TURN:'turn',CAPTAIN_ELECTION:'captain',JAIL_VOTE:'vote',VOTE_RESULT:'jail',HACK:'talk',HACK_DECLARE:'declare',HACK_RESULT:'talk',FINISHED:'flag'});
 /** The target bar's icon for each action, from the phone's icon family. */
 export const SHELL_ACTION_ICONS=Object.freeze({PASS_TURN:'pass',MOVE:'move',REGISTER_SHOT:'shoot',PROTECT:'protect',RESCUE:'rescue',SUPPLY:'supply',SCAN:'scan',SUBMIT_CODE:'code',ACTIVATE_SHIP_HACK:'shipHack',ENGINEER_SUPPRESS:'suppress',ACTIVATE_BLACKHOLE:'blackhole',ACTIVATE_CLONE:'clone',REQUEST_BLACKOUT:'blackout',SELECT_BLACKOUT_SLOT:'position',CAPTAIN_RELEASE:'release',CAPTAIN_EJECT:'eject',APPOINT_OFFICER:'appoint',BLOCK_MOVE:'block',CHOOSE_NAV_DIRECTION:'direction',CONFIRM_NAVIGATION:'acknowledge',VOTE:'vote',REQUEST_HACK:'talk',DECLARE_HACK_SIDE:'declare',PANEL_CODE:'panel',OFFER_PROMISE:'promise',ACCEPT_PROMISE:'check',DECLINE_PROMISE:'close',SHOW_WINDOW:'show'});
 /** The two fixed presentations: a ring for the clock, and no Promises (sheet 07). */
@@ -56,6 +62,39 @@ export function shellPicking(action){
   ||action.type==='MOVE'&&['targets','slots'].includes(action.step)||action.type==='SELECT_BLACKOUT_SLOT'&&action.step==='slots';
 }
 
+/**
+ * The round stamp's moment (#288's "ROUND 1", which the Pre-game builder's connection mounts on the shell's cover):
+ * Round 1's first phase, Before turns, the round's first that shows the room. The engine opens a match there, and
+ * Food Supply opens only at a later round's start, so Round 1 has one. Public facts only: the round and the
+ * phase's kind, id and start. A phone that arrives late gets the same window, and the stamp's own clock finds it
+ * past and draws nothing.
+ */
+export function roundStart(model){
+ const p=model?.phase;
+ if(model?.round!==1||p?.kind!=='PRE_TURN'||typeof p.id!=='string'||!p.id||!Number.isFinite(p.startedAt))return null;
+ return {round:1,window:{id:p.id,startedAt:p.startedAt}};
+}
+
+/**
+ * The match's trusted server time, for a part that keeps time with the server (the round stamp): the phase's
+ * nowMs, the server's time when the model was made, plus the time since it arrived by this phone's monotonic clock.
+ * `observe(model)` on each model; `current()` is the clock, `{ now() }`, only while the phone is live and the
+ * phase's time trusted and not run out; otherwise null, and a part given null draws nothing. A model shown again
+ * keeps its first arrival, so its time doesn't start over.
+ */
+export function createServerClock({monotonic}){
+ let base=null;
+ const clock=Object.freeze({now:()=>base?base.server+Math.max(0,monotonic()-base.local):Number.NaN});
+ return Object.freeze({
+  observe(model){
+   const p=model?.phase;
+   if(model?.connection!=='live'||!p?.trusted||p.expired||!Number.isFinite(p.nowMs)){base=null;return;}
+   if(base?.server!==p.nowMs)base={server:p.nowMs,local:monotonic()};
+  },
+  current:()=>base?clock:null,
+ });
+}
+
 /** The clock while the server time is trusted: amber in the last 10 s, a ring for the two fixed presentations. */
 export function shellTimer(model){
  const phase=model.phase;
@@ -66,12 +105,33 @@ export function shellTimer(model){
  return {remainingMs:phase.remainingMs,urgentAtMs:-1,ring:Math.min(1,Math.max(0,1-phase.remainingMs/span))};
 }
 
-/** A phase bar's second line: the shared board's label, as today's detail line, or the course being set. */
-function phaseSub(model){
- const kind=model.phase?.kind;
- if(kind==='BLACKOUT')return null;
- if(kind==='NAV_SETTING')return model.boardLabel?`${model.boardLabel} · The course is being set.`:'The course is being set.';
- return model.boardLabel??null;
+/** The deciding player's own choice in a phase: the action the controller drafts for it, which the shell shows as its target bar. */
+const OWN_ACTION=Object.freeze({OFFICER_APPOINTMENT:'APPOINT_OFFICER',PRE_TURN:'BLOCK_MOVE'});
+/** The Navigation sheet's two actions: the Officer's choice on a tie, and each office's acknowledgement. */
+const NAVIGATION_ACTIONS=Object.freeze(['CHOOSE_NAV_DIRECTION','CONFIRM_NAVIGATION']);
+/**
+ * What phase-bars.mjs is told for a phase it draws. Each fact is one the model already holds; nothing is worked
+ * out from the rules, and no offer is read:
+ *   own                  this phone has the deciding player's own choice open: the controller's draft of the
+ *                        appointment or of the block (begun from Actions), on a player's phone
+ *   chooser              the Captain's public name, as the turn bar names a player
+ *   hasOfficer, blocked  the public offices name an Officer; a block is shown
+ *   dark, lightsOutMs    the model's dark, which also darkens the room; while lit, the Blackout's preview end less
+ *                        the trusted time (the presentation holds both)
+ *   office               the office this viewer holds, from the public offices, while its Navigation is open: the
+ *                        Navigation page, or one of its two actions
+ */
+export function shellPhaseFacts(model){
+ const kind=model.phase?.kind??null,player=model.surface==='player',offices=model.offices??null,action=model.action?.type??null;
+ const held=player&&model.ownSeatId?offices?.captainSeatId===model.ownSeatId?'captain':offices?.officerSeatId===model.ownSeatId?'officer':null:null;
+ const blackout=model.presentation?.blackout??null;
+ return {
+  own:player&&!!OWN_ACTION[kind]&&action===OWN_ACTION[kind],
+  chooser:offices?.captainSeatId?{name:person(model,offices.captainSeatId).name}:null,
+  hasOfficer:!!offices?.officerSeatId,blocked:!!offices?.blockedSeatId,
+  dark:!!model.dark,lightsOutMs:!model.dark&&blackout&&Number.isFinite(model.presentation.nowMs)?blackout.previewEndsAt-model.presentation.nowMs:null,
+  office:held&&(model.panel==='navigation'||NAVIGATION_ACTIONS.includes(action))?held:null,
+ };
 }
 
 /**
@@ -80,20 +140,32 @@ function phaseSub(model){
  * a shared display's included: Settings is the one panel the controller opens on a display, for its preferences
  * and, when the display hosts, the host's controls, as today's header gave it. `lastRound` is the round this
  * phone last saw live, which the reconnecting bar names (sheet 45).
+ * The words of a phase with no active player are Designer's (phase-bars.mjs): phaseBar() for the phases it draws,
+ * reconnectingBar() while this phone is not live, and loadingBar() for the first connect, before it has seen a
+ * round: the pack's Loading bar has no round, Promises or ⋮, and the model holds no count of pictures, so it is
+ * the title alone.
  */
 export function shellBar(model,{lastRound=null}={}){
  const player=model.surface==='player',kind=model.phase?.kind??null;
  const menu={open:model.panel==='settings'};
  if(model.connection!=='live'){
-  return {kind:'phase',icon:'retry',title:model.connection==='connecting'?'Connecting…':'Reconnecting…',sub:Number.isSafeInteger(lastRound)?`Showing Round ${lastRound} as last seen`:null,
-   round:Number.isSafeInteger(lastRound)?lastRound:null,timer:null,promises:player?{count:model.promiseOfferCount??0,open:false}:null,menu};
+  if(model.connection==='connecting'&&!Number.isSafeInteger(lastRound))return loadingBar();
+  return reconnectingBar({round:lastRound,promises:player?{count:model.promiseOfferCount??0,open:false}:null,menu});
  }
  const promises=player&&!SHELL_RING_PHASES.includes(kind)?{count:model.promiseOfferCount??0,open:model.panel==='promises'}:null;
  const base={round:model.round??null,timer:shellTimer(model),promises,menu};
  if(!model.dark&&kind==='ORDINARY_TURN'&&model.activeSeatId)return {kind:'turn',who:person(model,model.activeSeatId),self:player&&model.activeSeatId===model.ownSeatId,...base};
  if(ownTalk(model))return {kind:'pair',pair:[person(model,model.talk.actorSeatId),person(model,model.talk.targetSeatId)],sub:SHELL_PHASE_NAMES[kind],...base};
- const icon=kind==='BLACKOUT'?model.dark?'dark':'lit':kind==='VOTE_RESULT'?model.lastTally?.kind==='CAPTAIN_ELECTION'?'captain':'jail':SHELL_PHASE_ICONS[kind]??'hourglass';
- return {kind:'phase',icon,title:SHELL_PHASE_NAMES[kind]??(kind?kind.replaceAll('_',' '):'Connecting'),sub:phaseSub(model),tone:model.dark?'dark':null,...base};
+ if(PHASE_BAR_PHASES.includes(kind)){
+  // The pack's words, the clock's amber and ring and the dark tone are the function's; Promises is given on every
+  // player's phone, and the function drops it where the pack's bar has none.
+  const span=model.phase.endsAt-model.phase.startedAt;
+  return phaseBar({phase:kind,round:model.round??null,remainingMs:base.timer?.remainingMs??null,durationMs:span>0?span:null,...shellPhaseFacts(model),
+   promises:player?{count:model.promiseOfferCount??0,open:model.panel==='promises'}:null,menu});
+ }
+ // The game's own bars, until their components connect: the board's label is the line under the name, as today's header said.
+ const icon=kind==='VOTE_RESULT'?model.lastTally?.kind==='CAPTAIN_ELECTION'?'captain':'jail':SHELL_PHASE_ICONS[kind]??'hourglass';
+ return {kind:'phase',icon,title:SHELL_PHASE_NAMES[kind]??(kind?kind.replaceAll('_',' '):'Connecting'),sub:model.boardLabel??null,tone:model.dark?'dark':null,...base};
 }
 
 /**
@@ -157,7 +229,10 @@ export function shellChip(model,{view='room',room=null}={}){
 }
 
 /** Reconnecting (the phone's) while the match is not current; otherwise an eliminated player's own banner (public on the board). */
-export function shellBanner(model){
+export function shellBanner(model,{lastRound=null}={}){
+ // The first connect, before this phone has seen a round, is the pack's Loading frame (sheet 45), which has no banner:
+ // nothing was lost yet. A failed first connect is an error, and gets the banner and its Retry.
+ if(model.connection==='connecting'&&!Number.isSafeInteger(lastRound))return null;
  if(model.connection!=='live')return {kind:'reconnecting',busy:model.recovery?.status==='checking'};
  if(model.surface!=='player'||model.concealed)return null;
  return ownOut(model)?{kind:'out'}:null;
@@ -219,7 +294,7 @@ export function shellInput(model,{view='room',room=null,food=null,reducedMotion=
  return {
   status,interactive:true,reducedMotion:!!reducedMotion,viewer:display?null:model.ownSeatId??null,versions:model.versions??null,
   bar:shellBar(model,{lastRound}),tabs:display?null:shellTabs(model,{view}),
-  target:hidden?null:shellTarget(model,{view}),chip:hidden?null:shellChip(model,{view,room}),banner:hidden?null:shellBanner(model),
+  target:hidden?null:shellTarget(model,{view}),chip:hidden?null:shellChip(model,{view,room}),banner:hidden?null:shellBanner(model,{lastRound}),
   toast:hidden?null:shellToast(model,{flow}),sheet:hidden?null:shellSheet(model,{listOpen,flow}),
  };
 }
