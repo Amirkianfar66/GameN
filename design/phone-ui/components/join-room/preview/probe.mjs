@@ -178,6 +178,26 @@ export async function runJoinRoomProbe({ sizes, formOf, waitOf }) {
         && JSON.stringify(seen.taps) === '[["onCheck"],["onCancel"],["onLeave"],["onBack"],["onBack"]]' && JSON.stringify(seen.returned) === '[{"intent":"check","value":null}]', seen };
     });
 
+    await check('the game\u2019s gap: Cancel, Leave and Back to menu unavailable are dimmed and refused, with Frontend\u2019s reason, and report nothing (G6)', async () => {
+      const off = { enabled: false, reason: 'Not available in this test' }, all = { cancel: off, leave: off, back: off };
+      const seen = {};
+      for (const view of ['pending', 'admitted', 'declined']) {
+        const m = mountWait({ ...waitOf({ view }), ...all });
+        const nav = m.q('.ms-ep-back'), foot = m.q('.ms-jw-back');
+        tap(nav); if (foot) tap(foot);
+        seen[view] = { nav: words(nav), refused: refused(nav), dimmed: nav.hasAttribute('data-off'), reason: describedBy(nav),
+          foot: foot ? { refused: refused(foot), dimmed: foot.hasAttribute('data-off'), reason: describedBy(foot) } : null, taps: taps(m.calls) };
+        m.s.update({ cancel: { enabled: true }, leave: { enabled: true }, back: { enabled: true } });
+        tap(m.q('.ms-ep-back'));
+        seen[view].after = taps(m.calls);
+        m.s.dispose();
+      }
+      const off3 = v => seen[v].refused && seen[v].dimmed && seen[v].reason === 'Not available in this test' && seen[v].taps.length === 0;
+      return { ok: off3('pending') && off3('admitted') && off3('declined') && seen.pending.nav === 'Cancel' && seen.admitted.nav === 'Leave' && seen.declined.nav === 'Menu'
+        && seen.declined.foot?.refused && seen.declined.foot.dimmed && seen.declined.foot.reason === 'Not available in this test'
+        && JSON.stringify(seen.pending.after) === '[["onCancel"]]' && JSON.stringify(seen.admitted.after) === '[["onLeave"]]' && JSON.stringify(seen.declined.after) === '[["onBack"]]', seen };
+    });
+
     await check('offline: the words over the form’s foot or under the waiting line; with every control enabled they refuse nothing; Frontend’s refusals refuse with the reason; Back and Cancel stay usable', async () => {
       const f = mountForm(formOf({ error: JOIN_WORDS.offline }));
       const alone = { words: words(f.q('.ms-k-error')), refused: [f.ask, ...f.qa('.ms-k-seg-btn')].map(refused) };

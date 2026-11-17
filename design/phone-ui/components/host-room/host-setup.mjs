@@ -2,6 +2,8 @@
 // Runtime source, Designer's (the owner, 14, 15 and 16 November 2026: Designer builds each visual component
 // once, in design/; the game and the preview use it as it is). Frontend mounts it when the menu's Host is
 // tapped, gives it the counts and their team mix from the ruleset, and routes Open room to today's create.
+// A count given without its mix (null: the game doesn't give it yet, #222 G1) draws no line under the control
+// (the Lead's decision of 17 November 2026): the component never works a mix out.
 //
 // What it draws: "Menu" back and "Host"; "New room"; Players: the 7, 8, 9 control with the chosen count's
 // mix under it; "After the room opens" with its two rows; Open room at the foot ("Opening…" while busy);
@@ -12,7 +14,7 @@
 import { createControlPolicy, createKit } from '../kit/kit.mjs';
 import { createEntryParts } from '../entry-parts/entry-parts.mjs';
 
-export const HOST_SETUP_VERSION = 'host-setup-0.1.0';
+export const HOST_SETUP_VERSION = 'host-setup-0.1.1';
 
 /** The pack's words (screens-entry.mjs, host-setup; sheet 11). */
 export const SETUP_WORDS = Object.freeze({
@@ -45,8 +47,8 @@ export function nextHostSetupInput(previous, input = {}) {
   next.interactive = next.interactive !== false;
   next.reducedMotion = next.reducedMotion === true;
   next.insets = checkInsets(next.insets ?? null);
-  if (!Array.isArray(next.counts) || !next.counts.every(c => Number.isInteger(c?.value) && c.value > 0 && isText(c.mix))) {
-    throw new TypeError('counts are [{ value, mix }]: a whole number of players and its team mix, from the ruleset');
+  if (!Array.isArray(next.counts) || !next.counts.every(c => Number.isInteger(c?.value) && c.value > 0 && (isText(c.mix) || c.mix === null))) {
+    throw new TypeError('counts are [{ value, mix }]: a whole number of players and its team mix from the ruleset, or null where none is given');
   }
   next.counts = Object.freeze(next.counts.map(c => Object.freeze({ value: c.value, mix: c.mix })));
   if (next.count === undefined) next.count = null;
@@ -113,7 +115,7 @@ export function mountHostSetup(host, input = {}, handlers = {}) {
     for (const b of seg.children) policy.control(b, { intent: 'count' });
     const chosen = state.counts.find(c => c.value === state.count);
     kit.text(mix, chosen?.mix ?? '');
-    mix.hidden = !chosen;
+    mix.hidden = !chosen?.mix;
     // A failed opening: the kit's inline error over the foot, with Frontend's words.
     if (state.error && !error) { error = kit.errorNote(state.error); foot.prepend(error); }
     else if (state.error && error) kit.text(error.querySelector('.ms-k-error-text'), state.error);
