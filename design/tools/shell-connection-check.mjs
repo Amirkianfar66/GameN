@@ -13,6 +13,7 @@
 //   pass                     "Pass your turn?" (then Pass sends PASS_TURN and its registration shows once)
 //   actions                  the Actions sheet: the game's own body in the shell's frame (with release 3, #310, Actions' part)
 //   target                   the target bar with Cancel (the Officer's block)
+//   closed                   a phase that closed under an open choice: the toast at 0:00 (then no second one)
 //   reconnecting, eliminated the two banners (Retry reads the session again)
 //   vote, ballot, voted      the round button as Vote; the ballot's sheet; then Voted
 //   result                   the 5 s result: the ring, no Promises, the round button as Vote, unavailable, and the
@@ -247,6 +248,29 @@ const STATES = {
       await page.waitFor(`${game}.getModel().action===null`, 'Cancel ended the choosing');
       const seen = await page.evaluate(LOOK);
       return { cancelled: seen.target === null && seen.stage.presses.length === 0, everyonesBar: seen.bar?.name === 'Before turns' && seen.bar.sub === 'Officer block · Blackhole' };
+    } },
+  // A phase that closed under an open choice (sheet 45's stale frame; shell-input.mjs phaseClosed()). The harness's
+  // own view, with the same 60 s turn moved so that it ends 1.2 s after the choice is open: the game's controller
+  // clears the choice at 0:00, and the shell's toast says why.
+  closed: { page: 'phone', url: 'scenario=board', steps: async page => {
+      await page.evaluate(tap(TAB('actions')));
+      await page.waitFor("document.querySelector('#planet-action-SCAN')", 'Scan offered in Actions');
+      await page.evaluate(tap('#planet-action-SCAN'));
+      await page.waitFor(`${game}.getModel().action?.type==='SCAN'&&!!document.querySelector('.ms-ps-target')`, 'the Scan choice open');
+      await page.evaluate(edit("const length=p.phase.endsAt-p.phase.startedAt;p.phase={...p.phase,startedAt:now+1200-length,endsAt:now+1200}"));
+      await page.waitFor("document.querySelector('.ms-ps-toast')", 'the toast when the time is up', 8000);
+    },
+    facts: s => ({ toast: s.toast === 'That phase closed · choices cleared', choiceCleared: s.model?.action === null && s.target === null && s.sheet === null && s.stage.presses.length === 0,
+      atZero: s.bar?.clock === '0:00', ownBarStays: s.bar?.kind === 'turn' && s.bar.name === 'Your turn', passOff: s.hero?.mode === 'pass' && s.hero.disabled,
+      live: s.shell?.status === 'live' && s.model?.connection === 'live', nothingSent: s.commands.length === 0 }),
+    after: async page => {
+      await page.waitFor("!document.querySelector('.ms-ps-toast')", 'the toast gone after its time', 6000);
+      // The next phase arrives: the same closed phase gives no second toast.
+      await page.evaluate(edit("p.phase={id:p.phase.id+'-next',kind:'ORDINARY_TURN',startedAt:now,endsAt:now+60000};p.activeSeatId='seat-1';p.offers=p.offers.filter(o=>o.type!=='PASS_TURN')"));
+      await page.waitFor(`${game}.getModel().activeSeatId==='seat-1'&&${game}.getModel().phase.expired===false`, 'the next turn');
+      await sleep(500);
+      const seen = await page.evaluate(LOOK);
+      return { notAgain: seen.toast === null, nextTurn: seen.bar?.kind === 'turn' && seen.bar.name === 'Crew 1' && /^\d:\d\d$/.test(seen.bar.clock ?? '') };
     } },
   reconnecting: { page: 'phone', url: 'scenario=board', steps: async page => {
       await page.evaluate('window.planetHarness.setReadFailure(true);window.planetHarness.app.session.refresh()');
