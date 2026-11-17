@@ -9,7 +9,7 @@ import {nextHostLobbyInput,HOST_LOBBY_DEFAULTS} from '../../../design/phone-ui/c
 import {nextHostSetupInput,HOST_SETUP_DEFAULTS} from '../../../design/phone-ui/components/host-room/host-setup.mjs';
 import {nextRoundStampInput,ROUND_STAMP_DEFAULTS} from '../../../design/phone-ui/components/round-stamp/round-stamp.mjs';
 import {roundStart} from '../hosted/planet/shell-input.mjs';
-import {HOST_COMMANDS,createHostUi,hostControlsOffered,settingsSheetInput,hostControlsInput,hostReceipt} from '../hosted/planet/pregame-input.mjs';
+import {HOST_COMMANDS,createHostUi,hostControlsOffered,settingsSheetInput,hostControlsInput,hostReceipt,hostRetrySent,hostSettle} from '../hosted/planet/pregame-input.mjs';
 import {nextHostControlsInput,hostControlsSheet,HOST_CONTROLS_DEFAULTS,CODE_MASK} from '../../../design/phone-ui/components/host-controls/host-controls.mjs';
 import {nextJoinFormInput,JOIN_FORM_DEFAULTS} from '../../../design/phone-ui/components/join-room/join-form.mjs';
 import {nextJoinWaitInput,JOIN_WAIT_DEFAULTS} from '../../../design/phone-ui/components/join-room/join-wait.mjs';
@@ -316,4 +316,32 @@ test('Host controls\' receipts: the session\'s own words for what this sheet sen
  assert.deepEqual(hostReceipt(running({message:'The session request was refused.'}),hostUi({lastOp:'issueRecovery'})),{text:'The session request was refused.',icon:'info'});
  assert.equal(hostReceipt(running({busy:true,message:REGISTERED}),hostUi({lastOp:'abort'})),null,'still in flight');
  assert.equal(hostReceipt(running({message:REGISTERED}),hostUi({lastOp:'create'})),null,'not this sheet\'s');
+});
+
+test('Host controls\' requests settle once: the card for the seat asked, kept while unknown, and Retry only for this sheet\'s own',()=>{
+ const UNKNOWN='Session request outcome unknown. Retry the original request.';
+ // Asked for seat 2's code: sent, taken up, then the answer is lost. The sheet keeps the request and says so.
+ let ui=hostUi({open:true,lastOp:'issueRecovery',asked:{seat:2}}),step=hostSettle(running({busy:true}),ui,'asked');
+ assert.equal(step.sent,'taken');assert.equal(step.receipt,null);
+ step=hostSettle(running({uncertain:true,message:UNKNOWN}),step.ui,step.sent);
+ assert.equal(step.sent,null);assert.equal(step.ui.lastOp,'issueRecovery','kept while the outcome is unknown');assert.equal(step.ui.view,'list');
+ assert.deepEqual(step.receipt,{text:UNKNOWN,icon:'info'});
+ // Retry sends the same request again: it is this sheet's, so it settles as it would have, with seat 2's card.
+ ui=step.ui;let sent=hostRetrySent(ui);assert.equal(sent,'asked');
+ step=hostSettle(running({uncertain:true,busy:true,message:UNKNOWN}),ui,sent);assert.equal(step.sent,'taken');
+ step=hostSettle(running({recoveryCode:'SYNTHETIC-RECOVERY-CODE',message:REGISTERED}),step.ui,step.sent);
+ assert.equal(step.ui.view,'code');assert.equal(step.ui.revealed,false);assert.deepEqual(step.ui.asked,{seat:2});assert.equal(step.ui.lastOp,null,'settled');
+ assert.equal(step.receipt,null,'its card is the receipt');
+ assert.equal(hostControlsInput(running({recoveryCode:'SYNTHETIC-RECOVERY-CODE'}),gameView(),step.ui).code.seat,2);
+ // A settled command: its receipt, and the sheet no longer holds it.
+ step=hostSettle(running({message:REGISTERED}),hostUi({lastOp:'advance'}),'taken');
+ assert.deepEqual(step.receipt,{text:REGISTERED,icon:'check'});assert.equal(step.ui.lastOp,null);
+ assert.equal(hostRetrySent(step.ui),null,'nothing of this sheet\'s to retry');
+ // A request restored after a reload isn't this sheet's: Retry settles it with no receipt and no card (the Lead's (a)).
+ ui=hostUi({open:true});sent=hostRetrySent(ui);assert.equal(sent,null);
+ step=hostSettle(running({busy:true,uncertain:true,message:UNKNOWN}),ui,sent);step=hostSettle(running({recoveryCode:'SYNTHETIC-RECOVERY-CODE',message:REGISTERED}),step.ui,step.sent);
+ assert.equal(step.ui.view,'list');assert.equal(step.receipt,null);
+ assert.equal(hostControlsInput(running({recoveryCode:'SYNTHETIC-RECOVERY-CODE'}),gameView(),step.ui).code,null);
+ // One the session never took up (it sends nothing while busy or uncertain) stays unsettled, with no receipt.
+ step=hostSettle(running(),hostUi({lastOp:'runBots'}),'asked');assert.equal(step.sent,'asked');assert.equal(step.receipt,null);
 });

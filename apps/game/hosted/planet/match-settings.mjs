@@ -12,7 +12,7 @@
 import {mountSettingsSheet} from '../../../../design/phone-ui/components/display-settings/display-settings.mjs';
 import {HOST_WORDS,hostControlsSheet,mountHostControls} from '../../../../design/phone-ui/components/host-controls/host-controls.mjs';
 import '../../../../design/phone-ui/components/host-controls/host-controls.css';
-import {COPY_REFUSED,HOST_COMMANDS,createHostUi,hostControlsInput,hostControlsOffered,hostReceipt,settingsSheetInput} from './pregame-input.mjs';
+import {COPY_REFUSED,createHostUi,hostControlsInput,hostControlsOffered,hostRetrySent,hostSettle,settingsSheetInput} from './pregame-input.mjs';
 
 /**
  * The manager for one match: `settings` and `hostSheet` are the renderer's options; `sync()` follows the session
@@ -87,8 +87,9 @@ export function createMatchSettings({session,preferences,game,win,rerender}){
    else if(id==='copy')void copy();
    else if(id==='keep')ui.view='list';
    else if(id==='abort')send('abort',{operation:'abort'});
-   // The session's own request, sent again as it was (today's "Retry original session request").
-   else if(id==='retry')void session.retry();
+   // The session's own request, sent again as it was (today's "Retry original session request"); this sheet's, when it
+   // still holds it, settles with its receipt and, for a code, the card.
+   else if(id==='retry'){sent=hostRetrySent(ui);void session.retry();}
    paint();
   },
   back(){if(ui.view==='list')ui.open=false;else {ui.view='list';ui.revealed=false;}},
@@ -112,12 +113,8 @@ export function createMatchSettings({session,preferences,game,win,rerender}){
    const s=session.getModel();
    if(ui.open&&!offered()){reset();again();return;}
    // A command the session never took up (it sends nothing while busy or uncertain) has no receipt.
-   if(sent==='asked'&&s.busy)sent='taken';
-   if(sent==='taken'&&!s.busy&&HOST_COMMANDS.includes(ui.lastOp)){
-    sent=null;
-    if(ui.lastOp==='issueRecovery'&&s.recoveryCode&&ui.asked){ui.view='code';ui.revealed=false;}
-    const receipt=hostReceipt(s,ui);if(receipt&&ui.open)toast={id:`host-${++toastSeq}`,...receipt};
-   }
+   const settled=hostSettle(s,ui,sent);sent=settled.sent;Object.assign(ui,settled.ui);
+   if(settled.receipt&&ui.open)toast={id:`host-${++toastSeq}`,...settled.receipt};
    // The code leaves with the session's (hidden, a new request, the viewer away): back to the list.
    if(ui.view==='code'&&!s.recoveryCode&&!s.busy){ui.view='list';ui.revealed=false;}
    paint();

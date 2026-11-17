@@ -249,7 +249,10 @@ export const COPY_REFUSED='Select the code to copy.';
 /** The session commands Host controls sends; one busy flag becomes one busy row (G10). */
 export const HOST_COMMANDS=Object.freeze(['advance','runBots','issueRecovery','abort']);
 
-/** This phone's local state for Host controls: open or not, the view, the seat a code was asked for, and Reveal. */
+/**
+ * This phone's local state for Host controls: open or not, the view, this sheet's request while the session holds it
+ * (`lastOp`: sending, or with an unknown outcome), the seat a code was asked for, and Reveal.
+ */
 export function createHostUi(){
  return {open:false,view:'list',lastOp:null,asked:null,revealed:false};
 }
@@ -298,4 +301,27 @@ export function hostReceipt(session,ui){
  if(!HOST_COMMANDS.includes(ui.lastOp)||session.busy)return null;
  if(session.uncertain||(session.message&&session.message!==REGISTERED))return session.message?{text:session.message,icon:'info'}:null;
  return ui.lastOp==='issueRecovery'?null:{text:REGISTERED,icon:'check'};
+}
+
+/**
+ * Retry sends the session's own request again. It is this sheet's when the sheet still holds it (`lastOp`, kept while
+ * the outcome is unknown), and then settles as it would have: its receipt, and for a code, the card of the seat this
+ * phone asked for. A request this sheet doesn't hold (one restored after a reload) settles with neither: the session
+ * keeps no seat for it, so no card opens on a code the phone can't tie to its own request (the Lead, 17 November).
+ */
+export const hostRetrySent=ui=>HOST_COMMANDS.includes(ui.lastOp)?'asked':null;
+
+/**
+ * What this sheet's request becomes after a session change. `sent` is null, 'asked' (sent) or 'taken' (the session
+ * took it up: busy); a command the session never took up has no receipt. Once free it settles: the code's card opens
+ * for the seat asked, the receipt is the session's (hostReceipt), and the sheet keeps the request only while its
+ * outcome is unknown. Returns `{ sent, ui, receipt }`, with `ui` a new state.
+ */
+export function hostSettle(session,ui,sent){
+ if(sent==='asked'&&session.busy)sent='taken';
+ if(sent!=='taken'||session.busy||!HOST_COMMANDS.includes(ui.lastOp))return {sent,ui,receipt:null};
+ const next={...ui};
+ if(ui.lastOp==='issueRecovery'&&session.recoveryCode&&ui.asked){next.view='code';next.revealed=false;}
+ if(!session.uncertain)next.lastOp=null;
+ return {sent:null,ui:next,receipt:hostReceipt(session,ui)};
 }
