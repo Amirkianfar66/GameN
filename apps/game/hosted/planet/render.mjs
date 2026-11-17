@@ -22,7 +22,7 @@ import {outfitFor} from '../scene-drawing/wardrobe.mjs';
 import {mountRoomScene,roomSceneFrame,roomScenePlaces,ROOM_SCENE_DEFAULTS} from '../../../../design/phone-ui/components/room-scene/room-scene.mjs';
 import {roomSceneArtReady,roomSceneHandlers,roomSceneInput,roomSceneInputKey,roomSceneKey,roomSceneLifecycle,roomScenePeople,roomSceneStatus} from './room-scene-input.mjs';
 import {mountPhoneShell} from '../../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
-import {connectShellLifecycle,createServerClock,phaseClosed,shellFocusOrder,shellHandlers,shellInput,shellRuns} from './shell-input.mjs';
+import {connectShellLifecycle,createServerClock,phaseClosed,shellFocusOrder,shellHandlers,shellHostSheet,shellInput,shellRuns} from './shell-input.mjs';
 
 const windowNames={A_B:'Room A ↔ Room B',A_HOSPITAL:'Room A ↔ Hospital',B_JAIL:'Room B ↔ Jail'};
 const number=id=>id?`Player ${id.slice(5)}`:'—';
@@ -31,7 +31,7 @@ const roomFor=slot=>BOARD_ROOMS.find(room=>slotsOf(room,9).some(s=>s.id===slot))
 const [rigX,rigY,rigSide]=FRAME.box,[rigAnchorX,rigAnchorY]=FRAME.anchor;
 
 /** Native consumer renderer: public scene DTOs feed approved pure drawings, never legacy wire views. */
-export function mountPlanetRenderer(root,controller,{cinematics=[],terminalAction=null,settings=null,food=null,reconnect=null}={}){
+export function mountPlanetRenderer(root,controller,{cinematics=[],terminalAction=null,settings=null,food=null,reconnect=null,hostSheet=null}={}){
  const document=root.ownerDocument,win=document.defaultView;
  const library=createPlanetLibrary(document);
  const el=(tag,text=null,cls=null)=>{const n=document.createElement(tag);if(text!==null)n.textContent=text;if(cls)n.className=cls;return n;};
@@ -92,6 +92,9 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   layout:next=>{shellLayout=next;render(controller.getModel());},
   opened:detail=>{opener=detail;},
   focusReturn:()=>focusBack(),
+  // The host sheet (hostSheet: { frame(), mount(body), action(id), back(), close(), toast() }), while it is the open sheet.
+  host:hostSheet&&{open:()=>shellFrame?.kind==='host',action:id=>{hostSheet.action(id);if(model)render(controller.getModel());},
+   back:()=>{hostSheet.back();uiKey=null;if(model)render(controller.getModel());},close:()=>hostSheet.close()},
  }));
  shell.stage.append(stage);
  // The game's own result window and status line lie over the room in the shell's cover: under its bars, target
@@ -220,6 +223,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   else if(sheetFrame.kind==='pass'){/* Sheet 27.3: the title asks; Cancel and Pass are the sheet's own. */}
   else if(sheetFrame.kind==='action')renderAction();
   else if(sheetFrame.kind==='settings')settings?.(sheetBody);
+  else if(sheetFrame.kind==='host')hostSheet?.mount(sheetBody);
   else if(sheetFrame.kind==='dark'){addText('People and windows are hidden.');if(model.panel==='actions')for(const o of p?.offers??[])sheetBody.append(beginButton(o.type));}
   else if(sheetFrame.kind==='expired'){/* The title says it: waiting for the server. */}
   else if(sheetFrame.kind==='panels'){if(food&&model.food)sheetBody.append(button('Tasks','food-tasks'));for(const [label,value]of [['Windows','windows'],['Navigation','navigation'],['Hospital panel','hospital'],['Players','players'],['Round order','round-order']]){const b=labelPhoneControl(button(label,'panel',value),label,phonePanelIcon(value));b.classList.add('planet-panel-option');sheetBody.append(b);}}
@@ -457,7 +461,9 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   // Task over the whole screen) the shell is concealed under it: its bars keep their shape as empty material,
   // with no name, time or control, as today's header and nav were hidden and inert.
   const input=shellInput(model,{view:sceneMode,room:currentRoom,food:foodSurface,reducedMotion:reduced(),lastRound,listOpen,closed});
-  const nextToast=input.toast;if(nextToast)toast=nextToast;
+  input.sheet=shellHostSheet(input.sheet,hostSheet?.frame()??null);
+  // The host sheet's own toast (Copied, a receipt), once, when the game gives none.
+  const nextToast=input.toast??hostSheet?.toast?.()??null;if(nextToast)toast=nextToast;
   if(input.status==='concealed')toast=null;else input.toast=toast;
   shellFrame=input.sheet;choosing=!!input.target;
   // The shared display's status line and a message stay the game's; while the reconnecting banner shows, it says it.

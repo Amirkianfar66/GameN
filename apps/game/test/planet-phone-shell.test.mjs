@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {connectShellLifecycle,createServerClock,ownOut,ownTalk,phaseClosed,roundStart,shellFocusOrder,shellBanner,shellBar,shellChip,shellHandlers,shellHero,shellInput,shellPhaseFacts,shellPicking,shellRuns,shellSheet,shellStatus,shellTabs,shellTarget,shellTimer,shellToast,talkButtons,
+import {connectShellLifecycle,createServerClock,ownOut,ownTalk,phaseClosed,roundStart,shellFocusOrder,shellBanner,shellBar,shellChip,shellHandlers,shellHostSheet,shellHero,shellInput,shellPhaseFacts,shellPicking,shellRuns,shellSheet,shellStatus,shellTabs,shellTarget,shellTimer,shellToast,talkButtons,
  SHELL_CHOOSING,SHELL_CLOSES_ITSELF,SHELL_PHASE_ICONS,SHELL_PHASE_NAMES} from '../hosted/planet/shell-input.mjs';
 import {checkBar,checkTabs,clockText,nextPhoneShellInput,PHONE_SHELL_DEFAULTS} from '../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
 import {PHASE_BAR_PHASES,PHASE_BAR_REFUSED,PHASE_WORDS,loadingBar,phaseBar,phaseClosedToast,reconnectingBar} from '../../../design/phone-ui/components/phone-shell/phase-bars.mjs';
@@ -378,6 +378,24 @@ test('every intent reaches the call the game already makes, and nothing after di
  assert.deepEqual(calls,[]);
  // Without a reconnect, Retry does nothing.
  assert.doesNotThrow(()=>shellHandlers({}).onRetry());
+});
+
+test('a host sheet (the pre-game connection\'s Host controls) takes the Settings sheet\'s place, with its own footer, Back and Close',()=>{
+ const settings={id:'settings',kind:'settings',title:'Settings',sub:null,back:false,close:true,detent:'auto',actions:[]};
+ const host={id:'host-controls',title:'Host controls',back:true,close:true,detent:'large',actions:[{id:'abort',label:'Abort match',kind:'warn'}]};
+ assert.deepEqual(shellHostSheet(settings,host),{...host,kind:'host'});
+ assert.equal(shellHostSheet(settings,null),settings,'no host frame: Settings stays');
+ const actions={id:'action:VOTE',kind:'action',title:'Vote'};
+ assert.equal(shellHostSheet(actions,host),actions,'only in Settings\' place');
+ assert.equal(shellHostSheet(null,host),null,'nothing open: nothing');
+ // While it is open, the sheet's intents are the host sheet's; Close also closes Settings. Otherwise, as before.
+ const calls=[];let open=true;
+ const handlers=shellHandlers({openPanel:p=>calls.push(['openPanel',p]),confirm:()=>calls.push(['confirm']),dismiss:()=>calls.push(['dismiss']),closeList:()=>calls.push(['closeList']),
+  host:{open:()=>open,action:id=>calls.push(['host.action',id]),back:()=>calls.push(['host.back']),close:()=>calls.push(['host.close'])}});
+ handlers.onSheetAction('abort','host-controls');handlers.onSheetAction('confirm','host-controls');handlers.onSheetBack('host-controls');handlers.onSheetClose('host-controls');
+ open=false;
+ handlers.onSheetAction('confirm','pass');handlers.onSheetBack('windows');handlers.onSheetClose('settings');
+ assert.deepEqual(calls,[['host.action','abort'],['host.action','confirm'],['host.back'],['host.close'],['dismiss'],['confirm'],['openPanel','panels'],['dismiss']]);
 });
 
 test('the focus handed back: Cancel while choosing, else the control that opened it, else the first tab',()=>{

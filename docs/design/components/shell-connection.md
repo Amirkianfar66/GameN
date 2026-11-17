@@ -116,6 +116,10 @@ For a phase with no active player the bar's words are Designer's, held once in `
 - **A moment for "The ship moved".** The model holds `navigation.lastMovedRound`, but nothing in the app shows the move yet: ship travel (#269) is not connected. So `movedBar()` has no caller here; it comes with ship travel's connection.
 - **Why an office can't act.** With nothing open, that phone shows everyone's bar.
 
+## The host sheet (for the pre-game connection's part 8)
+
+`mountPlanetRenderer(root, controller, { …, hostSheet })` takes one more option, `hostSheet: { frame(), mount(body), action(id), back(), close(), toast() }`, for a sheet that opens from Settings and goes Back to it (the pre-game connection's Host controls, #295). While `frame()` gives a frame and Settings is the open sheet, that frame takes Settings' place (`shellHostSheet()` in `shell-input.mjs`, with `kind: 'host'`); the renderer mounts its body with `mount(body)`, and `shellHandlers` route that sheet's footer actions to `action(id)`, Back to `back()` and Close to `close()` and then the controller's dismiss, which closes Settings too. `toast()` gives the sheet's own toast once (Copied, a receipt), when the game gives none. Otherwise nothing changes. The test holds both.
+
 ## The round stamp's moment and clock (G18)
 
 The round stamp (#288, "ROUND 1" over the room as Round 1 begins) is mounted on the shell's cover by the Pre-game builder's connection (release 4). This connection gives it the two things it reads from the game:
