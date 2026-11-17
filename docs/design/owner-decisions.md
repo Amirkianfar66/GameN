@@ -244,12 +244,15 @@ After the Pre-game Animation builder's blockout comparison of a shared eye-level
 - Everyone was seen from the front or at three-quarter, never from behind, and every tag and tap passed at both phone sizes.
 - The people were small: 71–79 px tall across the room and 115–131 px beside you at 390 × 844, against about 330 px in today's room view. Floor lines bent.
 
+**The owner's correction, minutes later,** after the Lead read the message above as two people per view. Word for word:
+
+> Sorry i was saying for test we can see 3 people per view not 2
+
 **What it sets for the Room B test:**
 - **Four places, B1–B4,** around the walls, facing the open centre. B5 is left out of the test.
-- **Each view shows two of the other three:** the one opposite and one neighbour. All four cameras turn the same way, so each place is out of view for exactly one player.
-- **The one out of view, when that place is filled,** is marked at the edge of the view with their number and name. Tapping the marker works like tapping the person, so targets and the Blackout work as before. No rule changes.
-- **A straight lens,** the narrowest that holds the two whole.
-- **The order:** a blockout of the four views, the Lead's check, then the four generated pictures and a test page for the owner.
+- **Each view shows all three others.** The one place a player can't see is their own: the camera is at their eye, and their own body isn't drawn.
+- **The lens:** on a ring of four, each station takes in about 90° plus the people's widths. The blockout measures a straight lens and a curved panorama, and the one that keeps the people largest without visibly stretching them is used.
+- **The order:** a blockout of the four views, the Lead's check, then the four generated pictures and a test page for the owner, with today's Room B view beside them for scale.
 
 **What it does not settle:** the game's room capacities stay as recorded above (Room A and Room B hold five) unless the owner changes them. If per-place views are chosen for the game, a room of five needs either a fifth view or a limit of four.
 
