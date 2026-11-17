@@ -1,0 +1,65 @@
+@import url("../kit/kit.css");
+@import url("../play-parts/play-parts.css");
+/*
+ * Actions (actions.mjs): the layout of its sheets' content. Runtime source, Designer's. The pack's own values
+ * (design/phone-ui/prototype/screens.css .section-head, .tiles, .offroom-list, .after), on the kit's tokens.
+ * The time line is the parts' (../play-parts); the tile, who, the facts and the notice are the kit's, which the
+ * parts hand on (component-kit-0.6.0 and 0.7.0), as are the section head, the rows, lists, group labels and notes,
+ * the stamp, the portraits and the inline error; the sheet's frame and its buttons are the shell's.
+ *
+ * Scope: every rule is under the component's root (.ms-actions, which is also .ms-kit) and names a class of its
+ * own, so it weighs two classes and outranks the kit and the parts (one class each), whatever order the
+ * stylesheets load in (kit.md).
+ */
+
+/* ── The root: it fills the sheet's body, and adds nothing to it ─────── */
+.ms-actions.ms-kit { display: block; }
+.ms-actions.ms-kit:focus { outline: none; }
+.ms-actions.ms-kit [hidden] { display: none; }
+
+/* ── The tiles (sheet 28: screens.css .tiles; the turn head is the kit's section head) ── */
+.ms-actions .ms-ac-tiles-wrap { container: ms-ac-tiles / inline-size; }
+.ms-actions .ms-ac-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+
+/*
+ * With less room (the Lead's L3): the tiles stay three to a row at Large (150 %, sheet 53) and on 320 × 568
+ * (sheet 50), and their words wrap; narrower, they go two to a row; under 13 em, one per row as a list row (the
+ * icon, the name and the state line), as the kit's 3 × 3 does.
+ */
+@container ms-ac-tiles (max-width: 14.5em) {
+  .ms-actions .ms-ac-tiles { grid-template-columns: repeat(2, 1fr); }
+}
+@container ms-ac-tiles (max-width: 13em) {
+  .ms-actions .ms-ac-tiles { grid-template-columns: 1fr; gap: 6px; }
+  /* A list row: the icon on the left; the name with the count, the line and the REGISTERED mark beside it, centred
+     as a group by the spacer rows above and below, whichever of them the tile has. */
+  .ms-actions .ms-ac-tiles .ms-k-tile { display: grid; grid-template-columns: 46px minmax(0, 1fr) auto; grid-template-rows: 1fr auto auto auto 1fr;
+    grid-template-areas: "icon . ." "icon name badge" "icon note note" "icon mark mark" "icon . ."; column-gap: 12px; row-gap: 0; align-items: center;
+    min-height: 62px; padding: 8px 12px 8px 8px; text-align: left; }
+  .ms-actions .ms-ac-tiles .ms-k-tile-icon { grid-area: icon; align-self: center; }
+  .ms-actions .ms-ac-tiles .ms-k-tile-name { grid-area: name; min-width: 0; overflow-wrap: anywhere; }
+  .ms-actions .ms-ac-tiles .ms-k-tile-note { grid-area: note; min-width: 0; margin-top: 2px; overflow-wrap: anywhere; }
+  .ms-actions .ms-ac-tiles .ms-k-tile-badge { grid-area: badge; position: static; justify-self: end; }
+  .ms-actions .ms-ac-tiles .ms-k-tile-stamp { grid-area: mark; position: static; justify-self: start; margin-top: 6px; transform: rotate(-6deg); }
+}
+
+/* ── The list (sheet 29: screens.css .offroom-list) ──────────────────── */
+.ms-actions .ms-ac-list .ms-k-row .ms-k-pt { width: 40px; height: 40px; }
+/* The first pick (Supply, the Lead's L4): its row marked, its words in the accent. */
+.ms-actions .ms-ac-list .ms-k-row[data-picked] .ms-k-row-value { color: var(--ms-k-accent); font-weight: 600; }
+
+/* ── The check (27.2, 29): its inline error, when the server did not accept it (L6) ── */
+.ms-actions .ms-ac-error { margin-top: 14px; }
+
+/* ── After Register (29, 29.1, 29.2: screens.css .after) ─────────────── */
+.ms-actions .ms-ac-after { display: flex; flex-direction: column; gap: 12px; padding: 10px 0 4px; }
+.ms-actions .ms-ac-after-head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.ms-actions .ms-ac-after-head h3 { margin: 0; font: 700 1.125rem/1.3 var(--ms-k-font); color: var(--ms-k-text); }
+.ms-actions .ms-ac-after-detail { margin: 0; font: 500 0.9375rem/1.4 var(--ms-k-font); color: var(--ms-k-text-2); }
+/* The stamp snaps in as After Register opens (the handoff's motion table: 120 ms). */
+@keyframes ms-ac-stamp-in { from { opacity: 0; scale: 1.3; } }
+.ms-actions .ms-ac-after-head .ms-k-stamp { animation: ms-ac-stamp-in 120ms var(--ms-k-ease) both; }
+
+/* ── Reduce motion: the game's (data-motion="reduced" on the root) or the device's: the stamp is there at once ── */
+.ms-actions.ms-kit[data-motion="reduced"] .ms-ac-after-head .ms-k-stamp { animation: none; }
+@media (prefers-reduced-motion: reduce) { .ms-actions .ms-ac-after-head .ms-k-stamp { animation: none; } }
