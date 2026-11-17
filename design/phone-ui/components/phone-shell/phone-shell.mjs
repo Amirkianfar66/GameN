@@ -18,12 +18,15 @@
 // the public match status; the Promises count, the tabs, the target bar, the chip, the sheet, the
 // toast and an eliminated player's banner are this viewer's own, and the shell drops them when it is
 // concealed or its viewer changes.
+//
+// The words of a phase bar are not the shell's to choose: phase-bars.mjs (0.2.10) holds the pack's for
+// each game step, and returns this file's `bar` input from the facts Frontend gives.
 
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
 import { createControlPolicy, createKit } from '../kit/kit.mjs';
 
-export const PHONE_SHELL_VERSION = 'phone-shell-0.2.9';
+export const PHONE_SHELL_VERSION = 'phone-shell-0.2.10';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const KINDS = Object.freeze(['turn', 'phase', 'pair']);
 const HERO_MODES = Object.freeze(['pass', 'vote', 'voted']);
