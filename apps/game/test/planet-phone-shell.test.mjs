@@ -288,8 +288,13 @@ test('a pass: "Pass your turn?" with Cancel and Pass, then "Turn passed" once, a
  assert.equal(sending.actions[0].enabled,false);
  const accepted=model({action:action('PASS_TURN','accepted',[],{prompt:'Registered. Waiting for the authoritative view.'})});
  assert.equal(shellSheet(accepted),null);
- assert.deepEqual(shellToast(accepted),{id:'pass:turn-1',text:'Turn passed',icon:'info'});
- assert.equal(shellToast(confirm),null);assert.equal(shellToast({...accepted,surface:'display'}),null);
+ // "Turn passed" comes with the view that shows the turn has moved on, through this phone's own pass (actions-input.mjs
+ // actionsFlow; planet-actions.test.mjs holds its orderings), not at the accepted step alone.
+ assert.equal(shellToast(accepted),null);
+ const passFlow={match:accepted.matchId,viewer:'seat-4',type:'PASS_TURN',phase:'turn-1',seats:[],slot:null,room:null,stage:'passed',seen:'turn-2'};
+ const nextTurn=model({phase:{...turn,id:'turn-2'},activeSeatId:'seat-5'});
+ assert.deepEqual(shellToast(nextTurn,{flow:passFlow}),{id:'pass:turn-1',text:'Turn passed',icon:'info'});
+ assert.equal(shellToast(confirm),null);assert.equal(shellToast({...nextTurn,surface:'display'},{flow:passFlow}),null);
 });
 
 test('the sheet\'s frame for each open panel and action; the body stays the game\'s',()=>{

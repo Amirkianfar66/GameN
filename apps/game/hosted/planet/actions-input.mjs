@@ -43,6 +43,8 @@ const player=model=>model.surface==='player'&&!model.concealed;
 export const slotLocation=slot=>{const room=BOARD_ROOMS.find(id=>slotsOf(id,9).some(s=>s.id===slot));return room?LOCATION_OF[room]:null;};
 /** Where the viewer stands on the public board ("Room B"), or null off the board. */
 export const ownLocation=model=>model.board?.seats?.find(seat=>seat.seatId===model.ownSeatId)?.location??null;
+/** Whether the view shows the turn has moved past the viewer since this phone's pass: its phase ended, or another seat is active. */
+const turnPassed=(model,flow)=>model.phase?.id!==flow.phase||model.activeSeatId!==model.ownSeatId;
 /** Whether the public board has the viewer at the position this phone's move picked (and in its room, when known). */
 const movedThere=(model,flow)=>{const seat=model.board?.seats?.find(s=>s.seatId===model.ownSeatId);return !!seat&&!!flow?.slot&&seat.slotId===flow.slot&&(!flow.room||seat.location===flow.room);};
 /** A person as the parts take them: the seat, the display name (or "Player n"), the crew character and where the public board has them. */
@@ -68,9 +70,11 @@ const withKind=(frame,kind)=>({sub:null,back:false,close:true,detent:'auto',acti
  * say which). It is dropped once the action ends, when concealed, and for a new viewer or match.
  * A move is held a little longer, within its phase: its toast waits until the public board has the viewer at the
  * position. The controller's accepted step exists only when the receipt comes before the next view, and lasts one
- * revision (A5), so the view that moves the viewer can come after it, or instead of it.
+ * revision (A5), so the view that moves the viewer can come after it, or instead of it. A pass likewise: its toast
+ * waits for the view that shows the turn has moved past the viewer. A pass ends its turn's phase, and the controller
+ * clears an in-flight send at a phase change, so that view can come after the accepted step, or instead of it.
  *   stage: choosing (targets, slots), checking (confirm), sent (sending), accepted, unknown, retry (sending again),
- *   moved (a move the board now shows)
+ *   moved (a move the board now shows), passed (a pass the view now shows; `seen`, the phase it was first shown in)
  */
 export function actionsFlow(flow,model){
  if(!player(model)||!model.ownSeatId)return null;
@@ -81,6 +85,13 @@ export function actionsFlow(flow,model){
   if(mine&&flow.type==='MOVE'&&flow.phase===phase){
    if(['sent','accepted','moved'].includes(flow.stage)&&movedThere(model,flow))return {...flow,stage:'moved'};
    if(flow.stage==='accepted')return flow;
+  }
+  // This phone's pass, once its send has settled: said when the view shows the turn has moved past the viewer, kept
+  // through that view's phase; an accepted one waits for that view.
+  if(mine&&flow.type==='PASS_TURN'){
+   if(flow.stage==='passed')return flow.seen===phase?flow:null;
+   if(['sent','accepted'].includes(flow.stage)&&turnPassed(model,flow))return {...flow,stage:'passed',seen:phase};
+   if(flow.stage==='accepted'&&flow.phase===phase)return flow;
   }
   return null;
  }
@@ -233,9 +244,11 @@ export function actionsToast(model,{flow=null}={}){
  const action=model.action,phase=model.phase?.id??'';
  // A move: "Moved to B5" with, or after, the view that has the viewer there (Q2; the Lead, 17 November), never before it.
  if(flow?.type==='MOVE'&&flow.stage==='moved'&&flow.slot&&(!action||action.type==='MOVE'))return movedToast({slot:flow.slot,id:`MOVE:${phase}:${flow.slot}`});
+ // A pass: "Turn passed" with, or after, the view that shows the turn has moved past the viewer (the Lead, 17
+ // November), once: its id is the pass's own phase.
+ if(flow?.type==='PASS_TURN'&&flow.stage==='passed'&&(!action||action.type==='PASS_TURN'))return passedToast({id:`pass:${flow.phase}`});
  if(action?.step!=='accepted'||!HELD.has(action.type))return undefined;
- if(action.type==='PASS_TURN')return passedToast({id:`pass:${phase}`});
- if(action.type==='MOVE')return null;
+ if(action.type==='PASS_TURN'||action.type==='MOVE')return null;
  if(TOAST_ONLY.has(action.type))return registeredToast({type:action.type,id:`${action.type}:${phase}`});
  return null;
 }

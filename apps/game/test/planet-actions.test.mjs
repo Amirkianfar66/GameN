@@ -115,7 +115,11 @@ test('the target bar and the chip: a person, Supply\'s second, a move\'s positio
  const targeting={windowId:'w',boundRoom:'Room A',selectable:true,selectedSlotId:null,slotIds:['A1','A2','A3']};
  const dark=over=>model({dark:true,panel:'actions',privateArea:{blackoutTargeting:targeting,offers:[]},...over});
  for(const step of ['slots','sending','accepted'])assert.deepEqual(actionsTarget(dark({action:action('SELECT_BLACKOUT_SLOT',step,['A1'])})),{icon:'position',title:'Choose a position',sub:'Room A · any position, even empty'},step);
- assert.deepEqual(actionsTarget(dark({privateArea:{blackoutTargeting:{...targeting,selectable:false,selectedSlotId:'A3'}}})),{icon:'position',title:'Position A3 fixed',sub:'Resolves after the window · no effect shown now'});
+ // Once fixed the bar is final, with no Cancel (actions-0.2.4: the owner's approval of 17 November, #280 at f0066a7c);
+ // the shell takes it as it is (shell 0.2.12's target.cancel: false).
+ const fixedBar=actionsTarget(dark({privateArea:{blackoutTargeting:{...targeting,selectable:false,selectedSlotId:'A3'}}}));
+ assert.deepEqual(fixedBar,{icon:'position',title:'Position A3 fixed',sub:'Resolves after the window · no effect shown now',cancel:false});
+ assert.equal(kept({target:fixedBar}).target.cancel,false);
  assert.equal(actionsTarget(dark({})),undefined);
  // The other commands keep the shell connection's bar.
  for(const type of ['BLOCK_MOVE','APPOINT_OFFICER','SCAN'])assert.equal(actionsTarget(model({action:action(type,'targets',['seat-1'])})),undefined,type);
@@ -132,8 +136,30 @@ test('the target bar and the chip: a person, Supply\'s second, a move\'s positio
  assert.ok(kept({viewer:'seat-4',target:actionsTarget(model({action:rescue})),chip:actionsChip(model({action:rescue}),{view:'room',room:'room-b'})}).chip);
 });
 
-test('the toasts once the server accepts: "Turn passed", "Moved to B4" once the board has the viewer there, Hack Ship\'s and Blackhole\'s',()=>{
- assert.deepEqual(actionsToast(model({action:action('PASS_TURN','accepted')})),{id:'pass:turn-1',text:'Turn passed',icon:'info'});
+test('the toasts: "Turn passed" once the view has moved the turn on, "Moved to B4" once the board has the viewer there, Hack Ship\'s and Blackhole\'s',()=>{
+ // A pass: "Turn passed" with, or after, the view that shows the turn has moved past the viewer (the Lead, 17 November).
+ const passing=model({action:action('PASS_TURN','confirm',[],{canConfirm:true})});
+ const passSent=through({model:passing},{model:model({action:action('PASS_TURN','sending')})});
+ const nextTurn=model({phase:{...turn,id:'turn-2'},activeSeatId:'seat-5'}),passedSaid={id:'pass:turn-1',text:'Turn passed',icon:'info'};
+ // The receipt first: accepted while it is still the viewer's turn, so no toast yet; the next turn's view says it, once.
+ const passAccepted=model({action:action('PASS_TURN','accepted')}),passWaiting=actionsFlow(passSent,passAccepted);
+ assert.equal(passWaiting.stage,'accepted');
+ assert.equal(actionsToast(passAccepted,{flow:passWaiting}),null);
+ assert.equal(actionsFlow(passWaiting,model()).stage,'accepted');
+ const passed=actionsFlow(passWaiting,nextTurn);
+ assert.equal(passed.stage,'passed');
+ assert.deepEqual(actionsToast(nextTurn,{flow:passed}),passedSaid);
+ assert.deepEqual(actionsToast(nextTurn,{flow:actionsFlow(passed,nextTurn)}),passedSaid,'the same id, so the shell shows it once');
+ // Another seat active in the same phase is the turn moved on too.
+ assert.equal(actionsFlow(passWaiting,model({activeSeatId:'seat-5'})).stage,'passed');
+ // The view first: the controller clears the in-flight send at the phase change; the next turn's view says it.
+ assert.deepEqual(actionsToast(nextTurn,{flow:actionsFlow(passSent,nextTurn)}),passedSaid);
+ // Not accepted: still the viewer's turn, so the flow ends with no toast. A later phase drops a pass already said.
+ assert.equal(actionsFlow(passSent,model()),null);
+ assert.equal(actionsFlow(passed,model({phase:{...turn,id:'turn-3'},activeSeatId:'seat-6'})),null);
+ // Without this phone's own pass there is none to say.
+ assert.equal(actionsToast(model({action:action('PASS_TURN','accepted')})),null);
+ assert.equal(actionsToast(nextTurn),undefined);
  // A move: "Moved to B4" with, or after, the view that has the viewer there, never before it (Q2; the Lead, 17 November).
  const moving=model({action:action('MOVE','slots',['B4'],{selected:['Room B']})});
  const sent=through({model:moving},{model:moving,pick:{slot:'B4'}},{model:model({action:action('MOVE','sending')})});
@@ -376,8 +402,12 @@ test('the shell\'s input for Actions\' steps is the component\'s, accepted by th
  const input=shellInput(flowModel,{view:'room',room:'room-b',flow:null});
  assert.equal(input.sheet.id,'action-check');assert.equal(input.target,null);
  assert.equal(kept(input).sheet.actions[1].label,'Register Rescue');
+ // A pass: no sheet once accepted; "Turn passed" comes with the view that moves the turn on, through this phone's flow.
  const passed=shellInput(model({action:action('PASS_TURN','accepted')}),{view:'room',room:'room-b'});
- assert.deepEqual([passed.sheet,passed.toast],[null,{id:'pass:turn-1',text:'Turn passed',icon:'info'}]);
+ assert.deepEqual([passed.sheet,passed.toast],[null,null]);
+ const passFlow=through({model:model({action:action('PASS_TURN','confirm',[],{canConfirm:true})})},{model:model({action:action('PASS_TURN','sending')})});
+ const nextTurn=model({phase:{...turn,id:'turn-2'},activeSeatId:'seat-5'});
+ assert.deepEqual(shellInput(nextTurn,{view:'room',room:'room-b',flow:actionsFlow(passFlow,nextTurn)}).toast,{id:'pass:turn-1',text:'Turn passed',icon:'info'});
  // Concealed: the shell drops this viewer's inputs, and no part has a frame to mount in.
  const hidden=model({concealed:true,panel:'actions',action:action('RESCUE','confirm'),recovery:{status:'unknown',canCheck:false,canRetry:false}});
  for(const value of [actionsFrame(hidden),actionsTarget(hidden),actionsChip(hidden,{view:'room',room:'room-b'}),actionsToast(hidden),actionsFlow(null,hidden)])assert.ok(value==null);

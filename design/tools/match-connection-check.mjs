@@ -16,8 +16,8 @@
 //   suppress, blackhole         actions with no person: the Engineer's CAPTURED; the Alien's Blackhole, a toast and its tile
 //   move, move-check, moved     Move in the viewer's own room, its check (Cancel back to choosing), "Moved to B5" once the board has you there
 //   move-board                  Move on the board, and another room's position from its caption
-//   pass                        "Pass your turn?", then "Turn passed"
-//   blackout, blackout-fixed    the Disabler's positions in the dark, fixed with one tap; "Position A3 fixed"
+//   pass                        "Pass your turn?", then "Turn passed" with the next turn
+//   blackout, blackout-fixed    the Disabler's positions in the dark, fixed with one tap; "Position A3 fixed", no Cancel
 //   reconnecting, concealed     nothing of this viewer's action stays: the sheet closes; a hidden page keeps no name
 // A capture passes with no unexpected policy report, no failed request and no page error; the shell mounted with
 // the stage in it and none of the old chrome; and the state's own facts. It writes
@@ -439,11 +439,19 @@ const STATES = {
       await page.waitFor(`${SHEET('pass')}&&${PART('pass')}`, 'Pass your turn?');
     },
     facts: s => ({ sheet: s.sheet?.title === 'Pass your turn?' && !s.sheet.close && foot(s) === 'cancel:Cancel|pass:Pass', confirmStep: s.model?.action?.type === 'PASS_TURN' && s.model.action.step === 'confirm', noCommandYet: s.commands.length === 0 }),
+    // "Turn passed" with, or after, the view that moves the turn on (the Lead, 17 November). The harness answers with an
+    // accepted receipt and moves nothing, so it plays the server's part: the receipt alone gives no toast; then the next
+    // turn, another seat's, does.
     after: async page => {
       await page.evaluate(tap(FOOT('pass')));
-      await page.waitFor("document.querySelector('.ms-ps-toast')", 'the pass registered');
+      await page.waitFor(`${game}.getModel().action?.type==='PASS_TURN'&&${game}.getModel().action.step==='accepted'`, 'the receipt, while it is still your turn');
+      await sleep(600);
+      const before = await page.evaluate(LOOK);
+      await page.evaluate(edit("p.phase={id:p.phase.id+'-next',kind:'ORDINARY_TURN',startedAt:now,endsAt:now+60000};p.activeSeatId=p.board.seats.find(s=>s.seatId!==p.self.seatId&&s.health!=='Eliminated').seatId;p.offers=p.offers.filter(o=>o.type!=='PASS_TURN')"));
+      await page.waitFor("document.querySelector('.ms-ps-toast')", 'the toast, with the next turn');
       const seen = await page.evaluate(LOOK);
-      return { passSent: seen.commands.map(c => c.type).join() === 'PASS_TURN', toast: seen.toast === 'Turn passed', sheetClosed: seen.sheet === null };
+      return { passSent: seen.commands.map(c => c.type).join() === 'PASS_TURN', notBefore: before.toast === null, toast: seen.toast === 'Turn passed',
+        turnMoved: seen.bar?.kind === 'turn' && seen.bar.name !== 'Your turn', sheetClosed: seen.sheet === null };
     } },
   // ── The Disabler's position during a Blackout (sheet 30; 0.2.2) ──
   blackout: { page: 'phone', url: 'scenario=blackout', steps: async page => {
@@ -453,7 +461,7 @@ const STATES = {
       await page.evaluate(tap('#planet-action-SELECT_BLACKOUT_SLOT'));
       await page.waitFor(`document.querySelector('.ms-ps-target')&&document.querySelector(${JSON.stringify(SLOT('A3'))})`, 'the positions');
     },
-    facts: s => ({ bar: s.target?.title === 'Choose a position' && s.target.sub === 'Room A · any position, even empty', slots: s.stage.slots.join() === 'A1,A2,A3,A4,A5', dark: s.stage.lighting === 'dark', noSheet: s.sheet === null, noChip: s.chip === null }),
+    facts: s => ({ bar: s.target?.title === 'Choose a position' && s.target.sub === 'Room A · any position, even empty', cancel: !!s.target?.cancel, slots: s.stage.slots.join() === 'A1,A2,A3,A4,A5', dark: s.stage.lighting === 'dark', noSheet: s.sheet === null, noChip: s.chip === null }),
     after: async page => {
       // One tap fixes it, as sheet 30 draws it: choose, then the controller's confirm.
       await page.evaluate(tap(SLOT('A3')));
@@ -467,7 +475,8 @@ const STATES = {
       await page.evaluate(edit("p.blackoutTargeting={...p.blackoutTargeting,selectable:false,selectedSlotId:'A3'};p.offers=[]"));
       await page.waitFor("document.querySelector('.ms-ps-target b')?.textContent==='Position A3 fixed'", 'Position A3 fixed');
     },
-    facts: s => ({ bar: s.target?.title === 'Position A3 fixed' && s.target.sub === 'Resolves after the window · no effect shown now', marked: s.stage.slots.includes('A3*'), noSheet: s.sheet === null }) },
+    // The fixed bar is final, with no Cancel (actions-0.2.4: the owner's approval of 17 November, #280 at f0066a7c).
+    facts: s => ({ bar: s.target?.title === 'Position A3 fixed' && s.target.sub === 'Resolves after the window · no effect shown now', noCancel: !!s.target && s.target.cancel === null, marked: s.stage.slots.includes('A3*'), noSheet: s.sheet === null }) },
   // ── Reconnecting and hidden: nothing of this viewer's action stays ──
   reconnecting: { page: 'phone', url: 'scenario=doctor', steps: async page => {
       await page.evaluate(tap(TAB('actions')));
