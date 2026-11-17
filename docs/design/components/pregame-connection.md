@@ -3,7 +3,7 @@
 **Status (17 November 2026):** a draft, in progress, for the Lead Designer's review, then Frontend's. It is not in the game yet.
 - Integration first approves the source fence's marked hunk and the pins that refuse the changed files (see [The gates](#the-gates)).
 - This is not a release. It is release 4 of the owner's plan of 16 November 2026 (#222; `docs/design/owner-decisions.md` at `d54c15bd`).
-- It is stacked on the [shell connection](shell-connection.md) (#307), merged last at `85054694` (#307 at `aabb4417`: shell 0.2.12, kit 0.8.2, room scene 0.5.1, the host sheet hook). The parts come in by merge commits: the entry chain (#295 at `ea7db89d`, with #294, #291, #289, #287 and #278 and their `followTextSize`, and host-controls 0.1.1), character selection (#292 at `a5590266`), the role stage (#268 at `c20cac9f`), boarding (#272 at `3efbd4e7`) and the round stamp (#288 at `8be96ef7`).
+- It is stacked on the [shell connection](shell-connection.md) (#307), merged last at `bf67ab4d` (#307 at `f81cd06a`: shell 0.2.12, kit 0.8.2, room scene 0.5.1, the host sheet hook, and part 8's sheet rules, which #307 carries since `211b5b58`). The parts come in by merge commits: the entry chain (#295 at `ea7db89d`, with #294, #291, #289, #287 and #278 and their `followTextSize`, and host-controls 0.1.1), character selection (#292 at `a5590266`), the role stage (#268 at `c20cac9f`), boarding (#272 at `3efbd4e7`) and the round stamp (#288 at `8be96ef7`).
 
 **What it is:** before the match, the Planet app mounts Designer's pre-game components as they are, one at a time in its root, instead of its own forms. The look and the motion come from `design/`; the app keeps the data, the commands and the lifecycle.
 
@@ -100,7 +100,7 @@ The match's ⋮ opens the shell's Settings sheet. Today it held the preferences'
 - **Copy:** "Copied" in the toast; refused by the clipboard, "Select the code to copy." while the code stays selectable (the Lead, 17 November, the lobby's rule).
 - **Retry** (host-controls 0.1.1, the Lead's answer of 17 November): while the session's own request has an unknown outcome (a lost answer, or one restored after a reload as an exact retry), every command is refused with the session's words and the list's footer has Retry, which calls `session.retry()`. It was today's "Retry original session request", inside the old host controls. The sheet keeps its own request while the outcome is unknown (`hostSettle` in `pregame-input.mjs`), so a Retry of it settles as the request would have: its receipt, and for a code, the card of the seat this phone asked for.
 - **Admit leaves the match's Settings:** the server refuses admissions outside the lobby (`approveAdmission`), so the old buttons could only fail.
-- **The sheet's old rules keep off:** the match's sheet body (`.planet-sheet-body`) carried the game's rules for its own `p` and `button`, which outranked the kit's and reached into both components (the comparison showed it: the text sizes drawn as three dark buttons with none chosen). They now keep off a `.ms-kit` root in the sheet body (`phone.css`, `planet.css`).
+- **The sheet's old rules keep off** (#307 carries the same selectors since `211b5b58`, as the Lead asked, with the comment's wording that #307 gives): the match's sheet body (`.planet-sheet-body`) carried the game's rules for its own `p` and `button`, which outranked the kit's and reached into both components (the comparison showed it: the text sizes drawn as three dark buttons with none chosen). They now keep off a `.ms-kit` root in the sheet body (`phone.css`, `planet.css`).
 - **A request restored after a reload** isn't the sheet's: the session keeps it privately, with no seat in its model. Retry settles it with no receipt and no card, so a code the phone can't tie to its own request never opens (the Lead's (a), 17 November); the host asks for a new code.
 
 ## The boundary
@@ -154,12 +154,14 @@ Its in-match steps are the shell connection's: the Lead doubled them with the sh
 - **The pre-game run found one real difference, fixed in `73d9de4b`:** on the empty Join form, sheet 12 draws Ask to join unavailable, and the connection offered it. Ask now follows the draft (above); the run on `f15913a7` showed the old Ask, this one the pack's.
 - **What differs, all known:** the harness's sample data (Crew 1–9, PLANET, the Hacker, the counts chosen, the pack's "K7" typed); the pack's frames carry safe areas, so its bars sit lower; in host setup, no team mix line (G1); on the role card, no fact lines (G7); Leave and Cancel dimmed (G6) and no host row for a seatless host device (G15); Recover's code box without a length (G4); the role film is today's player, as decided.
 
+**Since `07993d26`,** the code has changed only in two comments, which come with #307 at `f81cd06a` (merged at `bf67ab4d`): the sheet rules' comment in `phone.css`, in #307's wording, and a doc comment moved in `shell-input.mjs`. The selectors and the rest are byte-identical, so the check, the emulator run and the comparison above stand for the rendered inputs.
+
 ### Not run
 
 - Physical phones, Safari, screen readers and a live match.
 
 ## Open
 
-- **For the Lead:** part 8's review; the sheet rules (`5a2b274e`) go to #307 too, as the Lead asked, and merge here identically with #307's next head.
+- **For the Lead:** part 8's review. The sheet rules are #307's too since `211b5b58`, merged here at `bf67ab4d`.
 - **For Integration:** the fence hunk and the pins.
 - **For Frontend:** the review of `app.mjs`, `preferences.mjs` and the emulator run's steps.
