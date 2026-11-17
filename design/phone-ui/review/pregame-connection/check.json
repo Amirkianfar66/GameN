@@ -2,7 +2,7 @@
   "tool": "design/tools/pregame-connection-check.mjs",
   "what": "The Planet app's screens before the match drawn by Designer's pre-game components, in Frontend's phone harness (apps/game/dev/phone) built from the candidate below",
   "candidate": {
-    "commit": "73d9de4bdee6e009057ce310f9e2f1298df492ed",
+    "commit": "07993d2615bba1d2acb3f4baa972b44e79801324",
     "clean": true,
     "dirty": []
   },
@@ -102,7 +102,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -167,7 +167,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -372,7 +372,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -486,7 +486,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -628,12 +628,524 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
           }
         ]
+      },
+      "problems": []
+    },
+    "390x844/host-abort": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "title": true,
+        "confirm": true,
+        "footer": true,
+        "notSent": true,
+        "keepBack": true,
+        "abortSent": true,
+        "reopensSettings": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-host-abort.jpg",
+      "sha256": "21fdaa9e9a621f6b560e085a007ddff9e65bb18aa4f2a0c6de7ec06109856ae7",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "advance",
+          "issueRecovery"
+        ],
+        "reads": 11,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-CTbFmVE5.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Host controls",
+        "sub": null,
+        "words": "Abort the match?It ends now for everyone, with no winner.",
+        "controls": [
+          {
+            "label": "Back",
+            "intent": "sheet-back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Keep playing",
+            "intent": "sheet-local",
+            "value": "keep",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Abort match",
+            "intent": "sheet-action",
+            "value": "abort",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": false,
+        "host": true,
+        "card": null,
+        "matchId": null,
+        "code": null,
+        "revealed": null,
+        "toast": null,
+        "focus": "menu",
+        "focusValue": null,
+        "secretInPage": false,
+        "old": 0,
+        "sent": [
+          "advance",
+          "issueRecovery:seat-6"
+        ],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
+      },
+      "problems": []
+    },
+    "390x844/host-code": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "title": true,
+        "issued": true,
+        "card": true,
+        "masked": true,
+        "note": true,
+        "noMinutes": true,
+        "footer": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-host-code.jpg",
+      "sha256": "98e4f53134d3c752a5ad1a4c89b87405bc4b8048396e29de7dd0ca659cfe3efe",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "advance",
+          "issueRecovery"
+        ],
+        "reads": 7,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-CTbFmVE5.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Recovery code",
+        "sub": "Private to this phone",
+        "words": "Recovery for Player 6 · Crew 6Match IDplanet-localCode•••••• •••••• •••••• •••••• ••••••Show it only to Player 6. It never appears on the shared display.",
+        "controls": [
+          {
+            "label": "Back",
+            "intent": "sheet-back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Reveal",
+            "intent": "sheet-local",
+            "value": "reveal",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Copy",
+            "intent": "sheet-local",
+            "value": "copy",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": false,
+        "host": true,
+        "card": "Recovery for Player 6 · Crew 6",
+        "matchId": "planet-local",
+        "code": "•••••• •••••• •••••• •••••• ••••••",
+        "revealed": false,
+        "toast": null,
+        "focus": "menu",
+        "focusValue": null,
+        "secretInPage": false,
+        "old": 0,
+        "sent": [
+          "advance",
+          "issueRecovery:seat-6"
+        ],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
+      },
+      "problems": []
+    },
+    "390x844/host-code-revealed": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "revealed": true,
+        "footer": true,
+        "copied": true,
+        "toast": true,
+        "refusedCopy": true,
+        "hidden": true,
+        "backToList": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-host-code-revealed.jpg",
+      "sha256": "557d46bb71119c3ffef51d7f00b489da55bd1de861f469f3c30c11a1f8300c94",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "advance",
+          "issueRecovery"
+        ],
+        "reads": 7,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-CTbFmVE5.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Recovery code",
+        "sub": "Private to this phone",
+        "words": "Recovery for Player 6 · Crew 6Match IDplanet-localCodeSYNTHETIC-RECOVERY-CODEShow it only to Player 6. It never appears on the shared display.",
+        "controls": [
+          {
+            "label": "Back",
+            "intent": "sheet-back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Hide",
+            "intent": "sheet-local",
+            "value": "hide",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Copy",
+            "intent": "sheet-local",
+            "value": "copy",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": false,
+        "host": true,
+        "card": "Recovery for Player 6 · Crew 6",
+        "matchId": "planet-local",
+        "code": "SYNTHETIC-RECOVERY-CODE",
+        "revealed": true,
+        "toast": null,
+        "focus": "menu",
+        "focusValue": null,
+        "secretInPage": true,
+        "old": 0,
+        "sent": [
+          "advance",
+          "issueRecovery:seat-6"
+        ],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
+      },
+      "problems": []
+    },
+    "390x844/host-controls": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "title": true,
+        "back": true,
+        "close": true,
+        "commands": true,
+        "seats": true,
+        "noCode": true,
+        "noOldControls": true,
+        "deadlineSent": true,
+        "receipt": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-host-controls.jpg",
+      "sha256": "978895ad7f1fcc685540f55e026b48fc9b88bf5bb27a69a53859bd8017239ec3",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 4,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-CTbFmVE5.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Host controls",
+        "sub": null,
+        "words": "Check the deadlineAsks the server to move on if time is upRun botsBots act if they canRecovery codes1 · Crew 1New code3 · Crew 3New code6 · Crew 6New codeAbort matchEnds with no winner",
+        "controls": [
+          {
+            "label": "Back",
+            "intent": "sheet-back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Check the deadlineAsks the server to move on if time is up",
+            "intent": "deadline",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Run botsBots act if they can",
+            "intent": "bots",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "1 · Crew 1New code",
+            "intent": "issue-recovery",
+            "value": "1",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "3 · Crew 3New code",
+            "intent": "issue-recovery",
+            "value": "3",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "6 · Crew 6New code",
+            "intent": "issue-recovery",
+            "value": "6",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Abort matchEnds with no winner",
+            "intent": "abort-ask",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": false,
+        "host": true,
+        "card": null,
+        "matchId": null,
+        "code": null,
+        "revealed": null,
+        "toast": null,
+        "focus": "menu",
+        "focusValue": null,
+        "secretInPage": false,
+        "old": 0,
+        "sent": [],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
       },
       "problems": []
     },
@@ -786,7 +1298,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -929,7 +1441,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1067,7 +1579,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1087,7 +1599,7 @@
         "leaveOff": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-join-admitted.jpg",
-      "sha256": "5339fc1d52215c1d96bb3b89d7d2e93cbeafef554f79b506dd411e0cff8d4d51",
+      "sha256": "be982ee01f30ae6cdef1caa1dffdf7560e68a15fda96a24d0b9e8260f2299cb3",
       "seen": {
         "screen": "join-wait",
         "component": "ms-join-wait ms-kit ms-k-phone ms-entry-parts",
@@ -1146,7 +1658,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1244,7 +1756,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1378,7 +1890,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1486,7 +1998,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1586,7 +2098,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1684,7 +2196,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1708,12 +2220,12 @@
         "standing": true,
         "one": true,
         "onTheServersWindow": true,
-        "atMountMs": 186,
+        "atMountMs": 188,
         "goneByItself": true,
         "disposedInRound2": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-round-stamp.jpg",
-      "sha256": "c2a96ff9f592ca7a151ed36ca8780f8159289546c955a374eec6d4fbfa6fdb93",
+      "sha256": "df918911f2cb247ef0d2512888c0aa872ebd97838c96bdc9f80d8e815b139124",
       "seen": {
         "screen": null,
         "component": null,
@@ -1749,7 +2261,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1770,7 +2282,7 @@
         "nothingDrawn": true
       },
       "file": "design/phone-ui/review/pregame-connection/390x844-round-stamp-late.jpg",
-      "sha256": "76180bfef061bb749495cff8a70ef17e7b45c365510acc790b04e3220a109553",
+      "sha256": "7c8a2b4af90664fd3e7a4b01e41b69acc077effa89ca2999b8051369ef9ec358",
       "seen": {
         "screen": null,
         "component": null,
@@ -1806,12 +2318,148 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
           }
         ]
+      },
+      "problems": []
+    },
+    "390x844/settings": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "title": true,
+        "sheet": true,
+        "display": true,
+        "sizes": true,
+        "note": true,
+        "hostRow": true,
+        "noOldControls": true,
+        "nothingSent": true,
+        "largest": true,
+        "stored": true,
+        "oneInstance": true,
+        "focusKept": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-settings.jpg",
+      "sha256": "25ad413edcf5dd916e3d99d1c60f246d71980a5d927ff6693e9b4162d4626ae2",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-CTbFmVE5.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Settings",
+        "sub": null,
+        "words": "DisplayReduce motionFilms become stills; no shake or travelText sizeStandardLargeLargestThese stay on this phone. They never change the match.HostHost controlsBots, deadlines, recovery, abort",
+        "controls": [
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Reduce motion",
+            "intent": "reduce-motion",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Standard",
+            "intent": "text-size",
+            "value": "1",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Large",
+            "intent": "text-size",
+            "value": "1.5",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Largest",
+            "intent": "text-size",
+            "value": "2",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Host controlsBots, deadlines, recovery, abort",
+            "intent": "host-controls",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": true,
+        "host": false,
+        "card": null,
+        "matchId": null,
+        "code": null,
+        "revealed": null,
+        "toast": null,
+        "focus": null,
+        "focusValue": null,
+        "secretInPage": false,
+        "old": 0,
+        "sent": [],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
       },
       "problems": []
     },
@@ -2026,7 +2674,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2093,7 +2741,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2158,7 +2806,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2193,7 +2841,7 @@
         },
         "rootClass": "planet-pregame",
         "title": "Choose a character",
-        "words": "VegaTaken · 1RigelTaken · 2LyraTaken · 3AtlasTaken · 4OrionTaken · 5NovaJunoTaken · 7MiraTaken · 8EchoTaken · 9No character yetTap one to chooseChoose a characterAssigned for you if time runs out0:30Taken by player 1Taken by player 2Taken by player 3Taken by player 4Taken by player 5Taken by player 7Taken by player 8Taken by player 9",
+        "words": "VegaTaken · 1RigelTaken · 2LyraTaken · 3AtlasTaken · 4OrionTaken · 5NovaJunoTaken · 7MiraTaken · 8EchoTaken · 9No character yetTap one to chooseChoose a characterAssigned for you if time runs out0:29Taken by player 1Taken by player 2Taken by player 3Taken by player 4Taken by player 5Taken by player 7Taken by player 8Taken by player 9",
         "buttons": [
           {
             "label": "Vega, taken by player 1",
@@ -2363,7 +3011,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2477,7 +3125,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2619,12 +3267,524 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
           }
         ]
+      },
+      "problems": []
+    },
+    "430x932/host-abort": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "title": true,
+        "confirm": true,
+        "footer": true,
+        "notSent": true,
+        "keepBack": true,
+        "abortSent": true,
+        "reopensSettings": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-host-abort.jpg",
+      "sha256": "d99646f7c6cd866fa0b5d98e65a34a5bda194baa174b6a7dc18ef952a47865f7",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "advance",
+          "issueRecovery"
+        ],
+        "reads": 11,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-CTbFmVE5.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Host controls",
+        "sub": null,
+        "words": "Abort the match?It ends now for everyone, with no winner.",
+        "controls": [
+          {
+            "label": "Back",
+            "intent": "sheet-back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Keep playing",
+            "intent": "sheet-local",
+            "value": "keep",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Abort match",
+            "intent": "sheet-action",
+            "value": "abort",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": false,
+        "host": true,
+        "card": null,
+        "matchId": null,
+        "code": null,
+        "revealed": null,
+        "toast": null,
+        "focus": "menu",
+        "focusValue": null,
+        "secretInPage": false,
+        "old": 0,
+        "sent": [
+          "advance",
+          "issueRecovery:seat-6"
+        ],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
+      },
+      "problems": []
+    },
+    "430x932/host-code": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "title": true,
+        "issued": true,
+        "card": true,
+        "masked": true,
+        "note": true,
+        "noMinutes": true,
+        "footer": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-host-code.jpg",
+      "sha256": "0a7a16728e4d86fdf5e9187b48d318ef816e8e74bf3fdffd112145a9191bea19",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "advance",
+          "issueRecovery"
+        ],
+        "reads": 7,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-CTbFmVE5.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Recovery code",
+        "sub": "Private to this phone",
+        "words": "Recovery for Player 6 · Crew 6Match IDplanet-localCode•••••• •••••• •••••• •••••• ••••••Show it only to Player 6. It never appears on the shared display.",
+        "controls": [
+          {
+            "label": "Back",
+            "intent": "sheet-back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Reveal",
+            "intent": "sheet-local",
+            "value": "reveal",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Copy",
+            "intent": "sheet-local",
+            "value": "copy",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": false,
+        "host": true,
+        "card": "Recovery for Player 6 · Crew 6",
+        "matchId": "planet-local",
+        "code": "•••••• •••••• •••••• •••••• ••••••",
+        "revealed": false,
+        "toast": null,
+        "focus": "menu",
+        "focusValue": null,
+        "secretInPage": false,
+        "old": 0,
+        "sent": [
+          "advance",
+          "issueRecovery:seat-6"
+        ],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
+      },
+      "problems": []
+    },
+    "430x932/host-code-revealed": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "revealed": true,
+        "footer": true,
+        "copied": true,
+        "toast": true,
+        "refusedCopy": true,
+        "hidden": true,
+        "backToList": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-host-code-revealed.jpg",
+      "sha256": "5bd318e4773f71e56b339adf3a939882174dfdcbc1cd73851e6dafb79d1e462a",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "advance",
+          "issueRecovery"
+        ],
+        "reads": 7,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-CTbFmVE5.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Recovery code",
+        "sub": "Private to this phone",
+        "words": "Recovery for Player 6 · Crew 6Match IDplanet-localCodeSYNTHETIC-RECOVERY-CODEShow it only to Player 6. It never appears on the shared display.",
+        "controls": [
+          {
+            "label": "Back",
+            "intent": "sheet-back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Hide",
+            "intent": "sheet-local",
+            "value": "hide",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Copy",
+            "intent": "sheet-local",
+            "value": "copy",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": false,
+        "host": true,
+        "card": "Recovery for Player 6 · Crew 6",
+        "matchId": "planet-local",
+        "code": "SYNTHETIC-RECOVERY-CODE",
+        "revealed": true,
+        "toast": null,
+        "focus": "menu",
+        "focusValue": null,
+        "secretInPage": true,
+        "old": 0,
+        "sent": [
+          "advance",
+          "issueRecovery:seat-6"
+        ],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
+      },
+      "problems": []
+    },
+    "430x932/host-controls": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "title": true,
+        "back": true,
+        "close": true,
+        "commands": true,
+        "seats": true,
+        "noCode": true,
+        "noOldControls": true,
+        "deadlineSent": true,
+        "receipt": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-host-controls.jpg",
+      "sha256": "ac1d105ae7d42e54f8893d9dbb3bcb02746e3a042da511597628a77d70292595",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 4,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-CTbFmVE5.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Host controls",
+        "sub": null,
+        "words": "Check the deadlineAsks the server to move on if time is upRun botsBots act if they canRecovery codes1 · Crew 1New code3 · Crew 3New code6 · Crew 6New codeAbort matchEnds with no winner",
+        "controls": [
+          {
+            "label": "Back",
+            "intent": "sheet-back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Check the deadlineAsks the server to move on if time is up",
+            "intent": "deadline",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Run botsBots act if they can",
+            "intent": "bots",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "1 · Crew 1New code",
+            "intent": "issue-recovery",
+            "value": "1",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "3 · Crew 3New code",
+            "intent": "issue-recovery",
+            "value": "3",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "6 · Crew 6New code",
+            "intent": "issue-recovery",
+            "value": "6",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Abort matchEnds with no winner",
+            "intent": "abort-ask",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": false,
+        "host": true,
+        "card": null,
+        "matchId": null,
+        "code": null,
+        "revealed": null,
+        "toast": null,
+        "focus": "menu",
+        "focusValue": null,
+        "secretInPage": false,
+        "old": 0,
+        "sent": [],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
       },
       "problems": []
     },
@@ -2777,7 +3937,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2920,7 +4080,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3058,7 +4218,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3137,7 +4297,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3235,7 +4395,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3369,7 +4529,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3477,7 +4637,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3577,7 +4737,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3675,7 +4835,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3699,12 +4859,12 @@
         "standing": true,
         "one": true,
         "onTheServersWindow": true,
-        "atMountMs": 180,
+        "atMountMs": 178,
         "goneByItself": true,
         "disposedInRound2": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-round-stamp.jpg",
-      "sha256": "eb89e4831bb0e9aeb895816c691f193b3efe5fd6e02849e55283f0a9d74ca662",
+      "sha256": "43b6777bed64e4d670c47b328a4984d4588bc26c683556b5936621458194e089",
       "seen": {
         "screen": null,
         "component": null,
@@ -3740,7 +4900,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3761,7 +4921,7 @@
         "nothingDrawn": true
       },
       "file": "design/phone-ui/review/pregame-connection/430x932-round-stamp-late.jpg",
-      "sha256": "ff0390514ac21ae1cec949f041a8e82dd00f1049a18bcba0917f25b009cc46bc",
+      "sha256": "9be527a6351ab1caf9b7517a4ff6318d2009346907767a54a7c596f6beaccab5",
       "seen": {
         "screen": null,
         "component": null,
@@ -3797,12 +4957,148 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
           }
         ]
+      },
+      "problems": []
+    },
+    "430x932/settings": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "title": true,
+        "sheet": true,
+        "display": true,
+        "sizes": true,
+        "note": true,
+        "hostRow": true,
+        "noOldControls": true,
+        "nothingSent": true,
+        "largest": true,
+        "stored": true,
+        "oneInstance": true,
+        "focusKept": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-settings.jpg",
+      "sha256": "602d25b63b9975d177cf5bd6e730438e5953ea19f7b7e9170839cc91ca78f3ad",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-CTbFmVE5.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Settings",
+        "sub": null,
+        "words": "DisplayReduce motionFilms become stills; no shake or travelText sizeStandardLargeLargestThese stay on this phone. They never change the match.HostHost controlsBots, deadlines, recovery, abort",
+        "controls": [
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Reduce motion",
+            "intent": "reduce-motion",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Standard",
+            "intent": "text-size",
+            "value": "1",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Large",
+            "intent": "text-size",
+            "value": "1.5",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Largest",
+            "intent": "text-size",
+            "value": "2",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Host controlsBots, deadlines, recovery, abort",
+            "intent": "host-controls",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": true,
+        "host": false,
+        "card": null,
+        "matchId": null,
+        "code": null,
+        "revealed": null,
+        "toast": null,
+        "focus": null,
+        "focusValue": null,
+        "secretInPage": false,
+        "old": 0,
+        "sent": [],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
       },
       "problems": []
     },
@@ -4017,7 +5313,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/phone-BNgsWrDT.js",
+            "source": "assets/phone-CTbFmVE5.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
