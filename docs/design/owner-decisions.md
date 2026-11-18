@@ -546,17 +546,26 @@ The Lead then recommended one shared view for each fixed room. The owner:
    - each person in front of or behind the pieces by distance;
    - a report of which pieces cover whom.
 2. The Lead checks the published page at 390 × 844 and 430 × 932 and sends it to the owner.
-3. The builder reworks the kit for PV5-B to PV5-E:
+3. The builder reworks the kit for PV5-B to PV5-E (held by the owner; see below):
    - an empty-room guide for each view, drawn from the plan;
    - one edit's outlines and prompt for every piece the view holds;
    - no removal edits.
-4. The other four views follow once the owner has seen the Mira test, within the approval above.
+4. The other four views follow once the owner has seen the Mira test, within the approval above (held by the owner; see below).
 
 **What it does not settle:**
 - **The crew's facing.** The stand-ins still face the camera. The 18 new crew angles go to the owner before anyone draws them.
 - **The line's distance in the other rooms.** Each room's sheet sets it.
 - **The room view in the game.** The room scene takes the pieces as layers only after the test.
 - **Room A's ceiling and the observation rule** ([#222](https://github.com/Amirkianfar66/GameN/issues/222)).
+
+**The other views held, minutes later.**
+- The Lead told the owner the other four views would start after the Mira test, about $0.12 a view. The owner answered, word for word:
+
+> For now do not create other views
+
+**What it decides:**
+- **PV5-B to PV5-E are on hold:** no pictures, and the builder stops preparing their kit. The approval above stays, unused, until the owner asks for them.
+- **Only the Mira test goes ahead.** It needs no new picture.
 
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
