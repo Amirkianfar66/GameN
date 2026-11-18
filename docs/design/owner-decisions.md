@@ -954,6 +954,14 @@ The Lead then recommended one shared view for each fixed room. The owner:
 
 **Designer's proposal, for what the words leave open:** an amber outline round the tile, only while Card is open. The soft ring at rest goes, since the top bar's tile has none. The Lead reviews it at 390 × 844 and 430 × 932 before the owner sees it on the Bars & Icons control page.
 
+**How it is built:**
+- The Bars & Icons builder made it as shell 0.3.1 on #321 (`f0d52240`, its check recorded at `ebb2b869`: 66 of 66).
+- The Lead accepted it at `bf95c1a0`:
+  - in all 66 captures, only the Card place changes in the bottom bar;
+  - the labels keep their level, and the tile is whole;
+  - with no character, the tab is exactly as before.
+- The game's connection on #307 takes it next, and the Lead reviews that again.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
