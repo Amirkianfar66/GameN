@@ -14,7 +14,10 @@
 //   command and local action, the views, privacy, a stroke through updates, reconnecting, focus, the layout at both
 //   sizes and the Largest text, dispose, motion;
 //   the agreement (preview/agree.mjs): the sheet beside the frozen pack's windows screen in each of its states, the
-//   same words, states, look and boxes to within half a pixel.
+//   same words, states, look and boxes to within half a pixel;
+//   the drawing box's focus ring with Chrome's own input (touch, mouse and keys, not the page's events): none while a
+//   finger or a mouse draws, even after the keyboard was used; the keyboard's own focus shows it, and so does a key
+//   after a finger's stroke (the Lead, 18 November).
 // Every check must pass. It writes design/phone-ui/components/windows/review/: one JPEG per state and size, and
 // check.json (the headers and their SHA-256, the source commit, what each capture drew and its SHA-256, and each
 // probe and agreement check with what it saw).
@@ -50,6 +53,7 @@ const browser = await connect(chrome.endpoint);
 const results = {};
 const probes = {};
 let agreement = null;
+let ring = null;
 let failed = 0;
 /** What every state shows, and what each one adds, from the sheet's own DOM. */
 const common = s => s.cut.length === 0 && s.name === 'group:Windows' && s.title === 'Windows' && s.back && s.detent === 'large' && s.openTab === 'panels';
@@ -136,6 +140,62 @@ try {
     for (const c of outcome.checks) console.log(`${c.ok ? 'ok  ' : 'FAIL'} ${mode === 'agree' ? '' : `probe ${mode} · `}${c.id}${c.ok ? '' : ` ${JSON.stringify(c.detail).slice(0, 1500)}`}`);
     if (outcome.error) console.log(`FAIL ${mode}: ${outcome.error}`);
   }
+  // The drawing box's focus ring, with Chrome's own input rather than the page's events, as a finger and a keyboard
+  // give it: never while a finger or a mouse draws, even after Tab; the keyboard shows it (the Lead, 18 November).
+  const PAD = '.ms-windows .ms-wn-pad';
+  const ringCases = [
+    { id: 'ring: a finger draws, no ring', input: 'touch' },
+    { id: 'ring: a mouse draws, no ring', input: 'mouse' },
+    { id: 'ring: Tab, then a finger draws, no ring', input: 'touch', tab: true },
+    { id: 'ring: Tab, then a mouse draws, no ring', input: 'mouse', tab: true },
+    { id: 'ring: Tab reaches the box, the ring', input: 'keys' },
+    { id: 'ring: a finger draws, then an arrow key, the ring', input: 'touch', after: 'arrow' },
+  ];
+  const ringChecks = [];
+  for (const c of ringCases) {
+    const page = await openPage(browser, { width: 390, height: 844, scale: 1 });
+    await page.send('Page.addScriptToEvaluateOnNewDocument', { source: POLICY_LISTENER });
+    if (c.input === 'touch') await page.send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 });
+    await page.goto(`${origin}/index.html?single=1&size=390x844&state=draw`, 'window.__windows !== undefined');
+    await page.evaluate('window.__windows.ready');
+    await sleep(400);
+    const key = async (k, code, vk) => {
+      await page.send('Input.dispatchKeyEvent', { type: 'keyDown', key: k, code, windowsVirtualKeyCode: vk });
+      await page.send('Input.dispatchKeyEvent', { type: 'keyUp', key: k, code, windowsVirtualKeyCode: vk });
+    };
+    const onPad = `document.activeElement === document.querySelector(${JSON.stringify(PAD)})`;
+    if (c.tab) await key('Tab', 'Tab', 9);
+    let tabs = 0;
+    if (c.input === 'keys') {
+      while (tabs < 40 && !(await page.evaluate(onPad))) { await key('Tab', 'Tab', 9); tabs += 1; }
+    } else {
+      await page.evaluate(`document.querySelector(${JSON.stringify(PAD)}).scrollIntoView({ block: 'center' })`);
+      await sleep(150);
+      const b = await page.evaluate(`(r => ({ x: r.x, y: r.y, w: r.width, h: r.height }))(document.querySelector(${JSON.stringify(PAD)}).getBoundingClientRect())`);
+      const at = (u, v) => ({ x: b.x + u * b.w, y: b.y + v * b.h });
+      if (c.input === 'touch') {
+        await page.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [at(0.2, 0.3)] });
+        for (let i = 1; i <= 8; i++) await page.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [at(0.2 + 0.05 * i, 0.3 + 0.04 * i)] });
+        await page.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+      } else {
+        const a = at(0.2, 0.3), z = at(0.6, 0.62);
+        await page.send('Input.dispatchMouseEvent', { type: 'mousePressed', x: a.x, y: a.y, button: 'left', buttons: 1, clickCount: 1 });
+        for (let i = 1; i <= 8; i++) { const q = at(0.2 + 0.05 * i, 0.3 + 0.04 * i); await page.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: q.x, y: q.y, button: 'left', buttons: 1 }); }
+        await page.send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: z.x, y: z.y, button: 'left', buttons: 0, clickCount: 1 });
+      }
+      if (c.after === 'arrow') await key('ArrowRight', 'ArrowRight', 39);
+    }
+    await sleep(200);
+    const seen = await page.evaluate(`(p => { const st = getComputedStyle(p); return { focused: document.activeElement === p, ring: st.outlineStyle !== 'none' && parseFloat(st.outlineWidth) > 0, pointerMark: p.hasAttribute('data-pointer'), strokes: p.querySelectorAll('.ms-wn-stroke').length }; })(document.querySelector(${JSON.stringify(PAD)}))`);
+    const wantRing = c.input === 'keys' || c.after === 'arrow';
+    const problems = page.problems().filter(p => !/\/favicon\.ico$/.test(p));
+    const ok = seen.focused && seen.ring === wantRing && problems.length === 0;
+    if (!ok) failed += 1;
+    ringChecks.push({ id: c.id, ok, detail: { ...seen, tabs, problems } });
+    console.log(`${ok ? 'ok  ' : 'FAIL'} ${c.id}${ok ? '' : ` ${JSON.stringify(seen)}`}`);
+    await page.close();
+  }
+  ring = { input: 'Chrome\'s own (Input.dispatchTouchEvent, Input.dispatchMouseEvent, Input.dispatchKeyEvent) at 390 x 844', checks: ringChecks, ok: ringChecks.every(c => c.ok) };
 } finally {
   browser.close();
   chrome.close?.();
@@ -151,10 +211,11 @@ const record = {
   captures: results,
   probe: probes,
   agree: agreement,
+  ring,
 };
 await writeFile(join(REVIEW, 'check.json'), `${JSON.stringify(record, null, 2)}\n`);
 const passedCaptures = Object.values(results).filter(r => r.ok).length;
 const probeChecks = Object.values(probes).flatMap(p => p.checks ?? []);
 const agreeChecks = agreement?.checks ?? [];
-console.log(`${passedCaptures} of ${Object.keys(results).length} captures passed; probe ${probeChecks.filter(c => c.ok).length} of ${probeChecks.length} checks; agreement ${agreeChecks.filter(c => c.ok).length} of ${agreeChecks.length}; wrote ${REVIEW.slice(REPO.length + 1)}/check.json`);
+console.log(`${passedCaptures} of ${Object.keys(results).length} captures passed; probe ${probeChecks.filter(c => c.ok).length} of ${probeChecks.length} checks; agreement ${agreeChecks.filter(c => c.ok).length} of ${agreeChecks.length}; ring ${(ring?.checks ?? []).filter(c => c.ok).length} of ${(ring?.checks ?? []).length}; wrote ${REVIEW.slice(REPO.length + 1)}/check.json`);
 if (failed) process.exitCode = 1;

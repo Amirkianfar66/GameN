@@ -1,6 +1,6 @@
 # Windows: Designer's runtime component
 
-**Version:** `windows-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved with the answers below (#299), without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). Its check's record is at the end.
+**Version:** `windows-0.1.1`. **Status (18 November 2026):** 0.1.1 shows the drawing box's focus ring for the keyboard only, never while a finger draws (decision 9), and decision 4 says how long the draft is kept, as the Lead decided. 0.1.0 (16 November) was built to the interface the Lead Designer approved with the answers below (#299), without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). Its check's record is at the end.
 
 **What it is:** the Windows sheet, as sheet 34 draws it: the drawings shown at the windows of this player's room, and, at a window's station, a drawing to show. It covers the Windows half of #222 item 32 (P3): "names and portraits instead of player numbers". It is the destination that the Panels row opens (#296). The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
 
@@ -67,7 +67,7 @@ windows.dispose();                                     // safe twice; afterwards
 | `status`, `interactive`, `viewer` | This phone | `live`, `stale` or `concealed`, as the shell's |
 | `windows` | The window's rooms | `[{ windowId, rooms, station, drawings }]`, from the projection's `windows`, all the room's windows. `rooms` are the window's two rooms by name, this player's first (`['Room A', 'Hospital']`); `station` is this player's place when they can draw there (`'A2'`, from `canDraw` and the seat's place), or `null`, on one window at most; `drawings` are `[{ id, order, round, author: { seat, name }, drawing: { strokes } }]`, this round's, drawn by `order` (then `id`), each `drawing` the contract's and checked against it |
 | `none` | This phone | `{ title, line }`, both Frontend's, when no window is given. The component can't tell a room with no window from closed windows, and doesn't guess (decision 3). Drawn: `{ title: 'No window here', line: 'The Command Room has no window' }` |
-| `draft` | This phone, private | The drawing being made: `{ windowId, ink, strokes }`, Frontend's to keep between mounts; `ink` one of the four (Gold until chosen), `strokes` none or more within the limits. A draft for another window isn't this one's: the box starts blank. Dropped on a viewer change or when concealed (decision 4) |
+| `draft` | This phone, private | The drawing being made: `{ windowId, ink, strokes }`, Frontend's to keep between mounts; `ink` one of the four (Gold until chosen), `strokes` none or more within the limits. A draft for another window isn't this one's: the box starts blank. Kept for its round, window and place; dropped as decision 4 says |
 | `show` | This phone | `{ enabled, busy, reason }`: the projection's `SHOW_WINDOW` offer, and Frontend's state while it is sent; the reason drawn as given |
 | `shown` | This phone | In `shown`: the id of the drawing just shown (one of the station window's drawings, by this player) |
 
@@ -118,11 +118,12 @@ windows.dispose();                                     // safe twice; afterwards
 1. **The section head goes into the kit.** Actions and Windows both draw it, so it moves in under L2: kit 0.7.0's `sectionHead({ title, aside })`, compared with the pack plain and on glass. Windows uses it, and it is built last.
 2. **The draw view is exactly as drawn.** At a station, the sheet shows that window only; the room's other windows are seen from the view state. Adding them below would change a drawn state, which needs the owner's approval. The gap is recorded below.
 3. **No window here: both words are Frontend's,** as `none: { title, line }`. The component draws the pack's waiting block with the window icon. The drawn example is "No window here" and "The Command Room has no window".
-4. **Frontend keeps the draft.** The component reports it with `onDraft` on each stroke, Undo, Clear or ink, and it is dropped on a viewer change or when concealed.
+4. **Frontend keeps the draft.** The component reports it with `onDraft` on each stroke, Undo, Clear or ink. Decided by the Lead on 18 November (#310): it is kept for its round, window and place, between openings of the sheet, and through the dark and a phase run out. It is dropped when the page is hidden or blurred, when concealed, for another viewer, on a shared display, at dispose, at the round's end, for another window or place, and when the sheet shuts while a Show of it is under way.
 5. **The pen is the pack's:** its width (6 in 512) and its four inks, Gold first. Today's colour picker and width list go.
 6. **The keyboard stays.** The pen's mark shows only while the keyboard draws, so the look is unchanged otherwise. The box has an accessible name and a description of the keys.
 7. **Names only, as drawn:** "1 · Hana · Round 3". Item 32's "names and portraits" covers the two sheets together; sheet 33.1 has the portraits.
 8. **Reconnecting:** drawing, the inks, Undo, Clear and Done keep working. Show waits with the banner's words, as the other commands do.
+9. **The box's focus ring is the keyboard's** (the Lead, 18 November; `windows-0.1.1`). A focus the pointer gives the box shows no ring, even after the keyboard was used, so none shows while a finger draws. The box marks such a focus (`data-pointer`), and its next key or a blur takes the mark away, so a key brings the ring back.
 
 **The limits** stay inside the component, and the test checks them against the contract (above). **Show off for an empty draft** is the form's own state.
 
@@ -138,12 +139,13 @@ windows.dispose();                                     // safe twice; afterwards
 `node design/tools/windows-check.mjs` bundles the preview as the game bundles the component, serves it with the hosted game's production headers, and writes `design/phone-ui/components/windows/review/`:
 - **18 captures:** sheet 34's four states, nothing drawn yet, Show in flight, the keyboard's pen, reconnecting and the Largest text, at 390 × 844 and 430 × 932;
 - **the probe, 19 checks:** drawing by finger and by keyboard, the inks, Undo and Clear, the limits, the footer, the views, privacy, a stroke through updates, reconnecting, focus, the layout at both sizes and the Largest text, dispose, and motion (also with the device's Reduce motion);
-- **the agreement, 9 cases:** the sheet beside the frozen pack's `windows` in its four states at both sizes, and drawing at the Largest text: the same words, states, look and boxes to within half a pixel, each stroke by its box, ink, width, ends and joins.
+- **the agreement, 9 cases:** the sheet beside the frozen pack's `windows` in its four states at both sizes, and drawing at the Largest text: the same words, states, look and boxes to within half a pixel, each stroke by its box, ink, width, ends and joins;
+- **the ring, 6 cases,** with Chrome's own touch, mouse and key input rather than the page's events, at 390 × 844: no ring while a finger or a mouse draws, also after Tab; the ring when Tab reaches the box, and after an arrow key that follows a finger's stroke.
 
-**Recorded against `dabd6f21` (clean, with the shell 0.2.12, kit 0.8.2 and room scene 0.5.1, #265 at `5616928e`):** 18 of 18 captures, the probe 19 of 19, the agreement 9 of 9, with no unexpected policy report and no page problem. The headers' SHA-256 is `424e5dec…`. The record is `review/check.json`.
-- **Against the record on `96729d1b`** (kit 0.7.0, shell 0.2.7): every recorded field of the 18 captures, the probe's 19 checks and the agreement's 9 is the same, but for the bundle's file name in the known Zod report.
-- 14 captures differ only below the noise of the pictures' compression.
-- The other 4 differ in two places outside the sheet: the busy Show button's spinner, at another frame (`showing`, both sizes), and the room behind the sheet's glass, where the crew's name tags are drawn as room scene 0.5.1 draws them (`largest`, both sizes). The sheet itself is unchanged.
+**Recorded against `2521fa99` (clean; `windows-0.1.1`, with the shell 0.2.12, kit 0.8.2 and room scene 0.5.1, #265 at `5616928e`):** 18 of 18 captures, the probe 19 of 19, the agreement 9 of 9 and the ring 6 of 6, with no unexpected policy report and no page problem. The headers' SHA-256 is `424e5dec…`. The record is `review/check.json`.
+- **Against the record on `dabd6f21`** (0.1.0): every recorded field of the 18 captures, the probe's 19 checks and the agreement's 9 is the same, but for the bundle's file name in the known Zod report; the ring is new. 16 captures differ only below the noise of the pictures' compression and one is byte for byte the same; `showing`, at both sizes, differs in the busy Show button's spinner, at another frame. The sheet is unchanged.
+- **Without the fix,** with the `data-pointer` rule taken out of a copy of `windows.css`, the ring's four pointer cases fail: the ring shows while a finger or a mouse draws, with or without Tab first, since nothing before the stroke in the preview is a pointer's. The keyboard's two cases pass either way.
+- **The record on `dabd6f21`, against the one on `96729d1b`** (kit 0.7.0, shell 0.2.7): every recorded field the same, but for the bundle's file name in the known Zod report. 14 captures differed only below the noise of the pictures' compression; the other 4 in two places outside the sheet: the busy Show button's spinner (`showing`) and the room's name tags behind the sheet's glass, drawn as room scene 0.5.1 draws them (`largest`).
 
 ## Not in this version
 

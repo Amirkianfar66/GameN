@@ -116,7 +116,7 @@ test('its words, inks and pen are the pack\'s (sheet 34); why there is no window
   // Decision 6: the box's name and keys, the Lead's (not drawn).
   assert.equal(W.box(['Room A', 'Hospital']), 'Drawing for Room A ↔ Hospital');
   assert.equal(W.keys, 'Arrow keys move the pen. Shift with an arrow draws. Space makes a dot.');
-  assert.equal(WINDOWS_VERSION, 'windows-0.1.0');
+  assert.equal(WINDOWS_VERSION, 'windows-0.1.1');
 });
 
 test('the limits are the contract\'s (PlanetDrawingSchema), kept here and read from the contract\'s source', () => {
@@ -249,4 +249,13 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   const agree = record.agree;
   assert.ok(agree.ok && agree.checks.length === 9 && agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'the sheet agrees with the frozen pack\'s windows screen in each state');
   assert.deepEqual(agree.problems, [], 'agreement: no page problem');
+  // The drawing box's focus ring, with Chrome's own input: none while a finger or a mouse draws, even after Tab; the
+  // keyboard shows it, and so does a key after a finger's stroke (the Lead, 18 November).
+  const ring = record.ring;
+  assert.ok(ring?.ok && ring.checks.length === 6 && ring.checks.every(c => c.ok && c.detail.focused), 'the ring: every case passed');
+  const rings = Object.fromEntries(ring.checks.map(c => [c.id, c.detail.ring]));
+  assert.deepEqual(rings, {
+    'ring: a finger draws, no ring': false, 'ring: a mouse draws, no ring': false, 'ring: Tab, then a finger draws, no ring': false,
+    'ring: Tab, then a mouse draws, no ring': false, 'ring: Tab reaches the box, the ring': true, 'ring: a finger draws, then an arrow key, the ring': true,
+  });
 });

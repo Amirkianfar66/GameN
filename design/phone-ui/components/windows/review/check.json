@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/windows-check.mjs",
   "component": "design/phone-ui/components/windows",
-  "sourceCommit": "dabd6f21997010938b930e29244f0430879df9ee",
+  "sourceCommit": "2521fa9961d79fa2321802b5405c305a0a8d1e72",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -38,14 +38,14 @@
   "captures": {
     "390x844/view": {
       "file": "design/phone-ui/components/windows/review/390x844-view.jpg",
-      "sha256": "cba1b01dac20241daade83162701370e708fe016322eb39ec22e2409b06b7fd8",
+      "sha256": "41980bd1135a2b6e7966274f5d9f9ae147690bd0aa128da1773acab397a7a65d",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2B4RQoS.js",
+          "source": "assets/index-PImOU1QV.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -82,14 +82,14 @@
     },
     "430x932/view": {
       "file": "design/phone-ui/components/windows/review/430x932-view.jpg",
-      "sha256": "d63d76b371424b394c559c5d91677793603dd36b31d574f17de5359ccf2d9492",
+      "sha256": "22484346aa2434ac4340c9873bf7c5673ca45d4a9ca42bfd2ba8cc9b8cb29f09",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2B4RQoS.js",
+          "source": "assets/index-PImOU1QV.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -126,14 +126,14 @@
     },
     "390x844/draw": {
       "file": "design/phone-ui/components/windows/review/390x844-draw.jpg",
-      "sha256": "ebc8efe661cecd30a424fb600154f25d4ea9303b230ece3de9c863007e17e4e3",
+      "sha256": "622bf11b0a00478d96a2757331a7a04340b73ec83e798b799d1a676fd1cd3d0e",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2B4RQoS.js",
+          "source": "assets/index-PImOU1QV.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -177,7 +177,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2B4RQoS.js",
+          "source": "assets/index-PImOU1QV.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -214,14 +214,14 @@
     },
     "390x844/shown": {
       "file": "design/phone-ui/components/windows/review/390x844-shown.jpg",
-      "sha256": "d50a9cfc9617d6f879a20726c7815b8a6acf1e93e0321c7b1784805ef26f2b3c",
+      "sha256": "cd02cdbde21ea426f933094480d24e7c946d33df8d6ab8023df5178c4c651d2e",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2B4RQoS.js",
+          "source": "assets/index-PImOU1QV.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -258,14 +258,14 @@
     },
     "430x932/shown": {
       "file": "design/phone-ui/components/windows/review/430x932-shown.jpg",
-      "sha256": "bd2857e2d5ffaad5a9cf1b3ca2c015d2c9eb1eea55f4a7628fff5bd22ce2c4a0",
+      "sha256": "dc28dc854bc297f8d8e11e8e9d600f655cc21efa37c38deb4e2dc8a37b45340c",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2B4RQoS.js",
+          "source": "assets/index-PImOU1QV.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -302,14 +302,14 @@
     },
     "390x844/none": {
       "file": "design/phone-ui/components/windows/review/390x844-none.jpg",
-      "sha256": "c3c96396145d6f49686b4bb7d8950403c7e590eeebf48ff65353873c5dd253e6",
+      "sha256": "8020eb1ad60603c39b13ee75dcad30987777f83bfcc8da3e9f2876a3588ae41a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2B4RQoS.js",
+          "source": "assets/index-PImOU1QV.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -346,14 +346,14 @@
     },
     "430x932/none": {
       "file": "design/phone-ui/components/windows/review/430x932-none.jpg",
-      "sha256": "4fe2c5af2b68ae0e199056be2905bbfa5026c5f95bd2be6121407705fcd7841f",
+      "sha256": "495562f7f617da6d5f1fc48879aeb2c539dcb91b81941fe9f56904fc5613e6ce",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2B4RQoS.js",
+          "source": "assets/index-PImOU1QV.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -390,14 +390,14 @@
     },
     "390x844/blank": {
       "file": "design/phone-ui/components/windows/review/390x844-blank.jpg",
-      "sha256": "9158261590481a54e43a9e6ad7ba8e162169444a2b6787ff9b4bc803d0012bc2",
+      "sha256": "ffbfc62b654878c93af7052248be974863c30783de64ddf97077e58765d033e8",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2B4RQoS.js",
+          "source": "assets/index-PImOU1QV.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -434,14 +434,14 @@
     },
     "430x932/blank": {
       "file": "design/phone-ui/components/windows/review/430x932-blank.jpg",
-      "sha256": "f827808f5b400c33737dd4cfd25304bcb0f14494f0bb2e485325d89a1ea547b2",
+      "sha256": "3996b3411daad1b02bf574aba89ef234606898a9514106b0233698eff68e8ea8",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2B4RQoS.js",
+          "source": "assets/index-PImOU1QV.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -478,14 +478,14 @@
     },
     "390x844/showing": {
       "file": "design/phone-ui/components/windows/review/390x844-showing.jpg",
-      "sha256": "13d3be33e80571dc8f2669937c3c241908e7c520c6d928c6760b01ff831b4108",
+      "sha256": "83efc80a5bf6da58629aa1272e8809ac93b59c54d0a51437a6f308995c6f0e7d",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2B4RQoS.js",
+          "source": "assets/index-PImOU1QV.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -522,14 +522,14 @@
     },
     "430x932/showing": {
       "file": "design/phone-ui/components/windows/review/430x932-showing.jpg",
-      "sha256": "2580ec509933414782e27c0450e9ff693b3c13f9b259def528e0d1ffd577d01d",
+      "sha256": "f94db73d1b35dc9eec77b182f090fef45a8e9ec541d9e65838a8dcbd2a4db134",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2B4RQoS.js",
+          "source": "assets/index-PImOU1QV.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -566,14 +566,14 @@
     },
     "390x844/keyboard": {
       "file": "design/phone-ui/components/windows/review/390x844-keyboard.jpg",
-      "sha256": "f1ec416d2a0f50232c8f20967b12b68b19bf275cb385cf054dadebdb7b968e01",
+      "sha256": "62e56bba2d0b0a73644a82dcb2a9c2a7feba7d20332c1b36df886f6b094c1f89",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2B4RQoS.js",
+          "source": "assets/index-PImOU1QV.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -610,14 +610,14 @@
     },
     "430x932/keyboard": {
       "file": "design/phone-ui/components/windows/review/430x932-keyboard.jpg",
-      "sha256": "a394fd848c801aa6d4726bcd3cc4cb4fae0f3a10f8f0adf8809076da09cfe7b9",
+      "sha256": "cba48402a8309526790020717795a9dcc88fdc542d65aca916c3308726e13c34",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2B4RQoS.js",
+          "source": "assets/index-PImOU1QV.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -654,14 +654,14 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/windows/review/390x844-stale.jpg",
-      "sha256": "d6a7bd25818f98f88117e64b730b2d2387ae1b6a6ea3700671da13261e7ddb24",
+      "sha256": "5ad73b5b4a4e2356188131bea85f9a4eb7b2a4e815e110548a7b18c1b8c6477e",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2B4RQoS.js",
+          "source": "assets/index-PImOU1QV.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -698,14 +698,14 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/windows/review/430x932-stale.jpg",
-      "sha256": "7ce3b3764ca81520430defff6d54c0f8c2f313da33977ad7951057587acca181",
+      "sha256": "9869af605bfe1bfd3cea2a485637f846abaad2e6860359732cb52e464987c2d7",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2B4RQoS.js",
+          "source": "assets/index-PImOU1QV.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -742,14 +742,14 @@
     },
     "390x844/largest": {
       "file": "design/phone-ui/components/windows/review/390x844-largest.jpg",
-      "sha256": "12d00126ad5f229f1a5d27d057975828360ef0a8a623441e37516b414e869715",
+      "sha256": "a74c688040327794f1fb90227d1427a227ae62b943783aed5099fa2085ff92bf",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2B4RQoS.js",
+          "source": "assets/index-PImOU1QV.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -786,14 +786,14 @@
     },
     "430x932/largest": {
       "file": "design/phone-ui/components/windows/review/430x932-largest.jpg",
-      "sha256": "532164d7f87052c821fcefb779def8fea4f8bdc3c85017901e410a1d417f174f",
+      "sha256": "4499f2161d4a688b0b4ea5f12bcc87ef273056250fe5d1cde6785745e3fe1dd2",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2B4RQoS.js",
+          "source": "assets/index-PImOU1QV.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1311,7 +1311,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2B4RQoS.js",
+          "source": "assets/index-PImOU1QV.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1344,7 +1344,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-B2B4RQoS.js",
+          "source": "assets/index-PImOU1QV.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2434,12 +2434,90 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-B2B4RQoS.js",
+        "source": "assets/index-PImOU1QV.js",
         "line": 1,
         "column": 6049,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
       }
     ],
     "problems": []
+  },
+  "ring": {
+    "input": "Chrome's own (Input.dispatchTouchEvent, Input.dispatchMouseEvent, Input.dispatchKeyEvent) at 390 x 844",
+    "checks": [
+      {
+        "id": "ring: a finger draws, no ring",
+        "ok": true,
+        "detail": {
+          "focused": true,
+          "ring": false,
+          "pointerMark": true,
+          "strokes": 3,
+          "tabs": 0,
+          "problems": []
+        }
+      },
+      {
+        "id": "ring: a mouse draws, no ring",
+        "ok": true,
+        "detail": {
+          "focused": true,
+          "ring": false,
+          "pointerMark": true,
+          "strokes": 3,
+          "tabs": 0,
+          "problems": []
+        }
+      },
+      {
+        "id": "ring: Tab, then a finger draws, no ring",
+        "ok": true,
+        "detail": {
+          "focused": true,
+          "ring": false,
+          "pointerMark": true,
+          "strokes": 3,
+          "tabs": 0,
+          "problems": []
+        }
+      },
+      {
+        "id": "ring: Tab, then a mouse draws, no ring",
+        "ok": true,
+        "detail": {
+          "focused": true,
+          "ring": false,
+          "pointerMark": true,
+          "strokes": 3,
+          "tabs": 0,
+          "problems": []
+        }
+      },
+      {
+        "id": "ring: Tab reaches the box, the ring",
+        "ok": true,
+        "detail": {
+          "focused": true,
+          "ring": true,
+          "pointerMark": false,
+          "strokes": 2,
+          "tabs": 4,
+          "problems": []
+        }
+      },
+      {
+        "id": "ring: a finger draws, then an arrow key, the ring",
+        "ok": true,
+        "detail": {
+          "focused": true,
+          "ring": true,
+          "pointerMark": false,
+          "strokes": 3,
+          "tabs": 0,
+          "problems": []
+        }
+      }
+    ],
+    "ok": true
   }
 }
