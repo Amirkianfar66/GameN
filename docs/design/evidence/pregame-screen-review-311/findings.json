@@ -8,7 +8,7 @@
     "390x844",
     "430x932"
   ],
-  "leadAcceptance": "Pending in #314. These findings are not the Lead Designer's acceptance.",
+  "leadAcceptance": "Accepted independently in #314 for runtime 39961a80 / evidence a5a6cdff: https://github.com/Amirkianfar66/GameN/pull/314#issuecomment-6980691554. The findings below remain the Screen Designer’s assessment.",
   "parts": {
     "recover": {
       "verdict": "close",
