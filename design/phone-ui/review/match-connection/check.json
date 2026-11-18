@@ -1,14 +1,14 @@
 {
   "tool": "design/tools/match-connection-check.mjs",
-  "what": "The Planet app's match screens drawn by Designer's components (release 3: Actions, design/phone-ui/components/actions) in the phone shell, in Frontend's phone harness (apps/game/dev/phone) built from the candidate below",
+  "what": "The Planet app's match screens drawn by Designer's components (release 3: Actions, design/phone-ui/components/actions; the Panels tab, design/phone-ui/components/panels) in the phone shell, in Frontend's phone harness (apps/game/dev/phone) built from the candidate below",
   "candidate": {
-    "commit": "31430b8b75dc829b416abc7af41ce62f449d6009",
+    "commit": "9c0e15bfcc2549b68195d1a614a5a5abeb54f1f0",
     "clean": true,
     "dirty": []
   },
   "art": {
     "base": "64e55516d2f0026842c5c2a675f2eccda20e0a9e",
-    "originMain": "64e55516d2f0026842c5c2a675f2eccda20e0a9e",
+    "originMain": "7574bfe5ce3d7acd12ed66eb8202187045817a24",
     "note": "The harnesses' art plugins over a clean worktree of origin/main; the harnesses and their asset tooling are byte for byte that commit's"
   },
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels, focus emulated, no safe areas; the harnesses bundled by Vite and served with the production headers below. Not a phone, not Safari, not a live match.",
@@ -59,7 +59,7 @@
         "noAfter": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-blackhole.jpg",
-      "sha256": "af3c40472d75a11b1014d4114312752de657bcfb306c23042b84765b258a2635",
+      "sha256": "0557f8d027d850ddea918fb76e1ad4e62cef9dc2638d02f129b698c541269e4c",
       "seen": {
         "shell": {
           "status": "live",
@@ -240,6 +240,7 @@
           "rows": [],
           "picked": []
         },
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "command-room",
@@ -277,7 +278,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -304,7 +305,7 @@
         "noSheetSending": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-blackout.jpg",
-      "sha256": "c24baf045abce41c84bd4dc6f915b1f9da5c93fa1bbcf6f4fbe952215f02aa5c",
+      "sha256": "7a5c907fd6a28c32f0a973c1b4f794748aad5f8c2c8d77af4917c83f8f758dbc",
       "seen": {
         "shell": {
           "status": "live",
@@ -321,7 +322,7 @@
           "tone": "dark",
           "name": "Blackout",
           "sub": "Dark · positions fixed",
-          "clock": "0:09",
+          "clock": "0:08",
           "controls": 2
         },
         "tabs": {
@@ -436,6 +437,7 @@
         "toast": null,
         "sheet": null,
         "actions": null,
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "room-a",
@@ -454,7 +456,7 @@
         },
         "old": 0,
         "status": null,
-        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } Room ABlackoutDark · positions fixedPromisesR60:09Choose a positionRoom A · any position, even emptyCancelBoardActionsPassPassCardPanels",
+        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } Room ABlackoutDark · positions fixedPromisesR60:08Choose a positionRoom A · any position, even emptyCancelBoardActionsPassPassCardPanels",
         "hiddenStep": "Choose a fixed position in your bound room.",
         "hiddenCheckpoint": "Choose a fixed position in your bound room.",
         "before": null,
@@ -474,12 +476,12 @@
           "recovery": null
         },
         "commands": [],
-        "page": "ROOM A\nBlackout\nDark · positions fixed\nR6\n0:09\nChoose a position\nRoom A · any position, even empty\nCancel\nBoard\nActions\nPASS\nCard\nPanels\n\nChoose a fixed position in your bound room.\n\nChoose a fixed position in your bound room.",
+        "page": "ROOM A\nBlackout\nDark · positions fixed\nR6\n0:08\nChoose a position\nRoom A · any position, even empty\nCancel\nBoard\nActions\nPASS\nCard\nPanels\n\nChoose a fixed position in your bound room.\n\nChoose a fixed position in your bound room.",
         "violations": [
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -501,7 +503,7 @@
         "noSheet": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-blackout-fixed.jpg",
-      "sha256": "27c7aad544e992ef4593c7c3572d31cd72906b4efd3597a3863dcbb740ad063f",
+      "sha256": "37a8e27ba91d6f225c491447c5e1c045ef948a47a9d5283a29c75c1262028790",
       "seen": {
         "shell": {
           "status": "live",
@@ -620,6 +622,7 @@
         "toast": null,
         "sheet": null,
         "actions": null,
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "room-a",
@@ -665,7 +668,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -715,6 +718,7 @@
         "toast": null,
         "sheet": null,
         "actions": null,
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": null,
@@ -748,7 +752,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -771,7 +775,7 @@
         "rowToCheck": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-list.jpg",
-      "sha256": "78a1013843f1a7669bf2eb3d6806b14e5f2eb1e9b5248e9f8b91041c1102de87",
+      "sha256": "c92149257465a7777aa5173d8c0306d6bd7d76e62b5bc9a4feaf13372c940d1c",
       "seen": {
         "shell": {
           "status": "live",
@@ -959,6 +963,7 @@
           ],
           "picked": []
         },
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": null,
@@ -998,7 +1003,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1022,7 +1027,7 @@
         "roomChosen": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-move.jpg",
-      "sha256": "9e1b011a4a0134338ca29793f5b26ce545d742a737196404bc1657957d699505",
+      "sha256": "3f7d8c56cb4176acaf9262de0aa7efa5e10c20791a153c67c2b6ec4db82da601",
       "seen": {
         "shell": {
           "status": "live",
@@ -1167,6 +1172,7 @@
         "toast": null,
         "sheet": null,
         "actions": null,
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "room-b",
@@ -1208,7 +1214,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1231,7 +1237,7 @@
         "otherRoom": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-move-board.jpg",
-      "sha256": "ef1e60a412d9099b2bfbe426b2421a1754eec097e24a6a0f24edcdd08143f366",
+      "sha256": "4448be6746d879810eb0ec16e486116c2706e515331f804f8fd15b88b0b3522f",
       "seen": {
         "shell": {
           "status": "live",
@@ -1363,6 +1369,7 @@
         "toast": null,
         "sheet": null,
         "actions": null,
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": null,
@@ -1407,7 +1414,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1431,7 +1438,7 @@
         "cancelToChoosing": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-move-check.jpg",
-      "sha256": "9de7f5b09c1e03e690369498ab2b5dd72a8a56c46ee9f96182ad3854a4aacb5b",
+      "sha256": "1cec762d9d490e3425e760461d6af32b0532d64e7016d53a5e18e778677b7ace",
       "seen": {
         "shell": {
           "status": "live",
@@ -1612,6 +1619,7 @@
           "rows": [],
           "picked": []
         },
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "room-b",
@@ -1653,7 +1661,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1676,7 +1684,7 @@
         "youThere": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-moved.jpg",
-      "sha256": "ddbaeaeb8571b4c072b2c03523c807d1862958d786023c1021cfd03af08810f5",
+      "sha256": "e2959814ecaad8b9f1a21daa498dc38f20aa25ab375e7bbd132358991896b9c0",
       "seen": {
         "shell": {
           "status": "live",
@@ -1693,7 +1701,7 @@
           "tone": null,
           "name": "Your turn",
           "sub": "Player 6 · Crew 6",
-          "clock": "0:56",
+          "clock": "0:55",
           "controls": 2
         },
         "tabs": {
@@ -1791,6 +1799,7 @@
         "toast": "Moved to B5",
         "sheet": null,
         "actions": null,
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "room-b",
@@ -1803,7 +1812,7 @@
         },
         "old": 0,
         "status": null,
-        "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BWindowsYour turnPlayer 6 · Crew 6PromisesR60:56BoardActionsPassPassCardPanelsMoved to B5",
+        "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BWindowsYour turnPlayer 6 · Crew 6PromisesR60:55BoardActionsPassPassCardPanelsMoved to B5",
         "hiddenStep": "",
         "hiddenCheckpoint": "Current board · shared: Round 5 complete",
         "before": {
@@ -1828,12 +1837,12 @@
             "slotId": "B5"
           }
         ],
-        "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nWindows\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:56\nBoard\nActions\nPASS\nCard\nPanels\nMoved to B5\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B5.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
+        "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nWindows\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:55\nBoard\nActions\nPASS\nCard\nPanels\nMoved to B5\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B5.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
         "violations": [
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1855,7 +1864,7 @@
         "chipToBoard": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-other-rooms.jpg",
-      "sha256": "01db28f82f2635f315eb929deedd128acec0667ae5ab7c0bac14e9877dd7f684",
+      "sha256": "e315d8cc6ccd92c1593ca3b426c32c6bb3560d2b23101a581dcd0b626bbdaf5b",
       "seen": {
         "shell": {
           "status": "live",
@@ -2000,6 +2009,7 @@
         "toast": null,
         "sheet": null,
         "actions": null,
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "room-a",
@@ -2039,7 +2049,302 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/panels": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "frame": true,
+        "partOnly": true,
+        "view": true,
+        "rows": true,
+        "titles": true,
+        "lines": true,
+        "icons": true,
+        "open": true,
+        "tabOpen": true,
+        "noCommand": true,
+        "windowsOpens": true,
+        "backToPanels": true
+      },
+      "file": "design/phone-ui/review/match-connection/390x844-panels.jpg",
+      "sha256": "c36a4286d46f38e7232c7b585829005bc9b9913a7b4b3cee2dc1e28e7f47d8f5",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "turn",
+          "tone": null,
+          "name": "Your turn",
+          "sub": "Player 6 · Crew 6",
+          "clock": "0:58",
+          "controls": 2
+        },
+        "tabs": {
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 78,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 162,
+                "y": 767,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 234,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "true",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 312,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            }
+          ]
+        },
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": false,
+          "busy": false,
+          "box": {
+            "x": 162,
+            "y": 767,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "sheet": {
+          "id": "panels",
+          "title": "Panels",
+          "sub": null,
+          "back": false,
+          "close": true,
+          "foot": [],
+          "game": null,
+          "children": [
+            "ms-panels"
+          ],
+          "box": {
+            "x": 0,
+            "y": 401.3,
+            "width": 390,
+            "height": 384.7
+          }
+        },
+        "actions": null,
+        "panels": {
+          "view": "list",
+          "label": "Panels",
+          "first": true,
+          "motion": "full",
+          "rows": [
+            {
+              "value": "windows",
+              "seat": null,
+              "kind": null,
+              "title": "Windows",
+              "sub": "Room A ↔ Room B · Room B ↔ Jail",
+              "icon": "window",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": true,
+              "box": {
+                "x": 16,
+                "y": 476.3,
+                "width": 358,
+                "height": 53.14
+              }
+            },
+            {
+              "value": "navigation",
+              "seat": null,
+              "kind": null,
+              "title": "Navigation",
+              "sub": "Captain and Officer only",
+              "icon": "course",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": true,
+              "box": {
+                "x": 16,
+                "y": 529.44,
+                "width": 358,
+                "height": 53.14
+              }
+            },
+            {
+              "value": "hospital",
+              "seat": null,
+              "kind": null,
+              "title": "Hospital panel",
+              "sub": "Patients only",
+              "icon": "panel",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": true,
+              "box": {
+                "x": 16,
+                "y": 582.58,
+                "width": 358,
+                "height": 53.14
+              }
+            },
+            {
+              "value": "players",
+              "seat": null,
+              "kind": null,
+              "title": "Players",
+              "sub": "Seats, rooms and public status",
+              "icon": "players",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": true,
+              "box": {
+                "x": 16,
+                "y": 649.72,
+                "width": 358,
+                "height": 53.14
+              }
+            },
+            {
+              "value": "round-order",
+              "seat": null,
+              "kind": null,
+              "title": "Round order",
+              "sub": "Phases and timings",
+              "icon": "rules",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": true,
+              "box": {
+                "x": 16,
+                "y": 702.86,
+                "width": 358,
+                "height": 53.14
+              }
+            }
+          ],
+          "note": null,
+          "text": "WindowsRoom A ↔ Room B · Room B ↔ JailNavigationCaptain and Officer onlyHospital panelPatients onlyPlayersSeats, rooms and public statusRound orderPhases and timings"
+        },
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "lighting": "lit",
+          "presses": [],
+          "slots": [],
+          "boardSlots": [],
+          "captions": []
+        },
+        "old": 0,
+        "status": null,
+        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BYour turnPlayer 6 · Crew 6PromisesR60:58PanelsWindowsRoom A ↔ Room B · Room B ↔ JailNavigationCaptain and Officer onlyHospital panelPatients onlyPlayersSeats, rooms and public statusRound orderPhases and timingsBoardActionsPassPassCardPanels",
+        "hiddenStep": "",
+        "hiddenCheckpoint": "Current board · shared: Round 5 complete",
+        "before": null,
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "phase": "ORDINARY_TURN",
+          "panel": "panels",
+          "ownSeatId": "seat-6",
+          "round": 6,
+          "own": "Room B B1",
+          "action": null,
+          "recovery": null
+        },
+        "commands": [],
+        "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nPanels\nWindows\nRoom A ↔ Room B · Room B ↔ Jail\nNavigation\nCaptain and Officer only\nHospital panel\nPatients only\nPlayers\nSeats, rooms and public status\nRound order\nPhases and timings\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2065,7 +2370,7 @@
         "sheetClosed": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-pass.jpg",
-      "sha256": "fe19a1d1af78708195df293ca0f6b7f56cf84acf8d9dec5caa5a6d4a44a0866b",
+      "sha256": "faca433b0f88307734ff249a9673dd66d1631ea22e3784276e625e0e8c485751",
       "seen": {
         "shell": {
           "status": "live",
@@ -2244,6 +2549,7 @@
           "rows": [],
           "picked": []
         },
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "room-b",
@@ -2281,7 +2587,378 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/players": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "frame": true,
+        "view": true,
+        "seats": true,
+        "you": true,
+        "names": true,
+        "lines": true,
+        "badges": true,
+        "portraits": true,
+        "note": true,
+        "noChevron": true,
+        "publicOnly": true,
+        "backToList": true
+      },
+      "file": "design/phone-ui/review/match-connection/390x844-players.jpg",
+      "sha256": "3d3f42789a83f7d55840f61face69a71f74d42948ac99b0c0634132795a6606c",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "turn",
+          "tone": null,
+          "name": "Your turn",
+          "sub": "Player 6 · Crew 6",
+          "clock": "0:58",
+          "controls": 2
+        },
+        "tabs": {
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 78,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 162,
+                "y": 767,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 234,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "true",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 312,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            }
+          ]
+        },
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": false,
+          "busy": false,
+          "box": {
+            "x": 162,
+            "y": 767,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "sheet": {
+          "id": "panels",
+          "title": "Players",
+          "sub": null,
+          "back": true,
+          "close": true,
+          "foot": [],
+          "game": null,
+          "children": [
+            "ms-panels"
+          ],
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 390,
+            "height": 726
+          }
+        },
+        "actions": null,
+        "panels": {
+          "view": "players",
+          "label": "Players",
+          "first": true,
+          "motion": "full",
+          "rows": [
+            {
+              "value": null,
+              "seat": "1",
+              "kind": null,
+              "title": "1 · Crew 1",
+              "sub": "Room A",
+              "icon": null,
+              "portrait": "ms-k-pt",
+              "badges": [
+                "Captain"
+              ],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 135,
+                "width": 358,
+                "height": 53.14
+              }
+            },
+            {
+              "value": null,
+              "seat": "2",
+              "kind": null,
+              "title": "2 · Crew 2",
+              "sub": "Room A",
+              "icon": null,
+              "portrait": "ms-k-pt",
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 188.14,
+                "width": 358,
+                "height": 53.14
+              }
+            },
+            {
+              "value": null,
+              "seat": "3",
+              "kind": null,
+              "title": "3 · Crew 3",
+              "sub": "Hospital · Injured",
+              "icon": null,
+              "portrait": "ms-k-pt",
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 241.28,
+                "width": 358,
+                "height": 53.14
+              }
+            },
+            {
+              "value": null,
+              "seat": "4",
+              "kind": null,
+              "title": "4 · Crew 4",
+              "sub": "Room A",
+              "icon": null,
+              "portrait": "ms-k-pt",
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 294.42,
+                "width": 358,
+                "height": 53.14
+              }
+            },
+            {
+              "value": null,
+              "seat": "5",
+              "kind": null,
+              "title": "5 · Crew 5",
+              "sub": "Room A",
+              "icon": null,
+              "portrait": "ms-k-pt",
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 347.56,
+                "width": 358,
+                "height": 53.14
+              }
+            },
+            {
+              "value": null,
+              "seat": "6",
+              "kind": null,
+              "title": "6 · Crew 6 (you)",
+              "sub": "Room B",
+              "icon": null,
+              "portrait": "ms-k-pt",
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 400.7,
+                "width": 358,
+                "height": 53.14
+              }
+            },
+            {
+              "value": null,
+              "seat": "7",
+              "kind": null,
+              "title": "7 · Crew 7",
+              "sub": "Room B",
+              "icon": null,
+              "portrait": "ms-k-pt",
+              "badges": [
+                "Officer"
+              ],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 453.84,
+                "width": 358,
+                "height": 53.14
+              }
+            },
+            {
+              "value": null,
+              "seat": "8",
+              "kind": null,
+              "title": "8 · Crew 8",
+              "sub": "In Jail",
+              "icon": null,
+              "portrait": "ms-k-pt",
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 506.98,
+                "width": 358,
+                "height": 53.14
+              }
+            },
+            {
+              "value": null,
+              "seat": "9",
+              "kind": null,
+              "title": "9 · Crew 9",
+              "sub": "Eliminated",
+              "icon": null,
+              "portrait": "ms-k-pt",
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 560.13,
+                "width": 358,
+                "height": 53.14
+              }
+            }
+          ],
+          "note": "Public facts only: seats, rooms, health and offices.",
+          "text": "1 · Crew 1Room ACaptain2 · Crew 2Room A3 · Crew 3Hospital · Injured4 · Crew 4Room A5 · Crew 5Room A6 · Crew 6 (you)Room B7 · Crew 7Room BOfficer8 · Crew 8In Jail9 · Crew 9EliminatedPublic facts only: seats, rooms, health and offices."
+        },
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "lighting": "lit",
+          "presses": [],
+          "slots": [],
+          "boardSlots": [],
+          "captions": []
+        },
+        "old": 0,
+        "status": null,
+        "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } 6You7Crew 7Room BYour turnPlayer 6 · Crew 6PromisesR60:58Players1 · Crew 1Room ACaptain2 · Crew 2Room A3 · Crew 3Hospital · Injured4 · Crew 4Room A5 · Crew 5Room A6 · Crew 6 (you)Room B7 · Crew 7Room BOfficer8 · Crew 8In Jail9 · Crew 9EliminatedPublic facts only: seats, rooms, health and offices.BoardActionsPassPassCardPanels",
+        "hiddenStep": "",
+        "hiddenCheckpoint": "Current board · shared: Round 5 complete",
+        "before": null,
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "phase": "ORDINARY_TURN",
+          "panel": "players",
+          "ownSeatId": "seat-6",
+          "round": 6,
+          "own": "Room B B1",
+          "action": null,
+          "recovery": null
+        },
+        "commands": [],
+        "page": "6\nYou\n7\nCrew 7\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nPlayers\n1 · Crew 1\nRoom A\nCaptain\n2 · Crew 2\nRoom A\n3 · Crew 3\nHospital · Injured\n4 · Crew 4\nRoom A\n5 · Crew 5\nRoom A\n6 · Crew 6 (you)\nRoom B\n7 · Crew 7\nRoom B\nOfficer\n8 · Crew 8\nIn Jail\n9 · Crew 9\nEliminated\n\nPublic facts only: seats, rooms, health and offices.\n\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1, Captain.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Injured, Hospital, H1, Rescue possible through Round 6.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2, Officer.\nPlayer 8, Crew 8: Healthy, Jail, J1, detained.\nPlayer 9, Crew 9: Eliminated, off board.\nCaptain Player 1 · Officer Player 7Current board · shared: Round 5 complete",
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2302,7 +2979,7 @@
         "noTiles": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-reconnecting.jpg",
-      "sha256": "86116163807d0215012fb083fc93f451fe06610d71a7e5c05889a7e5b3a1f435",
+      "sha256": "f6cc249725a15f6e42f0f51d87064ae6eafb115a05652705d44c22bddedd6ed4",
       "seen": {
         "shell": {
           "status": "stale",
@@ -2420,6 +3097,7 @@
         "toast": null,
         "sheet": null,
         "actions": null,
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "room-a",
@@ -2453,7 +3131,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2477,7 +3155,7 @@
         "heroStays": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-rescue.jpg",
-      "sha256": "9c4e55354dcf010758939b6f46ce9682a3506c71b35908ef0eb1919930b3f051",
+      "sha256": "b014a3f45df64e1be9acebfde19591a168c63bb8319d4fac49768c9aebae1efc",
       "seen": {
         "shell": {
           "status": "live",
@@ -2609,6 +3287,7 @@
         "toast": null,
         "sheet": null,
         "actions": null,
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "hospital",
@@ -2648,7 +3327,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2676,7 +3355,7 @@
         "doneCloses": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-rescue-after.jpg",
-      "sha256": "60d10da474f45a4d9fd04a87cd1d0ea969be6103c0ab177aebdee7f2bad0c4d1",
+      "sha256": "c538c94e2d4cdeb2c95fde09e17800e727f380ac5252a30b34ae460593a6cdc2",
       "seen": {
         "shell": {
           "status": "live",
@@ -2844,6 +3523,7 @@
           "rows": [],
           "picked": []
         },
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "hospital",
@@ -2886,7 +3566,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2911,7 +3591,7 @@
         "cancelToTiles": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-rescue-check.jpg",
-      "sha256": "e3c61569ade2d0912bb3c3f4e3dfca7c3684d91e32dc1f1b8584c0b19284e14c",
+      "sha256": "f10db75fad66adb665b0029112cd9ee4f46f433b3049498a2b83bc87c4d1f9ed",
       "seen": {
         "shell": {
           "status": "live",
@@ -3090,6 +3770,7 @@
           "rows": [],
           "picked": []
         },
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "hospital",
@@ -3129,7 +3810,370 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/round-order": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "frame": true,
+        "view": true,
+        "steps": true,
+        "kinds": true,
+        "icons": true,
+        "noTimings": true,
+        "noNote": true,
+        "closes": true
+      },
+      "file": "design/phone-ui/review/match-connection/390x844-round-order.jpg",
+      "sha256": "464ac8d5503a1ead56c712ffbf3e6e910fa21f1dec13170a0d9f0549ea330bba",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "turn",
+          "tone": null,
+          "name": "Your turn",
+          "sub": "Player 6 · Crew 6",
+          "clock": "0:58",
+          "controls": 2
+        },
+        "tabs": {
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 78,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 162,
+                "y": 767,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 234,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "true",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 312,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            }
+          ]
+        },
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": false,
+          "busy": false,
+          "box": {
+            "x": 162,
+            "y": 767,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "sheet": {
+          "id": "panels",
+          "title": "Round order",
+          "sub": null,
+          "back": true,
+          "close": true,
+          "foot": [],
+          "game": null,
+          "children": [
+            "ms-panels"
+          ],
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 390,
+            "height": 726
+          }
+        },
+        "actions": null,
+        "panels": {
+          "view": "round-order",
+          "label": "Round order",
+          "first": true,
+          "motion": "full",
+          "rows": [
+            {
+              "value": null,
+              "seat": null,
+              "kind": "turns",
+              "title": "Player turns",
+              "sub": null,
+              "icon": "actions",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 135,
+                "width": 358,
+                "height": 52
+              }
+            },
+            {
+              "value": null,
+              "seat": null,
+              "kind": "private-talk",
+              "title": "Private talk",
+              "sub": null,
+              "icon": "talk",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 187,
+                "width": 358,
+                "height": 52
+              }
+            },
+            {
+              "value": null,
+              "seat": null,
+              "kind": "sync",
+              "title": "Sync when applicable",
+              "sub": null,
+              "icon": "blackhole",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 239,
+                "width": 358,
+                "height": 52
+              }
+            },
+            {
+              "value": null,
+              "seat": null,
+              "kind": "blackout",
+              "title": "Blackout",
+              "sub": null,
+              "icon": "dark",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 291,
+                "width": 358,
+                "height": 52
+              }
+            },
+            {
+              "value": null,
+              "seat": null,
+              "kind": "hospital",
+              "title": "Damage and Hospital placement",
+              "sub": null,
+              "icon": "hospital",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 343,
+                "width": 358,
+                "height": 52
+              }
+            },
+            {
+              "value": null,
+              "seat": null,
+              "kind": "jail-vote",
+              "title": "Jail vote",
+              "sub": null,
+              "icon": "vote",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 395,
+                "width": 358,
+                "height": 52
+              }
+            },
+            {
+              "value": null,
+              "seat": null,
+              "kind": "result",
+              "title": "Result",
+              "sub": null,
+              "icon": "vote",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 447,
+                "width": 358,
+                "height": 52
+              }
+            },
+            {
+              "value": null,
+              "seat": null,
+              "kind": "resolution",
+              "title": "Remaining resolution and Rescue",
+              "sub": null,
+              "icon": "rescue",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 499,
+                "width": 358,
+                "height": 52
+              }
+            },
+            {
+              "value": null,
+              "seat": null,
+              "kind": "navigation",
+              "title": "Navigation",
+              "sub": null,
+              "icon": "course",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 551,
+                "width": 358,
+                "height": 52
+              }
+            }
+          ],
+          "note": null,
+          "text": "Player turnsPrivate talkSync when applicableBlackoutDamage and Hospital placementJail voteResultRemaining resolution and RescueNavigation"
+        },
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "lighting": "lit",
+          "presses": [],
+          "slots": [],
+          "boardSlots": [],
+          "captions": []
+        },
+        "old": 0,
+        "status": null,
+        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BYour turnPlayer 6 · Crew 6PromisesR60:58Round orderPlayer turnsPrivate talkSync when applicableBlackoutDamage and Hospital placementJail voteResultRemaining resolution and RescueNavigationBoardActionsPassPassCardPanels",
+        "hiddenStep": "",
+        "hiddenCheckpoint": "Current board · shared: Round 5 complete",
+        "before": null,
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "phase": "ORDINARY_TURN",
+          "panel": "round-order",
+          "ownSeatId": "seat-6",
+          "round": 6,
+          "own": "Room B B1",
+          "action": null,
+          "recovery": null
+        },
+        "commands": [],
+        "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nRound order\nPlayer turns\nPrivate talk\nSync when applicable\nBlackout\nDamage and Hospital placement\nJail vote\nResult\nRemaining resolution and Rescue\nNavigation\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3154,7 +4198,7 @@
         "heard": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-suppress.jpg",
-      "sha256": "8840f2e65a4c2e54612fcfd4ad2c3fbc99ddf862e9a2973e0513921dd06ab21c",
+      "sha256": "daa31dd4bf61c847a86afa9b557f663ae242d4898e6ce3910fbb600159754e1e",
       "seen": {
         "shell": {
           "status": "live",
@@ -3333,6 +4377,7 @@
           "rows": [],
           "picked": []
         },
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "room-b",
@@ -3370,7 +4415,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3396,7 +4441,7 @@
         "unavailableRefused": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-tiles.jpg",
-      "sha256": "e8f75c9867dd5208c515d8541e539497ba68b563acecc3d3bfcf340960868cf4",
+      "sha256": "29e843785f9a8c8d51327b6f45fe224ea08bd77604b6e63dd9812a886b3269cf",
       "seen": {
         "shell": {
           "status": "live",
@@ -3582,6 +4627,7 @@
           "rows": [],
           "picked": []
         },
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "room-b",
@@ -3615,7 +4661,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3639,7 +4685,7 @@
         "afterRetry": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-unknown.jpg",
-      "sha256": "516f30177025c084d2933ecda4e310bdaef1326721fa82317105506706a86429",
+      "sha256": "8f82980a263e369d2ceaa019904e7bf3119dec230fa9fc958786e9d6dae68a68",
       "seen": {
         "shell": {
           "status": "live",
@@ -3821,6 +4867,7 @@
           "rows": [],
           "picked": []
         },
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "hospital",
@@ -3863,7 +4910,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3887,7 +4934,7 @@
         "noAfter": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-blackhole.jpg",
-      "sha256": "3ab59d3b0cf3b8ab9987bfcc58a2a88654ad5090a1a9259bb4e52e8ec3d41e37",
+      "sha256": "f39a758a184b80da265e14e8ffce63e34d9250a59894cba8f2add5902c74f066",
       "seen": {
         "shell": {
           "status": "live",
@@ -4068,6 +5115,7 @@
           "rows": [],
           "picked": []
         },
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "command-room",
@@ -4105,7 +5153,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4132,7 +5180,7 @@
         "noSheetSending": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-blackout.jpg",
-      "sha256": "b023c6d59606ed053d62bc24d52a4127b0198b328e80b73033d8689d57f99eac",
+      "sha256": "de57015641e67759e5b4d81cc1089fc6819c563438c56655587c4f4b6ab5743d",
       "seen": {
         "shell": {
           "status": "live",
@@ -4264,6 +5312,7 @@
         "toast": null,
         "sheet": null,
         "actions": null,
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "room-a",
@@ -4307,7 +5356,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4329,7 +5378,7 @@
         "noSheet": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-blackout-fixed.jpg",
-      "sha256": "53b009563871d4db52ceb8d120671cca8bb8d9e5ff48d95a33f32e348bab8b89",
+      "sha256": "79b89058a921b8478423638d834f73ec04801e6d8479ce60ec1acebd0b42263b",
       "seen": {
         "shell": {
           "status": "live",
@@ -4448,6 +5497,7 @@
         "toast": null,
         "sheet": null,
         "actions": null,
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "room-a",
@@ -4493,7 +5543,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4543,6 +5593,7 @@
         "toast": null,
         "sheet": null,
         "actions": null,
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": null,
@@ -4576,7 +5627,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4599,7 +5650,7 @@
         "rowToCheck": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-list.jpg",
-      "sha256": "cbf98886b0037c76d655ae2cebd5b2eccea23ef9aaf09aaa0a89a81293aa285e",
+      "sha256": "c935125160d031033f3989e52a821f8696b080589926a8a8afd4800e1cb860c9",
       "seen": {
         "shell": {
           "status": "live",
@@ -4787,6 +5838,7 @@
           ],
           "picked": []
         },
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": null,
@@ -4826,7 +5878,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4850,7 +5902,7 @@
         "roomChosen": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-move.jpg",
-      "sha256": "4af6dd7e461fdbce81a1861e7cbfe871afea41b3b15268064c797f653b6b1c45",
+      "sha256": "7e447bcae5bbdf0e15bac3eb144502c30be1cc60024d608ba6a44526c2d459ee",
       "seen": {
         "shell": {
           "status": "live",
@@ -4995,6 +6047,7 @@
         "toast": null,
         "sheet": null,
         "actions": null,
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "room-b",
@@ -5036,7 +6089,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5059,7 +6112,7 @@
         "otherRoom": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-move-board.jpg",
-      "sha256": "a8f9e26cbcc1c81c70a9a23a365bbb629139e30a65f9fc45c5d22682134464d4",
+      "sha256": "a9899768ec9fbb11543f13babf7b25c0482d28438badf7924a5f7768a02f59e8",
       "seen": {
         "shell": {
           "status": "live",
@@ -5191,6 +6244,7 @@
         "toast": null,
         "sheet": null,
         "actions": null,
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": null,
@@ -5235,7 +6289,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5259,7 +6313,7 @@
         "cancelToChoosing": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-move-check.jpg",
-      "sha256": "fd95d778b2854ff297256970774840b82a8f8b9ecbd6c5bd63cd8ffd9262dcae",
+      "sha256": "9d916855bd471b6298dd895e6b93c97b53cdbaece5272183cc43c85ff4543153",
       "seen": {
         "shell": {
           "status": "live",
@@ -5440,6 +6494,7 @@
           "rows": [],
           "picked": []
         },
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "room-b",
@@ -5481,7 +6536,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5504,7 +6559,7 @@
         "youThere": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-moved.jpg",
-      "sha256": "d6fe0ed3cda374b8a32dcadeb581ad060083ac202dd7a5b6ba32bc7f6070a864",
+      "sha256": "5911ed7627e17f8c314c8d6f2d452a7de9e54314a7d5b9cb0d8ca88aa7a8ddeb",
       "seen": {
         "shell": {
           "status": "live",
@@ -5619,6 +6674,7 @@
         "toast": "Moved to B5",
         "sheet": null,
         "actions": null,
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "room-b",
@@ -5661,7 +6717,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5683,7 +6739,7 @@
         "chipToBoard": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-other-rooms.jpg",
-      "sha256": "fcb72228f7a86b3c02515daa437251747a9c9b31a1b2a8febad46f415e107b7e",
+      "sha256": "a0f95aa6ab89fd246844122b3852f4bda382c5f0e8df084fb12fc5106cb63140",
       "seen": {
         "shell": {
           "status": "live",
@@ -5828,6 +6884,7 @@
         "toast": null,
         "sheet": null,
         "actions": null,
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "room-a",
@@ -5867,7 +6924,302 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/panels": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "frame": true,
+        "partOnly": true,
+        "view": true,
+        "rows": true,
+        "titles": true,
+        "lines": true,
+        "icons": true,
+        "open": true,
+        "tabOpen": true,
+        "noCommand": true,
+        "windowsOpens": true,
+        "backToPanels": true
+      },
+      "file": "design/phone-ui/review/match-connection/430x932-panels.jpg",
+      "sha256": "018725aa70dcb2cc641ccc0677edb5c26b8b2c858d4f6bcd059495183496d692",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "turn",
+          "tone": null,
+          "name": "Your turn",
+          "sub": "Player 6 · Crew 6",
+          "clock": "0:58",
+          "controls": 2
+        },
+        "tabs": {
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 86,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 182,
+                "y": 855,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 258,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "true",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 344,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            }
+          ]
+        },
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": false,
+          "busy": false,
+          "box": {
+            "x": 182,
+            "y": 855,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "sheet": {
+          "id": "panels",
+          "title": "Panels",
+          "sub": null,
+          "back": false,
+          "close": true,
+          "foot": [],
+          "game": null,
+          "children": [
+            "ms-panels"
+          ],
+          "box": {
+            "x": 0,
+            "y": 489.3,
+            "width": 430,
+            "height": 384.7
+          }
+        },
+        "actions": null,
+        "panels": {
+          "view": "list",
+          "label": "Panels",
+          "first": true,
+          "motion": "full",
+          "rows": [
+            {
+              "value": "windows",
+              "seat": null,
+              "kind": null,
+              "title": "Windows",
+              "sub": "Room A ↔ Room B · Room B ↔ Jail",
+              "icon": "window",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": true,
+              "box": {
+                "x": 16,
+                "y": 564.3,
+                "width": 398,
+                "height": 53.14
+              }
+            },
+            {
+              "value": "navigation",
+              "seat": null,
+              "kind": null,
+              "title": "Navigation",
+              "sub": "Captain and Officer only",
+              "icon": "course",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": true,
+              "box": {
+                "x": 16,
+                "y": 617.44,
+                "width": 398,
+                "height": 53.14
+              }
+            },
+            {
+              "value": "hospital",
+              "seat": null,
+              "kind": null,
+              "title": "Hospital panel",
+              "sub": "Patients only",
+              "icon": "panel",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": true,
+              "box": {
+                "x": 16,
+                "y": 670.58,
+                "width": 398,
+                "height": 53.14
+              }
+            },
+            {
+              "value": "players",
+              "seat": null,
+              "kind": null,
+              "title": "Players",
+              "sub": "Seats, rooms and public status",
+              "icon": "players",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": true,
+              "box": {
+                "x": 16,
+                "y": 737.72,
+                "width": 398,
+                "height": 53.14
+              }
+            },
+            {
+              "value": "round-order",
+              "seat": null,
+              "kind": null,
+              "title": "Round order",
+              "sub": "Phases and timings",
+              "icon": "rules",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": true,
+              "box": {
+                "x": 16,
+                "y": 790.86,
+                "width": 398,
+                "height": 53.14
+              }
+            }
+          ],
+          "note": null,
+          "text": "WindowsRoom A ↔ Room B · Room B ↔ JailNavigationCaptain and Officer onlyHospital panelPatients onlyPlayersSeats, rooms and public statusRound orderPhases and timings"
+        },
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "lighting": "lit",
+          "presses": [],
+          "slots": [],
+          "boardSlots": [],
+          "captions": []
+        },
+        "old": 0,
+        "status": null,
+        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BYour turnPlayer 6 · Crew 6PromisesR60:58PanelsWindowsRoom A ↔ Room B · Room B ↔ JailNavigationCaptain and Officer onlyHospital panelPatients onlyPlayersSeats, rooms and public statusRound orderPhases and timingsBoardActionsPassPassCardPanels",
+        "hiddenStep": "",
+        "hiddenCheckpoint": "Current board · shared: Round 5 complete",
+        "before": null,
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "phase": "ORDINARY_TURN",
+          "panel": "panels",
+          "ownSeatId": "seat-6",
+          "round": 6,
+          "own": "Room B B1",
+          "action": null,
+          "recovery": null
+        },
+        "commands": [],
+        "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nPanels\nWindows\nRoom A ↔ Room B · Room B ↔ Jail\nNavigation\nCaptain and Officer only\nHospital panel\nPatients only\nPlayers\nSeats, rooms and public status\nRound order\nPhases and timings\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5893,7 +7245,7 @@
         "sheetClosed": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-pass.jpg",
-      "sha256": "6e082e139e70bfcbf48eb13ad809116e17e780e9cfe8d6288c5a7fac00ea9788",
+      "sha256": "7147d6793254baf8d328e154e34f63a8542a17ca75ed700bb15b12b17a837722",
       "seen": {
         "shell": {
           "status": "live",
@@ -6072,6 +7424,7 @@
           "rows": [],
           "picked": []
         },
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "room-b",
@@ -6109,7 +7462,378 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/players": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "frame": true,
+        "view": true,
+        "seats": true,
+        "you": true,
+        "names": true,
+        "lines": true,
+        "badges": true,
+        "portraits": true,
+        "note": true,
+        "noChevron": true,
+        "publicOnly": true,
+        "backToList": true
+      },
+      "file": "design/phone-ui/review/match-connection/430x932-players.jpg",
+      "sha256": "5900fc7da600d7dbf4b8565093c4319fae4ffd775df5fe92af6df093eb8b7167",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "turn",
+          "tone": null,
+          "name": "Your turn",
+          "sub": "Player 6 · Crew 6",
+          "clock": "0:58",
+          "controls": 2
+        },
+        "tabs": {
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 86,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 182,
+                "y": 855,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 258,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "true",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 344,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            }
+          ]
+        },
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": false,
+          "busy": false,
+          "box": {
+            "x": 182,
+            "y": 855,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "sheet": {
+          "id": "panels",
+          "title": "Players",
+          "sub": null,
+          "back": true,
+          "close": true,
+          "foot": [],
+          "game": null,
+          "children": [
+            "ms-panels"
+          ],
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 430,
+            "height": 814
+          }
+        },
+        "actions": null,
+        "panels": {
+          "view": "players",
+          "label": "Players",
+          "first": true,
+          "motion": "full",
+          "rows": [
+            {
+              "value": null,
+              "seat": "1",
+              "kind": null,
+              "title": "1 · Crew 1",
+              "sub": "Room A",
+              "icon": null,
+              "portrait": "ms-k-pt",
+              "badges": [
+                "Captain"
+              ],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 135,
+                "width": 398,
+                "height": 53.14
+              }
+            },
+            {
+              "value": null,
+              "seat": "2",
+              "kind": null,
+              "title": "2 · Crew 2",
+              "sub": "Room A",
+              "icon": null,
+              "portrait": "ms-k-pt",
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 188.14,
+                "width": 398,
+                "height": 53.14
+              }
+            },
+            {
+              "value": null,
+              "seat": "3",
+              "kind": null,
+              "title": "3 · Crew 3",
+              "sub": "Hospital · Injured",
+              "icon": null,
+              "portrait": "ms-k-pt",
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 241.28,
+                "width": 398,
+                "height": 53.14
+              }
+            },
+            {
+              "value": null,
+              "seat": "4",
+              "kind": null,
+              "title": "4 · Crew 4",
+              "sub": "Room A",
+              "icon": null,
+              "portrait": "ms-k-pt",
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 294.42,
+                "width": 398,
+                "height": 53.14
+              }
+            },
+            {
+              "value": null,
+              "seat": "5",
+              "kind": null,
+              "title": "5 · Crew 5",
+              "sub": "Room A",
+              "icon": null,
+              "portrait": "ms-k-pt",
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 347.56,
+                "width": 398,
+                "height": 53.14
+              }
+            },
+            {
+              "value": null,
+              "seat": "6",
+              "kind": null,
+              "title": "6 · Crew 6 (you)",
+              "sub": "Room B",
+              "icon": null,
+              "portrait": "ms-k-pt",
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 400.7,
+                "width": 398,
+                "height": 53.14
+              }
+            },
+            {
+              "value": null,
+              "seat": "7",
+              "kind": null,
+              "title": "7 · Crew 7",
+              "sub": "Room B",
+              "icon": null,
+              "portrait": "ms-k-pt",
+              "badges": [
+                "Officer"
+              ],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 453.84,
+                "width": 398,
+                "height": 53.14
+              }
+            },
+            {
+              "value": null,
+              "seat": "8",
+              "kind": null,
+              "title": "8 · Crew 8",
+              "sub": "In Jail",
+              "icon": null,
+              "portrait": "ms-k-pt",
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 506.98,
+                "width": 398,
+                "height": 53.14
+              }
+            },
+            {
+              "value": null,
+              "seat": "9",
+              "kind": null,
+              "title": "9 · Crew 9",
+              "sub": "Eliminated",
+              "icon": null,
+              "portrait": "ms-k-pt",
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 560.13,
+                "width": 398,
+                "height": 53.14
+              }
+            }
+          ],
+          "note": "Public facts only: seats, rooms, health and offices.",
+          "text": "1 · Crew 1Room ACaptain2 · Crew 2Room A3 · Crew 3Hospital · Injured4 · Crew 4Room A5 · Crew 5Room A6 · Crew 6 (you)Room B7 · Crew 7Room BOfficer8 · Crew 8In Jail9 · Crew 9EliminatedPublic facts only: seats, rooms, health and offices."
+        },
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "lighting": "lit",
+          "presses": [],
+          "slots": [],
+          "boardSlots": [],
+          "captions": []
+        },
+        "old": 0,
+        "status": null,
+        "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } 6You7Crew 7Room BYour turnPlayer 6 · Crew 6PromisesR60:58Players1 · Crew 1Room ACaptain2 · Crew 2Room A3 · Crew 3Hospital · Injured4 · Crew 4Room A5 · Crew 5Room A6 · Crew 6 (you)Room B7 · Crew 7Room BOfficer8 · Crew 8In Jail9 · Crew 9EliminatedPublic facts only: seats, rooms, health and offices.BoardActionsPassPassCardPanels",
+        "hiddenStep": "",
+        "hiddenCheckpoint": "Current board · shared: Round 5 complete",
+        "before": null,
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "phase": "ORDINARY_TURN",
+          "panel": "players",
+          "ownSeatId": "seat-6",
+          "round": 6,
+          "own": "Room B B1",
+          "action": null,
+          "recovery": null
+        },
+        "commands": [],
+        "page": "6\nYou\n7\nCrew 7\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nPlayers\n1 · Crew 1\nRoom A\nCaptain\n2 · Crew 2\nRoom A\n3 · Crew 3\nHospital · Injured\n4 · Crew 4\nRoom A\n5 · Crew 5\nRoom A\n6 · Crew 6 (you)\nRoom B\n7 · Crew 7\nRoom B\nOfficer\n8 · Crew 8\nIn Jail\n9 · Crew 9\nEliminated\n\nPublic facts only: seats, rooms, health and offices.\n\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1, Captain.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Injured, Hospital, H1, Rescue possible through Round 6.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2, Officer.\nPlayer 8, Crew 8: Healthy, Jail, J1, detained.\nPlayer 9, Crew 9: Eliminated, off board.\nCaptain Player 1 · Officer Player 7Current board · shared: Round 5 complete",
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6130,7 +7854,7 @@
         "noTiles": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-reconnecting.jpg",
-      "sha256": "39681dd678ba1a9b1554afbb3f0e3f9ffac90bb730a8d9789d84e7c1429f1f8a",
+      "sha256": "c6c3a1a423b6fdbaf3f837de3e87ac0ff7fbd480024c109c97270b81739ebe62",
       "seen": {
         "shell": {
           "status": "stale",
@@ -6248,6 +7972,7 @@
         "toast": null,
         "sheet": null,
         "actions": null,
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "room-a",
@@ -6281,7 +8006,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6305,7 +8030,7 @@
         "heroStays": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-rescue.jpg",
-      "sha256": "c068ab399f87a8fc352b9a987ece85d33ec3635c35bdbb971f4340b4a627defc",
+      "sha256": "22c346db9f723f500ddabdd15c089e86d83232e02e094c64cda4c9fe11b772e9",
       "seen": {
         "shell": {
           "status": "live",
@@ -6437,6 +8162,7 @@
         "toast": null,
         "sheet": null,
         "actions": null,
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "hospital",
@@ -6476,7 +8202,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6504,7 +8230,7 @@
         "doneCloses": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-rescue-after.jpg",
-      "sha256": "0955a12605261a68623ace941b3fce54c415a9027d0623c749a50509aeb9ab15",
+      "sha256": "769871f1fe375e37324a706cb41bad073b482a954d5395e6f63ee37117d305bc",
       "seen": {
         "shell": {
           "status": "live",
@@ -6672,6 +8398,7 @@
           "rows": [],
           "picked": []
         },
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "hospital",
@@ -6714,7 +8441,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6739,7 +8466,7 @@
         "cancelToTiles": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-rescue-check.jpg",
-      "sha256": "5651d398b281822f9df81f3b08e3b8c4b5b87d29c0df303c7d76b23eebaeb240",
+      "sha256": "3a752ce5bf20c031eeaa2f55594691ecdcb2a8695fbe3536f378fe622e4b957d",
       "seen": {
         "shell": {
           "status": "live",
@@ -6918,6 +8645,7 @@
           "rows": [],
           "picked": []
         },
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "hospital",
@@ -6957,7 +8685,370 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/round-order": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "frame": true,
+        "view": true,
+        "steps": true,
+        "kinds": true,
+        "icons": true,
+        "noTimings": true,
+        "noNote": true,
+        "closes": true
+      },
+      "file": "design/phone-ui/review/match-connection/430x932-round-order.jpg",
+      "sha256": "d59650b5655cb2c52234f8008840fa0196b26ddbef87f8d90398b71e03ecb9c1",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "turn",
+          "tone": null,
+          "name": "Your turn",
+          "sub": "Player 6 · Crew 6",
+          "clock": "0:58",
+          "controls": 2
+        },
+        "tabs": {
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 86,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 182,
+                "y": 855,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 258,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "true",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 344,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            }
+          ]
+        },
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": false,
+          "busy": false,
+          "box": {
+            "x": 182,
+            "y": 855,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "sheet": {
+          "id": "panels",
+          "title": "Round order",
+          "sub": null,
+          "back": true,
+          "close": true,
+          "foot": [],
+          "game": null,
+          "children": [
+            "ms-panels"
+          ],
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 430,
+            "height": 814
+          }
+        },
+        "actions": null,
+        "panels": {
+          "view": "round-order",
+          "label": "Round order",
+          "first": true,
+          "motion": "full",
+          "rows": [
+            {
+              "value": null,
+              "seat": null,
+              "kind": "turns",
+              "title": "Player turns",
+              "sub": null,
+              "icon": "actions",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 135,
+                "width": 398,
+                "height": 52
+              }
+            },
+            {
+              "value": null,
+              "seat": null,
+              "kind": "private-talk",
+              "title": "Private talk",
+              "sub": null,
+              "icon": "talk",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 187,
+                "width": 398,
+                "height": 52
+              }
+            },
+            {
+              "value": null,
+              "seat": null,
+              "kind": "sync",
+              "title": "Sync when applicable",
+              "sub": null,
+              "icon": "blackhole",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 239,
+                "width": 398,
+                "height": 52
+              }
+            },
+            {
+              "value": null,
+              "seat": null,
+              "kind": "blackout",
+              "title": "Blackout",
+              "sub": null,
+              "icon": "dark",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 291,
+                "width": 398,
+                "height": 52
+              }
+            },
+            {
+              "value": null,
+              "seat": null,
+              "kind": "hospital",
+              "title": "Damage and Hospital placement",
+              "sub": null,
+              "icon": "hospital",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 343,
+                "width": 398,
+                "height": 52
+              }
+            },
+            {
+              "value": null,
+              "seat": null,
+              "kind": "jail-vote",
+              "title": "Jail vote",
+              "sub": null,
+              "icon": "vote",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 395,
+                "width": 398,
+                "height": 52
+              }
+            },
+            {
+              "value": null,
+              "seat": null,
+              "kind": "result",
+              "title": "Result",
+              "sub": null,
+              "icon": "vote",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 447,
+                "width": 398,
+                "height": 52
+              }
+            },
+            {
+              "value": null,
+              "seat": null,
+              "kind": "resolution",
+              "title": "Remaining resolution and Rescue",
+              "sub": null,
+              "icon": "rescue",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 499,
+                "width": 398,
+                "height": 52
+              }
+            },
+            {
+              "value": null,
+              "seat": null,
+              "kind": "navigation",
+              "title": "Navigation",
+              "sub": null,
+              "icon": "course",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": false,
+              "box": {
+                "x": 16,
+                "y": 551,
+                "width": 398,
+                "height": 52
+              }
+            }
+          ],
+          "note": null,
+          "text": "Player turnsPrivate talkSync when applicableBlackoutDamage and Hospital placementJail voteResultRemaining resolution and RescueNavigation"
+        },
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "lighting": "lit",
+          "presses": [],
+          "slots": [],
+          "boardSlots": [],
+          "captions": []
+        },
+        "old": 0,
+        "status": null,
+        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BYour turnPlayer 6 · Crew 6PromisesR60:58Round orderPlayer turnsPrivate talkSync when applicableBlackoutDamage and Hospital placementJail voteResultRemaining resolution and RescueNavigationBoardActionsPassPassCardPanels",
+        "hiddenStep": "",
+        "hiddenCheckpoint": "Current board · shared: Round 5 complete",
+        "before": null,
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "phase": "ORDINARY_TURN",
+          "panel": "round-order",
+          "ownSeatId": "seat-6",
+          "round": 6,
+          "own": "Room B B1",
+          "action": null,
+          "recovery": null
+        },
+        "commands": [],
+        "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nRound order\nPlayer turns\nPrivate talk\nSync when applicable\nBlackout\nDamage and Hospital placement\nJail vote\nResult\nRemaining resolution and Rescue\nNavigation\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6982,7 +9073,7 @@
         "heard": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-suppress.jpg",
-      "sha256": "24bdbc88743a9b2109bdf4e53a0478d3fb0e374ffd6d7abf964ad89f16a8cac4",
+      "sha256": "4fb11da0aa9750d57ad435d0b794ec6817e30b8686b05c893a279ab588c372e1",
       "seen": {
         "shell": {
           "status": "live",
@@ -7161,6 +9252,7 @@
           "rows": [],
           "picked": []
         },
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "room-b",
@@ -7198,7 +9290,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7224,7 +9316,7 @@
         "unavailableRefused": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-tiles.jpg",
-      "sha256": "9a1222b8c3905f7d2397678168681e62b42774663d3423b7d11a40db1c228f39",
+      "sha256": "28a85dea9eccdfe9c0667f733ad4ef86b8de5eba8eacc7054c1ac465a8aa96b6",
       "seen": {
         "shell": {
           "status": "live",
@@ -7410,6 +9502,7 @@
           "rows": [],
           "picked": []
         },
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "room-b",
@@ -7443,7 +9536,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7467,7 +9560,7 @@
         "afterRetry": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-unknown.jpg",
-      "sha256": "8d14c152d96bcad498e25f6ac3f920a81d437f991f1638a0c2461702382a2f10",
+      "sha256": "e6bcb7d4a52dfeb05c43fe821aa01fa2efcb472a50604b1015f43a0ffdbfb63c",
       "seen": {
         "shell": {
           "status": "live",
@@ -7649,6 +9742,7 @@
           "rows": [],
           "picked": []
         },
+        "panels": null,
         "stage": {
           "inShell": true,
           "scene": "hospital",
@@ -7691,7 +9785,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-J3BZu3ft.js",
+            "source": "assets/app-DslU7n6i.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
