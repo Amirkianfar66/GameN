@@ -965,6 +965,22 @@ The Lead then recommended one shared view for each fixed room. The owner:
   - the labels keep their level, and the tile is whole;
   - with no character, the tab is exactly as before.
 - The game's connection on #307 takes it next, and the Lead reviews that again.
+- The Lead accepted #307 at `68c9a296`. It has the square portrait, and keeps the player's own portrait while reconnecting.
+
+**See the design before the tests, minutes later.**
+- **Where the Lead read it:** the owner's message in the Bars & Icons builder's session, in that session's own transcript (15:22 UTC). Word for word:
+
+> Before you run tests let me see the design first
+
+**What it decides:** for a change of look the owner asks for, the owner sees the drawing before anyone spends time on checks. The order is:
+1. The builder makes the change in the component itself. No recorded check and no test suite yet.
+2. The control page goes to the owner's link as a draft. It says so at the top: the look only, not checked yet, and it may still change.
+3. The Lead gets the same draft at the same moment and looks at it in parallel.
+4. After the owner's OK come the recorded check, the test suites, the PR, the game's connection and its check, and the Lead's acceptance of the checked build.
+
+**What stays as before:**
+- The draft is built from the real component, never a mock, so the later checks cover exactly what the owner approved.
+- A change that isn't only a look keeps the usual order: checks, then the Lead's review, then the owner. That covers behaviour, data, privacy and the game's connection.
 
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
