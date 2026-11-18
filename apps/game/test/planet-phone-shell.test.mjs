@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {connectShellLifecycle,createServerClock,ownOut,ownPersonSeen,ownTalk,phaseClosed,roundStart,shellFocusOrder,shellSheetEntered,shellSheetFocus,SHELL_SHEET_FOCUS,SHELL_SHEET_INTENTS,SHELL_SHEET_TITLE,shellBanner,shellBar,shellChip,shellHandlers,shellHostSheet,shellHero,shellInput,shellPhaseFacts,shellPicking,shellRuns,shellSheet,shellStatus,shellTabs,shellTarget,shellTimer,shellToast,talkButtons,
+import {connectShellLifecycle,createServerClock,ownOut,ownPersonSeen,ownTalk,phaseClosed,roundStart,shellFocusOrder,shellHeldEnter,shellOpenerKeeps,shellSheetEntered,shellSheetFocus,SHELL_OPENERS,SHELL_SHEET_FOCUS,SHELL_SHEET_INTENTS,SHELL_SHEET_TITLE,SHELL_TEXT_FIELDS,shellBanner,shellBar,shellChip,shellHandlers,shellHostSheet,shellHero,shellInput,shellPhaseFacts,shellPicking,shellRuns,shellSheet,shellStatus,shellTabs,shellTarget,shellTimer,shellToast,talkButtons,
  SHELL_CHOOSING,SHELL_CLOSES_ITSELF,SHELL_PHASE_ICONS,SHELL_PHASE_NAMES} from '../hosted/planet/shell-input.mjs';
 import {checkBar,checkTabs,clockText,nextPhoneShellInput,PHONE_SHELL_DEFAULTS} from '../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
 import {PHASE_BAR_PHASES,PHASE_BAR_REFUSED,PHASE_WORDS,loadingBar,phaseBar,phaseClosedToast,reconnectingBar} from '../../../design/phone-ui/components/phone-shell/phase-bars.mjs';
@@ -444,6 +444,41 @@ test('the focus handed back: Cancel while choosing, else the control that opened
  assert.deepEqual(shellFocusOrder({intent:'tab',value:'card'},{choosing:true}),['[data-intent="cancel-target"]','[data-intent="tab"][data-value="card"]',first]);
  // An intent the shell never reports opens nothing to return to.
  assert.deepEqual(shellFocusOrder({intent:'sheet-close',value:null}),[first]);
+});
+
+test('the control that opened a sheet keeps the focus: a tab, the round button, Promises and the menu, each only when it was pressed and has the focus',()=>{
+ assert.deepEqual(SHELL_OPENERS,['tab','hero','promises','menu']);
+ // The pressed control has the focus: it keeps it.
+ assert.equal(shellOpenerKeeps({intent:'tab',value:'actions'},{intent:'tab',value:'actions'}),true);
+ assert.equal(shellOpenerKeeps({intent:'hero',value:'pass'},{intent:'hero',value:null}),true,'the round button carries no value: its mode is the report\'s');
+ assert.equal(shellOpenerKeeps({intent:'promises',value:null},{intent:'promises',value:null}),true);
+ assert.equal(shellOpenerKeeps({intent:'menu',value:null},{intent:'menu',value:null}),true);
+ // Another tab has the focus (a tap where the focus doesn't follow): the title takes it.
+ assert.equal(shellOpenerKeeps({intent:'tab',value:'actions'},{intent:'tab',value:'panels'}),false);
+ assert.equal(shellOpenerKeeps({intent:'tab',value:'actions'},{intent:'hero',value:null}),false);
+ // The focus is nowhere in the shell, or in the scene: the title takes it.
+ assert.equal(shellOpenerKeeps({intent:'tab',value:'actions'},null),false);
+ // Nothing of the shell's was pressed (a row, a tile, a person, a position, the game itself): the title takes it, also
+ // when the focus rests on a tab from before.
+ assert.equal(shellOpenerKeeps(null,{intent:'tab',value:'actions'}),false);
+ assert.equal(shellOpenerKeeps(undefined,{intent:'hero',value:null}),false);
+ // The board's chips and a sheet's own controls are not openers.
+ for(const intent of ['chip','sheet-back','sheet-close','sheet-action','cancel-target','retry'])assert.equal(shellOpenerKeeps({intent,value:null},{intent,value:null}),false,intent);
+});
+
+test('a held Enter presses nothing: only its repeats, never the first press, Space or a text field\'s keys',()=>{
+ const button={closest:()=>null},field={closest:selector=>selector===SHELL_TEXT_FIELDS?{}:null};
+ assert.equal(SHELL_TEXT_FIELDS,'input,textarea,[contenteditable]:not([contenteditable="false"])');
+ assert.equal(shellHeldEnter({key:'Enter',repeat:true},button),true);
+ assert.equal(shellHeldEnter({key:'Enter',repeat:true}),true,'no target: still nothing');
+ // The first press works as it does today.
+ assert.equal(shellHeldEnter({key:'Enter',repeat:false},button),false);
+ assert.equal(shellHeldEnter({key:'Enter'},button),false);
+ // Space acts when it is let go; other keys repeat as they do (arrows on a drawing, Tab, Escape).
+ for(const key of [' ','Spacebar','Escape','Tab','ArrowDown','a'])assert.equal(shellHeldEnter({key,repeat:true},button),false,key);
+ // A text field keeps its keys.
+ assert.equal(shellHeldEnter({key:'Enter',repeat:true},field),false);
+ assert.equal(shellHeldEnter(null,button),false);assert.equal(shellHeldEnter(undefined),false);
 });
 
 test('the focus and a sheet: another sheet\'s title takes it; in a sheet that stays, its own controls; with none open, as before',()=>{

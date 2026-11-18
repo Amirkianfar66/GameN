@@ -24,8 +24,10 @@
 //   before, appointment,     the phase bars (shell 0.2.10, phase-bars.mjs): before turns; the Officer's appointment,
 //   course                   everyone's bar and then the Captain's own; setting course, everyone's and then an office's own
 //   display, concealed       a shared display (no tabs or Promises; ⋮ opens Settings); a hidden page
-//   focus                    where the focus goes when a sheet opens: its title, from a tab, a tile, a person and a
-//                            position on the board; and back to the tab when a sheet closes
+//   focus                    where the focus goes when a sheet opens: its title, from a tile, a person and a
+//                            position on the board; a tab and the round button keep it; and back to the tab
+//                            when a sheet closes
+//   held                     Enter held on the round button and on a ballot name: the repeats press nothing
 // and, at 320 × 568 with the Largest text (200 %, chosen in the game's own Settings), shell 0.3.3's two sheet rules in
 // the real app, on the two sheets of this build that leave their content the least room:
 //   largest-pass             "Pass your turn?": the title on two lines and the two buttons a row each
@@ -232,6 +234,19 @@ const FIT = `(() => {
 const AT = "(()=>{const a=document.activeElement,s=a?.closest?.('.ms-ps-sheet'),c=a&&a!==document.body?getComputedStyle(a):null;return {title:!!a?.matches?.('.ms-ps-sheet-title h2'),sheet:s?.dataset.sheet??null,intent:a?.dataset?.intent??null,value:a?.dataset?.value??null,outline:c?c.outlineStyle:'none'};})()";
 /** The focus is on the title of the sheet with this id, with no ring drawn there. */
 const onTitle = (at, sheet) => !!at && at.title === true && at.sheet === sheet && at.intent === null && at.outline === 'none';
+/** A Jail vote opens: the harness's openJailVote(), with the shared checkpoint the Blackout release publishes for it. */
+const JAIL_VOTE = "const ids=p.board.seats.filter(s=>s.health!=='Eliminated').map(s=>s.seatId);p.phase={id:'phone-jail-vote',kind:'JAIL_VOTE',startedAt:now,endsAt:now+60000};p.activeSeatId=null;p.hackSession=null;p.ballot={eligibleVoters:ids,eligibleTargets:ids};p.offers=[{type:'VOTE',targetSeatIds:ids,slotIds:[],windowIds:[],promiseTargetSeatIds:[]}];p.board.checkpoint='AFTER_BLACKOUT';p.board.finalizedRound=p.round";
+/**
+ * Enter through the browser's own input: one press, or held down (the first keydown, the wait before a key repeats,
+ * then that many repeats 35 ms apart, then the key let go).
+ */
+const ENTER = { key: 'Enter', code: 'Enter', windowsVirtualKeyCode: 13, nativeVirtualKeyCode: 13 };
+const enter = async (page, repeats = 0) => {
+  await page.send('Input.dispatchKeyEvent', { type: 'keyDown', ...ENTER, text: '\r' });
+  if (repeats) await sleep(500);
+  for (let i = 0; i < repeats; i += 1) { await page.send('Input.dispatchKeyEvent', { type: 'keyDown', ...ENTER, text: '\r', autoRepeat: true }); await sleep(35); }
+  await page.send('Input.dispatchKeyEvent', { type: 'keyUp', ...ENTER });
+};
 /** A control pressed as a keyboard does: it has the focus, then it is activated. */
 const press = async (page, selector) => { await page.evaluate(`document.querySelector(${JSON.stringify(selector)}).focus()`); await page.evaluate(tap(selector)); };
 
@@ -354,7 +369,7 @@ const STATES = {
   vote: { page: 'phone', url: 'scenario=board', steps: async page => {
       // The harness's openJailVote(), with the shared checkpoint the Blackout release publishes for a Jail vote
       // (apps/game/dev/planet/scenarios.mjs): its openJailVote() keeps the board's, which that release's contract refuses.
-      await page.evaluate(edit("const ids=p.board.seats.filter(s=>s.health!=='Eliminated').map(s=>s.seatId);p.phase={id:'phone-jail-vote',kind:'JAIL_VOTE',startedAt:now,endsAt:now+60000};p.activeSeatId=null;p.hackSession=null;p.ballot={eligibleVoters:ids,eligibleTargets:ids};p.offers=[{type:'VOTE',targetSeatIds:ids,slotIds:[],windowIds:[],promiseTargetSeatIds:[]}];p.board.checkpoint='AFTER_BLACKOUT';p.board.finalizedRound=p.round"));
+      await page.evaluate(edit(JAIL_VOTE));
       await page.waitFor(`${game}.getModel().phase?.kind==='JAIL_VOTE'&&document.querySelector('.ms-ps-hero')?.dataset.mode==='vote'`, 'the round button as Vote');
     },
     facts: s => ({ vote: s.hero?.mode === 'vote' && !s.hero.disabled && s.hero.label === 'Open the ballot', bar: s.bar?.kind === 'phase' && s.bar.name === 'Jail vote' }) },
@@ -472,15 +487,17 @@ const STATES = {
       await page.waitFor(`${game}.getModel().concealed&&document.querySelector('.ms-phone-shell')?.dataset.status==='concealed'`, 'concealed');
     },
     facts: s => ({ empty: s.bar?.hidden && !s.bar.name && !s.bar.clock && s.bar.controls === 0 && (s.tabs?.buttons.length ?? 0) === 0 && s.tabs?.hidden, shape: s.shell?.tabs === 'game' }) },
-  // Where the focus goes when a sheet opens (shell 0.3.4; shell-input.mjs shellSheetEntered(), the Lead Designer, 18
-  // November 2026): to the new sheet's title, whatever was pressed, and never to one of its controls. Pressed here as a
-  // keyboard does, the control focused and then activated: a tab, a tile, a person, and after the capture a position on
-  // the board (in this build people are chosen on the board; choosing in the room's picture arrives with #310). A sheet closed with nothing in its place hands the focus back to the tab that opened it.
+  // Where the focus goes when a sheet opens (shell 0.3.4; shell-input.mjs shellSheetEntered() and shellOpenerKeeps(),
+  // the Lead Designer, 18 November 2026): to the new sheet's title, and never to one of its controls; a tab or the
+  // round button that opened it keeps the focus. Pressed here as a keyboard does, the control focused and then
+  // activated: a tab, a tile, a person, and after the capture a position on the board and the round button (in this
+  // build people are chosen on the board; choosing in the room's picture arrives with #310). A sheet closed with nothing in its place hands the focus back to the tab that opened it.
   focus: { page: 'phone', url: 'scenario=board', steps: async (page, looks) => {
       const seen = {};
       await press(page, TAB('actions'));
       await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='actions'", 'Actions');
       seen.tab = await page.evaluate(AT);
+      seen.tabOpened = await page.evaluate("document.querySelector('.ms-ps-sheet')?.dataset.sheet??null");
       await press(page, '#planet-action-SUBMIT_CODE');
       await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='action:SUBMIT_CODE'", 'the tile\'s sheet');
       seen.tile = await page.evaluate(AT);
@@ -500,7 +517,7 @@ const STATES = {
       looks.focusSeen = seen;
     },
     facts: (s, looks) => { const f = looks.focusSeen ?? {}; return {
-      tabOpensOnTitle: onTitle(f.tab, 'actions'), tileOpensOnTitle: onTitle(f.tile, 'action:SUBMIT_CODE'),
+      tabKeepsTheFocus: f.tab?.sheet === null && f.tab.intent === 'tab' && f.tab.value === 'actions' && f.tabOpened === 'actions', tileOpensOnTitle: onTitle(f.tile, 'action:SUBMIT_CODE'),
       closedBackToTab: f.closed?.sheet === null && f.closed.intent === 'tab' && f.closed.value === 'actions',
       personOpensOnTitle: onTitle(f.person, 'action:SCAN') && s.sheet?.title === 'Scan', nothingSent: s.commands.length === 0 }; },
     after: async page => {
@@ -520,8 +537,50 @@ const STATES = {
       await page.evaluate(edit("v.members.find(m=>m.seatId==='seat-2').displayName='Crew Two'"));
       await sleep(400);
       const later = await page.evaluate(AT), then = await page.evaluate(LOOK);
+      // The round button opens "Pass your turn?" and keeps the focus: it does not go on to Pass, now or when the sheet
+      // is drawn again.
+      await press(page, '.ms-ps-sheet [data-intent="sheet-close"]');
+      await page.waitFor("!document.querySelector('.ms-ps-sheet')", 'the Move sheet closed');
+      await press(page, HERO);
+      await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='pass'", 'Pass your turn?');
+      await sleep(250);
+      const hero = await page.evaluate(AT);
+      await page.evaluate(edit("v.members.find(m=>m.seatId==='seat-3').displayName='Crew Three'"));
+      await sleep(400);
+      const heroLater = await page.evaluate(AT), last = await page.evaluate(LOOK);
+      const onHero = h => !!h && h.sheet === null && h.intent === 'hero';
       return { boardTargetOpensOnTitle: onTitle(at, 'action:MOVE') && seen.sheet?.foot.some(b => b.value === 'confirm'),
-        titleKeepsTheFocus: onTitle(later, 'action:MOVE') && then.sheet?.foot.some(b => b.value === 'confirm'), stillNothingSent: then.commands.length === 0 };
+        titleKeepsTheFocus: onTitle(later, 'action:MOVE') && then.sheet?.foot.some(b => b.value === 'confirm'),
+        roundButtonKeepsTheFocus: onHero(hero) && onHero(heroLater) && last.sheet?.title === 'Pass your turn?', stillNothingSent: last.commands.length === 0 };
+    } },
+  // A held Enter presses nothing after its first press (shell-input.mjs shellHeldEnter(), the Lead Designer, 18 November
+  // 2026), through the browser's own input. Held on the round button: the ballot opens, once. Held on a name: the name
+  // is chosen and the focus moves on to Vote, as before, and the key's repeats do not press Vote. Then one new press
+  // of Enter votes, once.
+  held: { page: 'phone', url: 'scenario=board', steps: async (page, looks) => {
+      await page.evaluate(edit(JAIL_VOTE));
+      await page.waitFor(`${game}.getModel().phase?.kind==='JAIL_VOTE'&&document.querySelector('.ms-ps-hero')?.dataset.mode==='vote'`, 'the round button as Vote');
+      await page.evaluate(`document.querySelector(${JSON.stringify(HERO)}).focus()`);
+      await enter(page, 6);
+      await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='action:VOTE'&&document.querySelector('#planet-choice-seat-2')", 'the ballot');
+      await sleep(250);
+      const hero = await page.evaluate(AT);
+      await page.evaluate("document.querySelector('#planet-choice-seat-2').focus()");
+      await enter(page, 6);
+      await sleep(400);
+      looks.heldSeen = { hero, name: await page.evaluate(AT) };
+    },
+    facts: (s, looks) => { const h = looks.heldSeen ?? {}; return {
+      roundButtonHeld: h.hero?.sheet === null && h.hero.intent === 'hero',
+      nameChosen: s.sheet?.title === 'Jail vote' && s.sheet.foot.map(b => b.label).join() === 'Vote' && s.model?.action?.step === 'confirm',
+      focusOnVote: h.name?.sheet === 'action:VOTE' && h.name.intent === 'sheet-action' && h.name.value === 'confirm',
+      repeatsPressNothing: s.commands.length === 0 }; },
+    after: async page => {
+      await enter(page);
+      await page.waitFor(`${game}.getModel().action?.step==='accepted'`, 'the vote registered', 8000);
+      await sleep(200);
+      const seen = await page.evaluate(LOOK);
+      return { oneNewPressVotesOnce: seen.commands.join() === 'VOTE' };
     } },
   // Shell 0.3.3 in the real app, on the smallest phone at the Largest text. No sheet of this build is squeezed there:
   // none has a title of more than two lines, and none leaves its content under a third of the sheet. So the two
@@ -538,7 +597,7 @@ const STATES = {
       whole: unsqueezed(fit) && fit.titleLines === 2 && fit.content <= fit.room + 1 }) },
   'largest-ballot': { page: 'phone', url: 'scenario=board', sizes: ['320x568'], steps: async page => {
       await largestText(page);
-      await page.evaluate(edit("const ids=p.board.seats.filter(s=>s.health!=='Eliminated').map(s=>s.seatId);p.phase={id:'phone-jail-vote',kind:'JAIL_VOTE',startedAt:now,endsAt:now+60000};p.activeSeatId=null;p.hackSession=null;p.ballot={eligibleVoters:ids,eligibleTargets:ids};p.offers=[{type:'VOTE',targetSeatIds:ids,slotIds:[],windowIds:[],promiseTargetSeatIds:[]}];p.board.checkpoint='AFTER_BLACKOUT';p.board.finalizedRound=p.round"));
+      await page.evaluate(edit(JAIL_VOTE));
       await page.waitFor(`${game}.getModel().phase?.kind==='JAIL_VOTE'&&document.querySelector('.ms-ps-hero')?.dataset.mode==='vote'`, 'the round button as Vote');
       await page.evaluate(tap(HERO));
       await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='action:VOTE'&&document.querySelector('.ms-ps-sheet .planet-roster-grid')", 'the ballot');

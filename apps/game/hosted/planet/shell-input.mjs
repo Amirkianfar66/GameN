@@ -388,6 +388,30 @@ export function shellHandlers({openPanel,begin,confirm,dismiss,toggleView,showBo
  };
 }
 
+/**
+ * The shell's controls that open a sheet and keep the focus on themselves when they do (the Lead Designer, 18
+ * November 2026): a tab, the round button, Promises and the menu. Each is a control that stays where it is, and
+ * pressing it again is the player's own next step.
+ */
+export const SHELL_OPENERS=Object.freeze(['tab','hero','promises','menu']);
+/**
+ * Whether the control that opened a sheet keeps the focus: `pressed` is what the shell reported as pressed just now
+ * ({intent,value}, or null when the sheet opened another way), `held` the shell control the focus is on (the same
+ * shape, or null). Only the pressed opener itself keeps it; a tab by its own key.
+ */
+export function shellOpenerKeeps(pressed,held){
+ if(!pressed||!held||!SHELL_OPENERS.includes(pressed.intent)||held.intent!==pressed.intent)return false;
+ return pressed.intent!=='tab'||(held.value??null)===(pressed.value??null);
+}
+/** Where typing belongs to the field: these keep every key. */
+export const SHELL_TEXT_FIELDS='input,textarea,[contenteditable]:not([contenteditable="false"])';
+/**
+ * A key held down repeats. A repeated Enter presses nothing (the Lead Designer, 18 November 2026): only the first
+ * press counts, so a held key can't press the control that the first press put in its place. Space acts when it is
+ * let go, so it needs nothing. `target` is the event's target; a text field keeps its keys.
+ */
+export const shellHeldEnter=(event,target=null)=>event?.key==='Enter'&&event.repeat===true&&!target?.closest?.(SHELL_TEXT_FIELDS);
+
 /** A sheet's own controls, by the intent the shell reports for each: its footer and head actions, Close and Back. */
 export const SHELL_SHEET_INTENTS=Object.freeze(['sheet-action','sheet-local','sheet-head','sheet-close','sheet-back']);
 /**
