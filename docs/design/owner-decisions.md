@@ -1070,6 +1070,29 @@ The Lead then recommended one shared view for each fixed room. The owner:
 
 **What the owner wants next:** one room with all its views, to judge whether this is the way to go. That is Room B's page with its five views, which the Lead sends when it is whole.
 
+**Room B, all five views, sent to the owner that evening** (about 20:04 UTC).
+- **The page:** https://claude.ai/artifact/KsyaYkrFdS1qdgwQ6v3Fmp, version 1795032082-0b3d. The Lead reviewed it at 390 × 844 and 430 × 932 before sending it, and the builder holds it unchanged while the owner looks.
+- **In every view:**
+  - the painted room;
+  - the crew at their stations, with name tags at their feet and the stronger shadows;
+  - the skylight's sky, on one clock for every view;
+  - the capsule's light;
+  - the walks to the capsule and the meals.
+- **Where a view's picture shows them:**
+  - the wall window's sky in views C and E, with no home world. Its clock runs ahead of the skylight's, so nothing the ship passes is in both openings at once;
+  - Room B's atom diagram on the wall screen in views B and C.
+- **The controls:** the view, the phone, Live or Held, 100 % or 200 % text, the capsule's state, each visit alone, and "as in a match".
+- **The Lead's checks,** on both phones:
+  - every view passes, with no errors and no sideways scroll, and Held is still;
+  - one known gap is left. At 200 % on the 390 phone, while Atlas walks out of view E, the accepted tag layout reports that one tag can't be placed clear (drawings 28 to 31 of 112). It comes from the room scene's tag rule for out-of-view chips, which the Lead fixes in the component.
+- **Found and fixed in the Lead's review:** in view C, the laptop Juno leaves on the cart was drawn over the jars while Juno was away. It now keeps its place in the room's order, so the jars cover it as when Juno sits there.
+- **View C's last fixes:**
+  - the jar tops come from PV6-C-5;
+  - the dispenser's left edge is drawn by code, in its own layer just after the capsule's, because the edit did not take there;
+  - no further picture. View C ended at about $0.30, as approved.
+- **Juno in view C** faces the camera, so the head is the approved face, looking down at the laptop as the owner chose for Juno in view A. At that size the lowered eyes can read as closed. The Lead asked the owner whether to keep it or have a "looking down, eyes open" face drawn, with a sketch first.
+- **The question to the owner:** is this the way to go for the rooms?
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
