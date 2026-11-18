@@ -261,6 +261,9 @@
 
 /* ── A toast: the kit's (kit.css .ms-k-toast, 0.8.0), 10 px under the overlays' place ── */
 .ms-phone-shell .ms-ps-toast { --ms-k-toast-top: var(--ms-ps-over-top); }
+/* 0.3.2: over an open sheet whose head it would touch, it sits 8 px under that head instead, over the sheet's body, so
+   it never cuts the title or Close through (phone-shell.mjs placeToast sets the attribute and the place). */
+.ms-phone-shell[data-toast-under] .ms-ps-toast { --ms-k-toast-top: var(--ms-ps-toast-top); }
 
 /* ── The docked sheet: clear glass over the room (kit.css .sheet) ──── */
 /* It always leaves the top bar and the tabs in view: docked between them, auto or large height. */
