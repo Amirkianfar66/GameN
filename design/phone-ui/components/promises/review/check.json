@@ -1,0 +1,3958 @@
+{
+  "tool": "design/tools/promises-check.mjs",
+  "component": "design/phone-ui/components/promises",
+  "sourceCommit": "fb35f381312caf36b05d2192b4cc2fac075ccab7",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": {
+    "390x844/list": {
+      "file": "design/phone-ui/components/promises/review/390x844-list.jpg",
+      "sha256": "98aef841db0aa0dcba413b3b660e81006eae5c8ce7478b5cac9afd53fcccab0f",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": false,
+      "title": "Promises",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "With Ava · talking now",
+      "rows": "Your quota|Offer a Promise|Six kinds · exact terms|Ava offered you one|Captain Support",
+      "value": "Given 0/1 · Received 0/1",
+      "badges": "",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": false,
+      "cardName": null,
+      "terms": null,
+      "portrait": false,
+      "facts": "",
+      "foot": "",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/list": {
+      "file": "design/phone-ui/components/promises/review/430x932-list.jpg",
+      "sha256": "79921aa9b1a01c1ff7e0018b244ff621eb33a406a50b851c07c8127e3e034753",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": false,
+      "title": "Promises",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "With Ava · talking now",
+      "rows": "Your quota|Offer a Promise|Six kinds · exact terms|Ava offered you one|Captain Support",
+      "value": "Given 0/1 · Received 0/1",
+      "badges": "",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": false,
+      "cardName": null,
+      "terms": null,
+      "portrait": false,
+      "facts": "",
+      "foot": "",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/offered": {
+      "file": "design/phone-ui/components/promises/review/390x844-offered.jpg",
+      "sha256": "805b9cfcb2fc4df0616aafcaf44462c417b3b23170f100d641fdae44cb4fb1b5",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": false,
+      "title": "Promises",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "Waiting for Ava|With Ava · talking now",
+      "rows": "Your quota|Meet in Room A|Offered to Ava · not counted yet|Offer a Promise|Six kinds · exact terms|Ava offered you one|Captain Support",
+      "value": "Given 0/1 · Received 0/1|Offered",
+      "badges": "Offered",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": false,
+      "cardName": null,
+      "terms": null,
+      "portrait": false,
+      "facts": "",
+      "foot": "",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/offered": {
+      "file": "design/phone-ui/components/promises/review/430x932-offered.jpg",
+      "sha256": "3dffa35a150cb2cadc22d1a46063b31dcdab4d386f5fb49ca4d4b819899eb34f",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": false,
+      "title": "Promises",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "Waiting for Ava|With Ava · talking now",
+      "rows": "Your quota|Meet in Room A|Offered to Ava · not counted yet|Offer a Promise|Six kinds · exact terms|Ava offered you one|Captain Support",
+      "value": "Given 0/1 · Received 0/1|Offered",
+      "badges": "Offered",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": false,
+      "cardName": null,
+      "terms": null,
+      "portrait": false,
+      "facts": "",
+      "foot": "",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/kinds": {
+      "file": "design/phone-ui/components/promises/review/390x844-kinds.jpg",
+      "sha256": "db5c806b744a65ca4b433d7aa95407bd072c2556bb5f2ddbd191305b4a3f1094",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": true,
+      "title": "Offer to Ava",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "",
+      "rows": "",
+      "value": "",
+      "badges": "",
+      "notes": "Only during your private talk. It counts once Ava accepts.",
+      "tiles": "Captain Support|Officer Selection|Jail Vote|No Jail Vote|Meet in Room A|Meet in Room B",
+      "selected": "Meet in Room A",
+      "across": 3,
+      "targets": 0,
+      "chosen": "",
+      "paper": false,
+      "cardName": null,
+      "terms": null,
+      "portrait": false,
+      "facts": "",
+      "foot": "Next",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/kinds": {
+      "file": "design/phone-ui/components/promises/review/430x932-kinds.jpg",
+      "sha256": "cc3692a83a46f9ac0f7b56180e24a24ebc7993d25dad575b4308b557e50cfac2",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": true,
+      "title": "Offer to Ava",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "",
+      "rows": "",
+      "value": "",
+      "badges": "",
+      "notes": "Only during your private talk. It counts once Ava accepts.",
+      "tiles": "Captain Support|Officer Selection|Jail Vote|No Jail Vote|Meet in Room A|Meet in Room B",
+      "selected": "Meet in Room A",
+      "across": 3,
+      "targets": 0,
+      "chosen": "",
+      "paper": false,
+      "cardName": null,
+      "terms": null,
+      "portrait": false,
+      "facts": "",
+      "foot": "Next",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/target": {
+      "file": "design/phone-ui/components/promises/review/390x844-target.jpg",
+      "sha256": "513ffdfb13bd3dbff42a757ffe588ea8af555a1014da6478ad546fb497ff4223",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": true,
+      "title": "Who will you vote to jail?",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "",
+      "rows": "1 · Ava|2 · Ben|3 · Cleo|5 · Eli|6 · Fay|7 · Gus|8 · Hana|9 · Ike",
+      "value": "",
+      "badges": "",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 8,
+      "chosen": "2 · Ben",
+      "paper": false,
+      "cardName": null,
+      "terms": null,
+      "portrait": false,
+      "facts": "",
+      "foot": "Next",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "430x932/target": {
+      "file": "design/phone-ui/components/promises/review/430x932-target.jpg",
+      "sha256": "7f05ba944fe44038bae16e95c520cb9d2a7c49090bb8e47af5a82963978804a4",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": true,
+      "title": "Who will you vote to jail?",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "",
+      "rows": "1 · Ava|2 · Ben|3 · Cleo|5 · Eli|6 · Fay|7 · Gus|8 · Hana|9 · Ike",
+      "value": "",
+      "badges": "",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 8,
+      "chosen": "2 · Ben",
+      "paper": false,
+      "cardName": null,
+      "terms": null,
+      "portrait": false,
+      "facts": "",
+      "foot": "Next",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "390x844/confirm": {
+      "file": "design/phone-ui/components/promises/review/390x844-confirm.jpg",
+      "sha256": "1dda6e64cbae417419f99b9918da1e181080f20d27b3ac0a3885565189f48e6e",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": true,
+      "title": "Check the terms",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "",
+      "rows": "",
+      "value": "",
+      "badges": "",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": true,
+      "cardName": "Meet in Room A",
+      "terms": "Dev will be in Room A when Round 3’s voting begins.",
+      "portrait": false,
+      "facts": "info:Uses your one given Promise only if Ava accepts|lock:Only you and Ava see it",
+      "foot": "Back|Offer",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/confirm": {
+      "file": "design/phone-ui/components/promises/review/430x932-confirm.jpg",
+      "sha256": "c3a77d395c50b34a808e076ddf2a37ac9ef6af859f37297663f41f2bfed755ce",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": true,
+      "title": "Check the terms",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "",
+      "rows": "",
+      "value": "",
+      "badges": "",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": true,
+      "cardName": "Meet in Room A",
+      "terms": "Dev will be in Room A when Round 3’s voting begins.",
+      "portrait": false,
+      "facts": "info:Uses your one given Promise only if Ava accepts|lock:Only you and Ava see it",
+      "foot": "Back|Offer",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/offering": {
+      "file": "design/phone-ui/components/promises/review/390x844-offering.jpg",
+      "sha256": "f739343877f983e5bba82189dafd09671c52eec94cd5a08342d4c64cacd578c6",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": true,
+      "title": "Check the terms",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "",
+      "rows": "",
+      "value": "",
+      "badges": "",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": true,
+      "cardName": "Meet in Room A",
+      "terms": "Dev will be in Room A when Round 3’s voting begins.",
+      "portrait": false,
+      "facts": "info:Uses your one given Promise only if Ava accepts|lock:Only you and Ava see it",
+      "foot": "Back|Offer",
+      "offerBusy": true,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/offering": {
+      "file": "design/phone-ui/components/promises/review/430x932-offering.jpg",
+      "sha256": "77e7e979ad5f05bc6faa269ccd8ff6c1c50c8c164b225d244f60fedc0892dd25",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": true,
+      "title": "Check the terms",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "",
+      "rows": "",
+      "value": "",
+      "badges": "",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": true,
+      "cardName": "Meet in Room A",
+      "terms": "Dev will be in Room A when Round 3’s voting begins.",
+      "portrait": false,
+      "facts": "info:Uses your one given Promise only if Ava accepts|lock:Only you and Ava see it",
+      "foot": "Back|Offer",
+      "offerBusy": true,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/incoming": {
+      "file": "design/phone-ui/components/promises/review/390x844-incoming.jpg",
+      "sha256": "8bbf0f6ea7c3243376a4bf8e6759a89355dc28def515e5e99b1a071e04727f30",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": false,
+      "title": "Offer from Ava",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "",
+      "rows": "",
+      "value": "",
+      "badges": "",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": true,
+      "cardName": "Captain Support",
+      "terms": "Ava votes for Dev at the next Captain election: in every ballot of that election in which the recipient is a candidate.",
+      "portrait": true,
+      "facts": "info:If Dev is a candidate in no ballot of that election, the result is Condition not met|info:Accepting uses your one received Promise|info:A Promise is never forced: it is checked against real ballots",
+      "foot": "Decline|Accept",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/incoming": {
+      "file": "design/phone-ui/components/promises/review/430x932-incoming.jpg",
+      "sha256": "bed6d5dbc4e0cbe41bc6389b5134828d6272f3dcea90e7916a5bf328969ea71e",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": false,
+      "title": "Offer from Ava",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "",
+      "rows": "",
+      "value": "",
+      "badges": "",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": true,
+      "cardName": "Captain Support",
+      "terms": "Ava votes for Dev at the next Captain election: in every ballot of that election in which the recipient is a candidate.",
+      "portrait": true,
+      "facts": "info:If Dev is a candidate in no ballot of that election, the result is Condition not met|info:Accepting uses your one received Promise|info:A Promise is never forced: it is checked against real ballots",
+      "foot": "Decline|Accept",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/pending": {
+      "file": "design/phone-ui/components/promises/review/390x844-pending.jpg",
+      "sha256": "603140756698fff476ce91f1c6eb6dcaf30cc005ba7484fcea5e92cdcdcee3dd",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": false,
+      "title": "Promises",
+      "pair": null,
+      "promisesOpen": true,
+      "labels": "Received|Given",
+      "rows": "Your quota|Captain Support|From Ava · next Captain election",
+      "value": "Given 0/1 · Received 1/1|Pending",
+      "badges": "Pending",
+      "notes": "Checked when that election is held.|No Promise given.|“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": false,
+      "cardName": null,
+      "terms": null,
+      "portrait": false,
+      "facts": "",
+      "foot": "",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg"
+      ],
+      "problems": []
+    },
+    "430x932/pending": {
+      "file": "design/phone-ui/components/promises/review/430x932-pending.jpg",
+      "sha256": "935dae82f8d378b291ff965ad761dff5dd7095c375acc0c756580011a544a004",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": false,
+      "title": "Promises",
+      "pair": null,
+      "promisesOpen": true,
+      "labels": "Received|Given",
+      "rows": "Your quota|Captain Support|From Ava · next Captain election",
+      "value": "Given 0/1 · Received 1/1|Pending",
+      "badges": "Pending",
+      "notes": "Checked when that election is held.|No Promise given.|“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": false,
+      "cardName": null,
+      "terms": null,
+      "portrait": false,
+      "facts": "",
+      "foot": "",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg"
+      ],
+      "problems": []
+    },
+    "390x844/fulfilled": {
+      "file": "design/phone-ui/components/promises/review/390x844-fulfilled.jpg",
+      "sha256": "9f908457dd23a48850f3a16a98c09b266250c7389aa7cb31b050948e65ed43a9",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": false,
+      "title": "Promises",
+      "pair": null,
+      "promisesOpen": true,
+      "labels": "Received|Given",
+      "rows": "Your quota|Meet in Room A|To Ava · Round 3 voting",
+      "value": "Given 1/1 · Received 0/1|Fulfilled",
+      "badges": "Fulfilled",
+      "notes": "No Promise received.|Dev was in Room A when Round 3’s voting began.|“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": false,
+      "cardName": null,
+      "terms": null,
+      "portrait": false,
+      "facts": "",
+      "foot": "",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg"
+      ],
+      "problems": []
+    },
+    "430x932/fulfilled": {
+      "file": "design/phone-ui/components/promises/review/430x932-fulfilled.jpg",
+      "sha256": "7d19415cfcbe6467bce508a4d411b331fa2f4656d4c91e4f8aa5ef52de0f64eb",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": false,
+      "title": "Promises",
+      "pair": null,
+      "promisesOpen": true,
+      "labels": "Received|Given",
+      "rows": "Your quota|Meet in Room A|To Ava · Round 3 voting",
+      "value": "Given 1/1 · Received 0/1|Fulfilled",
+      "badges": "Fulfilled",
+      "notes": "No Promise received.|Dev was in Room A when Round 3’s voting began.|“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": false,
+      "cardName": null,
+      "terms": null,
+      "portrait": false,
+      "facts": "",
+      "foot": "",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg"
+      ],
+      "problems": []
+    },
+    "390x844/not-fulfilled": {
+      "file": "design/phone-ui/components/promises/review/390x844-not-fulfilled.jpg",
+      "sha256": "482f50999bbda2d9ca1a8c74fc83509d7cfdaeccf0cce7c3a65a72d077fc3a74",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": false,
+      "title": "Promises",
+      "pair": null,
+      "promisesOpen": true,
+      "labels": "Received|Given",
+      "rows": "Your quota|Captain Support|From Ava · Round 4 election",
+      "value": "Given 0/1 · Received 1/1|Not fulfilled",
+      "badges": "Not fulfilled",
+      "notes": "In the runoff, a ballot in which Dev was a candidate, Ava voted for Ben.|No Promise given.|“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": false,
+      "cardName": null,
+      "terms": null,
+      "portrait": false,
+      "facts": "",
+      "foot": "",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg"
+      ],
+      "problems": []
+    },
+    "430x932/not-fulfilled": {
+      "file": "design/phone-ui/components/promises/review/430x932-not-fulfilled.jpg",
+      "sha256": "377d5db1fdf41631eb050c2365d6965d565561d07b231bd190a0eec03b5bd951",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": false,
+      "title": "Promises",
+      "pair": null,
+      "promisesOpen": true,
+      "labels": "Received|Given",
+      "rows": "Your quota|Captain Support|From Ava · Round 4 election",
+      "value": "Given 0/1 · Received 1/1|Not fulfilled",
+      "badges": "Not fulfilled",
+      "notes": "In the runoff, a ballot in which Dev was a candidate, Ava voted for Ben.|No Promise given.|“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": false,
+      "cardName": null,
+      "terms": null,
+      "portrait": false,
+      "facts": "",
+      "foot": "",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg"
+      ],
+      "problems": []
+    },
+    "390x844/condition": {
+      "file": "design/phone-ui/components/promises/review/390x844-condition.jpg",
+      "sha256": "4a2ace2695111d4c8d5307d846e5edbf03f30d1d28e3f7955d214e7632190d75",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": false,
+      "title": "Promises",
+      "pair": null,
+      "promisesOpen": true,
+      "labels": "Received|Given",
+      "rows": "Your quota|Captain Support|From Ava · Round 4 election",
+      "value": "Given 0/1 · Received 1/1|Condition not met",
+      "badges": "Condition not met",
+      "notes": "Dev was a candidate in no ballot of that election.|No Promise given.|“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": false,
+      "cardName": null,
+      "terms": null,
+      "portrait": false,
+      "facts": "",
+      "foot": "",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg"
+      ],
+      "problems": []
+    },
+    "430x932/condition": {
+      "file": "design/phone-ui/components/promises/review/430x932-condition.jpg",
+      "sha256": "28fe2e30a04f5c7569f6b15d724e1d16b311f65f0ccac88fea9f374b26e0f6fc",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": false,
+      "title": "Promises",
+      "pair": null,
+      "promisesOpen": true,
+      "labels": "Received|Given",
+      "rows": "Your quota|Captain Support|From Ava · Round 4 election",
+      "value": "Given 0/1 · Received 1/1|Condition not met",
+      "badges": "Condition not met",
+      "notes": "Dev was a candidate in no ballot of that election.|No Promise given.|“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": false,
+      "cardName": null,
+      "terms": null,
+      "portrait": false,
+      "facts": "",
+      "foot": "",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg"
+      ],
+      "problems": []
+    },
+    "390x844/stale": {
+      "file": "design/phone-ui/components/promises/review/390x844-stale.jpg",
+      "sha256": "88882285c6e42128f0be0ce2d208f71607fa062ebd90ea512d7c5197f520d11c",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": true,
+      "title": "Check the terms",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "",
+      "rows": "",
+      "value": "",
+      "badges": "",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": true,
+      "cardName": "Meet in Room A",
+      "terms": "Dev will be in Room A when Round 3’s voting begins.",
+      "portrait": false,
+      "facts": "info:Uses your one given Promise only if Ava accepts|lock:Only you and Ava see it",
+      "foot": "Back|Offer",
+      "offerBusy": false,
+      "offerWaits": "Controls return when the match is current",
+      "backRefused": false,
+      "banner": true,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/stale": {
+      "file": "design/phone-ui/components/promises/review/430x932-stale.jpg",
+      "sha256": "9bd29db3d45ef694e08a85715ab8a690236dceaa92cdc61fae284acf80ddf2b1",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": true,
+      "title": "Check the terms",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "",
+      "rows": "",
+      "value": "",
+      "badges": "",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": true,
+      "cardName": "Meet in Room A",
+      "terms": "Dev will be in Room A when Round 3’s voting begins.",
+      "portrait": false,
+      "facts": "info:Uses your one given Promise only if Ava accepts|lock:Only you and Ava see it",
+      "foot": "Back|Offer",
+      "offerBusy": false,
+      "offerWaits": "Controls return when the match is current",
+      "backRefused": false,
+      "banner": true,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/largest": {
+      "file": "design/phone-ui/components/promises/review/390x844-largest.jpg",
+      "sha256": "7602e813994fa80765d7a024ad4c8a1f7a65c0419cf5f5716b49295dfdc2fafb",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": false,
+      "title": "Offer from Ava",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "",
+      "rows": "",
+      "value": "",
+      "badges": "",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": true,
+      "cardName": "Captain Support",
+      "terms": "Ava votes for Dev at the next Captain election: in every ballot of that election in which the recipient is a candidate.",
+      "portrait": true,
+      "facts": "info:If Dev is a candidate in no ballot of that election, the result is Condition not met|info:Accepting uses your one received Promise|info:A Promise is never forced: it is checked against real ballots",
+      "foot": "Decline|Accept",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/largest": {
+      "file": "design/phone-ui/components/promises/review/430x932-largest.jpg",
+      "sha256": "86f693e95815e0786df0479d976c2f402ecddace4149cc7093c5367ea25035d1",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": false,
+      "title": "Offer from Ava",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "",
+      "rows": "",
+      "value": "",
+      "badges": "",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "paper": true,
+      "cardName": "Captain Support",
+      "terms": "Ava votes for Dev at the next Captain election: in every ballot of that election in which the recipient is a candidate.",
+      "portrait": true,
+      "facts": "info:If Dev is a candidate in no ballot of that election, the result is Condition not met|info:Accepting uses your one received Promise|info:A Promise is never forced: it is checked against real ballots",
+      "foot": "Decline|Accept",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "report: each row, tile and player reports its tap, and only that; the keyboard as the finger",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "got": [
+              [
+                "onOffer"
+              ],
+              [
+                "onIncoming"
+              ],
+              [
+                "onKind",
+                "MEET_A"
+              ],
+              [
+                "onKind",
+                "JAIL_VOTE"
+              ],
+              [
+                "onTarget",
+                2
+              ],
+              [
+                "onTarget",
+                9
+              ]
+            ]
+          }
+        },
+        {
+          "id": "footer: Next and Back are this phone's own and Next waits for a choice; Offer, Decline and Accept are the commands, busy and refused with Frontend's state",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "before": {
+              "next": true,
+              "local": "sheet-local"
+            },
+            "actions": [
+              "next",
+              "back",
+              "offer"
+            ],
+            "inFlight": true,
+            "off": {
+              "refused": true,
+              "why": "Only during your private talk"
+            },
+            "answer": {
+              "words": "Decline|Accept",
+              "acceptBusy": true,
+              "declineRefused": true,
+              "why": "Waiting for the server",
+              "acceptCommand": true
+            }
+          }
+        },
+        {
+          "id": "offer: Offer a Promise refused when the projection doesn't offer it: dimmed, Frontend's reason as its description",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "refused": true,
+              "dimmed": true,
+              "why": "You have given your one Promise",
+              "line": "Six kinds · exact terms"
+            },
+            "got": [
+              [
+                "onOffer"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "lists: in a talk, the talk's group, and Received or Given only once accepted; outside, both with \"No Promise …\"; an offer waiting for Ava",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "talk": [
+              "With Ava · talking now"
+            ],
+            "talkAccepted": {
+              "labels": [
+                "With Ava · talking now",
+                "Received"
+              ],
+              "incoming": false
+            },
+            "outside": {
+              "labels": [
+                "Received",
+                "Given"
+              ],
+              "words": [
+                "No Promise received.",
+                "No Promise given.",
+                "“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying."
+              ]
+            },
+            "waiting": {
+              "labels": [
+                "Waiting for Ava",
+                "With Ava · talking now"
+              ],
+              "row": [
+                "Offered to Ava · not counted yet",
+                "Offered"
+              ]
+            }
+          }
+        },
+        {
+          "id": "words: Frontend's exact terms, condition, when and why drawn exactly as given, never composed or trimmed; no why, no line",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "card": {
+              "terms": "Ava votes for Dev in every ballot of the specified next Captain election in which Dev is a candidate, including runoffs (agreed in Round 3).",
+              "facts": [
+                "If Dev is a candidate in no ballot of that election, the result is Condition not met",
+                "Accepting uses your one received Promise",
+                "A Promise is never forced: it is checked against real ballots"
+              ]
+            },
+            "noCondition": [
+              "Accepting uses your one received Promise",
+              "A Promise is never forced: it is checked against real ballots"
+            ],
+            "result": {
+              "line": "From Ava · Round 4 election",
+              "notes": [
+                "No Promise given.",
+                "“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying."
+              ]
+            },
+            "confirm": {
+              "terms": "Dev will be in Room A when Round 3’s voting begins, after Sync.",
+              "facts": [
+                "info:Uses your one given Promise only if Ava accepts",
+                "lock:Only you and Ava see it"
+              ]
+            }
+          }
+        },
+        {
+          "id": "words: the content's name, and the sheet's frame and footer from promisesSheet() for each view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "list": {
+              "title": "Promises",
+              "back": false,
+              "detent": "large",
+              "foot": ""
+            },
+            "kinds": {
+              "title": "Offer to Ava",
+              "back": true,
+              "detent": "large",
+              "foot": "Next",
+              "note": "Only during your private talk. It counts once Ava accepts.",
+              "tiles": [
+                "Captain Support:available:false",
+                "Officer Selection:available:false",
+                "Jail Vote:available:false",
+                "No Jail Vote:available:false",
+                "Meet in Room A:selected:true",
+                "Meet in Room B:available:false"
+              ]
+            },
+            "target": {
+              "title": "Who will you vote to jail?",
+              "back": true,
+              "detent": "large",
+              "foot": "Next"
+            },
+            "confirm": {
+              "title": "Check the terms",
+              "back": true,
+              "detent": "large",
+              "foot": "Back|Offer",
+              "name": "Meet in Room A"
+            },
+            "incoming": {
+              "title": "Offer from Ava",
+              "back": false,
+              "detent": "large",
+              "foot": "Decline|Accept",
+              "name": "Captain Support",
+              "portrait": true
+            },
+            "name": "group,Promises"
+          }
+        },
+        {
+          "id": "target: Jail Vote's players are exactly the given targets; the chosen one marked; a player not given is refused",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "rows": [
+              "2:2 · Ben:false:false",
+              "6:6 · Fay:true:true",
+              "9:9 · Ike:false:false"
+            ],
+            "outside": true,
+            "after": [
+              "2",
+              "6"
+            ]
+          }
+        },
+        {
+          "id": "privacy: a Promise that doesn't name the viewer as its giver or recipient is refused",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "refusedCases": [
+              "given by another",
+              "received by another",
+              "given, named as recipient",
+              "no viewer"
+            ]
+          }
+        },
+        {
+          "id": "privacy: the Promises, the draft, the talk and Jail Vote's players leave the page when the viewer changes, unless the same update gives the new viewer's",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "before": {
+              "terms": true,
+              "card": true
+            },
+            "dropped": {
+              "terms": false,
+              "card": false
+            },
+            "list": {
+              "why": false,
+              "labels": [
+                "Received",
+                "Given"
+              ],
+              "talk": false
+            },
+            "kept": {
+              "incoming": true,
+              "line": "Ava offered you one"
+            }
+          }
+        },
+        {
+          "id": "privacy: while concealed, everything of this viewer's leaves the page, given then it is refused, and nothing comes back by itself",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "before": true,
+            "hidden": {
+              "terms": false,
+              "card": false
+            },
+            "givenHidden": false,
+            "back": false,
+            "given": true
+          }
+        },
+        {
+          "id": "reconnect: viewing and choosing still work; Offer, Decline and Accept wait with the banner's words",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "got": [
+              "onOffer",
+              "onIncoming",
+              "onKind:OFFICER_SELECTION",
+              "onSheetAction:next",
+              "onSheetAction:back"
+            ],
+            "offerWait": {
+              "refused": true,
+              "dimmed": false,
+              "why": "Controls return when the match is current"
+            },
+            "answerWait": [
+              {
+                "refused": true,
+                "why": "Controls return when the match is current"
+              },
+              {
+                "refused": true,
+                "why": "Controls return when the match is current"
+              }
+            ]
+          }
+        },
+        {
+          "id": "focus: a tile keeps its element and the focus through its states; a focused incoming row that leaves returns the focus once",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "kept": true,
+            "active": true,
+            "returns": [
+              [
+                "onFocusReturn",
+                {
+                  "intent": "kind",
+                  "value": "NO_JAIL_VOTE"
+                }
+              ],
+              [
+                "onFocusReturn",
+                {
+                  "intent": "incoming",
+                  "value": null
+                }
+              ]
+            ]
+          }
+        },
+        {
+          "id": "layout: at 390 × 844, the content 16 px in, the kinds two across",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "list": [
+              16,
+              16
+            ],
+            "grid": [
+              16,
+              16
+            ],
+            "card": [
+              16,
+              16
+            ],
+            "rows": 3
+          }
+        },
+        {
+          "id": "layout: at 430 × 932, the content 16 px in, the kinds two across",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "list": [
+              16,
+              16
+            ],
+            "grid": [
+              16,
+              16
+            ],
+            "card": [
+              16,
+              16
+            ],
+            "rows": 3
+          }
+        },
+        {
+          "id": "layout: the kinds with the Largest text (200 %): every word whole, the last part reached by scrolling, the footer in view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "cut": [],
+            "reachable": true,
+            "foot": true
+          }
+        },
+        {
+          "id": "layout: the incoming offer with the Largest text (200 %): every word whole, the last part reached by scrolling, the footer in view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "cut": [],
+            "reachable": true,
+            "foot": true
+          }
+        },
+        {
+          "id": "layout: a result with the Largest text (200 %): every word whole, the last part reached by scrolling, the footer in view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "cut": [],
+            "reachable": true,
+            "foot": true
+          }
+        },
+        {
+          "id": "dispose: safe twice; afterwards nothing is left in the sheet and nothing fires",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "body": 0,
+              "calls": 0,
+              "connected": false,
+              "terms": false
+            },
+            "left": []
+          }
+        },
+        {
+          "id": "motion: none of its own, with or without the game's Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": 0,
+            "chosen": 0,
+            "reduced": {
+              "own": 0,
+              "mode": "reduced"
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "motion: none of its own, with the device's Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": 0,
+            "chosen": 0,
+            "reduced": {
+              "own": 0,
+              "mode": "reduced"
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-c_IoFIbt.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: Promises in a talk at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 2,
+              "screen": 2
+            },
+            "rows": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row icons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row icon drawings": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row lines": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row values": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row chevrons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row chevron drawings": {
+              "pack": 2,
+              "screen": 2
+            },
+            "badges": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badge icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tiles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "paper card": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card name": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card terms": {
+              "pack": 0,
+              "screen": 0
+            },
+            "facts": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: Promises in a talk at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 2,
+              "screen": 2
+            },
+            "rows": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row icons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row icon drawings": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row lines": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row values": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row chevrons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row chevron drawings": {
+              "pack": 2,
+              "screen": 2
+            },
+            "badges": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badge icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tiles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "paper card": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card name": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card terms": {
+              "pack": 0,
+              "screen": 0
+            },
+            "facts": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: Promises with Dev's offer waiting at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "lists": {
+              "pack": 3,
+              "screen": 3
+            },
+            "rows": {
+              "pack": 4,
+              "screen": 4
+            },
+            "row icons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row icon drawings": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row portraits": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row titles": {
+              "pack": 4,
+              "screen": 4
+            },
+            "row lines": {
+              "pack": 3,
+              "screen": 3
+            },
+            "row values": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row chevrons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row chevron drawings": {
+              "pack": 2,
+              "screen": 2
+            },
+            "badges": {
+              "pack": 1,
+              "screen": 1
+            },
+            "badge icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tiles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "paper card": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card name": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card terms": {
+              "pack": 0,
+              "screen": 0
+            },
+            "facts": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: Offer to Ava, the six kinds, at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row values": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badges": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badge icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tiles": {
+              "pack": 1,
+              "screen": 1
+            },
+            "tile": {
+              "pack": 6,
+              "screen": 6
+            },
+            "tile icons": {
+              "pack": 6,
+              "screen": 6
+            },
+            "tile icon drawings": {
+              "pack": 6,
+              "screen": 6
+            },
+            "tile names": {
+              "pack": 6,
+              "screen": 6
+            },
+            "tile lines": {
+              "pack": 6,
+              "screen": 6
+            },
+            "paper card": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card name": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card terms": {
+              "pack": 0,
+              "screen": 0
+            },
+            "facts": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 1,
+              "screen": 1
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: Offer to Ava, the six kinds, at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row values": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badges": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badge icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tiles": {
+              "pack": 1,
+              "screen": 1
+            },
+            "tile": {
+              "pack": 6,
+              "screen": 6
+            },
+            "tile icons": {
+              "pack": 6,
+              "screen": 6
+            },
+            "tile icon drawings": {
+              "pack": 6,
+              "screen": 6
+            },
+            "tile names": {
+              "pack": 6,
+              "screen": 6
+            },
+            "tile lines": {
+              "pack": 6,
+              "screen": 6
+            },
+            "paper card": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card name": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card terms": {
+              "pack": 0,
+              "screen": 0
+            },
+            "facts": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 1,
+              "screen": 1
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: Check the terms at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row values": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badges": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badge icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tiles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "paper card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "card icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "card icon drawing": {
+              "pack": 1,
+              "screen": 1
+            },
+            "card portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card name": {
+              "pack": 1,
+              "screen": 1
+            },
+            "card terms": {
+              "pack": 1,
+              "screen": 1
+            },
+            "facts": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fact lines": {
+              "pack": 2,
+              "screen": 2
+            },
+            "fact icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: Check the terms at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row values": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badges": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badge icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tiles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "paper card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "card icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "card icon drawing": {
+              "pack": 1,
+              "screen": 1
+            },
+            "card portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card name": {
+              "pack": 1,
+              "screen": 1
+            },
+            "card terms": {
+              "pack": 1,
+              "screen": 1
+            },
+            "facts": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fact lines": {
+              "pack": 2,
+              "screen": 2
+            },
+            "fact icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: Offer from Ava at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row values": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badges": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badge icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tiles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "paper card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "card icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card portrait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "card name": {
+              "pack": 1,
+              "screen": 1
+            },
+            "card terms": {
+              "pack": 1,
+              "screen": 1
+            },
+            "facts": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fact lines": {
+              "pack": 3,
+              "screen": 3
+            },
+            "fact icons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: Offer from Ava at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row values": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badges": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badge icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tiles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "paper card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "card icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card portrait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "card name": {
+              "pack": 1,
+              "screen": 1
+            },
+            "card terms": {
+              "pack": 1,
+              "screen": 1
+            },
+            "facts": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fact lines": {
+              "pack": 3,
+              "screen": 3
+            },
+            "fact icons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: Results: Pending at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "lists": {
+              "pack": 2,
+              "screen": 2
+            },
+            "rows": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row icon drawings": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row portraits": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row titles": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row lines": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row values": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badges": {
+              "pack": 1,
+              "screen": 1
+            },
+            "badge icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tiles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "paper card": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card name": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card terms": {
+              "pack": 0,
+              "screen": 0
+            },
+            "facts": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 3,
+              "screen": 3
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: Results: Fulfilled at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "lists": {
+              "pack": 2,
+              "screen": 2
+            },
+            "rows": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row icon drawings": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row portraits": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row titles": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row lines": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row values": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badges": {
+              "pack": 1,
+              "screen": 1
+            },
+            "badge icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "tiles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "paper card": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card name": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card terms": {
+              "pack": 0,
+              "screen": 0
+            },
+            "facts": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 3,
+              "screen": 3
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: Results: Not fulfilled at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "lists": {
+              "pack": 2,
+              "screen": 2
+            },
+            "rows": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row icon drawings": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row portraits": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row titles": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row lines": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row values": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badges": {
+              "pack": 1,
+              "screen": 1
+            },
+            "badge icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tiles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "paper card": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card name": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card terms": {
+              "pack": 0,
+              "screen": 0
+            },
+            "facts": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 3,
+              "screen": 3
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: Results: Condition not met at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "lists": {
+              "pack": 2,
+              "screen": 2
+            },
+            "rows": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row icon drawings": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row portraits": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row titles": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row lines": {
+              "pack": 1,
+              "screen": 1
+            },
+            "row values": {
+              "pack": 2,
+              "screen": 2
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badges": {
+              "pack": 1,
+              "screen": 1
+            },
+            "badge icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tiles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "paper card": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card portrait": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card name": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card terms": {
+              "pack": 0,
+              "screen": 0
+            },
+            "facts": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 3,
+              "screen": 3
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: Offer from Ava with the Largest text (200 %) at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row values": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badges": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badge icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tiles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "tile lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "paper card": {
+              "pack": 1,
+              "screen": 1
+            },
+            "card icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card icon drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "card portrait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "card name": {
+              "pack": 1,
+              "screen": 1
+            },
+            "card terms": {
+              "pack": 1,
+              "screen": 1
+            },
+            "facts": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fact lines": {
+              "pack": 3,
+              "screen": 3
+            },
+            "fact icons": {
+              "pack": 3,
+              "screen": 3
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            }
+          }
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-c_IoFIbt.js",
+        "line": 1,
+        "column": 6049,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}
