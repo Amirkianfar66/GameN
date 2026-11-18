@@ -270,3 +270,6 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .bc-pair-note { margin: 0; color: var(--bc-ink-2); font-size: 13px; }
 .bc-advice { margin: 16px 0 0; max-width: 720px; color: var(--bc-ink-2); }
 .bc-advice b { color: var(--bc-ink); font-weight: 600; }
+/* A change the owner approved: its status line and its badge, in the page's OK green. */
+.bc-ok-line { color: var(--bc-ok) !important; font-weight: 600; }
+.bc-count-ok { background: var(--bc-ok-fill); color: #06140D; }

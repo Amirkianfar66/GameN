@@ -47,8 +47,8 @@ export const PARTS = Object.freeze([
   // Shell 0.3.0: the Card tab, last, with the player's own portrait in the icon's place (or the card icon).
   { area: 'bottom', sel: '.ms-ps-tab[data-value="card"]', name: el => (el.querySelector('.ms-ps-tab-pt:not([data-tile])') ? 'Card tab · with the portrait' : 'Card tab · with the card icon'), words: '.ms-ps-tab-label', icon: true },
   { area: 'bottom', sel: '.ms-ps-tab-pt:not([data-tile])', name: 'Card tab · portrait', picture: 'The player’s own character, the picture the top bar draws' },
-  // A draft (18 November): a tab's icon as a painted tile, in the portrait's box.
-  { area: 'bottom', sel: '.ms-ps-tab-pt[data-tile]', name: 'Tab · painted tile (draft)', picture: 'The tab’s icon, painted, in the frame of the character’s picture' },
+  // Shell 0.3.2 (the owner, 18 November 2026): a tab's icon as a painted tile, in the portrait's box.
+  { area: 'bottom', sel: '.ms-ps-tab-pt[data-tile]', name: 'Tab · painted tile', picture: 'The tab’s icon, painted, in the frame of the character’s picture' },
   { area: 'bottom', sel: '.ms-ps-tab .ms-ps-badge', name: 'Tab · badge', text: true },
   { area: 'bottom', sel: '.ms-ps-hero', name: 'Round button', words: '.ms-ps-hero-label', icon: true },
   { area: 'bottom', sel: '.ms-ps-talk .ms-k-btn', name: el => `“${el.textContent.trim()}” button`, words: '.ms-k-btn-label', icon: true, each: true },
@@ -165,7 +165,7 @@ function iconFacts(el, tokens, k) {
   if (!svg) return null;
   const box = boxOf(svg, k), colour = parseColour(getComputedStyle(svg).color), which = iconOf(svg);
   if (!box.width) return null;
-  // A painted icon (the draft) carries its own colours; the part that holds it names the icon and the form.
+  // A painted icon (icons 1.1.0) carries its own colours; the part that holds it names the icon and the form.
   const held = which ? [] : (svg.closest('[data-icon]')?.dataset.icon ?? '').split(':');
   const painted = held[1] === 'tile' || held[1] === 'painted' ? held[1] : null;
   return { name: which?.name ?? (painted ? held[0] : null), filled: which?.filled ?? false, painted, width: round(box.width), height: round(box.height), colour: colour && !painted ? colourFacts(colour, tokens) : null };
@@ -227,7 +227,10 @@ export function readIcons(shellRoot) {
   for (const svg of shellRoot.querySelectorAll('svg')) {
     if (svg.closest('.ms-ps-stage')) continue;
     const which = iconOf(svg), box = boxOf(svg, k);
-    if (!which || !box.width) continue;
+    // A painted icon (icons 1.1.0) is not a line drawing of the family: the part that holds it names the icon and the form.
+    const held = which ? [] : (svg.closest('[data-icon]')?.dataset.icon ?? '').split(':');
+    const painted = held[1] === 'tile' || held[1] === 'painted' ? held[1] : null;
+    if ((!which && !painted) || !box.width) continue;
     // The innermost part that holds the icon names where it is drawn.
     let owner = null;
     for (const def of PARTS) { if (def.text) continue; const host = svg.closest(def.sel); if (host && (!owner || owner.host.contains(host))) owner = { def, host }; }
@@ -235,7 +238,7 @@ export function readIcons(shellRoot) {
     let ground = null;
     for (let node = svg.parentElement; node && node !== shellRoot.parentElement && !ground; node = node.parentElement) ground = groundOf(node, tokens);
     const colour = parseColour(getComputedStyle(svg).color);
-    out.push({ name: which.name, filled: which.filled, size: round(box.width), colour: colour ? colourFacts(colour, tokens) : null, part, ground, dimmed: shownAt(svg, shellRoot) });
+    out.push({ name: which?.name ?? held[0], filled: which?.filled ?? false, painted, size: round(box.width), colour: colour && !painted ? colourFacts(colour, tokens) : null, part, ground, dimmed: shownAt(svg, shellRoot) });
   }
   return out;
 }

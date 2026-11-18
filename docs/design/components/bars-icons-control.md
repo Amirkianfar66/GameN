@@ -30,7 +30,7 @@ The page has three sections. Bars and Icons are divided into sub-parts, each wit
 
 | Section | Sub-parts | What each holds |
 | --- | --- | --- |
-| **Bars** | Bottom bar · painted icons · draft (14 pairs) · Card tab · before and after (9 pairs) · Toast over a sheet · draft (7 pairs) · Long title at the largest text · two drafts · Top bar (20 states) · Bottom bar (15) · Other bars (8: the target bar, the banners, the chip, the toast) · Sheets (9) · Whole phone (3) | Each state is a strip of the phone at the phone's own width, with its name, the size of its bar and the phone pack's sheet number. The first sub-part is [the Card tab's change](#the-card-tab-before-and-after). |
+| **Bars** | Bottom bar · painted icons (14 pairs) · Card tab · before and after (9 pairs) · Toast over a sheet · draft (7 pairs) · Long title at the largest text · two drafts · Top bar (20 states) · Bottom bar (15) · Other bars (8: the target bar, the banners, the chip, the toast) · Sheets (9) · Whole phone (3) | Each state is a strip of the phone at the phone's own width, with its name, the size of its bar and the phone pack's sheet number. The first sub-part is [the Card tab's change](#the-card-tab-before-and-after). |
 | **Icons** | Navigation (8) · Game actions (26) · People and places (8) · Phases (7) · Before the match (3) · Controls (27) · Drawn twice (31) · Other drawings (8) | The icons of `design/phone-ui/components/icons.mjs`, at rest and selected, on dark glass and on paper. The last two list the game's own drawings that are still on screen, beside the icon that replaces each. |
 | **Status** | — | The owner's marks, and the version and pull request of each part. |
 
@@ -53,6 +53,27 @@ The first sub-part of Bars, where the page opens. It shows the owner's 18 Novemb
 - **The owner's mark:** one for the whole change, `change-card-tab`, at the top of the view.
 - **The test view** opens from the view's button, and from any "After" strip whose state is one of the presets.
 
+## The bottom bar's painted icons, before and after
+
+The first sub-part of Bars (`#tiles-draft`; the address keeps its first name). The owner, 18 November 2026, with a picture of the bottom bar:
+
+> This is what i am thinking of bottom bar
+
+The picture: Board, Actions and Panels each as a small painted tile like the character's portrait (a warm orange ground, a white frame, a cream drawing with a dark line), the same size as the Card tab's portrait, and the round button's Pass icon painted in orange with a darker line. The labels are as they are.
+
+It was drawn in the real bar and shown here as a draft, before any check (versions 8 to 11 of the page). The owner's answer, the same day:
+
+> I am ok with this new bar
+
+So it is phone shell 0.3.2 and icons 1.1.0, with their record ([the shell's page](phone-shell.md#the-painted-tiles), [the icons' page](icons.md#the-painted-form)).
+
+- **Before:** the shell's own file at `bf95c1a0` (shell 0.3.1), read from git by the build tool: line icons in the soft text colour, filled and amber when open, and the round button's flat filled icon.
+- **After:** today's shell: each tab's icon as a tile in the portrait's own box and frame, the round button's icon painted, the open tab with the Card tab's amber ring and amber label.
+- **The view:** fourteen bottom-bar states, each as the bar was above as it is: Pass ready and unavailable, each tab open, the Board view's Room tab, a badge, Vote and Voted, Pass sending, eliminated, no character, the Blackout's dark, and a player whose character is teal.
+- **One orange for everyone:** the choice (the same orange, or each player's own colour) was put to the owner in the draft's view; the owner approved it as drawn.
+- **The owner's mark:** `draft-tab-tiles`, kept for a Change. The owner said OK in the conversation, not on the page, and no mark is written in their name.
+- **The readouts** name a tile "a painted tile" and the round button's icon "painted". The Icons section lists the painted uses, each drawn as the bar draws it.
+
 ## Drafts: a look before its checks
 
 The owner, 18 November 2026, after the Card tab's first drawing was checked in full and then changed:
@@ -67,20 +88,7 @@ So a change of look is shown here first, as a draft:
 
 A change that is more than a look (behaviour, data, privacy, the connection's inputs) keeps the usual order: checks, the Lead's review, then the owner.
 
-**The drafts on the page now.** Four, each with its own mark: the first is the owner's own picture, the other three are the Lead Designer's proposals.
-
-*The bottom bar with painted icons* (`#tiles-draft`, the first sub-part of Bars). The owner, 18 November 2026, with a picture of the bottom bar:
-
-> This is what i am thinking of bottom bar
-
-The picture: Board, Actions and Panels each as a small painted tile like the character's portrait (a warm orange ground, a white frame, a cream drawing with a dark line), the same size as the Card tab's portrait, and the round button's Pass icon painted in orange with a darker line. The labels are as they are.
-- **Today:** Board, Actions and Panels are line icons in the soft text colour, filled and amber when open. The round button's icon is the flat filled form.
-- **The draft:** each tab's icon is a tile in the portrait's own box (32 × 32 px) and frame: the same path, white rim, shadow and vignette as `design/crew-drawing/source/portrait.mjs` draws, on one fixed warm orange ground, with the icon's own drawing in cream over a brown line. The round button's icon (Pass, Vote) is the same drawing painted in orange. An open tab has the Card tab's amber ring and amber label. An unavailable tab fades as before; an unavailable round button's icon goes grey with it.
-- **Drawn in code:** `design/phone-ui/components/icon-paint.mjs` paints the tiles from the icon family's own parts, so each icon keeps one silhouette. No picture file is added.
-- **Not following the player:** the tiles' ground is one colour on every phone. It says nothing about a seat, a character, a role or a team. Whether it should take the player's own character colour is put to the owner in the view.
-- **The view:** fourteen bottom-bar states, each as the bar is today above the draft: Pass ready and unavailable, each tab open, the Board view's Room tab, a badge, Vote and Voted, Pass sending, eliminated, no character, the Blackout's dark, and a player whose character is teal.
-- **The owner's mark:** `draft-tab-tiles`.
-- **On every bottom bar here:** the page is built from the draft, so each game bottom bar on the page draws the tiles. The readouts name a tile "a painted tile (draft)". The Icons section's list of where each icon is drawn does not list the painted uses yet.
+**The drafts on the page now.** Three, the Lead Designer's proposals, each with its own mark. The owner's painted bottom bar was the fourth; it is approved and has its own section above.
 
 *The toast over a sheet or a banner* (`#toast-draft`, the second sub-part of Bars).
 - **Today:** the toast drops in 10 px under the top bar. Over a tall sheet it lies across the sheet's head and cuts the title and Close through; with the reconnecting banner showing, it lies on the banner.
@@ -110,7 +118,7 @@ The picture: Board, Actions and Panels each as a small painted tile like the cha
 
 "Today" in every draft's view is the shell's own file at `bf95c1a0` (shell 0.3.1), read from git by the build tool, as the Card tab's "before" is.
 
-**Not done yet, on purpose:** the shell's record, its version, its tests for the four changes, the icon family's own page and test for the painted form, and the connection's check.
+**Not done yet, on purpose:** the shell's record, its version and its tests for the three drafts.
 
 ## Sizes, backgrounds and colours
 
