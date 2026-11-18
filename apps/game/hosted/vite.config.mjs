@@ -20,7 +20,24 @@ const shellSources = ['design/phone-ui/components/phone-shell/phone-shell.mjs', 
   'design/phone-ui/components/phone-shell/phase-bars.mjs',
   'design/phone-ui/components/kit/kit.mjs', 'design/phone-ui/components/kit/kit.css'];
 // END shell connection
-const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contracts/dist/', 'packages/presentation/dist/', 'packages/design-tokens/dist/', ...designSources, ...shellSources];
+// BEGIN pre-game connection, for Integration's approval (the owner's plan of 16 November 2026, release 4: before
+// the match, the phone draws Designer's pre-game components as they are). Exactly each component's runtime files,
+// with the entry screens' shared parts (entry-parts); never a preview/ or review/. The kit, the shell and the icon
+// family are admitted above.
+const pregameSources = ['main-menu/main-menu.mjs', 'main-menu/main-menu.css', 'entry-parts/entry-parts.mjs', 'entry-parts/entry-parts.css',
+  'display-settings/display-settings.mjs', 'display-settings/display-settings.css', 'host-room/host-setup.mjs', 'host-room/host-lobby.mjs', 'host-room/host-room.css',
+  'join-room/join-form.mjs', 'join-room/join-wait.mjs', 'join-room/join-room.css', 'recover/recover.mjs', 'recover/recover.css',
+  'character-select/character-select.mjs', 'character-select/character-select.css', 'role-stage/role-stage.mjs', 'role-stage/role-card.mjs',
+  'role-stage/role-stage.css', 'role-stage/role-card.css', 'boarding-stage/boarding-stage.mjs', 'boarding-stage/boarding-stage.css',
+  'host-controls/host-controls.mjs', 'host-controls/host-controls.css']
+  .map(file => `design/phone-ui/components/${file}`);
+// END pre-game connection
+// BEGIN round stamp, for Integration's approval (the pre-game connection's part 9: Designer's round stamp, #288, on
+// the shell's cover as Round 1 begins). Exactly its two runtime files; never its preview/ or review/. It imports the
+// kit, admitted above.
+const roundStampSources = ['design/phone-ui/components/round-stamp/round-stamp.mjs', 'design/phone-ui/components/round-stamp/round-stamp.css'];
+// END round stamp
+const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contracts/dist/', 'packages/presentation/dist/', 'packages/design-tokens/dist/', ...designSources, ...shellSources, ...pregameSources, ...roundStampSources];
 
 export default {
   root: fileURLToPath(new URL('.', import.meta.url)),

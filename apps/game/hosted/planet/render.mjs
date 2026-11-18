@@ -22,6 +22,15 @@ import {outfitFor} from '../scene-drawing/wardrobe.mjs';
 import {mountRoomScene,roomSceneFrame,roomScenePlaces,ROOM_SCENE_DEFAULTS} from '../../../../design/phone-ui/components/room-scene/room-scene.mjs';
 import {roomSceneArtReady,roomSceneHandlers,roomSceneInput,roomSceneInputKey,roomSceneKey,roomSceneLifecycle,roomScenePeople,roomSceneStatus} from './room-scene-input.mjs';
 import {mountPhoneShell} from '../../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
+// BEGIN round stamp, the pre-game connection's part 9 (release 4 of the owner's plan of 16 November 2026): Designer's
+// round stamp (#288, "ROUND 1" over the room as Round 1 begins) on the shell's cover, with the shell connection's
+// moment and clock (G18: roundStart, serverClock). Mounted while Round 1's Before turns shows the room; disposed when
+// the window ends, the room view leaves, or the renderer is disposed. It takes no taps and draws nothing private.
+import {mountRoundStamp} from '../../../../design/phone-ui/components/round-stamp/round-stamp.mjs';
+import '../../../../design/phone-ui/components/round-stamp/round-stamp.css';
+import {roundStampInput} from './pregame-input.mjs';
+import {roundStart} from './shell-input.mjs';
+// END round stamp
 import {connectShellLifecycle,createServerClock,phaseClosed,shellFocusOrder,shellHandlers,shellHostSheet,shellInput,shellRuns} from './shell-input.mjs';
 
 const windowNames={A_B:'Room A ↔ Room B',A_HOSPITAL:'Room A ↔ Hospital',B_JAIL:'Room B ↔ Jail'};
@@ -101,6 +110,18 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  // bar, banner, toast and sheet, as the pack layers them (the handoff: "a result window over the room"). Until
  // the result window's component (#267) they are today's, between the bars as before.
  shell.slot('cover').append(resultPanel,status);
+ // BEGIN round stamp (part 9): one stamp at most, keyed on what it draws; it runs while the shell runs.
+ let roundStamp=null,roundStampKey=null,roundStampRunning=true;
+ function syncRoundStamp(status){
+  const next=roundStampInput(roundStart(model),{clock:serverClock.current(),status,reducedMotion:reduced(),room:sceneMode==='room'});
+  if(!next){disposeRoundStamp();return;}
+  const key=JSON.stringify({...next,clock:next.clock!==null});
+  if(!roundStamp){roundStamp=mountRoundStamp(shell.slot('cover'),next);roundStampKey=key;roundStampRunning=true;}
+  else if(key!==roundStampKey){roundStampKey=key;roundStamp.update(next);}
+  if(shellRunning!==roundStampRunning){roundStampRunning=shellRunning;if(shellRunning)roundStamp.resume();else roundStamp.suspend();}
+ }
+ function disposeRoundStamp(){if(!roundStamp)return;roundStamp.dispose();roundStamp=null;roundStampKey=null;}
+ // END round stamp
  const rects=(room,count,panel)=>sceneMode==='room'?allLayouts.roomPresses[room]:allLayouts.boardPresses[room];
  const drawings=new Map();
  const reduced=()=>model?.motion==='reduced'||document.documentElement.dataset.motion==='reduced'||media.matches;
@@ -471,6 +492,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   status.textContent=model.dark?'':model.message??'';status.hidden=!status.textContent||model.action?.prompt===model.message||input.banner?.kind==='reconnecting'||input.status==='concealed';
   const nextShellKey=JSON.stringify(input);if(nextShellKey!==shellKey){shellKey=nextShellKey;shell.update(input);}
   syncShellActivity();mountSheetBody();
+  syncRoundStamp(input.status); // round stamp (part 9)
   // The bars' heights and the stage come from the shell: its layout() is measured after the update above. The
   // private talk's two buttons cover the stage's foot, which the board's layout keeps clear.
   const shellBars=shell.layout()??{size:{width:win.innerWidth,height:win.innerHeight},bars:{top:0,bottom:0},covered:{bottom:0}};
@@ -541,5 +563,5 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  return {get view(){return sceneMode;},bars(){const bars=disposed?null:shell.layout()?.bars;return {top:bars?.top??0,bottom:bars?.bottom??0};},
   foodSurface(next){if(JSON.stringify(next)===JSON.stringify(foodSurface))return;foodSurface=next;uiKey=null;if(model)render(controller.getModel());},
   navigate(next){if(next==='switch'){sceneMode=sceneMode==='room'?'board':'room';if(sceneMode==='room'&&lastOwnRoom)currentRoom=lastOwnTalk?'capsule':lastOwnRoom;uiKey=null;controller.dismiss();}else controller.openPanel(next);},
-  settingsChanged(){if(model?.panel==='settings'){uiKey=null;render(controller.getModel());}},dispose(){if(disposed)return;disposed=true;stop();closeScene();disconnect();blackoutGeometry.clear();if(raf!==null)win.cancelAnimationFrame(raf);disposeCrewMounts(holder);motion.dispose();capsule.dispose();blackout.dispose();films.dispose();rescue.dispose();cinematic.dispose();drawings.clear();shell.dispose();delete root.dataset.crewArt;root.replaceChildren();}};
+  settingsChanged(){if(model?.panel==='settings'){uiKey=null;render(controller.getModel());}},dispose(){if(disposed)return;disposed=true;stop();closeScene();disconnect();blackoutGeometry.clear();if(raf!==null)win.cancelAnimationFrame(raf);disposeCrewMounts(holder);motion.dispose();capsule.dispose();blackout.dispose();films.dispose();rescue.dispose();cinematic.dispose();drawings.clear();disposeRoundStamp();shell.dispose();delete root.dataset.crewArt;root.replaceChildren();}};
 }

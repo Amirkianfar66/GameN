@@ -1,0 +1,7 @@
+/* The pre-game screens' place (release 4): the app's root holds one of Designer's components, which fills it.
+   The component draws everything inside; this only gives it the phone's height on the pack's canvas. */
+html:has(.planet-pregame),body:has(.planet-pregame){margin:0;height:100%;overflow:hidden;background:#10141C}
+.planet-pregame{box-sizing:border-box;position:relative;height:100dvh;max-width:480px;margin:0 auto;overflow:hidden;background:#10141C}
+.planet-pregame>.planet-pregame-host{position:absolute;inset:0}
+/* The menu's hero still: the brand film's frame, as the game's player draws its pictures. */
+.planet-pregame .planet-pregame-hero{display:block;width:100%;height:100%}

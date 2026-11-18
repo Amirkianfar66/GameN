@@ -1,0 +1,5814 @@
+{
+  "tool": "design/tools/pregame-connection-check.mjs",
+  "what": "The Planet app's screens before the match drawn by Designer's pre-game components, in Frontend's phone harness (apps/game/dev/phone) built from the candidate below",
+  "candidate": {
+    "commit": "5d35f110b377160145ec392a5587acc311030a33",
+    "clean": true,
+    "dirty": []
+  },
+  "art": {
+    "base": "64e55516d2f0026842c5c2a675f2eccda20e0a9e",
+    "originMain": "64e55516d2f0026842c5c2a675f2eccda20e0a9e",
+    "note": "The harness's art plugins over a clean worktree of origin/main; the harness and its asset tooling are byte for byte that commit's"
+  },
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels, focus emulated, no safe areas; the harness bundled by Vite and served with the production headers below. Not a phone, not Safari, not a live match.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": {
+    "390x844/boarding": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "stage": true,
+        "holding": true,
+        "noSkip": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-boarding.jpg",
+      "sha256": "e10d75956c14dd5496e3f7bfb9c72cd930cc869e762f466e44c97976293fec6a",
+      "seen": {
+        "screen": "boarding",
+        "component": "ms-boarding-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "BoardingRound 1 in 0:08Skip",
+        "art": "player-ui public-board roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises offices windows end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "none",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "boarding",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/boarding-waiting": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "waiting": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-boarding-waiting.jpg",
+      "sha256": "6bc8b740d274d928fa7d57d55b92e90607add1fa8a6dd9bdd30d7827cddc1da8",
+      "seen": {
+        "screen": "boarding",
+        "component": "ms-boarding-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "Starting Round 1 Waiting for the shipSkip",
+        "art": "player-ui public-board roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises offices windows end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "none",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "boarding",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/characters": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "select": true,
+        "grid": true,
+        "offered": true,
+        "clock": true,
+        "portraits": true,
+        "art": true,
+        "chosen": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-characters.jpg",
+      "sha256": "5046211ea9f46d411795a881e7e8ddd49fe32881ea4b141f17be89f011ae6446",
+      "seen": {
+        "screen": "characters",
+        "component": "ms-char-select ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": "Choose a character",
+        "words": "VegaTaken · 1RigelTaken · 2LyraTaken · 3AtlasTaken · 4OrionTaken · 5NovaJunoTaken · 7MiraTaken · 8EchoTaken · 9No character yetTap one to chooseChoose a characterAssigned for you if time runs out0:30Taken by player 1Taken by player 2Taken by player 3Taken by player 4Taken by player 5Taken by player 7Taken by player 8Taken by player 9",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "buttons": [
+          {
+            "label": "Vega, taken by player 1",
+            "intent": "choose",
+            "value": "c1",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 1",
+            "box": {
+              "x": 16,
+              "y": 64,
+              "width": 112.66,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Rigel, taken by player 2",
+            "intent": "choose",
+            "value": "c2",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 2",
+            "box": {
+              "x": 138.66,
+              "y": 64,
+              "width": 112.67,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Lyra, taken by player 3",
+            "intent": "choose",
+            "value": "c3",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 3",
+            "box": {
+              "x": 261.33,
+              "y": 64,
+              "width": 112.66,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Atlas, taken by player 4",
+            "intent": "choose",
+            "value": "c4",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 4",
+            "box": {
+              "x": 16,
+              "y": 229.89,
+              "width": 112.66,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Orion, taken by player 5",
+            "intent": "choose",
+            "value": "c5",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 5",
+            "box": {
+              "x": 138.66,
+              "y": 229.89,
+              "width": 112.67,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Nova",
+            "intent": "choose",
+            "value": "c6",
+            "disabled": false,
+            "busy": false,
+            "pressed": "false",
+            "reason": null,
+            "box": {
+              "x": 261.33,
+              "y": 229.89,
+              "width": 112.66,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Juno, taken by player 7",
+            "intent": "choose",
+            "value": "c7",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 7",
+            "box": {
+              "x": 16,
+              "y": 395.78,
+              "width": 112.66,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Mira, taken by player 8",
+            "intent": "choose",
+            "value": "c8",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 8",
+            "box": {
+              "x": 138.66,
+              "y": 395.78,
+              "width": 112.67,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Echo, taken by player 9",
+            "intent": "choose",
+            "value": "c9",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 9",
+            "box": {
+              "x": 261.33,
+              "y": 395.78,
+              "width": 112.66,
+              "height": 155.89
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "top",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "choosing",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": true,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 1,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/concealed": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "concealed": true,
+        "clockRuns": true,
+        "noRole": true,
+        "cardBack": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-concealed.jpg",
+      "sha256": "880929904e1deb26c07eb0aa8be62b3fd17c12743ae3b899d3a02c39484d5768",
+      "seen": {
+        "screen": "role",
+        "component": "ms-role-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": "Your role",
+        "words": "Role hiddenShow roleYour film starts in 0:15Ready0:25Skip filmYour roleOnly on this phone0:25",
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Show role",
+            "intent": "show-role",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 121.78,
+              "y": 417.59,
+              "width": 146.42,
+              "height": 44
+            }
+          },
+          {
+            "label": "Ready",
+            "intent": "ready",
+            "value": null,
+            "disabled": true,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 780,
+              "width": 358,
+              "height": 50
+            }
+          },
+          {
+            "label": "Skip film",
+            "intent": "skip-film",
+            "value": null,
+            "disabled": true,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 260.7,
+              "y": 794,
+              "width": 115.3,
+              "height": 36
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "top",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 1,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/display": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "page": true,
+        "back": true,
+        "motion": true,
+        "sizes": true,
+        "largest": true,
+        "stored": true,
+        "backToMenu": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-display.jpg",
+      "sha256": "e137e5cf2924d16794a43a83047d0b88d7dfd2ec9648562b98fac570ba4d6d70",
+      "seen": {
+        "screen": "display",
+        "component": "ms-display-settings ms-kit ms-k-phone ms-entry-parts",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": "Display",
+        "words": "MenuDisplayReduce motionFilms become stills; no shake or travelText sizeStandardLargeLargestThese stay on this phone. They never change the match.",
+        "art": "player-ui public-board roles scene-art abilities crew-roles setup-art board-v2-motion-art board-v2-art crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Menu",
+            "intent": "back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 8,
+              "y": 8,
+              "width": 91.88,
+              "height": 44
+            }
+          },
+          {
+            "label": "Reduce motion",
+            "intent": "reduce-motion",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": "false",
+            "reason": null,
+            "box": {
+              "x": 309,
+              "y": 77.52,
+              "width": 51,
+              "height": 31
+            }
+          },
+          {
+            "label": "Standard",
+            "intent": "text-size",
+            "value": "1",
+            "disabled": false,
+            "busy": false,
+            "pressed": "true",
+            "reason": null,
+            "box": {
+              "x": 19,
+              "y": 171.63,
+              "width": 115.33,
+              "height": 44
+            }
+          },
+          {
+            "label": "Large",
+            "intent": "text-size",
+            "value": "1.5",
+            "disabled": false,
+            "busy": false,
+            "pressed": "false",
+            "reason": null,
+            "box": {
+              "x": 137.33,
+              "y": 171.63,
+              "width": 115.33,
+              "height": 44
+            }
+          },
+          {
+            "label": "Largest",
+            "intent": "text-size",
+            "value": "2",
+            "disabled": false,
+            "busy": false,
+            "pressed": "false",
+            "reason": null,
+            "box": {
+              "x": 255.66,
+              "y": 171.63,
+              "width": 115.34,
+              "height": 44
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": null,
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 0,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/host-abort": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "title": true,
+        "confirm": true,
+        "footer": true,
+        "notSent": true,
+        "keepBack": true,
+        "abortSent": true,
+        "reopensSettings": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-host-abort.jpg",
+      "sha256": "8bfdfe139436dee490acf05eae3dc0763137c1d0d402788e1753188459c9571c",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library hospital-panel navigation windows offices promises end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "advance",
+          "issueRecovery"
+        ],
+        "reads": 11,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Host controls",
+        "sub": null,
+        "words": "Abort the match?It ends now for everyone, with no winner.",
+        "controls": [
+          {
+            "label": "Back",
+            "intent": "sheet-back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Keep playing",
+            "intent": "sheet-local",
+            "value": "keep",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Abort match",
+            "intent": "sheet-action",
+            "value": "abort",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": false,
+        "host": true,
+        "card": null,
+        "matchId": null,
+        "code": null,
+        "revealed": null,
+        "toast": null,
+        "focus": "menu",
+        "focusValue": null,
+        "secretInPage": false,
+        "wrap": {
+          "code": null,
+          "matchId": null
+        },
+        "old": 0,
+        "sent": [
+          "advance",
+          "issueRecovery:seat-6"
+        ],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
+      },
+      "problems": []
+    },
+    "390x844/host-code": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "title": true,
+        "issued": true,
+        "card": true,
+        "masked": true,
+        "note": true,
+        "noMinutes": true,
+        "footer": true,
+        "groups": true
+      },
+      "info": {
+        "infoWrap": {
+          "code": {
+            "groups": [
+              "••••••",
+              "••••••",
+              "••••••",
+              "••••••",
+              "••••••"
+            ],
+            "lines": 2,
+            "split": 0,
+            "overflow": false
+          },
+          "matchId": {
+            "groups": [
+              "planet-",
+              "local"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          }
+        }
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-host-code.jpg",
+      "sha256": "d269daa9a1014c1103d0ce9d6a296fb49898e379c44c59b10917a5918d0fb863",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library hospital-panel navigation windows offices promises end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "advance",
+          "issueRecovery"
+        ],
+        "reads": 7,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Recovery code",
+        "sub": "Private to this phone",
+        "words": "Recovery for Player 6 · Crew 6Match IDplanet-localCode•••••• •••••• •••••• •••••• ••••••Show it only to Player 6. It never appears on the shared display.",
+        "controls": [
+          {
+            "label": "Back",
+            "intent": "sheet-back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Reveal",
+            "intent": "sheet-local",
+            "value": "reveal",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Copy",
+            "intent": "sheet-local",
+            "value": "copy",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": false,
+        "host": true,
+        "card": "Recovery for Player 6 · Crew 6",
+        "matchId": "planet-local",
+        "code": "•••••• •••••• •••••• •••••• ••••••",
+        "revealed": false,
+        "toast": null,
+        "focus": "menu",
+        "focusValue": null,
+        "secretInPage": false,
+        "wrap": {
+          "code": {
+            "groups": [
+              "••••••",
+              "••••••",
+              "••••••",
+              "••••••",
+              "••••••"
+            ],
+            "lines": 2,
+            "split": 0,
+            "overflow": false
+          },
+          "matchId": {
+            "groups": [
+              "planet-",
+              "local"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          }
+        },
+        "old": 0,
+        "sent": [
+          "advance",
+          "issueRecovery:seat-6"
+        ],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
+      },
+      "problems": []
+    },
+    "390x844/host-code-revealed": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "revealed": true,
+        "footer": true,
+        "groups": true,
+        "copied": true,
+        "toast": true,
+        "refusedCopy": true,
+        "hidden": true,
+        "backToList": true
+      },
+      "info": {
+        "infoWrap": {
+          "code": {
+            "groups": [
+              "SYNTHE",
+              "TIC-RE",
+              "COVERY",
+              "-CODE"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          },
+          "matchId": {
+            "groups": [
+              "planet-",
+              "local"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          }
+        }
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-host-code-revealed.jpg",
+      "sha256": "da82f0a5989dd659c1449cb49846e9d0d331fff89e22c0db73f80466ae6f2e36",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library hospital-panel navigation windows offices promises end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "advance",
+          "issueRecovery"
+        ],
+        "reads": 7,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Recovery code",
+        "sub": "Private to this phone",
+        "words": "Recovery for Player 6 · Crew 6Match IDplanet-localCodeSYNTHETIC-RECOVERY-CODEShow it only to Player 6. It never appears on the shared display.",
+        "controls": [
+          {
+            "label": "Back",
+            "intent": "sheet-back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Hide",
+            "intent": "sheet-local",
+            "value": "hide",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Copy",
+            "intent": "sheet-local",
+            "value": "copy",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": false,
+        "host": true,
+        "card": "Recovery for Player 6 · Crew 6",
+        "matchId": "planet-local",
+        "code": "SYNTHETIC-RECOVERY-CODE",
+        "revealed": true,
+        "toast": null,
+        "focus": "menu",
+        "focusValue": null,
+        "secretInPage": true,
+        "wrap": {
+          "code": {
+            "groups": [
+              "SYNTHE",
+              "TIC-RE",
+              "COVERY",
+              "-CODE"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          },
+          "matchId": {
+            "groups": [
+              "planet-",
+              "local"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          }
+        },
+        "old": 0,
+        "sent": [
+          "advance",
+          "issueRecovery:seat-6"
+        ],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
+      },
+      "problems": []
+    },
+    "390x844/host-controls": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "title": true,
+        "back": true,
+        "close": true,
+        "commands": true,
+        "seats": true,
+        "noCode": true,
+        "noOldControls": true,
+        "deadlineSent": true,
+        "receipt": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-host-controls.jpg",
+      "sha256": "1fa8e07b9b056c603b7648f91d78ed585746e87339ed874f3b4bc8420d830e2f",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library hospital-panel navigation windows offices promises end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 4,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Host controls",
+        "sub": null,
+        "words": "Check the deadlineAsks the server to move on if time is upRun botsBots act if they canRecovery codes1 · Crew 1New code3 · Crew 3New code6 · Crew 6New codeAbort matchEnds with no winner",
+        "controls": [
+          {
+            "label": "Back",
+            "intent": "sheet-back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Check the deadlineAsks the server to move on if time is up",
+            "intent": "deadline",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Run botsBots act if they can",
+            "intent": "bots",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "1 · Crew 1New code",
+            "intent": "issue-recovery",
+            "value": "1",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "3 · Crew 3New code",
+            "intent": "issue-recovery",
+            "value": "3",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "6 · Crew 6New code",
+            "intent": "issue-recovery",
+            "value": "6",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Abort matchEnds with no winner",
+            "intent": "abort-ask",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": false,
+        "host": true,
+        "card": null,
+        "matchId": null,
+        "code": null,
+        "revealed": null,
+        "toast": null,
+        "focus": "menu",
+        "focusValue": null,
+        "secretInPage": false,
+        "wrap": {
+          "code": null,
+          "matchId": null
+        },
+        "old": 0,
+        "sent": [],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
+      },
+      "problems": []
+    },
+    "390x844/host-lobby": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "lobby": true,
+        "seats": true,
+        "request": true,
+        "startOff": true,
+        "bots": true,
+        "leaveOff": true,
+        "copyToast": true,
+        "admitSent": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-host-lobby.jpg",
+      "sha256": "c6302a06230cbc301b50a51ef50123955d3189169d0e2a14c19932b15e6d1d08",
+      "seen": {
+        "screen": "host-lobby",
+        "component": "ms-host-lobby ms-kit ms-k-phone ms-entry-parts",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": "Lobby",
+        "words": "LeaveLobbyRoom codePLANETCopy5 of 9 seatsAsking to join · 1DevPlayer phoneAdmitSeats1Crew 1Bot2Crew 2Bot3Crew 3Bot4Crew 4Bot5Crew 5BotBotsBotsUp to 95Start character selection4 more seats to fillNot available in this test4 more seats to fill",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-board-v2-films-art crew-roles board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Leave",
+            "intent": "leave",
+            "value": null,
+            "disabled": true,
+            "busy": false,
+            "pressed": null,
+            "reason": "Not available in this test",
+            "box": {
+              "x": 8,
+              "y": 8,
+              "width": 94.19,
+              "height": 44
+            }
+          },
+          {
+            "label": "Copy room code",
+            "intent": "copy",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 266.5,
+              "y": 97.59,
+              "width": 91.5,
+              "height": 36
+            }
+          },
+          {
+            "label": "Admit",
+            "intent": "admit",
+            "value": "admission-1",
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 293.97,
+              "y": 225.55,
+              "width": 66.03,
+              "height": 36
+            }
+          },
+          {
+            "label": "Fewer bots",
+            "intent": "bots",
+            "value": "down",
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 238,
+              "y": 624.02,
+              "width": 44,
+              "height": 44
+            }
+          },
+          {
+            "label": "More bots",
+            "intent": "bots",
+            "value": "up",
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 316,
+              "y": 624.02,
+              "width": 44,
+              "height": 44
+            }
+          },
+          {
+            "label": "Start character selection",
+            "intent": "start",
+            "value": null,
+            "disabled": true,
+            "busy": false,
+            "pressed": null,
+            "reason": "4 more seats to fill",
+            "box": {
+              "x": 16,
+              "y": 743.45,
+              "width": 358,
+              "height": 50
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "lobby",
+          "isHost": true,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/host-setup": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "setup": true,
+        "counts": true,
+        "chosen": true,
+        "open": true,
+        "nothingSent": true,
+        "noMix": true,
+        "createdWithEight": true,
+        "lobby": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-host-setup.jpg",
+      "sha256": "c9e058e13c73000536e80927ef2d2728a931589fd9a3d9b0b1dc95b2c327fcda",
+      "seen": {
+        "screen": "host-setup",
+        "component": "ms-host-setup ms-kit ms-k-phone ms-entry-parts",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": "Host",
+        "words": "MenuHostNew roomPlayers789After the room opensPlayers ask to joinYou admit each oneBots fill empty seatsSet them in the lobbyOpen room",
+        "art": "player-ui roles scene-art public-board abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Menu",
+            "intent": "back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 8,
+              "y": 8,
+              "width": 91.88,
+              "height": 44
+            }
+          },
+          {
+            "label": "7",
+            "intent": "count",
+            "value": "7",
+            "disabled": false,
+            "busy": false,
+            "pressed": "true",
+            "reason": null,
+            "box": {
+              "x": 19,
+              "y": 156.39,
+              "width": 115.33,
+              "height": 44
+            }
+          },
+          {
+            "label": "8",
+            "intent": "count",
+            "value": "8",
+            "disabled": false,
+            "busy": false,
+            "pressed": "false",
+            "reason": null,
+            "box": {
+              "x": 137.33,
+              "y": 156.39,
+              "width": 115.33,
+              "height": 44
+            }
+          },
+          {
+            "label": "9",
+            "intent": "count",
+            "value": "9",
+            "disabled": false,
+            "busy": false,
+            "pressed": "false",
+            "reason": null,
+            "box": {
+              "x": 255.66,
+              "y": 156.39,
+              "width": 115.34,
+              "height": 44
+            }
+          },
+          {
+            "label": "Open room",
+            "intent": "open",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 778,
+              "width": 358,
+              "height": 50
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": null,
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 0,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/join": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "form": true,
+        "code": true,
+        "count": true,
+        "ask": true,
+        "device": true,
+        "nothingSent": true,
+        "askUnavailableWhenEmpty": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-join.jpg",
+      "sha256": "cc7fec47c4896fa23da060843cecefb9d76c3b9295fddb97596932a9724015b9",
+      "seen": {
+        "screen": "join",
+        "component": "ms-join-form ms-kit ms-k-phone ms-entry-parts",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": "Join",
+        "words": "MenuJoinJoin a roomRoom codePLANETYour name3/12This devicePlayer phoneShared displayAsk to join",
+        "art": "public-board player-ui scene-art abilities roles board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Menu",
+            "intent": "back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 8,
+              "y": 8,
+              "width": 91.88,
+              "height": 44
+            }
+          },
+          {
+            "label": "Player phone",
+            "intent": "device",
+            "value": "player",
+            "disabled": false,
+            "busy": false,
+            "pressed": "true",
+            "reason": null,
+            "box": {
+              "x": 19,
+              "y": 337.98,
+              "width": 174.5,
+              "height": 44
+            }
+          },
+          {
+            "label": "Shared display",
+            "intent": "device",
+            "value": "display",
+            "disabled": false,
+            "busy": false,
+            "pressed": "false",
+            "reason": null,
+            "box": {
+              "x": 196.5,
+              "y": 337.98,
+              "width": 174.5,
+              "height": 44
+            }
+          },
+          {
+            "label": "Ask to join",
+            "intent": "ask",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 778,
+              "width": 358,
+              "height": 50
+            }
+          }
+        ],
+        "inputs": [
+          {
+            "type": "text",
+            "value": "PLANET",
+            "label": "Room code"
+          },
+          {
+            "type": "text",
+            "value": "Dev",
+            "label": "Your name3/12"
+          }
+        ],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": null,
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 0,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/join-admitted": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "admitted": true,
+        "leaveOff": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-join-admitted.jpg",
+      "sha256": "1268ef767a933d53ed5307736f74dc4b883679f321e9b149dc84e245ee4b7ac7",
+      "seen": {
+        "screen": "join-wait",
+        "component": "ms-join-wait ms-kit ms-k-phone ms-entry-parts",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": "Lobby",
+        "words": "LeaveLobby4You’re in · Seat 4Room PLANET · waiting for the hostPlayers · 5 of 91Crew 12Crew 23Crew 34Dev (you)5Crew 5 Character selection starts when every seat is filledNot available in this test",
+        "art": "public-board player-ui scene-art abilities roles board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library hospital-panel navigation promises offices windows end successor",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Leave",
+            "intent": "leave",
+            "value": null,
+            "disabled": true,
+            "busy": false,
+            "pressed": null,
+            "reason": "Not available in this test",
+            "box": {
+              "x": 8,
+              "y": 8,
+              "width": 94.19,
+              "height": 44
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "lobby",
+          "isHost": false,
+          "selfSeatId": "seat-4",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "requestAdmission"
+        ],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/join-wait": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "wait": true,
+        "sent": true,
+        "pending": true,
+        "check": true,
+        "cancelOff": true,
+        "checkReads": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-join-wait.jpg",
+      "sha256": "a34f60a41e435c30035c021d1798530eb312c105e2c3c2e8e08ddcd37a22d501",
+      "seen": {
+        "screen": "join-wait",
+        "component": "ms-join-wait ms-kit ms-k-phone ms-entry-parts",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": "Join",
+        "words": "CancelJoinWaiting for the hostRoom PLANET · as DevCheck againNot available in this test",
+        "art": "public-board player-ui scene-art abilities roles board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Cancel",
+            "intent": "cancel",
+            "value": null,
+            "disabled": true,
+            "busy": false,
+            "pressed": null,
+            "reason": "Not available in this test",
+            "box": {
+              "x": 8,
+              "y": 8,
+              "width": 102.08,
+              "height": 44
+            }
+          },
+          {
+            "label": "Check again",
+            "intent": "check",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 137,
+              "y": 255.19,
+              "width": 116,
+              "height": 44
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": "pending",
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "requestAdmission"
+        ],
+        "reads": 1,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/menu": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "menu": true,
+        "choices": true,
+        "hero": true,
+        "noFilm": true,
+        "noNotice": true,
+        "nothingSent": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-menu.jpg",
+      "sha256": "50757616386418669156be7a4a5cf2f294e64be2295a83cfb40c9a8ec88419ae",
+      "seen": {
+        "screen": "menu",
+        "component": "ms-main-menu ms-kit ms-k-phone ms-entry-parts",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "JoinEnter a room codeHostOpen a room for 7–9 playersRecover my seat",
+        "art": "player-ui public-board roles scene-art abilities crew-roles setup-art board-v2-motion-art board-v2-art crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Display settings",
+            "intent": "settings",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 338,
+              "y": 4,
+              "width": 44,
+              "height": 44
+            }
+          },
+          {
+            "label": "JoinEnter a room code",
+            "intent": "join",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 606,
+              "width": 358,
+              "height": 76
+            }
+          },
+          {
+            "label": "HostOpen a room for 7–9 players",
+            "intent": "host",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 694,
+              "width": 358,
+              "height": 76
+            }
+          },
+          {
+            "label": "Recover my seat",
+            "intent": "recover",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 105.14,
+              "y": 782,
+              "width": 179.7,
+              "height": 44
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": {
+          "svg": true,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 489.52
+          }
+        },
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": null,
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 0,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/recover": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "form": true,
+        "secret": true,
+        "offered": true,
+        "noCodeHint": true,
+        "recovered": true,
+        "codeNotKept": true,
+        "continueToMatch": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-recover.jpg",
+      "sha256": "9113d848a886fb739c8f141ba550de7f80f7a43cf63fdcdebc062040be19bef0",
+      "seen": {
+        "screen": "recover",
+        "component": "ms-recover ms-kit ms-k-phone ms-entry-parts",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": "Recover",
+        "words": "MenuRecoverRecover your seatMatch IDRecovery codeThe host makes a code for your seat in Host controls. It is never shown on the shared display.Recover seat",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Menu",
+            "intent": "back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 8,
+              "y": 8,
+              "width": 91.88,
+              "height": 44
+            }
+          },
+          {
+            "label": "Recover seat",
+            "intent": "recover",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 778,
+              "width": 358,
+              "height": 50
+            }
+          }
+        ],
+        "inputs": [
+          {
+            "type": "text",
+            "value": "planet-local",
+            "label": "Match ID"
+          },
+          {
+            "type": "password",
+            "value": "•",
+            "label": "Recovery code"
+          }
+        ],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": null,
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 0,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/role": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "stage": true,
+        "card": true,
+        "film": true,
+        "readyOff": true,
+        "noKnowledge": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-role.jpg",
+      "sha256": "14b6dafa42a0c6afd472df67032de5c386d15be3dcd08e20dc0e5c5f5524cab7",
+      "seen": {
+        "screen": "role",
+        "component": "ms-role-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": "Your role",
+        "words": "HackerRed teamYour film starts in 0:15Ready0:25Skip filmYour roleOnly on this phone0:25",
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Ready",
+            "intent": "ready",
+            "value": null,
+            "disabled": true,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 780,
+              "width": 358,
+              "height": 50
+            }
+          },
+          {
+            "label": "Skip film",
+            "intent": "skip-film",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 260.7,
+              "y": 794,
+              "width": 115.3,
+              "height": 36
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "top",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "reading",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": "Hacker",
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 1,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/role-ready": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "ready": true,
+        "readySent": true,
+        "count": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-role-ready.jpg",
+      "sha256": "baa60372ca6134cee7d7e0693ce4c4a19ff5e8f40ea3b9e0710de01360fc1dc5",
+      "seen": {
+        "screen": "role",
+        "component": "ms-role-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": "Your role",
+        "words": "HackerRed teamHide your phone, then tap ReadyReady0:00Skip filmYour roleOnly on this phone",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Ready",
+            "intent": "ready",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 780,
+              "width": 358,
+              "height": 50
+            }
+          },
+          {
+            "label": "Skip film",
+            "intent": "skip-film",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 260.7,
+              "y": 794,
+              "width": 115.3,
+              "height": 36
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "top",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "reading",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": true,
+          "role": "Hacker",
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 1,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/round-stamp": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "running": true,
+        "words": true,
+        "ariaHidden": true,
+        "noTaps": true,
+        "live": true,
+        "standing": true,
+        "one": true,
+        "onTheServersWindow": true,
+        "atMountMs": 182,
+        "goneByItself": true,
+        "disposedInRound2": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-round-stamp.jpg",
+      "sha256": "da356179c27bcced750ed1239f55da7dc8a391b5b69d52abdde153984b424c2f",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "art": "player-ui roles public-board scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/round-stamp-late": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "running": true,
+        "mounted": true,
+        "nothingDrawn": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-round-stamp-late.jpg",
+      "sha256": "6237a1d3724237e7210cf22f0116a7960b849d93775128ce594315f476205f7f",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library hospital-panel promises windows navigation offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/round-stamp-reduced": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "running": true,
+        "words": true,
+        "reduced": true,
+        "one": true,
+        "noScaleOrTravel": true,
+        "fades": true,
+        "standing": true,
+        "onTheServersWindow": true,
+        "atMountMs": 187,
+        "goneByItself": true,
+        "disposedInRound2": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-round-stamp-reduced.jpg",
+      "sha256": "8a7dce6b6e35c253bbdb020dd5b2270462e3cdb24a8501d132aa1f5193d7fe32",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "art": "player-ui public-board roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library hospital-panel navigation windows promises offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "reduced"
+        },
+        "sent": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/settings": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "title": true,
+        "sheet": true,
+        "display": true,
+        "sizes": true,
+        "note": true,
+        "hostRow": true,
+        "noOldControls": true,
+        "nothingSent": true,
+        "largest": true,
+        "stored": true,
+        "oneInstance": true,
+        "focusKept": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-settings.jpg",
+      "sha256": "fab984aae253d1262ef80db574fb5518c86d1a72ce397b3a60f6a3e62f3db1b3",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library hospital-panel navigation windows offices promises end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Settings",
+        "sub": null,
+        "words": "DisplayReduce motionFilms become stills; no shake or travelText sizeStandardLargeLargestThese stay on this phone. They never change the match.HostHost controlsBots, deadlines, recovery, abort",
+        "controls": [
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Reduce motion",
+            "intent": "reduce-motion",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Standard",
+            "intent": "text-size",
+            "value": "1",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Large",
+            "intent": "text-size",
+            "value": "1.5",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Largest",
+            "intent": "text-size",
+            "value": "2",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Host controlsBots, deadlines, recovery, abort",
+            "intent": "host-controls",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": true,
+        "host": false,
+        "card": null,
+        "matchId": null,
+        "code": null,
+        "revealed": null,
+        "toast": null,
+        "focus": null,
+        "focusValue": null,
+        "secretInPage": false,
+        "wrap": {
+          "code": null,
+          "matchId": null
+        },
+        "old": 0,
+        "sent": [],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
+      },
+      "problems": []
+    },
+    "390x844/stale": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "stale": true,
+        "keptGrid": true,
+        "portraitsKept": true,
+        "artKept": true,
+        "retryReads": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-stale.jpg",
+      "sha256": "ed1a15bc88e7988fa66964ad2505fb27c0b01203340744a0ecdc0475469568ca",
+      "seen": {
+        "screen": "characters",
+        "component": "ms-char-select ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": "Choose a character",
+        "words": "VegaTaken · 1RigelTaken · 2LyraTaken · 3AtlasTaken · 4OrionTaken · 5NovaYoursJunoTaken · 7MiraTaken · 8EchoTaken · 9NovaTap another to changeYoursChoose a characterAssigned for you if time runs out0:29Connection lostControls return when the match is currentRetryTaken by player 1Taken by player 2Taken by player 3Taken by player 4Taken by player 5Taken by player 7Taken by player 8Taken by player 9Co",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "buttons": [
+          {
+            "label": "Vega, taken by player 1",
+            "intent": "choose",
+            "value": "c1",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 1",
+            "box": {
+              "x": 16,
+              "y": 64,
+              "width": 112.66,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Rigel, taken by player 2",
+            "intent": "choose",
+            "value": "c2",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 2",
+            "box": {
+              "x": 138.66,
+              "y": 64,
+              "width": 112.67,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Lyra, taken by player 3",
+            "intent": "choose",
+            "value": "c3",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 3",
+            "box": {
+              "x": 261.33,
+              "y": 64,
+              "width": 112.66,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Atlas, taken by player 4",
+            "intent": "choose",
+            "value": "c4",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 4",
+            "box": {
+              "x": 16,
+              "y": 229.89,
+              "width": 112.66,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Orion, taken by player 5",
+            "intent": "choose",
+            "value": "c5",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 5",
+            "box": {
+              "x": 138.66,
+              "y": 229.89,
+              "width": 112.67,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Nova, yours",
+            "intent": "choose",
+            "value": "c6",
+            "disabled": true,
+            "busy": false,
+            "pressed": "true",
+            "reason": "Controls return when the match is current",
+            "box": {
+              "x": 261.33,
+              "y": 229.89,
+              "width": 112.66,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Juno, taken by player 7",
+            "intent": "choose",
+            "value": "c7",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 7",
+            "box": {
+              "x": 16,
+              "y": 395.78,
+              "width": 112.66,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Mira, taken by player 8",
+            "intent": "choose",
+            "value": "c8",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 8",
+            "box": {
+              "x": 138.66,
+              "y": 395.78,
+              "width": 112.67,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Echo, taken by player 9",
+            "intent": "choose",
+            "value": "c9",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 9",
+            "box": {
+              "x": 261.33,
+              "y": 395.78,
+              "width": 112.66,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Retry",
+            "intent": "retry",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 305.97,
+              "y": 74.84,
+              "width": 66.03,
+              "height": 38
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": {
+          "status": "stale",
+          "bar": "top",
+          "banner": "Connection lostControls return when the match is currentRetry",
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "stale",
+          "matchId": "planet-local",
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": "Reconnecting to the authorized session.",
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "chooseCharacter"
+        ],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/boarding": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "stage": true,
+        "holding": true,
+        "noSkip": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-boarding.jpg",
+      "sha256": "0a0f0bae8cc989f4bc4ef5813bf87e58cee3c7da4ad33cb551ca3c736aa59262",
+      "seen": {
+        "screen": "boarding",
+        "component": "ms-boarding-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "BoardingRound 1 in 0:08Skip",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "none",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "boarding",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/boarding-waiting": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "waiting": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-boarding-waiting.jpg",
+      "sha256": "f913664155737bd9ee91a5307592821e0f7c875990db6041e5e604a0d6ecde8e",
+      "seen": {
+        "screen": "boarding",
+        "component": "ms-boarding-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "Starting Round 1 Waiting for the shipSkip",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "none",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "boarding",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/characters": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "select": true,
+        "grid": true,
+        "offered": true,
+        "clock": true,
+        "portraits": true,
+        "art": true,
+        "chosen": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-characters.jpg",
+      "sha256": "2462604864d3ae9720d74251c77c505bb7361133d348f1ff3012234e009b0660",
+      "seen": {
+        "screen": "characters",
+        "component": "ms-char-select ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": "Choose a character",
+        "words": "VegaTaken · 1RigelTaken · 2LyraTaken · 3AtlasTaken · 4OrionTaken · 5NovaJunoTaken · 7MiraTaken · 8EchoTaken · 9No character yetTap one to chooseChoose a characterAssigned for you if time runs out0:30Taken by player 1Taken by player 2Taken by player 3Taken by player 4Taken by player 5Taken by player 7Taken by player 8Taken by player 9",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "buttons": [
+          {
+            "label": "Vega, taken by player 1",
+            "intent": "choose",
+            "value": "c1",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 1",
+            "box": {
+              "x": 16,
+              "y": 64,
+              "width": 126,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Rigel, taken by player 2",
+            "intent": "choose",
+            "value": "c2",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 2",
+            "box": {
+              "x": 152,
+              "y": 64,
+              "width": 126,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Lyra, taken by player 3",
+            "intent": "choose",
+            "value": "c3",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 3",
+            "box": {
+              "x": 288,
+              "y": 64,
+              "width": 126,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Atlas, taken by player 4",
+            "intent": "choose",
+            "value": "c4",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 4",
+            "box": {
+              "x": 16,
+              "y": 229.89,
+              "width": 126,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Orion, taken by player 5",
+            "intent": "choose",
+            "value": "c5",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 5",
+            "box": {
+              "x": 152,
+              "y": 229.89,
+              "width": 126,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Nova",
+            "intent": "choose",
+            "value": "c6",
+            "disabled": false,
+            "busy": false,
+            "pressed": "false",
+            "reason": null,
+            "box": {
+              "x": 288,
+              "y": 229.89,
+              "width": 126,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Juno, taken by player 7",
+            "intent": "choose",
+            "value": "c7",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 7",
+            "box": {
+              "x": 16,
+              "y": 395.78,
+              "width": 126,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Mira, taken by player 8",
+            "intent": "choose",
+            "value": "c8",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 8",
+            "box": {
+              "x": 152,
+              "y": 395.78,
+              "width": 126,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Echo, taken by player 9",
+            "intent": "choose",
+            "value": "c9",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 9",
+            "box": {
+              "x": 288,
+              "y": 395.78,
+              "width": 126,
+              "height": 155.89
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "top",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "choosing",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": true,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 1,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/concealed": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "concealed": true,
+        "clockRuns": true,
+        "noRole": true,
+        "cardBack": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-concealed.jpg",
+      "sha256": "3119a545970916fa927ee48e6910429493cebcb049ef546428f964be784215bf",
+      "seen": {
+        "screen": "role",
+        "component": "ms-role-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": "Your role",
+        "words": "Role hiddenShow roleYour film starts in 0:15Ready0:25Skip filmYour roleOnly on this phone0:25",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Show role",
+            "intent": "show-role",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 141.78,
+              "y": 461.59,
+              "width": 146.42,
+              "height": 44
+            }
+          },
+          {
+            "label": "Ready",
+            "intent": "ready",
+            "value": null,
+            "disabled": true,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 868,
+              "width": 398,
+              "height": 50
+            }
+          },
+          {
+            "label": "Skip film",
+            "intent": "skip-film",
+            "value": null,
+            "disabled": true,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 300.7,
+              "y": 882,
+              "width": 115.3,
+              "height": 36
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "top",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 1,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/display": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "page": true,
+        "back": true,
+        "motion": true,
+        "sizes": true,
+        "largest": true,
+        "stored": true,
+        "backToMenu": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-display.jpg",
+      "sha256": "4924ebc7f7cd17222203fc7ac3c970fc66fd056adec9d96f6da484585e2dceef",
+      "seen": {
+        "screen": "display",
+        "component": "ms-display-settings ms-kit ms-k-phone ms-entry-parts",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": "Display",
+        "words": "MenuDisplayReduce motionFilms become stills; no shake or travelText sizeStandardLargeLargestThese stay on this phone. They never change the match.",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Menu",
+            "intent": "back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 8,
+              "y": 8,
+              "width": 91.88,
+              "height": 44
+            }
+          },
+          {
+            "label": "Reduce motion",
+            "intent": "reduce-motion",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": "false",
+            "reason": null,
+            "box": {
+              "x": 349,
+              "y": 69.06,
+              "width": 51,
+              "height": 31
+            }
+          },
+          {
+            "label": "Standard",
+            "intent": "text-size",
+            "value": "1",
+            "disabled": false,
+            "busy": false,
+            "pressed": "true",
+            "reason": null,
+            "box": {
+              "x": 19,
+              "y": 154.73,
+              "width": 128.66,
+              "height": 44
+            }
+          },
+          {
+            "label": "Large",
+            "intent": "text-size",
+            "value": "1.5",
+            "disabled": false,
+            "busy": false,
+            "pressed": "false",
+            "reason": null,
+            "box": {
+              "x": 150.66,
+              "y": 154.73,
+              "width": 128.67,
+              "height": 44
+            }
+          },
+          {
+            "label": "Largest",
+            "intent": "text-size",
+            "value": "2",
+            "disabled": false,
+            "busy": false,
+            "pressed": "false",
+            "reason": null,
+            "box": {
+              "x": 282.33,
+              "y": 154.73,
+              "width": 128.67,
+              "height": 44
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": null,
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 0,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/host-abort": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "title": true,
+        "confirm": true,
+        "footer": true,
+        "notSent": true,
+        "keepBack": true,
+        "abortSent": true,
+        "reopensSettings": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-host-abort.jpg",
+      "sha256": "8532471a6437342224bae15038d982345c22e3b87004fcce968317ef4bf18732",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "art": "public-board player-ui roles abilities scene-art setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "advance",
+          "issueRecovery"
+        ],
+        "reads": 11,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Host controls",
+        "sub": null,
+        "words": "Abort the match?It ends now for everyone, with no winner.",
+        "controls": [
+          {
+            "label": "Back",
+            "intent": "sheet-back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Keep playing",
+            "intent": "sheet-local",
+            "value": "keep",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Abort match",
+            "intent": "sheet-action",
+            "value": "abort",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": false,
+        "host": true,
+        "card": null,
+        "matchId": null,
+        "code": null,
+        "revealed": null,
+        "toast": null,
+        "focus": "menu",
+        "focusValue": null,
+        "secretInPage": false,
+        "wrap": {
+          "code": null,
+          "matchId": null
+        },
+        "old": 0,
+        "sent": [
+          "advance",
+          "issueRecovery:seat-6"
+        ],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
+      },
+      "problems": []
+    },
+    "430x932/host-code": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "title": true,
+        "issued": true,
+        "card": true,
+        "masked": true,
+        "note": true,
+        "noMinutes": true,
+        "footer": true,
+        "groups": true
+      },
+      "info": {
+        "infoWrap": {
+          "code": {
+            "groups": [
+              "••••••",
+              "••••••",
+              "••••••",
+              "••••••",
+              "••••••"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          },
+          "matchId": {
+            "groups": [
+              "planet-",
+              "local"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          }
+        }
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-host-code.jpg",
+      "sha256": "d1f09d96e07bbd81be85b02b809cbe9ff8cf9ffd534db414c8864211b3f49ee6",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "art": "public-board player-ui roles abilities scene-art setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "advance",
+          "issueRecovery"
+        ],
+        "reads": 7,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Recovery code",
+        "sub": "Private to this phone",
+        "words": "Recovery for Player 6 · Crew 6Match IDplanet-localCode•••••• •••••• •••••• •••••• ••••••Show it only to Player 6. It never appears on the shared display.",
+        "controls": [
+          {
+            "label": "Back",
+            "intent": "sheet-back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Reveal",
+            "intent": "sheet-local",
+            "value": "reveal",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Copy",
+            "intent": "sheet-local",
+            "value": "copy",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": false,
+        "host": true,
+        "card": "Recovery for Player 6 · Crew 6",
+        "matchId": "planet-local",
+        "code": "•••••• •••••• •••••• •••••• ••••••",
+        "revealed": false,
+        "toast": null,
+        "focus": "menu",
+        "focusValue": null,
+        "secretInPage": false,
+        "wrap": {
+          "code": {
+            "groups": [
+              "••••••",
+              "••••••",
+              "••••••",
+              "••••••",
+              "••••••"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          },
+          "matchId": {
+            "groups": [
+              "planet-",
+              "local"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          }
+        },
+        "old": 0,
+        "sent": [
+          "advance",
+          "issueRecovery:seat-6"
+        ],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
+      },
+      "problems": []
+    },
+    "430x932/host-code-revealed": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "revealed": true,
+        "footer": true,
+        "groups": true,
+        "copied": true,
+        "toast": true,
+        "refusedCopy": true,
+        "hidden": true,
+        "backToList": true
+      },
+      "info": {
+        "infoWrap": {
+          "code": {
+            "groups": [
+              "SYNTHE",
+              "TIC-RE",
+              "COVERY",
+              "-CODE"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          },
+          "matchId": {
+            "groups": [
+              "planet-",
+              "local"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          }
+        }
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-host-code-revealed.jpg",
+      "sha256": "cd03184581de43f7d240ca47bd3d09261b241ca4c6dc8a4136795c815abcdd12",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "art": "public-board player-ui roles abilities scene-art setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "advance",
+          "issueRecovery"
+        ],
+        "reads": 7,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Recovery code",
+        "sub": "Private to this phone",
+        "words": "Recovery for Player 6 · Crew 6Match IDplanet-localCodeSYNTHETIC-RECOVERY-CODEShow it only to Player 6. It never appears on the shared display.",
+        "controls": [
+          {
+            "label": "Back",
+            "intent": "sheet-back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Hide",
+            "intent": "sheet-local",
+            "value": "hide",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Copy",
+            "intent": "sheet-local",
+            "value": "copy",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": false,
+        "host": true,
+        "card": "Recovery for Player 6 · Crew 6",
+        "matchId": "planet-local",
+        "code": "SYNTHETIC-RECOVERY-CODE",
+        "revealed": true,
+        "toast": null,
+        "focus": "menu",
+        "focusValue": null,
+        "secretInPage": true,
+        "wrap": {
+          "code": {
+            "groups": [
+              "SYNTHE",
+              "TIC-RE",
+              "COVERY",
+              "-CODE"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          },
+          "matchId": {
+            "groups": [
+              "planet-",
+              "local"
+            ],
+            "lines": 1,
+            "split": 0,
+            "overflow": false
+          }
+        },
+        "old": 0,
+        "sent": [
+          "advance",
+          "issueRecovery:seat-6"
+        ],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
+      },
+      "problems": []
+    },
+    "430x932/host-controls": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "title": true,
+        "back": true,
+        "close": true,
+        "commands": true,
+        "seats": true,
+        "noCode": true,
+        "noOldControls": true,
+        "deadlineSent": true,
+        "receipt": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-host-controls.jpg",
+      "sha256": "633b1c13cbc619dc4aeca64cf076c7b0b69bb381b7ef99c1f4514a3396e8a1dd",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "art": "public-board player-ui roles abilities scene-art setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 4,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Host controls",
+        "sub": null,
+        "words": "Check the deadlineAsks the server to move on if time is upRun botsBots act if they canRecovery codes1 · Crew 1New code3 · Crew 3New code6 · Crew 6New codeAbort matchEnds with no winner",
+        "controls": [
+          {
+            "label": "Back",
+            "intent": "sheet-back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Check the deadlineAsks the server to move on if time is up",
+            "intent": "deadline",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Run botsBots act if they can",
+            "intent": "bots",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "1 · Crew 1New code",
+            "intent": "issue-recovery",
+            "value": "1",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "3 · Crew 3New code",
+            "intent": "issue-recovery",
+            "value": "3",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "6 · Crew 6New code",
+            "intent": "issue-recovery",
+            "value": "6",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Abort matchEnds with no winner",
+            "intent": "abort-ask",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": false,
+        "host": true,
+        "card": null,
+        "matchId": null,
+        "code": null,
+        "revealed": null,
+        "toast": null,
+        "focus": "menu",
+        "focusValue": null,
+        "secretInPage": false,
+        "wrap": {
+          "code": null,
+          "matchId": null
+        },
+        "old": 0,
+        "sent": [],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
+      },
+      "problems": []
+    },
+    "430x932/host-lobby": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "lobby": true,
+        "seats": true,
+        "request": true,
+        "startOff": true,
+        "bots": true,
+        "leaveOff": true,
+        "copyToast": true,
+        "admitSent": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-host-lobby.jpg",
+      "sha256": "4fe507adeb7a3e4bbccc66d749419d5e6ec3422c9974fadfd16186daad21ae85",
+      "seen": {
+        "screen": "host-lobby",
+        "component": "ms-host-lobby ms-kit ms-k-phone ms-entry-parts",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": "Lobby",
+        "words": "LeaveLobbyRoom codePLANETCopy5 of 9 seatsAsking to join · 1DevPlayer phoneAdmitSeats1Crew 1Bot2Crew 2Bot3Crew 3Bot4Crew 4Bot5Crew 5BotBotsBotsUp to 95Start character selection4 more seats to fillNot available in this test4 more seats to fill",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Leave",
+            "intent": "leave",
+            "value": null,
+            "disabled": true,
+            "busy": false,
+            "pressed": null,
+            "reason": "Not available in this test",
+            "box": {
+              "x": 8,
+              "y": 8,
+              "width": 94.19,
+              "height": 44
+            }
+          },
+          {
+            "label": "Copy room code",
+            "intent": "copy",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 306.5,
+              "y": 97.59,
+              "width": 91.5,
+              "height": 36
+            }
+          },
+          {
+            "label": "Admit",
+            "intent": "admit",
+            "value": "admission-1",
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 333.97,
+              "y": 225.55,
+              "width": 66.03,
+              "height": 36
+            }
+          },
+          {
+            "label": "Fewer bots",
+            "intent": "bots",
+            "value": "down",
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 278,
+              "y": 624.02,
+              "width": 44,
+              "height": 44
+            }
+          },
+          {
+            "label": "More bots",
+            "intent": "bots",
+            "value": "up",
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 356,
+              "y": 624.02,
+              "width": 44,
+              "height": 44
+            }
+          },
+          {
+            "label": "Start character selection",
+            "intent": "start",
+            "value": null,
+            "disabled": true,
+            "busy": false,
+            "pressed": null,
+            "reason": "4 more seats to fill",
+            "box": {
+              "x": 16,
+              "y": 831.45,
+              "width": 398,
+              "height": 50
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "lobby",
+          "isHost": true,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/host-setup": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "setup": true,
+        "counts": true,
+        "chosen": true,
+        "open": true,
+        "nothingSent": true,
+        "noMix": true,
+        "createdWithEight": true,
+        "lobby": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-host-setup.jpg",
+      "sha256": "1cada86b60fcc89bfa12241a9d5aa83a3f2ecc63535cafb3ed36a11de38eb80b",
+      "seen": {
+        "screen": "host-setup",
+        "component": "ms-host-setup ms-kit ms-k-phone ms-entry-parts",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": "Host",
+        "words": "MenuHostNew roomPlayers789After the room opensPlayers ask to joinYou admit each oneBots fill empty seatsSet them in the lobbyOpen room",
+        "art": "player-ui public-board roles scene-art abilities setup-art board-v2-motion-art board-v2-art crew-board-v2-films-art crew-roles board-v2-films-art crew-public-board",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Menu",
+            "intent": "back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 8,
+              "y": 8,
+              "width": 91.88,
+              "height": 44
+            }
+          },
+          {
+            "label": "7",
+            "intent": "count",
+            "value": "7",
+            "disabled": false,
+            "busy": false,
+            "pressed": "true",
+            "reason": null,
+            "box": {
+              "x": 19,
+              "y": 156.39,
+              "width": 128.66,
+              "height": 44
+            }
+          },
+          {
+            "label": "8",
+            "intent": "count",
+            "value": "8",
+            "disabled": false,
+            "busy": false,
+            "pressed": "false",
+            "reason": null,
+            "box": {
+              "x": 150.66,
+              "y": 156.39,
+              "width": 128.67,
+              "height": 44
+            }
+          },
+          {
+            "label": "9",
+            "intent": "count",
+            "value": "9",
+            "disabled": false,
+            "busy": false,
+            "pressed": "false",
+            "reason": null,
+            "box": {
+              "x": 282.33,
+              "y": 156.39,
+              "width": 128.67,
+              "height": 44
+            }
+          },
+          {
+            "label": "Open room",
+            "intent": "open",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 866,
+              "width": 398,
+              "height": 50
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": null,
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 0,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/join": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "form": true,
+        "code": true,
+        "count": true,
+        "ask": true,
+        "device": true,
+        "nothingSent": true,
+        "askUnavailableWhenEmpty": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-join.jpg",
+      "sha256": "fbb8f30c99bf2c1cce4b9f324fb33f3cf9a2bfbd67d9dac72594a345c36435a0",
+      "seen": {
+        "screen": "join",
+        "component": "ms-join-form ms-kit ms-k-phone ms-entry-parts",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": "Join",
+        "words": "MenuJoinJoin a roomRoom codePLANETYour name3/12This devicePlayer phoneShared displayAsk to join",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Menu",
+            "intent": "back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 8,
+              "y": 8,
+              "width": 91.88,
+              "height": 44
+            }
+          },
+          {
+            "label": "Player phone",
+            "intent": "device",
+            "value": "player",
+            "disabled": false,
+            "busy": false,
+            "pressed": "true",
+            "reason": null,
+            "box": {
+              "x": 19,
+              "y": 337.98,
+              "width": 194.5,
+              "height": 44
+            }
+          },
+          {
+            "label": "Shared display",
+            "intent": "device",
+            "value": "display",
+            "disabled": false,
+            "busy": false,
+            "pressed": "false",
+            "reason": null,
+            "box": {
+              "x": 216.5,
+              "y": 337.98,
+              "width": 194.5,
+              "height": 44
+            }
+          },
+          {
+            "label": "Ask to join",
+            "intent": "ask",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 866,
+              "width": 398,
+              "height": 50
+            }
+          }
+        ],
+        "inputs": [
+          {
+            "type": "text",
+            "value": "PLANET",
+            "label": "Room code"
+          },
+          {
+            "type": "text",
+            "value": "Dev",
+            "label": "Your name3/12"
+          }
+        ],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": null,
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 0,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/join-admitted": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "admitted": true,
+        "leaveOff": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-join-admitted.jpg",
+      "sha256": "d27cfcfa50519b681ee546820d8b34410d86c2ec24fe3cf88cbcf268c8225c15",
+      "seen": {
+        "screen": "join-wait",
+        "component": "ms-join-wait ms-kit ms-k-phone ms-entry-parts",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": "Lobby",
+        "words": "LeaveLobby4You’re in · Seat 4Room PLANET · waiting for the hostPlayers · 5 of 91Crew 12Crew 23Crew 34Dev (you)5Crew 5 Character selection starts when every seat is filledNot available in this test",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation promises windows offices hospital-panel end successor",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Leave",
+            "intent": "leave",
+            "value": null,
+            "disabled": true,
+            "busy": false,
+            "pressed": null,
+            "reason": "Not available in this test",
+            "box": {
+              "x": 8,
+              "y": 8,
+              "width": 94.19,
+              "height": 44
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "lobby",
+          "isHost": false,
+          "selfSeatId": "seat-4",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "requestAdmission"
+        ],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/join-wait": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "wait": true,
+        "sent": true,
+        "pending": true,
+        "check": true,
+        "cancelOff": true,
+        "checkReads": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-join-wait.jpg",
+      "sha256": "bd614b9d5b3749dbdc98d5fb171368ecd8f37fd9acba3279584b79c170d970d9",
+      "seen": {
+        "screen": "join-wait",
+        "component": "ms-join-wait ms-kit ms-k-phone ms-entry-parts",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": "Join",
+        "words": "CancelJoinWaiting for the hostRoom PLANET · as DevCheck againNot available in this test",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Cancel",
+            "intent": "cancel",
+            "value": null,
+            "disabled": true,
+            "busy": false,
+            "pressed": null,
+            "reason": "Not available in this test",
+            "box": {
+              "x": 8,
+              "y": 8,
+              "width": 102.08,
+              "height": 44
+            }
+          },
+          {
+            "label": "Check again",
+            "intent": "check",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 157,
+              "y": 255.19,
+              "width": 116,
+              "height": 44
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": "pending",
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "requestAdmission"
+        ],
+        "reads": 1,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/menu": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "menu": true,
+        "choices": true,
+        "hero": true,
+        "noFilm": true,
+        "noNotice": true,
+        "nothingSent": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-menu.jpg",
+      "sha256": "93bbc24b6ed9f3fc1f69802beaf06d7809b8cb8712188d350e77fdcab9f3f0e6",
+      "seen": {
+        "screen": "menu",
+        "component": "ms-main-menu ms-kit ms-k-phone ms-entry-parts",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "JoinEnter a room codeHostOpen a room for 7–9 playersRecover my seat",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Display settings",
+            "intent": "settings",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 378,
+              "y": 4,
+              "width": 44,
+              "height": 44
+            }
+          },
+          {
+            "label": "JoinEnter a room code",
+            "intent": "join",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 694,
+              "width": 398,
+              "height": 76
+            }
+          },
+          {
+            "label": "HostOpen a room for 7–9 players",
+            "intent": "host",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 782,
+              "width": 398,
+              "height": 76
+            }
+          },
+          {
+            "label": "Recover my seat",
+            "intent": "recover",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 125.14,
+              "y": 870,
+              "width": 179.7,
+              "height": 44
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": {
+          "svg": true,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 540.55
+          }
+        },
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": null,
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 0,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/recover": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "form": true,
+        "secret": true,
+        "offered": true,
+        "noCodeHint": true,
+        "recovered": true,
+        "codeNotKept": true,
+        "continueToMatch": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-recover.jpg",
+      "sha256": "40ffc4948cf82a1decab595f4b25c5c5450f63a634651cb0b922e9a102fc4c62",
+      "seen": {
+        "screen": "recover",
+        "component": "ms-recover ms-kit ms-k-phone ms-entry-parts",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": "Recover",
+        "words": "MenuRecoverRecover your seatMatch IDRecovery codeThe host makes a code for your seat in Host controls. It is never shown on the shared display.Recover seat",
+        "art": "player-ui roles public-board scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Menu",
+            "intent": "back",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 8,
+              "y": 8,
+              "width": 91.88,
+              "height": 44
+            }
+          },
+          {
+            "label": "Recover seat",
+            "intent": "recover",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 866,
+              "width": 398,
+              "height": 50
+            }
+          }
+        ],
+        "inputs": [
+          {
+            "type": "text",
+            "value": "planet-local",
+            "label": "Match ID"
+          },
+          {
+            "type": "password",
+            "value": "•",
+            "label": "Recovery code"
+          }
+        ],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": null,
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 0,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/role": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "stage": true,
+        "card": true,
+        "film": true,
+        "readyOff": true,
+        "noKnowledge": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-role.jpg",
+      "sha256": "044f6958bd7f6624c925e44f9ff1b9336f864c4a03e799757451187d93964a3b",
+      "seen": {
+        "screen": "role",
+        "component": "ms-role-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": "Your role",
+        "words": "HackerRed teamYour film starts in 0:15Ready0:25Skip filmYour roleOnly on this phone0:25",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Ready",
+            "intent": "ready",
+            "value": null,
+            "disabled": true,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 868,
+              "width": 398,
+              "height": 50
+            }
+          },
+          {
+            "label": "Skip film",
+            "intent": "skip-film",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 300.7,
+              "y": 882,
+              "width": 115.3,
+              "height": 36
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "top",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "reading",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": "Hacker",
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 1,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/role-ready": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "ready": true,
+        "readySent": true,
+        "count": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-role-ready.jpg",
+      "sha256": "d9a998db9017bfcd85585e4e87f09c9aabdd4397f2414afd1c426907f18d4bdd",
+      "seen": {
+        "screen": "role",
+        "component": "ms-role-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": "Your role",
+        "words": "HackerRed teamHide your phone, then tap ReadyReady0:00Skip filmYour roleOnly on this phone",
+        "art": "public-board player-ui roles abilities scene-art setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library hospital-panel navigation promises windows offices end successor",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Ready",
+            "intent": "ready",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 868,
+              "width": 398,
+              "height": 50
+            }
+          },
+          {
+            "label": "Skip film",
+            "intent": "skip-film",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 300.7,
+              "y": 882,
+              "width": 115.3,
+              "height": 36
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "top",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "reading",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": true,
+          "role": "Hacker",
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 1,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/round-stamp": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "running": true,
+        "words": true,
+        "ariaHidden": true,
+        "noTaps": true,
+        "live": true,
+        "standing": true,
+        "one": true,
+        "onTheServersWindow": true,
+        "atMountMs": 188,
+        "goneByItself": true,
+        "disposedInRound2": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-round-stamp.jpg",
+      "sha256": "d4e13b2a10786f4b12adb07c86d9f3e3b6322dd084067a0c64b2b77dafe24aec",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "art": "player-ui roles scene-art public-board abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/round-stamp-late": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "running": true,
+        "mounted": true,
+        "nothingDrawn": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-round-stamp-late.jpg",
+      "sha256": "afa45d80a6620a150d490fb4933ae1675ff33c2500f69bba88a34729ac45092d",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "art": "player-ui roles public-board scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/round-stamp-reduced": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "running": true,
+        "words": true,
+        "reduced": true,
+        "one": true,
+        "noScaleOrTravel": true,
+        "fades": true,
+        "standing": true,
+        "onTheServersWindow": true,
+        "atMountMs": 183,
+        "goneByItself": true,
+        "disposedInRound2": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-round-stamp-reduced.jpg",
+      "sha256": "3830cf6537653ed9151a5aef1b8a5dbdda865e5b6ecaaf1523cb2a78769738dc",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "art": "roles public-board player-ui scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "reduced"
+        },
+        "sent": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/settings": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "title": true,
+        "sheet": true,
+        "display": true,
+        "sizes": true,
+        "note": true,
+        "hostRow": true,
+        "noOldControls": true,
+        "nothingSent": true,
+        "largest": true,
+        "stored": true,
+        "oneInstance": true,
+        "focusKept": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-settings.jpg",
+      "sha256": "c264fcbfbbac1e7efe14b1d7846712956ff62e5ee05630ed896ed541cfe510ee",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "art": "public-board player-ui roles abilities scene-art setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Settings",
+        "sub": null,
+        "words": "DisplayReduce motionFilms become stills; no shake or travelText sizeStandardLargeLargestThese stay on this phone. They never change the match.HostHost controlsBots, deadlines, recovery, abort",
+        "controls": [
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Reduce motion",
+            "intent": "reduce-motion",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Standard",
+            "intent": "text-size",
+            "value": "1",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Large",
+            "intent": "text-size",
+            "value": "1.5",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Largest",
+            "intent": "text-size",
+            "value": "2",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Host controlsBots, deadlines, recovery, abort",
+            "intent": "host-controls",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": true,
+        "host": false,
+        "card": null,
+        "matchId": null,
+        "code": null,
+        "revealed": null,
+        "toast": null,
+        "focus": null,
+        "focusValue": null,
+        "secretInPage": false,
+        "wrap": {
+          "code": null,
+          "matchId": null
+        },
+        "old": 0,
+        "sent": [],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
+      },
+      "problems": []
+    },
+    "430x932/stale": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "stale": true,
+        "keptGrid": true,
+        "portraitsKept": true,
+        "artKept": true,
+        "retryReads": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-stale.jpg",
+      "sha256": "1419777e41b3282f65131d8781b2c811422a3c2832a403e02aff7291fad0acfe",
+      "seen": {
+        "screen": "characters",
+        "component": "ms-char-select ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": "Choose a character",
+        "words": "VegaTaken · 1RigelTaken · 2LyraTaken · 3AtlasTaken · 4OrionTaken · 5NovaYoursJunoTaken · 7MiraTaken · 8EchoTaken · 9NovaTap another to changeYoursChoose a characterAssigned for you if time runs out0:29Connection lostControls return when the match is currentRetryTaken by player 1Taken by player 2Taken by player 3Taken by player 4Taken by player 5Taken by player 7Taken by player 8Taken by player 9Co",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "buttons": [
+          {
+            "label": "Vega, taken by player 1",
+            "intent": "choose",
+            "value": "c1",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 1",
+            "box": {
+              "x": 16,
+              "y": 64,
+              "width": 126,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Rigel, taken by player 2",
+            "intent": "choose",
+            "value": "c2",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 2",
+            "box": {
+              "x": 152,
+              "y": 64,
+              "width": 126,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Lyra, taken by player 3",
+            "intent": "choose",
+            "value": "c3",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 3",
+            "box": {
+              "x": 288,
+              "y": 64,
+              "width": 126,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Atlas, taken by player 4",
+            "intent": "choose",
+            "value": "c4",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 4",
+            "box": {
+              "x": 16,
+              "y": 229.89,
+              "width": 126,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Orion, taken by player 5",
+            "intent": "choose",
+            "value": "c5",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 5",
+            "box": {
+              "x": 152,
+              "y": 229.89,
+              "width": 126,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Nova, yours",
+            "intent": "choose",
+            "value": "c6",
+            "disabled": true,
+            "busy": false,
+            "pressed": "true",
+            "reason": "Controls return when the match is current",
+            "box": {
+              "x": 288,
+              "y": 229.89,
+              "width": 126,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Juno, taken by player 7",
+            "intent": "choose",
+            "value": "c7",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 7",
+            "box": {
+              "x": 16,
+              "y": 395.78,
+              "width": 126,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Mira, taken by player 8",
+            "intent": "choose",
+            "value": "c8",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 8",
+            "box": {
+              "x": 152,
+              "y": 395.78,
+              "width": 126,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Echo, taken by player 9",
+            "intent": "choose",
+            "value": "c9",
+            "disabled": true,
+            "busy": false,
+            "pressed": "false",
+            "reason": "Taken by player 9",
+            "box": {
+              "x": 288,
+              "y": 395.78,
+              "width": 126,
+              "height": 155.89
+            }
+          },
+          {
+            "label": "Retry",
+            "intent": "retry",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 345.97,
+              "y": 68,
+              "width": 66.03,
+              "height": 38
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": {
+          "status": "stale",
+          "bar": "top",
+          "banner": "Connection lostControls return when the match is currentRetry",
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "stale",
+          "matchId": "planet-local",
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": "Reconnecting to the authorized session.",
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "chooseCharacter"
+        ],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-GsUB7Iak.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    }
+  }
+}

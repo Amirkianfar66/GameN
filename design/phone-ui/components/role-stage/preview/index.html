@@ -1,0 +1,19 @@
+<!doctype html>
+<!-- mothership:dev-only · The role stage's preview: the runtime components (../role-card.mjs, ../role-stage.mjs) on the phone pack's synthetic fixtures, at the two development phone sizes. Not the game, not a release. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Role stage · preview</title>
+<link rel="stylesheet" href="../../phone-shell/phone-shell.css">
+<link rel="stylesheet" href="../role-card.css">
+<link rel="stylesheet" href="../role-stage.css">
+<!-- The Engineer's held device comes from the successor art, as in the game (a match that carries it). -->
+<link rel="stylesheet" href="../../../../../apps/game/candidates/planet-library/successor.css">
+<!-- Unbundled, the preview resolves the game's two package imports here (the phone shell's crew portraits, through crew-runtime.mjs). -->
+<script type="importmap">{ "imports": { "@mothership/contracts": "../../../../../packages/contracts/dist/index.js", "zod": "../../../../../node_modules/zod/index.js" } }</script>
+<link rel="stylesheet" href="./preview.css">
+<script type="module" src="./preview.mjs"></script>
+</head>
+<body></body>
+</html>

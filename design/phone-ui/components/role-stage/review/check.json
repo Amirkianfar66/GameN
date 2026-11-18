@@ -1,0 +1,4718 @@
+{
+  "tool": "design/tools/role-stage-check.mjs",
+  "component": "design/phone-ui/components/role-stage",
+  "sourceCommit": "dc6d292e68e97327a6a992820aed0fc588477ecc",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": {
+    "390x844/t01": {
+      "file": "design/phone-ui/components/role-stage/review/390x844-t01.jpg",
+      "sha256": "5f19be2528647fb7380e70393585b336f8de9965b444c99c57a6ea791f34bdfe",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "card",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Your film starts in 0:19",
+      "timer": "0:29",
+      "chip": "0:29",
+      "strip": "1",
+      "skip": false,
+      "film": 0,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "card": {
+          "width": 358,
+          "height": 571
+        },
+        "film": {
+          "width": 390,
+          "height": 711
+        }
+      },
+      "root": 16,
+      "clear": true,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "canvasPixel": [
+        16,
+        20,
+        28
+      ],
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "430x932/t01": {
+      "file": "design/phone-ui/components/role-stage/review/430x932-t01.jpg",
+      "sha256": "833207380942b2781fbc439ec991cc23f5696f7eedc75b899de76c35da31b4c3",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "card",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Your film starts in 0:19",
+      "timer": "0:29",
+      "chip": "0:29",
+      "strip": "1",
+      "skip": false,
+      "film": 0,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "card": {
+          "width": 398,
+          "height": 659
+        },
+        "film": {
+          "width": 430,
+          "height": 799
+        }
+      },
+      "root": 16,
+      "clear": true,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "canvasPixel": [
+        16,
+        20,
+        28
+      ],
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "390x844/t12": {
+      "file": "design/phone-ui/components/role-stage/review/390x844-t12.jpg",
+      "sha256": "dff20289033948efe4839ca24a2d111a1c41da5ee685b009ef06b03fd72efc55",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "card",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Your film starts in 0:08",
+      "timer": "0:18",
+      "chip": "0:18",
+      "strip": "12",
+      "skip": false,
+      "film": 0,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "card": {
+          "width": 358,
+          "height": 571
+        },
+        "film": {
+          "width": 390,
+          "height": 711
+        }
+      },
+      "root": 16,
+      "clear": true,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "canvasPixel": [
+        16,
+        20,
+        28
+      ],
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "430x932/t12": {
+      "file": "design/phone-ui/components/role-stage/review/430x932-t12.jpg",
+      "sha256": "be76cbab1c17bf3170a19c0f09dc385f926c9dd6953fa70505ee5043e6c75cca",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "card",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Your film starts in 0:08",
+      "timer": "0:18",
+      "chip": "0:18",
+      "strip": "12",
+      "skip": false,
+      "film": 0,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "card": {
+          "width": 398,
+          "height": 659
+        },
+        "film": {
+          "width": 430,
+          "height": 799
+        }
+      },
+      "root": 16,
+      "clear": true,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "canvasPixel": [
+        16,
+        20,
+        28
+      ],
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "390x844/t20": {
+      "file": "design/phone-ui/components/role-stage/review/390x844-t20.jpg",
+      "sha256": "7d01bf6cfda75d56d0974ff9db1782d007fbad024a730ade5fd81417614cd93d",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "film",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Ready opens at 0:30",
+      "timer": null,
+      "chip": "0:10",
+      "strip": "20",
+      "skip": true,
+      "film": 1,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 0,
+          "bottom": 0
+        },
+        "card": {
+          "width": 358,
+          "height": 571
+        },
+        "film": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "root": 16,
+      "clear": null,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "430x932/t20": {
+      "file": "design/phone-ui/components/role-stage/review/430x932-t20.jpg",
+      "sha256": "f11f0e1592bc9b824edd13c92c5e0b46be12daa0097a3da1e4cab163631a2eb7",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "film",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Ready opens at 0:30",
+      "timer": null,
+      "chip": "0:10",
+      "strip": "20",
+      "skip": true,
+      "film": 1,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 0,
+          "bottom": 0
+        },
+        "card": {
+          "width": 398,
+          "height": 659
+        },
+        "film": {
+          "width": 430,
+          "height": 932
+        }
+      },
+      "root": 16,
+      "clear": null,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "390x844/t26": {
+      "file": "design/phone-ui/components/role-stage/review/390x844-t26.jpg",
+      "sha256": "7c63f8b507093cbacc1efd7b9999b55abd25538c710e8dceb7fbce62bb7e22d7",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "film",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Ready opens at 0:30",
+      "timer": null,
+      "chip": "0:04",
+      "strip": "26",
+      "skip": true,
+      "film": 3,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 0,
+          "bottom": 0
+        },
+        "card": {
+          "width": 358,
+          "height": 571
+        },
+        "film": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "root": 16,
+      "clear": null,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "430x932/t26": {
+      "file": "design/phone-ui/components/role-stage/review/430x932-t26.jpg",
+      "sha256": "acfce0b135881a48c240dae7e75cd9ce982f45f3ee5d29a6d8e586c6e8876ea1",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "film",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Ready opens at 0:30",
+      "timer": null,
+      "chip": "0:04",
+      "strip": "26",
+      "skip": true,
+      "film": 3,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 0,
+          "bottom": 0
+        },
+        "card": {
+          "width": 398,
+          "height": 659
+        },
+        "film": {
+          "width": 430,
+          "height": 932
+        }
+      },
+      "root": 16,
+      "clear": null,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "390x844/t30": {
+      "file": "design/phone-ui/components/role-stage/review/390x844-t30.jpg",
+      "sha256": "1372a0aa9b4ca1ca9d8f25c305d28e9b7038bcc911ceedc07fb93d5ee865229b",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "after",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Hide your phone, then tap Ready",
+      "timer": null,
+      "chip": "0:00",
+      "strip": null,
+      "skip": false,
+      "film": 0,
+      "readyOff": false,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "card": {
+          "width": 358,
+          "height": 571
+        },
+        "film": {
+          "width": 390,
+          "height": 711
+        }
+      },
+      "root": 16,
+      "clear": true,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "canvasPixel": [
+        16,
+        20,
+        28
+      ],
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "430x932/t30": {
+      "file": "design/phone-ui/components/role-stage/review/430x932-t30.jpg",
+      "sha256": "45ebdd3de8fbb07a1f06a133716905b69065dd46a63a067e954f8c644a3a6615",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "after",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Hide your phone, then tap Ready",
+      "timer": null,
+      "chip": "0:00",
+      "strip": null,
+      "skip": false,
+      "film": 0,
+      "readyOff": false,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "card": {
+          "width": 398,
+          "height": 659
+        },
+        "film": {
+          "width": 430,
+          "height": 799
+        }
+      },
+      "root": 16,
+      "clear": true,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "canvasPixel": [
+        16,
+        20,
+        28
+      ],
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "390x844/concealed": {
+      "file": "design/phone-ui/components/role-stage/review/390x844-concealed.jpg",
+      "sha256": "a667d3b325274ac9e64a32f0165d2e6ea98a4fa8168e1bdc088c4532b9730d1f",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "concealed",
+      "view": "card",
+      "motion": "full",
+      "name": null,
+      "team": null,
+      "facts": 0,
+      "missing": false,
+      "back": "Role hidden",
+      "stamp": null,
+      "note": "Your film starts in 0:11",
+      "timer": "0:21",
+      "chip": "0:21",
+      "strip": "9",
+      "skip": false,
+      "film": 0,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "card": {
+          "width": 358,
+          "height": 571
+        },
+        "film": {
+          "width": 390,
+          "height": 711
+        }
+      },
+      "root": 16,
+      "clear": true,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "requests": [],
+      "problems": []
+    },
+    "430x932/concealed": {
+      "file": "design/phone-ui/components/role-stage/review/430x932-concealed.jpg",
+      "sha256": "668c8cd78d9da7bea1a6da7bdc1b8fc4c7f0e976c1ae5240aa89fe1d4372e7a0",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "concealed",
+      "view": "card",
+      "motion": "full",
+      "name": null,
+      "team": null,
+      "facts": 0,
+      "missing": false,
+      "back": "Role hidden",
+      "stamp": null,
+      "note": "Your film starts in 0:11",
+      "timer": "0:21",
+      "chip": "0:21",
+      "strip": "9",
+      "skip": false,
+      "film": 0,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "card": {
+          "width": 398,
+          "height": 659
+        },
+        "film": {
+          "width": 430,
+          "height": 799
+        }
+      },
+      "root": 16,
+      "clear": true,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "requests": [],
+      "problems": []
+    },
+    "390x844/reduced": {
+      "file": "design/phone-ui/components/role-stage/review/390x844-reduced.jpg",
+      "sha256": "1002de315a759fcebbf67630106ba98fdd39634c74eb6660bf0609dd97c10fd0",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "film",
+      "motion": "reduced",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Ready opens at 0:30",
+      "timer": null,
+      "chip": "0:07",
+      "strip": "23",
+      "skip": true,
+      "film": 3,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 0,
+          "bottom": 0
+        },
+        "card": {
+          "width": 358,
+          "height": 571
+        },
+        "film": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "root": 16,
+      "clear": null,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "430x932/reduced": {
+      "file": "design/phone-ui/components/role-stage/review/430x932-reduced.jpg",
+      "sha256": "62382c92f2b9ad72e0f35587f685803cd3f5b3083b5c3f4f0ba4ce4f5f0347cf",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "film",
+      "motion": "reduced",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Ready opens at 0:30",
+      "timer": null,
+      "chip": "0:07",
+      "strip": "23",
+      "skip": true,
+      "film": 3,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 0,
+          "bottom": 0
+        },
+        "card": {
+          "width": 398,
+          "height": 659
+        },
+        "film": {
+          "width": 430,
+          "height": 932
+        }
+      },
+      "root": 16,
+      "clear": null,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "390x844/missing": {
+      "file": "design/phone-ui/components/role-stage/review/390x844-missing.jpg",
+      "sha256": "d6b65f7d696b35a91c2376afdd2f409cd09c29dbdcdebf0dc027bbd2a3d4f04b",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "card",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": true,
+      "back": null,
+      "stamp": null,
+      "note": "Film unavailable · your card stays up until Ready",
+      "timer": "0:06",
+      "chip": "0:06",
+      "strip": "24",
+      "skip": false,
+      "film": 0,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "card": {
+          "width": 358,
+          "height": 571
+        },
+        "film": {
+          "width": 390,
+          "height": 711
+        }
+      },
+      "root": 16,
+      "clear": true,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "canvasPixel": [
+        16,
+        20,
+        28
+      ],
+      "requests": [],
+      "problems": []
+    },
+    "430x932/missing": {
+      "file": "design/phone-ui/components/role-stage/review/430x932-missing.jpg",
+      "sha256": "b4e6de5dfc84e77b22c729231f8392a1ab9d5b2e40a5decf6274d86b28516d7c",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "card",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": true,
+      "back": null,
+      "stamp": null,
+      "note": "Film unavailable · your card stays up until Ready",
+      "timer": "0:06",
+      "chip": "0:06",
+      "strip": "24",
+      "skip": false,
+      "film": 0,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "card": {
+          "width": 398,
+          "height": 659
+        },
+        "film": {
+          "width": 430,
+          "height": 799
+        }
+      },
+      "root": 16,
+      "clear": true,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "canvasPixel": [
+        16,
+        20,
+        28
+      ],
+      "requests": [],
+      "problems": []
+    },
+    "390x844/late": {
+      "file": "design/phone-ui/components/role-stage/review/390x844-late.jpg",
+      "sha256": "a2443add5e19dd5dd877b5dc1ac404346e0d7d0854d566af07899f760a53bc7a",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "film",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Ready opens at 0:30",
+      "timer": null,
+      "chip": "0:05",
+      "strip": "25",
+      "skip": true,
+      "film": 3,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": "Rejoined · the stage carried on",
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": true,
+      "toastClearOfChip": true,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 0,
+          "bottom": 0
+        },
+        "card": {
+          "width": 358,
+          "height": 571
+        },
+        "film": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "root": 16,
+      "clear": null,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "430x932/late": {
+      "file": "design/phone-ui/components/role-stage/review/430x932-late.jpg",
+      "sha256": "0ce8a9fb9b894dc57958d73e13345659fcc2119a90d7dd57bd8fdda7c48369e8",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "film",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Ready opens at 0:30",
+      "timer": null,
+      "chip": "0:05",
+      "strip": "25",
+      "skip": true,
+      "film": 3,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": "Rejoined · the stage carried on",
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": true,
+      "toastClearOfChip": true,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 0,
+          "bottom": 0
+        },
+        "card": {
+          "width": 398,
+          "height": 659
+        },
+        "film": {
+          "width": 430,
+          "height": 932
+        }
+      },
+      "root": 16,
+      "clear": null,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "390x844/waiting": {
+      "file": "design/phone-ui/components/role-stage/review/390x844-waiting.jpg",
+      "sha256": "3f512290e7d9522cca3da75bbed5b6ac5b42366b0ceb6ed69a76429e34f239b3",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "after",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": "Ready",
+      "note": "6 of 9 ready",
+      "timer": null,
+      "chip": "0:00",
+      "strip": null,
+      "skip": false,
+      "film": 0,
+      "readyOff": true,
+      "readyMode": "done",
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "card": {
+          "width": 358,
+          "height": 571
+        },
+        "film": {
+          "width": 390,
+          "height": 711
+        }
+      },
+      "root": 16,
+      "clear": true,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "canvasPixel": [
+        16,
+        20,
+        28
+      ],
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "430x932/waiting": {
+      "file": "design/phone-ui/components/role-stage/review/430x932-waiting.jpg",
+      "sha256": "8e817544db98f07a953c23e1004041a19fb7211ddec60f26ac7c74a88775c7e6",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "after",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": "Ready",
+      "note": "6 of 9 ready",
+      "timer": null,
+      "chip": "0:00",
+      "strip": null,
+      "skip": false,
+      "film": 0,
+      "readyOff": true,
+      "readyMode": "done",
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "card": {
+          "width": 398,
+          "height": 659
+        },
+        "film": {
+          "width": 430,
+          "height": 799
+        }
+      },
+      "root": 16,
+      "clear": true,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "canvasPixel": [
+        16,
+        20,
+        28
+      ],
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "390x844/skipped": {
+      "file": "design/phone-ui/components/role-stage/review/390x844-skipped.jpg",
+      "sha256": "19887616e8986380f7f632dd391cbe1549f5d175f9d4412d0bbbb3e58c9b1ce0",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "card",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Film skipped on this phone · the stage keeps time",
+      "timer": "0:08",
+      "chip": "0:08",
+      "strip": "22",
+      "skip": false,
+      "film": 0,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "card": {
+          "width": 358,
+          "height": 571
+        },
+        "film": {
+          "width": 390,
+          "height": 711
+        }
+      },
+      "root": 16,
+      "clear": true,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "canvasPixel": [
+        16,
+        20,
+        28
+      ],
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "430x932/skipped": {
+      "file": "design/phone-ui/components/role-stage/review/430x932-skipped.jpg",
+      "sha256": "c7df6f5e505c799df2ccfae239f3707a721960695660ae5eb6ab154d0bde03e1",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "card",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Film skipped on this phone · the stage keeps time",
+      "timer": "0:08",
+      "chip": "0:08",
+      "strip": "22",
+      "skip": false,
+      "film": 0,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "card": {
+          "width": 398,
+          "height": 659
+        },
+        "film": {
+          "width": 430,
+          "height": 799
+        }
+      },
+      "root": 16,
+      "clear": true,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "canvasPixel": [
+        16,
+        20,
+        28
+      ],
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "390x844/stale": {
+      "file": "design/phone-ui/components/role-stage/review/390x844-stale.jpg",
+      "sha256": "da665408e735f86a390503970ea8f6f8838501dc48a724b279486630ec0ac31d",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "stale",
+      "view": "card",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Your film starts in 0:06",
+      "timer": "0:16",
+      "chip": "0:16",
+      "strip": "14",
+      "skip": false,
+      "film": 0,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": "Connection lost",
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "card": {
+          "width": 358,
+          "height": 571
+        },
+        "film": {
+          "width": 390,
+          "height": 711
+        }
+      },
+      "root": 16,
+      "clear": true,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "canvasPixel": [
+        16,
+        20,
+        28
+      ],
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "430x932/stale": {
+      "file": "design/phone-ui/components/role-stage/review/430x932-stale.jpg",
+      "sha256": "cc811841b348322e23ac99ba0f27bd87bb2f6545b54fc8007e7d9cad43d9c7e1",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "stale",
+      "view": "card",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Your film starts in 0:06",
+      "timer": "0:16",
+      "chip": "0:16",
+      "strip": "14",
+      "skip": false,
+      "film": 0,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": "Connection lost",
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 34
+        },
+        "card": {
+          "width": 398,
+          "height": 659
+        },
+        "film": {
+          "width": 430,
+          "height": 799
+        }
+      },
+      "root": 16,
+      "clear": true,
+      "cardBottom": 120,
+      "backdrop": "rgb(16, 20, 28)",
+      "canvasPixel": [
+        16,
+        20,
+        28
+      ],
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "390x844/large": {
+      "file": "design/phone-ui/components/role-stage/review/390x844-large.jpg",
+      "sha256": "99df6aa8786d6aa2605e62e940011b89d3ab4acbcf2610740974b6219ca8e496",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "card",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Your film starts in 0:08",
+      "timer": "0:18",
+      "chip": "0:18",
+      "strip": "12",
+      "skip": false,
+      "film": 0,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 117.27,
+          "bottom": 34
+        },
+        "card": {
+          "width": 358,
+          "height": 530.73
+        },
+        "film": {
+          "width": 390,
+          "height": 692.73
+        }
+      },
+      "root": 24,
+      "clear": true,
+      "cardBottom": 142,
+      "backdrop": "rgb(16, 20, 28)",
+      "canvasPixel": [
+        16,
+        20,
+        28
+      ],
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "430x932/large": {
+      "file": "design/phone-ui/components/role-stage/review/430x932-large.jpg",
+      "sha256": "aaf986803ba098ab24dd60042178bc5b591bcc509fef77d151be5bb639bf9f78",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "card",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Your film starts in 0:08",
+      "timer": "0:18",
+      "chip": "0:18",
+      "strip": "12",
+      "skip": false,
+      "film": 0,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 117.27,
+          "bottom": 34
+        },
+        "card": {
+          "width": 398,
+          "height": 618.73
+        },
+        "film": {
+          "width": 430,
+          "height": 780.73
+        }
+      },
+      "root": 24,
+      "clear": true,
+      "cardBottom": 142,
+      "backdrop": "rgb(16, 20, 28)",
+      "canvasPixel": [
+        16,
+        20,
+        28
+      ],
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "390x844/largest": {
+      "file": "design/phone-ui/components/role-stage/review/390x844-largest.jpg",
+      "sha256": "62fee4f609261f20e31bb695aaf44d8b4ef1cf96b2a0d604e7246b85b397a937",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "card",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Your film starts in 0:08",
+      "timer": "0:18",
+      "chip": "0:18",
+      "strip": "12",
+      "skip": false,
+      "film": 0,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 140.69,
+          "bottom": 34
+        },
+        "card": {
+          "width": 358,
+          "height": 485.31
+        },
+        "film": {
+          "width": 390,
+          "height": 669.31
+        }
+      },
+      "root": 32,
+      "clear": true,
+      "cardBottom": 164,
+      "backdrop": "rgb(16, 20, 28)",
+      "canvasPixel": [
+        16,
+        20,
+        28
+      ],
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "430x932/largest": {
+      "file": "design/phone-ui/components/role-stage/review/430x932-largest.jpg",
+      "sha256": "587a1ae875cbdf84ab83655fae5b60931012d4980cdf8b57ced2f3c660456479",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "card",
+      "motion": "full",
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": "Your film starts in 0:08",
+      "timer": "0:18",
+      "chip": "0:18",
+      "strip": "12",
+      "skip": false,
+      "film": 0,
+      "readyOff": true,
+      "readyMode": "ready",
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 140.69,
+          "bottom": 34
+        },
+        "card": {
+          "width": 398,
+          "height": 573.31
+        },
+        "film": {
+          "width": 430,
+          "height": 757.31
+        }
+      },
+      "root": 32,
+      "clear": true,
+      "cardBottom": 164,
+      "backdrop": "rgb(16, 20, 28)",
+      "canvasPixel": [
+        16,
+        20,
+        28
+      ],
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "card/card-sheet": {
+      "file": "design/phone-ui/components/role-stage/review/card-card-sheet.jpg",
+      "sha256": "4dd63ad92f81da40ee0923bc79341f22f0fd0bf3d1e05a6c5ca28a13ecfe71c9",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": null,
+      "view": null,
+      "motion": null,
+      "name": "Doctor",
+      "team": "Blue team",
+      "facts": 2,
+      "missing": false,
+      "back": null,
+      "stamp": null,
+      "note": null,
+      "timer": null,
+      "chip": null,
+      "strip": null,
+      "skip": false,
+      "film": 0,
+      "readyOff": false,
+      "readyMode": null,
+      "toast": null,
+      "banner": null,
+      "pictures": [
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/cards/card-c1.svg\")",
+        "url(\"http://127.0.0.1:41645/crew-drawing/assets/roles/device-cracker.held.svg\")"
+      ],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": null,
+      "root": 16,
+      "clear": null,
+      "cardBottom": null,
+      "backdrop": "rgb(16, 20, 28)",
+      "requests": [
+        "crew-drawing/assets/cards/card-c1.svg",
+        "crew-drawing/assets/roles/device-cracker.held.svg"
+      ],
+      "problems": []
+    },
+    "card/card-sheet-down": {
+      "file": "design/phone-ui/components/role-stage/review/card-card-sheet-down.jpg",
+      "sha256": "f0b74e9eadf5349b1c84d578e2815e7cab748140a75364b8568d1e27dbc5265b",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": null,
+      "view": null,
+      "motion": null,
+      "name": null,
+      "team": null,
+      "facts": 0,
+      "missing": false,
+      "back": "Hidden",
+      "stamp": null,
+      "note": null,
+      "timer": null,
+      "chip": null,
+      "strip": null,
+      "skip": false,
+      "film": 0,
+      "readyOff": false,
+      "readyMode": null,
+      "toast": null,
+      "banner": null,
+      "pictures": [],
+      "toastOnTop": false,
+      "toastClearOfChip": false,
+      "picturesDrawn": true,
+      "layout": null,
+      "root": 16,
+      "clear": null,
+      "cardBottom": null,
+      "backdrop": "rgb(16, 20, 28)",
+      "requests": [],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "focus: Ready keeps its element and the focus through eight clock ticks and its offer opening",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "same": true,
+            "focused": true,
+            "ready": 1
+          }
+        },
+        {
+          "id": "focus: Skip film ending with the film moves the focus to the stage, then onFocusReturn once",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "before": true,
+            "skipped": 1,
+            "onStage": true,
+            "returned": [
+              [
+                "onFocusReturn",
+                {
+                  "intent": "skip-film"
+                }
+              ]
+            ]
+          }
+        },
+        {
+          "id": "focus: Show role ending as the card turns face up moves the focus to the card, then onFocusReturn once",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "shown": 1,
+            "onCard": true,
+            "returned": [
+              [
+                "onFocusReturn",
+                {
+                  "intent": "show-role",
+                  "value": null
+                }
+              ]
+            ]
+          }
+        },
+        {
+          "id": "refused: Ready unavailable, busy, spent, reconnecting or not interactive takes no tap, keeps its focus and says why",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "taps": 1,
+            "seen": [
+              {
+                "label": "unavailable",
+                "disabled": "true",
+                "busy": null,
+                "off": true,
+                "why": "Opens when your film ends",
+                "focused": true
+              },
+              {
+                "label": "busy",
+                "disabled": null,
+                "busy": "true",
+                "off": false,
+                "why": null,
+                "focused": true
+              },
+              {
+                "label": "spent",
+                "disabled": "true",
+                "busy": null,
+                "off": true,
+                "why": null,
+                "focused": true
+              },
+              {
+                "label": "stale",
+                "disabled": "true",
+                "busy": null,
+                "off": false,
+                "why": "Controls return when the match is current",
+                "focused": true
+              },
+              {
+                "label": "not interactive",
+                "disabled": "true",
+                "busy": null,
+                "off": false,
+                "why": null,
+                "focused": true
+              },
+              {
+                "label": "offered",
+                "disabled": null,
+                "busy": null,
+                "off": false,
+                "why": null,
+                "focused": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "refused: reconnecting, the shell's banner and Retry work; Ready does not",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "banner": "Connection lost",
+            "calls": [
+              [
+                "onRetry"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "private: concealed, no role, team or line in the page or for a screen reader; the card back with Show role; the clock runs",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "leaks": [],
+            "labels": [],
+            "art": [],
+            "back": "Role hidden",
+            "film": "card",
+            "chip": "0:06",
+            "after": false
+          }
+        },
+        {
+          "id": "private: a new viewer drops the last viewer's card unless the update gives the new one's",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "dropped": true,
+            "given": true
+          }
+        },
+        {
+          "id": "time: the clock, the strip and the line show what they are given, and do not count by themselves",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": {
+              "clock": "0:29",
+              "note": "Your film starts in 0:19",
+              "card": "5%",
+              "film": "0%",
+              "now": "1",
+              "urgent": false
+            },
+            "later": {
+              "clock": "0:29",
+              "note": "Your film starts in 0:19",
+              "card": "5%",
+              "film": "0%",
+              "now": "1",
+              "urgent": false
+            },
+            "film": {
+              "clock": "0:05",
+              "note": "Ready opens at 0:30",
+              "card": "100%",
+              "film": "50%",
+              "now": "25",
+              "urgent": false,
+              "chip": "0:05"
+            },
+            "untrusted": {
+              "strip": true,
+              "clock": false,
+              "note": true
+            },
+            "ended": {
+              "strip": true,
+              "clock": false,
+              "note": "Hide your phone, then tap Ready"
+            }
+          }
+        },
+        {
+          "id": "time: the strip follows the server's split, never a fixed 20/10 (here 18/12)",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "ratio": 1.5001103509159126,
+            "cardSeg": 212.40625,
+            "filmSeg": 141.59375,
+            "first": {
+              "note": "Your film starts in 0:09",
+              "card": "50%",
+              "clock": "0:21"
+            },
+            "film": {
+              "card": "100%",
+              "film": "50%",
+              "chip": "0:06"
+            }
+          }
+        },
+        {
+          "id": "film: its element stays for the stage's life, shown only in the film's view; Skip film works only there",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "hidden": true,
+            "shown": true,
+            "concealed": true,
+            "kept": true,
+            "skips": 1
+          }
+        },
+        {
+          "id": "layout: the card's space and the film's are measured, a change of size or insets reported, and the film runs from the top edge with the card held still",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": {
+              "size": {
+                "width": 390,
+                "height": 844
+              },
+              "bars": {
+                "top": 99,
+                "bottom": 34
+              },
+              "card": {
+                "width": 358,
+                "height": 571
+              },
+              "film": {
+                "width": 390,
+                "height": 711
+              }
+            },
+            "smaller": {
+              "size": {
+                "width": 390,
+                "height": 700
+              },
+              "bars": {
+                "top": 99,
+                "bottom": 34
+              },
+              "card": {
+                "width": 358,
+                "height": 427
+              },
+              "film": {
+                "width": 390,
+                "height": 567
+              }
+            },
+            "insets": {
+              "size": {
+                "width": 390,
+                "height": 700
+              },
+              "bars": {
+                "top": 72,
+                "bottom": 0
+              },
+              "card": {
+                "width": 358,
+                "height": 488
+              },
+              "film": {
+                "width": 390,
+                "height": 628
+              }
+            },
+            "film": {
+              "size": {
+                "width": 390,
+                "height": 844
+              },
+              "bars": {
+                "top": 0,
+                "bottom": 0
+              },
+              "card": {
+                "width": 358,
+                "height": 571
+              },
+              "film": {
+                "width": 390,
+                "height": 844
+              }
+            },
+            "reports": 3
+          }
+        },
+        {
+          "id": "dispose: nothing is left, nothing fires, and every method is safe after it",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "left": 0
+          }
+        },
+        {
+          "id": "film: the shell's bar leaves only once the film is opaque, comes back before it fades out, and the card never moves",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "ms": 700,
+            "before": {
+              "bar": true,
+              "card": 119
+            },
+            "fading": {
+              "bar": true,
+              "card": 119
+            },
+            "shown": {
+              "bar": false,
+              "card": 119
+            },
+            "leaving": {
+              "bar": true,
+              "card": 119
+            }
+          }
+        },
+        {
+          "id": "motion: the film crossfades in 700 ms, and 80 ms with the game's Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "results": [
+              {
+                "reducedMotion": false,
+                "duration": "0.7s",
+                "shown": ""
+              },
+              {
+                "reducedMotion": true,
+                "duration": "0.08s",
+                "shown": ""
+              }
+            ]
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "film: the shell's bar leaves only once the film is opaque, comes back before it fades out, and the card never moves",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "ms": 80,
+            "before": {
+              "bar": true,
+              "card": 119
+            },
+            "fading": {
+              "bar": true,
+              "card": 119
+            },
+            "shown": {
+              "bar": false,
+              "card": 119
+            },
+            "leaving": {
+              "bar": true,
+              "card": 119
+            }
+          }
+        },
+        {
+          "id": "motion: the film crossfades in 80 ms (the device's Reduce motion, emulated)",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "results": [
+              {
+                "reducedMotion": false,
+                "duration": "0.08s",
+                "shown": ""
+              }
+            ]
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bZ1REQdO.js",
+          "line": 1,
+          "column": 17391,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: t01 · the card, 0:01 at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "stage": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "words": null
+            },
+            "title": {
+              "pack": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 107.453125,
+                "h": 20.390625
+              },
+              "stage": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 107.453125,
+                "h": 20.390625
+              },
+              "words": "Your role"
+            },
+            "sub": {
+              "pack": {
+                "x": 52,
+                "y": 76,
+                "w": 107.453125,
+                "h": 14.390625
+              },
+              "stage": {
+                "x": 52,
+                "y": 76,
+                "w": 107.453125,
+                "h": 14.390625
+              },
+              "words": "Only on this phone"
+            },
+            "glyph": {
+              "pack": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "stage": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "words": null
+            },
+            "timer": {
+              "pack": {
+                "x": 307.28125,
+                "y": 56.5,
+                "w": 70.71875,
+                "h": 32
+              },
+              "stage": {
+                "x": 307.28125,
+                "y": 56.5,
+                "w": 70.71875,
+                "h": 32
+              },
+              "words": "0:29"
+            },
+            "strip": {
+              "pack": {
+                "x": 16,
+                "y": 105,
+                "w": 358,
+                "h": 4
+              },
+              "stage": {
+                "x": 16,
+                "y": 105,
+                "w": 358,
+                "h": 4
+              },
+              "words": null
+            },
+            "card": {
+              "pack": {
+                "x": 16,
+                "y": 119,
+                "w": 358,
+                "h": 571
+              },
+              "stage": {
+                "x": 16,
+                "y": 119,
+                "w": 358,
+                "h": 571
+              },
+              "words": null
+            },
+            "art": {
+              "pack": {
+                "x": 31,
+                "y": 134,
+                "w": 328,
+                "h": 418.046875
+              },
+              "stage": {
+                "x": 31,
+                "y": 134,
+                "w": 328,
+                "h": 418.046875
+              },
+              "words": null
+            },
+            "person": {
+              "pack": {
+                "x": -14.964996337890625,
+                "y": 137,
+                "w": 374.9375,
+                "h": 428.515625
+              },
+              "stage": {
+                "x": -14.964996337890625,
+                "y": 137,
+                "w": 374.9375305175781,
+                "h": 428.515625
+              },
+              "words": null
+            },
+            "device": {
+              "pack": {
+                "x": 180.046875,
+                "y": 338.90625,
+                "w": 169.515625,
+                "h": 197.78125
+              },
+              "stage": {
+                "x": 180.046875,
+                "y": 338.90625,
+                "w": 169.515625,
+                "h": 197.78125
+              },
+              "words": null
+            },
+            "name": {
+              "pack": {
+                "x": 33,
+                "y": 560.046875,
+                "w": 324,
+                "h": 30.390625
+              },
+              "stage": {
+                "x": 33,
+                "y": 560.046875,
+                "w": 324,
+                "h": 30.390625
+              },
+              "words": "DOCTOR"
+            },
+            "team": {
+              "pack": {
+                "x": 33,
+                "y": 595.4375,
+                "w": 324,
+                "h": 15
+              },
+              "stage": {
+                "x": 33,
+                "y": 595.4375,
+                "w": 324,
+                "h": 15
+              },
+              "words": "Blue team"
+            },
+            "facts": {
+              "pack": {
+                "x": 33,
+                "y": 617.4375,
+                "w": 324,
+                "h": 57.5625
+              },
+              "stage": {
+                "x": 33,
+                "y": 617.4375,
+                "w": 324,
+                "h": 57.5625
+              },
+              "words": "Two shared injections Rescue a player in your room or, from Room A or B, in Hospital"
+            },
+            "missing": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "back": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "note": {
+              "pack": {
+                "x": 16,
+                "y": 705.8125,
+                "w": 358,
+                "h": 18.1875
+              },
+              "stage": {
+                "x": 16,
+                "y": 705.8125,
+                "w": 358,
+                "h": 18.1875
+              },
+              "words": "Your film starts in 0:19"
+            },
+            "ready": {
+              "pack": {
+                "x": 16,
+                "y": 746,
+                "w": 358,
+                "h": 50
+              },
+              "stage": {
+                "x": 16,
+                "y": 746,
+                "w": 358,
+                "h": 50
+              },
+              "words": "Ready"
+            },
+            "stamp": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: t12 · the card, 0:12 at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "stage": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "words": null
+            },
+            "title": {
+              "pack": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 107.453125,
+                "h": 20.390625
+              },
+              "stage": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 107.453125,
+                "h": 20.390625
+              },
+              "words": "Your role"
+            },
+            "sub": {
+              "pack": {
+                "x": 52,
+                "y": 76,
+                "w": 107.453125,
+                "h": 14.390625
+              },
+              "stage": {
+                "x": 52,
+                "y": 76,
+                "w": 107.453125,
+                "h": 14.390625
+              },
+              "words": "Only on this phone"
+            },
+            "glyph": {
+              "pack": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "stage": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "words": null
+            },
+            "timer": {
+              "pack": {
+                "x": 307.28125,
+                "y": 56.5,
+                "w": 70.71875,
+                "h": 32
+              },
+              "stage": {
+                "x": 307.28125,
+                "y": 56.5,
+                "w": 70.71875,
+                "h": 32
+              },
+              "words": "0:18"
+            },
+            "strip": {
+              "pack": {
+                "x": 16,
+                "y": 105,
+                "w": 358,
+                "h": 4
+              },
+              "stage": {
+                "x": 16,
+                "y": 105,
+                "w": 358,
+                "h": 4
+              },
+              "words": null
+            },
+            "card": {
+              "pack": {
+                "x": 16,
+                "y": 119,
+                "w": 358,
+                "h": 571
+              },
+              "stage": {
+                "x": 16,
+                "y": 119,
+                "w": 358,
+                "h": 571
+              },
+              "words": null
+            },
+            "art": {
+              "pack": {
+                "x": 31,
+                "y": 134,
+                "w": 328,
+                "h": 418.046875
+              },
+              "stage": {
+                "x": 31,
+                "y": 134,
+                "w": 328,
+                "h": 418.046875
+              },
+              "words": null
+            },
+            "person": {
+              "pack": {
+                "x": -14.964996337890625,
+                "y": 137,
+                "w": 374.9375,
+                "h": 428.515625
+              },
+              "stage": {
+                "x": -14.964996337890625,
+                "y": 137,
+                "w": 374.9375305175781,
+                "h": 428.515625
+              },
+              "words": null
+            },
+            "device": {
+              "pack": {
+                "x": 180.046875,
+                "y": 338.90625,
+                "w": 169.515625,
+                "h": 197.78125
+              },
+              "stage": {
+                "x": 180.046875,
+                "y": 338.90625,
+                "w": 169.515625,
+                "h": 197.78125
+              },
+              "words": null
+            },
+            "name": {
+              "pack": {
+                "x": 33,
+                "y": 560.046875,
+                "w": 324,
+                "h": 30.390625
+              },
+              "stage": {
+                "x": 33,
+                "y": 560.046875,
+                "w": 324,
+                "h": 30.390625
+              },
+              "words": "DOCTOR"
+            },
+            "team": {
+              "pack": {
+                "x": 33,
+                "y": 595.4375,
+                "w": 324,
+                "h": 15
+              },
+              "stage": {
+                "x": 33,
+                "y": 595.4375,
+                "w": 324,
+                "h": 15
+              },
+              "words": "Blue team"
+            },
+            "facts": {
+              "pack": {
+                "x": 33,
+                "y": 617.4375,
+                "w": 324,
+                "h": 57.5625
+              },
+              "stage": {
+                "x": 33,
+                "y": 617.4375,
+                "w": 324,
+                "h": 57.5625
+              },
+              "words": "Two shared injections Rescue a player in your room or, from Room A or B, in Hospital"
+            },
+            "missing": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "back": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "note": {
+              "pack": {
+                "x": 16,
+                "y": 705.8125,
+                "w": 358,
+                "h": 18.1875
+              },
+              "stage": {
+                "x": 16,
+                "y": 705.8125,
+                "w": 358,
+                "h": 18.1875
+              },
+              "words": "Your film starts in 0:08"
+            },
+            "ready": {
+              "pack": {
+                "x": 16,
+                "y": 746,
+                "w": 358,
+                "h": 50
+              },
+              "stage": {
+                "x": 16,
+                "y": 746,
+                "w": 358,
+                "h": 50
+              },
+              "words": "Ready"
+            },
+            "stamp": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: missing · art and film unavailable, 0:24 at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "stage": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "words": null
+            },
+            "title": {
+              "pack": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 107.453125,
+                "h": 20.390625
+              },
+              "stage": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 107.453125,
+                "h": 20.390625
+              },
+              "words": "Your role"
+            },
+            "sub": {
+              "pack": {
+                "x": 52,
+                "y": 76,
+                "w": 107.453125,
+                "h": 14.390625
+              },
+              "stage": {
+                "x": 52,
+                "y": 76,
+                "w": 107.453125,
+                "h": 14.390625
+              },
+              "words": "Only on this phone"
+            },
+            "glyph": {
+              "pack": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "stage": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "words": null
+            },
+            "timer": {
+              "pack": {
+                "x": 307.28125,
+                "y": 56.5,
+                "w": 70.71875,
+                "h": 32
+              },
+              "stage": {
+                "x": 307.28125,
+                "y": 56.5,
+                "w": 70.71875,
+                "h": 32
+              },
+              "words": "0:06"
+            },
+            "strip": {
+              "pack": {
+                "x": 16,
+                "y": 105,
+                "w": 358,
+                "h": 4
+              },
+              "stage": {
+                "x": 16,
+                "y": 105,
+                "w": 358,
+                "h": 4
+              },
+              "words": null
+            },
+            "card": {
+              "pack": {
+                "x": 16,
+                "y": 119,
+                "w": 358,
+                "h": 571
+              },
+              "stage": {
+                "x": 16,
+                "y": 119,
+                "w": 358,
+                "h": 571
+              },
+              "words": null
+            },
+            "art": {
+              "pack": {
+                "x": 31,
+                "y": 134,
+                "w": 328,
+                "h": 418.046875
+              },
+              "stage": {
+                "x": 31,
+                "y": 134,
+                "w": 328,
+                "h": 418.046875
+              },
+              "words": null
+            },
+            "person": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "device": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "name": {
+              "pack": {
+                "x": 33,
+                "y": 560.046875,
+                "w": 324,
+                "h": 30.390625
+              },
+              "stage": {
+                "x": 33,
+                "y": 560.046875,
+                "w": 324,
+                "h": 30.390625
+              },
+              "words": "DOCTOR"
+            },
+            "team": {
+              "pack": {
+                "x": 33,
+                "y": 595.4375,
+                "w": 324,
+                "h": 15
+              },
+              "stage": {
+                "x": 33,
+                "y": 595.4375,
+                "w": 324,
+                "h": 15
+              },
+              "words": "Blue team"
+            },
+            "facts": {
+              "pack": {
+                "x": 33,
+                "y": 617.4375,
+                "w": 324,
+                "h": 57.5625
+              },
+              "stage": {
+                "x": 33,
+                "y": 617.4375,
+                "w": 324,
+                "h": 57.5625
+              },
+              "words": "Two shared injections Rescue a player in your room or, from Room A or B, in Hospital"
+            },
+            "missing": {
+              "pack": {
+                "x": 129.828125,
+                "y": 298.21875,
+                "w": 130.34375,
+                "h": 89.59375
+              },
+              "stage": {
+                "x": 129.828125,
+                "y": 298.21875,
+                "w": 130.34375,
+                "h": 89.59375
+              },
+              "words": "Picture unavailable Your role is below"
+            },
+            "back": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "note": {
+              "pack": {
+                "x": 16,
+                "y": 705.8125,
+                "w": 358,
+                "h": 18.1875
+              },
+              "stage": {
+                "x": 16,
+                "y": 705.8125,
+                "w": 358,
+                "h": 18.1875
+              },
+              "words": "Film unavailable · your card stays up until Ready"
+            },
+            "ready": {
+              "pack": {
+                "x": 16,
+                "y": 746,
+                "w": 358,
+                "h": 50
+              },
+              "stage": {
+                "x": 16,
+                "y": 746,
+                "w": 358,
+                "h": 50
+              },
+              "words": "Ready"
+            },
+            "stamp": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: skipped · the film skipped, 0:22 at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "stage": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "words": null
+            },
+            "title": {
+              "pack": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 107.453125,
+                "h": 20.390625
+              },
+              "stage": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 107.453125,
+                "h": 20.390625
+              },
+              "words": "Your role"
+            },
+            "sub": {
+              "pack": {
+                "x": 52,
+                "y": 76,
+                "w": 107.453125,
+                "h": 14.390625
+              },
+              "stage": {
+                "x": 52,
+                "y": 76,
+                "w": 107.453125,
+                "h": 14.390625
+              },
+              "words": "Only on this phone"
+            },
+            "glyph": {
+              "pack": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "stage": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "words": null
+            },
+            "timer": {
+              "pack": {
+                "x": 307.28125,
+                "y": 56.5,
+                "w": 70.71875,
+                "h": 32
+              },
+              "stage": {
+                "x": 307.28125,
+                "y": 56.5,
+                "w": 70.71875,
+                "h": 32
+              },
+              "words": "0:08"
+            },
+            "strip": {
+              "pack": {
+                "x": 16,
+                "y": 105,
+                "w": 358,
+                "h": 4
+              },
+              "stage": {
+                "x": 16,
+                "y": 105,
+                "w": 358,
+                "h": 4
+              },
+              "words": null
+            },
+            "card": {
+              "pack": {
+                "x": 16,
+                "y": 119,
+                "w": 358,
+                "h": 571
+              },
+              "stage": {
+                "x": 16,
+                "y": 119,
+                "w": 358,
+                "h": 571
+              },
+              "words": null
+            },
+            "art": {
+              "pack": {
+                "x": 31,
+                "y": 134,
+                "w": 328,
+                "h": 418.046875
+              },
+              "stage": {
+                "x": 31,
+                "y": 134,
+                "w": 328,
+                "h": 418.046875
+              },
+              "words": null
+            },
+            "person": {
+              "pack": {
+                "x": -14.964996337890625,
+                "y": 137,
+                "w": 374.9375,
+                "h": 428.515625
+              },
+              "stage": {
+                "x": -14.964996337890625,
+                "y": 137,
+                "w": 374.9375305175781,
+                "h": 428.515625
+              },
+              "words": null
+            },
+            "device": {
+              "pack": {
+                "x": 180.046875,
+                "y": 338.90625,
+                "w": 169.515625,
+                "h": 197.78125
+              },
+              "stage": {
+                "x": 180.046875,
+                "y": 338.90625,
+                "w": 169.515625,
+                "h": 197.78125
+              },
+              "words": null
+            },
+            "name": {
+              "pack": {
+                "x": 33,
+                "y": 560.046875,
+                "w": 324,
+                "h": 30.390625
+              },
+              "stage": {
+                "x": 33,
+                "y": 560.046875,
+                "w": 324,
+                "h": 30.390625
+              },
+              "words": "DOCTOR"
+            },
+            "team": {
+              "pack": {
+                "x": 33,
+                "y": 595.4375,
+                "w": 324,
+                "h": 15
+              },
+              "stage": {
+                "x": 33,
+                "y": 595.4375,
+                "w": 324,
+                "h": 15
+              },
+              "words": "Blue team"
+            },
+            "facts": {
+              "pack": {
+                "x": 33,
+                "y": 617.4375,
+                "w": 324,
+                "h": 57.5625
+              },
+              "stage": {
+                "x": 33,
+                "y": 617.4375,
+                "w": 324,
+                "h": 57.5625
+              },
+              "words": "Two shared injections Rescue a player in your room or, from Room A or B, in Hospital"
+            },
+            "missing": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "back": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "note": {
+              "pack": {
+                "x": 16,
+                "y": 705.8125,
+                "w": 358,
+                "h": 18.1875
+              },
+              "stage": {
+                "x": 16,
+                "y": 705.8125,
+                "w": 358,
+                "h": 18.1875
+              },
+              "words": "Film skipped on this phone · the stage keeps time"
+            },
+            "ready": {
+              "pack": {
+                "x": 16,
+                "y": 746,
+                "w": 358,
+                "h": 50
+              },
+              "stage": {
+                "x": 16,
+                "y": 746,
+                "w": 358,
+                "h": 50
+              },
+              "words": "Ready"
+            },
+            "stamp": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: concealed · the card back, 0:09 at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "stage": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "words": null
+            },
+            "title": {
+              "pack": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 107.453125,
+                "h": 20.390625
+              },
+              "stage": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 107.453125,
+                "h": 20.390625
+              },
+              "words": "Your role"
+            },
+            "sub": {
+              "pack": {
+                "x": 52,
+                "y": 76,
+                "w": 107.453125,
+                "h": 14.390625
+              },
+              "stage": {
+                "x": 52,
+                "y": 76,
+                "w": 107.453125,
+                "h": 14.390625
+              },
+              "words": "Only on this phone"
+            },
+            "glyph": {
+              "pack": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "stage": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "words": null
+            },
+            "timer": {
+              "pack": {
+                "x": 307.28125,
+                "y": 56.5,
+                "w": 70.71875,
+                "h": 32
+              },
+              "stage": {
+                "x": 307.28125,
+                "y": 56.5,
+                "w": 70.71875,
+                "h": 32
+              },
+              "words": "0:21"
+            },
+            "strip": {
+              "pack": {
+                "x": 16,
+                "y": 105,
+                "w": 358,
+                "h": 4
+              },
+              "stage": {
+                "x": 16,
+                "y": 105,
+                "w": 358,
+                "h": 4
+              },
+              "words": null
+            },
+            "card": {
+              "pack": {
+                "x": 16,
+                "y": 119,
+                "w": 358,
+                "h": 571
+              },
+              "stage": {
+                "x": 16,
+                "y": 119,
+                "w": 358,
+                "h": 571
+              },
+              "words": null
+            },
+            "art": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "person": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "device": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "name": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "team": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "facts": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "missing": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "back": {
+              "pack": {
+                "x": 149.5625,
+                "y": 394.90625,
+                "w": 90.859375,
+                "h": 19.1875
+              },
+              "stage": {
+                "x": 149.5625,
+                "y": 394.90625,
+                "w": 90.859375,
+                "h": 19.1875
+              },
+              "words": "Role hidden"
+            },
+            "note": {
+              "pack": {
+                "x": 16,
+                "y": 705.8125,
+                "w": 358,
+                "h": 18.1875
+              },
+              "stage": {
+                "x": 16,
+                "y": 705.8125,
+                "w": 358,
+                "h": 18.1875
+              },
+              "words": "Your film starts in 0:11"
+            },
+            "ready": {
+              "pack": {
+                "x": 16,
+                "y": 746,
+                "w": 358,
+                "h": 50
+              },
+              "stage": {
+                "x": 16,
+                "y": 746,
+                "w": 358,
+                "h": 50
+              },
+              "words": "Ready"
+            },
+            "stamp": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: t30 · Ready, 0:30 at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "stage": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "words": null
+            },
+            "title": {
+              "pack": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 107.453125,
+                "h": 20.390625
+              },
+              "stage": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 107.453125,
+                "h": 20.390625
+              },
+              "words": "Your role"
+            },
+            "sub": {
+              "pack": {
+                "x": 52,
+                "y": 76,
+                "w": 107.453125,
+                "h": 14.390625
+              },
+              "stage": {
+                "x": 52,
+                "y": 76,
+                "w": 107.453125,
+                "h": 14.390625
+              },
+              "words": "Only on this phone"
+            },
+            "glyph": {
+              "pack": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "stage": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "words": null
+            },
+            "timer": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "strip": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "card": {
+              "pack": {
+                "x": 16,
+                "y": 119,
+                "w": 358,
+                "h": 571
+              },
+              "stage": {
+                "x": 16,
+                "y": 119,
+                "w": 358,
+                "h": 571
+              },
+              "words": null
+            },
+            "art": {
+              "pack": {
+                "x": 31,
+                "y": 134,
+                "w": 328,
+                "h": 418.046875
+              },
+              "stage": {
+                "x": 31,
+                "y": 134,
+                "w": 328,
+                "h": 418.046875
+              },
+              "words": null
+            },
+            "person": {
+              "pack": {
+                "x": -14.964996337890625,
+                "y": 137,
+                "w": 374.9375,
+                "h": 428.515625
+              },
+              "stage": {
+                "x": -14.964996337890625,
+                "y": 137,
+                "w": 374.9375305175781,
+                "h": 428.515625
+              },
+              "words": null
+            },
+            "device": {
+              "pack": {
+                "x": 180.046875,
+                "y": 338.90625,
+                "w": 169.515625,
+                "h": 197.78125
+              },
+              "stage": {
+                "x": 180.046875,
+                "y": 338.90625,
+                "w": 169.515625,
+                "h": 197.78125
+              },
+              "words": null
+            },
+            "name": {
+              "pack": {
+                "x": 33,
+                "y": 560.046875,
+                "w": 324,
+                "h": 30.390625
+              },
+              "stage": {
+                "x": 33,
+                "y": 560.046875,
+                "w": 324,
+                "h": 30.390625
+              },
+              "words": "DOCTOR"
+            },
+            "team": {
+              "pack": {
+                "x": 33,
+                "y": 595.4375,
+                "w": 324,
+                "h": 15
+              },
+              "stage": {
+                "x": 33,
+                "y": 595.4375,
+                "w": 324,
+                "h": 15
+              },
+              "words": "Blue team"
+            },
+            "facts": {
+              "pack": {
+                "x": 33,
+                "y": 617.4375,
+                "w": 324,
+                "h": 57.5625
+              },
+              "stage": {
+                "x": 33,
+                "y": 617.4375,
+                "w": 324,
+                "h": 57.5625
+              },
+              "words": "Two shared injections Rescue a player in your room or, from Room A or B, in Hospital"
+            },
+            "missing": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "back": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "note": {
+              "pack": {
+                "x": 16,
+                "y": 705.8125,
+                "w": 358,
+                "h": 18.1875
+              },
+              "stage": {
+                "x": 16,
+                "y": 705.8125,
+                "w": 358,
+                "h": 18.1875
+              },
+              "words": "Hide your phone, then tap Ready"
+            },
+            "ready": {
+              "pack": {
+                "x": 16,
+                "y": 746,
+                "w": 358,
+                "h": 50
+              },
+              "stage": {
+                "x": 16,
+                "y": 746,
+                "w": 358,
+                "h": 50
+              },
+              "words": "Ready"
+            },
+            "stamp": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: waiting · Ready used, 6 of 9 ready at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "stage": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 99
+              },
+              "words": null
+            },
+            "title": {
+              "pack": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 107.453125,
+                "h": 20.390625
+              },
+              "stage": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 107.453125,
+                "h": 20.390625
+              },
+              "words": "Your role"
+            },
+            "sub": {
+              "pack": {
+                "x": 52,
+                "y": 76,
+                "w": 107.453125,
+                "h": 14.390625
+              },
+              "stage": {
+                "x": 52,
+                "y": 76,
+                "w": 107.453125,
+                "h": 14.390625
+              },
+              "words": "Only on this phone"
+            },
+            "glyph": {
+              "pack": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "stage": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "words": null
+            },
+            "timer": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "strip": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "card": {
+              "pack": {
+                "x": 16,
+                "y": 119,
+                "w": 358,
+                "h": 571
+              },
+              "stage": {
+                "x": 16,
+                "y": 119,
+                "w": 358,
+                "h": 571
+              },
+              "words": null
+            },
+            "art": {
+              "pack": {
+                "x": 31,
+                "y": 134,
+                "w": 328,
+                "h": 418.046875
+              },
+              "stage": {
+                "x": 31,
+                "y": 134,
+                "w": 328,
+                "h": 418.046875
+              },
+              "words": null
+            },
+            "person": {
+              "pack": {
+                "x": -14.964996337890625,
+                "y": 137,
+                "w": 374.9375,
+                "h": 428.515625
+              },
+              "stage": {
+                "x": -14.964996337890625,
+                "y": 137,
+                "w": 374.9375305175781,
+                "h": 428.515625
+              },
+              "words": null
+            },
+            "device": {
+              "pack": {
+                "x": 180.046875,
+                "y": 338.90625,
+                "w": 169.515625,
+                "h": 197.78125
+              },
+              "stage": {
+                "x": 180.046875,
+                "y": 338.90625,
+                "w": 169.515625,
+                "h": 197.78125
+              },
+              "words": null
+            },
+            "name": {
+              "pack": {
+                "x": 33,
+                "y": 560.046875,
+                "w": 324,
+                "h": 30.390625
+              },
+              "stage": {
+                "x": 33,
+                "y": 560.046875,
+                "w": 324,
+                "h": 30.390625
+              },
+              "words": "DOCTOR"
+            },
+            "team": {
+              "pack": {
+                "x": 33,
+                "y": 595.4375,
+                "w": 324,
+                "h": 15
+              },
+              "stage": {
+                "x": 33,
+                "y": 595.4375,
+                "w": 324,
+                "h": 15
+              },
+              "words": "Blue team"
+            },
+            "facts": {
+              "pack": {
+                "x": 33,
+                "y": 617.4375,
+                "w": 324,
+                "h": 57.5625
+              },
+              "stage": {
+                "x": 33,
+                "y": 617.4375,
+                "w": 324,
+                "h": 57.5625
+              },
+              "words": "Two shared injections Rescue a player in your room or, from Room A or B, in Hospital"
+            },
+            "missing": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "back": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "note": {
+              "pack": {
+                "x": 16,
+                "y": 705.8125,
+                "w": 358,
+                "h": 18.1875
+              },
+              "stage": {
+                "x": 16,
+                "y": 705.8125,
+                "w": 358,
+                "h": 18.1875
+              },
+              "words": "6 of 9 ready"
+            },
+            "ready": {
+              "pack": {
+                "x": 16,
+                "y": 746,
+                "w": 358,
+                "h": 50
+              },
+              "stage": {
+                "x": 16,
+                "y": 746,
+                "w": 358,
+                "h": 50
+              },
+              "words": "Ready"
+            },
+            "stamp": {
+              "pack": {
+                "x": 153.765625,
+                "y": 117,
+                "w": 82.46875,
+                "h": 28
+              },
+              "stage": {
+                "x": 153.765625,
+                "y": 117,
+                "w": 82.46875,
+                "h": 28
+              },
+              "words": "Ready"
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: hacker · a Red card at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 430,
+                "h": 99
+              },
+              "stage": {
+                "x": 0,
+                "y": 0,
+                "w": 430,
+                "h": 99
+              },
+              "words": null
+            },
+            "title": {
+              "pack": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 107.453125,
+                "h": 20.390625
+              },
+              "stage": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 107.453125,
+                "h": 20.390625
+              },
+              "words": "Your role"
+            },
+            "sub": {
+              "pack": {
+                "x": 52,
+                "y": 76,
+                "w": 107.453125,
+                "h": 14.390625
+              },
+              "stage": {
+                "x": 52,
+                "y": 76,
+                "w": 107.453125,
+                "h": 14.390625
+              },
+              "words": "Only on this phone"
+            },
+            "glyph": {
+              "pack": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "stage": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "words": null
+            },
+            "timer": {
+              "pack": {
+                "x": 347.28125,
+                "y": 56.5,
+                "w": 70.71875,
+                "h": 32
+              },
+              "stage": {
+                "x": 347.28125,
+                "y": 56.5,
+                "w": 70.71875,
+                "h": 32
+              },
+              "words": "0:25"
+            },
+            "strip": {
+              "pack": {
+                "x": 16,
+                "y": 105,
+                "w": 398,
+                "h": 4
+              },
+              "stage": {
+                "x": 16,
+                "y": 105,
+                "w": 398,
+                "h": 4
+              },
+              "words": null
+            },
+            "card": {
+              "pack": {
+                "x": 16,
+                "y": 119,
+                "w": 398,
+                "h": 659
+              },
+              "stage": {
+                "x": 16,
+                "y": 119,
+                "w": 398,
+                "h": 659
+              },
+              "words": null
+            },
+            "art": {
+              "pack": {
+                "x": 31,
+                "y": 134,
+                "w": 368,
+                "h": 524.234375
+              },
+              "stage": {
+                "x": 31,
+                "y": 134,
+                "w": 368,
+                "h": 524.234375
+              },
+              "words": null
+            },
+            "person": {
+              "pack": {
+                "x": -49.083740234375,
+                "y": 137,
+                "w": 471.578125,
+                "h": 538.953125
+              },
+              "stage": {
+                "x": -49.083740234375,
+                "y": 137,
+                "w": 471.578125,
+                "h": 538.953125
+              },
+              "words": null
+            },
+            "device": {
+              "pack": {
+                "x": 175.5625,
+                "y": 390.9375,
+                "w": 213.203125,
+                "h": 248.75
+              },
+              "stage": {
+                "x": 175.5625,
+                "y": 390.9375,
+                "w": 213.203125,
+                "h": 248.75
+              },
+              "words": null
+            },
+            "name": {
+              "pack": {
+                "x": 33,
+                "y": 666.234375,
+                "w": 364,
+                "h": 30.390625
+              },
+              "stage": {
+                "x": 33,
+                "y": 666.234375,
+                "w": 364,
+                "h": 30.390625
+              },
+              "words": "HACKER"
+            },
+            "team": {
+              "pack": {
+                "x": 33,
+                "y": 701.625,
+                "w": 364,
+                "h": 15
+              },
+              "stage": {
+                "x": 33,
+                "y": 701.625,
+                "w": 364,
+                "h": 15
+              },
+              "words": "Red team"
+            },
+            "facts": {
+              "pack": {
+                "x": 33,
+                "y": 723.625,
+                "w": 364,
+                "h": 39.375
+              },
+              "stage": {
+                "x": 33,
+                "y": 723.625,
+                "w": 364,
+                "h": 39.375
+              },
+              "words": "Scan a player in your room One final Code attempt from Round 2"
+            },
+            "missing": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "back": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "note": {
+              "pack": {
+                "x": 16,
+                "y": 793.8125,
+                "w": 398,
+                "h": 18.1875
+              },
+              "stage": {
+                "x": 16,
+                "y": 793.8125,
+                "w": 398,
+                "h": 18.1875
+              },
+              "words": "Your film starts in 0:15"
+            },
+            "ready": {
+              "pack": {
+                "x": 16,
+                "y": 834,
+                "w": 398,
+                "h": 50
+              },
+              "stage": {
+                "x": 16,
+                "y": 834,
+                "w": 398,
+                "h": 50
+              },
+              "words": "Ready"
+            },
+            "stamp": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: waiting · at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "bar": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 430,
+                "h": 99
+              },
+              "stage": {
+                "x": 0,
+                "y": 0,
+                "w": 430,
+                "h": 99
+              },
+              "words": null
+            },
+            "title": {
+              "pack": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 107.453125,
+                "h": 20.390625
+              },
+              "stage": {
+                "x": 52,
+                "y": 54.609375,
+                "w": 107.453125,
+                "h": 20.390625
+              },
+              "words": "Your role"
+            },
+            "sub": {
+              "pack": {
+                "x": 52,
+                "y": 76,
+                "w": 107.453125,
+                "h": 14.390625
+              },
+              "stage": {
+                "x": 52,
+                "y": 76,
+                "w": 107.453125,
+                "h": 14.390625
+              },
+              "words": "Only on this phone"
+            },
+            "glyph": {
+              "pack": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "stage": {
+                "x": 12,
+                "y": 56.5,
+                "w": 32,
+                "h": 32
+              },
+              "words": null
+            },
+            "timer": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "strip": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "card": {
+              "pack": {
+                "x": 16,
+                "y": 119,
+                "w": 398,
+                "h": 659
+              },
+              "stage": {
+                "x": 16,
+                "y": 119,
+                "w": 398,
+                "h": 659
+              },
+              "words": null
+            },
+            "art": {
+              "pack": {
+                "x": 31,
+                "y": 134,
+                "w": 368,
+                "h": 506.046875
+              },
+              "stage": {
+                "x": 31,
+                "y": 134,
+                "w": 368,
+                "h": 506.046875
+              },
+              "words": null
+            },
+            "person": {
+              "pack": {
+                "x": -39.8175048828125,
+                "y": 137,
+                "w": 455.03125,
+                "h": 520.046875
+              },
+              "stage": {
+                "x": -39.8175048828125,
+                "y": 137,
+                "w": 455.03125,
+                "h": 520.046875
+              },
+              "words": null
+            },
+            "device": {
+              "pack": {
+                "x": 183.046875,
+                "y": 382.03125,
+                "w": 205.71875,
+                "h": 240.015625
+              },
+              "stage": {
+                "x": 183.046875,
+                "y": 382.03125,
+                "w": 205.71875,
+                "h": 240.015625
+              },
+              "words": null
+            },
+            "name": {
+              "pack": {
+                "x": 33,
+                "y": 648.046875,
+                "w": 364,
+                "h": 30.390625
+              },
+              "stage": {
+                "x": 33,
+                "y": 648.046875,
+                "w": 364,
+                "h": 30.390625
+              },
+              "words": "DOCTOR"
+            },
+            "team": {
+              "pack": {
+                "x": 33,
+                "y": 683.4375,
+                "w": 364,
+                "h": 15
+              },
+              "stage": {
+                "x": 33,
+                "y": 683.4375,
+                "w": 364,
+                "h": 15
+              },
+              "words": "Blue team"
+            },
+            "facts": {
+              "pack": {
+                "x": 33,
+                "y": 705.4375,
+                "w": 364,
+                "h": 57.5625
+              },
+              "stage": {
+                "x": 33,
+                "y": 705.4375,
+                "w": 364,
+                "h": 57.5625
+              },
+              "words": "Two shared injections Rescue a player in your room or, from Room A or B, in Hospital"
+            },
+            "missing": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "back": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "note": {
+              "pack": {
+                "x": 16,
+                "y": 793.8125,
+                "w": 398,
+                "h": 18.1875
+              },
+              "stage": {
+                "x": 16,
+                "y": 793.8125,
+                "w": 398,
+                "h": 18.1875
+              },
+              "words": "6 of 9 ready"
+            },
+            "ready": {
+              "pack": {
+                "x": 16,
+                "y": 834,
+                "w": 398,
+                "h": 50
+              },
+              "stage": {
+                "x": 16,
+                "y": 834,
+                "w": 398,
+                "h": 50
+              },
+              "words": "Ready"
+            },
+            "stamp": {
+              "pack": {
+                "x": 173.765625,
+                "y": 117,
+                "w": 82.46875,
+                "h": 28
+              },
+              "stage": {
+                "x": 173.765625,
+                "y": 117,
+                "w": 82.46875,
+                "h": 28
+              },
+              "words": "Ready"
+            }
+          }
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-bZ1REQdO.js",
+        "line": 1,
+        "column": 17391,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}

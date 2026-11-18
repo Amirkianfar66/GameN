@@ -8,6 +8,12 @@ export function createPlanetPreferences(document){
  function save(){try{win.localStorage.setItem(key,JSON.stringify({reduced,textScale}));}catch{}apply();}
  apply();media.addEventListener('change',apply);
  return {get:()=>({reduced:reduced||media.matches,textScale}),
+  // Display settings (release 4): the stored choice apart from the phone's own Reduce Motion, the two setters,
+  // and a subscription to every change, whoever made it. Each setter saves and applies as the controls do.
+  state:()=>({reducedMotion:reduced,deviceReduced:media.matches,reduced:reduced||media.matches,textScale}),
+  setReducedMotion(on){if(disposed||typeof on!=='boolean'||on===reduced)return;reduced=on;save();},
+  setTextScale(scale){if(disposed||![1,1.5,2].includes(scale)||scale===textScale)return;textScale=scale;save();},
+  subscribe(listener){const run=()=>listener();document.addEventListener('mothership:preferences-change',run);return ()=>document.removeEventListener('mothership:preferences-change',run);},
   controls(parent){
    const details=document.createElement('details');details.className='planet-display-settings';const summary=document.createElement('summary');summary.textContent='Display settings';details.append(summary);
    const motionLabel=document.createElement('label'),motion=document.createElement('input');motion.type='checkbox';motion.checked=reduced||media.matches;motion.disabled=media.matches;motionLabel.append(motion,document.createTextNode('Reduce motion'));motion.addEventListener('change',()=>{reduced=motion.checked;save()});details.append(motionLabel);

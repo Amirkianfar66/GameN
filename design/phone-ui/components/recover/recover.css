@@ -1,0 +1,14 @@
+@import url("../kit/kit.css");
+@import url("../entry-parts/entry-parts.css");
+
+/*
+ * Recover's styles: runtime source, Designer's (recover.mjs). The phone pack's own values (design/phone-ui/
+ * prototype/kit.css .ph, .screen; screens-entry.mjs, sheet 14), scoped under .ms-recover so nothing here reaches
+ * the rest of the app and nothing of the app's reaches in. The fields, the note, the error, the waiting block and
+ * the buttons are the shared kit's (../kit/kit.css), and the screen and the nav bar the entry parts'
+ * (../entry-parts/entry-parts.css): here, only the screen itself.
+ */
+
+/* The screen fills its host on the pack's phone canvas (kit.css --canvas, the kit's --ms-k-canvas). */
+.ms-recover { position: absolute; inset: 0; overflow: hidden; isolation: isolate; background: var(--ms-k-canvas); }
+.ms-recover:focus { outline: none; }

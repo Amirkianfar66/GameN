@@ -1,0 +1,2903 @@
+{
+  "tool": "design/tools/main-menu-check.mjs",
+  "component": "design/phone-ui/components/main-menu",
+  "sourceCommit": "a2f7de150bb58cbcfb160163984c691e8ac24fba",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": {
+    "390x844/menu": {
+      "file": "design/phone-ui/components/main-menu/review/390x844-menu.jpg",
+      "sha256": "7ce2107a2169277a36126fcc32de9043b1ab8b43aa443ec65f9701a564ffcc12",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BBZPp2N1.js",
+          "line": 1,
+          "column": 3181,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "join": "Join Enter a room code",
+      "host": "Host Open a room for 7–9 players",
+      "recover": "Recover my seat",
+      "settings": "Display settings",
+      "note": null,
+      "refused": [
+        null,
+        null,
+        null
+      ],
+      "opacity": [
+        "1",
+        "1",
+        "1"
+      ],
+      "hero": 489.515625,
+      "canvas": "rgb(16, 20, 28)",
+      "settingsTop": 51,
+      "choicesBottom": 52,
+      "clear": true,
+      "stackTop": 572,
+      "cover": false,
+      "coverTop": null,
+      "words": {
+        "top": 191.72329580404218,
+        "bottom": 302.2118722539543
+      },
+      "ink": {
+        "top": 191.72499328613281,
+        "bottom": 302.21500610351563
+      },
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "hero": {
+          "width": 390,
+          "height": 489.52
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/menu": {
+      "file": "design/phone-ui/components/main-menu/review/430x932-menu.jpg",
+      "sha256": "30d01d5eb815cb0d843790fce6073793938508aaf5248981b27f25b1714bc4ca",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BBZPp2N1.js",
+          "line": 1,
+          "column": 3181,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "join": "Join Enter a room code",
+      "host": "Host Open a room for 7–9 players",
+      "recover": "Recover my seat",
+      "settings": "Display settings",
+      "note": null,
+      "refused": [
+        null,
+        null,
+        null
+      ],
+      "opacity": [
+        "1",
+        "1",
+        "1"
+      ],
+      "hero": 540.546875,
+      "canvas": "rgb(16, 20, 28)",
+      "settingsTop": 51,
+      "choicesBottom": 52,
+      "clear": true,
+      "stackTop": 660,
+      "cover": false,
+      "coverTop": null,
+      "words": {
+        "top": 211.79948319420035,
+        "bottom": 333.620221331283
+      },
+      "ink": {
+        "top": 211.7949969482422,
+        "bottom": 333.6199963378906
+      },
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "hero": {
+          "width": 430,
+          "height": 540.55
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/offline": {
+      "file": "design/phone-ui/components/main-menu/review/390x844-offline.jpg",
+      "sha256": "6be43f24d87dc46bfc4678513521621594b9359672d0a20f1aa8e1f16ac13f48",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BBZPp2N1.js",
+          "line": 1,
+          "column": 3181,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "join": "Join Enter a room code",
+      "host": "Host Open a room for 7–9 players",
+      "recover": "Recover my seat",
+      "settings": "Display settings",
+      "note": "No connection. Join, Host and Recover return when you are back online.",
+      "refused": [
+        "true",
+        "true",
+        "true"
+      ],
+      "opacity": [
+        "1",
+        "1",
+        "0.4"
+      ],
+      "hero": 489.515625,
+      "canvas": "rgb(16, 20, 28)",
+      "settingsTop": 51,
+      "choicesBottom": 52,
+      "clear": true,
+      "stackTop": 499.5,
+      "cover": false,
+      "coverTop": null,
+      "words": {
+        "top": 191.72329580404218,
+        "bottom": 302.2118722539543
+      },
+      "ink": {
+        "top": 191.72499328613281,
+        "bottom": 302.21500610351563
+      },
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "hero": {
+          "width": 390,
+          "height": 489.52
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/offline": {
+      "file": "design/phone-ui/components/main-menu/review/430x932-offline.jpg",
+      "sha256": "4a2fe67c7072838848b6a420caf62750a66c0e1149951d81a34ad70a14c5ff78",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BBZPp2N1.js",
+          "line": 1,
+          "column": 3181,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "join": "Join Enter a room code",
+      "host": "Host Open a room for 7–9 players",
+      "recover": "Recover my seat",
+      "settings": "Display settings",
+      "note": "No connection. Join, Host and Recover return when you are back online.",
+      "refused": [
+        "true",
+        "true",
+        "true"
+      ],
+      "opacity": [
+        "1",
+        "1",
+        "0.4"
+      ],
+      "hero": 540.546875,
+      "canvas": "rgb(16, 20, 28)",
+      "settingsTop": 51,
+      "choicesBottom": 52,
+      "clear": true,
+      "stackTop": 587.5,
+      "cover": false,
+      "coverTop": null,
+      "words": {
+        "top": 211.79948319420035,
+        "bottom": 333.620221331283
+      },
+      "ink": {
+        "top": 211.7949969482422,
+        "bottom": 333.6199963378906
+      },
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "hero": {
+          "width": 430,
+          "height": 540.55
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/large": {
+      "file": "design/phone-ui/components/main-menu/review/390x844-large.jpg",
+      "sha256": "e695eb98c48e2d925695b1aa59134fe0ecaa05c5fc057cc72427382520a6423c",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BBZPp2N1.js",
+          "line": 1,
+          "column": 3181,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "join": "Join Enter a room code",
+      "host": "Host Open a room for 7–9 players",
+      "recover": "Recover my seat",
+      "settings": "Display settings",
+      "note": null,
+      "refused": [
+        null,
+        null,
+        null
+      ],
+      "opacity": [
+        "1",
+        "1",
+        "1"
+      ],
+      "hero": 489.515625,
+      "canvas": "rgb(16, 20, 28)",
+      "settingsTop": 51,
+      "choicesBottom": 52,
+      "clear": true,
+      "stackTop": 435.25,
+      "cover": true,
+      "coverTop": 411.25,
+      "words": {
+        "top": 191.72329580404218,
+        "bottom": 302.2118722539543
+      },
+      "ink": {
+        "top": 191.72499328613281,
+        "bottom": 302.21500610351563
+      },
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "hero": {
+          "width": 390,
+          "height": 489.52
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/large": {
+      "file": "design/phone-ui/components/main-menu/review/430x932-large.jpg",
+      "sha256": "46b578db2669b2c307bba51abbb092f629bf4947f5b78bbfa33866df7b7bc876",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BBZPp2N1.js",
+          "line": 1,
+          "column": 3181,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "join": "Join Enter a room code",
+      "host": "Host Open a room for 7–9 players",
+      "recover": "Recover my seat",
+      "settings": "Display settings",
+      "note": null,
+      "refused": [
+        null,
+        null,
+        null
+      ],
+      "opacity": [
+        "1",
+        "1",
+        "1"
+      ],
+      "hero": 540.546875,
+      "canvas": "rgb(16, 20, 28)",
+      "settingsTop": 51,
+      "choicesBottom": 52,
+      "clear": true,
+      "stackTop": 559.640625,
+      "cover": false,
+      "coverTop": null,
+      "words": {
+        "top": 211.79948319420035,
+        "bottom": 333.620221331283
+      },
+      "ink": {
+        "top": 211.7949969482422,
+        "bottom": 333.6199963378906
+      },
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "hero": {
+          "width": 430,
+          "height": 540.55
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/large-offline": {
+      "file": "design/phone-ui/components/main-menu/review/390x844-large-offline.jpg",
+      "sha256": "9aa90ad991bc56e65d4c91843ca9337725c632bd1908353e3e291a32b3327e36",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BBZPp2N1.js",
+          "line": 1,
+          "column": 3181,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "join": "Join Enter a room code",
+      "host": "Host Open a room for 7–9 players",
+      "recover": "Recover my seat",
+      "settings": "Display settings",
+      "note": "No connection. Join, Host and Recover return when you are back online.",
+      "refused": [
+        "true",
+        "true",
+        "true"
+      ],
+      "opacity": [
+        "1",
+        "1",
+        "0.4"
+      ],
+      "hero": 489.515625,
+      "canvas": "rgb(16, 20, 28)",
+      "settingsTop": 51,
+      "choicesBottom": 52,
+      "clear": true,
+      "stackTop": 241.25,
+      "cover": true,
+      "coverTop": 167.71875,
+      "words": {
+        "top": 191.72329580404218,
+        "bottom": 302.2118722539543
+      },
+      "ink": {
+        "top": 191.72499328613281,
+        "bottom": 302.21500610351563
+      },
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "hero": {
+          "width": 390,
+          "height": 489.52
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/large-offline": {
+      "file": "design/phone-ui/components/main-menu/review/430x932-large-offline.jpg",
+      "sha256": "303f44e8d56ab42fc99d3cf78beea7fbd3cca8dcffe4ae08958e7b6c879f9928",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BBZPp2N1.js",
+          "line": 1,
+          "column": 3181,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "join": "Join Enter a room code",
+      "host": "Host Open a room for 7–9 players",
+      "recover": "Recover my seat",
+      "settings": "Display settings",
+      "note": "No connection. Join, Host and Recover return when you are back online.",
+      "refused": [
+        "true",
+        "true",
+        "true"
+      ],
+      "opacity": [
+        "1",
+        "1",
+        "0.4"
+      ],
+      "hero": 540.546875,
+      "canvas": "rgb(16, 20, 28)",
+      "settingsTop": 51,
+      "choicesBottom": 52,
+      "clear": true,
+      "stackTop": 365.640625,
+      "cover": true,
+      "coverTop": 341.625,
+      "words": {
+        "top": 211.79948319420035,
+        "bottom": 333.620221331283
+      },
+      "ink": {
+        "top": 211.7949969482422,
+        "bottom": 333.6199963378906
+      },
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "hero": {
+          "width": 430,
+          "height": 540.55
+        }
+      },
+      "requests": [],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "mount: the parts and the pack’s words; the hero element stays for the menu’s life",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "root": "ms-main-menu ms-kit ms-k-phone ms-entry-parts",
+              "name": "Main menu",
+              "join": "Join Enter a room code",
+              "host": "Host Open a room for 7–9 players",
+              "recover": "Recover my seat",
+              "settings": "Display settings",
+              "heroSame": true,
+              "heroHidden": "true",
+              "note": false,
+              "keyFilled": true
+            }
+          }
+        },
+        {
+          "id": "taps: each choice reports its tap once, and only that; a tap on the hero or the canvas reports nothing",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": [
+              "onJoin",
+              "onHost",
+              "onRecover",
+              "onSettings",
+              "onJoin"
+            ]
+          }
+        },
+        {
+          "id": "offline: the note above Join, an alert with the plain offline icon; the choices refused with the reason, Join and Host keeping their look, Recover dimmed; settings still taps",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "note": "No connection. Join, Host and Recover return when you are back online.",
+              "role": "alert",
+              "first": true,
+              "icon": true,
+              "refused": [
+                "true",
+                "true",
+                "true"
+              ],
+              "reasons": [
+                "No connection. Join, Host and Recover return when you are back online.",
+                "No connection. Join, Host and Recover return when you are back online.",
+                "No connection. Join, Host and Recover return when you are back online."
+              ],
+              "opacity": {
+                "join": "1",
+                "host": "1",
+                "recover": "0.4",
+                "settings": "1"
+              },
+              "joinBg": "rgb(241, 184, 75)",
+              "taps": [
+                "onSettings"
+              ]
+            }
+          }
+        },
+        {
+          "id": "online again: the note leaves; the same choices take taps, with no reason left",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "note": false,
+              "same": true,
+              "refused": [
+                null,
+                null,
+                null
+              ],
+              "described": [
+                null,
+                null,
+                null
+              ],
+              "taps": [
+                "onJoin",
+                "onHost",
+                "onRecover"
+              ]
+            }
+          }
+        },
+        {
+          "id": "busy: a busy choice is refused and says so (aria-busy), not dimmed; the others still tap",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "busy": "true",
+              "off": false,
+              "opacity": "1",
+              "taps": [
+                "onHost"
+              ]
+            }
+          }
+        },
+        {
+          "id": "not interactive: every control refused, and nothing dimmed",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "refused": [
+                "true",
+                "true",
+                "true",
+                "true"
+              ],
+              "off": [
+                false,
+                false,
+                false,
+                false
+              ],
+              "opacity": [
+                "1",
+                "1",
+                "1",
+                "1"
+              ],
+              "taps": []
+            }
+          }
+        },
+        {
+          "id": "focus: a focused choice keeps its element and the focus through updates, offline and back",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "offlineFocus": true,
+              "backFocus": true,
+              "same": true
+            }
+          }
+        },
+        {
+          "id": "insets: Frontend’s safe areas place the settings button 4 px under the top one and the choices 18 px over the bottom one; null gives the browser’s",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "given": {
+                "settings": 51,
+                "choices": 52,
+                "safe": {
+                  "top": 47,
+                  "bottom": 34
+                }
+              },
+              "changed": {
+                "settings": 24,
+                "choices": 28
+              },
+              "browser": {
+                "settings": 4,
+                "choices": 18,
+                "safe": {
+                  "top": 0,
+                  "bottom": 0
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "layout: the size, the safe areas and the hero (the top 58 %); onLayout on mount and on a change of size",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "first": {
+                "size": {
+                  "width": 390,
+                  "height": 844
+                },
+                "safe": {
+                  "top": 47,
+                  "bottom": 34
+                },
+                "hero": {
+                  "width": 390,
+                  "height": 489.52
+                }
+              },
+              "second": {
+                "size": {
+                  "width": 390,
+                  "height": 700
+                },
+                "safe": {
+                  "top": 47,
+                  "bottom": 34
+                },
+                "hero": {
+                  "width": 390,
+                  "height": 406
+                }
+              },
+              "reported": [
+                844,
+                700
+              ]
+            }
+          }
+        },
+        {
+          "id": "words: brandWordsBox holds the held frame’s drawn ink, “Game N” and “by Plan B”, to half a pixel at both sizes",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "390x844": {
+                "words": {
+                  "top": 191.72329580404218,
+                  "bottom": 302.2118722539543
+                },
+                "ink": {
+                  "top": 191.72499328613281,
+                  "bottom": 302.21500610351563
+                }
+              },
+              "430x932": {
+                "words": {
+                  "top": 211.79948319420035,
+                  "bottom": 333.620221331283
+                },
+                "ink": {
+                  "top": 211.7949969482422,
+                  "bottom": 333.6199963378906
+                }
+              }
+            }
+          }
+        },
+        {
+          "id": "text: the choices grow from the foot up, clear of the settings button; nothing of theirs sits on the hero: at the Standard text no cover, with larger text the canvas covers the hero from 24 px above them, or from 24 px above the brand words where it would cut them, so they go whole or not at all",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "100": {
+                "stackTop": 572,
+                "hero": 489.515625,
+                "cover": false,
+                "coverTop": null,
+                "want": null,
+                "words": {
+                  "top": 191.72329580404218,
+                  "bottom": 302.2118722539543
+                },
+                "whole": true,
+                "actionsBottom": 52,
+                "clearOfSettings": true,
+                "join": 76
+              },
+              "200": {
+                "stackTop": 435.25,
+                "hero": 489.515625,
+                "cover": true,
+                "coverTop": 411.25,
+                "want": 411.25,
+                "words": {
+                  "top": 191.72329580404218,
+                  "bottom": 302.2118722539543
+                },
+                "whole": true,
+                "actionsBottom": 52,
+                "clearOfSettings": true,
+                "join": 144.375
+              },
+              "100 offline": {
+                "stackTop": 499.5,
+                "hero": 489.515625,
+                "cover": false,
+                "coverTop": null,
+                "want": null,
+                "words": {
+                  "top": 191.72329580404218,
+                  "bottom": 302.2118722539543
+                },
+                "whole": true,
+                "actionsBottom": 52,
+                "clearOfSettings": true,
+                "join": 76
+              },
+              "150 offline": {
+                "stackTop": 398.609375,
+                "hero": 489.515625,
+                "cover": true,
+                "coverTop": 374.609375,
+                "want": 374.609375,
+                "words": {
+                  "top": 191.72329580404218,
+                  "bottom": 302.2118722539543
+                },
+                "whole": true,
+                "actionsBottom": 52,
+                "clearOfSettings": true,
+                "join": 87.484375
+              },
+              "200 offline": {
+                "stackTop": 241.25,
+                "hero": 489.515625,
+                "cover": true,
+                "coverTop": 167.71875,
+                "want": 167.72329580404218,
+                "words": {
+                  "top": 191.72329580404218,
+                  "bottom": 302.2118722539543
+                },
+                "whole": true,
+                "actionsBottom": 52,
+                "clearOfSettings": true,
+                "join": 144.375
+              }
+            }
+          }
+        },
+        {
+          "id": "text later: mounted at the Standard text, then the Largest set and the offline note opened, the menu lays out as one mounted at the Largest (kit 0.8.1 followTextSize)",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "after": [
+                [
+                  241.25,
+                  18,
+                  354,
+                  182
+                ],
+                [
+                  435.25,
+                  16,
+                  358,
+                  144.38
+                ],
+                [
+                  591.63,
+                  16,
+                  358,
+                  144.38
+                ],
+                [
+                  748,
+                  38.3,
+                  313.39,
+                  44
+                ],
+                [
+                  51,
+                  338,
+                  44,
+                  44
+                ],
+                [
+                  233.25,
+                  16,
+                  358,
+                  558.75
+                ],
+                [
+                  167.72,
+                  0,
+                  390,
+                  321.8
+                ]
+              ],
+              "want": [
+                [
+                  241.25,
+                  18,
+                  354,
+                  182
+                ],
+                [
+                  435.25,
+                  16,
+                  358,
+                  144.38
+                ],
+                [
+                  591.63,
+                  16,
+                  358,
+                  144.38
+                ],
+                [
+                  748,
+                  38.3,
+                  313.39,
+                  44
+                ],
+                [
+                  51,
+                  338,
+                  44,
+                  44
+                ],
+                [
+                  233.25,
+                  16,
+                  358,
+                  558.75
+                ],
+                [
+                  167.72,
+                  0,
+                  390,
+                  321.8
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "id": "input: malformed input is refused",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "refused": [
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        },
+        {
+          "id": "dispose: safe twice; afterwards nothing fires, layout() is null and nothing is left",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "left": 0,
+              "layout": null,
+              "taps": [],
+              "reasons": 0
+            }
+          }
+        },
+        {
+          "id": "motion: none of its own; nothing animates at rest or on a change",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "running": 0,
+              "reduced": "reduced"
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BBZPp2N1.js",
+          "line": 1,
+          "column": 3181,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "motion: none of its own; nothing animates at rest or on a change (the device’s Reduce motion)",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "running": 0,
+              "reduced": "reduced"
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BBZPp2N1.js",
+          "line": 1,
+          "column": 3181,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: the menu at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "hero": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 489.515625
+              },
+              "menu": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 489.515625
+              },
+              "words": null
+            },
+            "settings": {
+              "pack": {
+                "x": 338,
+                "y": 51,
+                "w": 44,
+                "h": 44
+              },
+              "menu": {
+                "x": 338,
+                "y": 51,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "settings icon": {
+              "pack": {
+                "x": 351,
+                "y": 64,
+                "w": 18,
+                "h": 18
+              },
+              "menu": {
+                "x": 351,
+                "y": 64,
+                "w": 18,
+                "h": 18
+              },
+              "words": null
+            },
+            "choices": {
+              "pack": {
+                "x": 16,
+                "y": 572,
+                "w": 358,
+                "h": 220
+              },
+              "menu": {
+                "x": 16,
+                "y": 572,
+                "w": 358,
+                "h": 220
+              },
+              "words": null
+            },
+            "offline note": {
+              "pack": null,
+              "menu": null,
+              "words": null
+            },
+            "offline icon": {
+              "pack": null,
+              "menu": null,
+              "words": null
+            },
+            "Join": {
+              "pack": {
+                "x": 16,
+                "y": 572,
+                "w": 358,
+                "h": 76
+              },
+              "menu": {
+                "x": 16,
+                "y": 572,
+                "w": 358,
+                "h": 76
+              },
+              "words": "Join Enter a room code"
+            },
+            "Join tile": {
+              "pack": {
+                "x": 32,
+                "y": 586,
+                "w": 48,
+                "h": 48
+              },
+              "menu": {
+                "x": 32,
+                "y": 586,
+                "w": 48,
+                "h": 48
+              },
+              "words": null
+            },
+            "Join icon": {
+              "pack": {
+                "x": 42,
+                "y": 596,
+                "w": 28,
+                "h": 28
+              },
+              "menu": {
+                "x": 42,
+                "y": 596,
+                "w": 28,
+                "h": 28
+              },
+              "words": null
+            },
+            "Join title": {
+              "pack": {
+                "x": 94,
+                "y": 588.5,
+                "w": 122.1875,
+                "h": 22.796875
+              },
+              "menu": {
+                "x": 94,
+                "y": 588.5,
+                "w": 122.1875,
+                "h": 22.796875
+              },
+              "words": "Join"
+            },
+            "Join line": {
+              "pack": {
+                "x": 94,
+                "y": 613.296875,
+                "w": 122.1875,
+                "h": 18.1875
+              },
+              "menu": {
+                "x": 94,
+                "y": 613.296875,
+                "w": 122.1875,
+                "h": 18.1875
+              },
+              "words": "Enter a room code"
+            },
+            "Join chevron": {
+              "pack": {
+                "x": 340,
+                "y": 601,
+                "w": 24,
+                "h": 24
+              },
+              "menu": {
+                "x": 340,
+                "y": 601,
+                "w": 24,
+                "h": 24
+              },
+              "words": null
+            },
+            "Host": {
+              "pack": {
+                "x": 16,
+                "y": 660,
+                "w": 358,
+                "h": 76
+              },
+              "menu": {
+                "x": 16,
+                "y": 660,
+                "w": 358,
+                "h": 76
+              },
+              "words": "Host Open a room for 7–9 players"
+            },
+            "Host tile": {
+              "pack": {
+                "x": 32,
+                "y": 674,
+                "w": 48,
+                "h": 48
+              },
+              "menu": {
+                "x": 32,
+                "y": 674,
+                "w": 48,
+                "h": 48
+              },
+              "words": null
+            },
+            "Host icon": {
+              "pack": {
+                "x": 42,
+                "y": 684,
+                "w": 28,
+                "h": 28
+              },
+              "menu": {
+                "x": 42,
+                "y": 684,
+                "w": 28,
+                "h": 28
+              },
+              "words": null
+            },
+            "Host title": {
+              "pack": {
+                "x": 94,
+                "y": 676.5,
+                "w": 188.640625,
+                "h": 22.796875
+              },
+              "menu": {
+                "x": 94,
+                "y": 676.5,
+                "w": 188.640625,
+                "h": 22.796875
+              },
+              "words": "Host"
+            },
+            "Host line": {
+              "pack": {
+                "x": 94,
+                "y": 701.296875,
+                "w": 188.640625,
+                "h": 18.1875
+              },
+              "menu": {
+                "x": 94,
+                "y": 701.296875,
+                "w": 188.640625,
+                "h": 18.1875
+              },
+              "words": "Open a room for 7–9 players"
+            },
+            "Host chevron": {
+              "pack": {
+                "x": 340,
+                "y": 689,
+                "w": 24,
+                "h": 24
+              },
+              "menu": {
+                "x": 340,
+                "y": 689,
+                "w": 24,
+                "h": 24
+              },
+              "words": null
+            },
+            "Recover": {
+              "pack": {
+                "x": 105.140625,
+                "y": 748,
+                "w": 179.703125,
+                "h": 44
+              },
+              "menu": {
+                "x": 105.140625,
+                "y": 748,
+                "w": 179.703125,
+                "h": 44
+              },
+              "words": "Recover my seat"
+            },
+            "Recover icon": {
+              "pack": {
+                "x": 113.140625,
+                "y": 759,
+                "w": 22,
+                "h": 22
+              },
+              "menu": {
+                "x": 113.140625,
+                "y": 759,
+                "w": 22,
+                "h": 22
+              },
+              "words": null
+            }
+          },
+          "improvement": null
+        }
+      },
+      {
+        "id": "agree: offline at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "hero": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 489.515625
+              },
+              "menu": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 489.515625
+              },
+              "words": null
+            },
+            "settings": {
+              "pack": {
+                "x": 338,
+                "y": 51,
+                "w": 44,
+                "h": 44
+              },
+              "menu": {
+                "x": 338,
+                "y": 51,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "settings icon": {
+              "pack": {
+                "x": 351,
+                "y": 64,
+                "w": 18,
+                "h": 18
+              },
+              "menu": {
+                "x": 351,
+                "y": 64,
+                "w": 18,
+                "h": 18
+              },
+              "words": null
+            },
+            "choices": {
+              "pack": {
+                "x": 16,
+                "y": 491.5,
+                "w": 358,
+                "h": 300.5
+              },
+              "menu": {
+                "x": 16,
+                "y": 491.5,
+                "w": 358,
+                "h": 300.5
+              },
+              "words": null
+            },
+            "offline note": {
+              "pack": {
+                "x": 18,
+                "y": 499.5,
+                "w": 354,
+                "h": 60.5
+              },
+              "menu": {
+                "x": 18,
+                "y": 499.5,
+                "w": 354,
+                "h": 60.5
+              },
+              "words": "No connection. Join, Host and Recover return when you are back online."
+            },
+            "offline icon": {
+              "pack": {
+                "x": 30,
+                "y": 509.5,
+                "w": 20,
+                "h": 20
+              },
+              "menu": {
+                "x": 30,
+                "y": 509.5,
+                "w": 20,
+                "h": 20
+              },
+              "words": null
+            },
+            "Join": {
+              "pack": {
+                "x": 16,
+                "y": 572,
+                "w": 358,
+                "h": 76
+              },
+              "menu": {
+                "x": 16,
+                "y": 572,
+                "w": 358,
+                "h": 76
+              },
+              "words": "Join Enter a room code"
+            },
+            "Join tile": {
+              "pack": {
+                "x": 32,
+                "y": 586,
+                "w": 48,
+                "h": 48
+              },
+              "menu": {
+                "x": 32,
+                "y": 586,
+                "w": 48,
+                "h": 48
+              },
+              "words": null
+            },
+            "Join icon": {
+              "pack": {
+                "x": 42,
+                "y": 596,
+                "w": 28,
+                "h": 28
+              },
+              "menu": {
+                "x": 42,
+                "y": 596,
+                "w": 28,
+                "h": 28
+              },
+              "words": null
+            },
+            "Join title": {
+              "pack": {
+                "x": 94,
+                "y": 588.5,
+                "w": 122.1875,
+                "h": 22.796875
+              },
+              "menu": {
+                "x": 94,
+                "y": 588.5,
+                "w": 122.1875,
+                "h": 22.796875
+              },
+              "words": "Join"
+            },
+            "Join line": {
+              "pack": {
+                "x": 94,
+                "y": 613.296875,
+                "w": 122.1875,
+                "h": 18.1875
+              },
+              "menu": {
+                "x": 94,
+                "y": 613.296875,
+                "w": 122.1875,
+                "h": 18.1875
+              },
+              "words": "Enter a room code"
+            },
+            "Join chevron": {
+              "pack": {
+                "x": 340,
+                "y": 601,
+                "w": 24,
+                "h": 24
+              },
+              "menu": {
+                "x": 340,
+                "y": 601,
+                "w": 24,
+                "h": 24
+              },
+              "words": null
+            },
+            "Host": {
+              "pack": {
+                "x": 16,
+                "y": 660,
+                "w": 358,
+                "h": 76
+              },
+              "menu": {
+                "x": 16,
+                "y": 660,
+                "w": 358,
+                "h": 76
+              },
+              "words": "Host Open a room for 7–9 players"
+            },
+            "Host tile": {
+              "pack": {
+                "x": 32,
+                "y": 674,
+                "w": 48,
+                "h": 48
+              },
+              "menu": {
+                "x": 32,
+                "y": 674,
+                "w": 48,
+                "h": 48
+              },
+              "words": null
+            },
+            "Host icon": {
+              "pack": {
+                "x": 42,
+                "y": 684,
+                "w": 28,
+                "h": 28
+              },
+              "menu": {
+                "x": 42,
+                "y": 684,
+                "w": 28,
+                "h": 28
+              },
+              "words": null
+            },
+            "Host title": {
+              "pack": {
+                "x": 94,
+                "y": 676.5,
+                "w": 188.640625,
+                "h": 22.796875
+              },
+              "menu": {
+                "x": 94,
+                "y": 676.5,
+                "w": 188.640625,
+                "h": 22.796875
+              },
+              "words": "Host"
+            },
+            "Host line": {
+              "pack": {
+                "x": 94,
+                "y": 701.296875,
+                "w": 188.640625,
+                "h": 18.1875
+              },
+              "menu": {
+                "x": 94,
+                "y": 701.296875,
+                "w": 188.640625,
+                "h": 18.1875
+              },
+              "words": "Open a room for 7–9 players"
+            },
+            "Host chevron": {
+              "pack": {
+                "x": 340,
+                "y": 689,
+                "w": 24,
+                "h": 24
+              },
+              "menu": {
+                "x": 340,
+                "y": 689,
+                "w": 24,
+                "h": 24
+              },
+              "words": null
+            },
+            "Recover": {
+              "pack": {
+                "x": 105.140625,
+                "y": 748,
+                "w": 179.703125,
+                "h": 44
+              },
+              "menu": {
+                "x": 105.140625,
+                "y": 748,
+                "w": 179.703125,
+                "h": 44
+              },
+              "words": "Recover my seat"
+            },
+            "Recover icon": {
+              "pack": {
+                "x": 113.140625,
+                "y": 759,
+                "w": 22,
+                "h": 22
+              },
+              "menu": {
+                "x": 113.140625,
+                "y": 759,
+                "w": 22,
+                "h": 22
+              },
+              "words": null
+            }
+          },
+          "improvement": null
+        }
+      },
+      {
+        "id": "agree: the menu at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "hero": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 430,
+                "h": 540.546875
+              },
+              "menu": {
+                "x": 0,
+                "y": 0,
+                "w": 430,
+                "h": 540.546875
+              },
+              "words": null
+            },
+            "settings": {
+              "pack": {
+                "x": 378,
+                "y": 51,
+                "w": 44,
+                "h": 44
+              },
+              "menu": {
+                "x": 378,
+                "y": 51,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "settings icon": {
+              "pack": {
+                "x": 391,
+                "y": 64,
+                "w": 18,
+                "h": 18
+              },
+              "menu": {
+                "x": 391,
+                "y": 64,
+                "w": 18,
+                "h": 18
+              },
+              "words": null
+            },
+            "choices": {
+              "pack": {
+                "x": 16,
+                "y": 660,
+                "w": 398,
+                "h": 220
+              },
+              "menu": {
+                "x": 16,
+                "y": 660,
+                "w": 398,
+                "h": 220
+              },
+              "words": null
+            },
+            "offline note": {
+              "pack": null,
+              "menu": null,
+              "words": null
+            },
+            "offline icon": {
+              "pack": null,
+              "menu": null,
+              "words": null
+            },
+            "Join": {
+              "pack": {
+                "x": 16,
+                "y": 660,
+                "w": 398,
+                "h": 76
+              },
+              "menu": {
+                "x": 16,
+                "y": 660,
+                "w": 398,
+                "h": 76
+              },
+              "words": "Join Enter a room code"
+            },
+            "Join tile": {
+              "pack": {
+                "x": 32,
+                "y": 674,
+                "w": 48,
+                "h": 48
+              },
+              "menu": {
+                "x": 32,
+                "y": 674,
+                "w": 48,
+                "h": 48
+              },
+              "words": null
+            },
+            "Join icon": {
+              "pack": {
+                "x": 42,
+                "y": 684,
+                "w": 28,
+                "h": 28
+              },
+              "menu": {
+                "x": 42,
+                "y": 684,
+                "w": 28,
+                "h": 28
+              },
+              "words": null
+            },
+            "Join title": {
+              "pack": {
+                "x": 94,
+                "y": 676.5,
+                "w": 122.1875,
+                "h": 22.796875
+              },
+              "menu": {
+                "x": 94,
+                "y": 676.5,
+                "w": 122.1875,
+                "h": 22.796875
+              },
+              "words": "Join"
+            },
+            "Join line": {
+              "pack": {
+                "x": 94,
+                "y": 701.296875,
+                "w": 122.1875,
+                "h": 18.1875
+              },
+              "menu": {
+                "x": 94,
+                "y": 701.296875,
+                "w": 122.1875,
+                "h": 18.1875
+              },
+              "words": "Enter a room code"
+            },
+            "Join chevron": {
+              "pack": {
+                "x": 380,
+                "y": 689,
+                "w": 24,
+                "h": 24
+              },
+              "menu": {
+                "x": 380,
+                "y": 689,
+                "w": 24,
+                "h": 24
+              },
+              "words": null
+            },
+            "Host": {
+              "pack": {
+                "x": 16,
+                "y": 748,
+                "w": 398,
+                "h": 76
+              },
+              "menu": {
+                "x": 16,
+                "y": 748,
+                "w": 398,
+                "h": 76
+              },
+              "words": "Host Open a room for 7–9 players"
+            },
+            "Host tile": {
+              "pack": {
+                "x": 32,
+                "y": 762,
+                "w": 48,
+                "h": 48
+              },
+              "menu": {
+                "x": 32,
+                "y": 762,
+                "w": 48,
+                "h": 48
+              },
+              "words": null
+            },
+            "Host icon": {
+              "pack": {
+                "x": 42,
+                "y": 772,
+                "w": 28,
+                "h": 28
+              },
+              "menu": {
+                "x": 42,
+                "y": 772,
+                "w": 28,
+                "h": 28
+              },
+              "words": null
+            },
+            "Host title": {
+              "pack": {
+                "x": 94,
+                "y": 764.5,
+                "w": 188.640625,
+                "h": 22.796875
+              },
+              "menu": {
+                "x": 94,
+                "y": 764.5,
+                "w": 188.640625,
+                "h": 22.796875
+              },
+              "words": "Host"
+            },
+            "Host line": {
+              "pack": {
+                "x": 94,
+                "y": 789.296875,
+                "w": 188.640625,
+                "h": 18.1875
+              },
+              "menu": {
+                "x": 94,
+                "y": 789.296875,
+                "w": 188.640625,
+                "h": 18.1875
+              },
+              "words": "Open a room for 7–9 players"
+            },
+            "Host chevron": {
+              "pack": {
+                "x": 380,
+                "y": 777,
+                "w": 24,
+                "h": 24
+              },
+              "menu": {
+                "x": 380,
+                "y": 777,
+                "w": 24,
+                "h": 24
+              },
+              "words": null
+            },
+            "Recover": {
+              "pack": {
+                "x": 125.140625,
+                "y": 836,
+                "w": 179.703125,
+                "h": 44
+              },
+              "menu": {
+                "x": 125.140625,
+                "y": 836,
+                "w": 179.703125,
+                "h": 44
+              },
+              "words": "Recover my seat"
+            },
+            "Recover icon": {
+              "pack": {
+                "x": 133.140625,
+                "y": 847,
+                "w": 22,
+                "h": 22
+              },
+              "menu": {
+                "x": 133.140625,
+                "y": 847,
+                "w": 22,
+                "h": 22
+              },
+              "words": null
+            }
+          },
+          "improvement": null
+        }
+      },
+      {
+        "id": "agree: offline at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "hero": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 430,
+                "h": 540.546875
+              },
+              "menu": {
+                "x": 0,
+                "y": 0,
+                "w": 430,
+                "h": 540.546875
+              },
+              "words": null
+            },
+            "settings": {
+              "pack": {
+                "x": 378,
+                "y": 51,
+                "w": 44,
+                "h": 44
+              },
+              "menu": {
+                "x": 378,
+                "y": 51,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "settings icon": {
+              "pack": {
+                "x": 391,
+                "y": 64,
+                "w": 18,
+                "h": 18
+              },
+              "menu": {
+                "x": 391,
+                "y": 64,
+                "w": 18,
+                "h": 18
+              },
+              "words": null
+            },
+            "choices": {
+              "pack": {
+                "x": 16,
+                "y": 579.5,
+                "w": 398,
+                "h": 300.5
+              },
+              "menu": {
+                "x": 16,
+                "y": 579.5,
+                "w": 398,
+                "h": 300.5
+              },
+              "words": null
+            },
+            "offline note": {
+              "pack": {
+                "x": 18,
+                "y": 587.5,
+                "w": 394,
+                "h": 60.5
+              },
+              "menu": {
+                "x": 18,
+                "y": 587.5,
+                "w": 394,
+                "h": 60.5
+              },
+              "words": "No connection. Join, Host and Recover return when you are back online."
+            },
+            "offline icon": {
+              "pack": {
+                "x": 30,
+                "y": 597.5,
+                "w": 20,
+                "h": 20
+              },
+              "menu": {
+                "x": 30,
+                "y": 597.5,
+                "w": 20,
+                "h": 20
+              },
+              "words": null
+            },
+            "Join": {
+              "pack": {
+                "x": 16,
+                "y": 660,
+                "w": 398,
+                "h": 76
+              },
+              "menu": {
+                "x": 16,
+                "y": 660,
+                "w": 398,
+                "h": 76
+              },
+              "words": "Join Enter a room code"
+            },
+            "Join tile": {
+              "pack": {
+                "x": 32,
+                "y": 674,
+                "w": 48,
+                "h": 48
+              },
+              "menu": {
+                "x": 32,
+                "y": 674,
+                "w": 48,
+                "h": 48
+              },
+              "words": null
+            },
+            "Join icon": {
+              "pack": {
+                "x": 42,
+                "y": 684,
+                "w": 28,
+                "h": 28
+              },
+              "menu": {
+                "x": 42,
+                "y": 684,
+                "w": 28,
+                "h": 28
+              },
+              "words": null
+            },
+            "Join title": {
+              "pack": {
+                "x": 94,
+                "y": 676.5,
+                "w": 122.1875,
+                "h": 22.796875
+              },
+              "menu": {
+                "x": 94,
+                "y": 676.5,
+                "w": 122.1875,
+                "h": 22.796875
+              },
+              "words": "Join"
+            },
+            "Join line": {
+              "pack": {
+                "x": 94,
+                "y": 701.296875,
+                "w": 122.1875,
+                "h": 18.1875
+              },
+              "menu": {
+                "x": 94,
+                "y": 701.296875,
+                "w": 122.1875,
+                "h": 18.1875
+              },
+              "words": "Enter a room code"
+            },
+            "Join chevron": {
+              "pack": {
+                "x": 380,
+                "y": 689,
+                "w": 24,
+                "h": 24
+              },
+              "menu": {
+                "x": 380,
+                "y": 689,
+                "w": 24,
+                "h": 24
+              },
+              "words": null
+            },
+            "Host": {
+              "pack": {
+                "x": 16,
+                "y": 748,
+                "w": 398,
+                "h": 76
+              },
+              "menu": {
+                "x": 16,
+                "y": 748,
+                "w": 398,
+                "h": 76
+              },
+              "words": "Host Open a room for 7–9 players"
+            },
+            "Host tile": {
+              "pack": {
+                "x": 32,
+                "y": 762,
+                "w": 48,
+                "h": 48
+              },
+              "menu": {
+                "x": 32,
+                "y": 762,
+                "w": 48,
+                "h": 48
+              },
+              "words": null
+            },
+            "Host icon": {
+              "pack": {
+                "x": 42,
+                "y": 772,
+                "w": 28,
+                "h": 28
+              },
+              "menu": {
+                "x": 42,
+                "y": 772,
+                "w": 28,
+                "h": 28
+              },
+              "words": null
+            },
+            "Host title": {
+              "pack": {
+                "x": 94,
+                "y": 764.5,
+                "w": 188.640625,
+                "h": 22.796875
+              },
+              "menu": {
+                "x": 94,
+                "y": 764.5,
+                "w": 188.640625,
+                "h": 22.796875
+              },
+              "words": "Host"
+            },
+            "Host line": {
+              "pack": {
+                "x": 94,
+                "y": 789.296875,
+                "w": 188.640625,
+                "h": 18.1875
+              },
+              "menu": {
+                "x": 94,
+                "y": 789.296875,
+                "w": 188.640625,
+                "h": 18.1875
+              },
+              "words": "Open a room for 7–9 players"
+            },
+            "Host chevron": {
+              "pack": {
+                "x": 380,
+                "y": 777,
+                "w": 24,
+                "h": 24
+              },
+              "menu": {
+                "x": 380,
+                "y": 777,
+                "w": 24,
+                "h": 24
+              },
+              "words": null
+            },
+            "Recover": {
+              "pack": {
+                "x": 125.140625,
+                "y": 836,
+                "w": 179.703125,
+                "h": 44
+              },
+              "menu": {
+                "x": 125.140625,
+                "y": 836,
+                "w": 179.703125,
+                "h": 44
+              },
+              "words": "Recover my seat"
+            },
+            "Recover icon": {
+              "pack": {
+                "x": 133.140625,
+                "y": 847,
+                "w": 22,
+                "h": 22
+              },
+              "menu": {
+                "x": 133.140625,
+                "y": 847,
+                "w": 22,
+                "h": 22
+              },
+              "words": null
+            }
+          },
+          "improvement": null
+        }
+      },
+      {
+        "id": "agree: the menu with the Largest text (200 %) at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "hero": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 489.515625
+              },
+              "menu": {
+                "x": 0,
+                "y": 0,
+                "w": 390,
+                "h": 489.515625
+              },
+              "words": null
+            },
+            "settings": {
+              "pack": {
+                "x": 338,
+                "y": 51,
+                "w": 44,
+                "h": 44
+              },
+              "menu": {
+                "x": 338,
+                "y": 51,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "settings icon": {
+              "pack": {
+                "x": 351,
+                "y": 64,
+                "w": 18,
+                "h": 18
+              },
+              "menu": {
+                "x": 351,
+                "y": 64,
+                "w": 18,
+                "h": 18
+              },
+              "words": null
+            },
+            "choices": {
+              "pack": {
+                "x": 16,
+                "y": 435.25,
+                "w": 358,
+                "h": 356.75
+              },
+              "menu": {
+                "x": 16,
+                "y": 435.25,
+                "w": 358,
+                "h": 356.75
+              },
+              "words": null
+            },
+            "offline note": {
+              "pack": null,
+              "menu": null,
+              "words": null
+            },
+            "offline icon": {
+              "pack": null,
+              "menu": null,
+              "words": null
+            },
+            "Join": {
+              "pack": {
+                "x": 16,
+                "y": 435.25,
+                "w": 358,
+                "h": 144.375
+              },
+              "menu": {
+                "x": 16,
+                "y": 435.25,
+                "w": 358,
+                "h": 144.375
+              },
+              "words": "Join Enter a room code"
+            },
+            "Join tile": {
+              "pack": {
+                "x": 32,
+                "y": 483.4375,
+                "w": 48,
+                "h": 48
+              },
+              "menu": {
+                "x": 32,
+                "y": 483.4375,
+                "w": 48,
+                "h": 48
+              },
+              "words": null
+            },
+            "Join icon": {
+              "pack": {
+                "x": 42,
+                "y": 493.4375,
+                "w": 28,
+                "h": 28
+              },
+              "menu": {
+                "x": 42,
+                "y": 493.4375,
+                "w": 28,
+                "h": 28
+              },
+              "words": null
+            },
+            "Join title": {
+              "pack": {
+                "x": 94,
+                "y": 447.25,
+                "w": 232,
+                "h": 45.59375
+              },
+              "menu": {
+                "x": 94,
+                "y": 447.25,
+                "w": 232,
+                "h": 45.59375
+              },
+              "words": "Join"
+            },
+            "Join line": {
+              "pack": {
+                "x": 94,
+                "y": 494.84375,
+                "w": 232,
+                "h": 72.78125
+              },
+              "menu": {
+                "x": 94,
+                "y": 494.84375,
+                "w": 232,
+                "h": 72.78125
+              },
+              "words": "Enter a room code"
+            },
+            "Join chevron": {
+              "pack": {
+                "x": 340,
+                "y": 507.4375,
+                "w": 24,
+                "h": 24
+              },
+              "menu": {
+                "x": 340,
+                "y": 507.4375,
+                "w": 24,
+                "h": 24
+              },
+              "words": null
+            },
+            "Host": {
+              "pack": {
+                "x": 16,
+                "y": 591.625,
+                "w": 358,
+                "h": 144.375
+              },
+              "menu": {
+                "x": 16,
+                "y": 591.625,
+                "w": 358,
+                "h": 144.375
+              },
+              "words": "Host Open a room for 7–9 players"
+            },
+            "Host tile": {
+              "pack": {
+                "x": 32,
+                "y": 639.8125,
+                "w": 48,
+                "h": 48
+              },
+              "menu": {
+                "x": 32,
+                "y": 639.8125,
+                "w": 48,
+                "h": 48
+              },
+              "words": null
+            },
+            "Host icon": {
+              "pack": {
+                "x": 42,
+                "y": 649.8125,
+                "w": 28,
+                "h": 28
+              },
+              "menu": {
+                "x": 42,
+                "y": 649.8125,
+                "w": 28,
+                "h": 28
+              },
+              "words": null
+            },
+            "Host title": {
+              "pack": {
+                "x": 94,
+                "y": 603.625,
+                "w": 232,
+                "h": 45.59375
+              },
+              "menu": {
+                "x": 94,
+                "y": 603.625,
+                "w": 232,
+                "h": 45.59375
+              },
+              "words": "Host"
+            },
+            "Host line": {
+              "pack": {
+                "x": 94,
+                "y": 651.21875,
+                "w": 232,
+                "h": 72.78125
+              },
+              "menu": {
+                "x": 94,
+                "y": 651.21875,
+                "w": 232,
+                "h": 72.78125
+              },
+              "words": "Open a room for 7–9 players"
+            },
+            "Host chevron": {
+              "pack": {
+                "x": 340,
+                "y": 663.8125,
+                "w": 24,
+                "h": 24
+              },
+              "menu": {
+                "x": 340,
+                "y": 663.8125,
+                "w": 24,
+                "h": 24
+              },
+              "words": null
+            },
+            "Recover": {
+              "pack": {
+                "x": 38.296875,
+                "y": 748,
+                "w": 313.390625,
+                "h": 44
+              },
+              "menu": {
+                "x": 38.296875,
+                "y": 748,
+                "w": 313.390625,
+                "h": 44
+              },
+              "words": "Recover my seat"
+            },
+            "Recover icon": {
+              "pack": {
+                "x": 46.296875,
+                "y": 759,
+                "w": 22,
+                "h": 22
+              },
+              "menu": {
+                "x": 46.296875,
+                "y": 759,
+                "w": 22,
+                "h": 22
+              },
+              "words": null
+            }
+          },
+          "improvement": {
+            "what": "the canvas covers the hero from 24 px above the choices, or above the brand words where it would cut them",
+            "coverTop": 411.25,
+            "stackTop": 435.25,
+            "words": {
+              "top": 191.72329580404218,
+              "bottom": 302.2118722539543
+            },
+            "lifted": false
+          }
+        }
+      },
+      {
+        "id": "agree: offline with the Largest text (200 %) at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "hero": {
+              "pack": {
+                "x": 0,
+                "y": 0,
+                "w": 430,
+                "h": 540.546875
+              },
+              "menu": {
+                "x": 0,
+                "y": 0,
+                "w": 430,
+                "h": 540.546875
+              },
+              "words": null
+            },
+            "settings": {
+              "pack": {
+                "x": 378,
+                "y": 51,
+                "w": 44,
+                "h": 44
+              },
+              "menu": {
+                "x": 378,
+                "y": 51,
+                "w": 44,
+                "h": 44
+              },
+              "words": null
+            },
+            "settings icon": {
+              "pack": {
+                "x": 391,
+                "y": 64,
+                "w": 18,
+                "h": 18
+              },
+              "menu": {
+                "x": 391,
+                "y": 64,
+                "w": 18,
+                "h": 18
+              },
+              "words": null
+            },
+            "choices": {
+              "pack": {
+                "x": 16,
+                "y": 357.640625,
+                "w": 398,
+                "h": 522.359375
+              },
+              "menu": {
+                "x": 16,
+                "y": 357.640625,
+                "w": 398,
+                "h": 522.359375
+              },
+              "words": null
+            },
+            "offline note": {
+              "pack": {
+                "x": 18,
+                "y": 365.640625,
+                "w": 394,
+                "h": 182
+              },
+              "menu": {
+                "x": 18,
+                "y": 365.640625,
+                "w": 394,
+                "h": 182
+              },
+              "words": "No connection. Join, Host and Recover return when you are back online."
+            },
+            "offline icon": {
+              "pack": {
+                "x": 30,
+                "y": 375.640625,
+                "w": 20,
+                "h": 20
+              },
+              "menu": {
+                "x": 30,
+                "y": 375.640625,
+                "w": 20,
+                "h": 20
+              },
+              "words": null
+            },
+            "Join": {
+              "pack": {
+                "x": 16,
+                "y": 559.640625,
+                "w": 398,
+                "h": 107.984375
+              },
+              "menu": {
+                "x": 16,
+                "y": 559.640625,
+                "w": 398,
+                "h": 107.984375
+              },
+              "words": "Join Enter a room code"
+            },
+            "Join tile": {
+              "pack": {
+                "x": 32,
+                "y": 589.625,
+                "w": 48,
+                "h": 48
+              },
+              "menu": {
+                "x": 32,
+                "y": 589.625,
+                "w": 48,
+                "h": 48
+              },
+              "words": null
+            },
+            "Join icon": {
+              "pack": {
+                "x": 42,
+                "y": 599.625,
+                "w": 28,
+                "h": 28
+              },
+              "menu": {
+                "x": 42,
+                "y": 599.625,
+                "w": 28,
+                "h": 28
+              },
+              "words": null
+            },
+            "Join title": {
+              "pack": {
+                "x": 94,
+                "y": 571.640625,
+                "w": 244.375,
+                "h": 45.59375
+              },
+              "menu": {
+                "x": 94,
+                "y": 571.640625,
+                "w": 244.375,
+                "h": 45.59375
+              },
+              "words": "Join"
+            },
+            "Join line": {
+              "pack": {
+                "x": 94,
+                "y": 619.234375,
+                "w": 244.375,
+                "h": 36.390625
+              },
+              "menu": {
+                "x": 94,
+                "y": 619.234375,
+                "w": 244.375,
+                "h": 36.390625
+              },
+              "words": "Enter a room code"
+            },
+            "Join chevron": {
+              "pack": {
+                "x": 380,
+                "y": 613.625,
+                "w": 24,
+                "h": 24
+              },
+              "menu": {
+                "x": 380,
+                "y": 613.625,
+                "w": 24,
+                "h": 24
+              },
+              "words": null
+            },
+            "Host": {
+              "pack": {
+                "x": 16,
+                "y": 679.625,
+                "w": 398,
+                "h": 144.375
+              },
+              "menu": {
+                "x": 16,
+                "y": 679.625,
+                "w": 398,
+                "h": 144.375
+              },
+              "words": "Host Open a room for 7–9 players"
+            },
+            "Host tile": {
+              "pack": {
+                "x": 32,
+                "y": 727.8125,
+                "w": 48,
+                "h": 48
+              },
+              "menu": {
+                "x": 32,
+                "y": 727.8125,
+                "w": 48,
+                "h": 48
+              },
+              "words": null
+            },
+            "Host icon": {
+              "pack": {
+                "x": 42,
+                "y": 737.8125,
+                "w": 28,
+                "h": 28
+              },
+              "menu": {
+                "x": 42,
+                "y": 737.8125,
+                "w": 28,
+                "h": 28
+              },
+              "words": null
+            },
+            "Host title": {
+              "pack": {
+                "x": 94,
+                "y": 691.625,
+                "w": 272,
+                "h": 45.59375
+              },
+              "menu": {
+                "x": 94,
+                "y": 691.625,
+                "w": 272,
+                "h": 45.59375
+              },
+              "words": "Host"
+            },
+            "Host line": {
+              "pack": {
+                "x": 94,
+                "y": 739.21875,
+                "w": 272,
+                "h": 72.78125
+              },
+              "menu": {
+                "x": 94,
+                "y": 739.21875,
+                "w": 272,
+                "h": 72.78125
+              },
+              "words": "Open a room for 7–9 players"
+            },
+            "Host chevron": {
+              "pack": {
+                "x": 380,
+                "y": 751.8125,
+                "w": 24,
+                "h": 24
+              },
+              "menu": {
+                "x": 380,
+                "y": 751.8125,
+                "w": 24,
+                "h": 24
+              },
+              "words": null
+            },
+            "Recover": {
+              "pack": {
+                "x": 58.296875,
+                "y": 836,
+                "w": 313.390625,
+                "h": 44
+              },
+              "menu": {
+                "x": 58.296875,
+                "y": 836,
+                "w": 313.390625,
+                "h": 44
+              },
+              "words": "Recover my seat"
+            },
+            "Recover icon": {
+              "pack": {
+                "x": 66.296875,
+                "y": 847,
+                "w": 22,
+                "h": 22
+              },
+              "menu": {
+                "x": 66.296875,
+                "y": 847,
+                "w": 22,
+                "h": 22
+              },
+              "words": null
+            }
+          },
+          "improvement": {
+            "what": "the canvas covers the hero from 24 px above the choices, or above the brand words where it would cut them",
+            "coverTop": 341.625,
+            "stackTop": 365.640625,
+            "words": {
+              "top": 211.79948319420035,
+              "bottom": 333.620221331283
+            },
+            "lifted": false
+          }
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-BBZPp2N1.js",
+        "line": 1,
+        "column": 3181,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}

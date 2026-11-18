@@ -1,0 +1,4204 @@
+{
+  "tool": "design/tools/join-room-check.mjs",
+  "component": "design/phone-ui/components/join-room",
+  "sourceCommit": "5146e2da7dd1a814ba7860d213740f88508c2a0f",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": {
+    "390x844/empty": {
+      "file": "design/phone-ui/components/join-room/review/390x844-empty.jpg",
+      "sha256": "e2a57b9f389fea8a9c475131be9699f62b0d6215ad11009771b7580ad7ae8f2f",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": "Join a room",
+      "codeLabel": "Room code",
+      "boxes": "K7",
+      "boxesHidden": true,
+      "codeValue": "K7",
+      "ring": 2,
+      "codeInvalid": false,
+      "nameLabel": "Your name",
+      "name": "",
+      "placeholder": "1–12 characters",
+      "count": "0/12",
+      "nameInvalid": false,
+      "deviceLabel": "This device",
+      "options": "Player phone|Shared display",
+      "checked": "player",
+      "stacked": false,
+      "ask": "Ask to join",
+      "askLabel": "Ask to join",
+      "askRefused": true,
+      "askBusy": false,
+      "errors": [],
+      "waitTitle": null,
+      "line": null,
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/empty": {
+      "file": "design/phone-ui/components/join-room/review/430x932-empty.jpg",
+      "sha256": "1b8227c87247db77b5a340350bee89268ef01e60e42c3967770d5817410de45a",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": "Join a room",
+      "codeLabel": "Room code",
+      "boxes": "K7",
+      "boxesHidden": true,
+      "codeValue": "K7",
+      "ring": 2,
+      "codeInvalid": false,
+      "nameLabel": "Your name",
+      "name": "",
+      "placeholder": "1–12 characters",
+      "count": "0/12",
+      "nameInvalid": false,
+      "deviceLabel": "This device",
+      "options": "Player phone|Shared display",
+      "checked": "player",
+      "stacked": false,
+      "ask": "Ask to join",
+      "askLabel": "Ask to join",
+      "askRefused": true,
+      "askBusy": false,
+      "errors": [],
+      "waitTitle": null,
+      "line": null,
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/no-room": {
+      "file": "design/phone-ui/components/join-room/review/390x844-no-room.jpg",
+      "sha256": "31f935138c4ab86977e9215eb465eac9ab5c5518a4a33d28956938ffc04fb25b",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": "Join a room",
+      "codeLabel": "Room code",
+      "boxes": "K7Q2XM",
+      "boxesHidden": true,
+      "codeValue": "K7Q2XM",
+      "ring": -1,
+      "codeInvalid": true,
+      "nameLabel": "Your name",
+      "name": "Dev",
+      "placeholder": "1–12 characters",
+      "count": "3/12",
+      "nameInvalid": false,
+      "deviceLabel": "This device",
+      "options": "Player phone|Shared display",
+      "checked": "player",
+      "stacked": false,
+      "ask": "Ask to join",
+      "askLabel": "Ask to join",
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [
+        "No room has this code. Check it with the host."
+      ],
+      "waitTitle": null,
+      "line": null,
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/no-room": {
+      "file": "design/phone-ui/components/join-room/review/430x932-no-room.jpg",
+      "sha256": "c2e25f69b85216f8ce5c987cd2fab8518048464d30b64c433b758aa496a9bac3",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": "Join a room",
+      "codeLabel": "Room code",
+      "boxes": "K7Q2XM",
+      "boxesHidden": true,
+      "codeValue": "K7Q2XM",
+      "ring": -1,
+      "codeInvalid": true,
+      "nameLabel": "Your name",
+      "name": "Dev",
+      "placeholder": "1–12 characters",
+      "count": "3/12",
+      "nameInvalid": false,
+      "deviceLabel": "This device",
+      "options": "Player phone|Shared display",
+      "checked": "player",
+      "stacked": false,
+      "ask": "Ask to join",
+      "askLabel": "Ask to join",
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [
+        "No room has this code. Check it with the host."
+      ],
+      "waitTitle": null,
+      "line": null,
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/started": {
+      "file": "design/phone-ui/components/join-room/review/390x844-started.jpg",
+      "sha256": "f6831bd2251675ec0b609c7527b3d642dc66e73f7bec77ef83daf30cb4a9e61b",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": "Join a room",
+      "codeLabel": "Room code",
+      "boxes": "K7Q2XM",
+      "boxesHidden": true,
+      "codeValue": "K7Q2XM",
+      "ring": -1,
+      "codeInvalid": true,
+      "nameLabel": "Your name",
+      "name": "Dev",
+      "placeholder": "1–12 characters",
+      "count": "3/12",
+      "nameInvalid": false,
+      "deviceLabel": "This device",
+      "options": "Player phone|Shared display",
+      "checked": "player",
+      "stacked": false,
+      "ask": "Ask to join",
+      "askLabel": "Ask to join",
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [
+        "This room has already started."
+      ],
+      "waitTitle": null,
+      "line": null,
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/started": {
+      "file": "design/phone-ui/components/join-room/review/430x932-started.jpg",
+      "sha256": "047edd59276a55b16411f5b8f575f74eb193805fc357938d0b57773fa28beba3",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": "Join a room",
+      "codeLabel": "Room code",
+      "boxes": "K7Q2XM",
+      "boxesHidden": true,
+      "codeValue": "K7Q2XM",
+      "ring": -1,
+      "codeInvalid": true,
+      "nameLabel": "Your name",
+      "name": "Dev",
+      "placeholder": "1–12 characters",
+      "count": "3/12",
+      "nameInvalid": false,
+      "deviceLabel": "This device",
+      "options": "Player phone|Shared display",
+      "checked": "player",
+      "stacked": false,
+      "ask": "Ask to join",
+      "askLabel": "Ask to join",
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [
+        "This room has already started."
+      ],
+      "waitTitle": null,
+      "line": null,
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/name": {
+      "file": "design/phone-ui/components/join-room/review/390x844-name.jpg",
+      "sha256": "009a6e42b818b948ce2a009661efa5437eb5c7df7630c39015577882fadcb64d",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": "Join a room",
+      "codeLabel": "Room code",
+      "boxes": "K7Q2XM",
+      "boxesHidden": true,
+      "codeValue": "K7Q2XM",
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": "Your name",
+      "name": "Devendra Kumar",
+      "placeholder": "1–12 characters",
+      "count": "14/12",
+      "nameInvalid": true,
+      "deviceLabel": "This device",
+      "options": "Player phone|Shared display",
+      "checked": "player",
+      "stacked": false,
+      "ask": "Ask to join",
+      "askLabel": "Ask to join",
+      "askRefused": true,
+      "askBusy": false,
+      "errors": [
+        "Use 1–12 characters."
+      ],
+      "waitTitle": null,
+      "line": null,
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/name": {
+      "file": "design/phone-ui/components/join-room/review/430x932-name.jpg",
+      "sha256": "79abd7e29ab41dcc71101582ec6963207a123d601dd234e3ea4420818b100d0c",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": "Join a room",
+      "codeLabel": "Room code",
+      "boxes": "K7Q2XM",
+      "boxesHidden": true,
+      "codeValue": "K7Q2XM",
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": "Your name",
+      "name": "Devendra Kumar",
+      "placeholder": "1–12 characters",
+      "count": "14/12",
+      "nameInvalid": true,
+      "deviceLabel": "This device",
+      "options": "Player phone|Shared display",
+      "checked": "player",
+      "stacked": false,
+      "ask": "Ask to join",
+      "askLabel": "Ask to join",
+      "askRefused": true,
+      "askBusy": false,
+      "errors": [
+        "Use 1–12 characters."
+      ],
+      "waitTitle": null,
+      "line": null,
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/sending": {
+      "file": "design/phone-ui/components/join-room/review/390x844-sending.jpg",
+      "sha256": "047b3a7f52c4bb9004b9f2b370442919257bb7223e5dde679249c4f72fcfeba2",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": "Join a room",
+      "codeLabel": "Room code",
+      "boxes": "K7Q2XM",
+      "boxesHidden": true,
+      "codeValue": "K7Q2XM",
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": "Your name",
+      "name": "Dev",
+      "placeholder": "1–12 characters",
+      "count": "3/12",
+      "nameInvalid": false,
+      "deviceLabel": "This device",
+      "options": "Player phone|Shared display",
+      "checked": "player",
+      "stacked": false,
+      "ask": "Sending…",
+      "askLabel": "Sending…",
+      "askRefused": false,
+      "askBusy": true,
+      "errors": [],
+      "waitTitle": null,
+      "line": null,
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/sending": {
+      "file": "design/phone-ui/components/join-room/review/430x932-sending.jpg",
+      "sha256": "127d1f8b5d39c2ce75b74c67278c91e94eae15212b327aaa5ce2cc74c93f8f4c",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": "Join a room",
+      "codeLabel": "Room code",
+      "boxes": "K7Q2XM",
+      "boxesHidden": true,
+      "codeValue": "K7Q2XM",
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": "Your name",
+      "name": "Dev",
+      "placeholder": "1–12 characters",
+      "count": "3/12",
+      "nameInvalid": false,
+      "deviceLabel": "This device",
+      "options": "Player phone|Shared display",
+      "checked": "player",
+      "stacked": false,
+      "ask": "Sending…",
+      "askLabel": "Sending…",
+      "askRefused": false,
+      "askBusy": true,
+      "errors": [],
+      "waitTitle": null,
+      "line": null,
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/busy": {
+      "file": "design/phone-ui/components/join-room/review/390x844-busy.jpg",
+      "sha256": "9a8293ad3d9e5beabdce7ba07a1d61191c470d635b38e08babe564d0b4a903d9",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": "Join a room",
+      "codeLabel": "Room code",
+      "boxes": "K7Q2XM",
+      "boxesHidden": true,
+      "codeValue": "K7Q2XM",
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": "Your name",
+      "name": "Dev",
+      "placeholder": "1–12 characters",
+      "count": "3/12",
+      "nameInvalid": false,
+      "deviceLabel": "This device",
+      "options": "Player phone|Shared display",
+      "checked": "player",
+      "stacked": false,
+      "ask": "Ask to join",
+      "askLabel": "Ask to join",
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [
+        "Too many requests right now. Try again in a moment."
+      ],
+      "waitTitle": null,
+      "line": null,
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/busy": {
+      "file": "design/phone-ui/components/join-room/review/430x932-busy.jpg",
+      "sha256": "e4dd5af7985c7fe7e87373874c3d7d5ecf53ce4fb25458dc83101195cec15698",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": "Join a room",
+      "codeLabel": "Room code",
+      "boxes": "K7Q2XM",
+      "boxesHidden": true,
+      "codeValue": "K7Q2XM",
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": "Your name",
+      "name": "Dev",
+      "placeholder": "1–12 characters",
+      "count": "3/12",
+      "nameInvalid": false,
+      "deviceLabel": "This device",
+      "options": "Player phone|Shared display",
+      "checked": "player",
+      "stacked": false,
+      "ask": "Ask to join",
+      "askLabel": "Ask to join",
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [
+        "Too many requests right now. Try again in a moment."
+      ],
+      "waitTitle": null,
+      "line": null,
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/display": {
+      "file": "design/phone-ui/components/join-room/review/390x844-display.jpg",
+      "sha256": "fba1e6cb86cb0bebf26b3e2f592bfb2b35e4be791d09357897c997a78ecce312",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": "Join a room",
+      "codeLabel": "Room code",
+      "boxes": "K7Q2XM",
+      "boxesHidden": true,
+      "codeValue": "K7Q2XM",
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": "Your name",
+      "name": "Dev",
+      "placeholder": "1–12 characters",
+      "count": "3/12",
+      "nameInvalid": false,
+      "deviceLabel": "This device",
+      "options": "Player phone|Shared display",
+      "checked": "display",
+      "stacked": false,
+      "ask": "Ask to join",
+      "askLabel": "Ask to join",
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [],
+      "waitTitle": null,
+      "line": null,
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/display": {
+      "file": "design/phone-ui/components/join-room/review/430x932-display.jpg",
+      "sha256": "f5760bd409f4ba1ccfa41472a303a732827435cede4ba7de2d935d7d5f3d2804",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": "Join a room",
+      "codeLabel": "Room code",
+      "boxes": "K7Q2XM",
+      "boxesHidden": true,
+      "codeValue": "K7Q2XM",
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": "Your name",
+      "name": "Dev",
+      "placeholder": "1–12 characters",
+      "count": "3/12",
+      "nameInvalid": false,
+      "deviceLabel": "This device",
+      "options": "Player phone|Shared display",
+      "checked": "display",
+      "stacked": false,
+      "ask": "Ask to join",
+      "askLabel": "Ask to join",
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [],
+      "waitTitle": null,
+      "line": null,
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/offline": {
+      "file": "design/phone-ui/components/join-room/review/390x844-offline.jpg",
+      "sha256": "8996be24b1c8aa5a0adf93051ffcae16472f4f9af39f5da7c352185cc7c6c983",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": "Join a room",
+      "codeLabel": "Room code",
+      "boxes": "K7Q2XM",
+      "boxesHidden": true,
+      "codeValue": "K7Q2XM",
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": "Your name",
+      "name": "Dev",
+      "placeholder": "1–12 characters",
+      "count": "3/12",
+      "nameInvalid": false,
+      "deviceLabel": "This device",
+      "options": "Player phone|Shared display",
+      "checked": "player",
+      "stacked": false,
+      "ask": "Ask to join",
+      "askLabel": "Ask to join",
+      "askRefused": true,
+      "askBusy": false,
+      "errors": [
+        "No connection. Ask to join returns when you are back online."
+      ],
+      "waitTitle": null,
+      "line": null,
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/offline": {
+      "file": "design/phone-ui/components/join-room/review/430x932-offline.jpg",
+      "sha256": "a39ffcd6a359a48f5ebbd5fabafb036c3dbbda8d52275e174c9f33f003a6bf9a",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "form",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": "Join a room",
+      "codeLabel": "Room code",
+      "boxes": "K7Q2XM",
+      "boxesHidden": true,
+      "codeValue": "K7Q2XM",
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": "Your name",
+      "name": "Dev",
+      "placeholder": "1–12 characters",
+      "count": "3/12",
+      "nameInvalid": false,
+      "deviceLabel": "This device",
+      "options": "Player phone|Shared display",
+      "checked": "player",
+      "stacked": false,
+      "ask": "Ask to join",
+      "askLabel": "Ask to join",
+      "askRefused": true,
+      "askBusy": false,
+      "errors": [
+        "No connection. Ask to join returns when you are back online."
+      ],
+      "waitTitle": null,
+      "line": null,
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/pending": {
+      "file": "design/phone-ui/components/join-room/review/390x844-pending.jpg",
+      "sha256": "35fef76480d8d1c1cddc57510a4026eff432a76da2959279602b41aec6ffd4bf",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "wait",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Cancel",
+      "heading": null,
+      "codeLabel": null,
+      "boxes": "",
+      "boxesHidden": false,
+      "codeValue": null,
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": null,
+      "name": null,
+      "placeholder": null,
+      "count": null,
+      "nameInvalid": false,
+      "deviceLabel": null,
+      "options": "",
+      "checked": null,
+      "stacked": null,
+      "ask": null,
+      "askLabel": null,
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [],
+      "waitTitle": "Waiting for the host",
+      "line": "Room K7Q2XM · as Dev",
+      "check": "Check again",
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": null,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/pending": {
+      "file": "design/phone-ui/components/join-room/review/430x932-pending.jpg",
+      "sha256": "fe73524d2f47a69c59d8e33c260e025f22c0067973a84fe7e48b597bda3062f8",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "wait",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Cancel",
+      "heading": null,
+      "codeLabel": null,
+      "boxes": "",
+      "boxesHidden": false,
+      "codeValue": null,
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": null,
+      "name": null,
+      "placeholder": null,
+      "count": null,
+      "nameInvalid": false,
+      "deviceLabel": null,
+      "options": "",
+      "checked": null,
+      "stacked": null,
+      "ask": null,
+      "askLabel": null,
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [],
+      "waitTitle": "Waiting for the host",
+      "line": "Room K7Q2XM · as Dev",
+      "check": "Check again",
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": null,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/admitted": {
+      "file": "design/phone-ui/components/join-room/review/390x844-admitted.jpg",
+      "sha256": "3802130bcdc71b779d10007e928764f685270d0a48acaa3c0506a2c5c85f0a6c",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "wait",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "heading": null,
+      "codeLabel": null,
+      "boxes": "",
+      "boxesHidden": false,
+      "codeValue": null,
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": null,
+      "name": null,
+      "placeholder": null,
+      "count": null,
+      "nameInvalid": false,
+      "deviceLabel": "Players · 5 of 9",
+      "options": "",
+      "checked": null,
+      "stacked": null,
+      "ask": null,
+      "askLabel": null,
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [],
+      "waitTitle": null,
+      "line": "Room K7Q2XM · waiting for the host",
+      "check": null,
+      "checkRefused": false,
+      "badge": "4 You’re in · Seat 4",
+      "players": "Players · 5 of 9",
+      "rows": "1 Ava|2 Ben|3 Cleo|4 Dev (you)|5 Eli",
+      "footNote": "Character selection starts when every seat is filled",
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": null,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/admitted": {
+      "file": "design/phone-ui/components/join-room/review/430x932-admitted.jpg",
+      "sha256": "495e24b9085ffdf46b1050ec2121e9f5a56bce030e0a75fadc622e2b4c050a4a",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "wait",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "heading": null,
+      "codeLabel": null,
+      "boxes": "",
+      "boxesHidden": false,
+      "codeValue": null,
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": null,
+      "name": null,
+      "placeholder": null,
+      "count": null,
+      "nameInvalid": false,
+      "deviceLabel": "Players · 5 of 9",
+      "options": "",
+      "checked": null,
+      "stacked": null,
+      "ask": null,
+      "askLabel": null,
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [],
+      "waitTitle": null,
+      "line": "Room K7Q2XM · waiting for the host",
+      "check": null,
+      "checkRefused": false,
+      "badge": "4 You’re in · Seat 4",
+      "players": "Players · 5 of 9",
+      "rows": "1 Ava|2 Ben|3 Cleo|4 Dev (you)|5 Eli",
+      "footNote": "Character selection starts when every seat is filled",
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": null,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/closed": {
+      "file": "design/phone-ui/components/join-room/review/390x844-closed.jpg",
+      "sha256": "9c935deac1ba3a3a3c2a474c1b245807fcd3c78bf07b6940de8e675a112e045d",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "wait",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": null,
+      "codeLabel": null,
+      "boxes": "",
+      "boxesHidden": false,
+      "codeValue": null,
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": null,
+      "name": null,
+      "placeholder": null,
+      "count": null,
+      "nameInvalid": false,
+      "deviceLabel": null,
+      "options": "",
+      "checked": null,
+      "stacked": null,
+      "ask": null,
+      "askLabel": null,
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [],
+      "waitTitle": "This room started without you",
+      "line": "Room K7Q2XM",
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": "Back to menu",
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": null,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/closed": {
+      "file": "design/phone-ui/components/join-room/review/430x932-closed.jpg",
+      "sha256": "55e162b3297ec30436a6ee8adc2c9ba604a11ec26e56ddb4b4414ee703a399c9",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "wait",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": null,
+      "codeLabel": null,
+      "boxes": "",
+      "boxesHidden": false,
+      "codeValue": null,
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": null,
+      "name": null,
+      "placeholder": null,
+      "count": null,
+      "nameInvalid": false,
+      "deviceLabel": null,
+      "options": "",
+      "checked": null,
+      "stacked": null,
+      "ask": null,
+      "askLabel": null,
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [],
+      "waitTitle": "This room started without you",
+      "line": "Room K7Q2XM",
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": "Back to menu",
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": null,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/declined": {
+      "file": "design/phone-ui/components/join-room/review/390x844-declined.jpg",
+      "sha256": "2ebc7cd620412e9e7a639762f7c0b22f9e58c7050396785ae5a29581b5311647",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "wait",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": null,
+      "codeLabel": null,
+      "boxes": "",
+      "boxesHidden": false,
+      "codeValue": null,
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": null,
+      "name": null,
+      "placeholder": null,
+      "count": null,
+      "nameInvalid": false,
+      "deviceLabel": null,
+      "options": "",
+      "checked": null,
+      "stacked": null,
+      "ask": null,
+      "askLabel": null,
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [],
+      "waitTitle": "The host didn’t admit you",
+      "line": "Room K7Q2XM",
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": "Back to menu",
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": null,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/declined": {
+      "file": "design/phone-ui/components/join-room/review/430x932-declined.jpg",
+      "sha256": "96e11a63945073a92e0fe635f77354f6b06a9af2166eed1c12cf01599bfb8430",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "wait",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": null,
+      "codeLabel": null,
+      "boxes": "",
+      "boxesHidden": false,
+      "codeValue": null,
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": null,
+      "name": null,
+      "placeholder": null,
+      "count": null,
+      "nameInvalid": false,
+      "deviceLabel": null,
+      "options": "",
+      "checked": null,
+      "stacked": null,
+      "ask": null,
+      "askLabel": null,
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [],
+      "waitTitle": "The host didn’t admit you",
+      "line": "Room K7Q2XM",
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": "Back to menu",
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": null,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/wait-offline": {
+      "file": "design/phone-ui/components/join-room/review/390x844-wait-offline.jpg",
+      "sha256": "82ca25868fb5cbe0105ad68cc5315b5d011b7f8aa692aecec0ff6d8bbef0399b",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "wait",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Cancel",
+      "heading": null,
+      "codeLabel": null,
+      "boxes": "",
+      "boxesHidden": false,
+      "codeValue": null,
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": null,
+      "name": null,
+      "placeholder": null,
+      "count": null,
+      "nameInvalid": false,
+      "deviceLabel": null,
+      "options": "",
+      "checked": null,
+      "stacked": null,
+      "ask": null,
+      "askLabel": null,
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [
+        "No connection. Check again returns when you are back online."
+      ],
+      "waitTitle": "Waiting for the host",
+      "line": "Room K7Q2XM · as Dev",
+      "check": "Check again",
+      "checkRefused": true,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": null,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/wait-offline": {
+      "file": "design/phone-ui/components/join-room/review/430x932-wait-offline.jpg",
+      "sha256": "2b425ebd1a3941f6ff69d70b32d4784db27d7e940e60ff3bfaa3d17c76c28e71",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "wait",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Cancel",
+      "heading": null,
+      "codeLabel": null,
+      "boxes": "",
+      "boxesHidden": false,
+      "codeValue": null,
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": null,
+      "name": null,
+      "placeholder": null,
+      "count": null,
+      "nameInvalid": false,
+      "deviceLabel": null,
+      "options": "",
+      "checked": null,
+      "stacked": null,
+      "ask": null,
+      "askLabel": null,
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [
+        "No connection. Check again returns when you are back online."
+      ],
+      "waitTitle": "Waiting for the host",
+      "line": "Room K7Q2XM · as Dev",
+      "check": "Check again",
+      "checkRefused": true,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": null,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/wait-noexit": {
+      "file": "design/phone-ui/components/join-room/review/390x844-wait-noexit.jpg",
+      "sha256": "c5a8de55b070adf9c3a7278e773e75c0ae4dbcaabcd2c529c4278dbf392b20b7",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "wait",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "heading": null,
+      "codeLabel": null,
+      "boxes": "",
+      "boxesHidden": false,
+      "codeValue": null,
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": null,
+      "name": null,
+      "placeholder": null,
+      "count": null,
+      "nameInvalid": false,
+      "deviceLabel": "Players · 5 of 9",
+      "options": "",
+      "checked": null,
+      "stacked": null,
+      "ask": null,
+      "askLabel": null,
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [],
+      "waitTitle": null,
+      "line": "Room K7Q2XM · waiting for the host",
+      "check": null,
+      "checkRefused": false,
+      "badge": "4 You’re in · Seat 4",
+      "players": "Players · 5 of 9",
+      "rows": "1 Ava|2 Ben|3 Cleo|4 Dev (you)|5 Eli",
+      "footNote": "Character selection starts when every seat is filled",
+      "backButton": null,
+      "navRefused": true,
+      "navDimmed": true,
+      "navReason": "Not available in this test",
+      "scrolls": false,
+      "askInView": null,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/wait-noexit": {
+      "file": "design/phone-ui/components/join-room/review/430x932-wait-noexit.jpg",
+      "sha256": "f1731074d9f78b04cff277c4a0475c297fbb545187eaeb9a0f645466513a34ce",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "wait",
+      "root": 16,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "heading": null,
+      "codeLabel": null,
+      "boxes": "",
+      "boxesHidden": false,
+      "codeValue": null,
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": null,
+      "name": null,
+      "placeholder": null,
+      "count": null,
+      "nameInvalid": false,
+      "deviceLabel": "Players · 5 of 9",
+      "options": "",
+      "checked": null,
+      "stacked": null,
+      "ask": null,
+      "askLabel": null,
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [],
+      "waitTitle": null,
+      "line": "Room K7Q2XM · waiting for the host",
+      "check": null,
+      "checkRefused": false,
+      "badge": "4 You’re in · Seat 4",
+      "players": "Players · 5 of 9",
+      "rows": "1 Ava|2 Ben|3 Cleo|4 Dev (you)|5 Eli",
+      "footNote": "Character selection starts when every seat is filled",
+      "backButton": null,
+      "navRefused": true,
+      "navDimmed": true,
+      "navReason": "Not available in this test",
+      "scrolls": false,
+      "askInView": null,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/form-large": {
+      "file": "design/phone-ui/components/join-room/review/390x844-form-large.jpg",
+      "sha256": "d103ea45b9c6d443d33722d20c011e6174002470657833b8d0904a72599b689c",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "form",
+      "root": 32,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": "Join a room",
+      "codeLabel": "Room code",
+      "boxes": "K7Q2XM",
+      "boxesHidden": true,
+      "codeValue": "K7Q2XM",
+      "ring": -1,
+      "codeInvalid": true,
+      "nameLabel": "Your name",
+      "name": "Dev",
+      "placeholder": "1–12 characters",
+      "count": "3/12",
+      "nameInvalid": false,
+      "deviceLabel": "This device",
+      "options": "Player phone|Shared display",
+      "checked": "player",
+      "stacked": true,
+      "ask": "Ask to join",
+      "askLabel": "Ask to join",
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [
+        "No room has this code. Check it with the host."
+      ],
+      "waitTitle": null,
+      "line": null,
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": true,
+      "askInView": true,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/form-large": {
+      "file": "design/phone-ui/components/join-room/review/430x932-form-large.jpg",
+      "sha256": "3626bad10aa1eda746707edca129f51e1cb514683295823acf5fb1685afba338",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "form",
+      "root": 32,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Join",
+      "back": "Menu",
+      "heading": "Join a room",
+      "codeLabel": "Room code",
+      "boxes": "K7Q2XM",
+      "boxesHidden": true,
+      "codeValue": "K7Q2XM",
+      "ring": -1,
+      "codeInvalid": true,
+      "nameLabel": "Your name",
+      "name": "Dev",
+      "placeholder": "1–12 characters",
+      "count": "3/12",
+      "nameInvalid": false,
+      "deviceLabel": "This device",
+      "options": "Player phone|Shared display",
+      "checked": "player",
+      "stacked": true,
+      "ask": "Ask to join",
+      "askLabel": "Ask to join",
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [
+        "No room has this code. Check it with the host."
+      ],
+      "waitTitle": null,
+      "line": null,
+      "check": null,
+      "checkRefused": false,
+      "badge": null,
+      "players": null,
+      "rows": "",
+      "footNote": null,
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": true,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/wait-large": {
+      "file": "design/phone-ui/components/join-room/review/390x844-wait-large.jpg",
+      "sha256": "9bdf5ba1ac36cf58c3123b71ee97bd9a8f56231c4902950b6fa700e4f8f17024",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "wait",
+      "root": 32,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "heading": null,
+      "codeLabel": null,
+      "boxes": "",
+      "boxesHidden": false,
+      "codeValue": null,
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": null,
+      "name": null,
+      "placeholder": null,
+      "count": null,
+      "nameInvalid": false,
+      "deviceLabel": "Players · 5 of 9",
+      "options": "",
+      "checked": null,
+      "stacked": null,
+      "ask": null,
+      "askLabel": null,
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [],
+      "waitTitle": null,
+      "line": "Room K7Q2XM · waiting for the host",
+      "check": null,
+      "checkRefused": false,
+      "badge": "4 You’re in · Seat 4",
+      "players": "Players · 5 of 9",
+      "rows": "1 Ava|2 Ben|3 Cleo|4 Dev (you)|5 Eli",
+      "footNote": "Character selection starts when every seat is filled",
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": null,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/wait-large": {
+      "file": "design/phone-ui/components/join-room/review/430x932-wait-large.jpg",
+      "sha256": "d53afef6383aa56942a66521e814fb4c44521b41ae1734ac830f2e1c70e8dcd4",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "screen": "wait",
+      "root": 32,
+      "canvas": "rgb(16, 20, 28)",
+      "title": "Lobby",
+      "back": "Leave",
+      "heading": null,
+      "codeLabel": null,
+      "boxes": "",
+      "boxesHidden": false,
+      "codeValue": null,
+      "ring": -1,
+      "codeInvalid": false,
+      "nameLabel": null,
+      "name": null,
+      "placeholder": null,
+      "count": null,
+      "nameInvalid": false,
+      "deviceLabel": "Players · 5 of 9",
+      "options": "",
+      "checked": null,
+      "stacked": null,
+      "ask": null,
+      "askLabel": null,
+      "askRefused": false,
+      "askBusy": false,
+      "errors": [],
+      "waitTitle": null,
+      "line": "Room K7Q2XM · waiting for the host",
+      "check": null,
+      "checkRefused": false,
+      "badge": "4 You’re in · Seat 4",
+      "players": "Players · 5 of 9",
+      "rows": "1 Ava|2 Ben|3 Cleo|4 Dev (you)|5 Eli",
+      "footNote": "Character selection starts when every seat is filled",
+      "backButton": null,
+      "navRefused": false,
+      "navDimmed": false,
+      "navReason": null,
+      "scrolls": false,
+      "askInView": null,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        }
+      },
+      "requests": [],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "form: the pack’s words; the six boxes hidden from screen readers under one labelled text box; Back, a device and Ask report their taps; the chosen device reports nothing",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "title": "Join",
+              "back": "Menu",
+              "heading": "Join a room",
+              "codeLabel": "Room code",
+              "boxesHidden": "true",
+              "boxes": "K7Q2XM",
+              "codeBox": {
+                "maxlength": "6",
+                "autocapitalize": "characters",
+                "autocomplete": "off",
+                "value": "K7Q2XM"
+              },
+              "name": {
+                "label": "Your name",
+                "value": "Dev",
+                "count": "3/12",
+                "autocomplete": "nickname"
+              },
+              "device": {
+                "label": "This device",
+                "options": [
+                  "Player phone",
+                  "Shared display"
+                ],
+                "checked": [
+                  "true",
+                  "false"
+                ],
+                "stack": true
+              },
+              "ask": "Ask to join",
+              "taps": [
+                [
+                  "onBack"
+                ],
+                [
+                  "onDevice",
+                  "display"
+                ],
+                [
+                  "onAsk"
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "id": "typing: each keystroke reports what the box holds; Frontend’s value replaces it, the caret at its end; Return asks when Ask is available, and not when it is refused",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "given": {
+                "value": "K7Q",
+                "caret": [
+                  3,
+                  3
+                ],
+                "boxes": "K7Q"
+              },
+              "refusedAsk": true,
+              "reports": [
+                [
+                  "onCode",
+                  "k7q"
+                ],
+                [
+                  "onName",
+                  "Dev"
+                ],
+                [
+                  "onAsk"
+                ]
+              ],
+              "count": "3/12"
+            }
+          }
+        },
+        {
+          "id": "ring: the next empty box is ringed amber while the code has the focus, and only then",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "before": -1,
+              "focused": 2,
+              "amber": "rgb(241, 184, 75) 0px 0px 0px 2px inset",
+              "away": -1,
+              "full": -1
+            }
+          }
+        },
+        {
+          "id": "errors: the code’s under the boxes, the name’s under the field, the general one over the foot; each box says it is invalid and which note describes it; each leaves when Frontend clears it",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "words": [
+                "No room has this code. Check it with the host.",
+                "Use 1–12 characters.",
+                "Too many requests right now. Try again in a moment."
+              ],
+              "codeNote": true,
+              "nameNote": true,
+              "generalNote": true,
+              "invalid": [
+                true,
+                "true",
+                true,
+                "true"
+              ],
+              "described": [
+                "No room has this code. Check it with the host.",
+                "Use 1–12 characters."
+              ],
+              "count": "14/12",
+              "after": {
+                "notes": 0,
+                "invalid": [
+                  false,
+                  null,
+                  null
+                ],
+                "described": [
+                  null,
+                  null
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "ask: refused with Frontend’s reason, and dimmed; busy reads “Sending…”, is refused and shows the spinner",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "off": {
+                "refused": true,
+                "why": "Enter the room code",
+                "look": "0.4"
+              },
+              "busy": {
+                "busy": "true",
+                "label": "Sending…",
+                "spinner": "ms-k-spin"
+              },
+              "taps": 0
+            }
+          }
+        },
+        {
+          "id": "views: waiting, admitted, started without you and declined, each with its words and its nav bar; each tap reported; the nav bar keeps its element and the focus; a focused Check again that leaves returns the focus to the screen",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "pending": {
+                "nav": [
+                  "Join",
+                  "Cancel",
+                  "cancel"
+                ],
+                "title": "Waiting for the host",
+                "line": "Room K7Q2XM · as Dev",
+                "check": "Check again",
+                "tile": true
+              },
+              "admitted": {
+                "nav": [
+                  "Lobby",
+                  "Leave",
+                  "leave"
+                ],
+                "same": true,
+                "focus": true,
+                "badge": "4 You’re in · Seat 4",
+                "line": "Room K7Q2XM · waiting for the host",
+                "players": "Players · 5 of 9",
+                "rows": [
+                  "1 Ava",
+                  "2 Ben",
+                  "3 Cleo",
+                  "4 Dev (you)",
+                  "5 Eli"
+                ],
+                "foot": "Character selection starts when every seat is filled",
+                "spinner": true
+              },
+              "closed": {
+                "nav": [
+                  "Join",
+                  "Menu"
+                ],
+                "focusKept": true,
+                "title": "This room started without you",
+                "line": "Room K7Q2XM",
+                "button": "Back to menu"
+              },
+              "declined": {
+                "title": "The host didn’t admit you",
+                "line": "Room K7Q2XM",
+                "button": "Back to menu"
+              },
+              "taps": [
+                [
+                  "onCheck"
+                ],
+                [
+                  "onCancel"
+                ],
+                [
+                  "onLeave"
+                ],
+                [
+                  "onBack"
+                ],
+                [
+                  "onBack"
+                ]
+              ],
+              "returned": [
+                {
+                  "intent": "check",
+                  "value": null
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "the game’s gap: Cancel, Leave and Back to menu unavailable are dimmed and refused, with Frontend’s reason, and report nothing (G6)",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "pending": {
+                "nav": "Cancel",
+                "refused": true,
+                "dimmed": true,
+                "reason": "Not available in this test",
+                "foot": null,
+                "taps": [],
+                "after": [
+                  [
+                    "onCancel"
+                  ]
+                ]
+              },
+              "admitted": {
+                "nav": "Leave",
+                "refused": true,
+                "dimmed": true,
+                "reason": "Not available in this test",
+                "foot": null,
+                "taps": [],
+                "after": [
+                  [
+                    "onLeave"
+                  ]
+                ]
+              },
+              "declined": {
+                "nav": "Menu",
+                "refused": true,
+                "dimmed": true,
+                "reason": "Not available in this test",
+                "foot": {
+                  "refused": true,
+                  "dimmed": true,
+                  "reason": "Not available in this test"
+                },
+                "taps": [],
+                "after": [
+                  [
+                    "onBack"
+                  ]
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "offline: the words over the form’s foot or under the waiting line; with every control enabled they refuse nothing; Frontend’s refusals refuse with the reason; Back and Cancel stay usable",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "alone": {
+                "words": "No connection. Ask to join returns when you are back online.",
+                "refused": [
+                  false,
+                  false,
+                  false
+                ]
+              },
+              "given": {
+                "refused": true,
+                "why": "No connection. Ask to join returns when you are back online.",
+                "taps": [
+                  [
+                    "onBack"
+                  ]
+                ]
+              },
+              "waiting": {
+                "words": "No connection. Check again returns when you are back online.",
+                "underLine": true,
+                "beforeCheck": true,
+                "refused": false,
+                "given": {
+                  "refused": true,
+                  "why": "No connection. Check again returns when you are back online.",
+                  "taps": [
+                    [
+                      "onCancel"
+                    ]
+                  ]
+                },
+                "gone": true
+              }
+            }
+          }
+        },
+        {
+          "id": "not interactive: every control refused, nothing dimmed, the boxes read-only, typing unreported",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "form": {
+                "refused": [
+                  true,
+                  true,
+                  true,
+                  true
+                ],
+                "dimmed": 0,
+                "readOnly": [
+                  true,
+                  true
+                ],
+                "taps": 0
+              },
+              "wait": {
+                "refused": [
+                  true,
+                  true
+                ],
+                "dimmed": 0,
+                "taps": 0
+              }
+            }
+          }
+        },
+        {
+          "id": "insets: Frontend’s safe areas place the screen 8 px under the top one and 16 px over the bottom one; null gives the browser’s",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "given": {
+                "top": 47,
+                "bottom": 34
+              },
+              "browser": {
+                "top": 0,
+                "bottom": 0
+              },
+              "other": {
+                "top": 20,
+                "bottom": 10
+              }
+            }
+          }
+        },
+        {
+          "id": "text: with the Largest text (200 %) the form scrolls, and both screens’ feet are reached; the device choice stacks there, and not at the Standard text",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "standard": false,
+              "form": {
+                "stacked": true,
+                "scrolls": true,
+                "footInView": true
+              },
+              "wait": {
+                "scrolls": false,
+                "footInView": true
+              }
+            }
+          }
+        },
+        {
+          "id": "text later: mounted at the Standard text, then the Largest set and a part opened (the form: the code’s and the name’s errors and the inline error; waiting: admitted), each screen lays out as one mounted at the Largest (kit 0.8.1 followTextSize)",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "form": {
+                "late": [
+                  [
+                    55,
+                    8,
+                    130.55,
+                    44
+                  ],
+                  [
+                    56.59,
+                    138.55,
+                    167.45,
+                    40.8
+                  ],
+                  [
+                    109,
+                    16,
+                    358,
+                    73.59
+                  ],
+                  [
+                    196.59,
+                    16,
+                    358,
+                    273.09
+                  ],
+                  [
+                    236.19,
+                    16,
+                    358,
+                    84
+                  ],
+                  [
+                    328.19,
+                    18,
+                    354,
+                    141.5
+                  ],
+                  [
+                    483.69,
+                    16,
+                    358,
+                    91.59
+                  ],
+                  [
+                    528.88,
+                    30,
+                    243,
+                    40.8
+                  ],
+                  [
+                    597.28,
+                    18,
+                    354,
+                    60.5
+                  ],
+                  [
+                    675.78,
+                    20,
+                    350,
+                    31.19
+                  ],
+                  [
+                    713.97,
+                    16,
+                    358,
+                    97
+                  ],
+                  [
+                    716.97,
+                    19,
+                    352,
+                    44
+                  ],
+                  [
+                    763.97,
+                    19,
+                    352,
+                    44
+                  ],
+                  [
+                    818.97,
+                    18,
+                    354,
+                    141.5
+                  ],
+                  [
+                    974.47,
+                    16,
+                    358,
+                    50
+                  ]
+                ],
+                "fresh": [
+                  [
+                    55,
+                    8,
+                    130.55,
+                    44
+                  ],
+                  [
+                    56.59,
+                    138.55,
+                    167.45,
+                    40.8
+                  ],
+                  [
+                    109,
+                    16,
+                    358,
+                    73.59
+                  ],
+                  [
+                    196.59,
+                    16,
+                    358,
+                    273.09
+                  ],
+                  [
+                    236.19,
+                    16,
+                    358,
+                    84
+                  ],
+                  [
+                    328.19,
+                    18,
+                    354,
+                    141.5
+                  ],
+                  [
+                    483.69,
+                    16,
+                    358,
+                    91.59
+                  ],
+                  [
+                    528.88,
+                    30,
+                    243,
+                    40.8
+                  ],
+                  [
+                    597.28,
+                    18,
+                    354,
+                    60.5
+                  ],
+                  [
+                    675.78,
+                    20,
+                    350,
+                    31.19
+                  ],
+                  [
+                    713.97,
+                    16,
+                    358,
+                    97
+                  ],
+                  [
+                    716.97,
+                    19,
+                    352,
+                    44
+                  ],
+                  [
+                    763.97,
+                    19,
+                    352,
+                    44
+                  ],
+                  [
+                    818.97,
+                    18,
+                    354,
+                    141.5
+                  ],
+                  [
+                    974.47,
+                    16,
+                    358,
+                    50
+                  ]
+                ]
+              },
+              "wait": {
+                "late": [
+                  [
+                    55,
+                    8,
+                    135.48,
+                    44
+                  ],
+                  [
+                    56.59,
+                    143.48,
+                    162.52,
+                    40.8
+                  ],
+                  [
+                    199,
+                    24,
+                    342,
+                    89.59
+                  ],
+                  [
+                    314.59,
+                    20,
+                    350,
+                    31.19
+                  ],
+                  [
+                    352.78,
+                    16,
+                    358,
+                    290
+                  ],
+                  [
+                    352.78,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    410.78,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    468.78,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    526.78,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    584.78,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    723.81,
+                    20,
+                    350,
+                    70.19
+                  ]
+                ],
+                "fresh": [
+                  [
+                    55,
+                    8,
+                    135.48,
+                    44
+                  ],
+                  [
+                    56.59,
+                    143.48,
+                    162.52,
+                    40.8
+                  ],
+                  [
+                    199,
+                    24,
+                    342,
+                    89.59
+                  ],
+                  [
+                    314.59,
+                    20,
+                    350,
+                    31.19
+                  ],
+                  [
+                    352.78,
+                    16,
+                    358,
+                    290
+                  ],
+                  [
+                    352.78,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    410.78,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    468.78,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    526.78,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    584.78,
+                    16,
+                    358,
+                    58
+                  ],
+                  [
+                    723.81,
+                    20,
+                    350,
+                    70.19
+                  ]
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "input: malformed input is refused",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ]
+          }
+        },
+        {
+          "id": "dispose: safe twice; afterwards nothing fires, layout() is null and nothing is left",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "left": 0,
+              "layouts": [
+                null,
+                null
+              ],
+              "taps": 0
+            }
+          }
+        },
+        {
+          "id": "motion: only the spinners turn, and with the game’s Reduce motion they stand still",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "formFull": [
+                "ms-k-spin"
+              ],
+              "formReduced": [],
+              "waitFull": [
+                "ms-k-spin"
+              ]
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "motion: only the spinners turn; with the device’s Reduce motion they stand still",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "formFull": [],
+              "formReduced": [],
+              "waitFull": []
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B_htoIvA.js",
+          "line": 1,
+          "column": 3329,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: join · empty, typing the code, at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "errors": {
+              "pack": 0,
+              "screen": 0
+            },
+            "error icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "large title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fields": {
+              "pack": 2,
+              "screen": 2
+            },
+            "field labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "code boxes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code box": {
+              "pack": 6,
+              "screen": 6
+            },
+            "name box": {
+              "pack": 1,
+              "screen": 1
+            },
+            "name count": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "seg icons": {
+              "pack": 2,
+              "screen": 2
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: join · no such room at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "errors": {
+              "pack": 1,
+              "screen": 1
+            },
+            "error icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "large title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fields": {
+              "pack": 2,
+              "screen": 2
+            },
+            "field labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "code boxes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code box": {
+              "pack": 6,
+              "screen": 6
+            },
+            "name box": {
+              "pack": 1,
+              "screen": 1
+            },
+            "name count": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "seg icons": {
+              "pack": 2,
+              "screen": 2
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: join · already started at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "errors": {
+              "pack": 1,
+              "screen": 1
+            },
+            "error icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "large title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fields": {
+              "pack": 2,
+              "screen": 2
+            },
+            "field labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "code boxes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code box": {
+              "pack": 6,
+              "screen": 6
+            },
+            "name box": {
+              "pack": 1,
+              "screen": 1
+            },
+            "name count": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "seg icons": {
+              "pack": 2,
+              "screen": 2
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: join · name too long at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "errors": {
+              "pack": 1,
+              "screen": 1
+            },
+            "error icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "large title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fields": {
+              "pack": 2,
+              "screen": 2
+            },
+            "field labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "code boxes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code box": {
+              "pack": 6,
+              "screen": 6
+            },
+            "name box": {
+              "pack": 1,
+              "screen": 1
+            },
+            "name count": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "seg icons": {
+              "pack": 2,
+              "screen": 2
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: join · sending at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "errors": {
+              "pack": 0,
+              "screen": 0
+            },
+            "error icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "large title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fields": {
+              "pack": 2,
+              "screen": 2
+            },
+            "field labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "code boxes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code box": {
+              "pack": 6,
+              "screen": 6
+            },
+            "name box": {
+              "pack": 1,
+              "screen": 1
+            },
+            "name count": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "seg icons": {
+              "pack": 2,
+              "screen": 2
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: join · busy at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "errors": {
+              "pack": 1,
+              "screen": 1
+            },
+            "error icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "large title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fields": {
+              "pack": 2,
+              "screen": 2
+            },
+            "field labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "code boxes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code box": {
+              "pack": 6,
+              "screen": 6
+            },
+            "name box": {
+              "pack": 1,
+              "screen": 1
+            },
+            "name count": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "seg icons": {
+              "pack": 2,
+              "screen": 2
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: waiting for the host at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "errors": {
+              "pack": 0,
+              "screen": 0
+            },
+            "error icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot button icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "wait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "wait tile": {
+              "pack": 1,
+              "screen": 1
+            },
+            "wait icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "wait title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "wait line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "check again": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seat badge": {
+              "pack": 0,
+              "screen": 0
+            },
+            "seat badge number": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "seat numbers": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot note": {
+              "pack": 0,
+              "screen": 0
+            },
+            "spinner": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: admitted · the lobby at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "errors": {
+              "pack": 0,
+              "screen": 0
+            },
+            "error icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot button icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "wait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "wait tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "wait icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "wait title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "wait line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "check again": {
+              "pack": 0,
+              "screen": 0
+            },
+            "seat badge": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seat badge number": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 1,
+              "screen": 1
+            },
+            "rows": {
+              "pack": 5,
+              "screen": 5
+            },
+            "seat numbers": {
+              "pack": 5,
+              "screen": 5
+            },
+            "foot note": {
+              "pack": 1,
+              "screen": 1
+            },
+            "spinner": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: room started without you at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "errors": {
+              "pack": 0,
+              "screen": 0
+            },
+            "error icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot button icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "wait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "wait tile": {
+              "pack": 1,
+              "screen": 1
+            },
+            "wait icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "wait title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "wait line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "check again": {
+              "pack": 0,
+              "screen": 0
+            },
+            "seat badge": {
+              "pack": 0,
+              "screen": 0
+            },
+            "seat badge number": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "seat numbers": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot note": {
+              "pack": 0,
+              "screen": 0
+            },
+            "spinner": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "accepted": null
+        }
+      },
+      {
+        "id": "agree: join · no such room with the Largest text (200 %) at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "errors": {
+              "pack": 1,
+              "screen": 1
+            },
+            "error icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "large title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fields": {
+              "pack": 2,
+              "screen": 2
+            },
+            "field labels": {
+              "pack": 2,
+              "screen": 2
+            },
+            "code boxes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "code box": {
+              "pack": 6,
+              "screen": 6
+            },
+            "name box": {
+              "pack": 1,
+              "screen": 1
+            },
+            "name count": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seg buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "seg icons": {
+              "pack": 2,
+              "screen": 2
+            }
+          },
+          "accepted": {
+            "what": "the device choice stacks, one option per row (kit 0.5.0's stack, #228's .seg[data-stack])",
+            "pack": {
+              "x": 16,
+              "y": 645.46875,
+              "w": 358,
+              "h": 78.375
+            },
+            "screen": {
+              "x": 16,
+              "y": 645.46875,
+              "w": 358,
+              "h": 97
+            },
+            "stacked": true
+          }
+        }
+      },
+      {
+        "id": "agree: admitted · the lobby with the Largest text (200 %) at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "screen": {
+              "pack": 1,
+              "screen": 1
+            },
+            "nav bar": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back": {
+              "pack": 1,
+              "screen": 1
+            },
+            "back icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "errors": {
+              "pack": 0,
+              "screen": 0
+            },
+            "error icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot": {
+              "pack": 1,
+              "screen": 1
+            },
+            "foot buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "foot button icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "wait": {
+              "pack": 1,
+              "screen": 1
+            },
+            "wait tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "wait icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "wait title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "wait line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "check again": {
+              "pack": 0,
+              "screen": 0
+            },
+            "seat badge": {
+              "pack": 1,
+              "screen": 1
+            },
+            "seat badge number": {
+              "pack": 1,
+              "screen": 1
+            },
+            "lists": {
+              "pack": 1,
+              "screen": 1
+            },
+            "rows": {
+              "pack": 5,
+              "screen": 5
+            },
+            "seat numbers": {
+              "pack": 5,
+              "screen": 5
+            },
+            "foot note": {
+              "pack": 1,
+              "screen": 1
+            },
+            "spinner": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "accepted": null
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-B_htoIvA.js",
+        "line": 1,
+        "column": 3329,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}
