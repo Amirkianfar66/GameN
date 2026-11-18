@@ -614,10 +614,19 @@ The Lead then recommended one shared view for each fixed room. The owner:
 3. The Lead reviews both. One new room picture and one furniture edit (about $0.12, at most $0.18 with one re-run) wait for the owner's yes on the spend.
 
 **What it does not settle:**
-- **The spend** for the new picture: asked.
+- **The spend** for the new picture: asked, and approved below.
 - **Room B's glass ceiling** stays (decided above); its ring of lights becomes warm.
 - **The colour family and the camera for the game.** Only the test changes; the tokens and the room scene change only if the owner adopts the result.
 - **The other four views,** still held.
+
+**The spend approved, minutes later.**
+- The Lead asked whether to spend about $0.12 (at most $0.18 with one re-run) on one new room picture and one furniture edit. The owner answered, word for word:
+
+> I approve
+
+**What it decides:**
+- **The test's two pictures are approved:** the empty room in the new camera and colours, and one masked edit for its furniture. One re-run only if a check fails.
+- **The go comes after review.** The Lead reviews sheet PV6-A first, then gives the image session the go, naming the sheet's version and its hashes.
 
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
