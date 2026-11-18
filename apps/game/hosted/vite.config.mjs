@@ -52,8 +52,10 @@ export default {
       if (!path.startsWith(repositoryRoot) || path.includes('/node_modules/')) return;
       const local = path.slice(repositoryRoot.length);
       if (local === 'apps/game/src/styles/shell.css') return;
-      if (!allowedSources.some(prefix => local.startsWith(prefix))
+      const admitted = allowedSources.some(source => source.endsWith('/') ? local.startsWith(source) : local === source);
+      if (!admitted
         || /(?:^|\/)(?:dev|test|tests|fixtures|reference)(?:\/|\.)/.test(local)
+        || /(?:^|\/)(?:preview|review)\//.test(local)
         || local.endsWith('/browser/firebase-transport.js')) {
         throw new Error(`Non-hosted source entered the preview bundle: ${local}`);
       }
