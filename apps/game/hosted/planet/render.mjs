@@ -21,7 +21,7 @@ import {outfitFor} from '../scene-drawing/wardrobe.mjs';
 import {mountRoomScene,roomSceneFrame,roomScenePlaces,ROOM_SCENE_DEFAULTS} from '../../../../design/phone-ui/components/room-scene/room-scene.mjs';
 import {roomSceneArtReady,roomSceneHandlers,roomSceneInput,roomSceneInputKey,roomSceneKey,roomSceneLifecycle,roomScenePeople,roomSceneStatus} from './room-scene-input.mjs';
 import {mountPhoneShell} from '../../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
-import {connectShellLifecycle,createServerClock,ownPersonSeen,phaseClosed,shellFocusOrder,shellHandlers,shellHostSheet,shellInput,shellRuns,shellSheetFocus} from './shell-input.mjs';
+import {connectShellLifecycle,createServerClock,ownPersonSeen,phaseClosed,shellFocusOrder,shellHandlers,shellHostSheet,shellInput,shellHeldEnter,shellOpenerKeeps,shellRuns,shellSheetEntered,shellSheetFocus,SHELL_SHEET_TITLE} from './shell-input.mjs';
 import {mountActionCheck,mountActions,mountAfterRegister,mountOutcomeUnknown,mountPassNote,mountTargetList} from '../../../../design/phone-ui/components/actions/actions.mjs';
 import {EVERY_ROLE_TILES,ROLE_TILES,actionsCancel,actionsFlow,actionsHandlers,actionsHeard,actionsPart,actionsRefusal,holdActionsPick} from './actions-input.mjs';
 import {mountPanels} from '../../../../design/phone-ui/components/panels/panels.mjs';
@@ -83,7 +83,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  // The shell's state here: its last input, the frame of its open sheet, the board's List, the round last seen
  // live (the reconnecting bar names it), a toast (kept, so it shows its whole time once), its layout, and the
  // model painted before this one (a phase that closed under an open choice is told from the two: phaseClosed()).
- let shellKey=null,shellFrame=null,listOpen=false,listKey=null,lastRound=null,ownSeen=null,seenVersions=null,toast=null,shellRunning=true,shellLayout=null,choosing=false,opener=null,before=null,focusInContent=false;
+ let shellKey=null,shellFrame=null,listOpen=false,listKey=null,lastRound=null,ownSeen=null,seenVersions=null,toast=null,shellRunning=true,shellLayout=null,choosing=false,opener=null,before=null,sheetWas=null,sheetNow=null,sheetEntered=false,confirmWas=false,pressed=null;
  // The match's trusted server time (G18), observed on each model: the round stamp's clock, with shell-input.mjs roundStart().
  const serverClock=createServerClock({monotonic:()=>win.performance.now()});
  // Actions (release 3): this phone's own pick in its action (actions-input.mjs actionsFlow), and the part mounted
@@ -102,12 +102,13 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  // The shell's own element (its mount's `element`) holds its controls: the sheet's footer actions and the controls
  // the focus returns to are found there by their intents.
  const focusConfirm=()=>shell.element?.querySelector('[data-intent="sheet-action"]:is([data-value="register"],[data-value="confirm"])')?.focus({preventScroll:true});
- // When the shell hands the focus back with a sheet open (`shellFrame`, the frame of the shell's last input), the focus
- // goes into that sheet (shellSheetFocus()): by its Back and Close when it was in the content of the sheet this one
- // replaced (`focusInContent`, looked at just before the shell's change), else by its own controls' order. Otherwise
- // it goes back as before.
- const focusBack=ended=>{const content=ended!==undefined&&focusInContent;if(ended!==undefined)focusInContent=false;
-  const pick=shellFocusOrder(opener,{choosing,sheet:shellSheetFocus(ended,shellFrame?.id??null,{content})}).map(css=>shell.element?.querySelector(css)).find(Boolean);pick?.focus({preventScroll:true});};
+ // Where the focus goes (the Lead Designer, 18 November 2026; shell-input.mjs shellSheetEntered() and shellSheetFocus()).
+ // Another sheet opened or took the place of the one before: its title (`focusTitle`, at the shell's change, below),
+ // unless a tab, the round button, Promises or the menu opened it and has the focus: that control keeps it. The same
+ // sheet stays and one of its own controls ended: its footer, Close, Back. No sheet open afterwards: as before.
+ // `sheetWas` and `sheetNow` are the open sheet's id before and after the shell's last change.
+ const focusTitle=()=>shell.element?.querySelector(SHELL_SHEET_TITLE)?.focus({preventScroll:true});
+ const focusBack=ended=>{const pick=shellFocusOrder(opener,{choosing,sheet:shellSheetFocus(ended,sheetWas,sheetNow)}).map(css=>shell.element?.querySelector(css)).find(Boolean);pick?.focus({preventScroll:true});};
  const openPanel=panel=>{more=false;calm();controller.openPanel(panel);};
  const begin=type=>{more=false;calm();controller.begin(type);};
  const dismiss=()=>{more=false;listOpen=false;calm();controller.dismiss();};
@@ -144,7 +145,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   closeList:()=>{calm();listOpen=false;render(controller.getModel());},
   reconnect:()=>reconnect?.(),
   layout:next=>{shellLayout=next;render(controller.getModel());},
-  opened:detail=>{opener=detail;},
+  // `pressed` is the shell control pressed in this task: it is gone again before anything else can open a sheet.
+  opened:detail=>{opener=detail;pressed=detail;queueMicrotask(()=>{if(pressed===detail)pressed=null;});},
   focusReturn:ended=>focusBack(ended),
   // The host sheet (hostSheet: { frame(), mount(body), action(id), back(), close(), toast() }), while it is the open sheet.
   host:hostSheet&&{open:()=>shellFrame?.kind==='host',action:id=>{hostSheet.action(id);if(model)render(controller.getModel());},
@@ -225,7 +227,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  }
  /** The game's own content for the shell's open sheet (`sheetFrame`, from shellSheet); its title, Back, Close and footer are the shell's. */
  function renderUI(sheetFrame){
-  const focus=document.activeElement?.id;
+  const focus=document.activeElement?.id,onTitle=!!document.activeElement?.matches?.(SHELL_SHEET_TITLE);
   sheetBody.replaceChildren();
   if(model.concealed){more=false;return;}
   if(!sheetFrame)return;
@@ -271,8 +273,13 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
    for(const offer of offers)sheetBody.append(beginButton(offer.type));
   }
   mountSheetBody();
-  if(focus&&root.querySelector(`[id="${CSS.escape(focus)}"]`))root.querySelector(`[id="${CSS.escape(focus)}"]`).focus({preventScroll:true});
-  else if(model.action?.step==='confirm')focusConfirm();
+  // A choice made inside a sheet that stays the same sheet (a name in the ballot) moves on to its confirm action, as
+  // before: from the sheet's title too, once, when that step is reached. A sheet that has just opened leaves the
+  // focus where the shell's change put it (its title, or the control that opened it), and so does every later
+  // drawing of it.
+  const confirmNow=model.action?.step==='confirm',reached=confirmNow&&!confirmWas&&!sheetEntered;confirmWas=confirmNow;
+  if(focus&&!(onTitle&&reached)&&root.querySelector(`[id="${CSS.escape(focus)}"]`))root.querySelector(`[id="${CSS.escape(focus)}"]`).focus({preventScroll:true});
+  else if(reached)focusConfirm();
  }
  /** The game's content goes in the shell's sheet body, after the sheet's Designer part; with none, it leaves. A new sheet (a new id) starts with an empty body. */
  function mountSheetBody(){const body=shell.sheetBody;if(body&&sheetBody.childNodes.length){if(sheetBody.parentNode!==body)body.append(sheetBody);}else sheetBody.remove();}
@@ -526,11 +533,13 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   const noted=input.sheet?.kind==='action-check'?actionsRefusal(flow):input.sheet?.kind==='promises'?promisesRefusal(promises):null;
   const quieted=refusalStatus(said,model,noted);said=quieted.said;
   status.textContent=model.dark?'':model.message??'';status.hidden=!status.textContent||model.action?.prompt===model.message||input.banner?.kind==='reconnecting'||input.status==='concealed'||input.sheet?.kind==='action-unknown'||quieted.quiet;
-  const nextShellKey=JSON.stringify(input);if(nextShellKey!==shellKey){shellKey=nextShellKey;
-   // Where the focus is before the shell changes: in the open sheet's content or not. On the shell itself it is on
-   // its way back from an earlier change, and what was seen then stands.
-   const at=document.activeElement;if(at!==shell.element)focusInContent=!!shell.sheetBody?.contains(at);
-   shell.update(input);}
+  const nextShellKey=JSON.stringify(input);sheetEntered=false;
+  if(nextShellKey!==shellKey){shellKey=nextShellKey;sheetWas=sheetNow;sheetNow=input.sheet?.id??null;
+   const at=document.activeElement?.closest?.('[data-intent]'),held=at&&shell.element?.contains(at)&&!at.closest('.ms-ps-sheet')?{intent:at.dataset.intent,value:at.dataset.value??null}:null;
+   shell.update(input);
+   // Another sheet opened, or took the place of the one before: the focus goes to its title. The tab, round button,
+   // Promises or menu that was pressed for it keeps the focus when it has it.
+   if(shellSheetEntered(sheetWas,sheetNow)){sheetEntered=true;if(!(at?.isConnected&&shellOpenerKeeps(pressed,held)))focusTitle();}}
   syncShellActivity();syncSheetPart(input.status);mountSheetBody();
   // At Actions' After Register the unseen step and checkpoint say its headline, as drawn (A16, the Lead, 17 November).
   const heard=actionsHeard(model,{frame:shellFrame,flow});if(heard){checkpointText=heard;checkpoint.textContent=heard;instruction.textContent=heard;}
@@ -590,7 +599,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   if(action==='close')dismiss();
  };
  // Escape closes what is open, as today's Close; the shell moves the focus to itself when the focused control ends.
- const onKey=e=>{if(e.key==='Escape')dismiss();};
+ // A held key repeats: a repeated Enter presses nothing, so it can't press what the first press put in its place.
+ const onKey=e=>{if(shellHeldEnter(e,e.target)){e.preventDefault();return;}if(e.key==='Escape')dismiss();};
  const onVisibility=()=>{controller.setVisible(document.visibilityState==='visible');syncSceneActivity();syncShellActivity();if(document.visibilityState!=='visible'){motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();windows=null;if(raf!==null)win.cancelAnimationFrame(raf);raf=null;}};
  const onMotion=()=>{motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;if(model)render(controller.getModel());};
  const onArt=()=>{uiKey=null;if(model)render(controller.getModel());};

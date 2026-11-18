@@ -1,6 +1,6 @@
 # Phone shell: Designer's runtime component
 
-**Version:** `phone-shell-0.3.3`, with `component-kit-0.8.2` and the icon family `phone-ui-icons-1.1.0`. **Status (18 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its three files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
+**Version:** `phone-shell-0.3.4`, with `component-kit-0.8.2` and the icon family `phone-ui-icons-1.1.0`. **Status (18 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its three files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
 
 **What it is:** the match's frame on a phone, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
 
@@ -260,6 +260,19 @@ The Lead's recommendation on the page was both sheet drafts together: "A gives t
 - **Accessibility:** the order in the page is unchanged (Back, the title, Close), so a screen reader and the Tab key meet them as before. A focused button keeps its element and the focus when the head changes its arrangement.
 - `phone-shell.mjs` `fitHead()`; the stylesheet's rules under `.ms-ps-sheet-head[data-stacked]`.
 
+## A sheet's title can take the focus (0.3.4)
+
+**The Lead Designer's decision, 18 November 2026. No change of look.** When another sheet opens, or takes the place of the one before, the consumer puts the focus on the new sheet's title. Before, the focus went to a control: a held Enter on the row that opened the sheet could press it, and a sheet with neither Back nor Close left the focus on the tab behind it.
+
+- **What the shell does:** a sheet's title (`.ms-ps-sheet-title h2`) has `tabindex="-1"`. It takes the focus by script only.
+  - It is not in the tab order: Tab from it goes on to the sheet's controls, and nothing tabs to it.
+  - It draws no ring, since nothing can be pressed there. Nothing moves when it takes the focus.
+  - A screen reader announces the title, which already names the sheet (`aria-labelledby`).
+- **What the consumer does:** it decides when to put the focus there. The shell moves no focus into a sheet by itself.
+- **When the sheet goes with the focus on its title,** the shell hands the focus back as for any focused part of it: `onFocusReturn(null)`, once, since a title names no control.
+- A new title in the same sheet keeps the focus where it is.
+- `phone-shell.mjs`, where the sheet is made; one added rule in the stylesheet.
+
 ## Inputs
 
 | Input | Audience | What |
@@ -313,7 +326,7 @@ Each reports a tap, and only that.
 | `onRetry()` | The reconnecting banner's Retry |
 | `onSheetAction(id, sheetId)`, `onSheetBack(sheetId)`, `onSheetClose(sheetId)` | A sheet's buttons: `onSheetAction` reports the footer's and the head's |
 | `onLayout(layout)` | The bars or the stage changed size: text size, insets, a tab bar shown or hidden, the phone's size |
-| `onFocusReturn({ intent, value })` | The focused control ended (a sheet closed, the target bar left): the focus is on the shell, for Frontend to move on |
+| `onFocusReturn({ intent, value })` | The focused control ended (a sheet closed, the target bar left): the focus is on the shell, for Frontend to move on. `null` when what had the focus names no control, as a sheet's title (0.3.4) or a consumer's own content |
 
 **The controls, as in the room scene** (the kit's control policy, `createControlPolicy()`, which every Designer component shares):
 - One delegated listener; pointer and keyboard both arrive as the button's `click`.
@@ -482,6 +495,10 @@ Listed, not omitted:
   | `node design/tools/check-assets.mjs` | 15 passed |
 
 - **`node design/tools/phone-shell-check.mjs`:**
+  - **0.3.4's record,** on `7c93eabc`, a clean source: **73 of 73 captures, the probe 36 of 36, the agreement 29 of 29.**
+    - **No change of look.** Against 0.3.3's 73 captures: 20 the same bytes, 20 with no pixel more than 32 of 255 apart, and 33 differing by 1 to 27 pixels each, all in the middle of the stage, where the crew moves (rows 627 to 1,006 of 1,688 at 390 wide, 672 to 1,116 of 1,864 at 430). No bar, tab or sheet frame moved.
+    - **One new probe check, `title`:** a sheet's title takes the focus by script, with `tabindex="-1"`; it is not among the controls Tab reaches; its outline and shadow are none; the sheet, its head and the title keep their places to the pixel; a new title in the same sheet keeps the focus; and a sheet that goes with the focus on its title hands it back once, with no control named.
+    - `npm run test:design` 410 of 410, `npm run test:tooling` 356 of 356, `check:sources` and `typecheck` pass, with Node 22.21.1 and npm 10.9.4.
   - **0.3.3's record,** on `64b9c11d`, a clean source: **73 of 73 captures, the probe 35 of 35, the agreement 29 of 29.**
     - **Seven new captures:** `toast-sheet`, `toast-banner` and `offer` at both sizes, and `offer-large` at 200 % text on 320 × 568.
       - `toast-sheet`: a tall sheet's head ends 181 px from the shell's top, and the toast starts at 189. Its own place, 109, would lie across the head (119 to 181).
