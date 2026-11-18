@@ -15,7 +15,7 @@ import {mountRoleStage} from '../../../../design/phone-ui/components/role-stage/
 import {mountBoardingStage} from '../../../../design/phone-ui/components/boarding-stage/boarding-stage.mjs';
 import {brandSvg} from '../pregame-films/brand/brand.mjs';
 import {createPregameUi,pregameScreen,withheldStatus,menuInput,displayInput,hostSetupInput,hostLobbyInput,joinInput,joinRequest,waitInput,recoverInput,
- charactersInput,roleInput,boardingInput,roomCodeDraft,codeValid} from './pregame-input.mjs';
+ settleRecovery,charactersInput,roleInput,boardingInput,roomCodeDraft,codeValid} from './pregame-input.mjs';
 // Each component's styles, scoped under its own root (they start with the kit's, and the stages' with the shell's).
 import '../../../../design/phone-ui/components/main-menu/main-menu.css';
 import '../../../../design/phone-ui/components/display-settings/display-settings.css';
@@ -47,7 +47,11 @@ export function createPregameScreens(root,{session,preferences,draft,hooks}){
  const visible=()=>document.visibilityState==='visible'&&!blurred;
  const prefs=()=>preferences.state();
  const rerender=()=>{if(!disposed)hooks.rerender();};
- const op=(name,action)=>{ui.lastOp=name;void session.operate(action);};
+ const op=(name,action)=>{
+  ui.lastOp=name;
+  ui.operationAttempt++;
+  void session.operate(action);
+ };
  const go=mode=>{ui.mode=mode;ui.lastOp=null;ui.join.tried=false;rerender();};
  // The session withholds the role on blur, and reveals nothing until Show role; the stages follow the page.
  const onBlur=()=>{blurred=true;rerender();},onFocus=()=>{blurred=false;rerender();};
@@ -119,6 +123,7 @@ export function createPregameScreens(root,{session,preferences,draft,hooks}){
 
  function unmount(){
   if(!mounted)return;const was=mounted;mounted=null;
+  if(was.screen==='recover')ui.recover.codeLength=0;
   try{was.view.dispose();}finally{was.host.remove();if(!root.querySelector('.planet-pregame-host'))root.classList.remove('planet-pregame');}
  }
 
@@ -137,11 +142,7 @@ export function createPregameScreens(root,{session,preferences,draft,hooks}){
   /** Draw the screen this model asks for, or return false for the app's own view. */
   sync(next){
    if(disposed)return false;model=next;
-   // Recover's answer: once the redeemed match reads back with this phone's seat, "Seat n is yours again".
-   if(ui.recover.pending){
-    if(model.matchId===ui.recover.pending&&model.selfSeatId){ui.recover.recovered={matchId:model.matchId};ui.recover.pending=null;}
-    else if(!model.busy&&ui.lastOp==='redeemRecovery'&&model.matchId!==ui.recover.pending)ui.recover.pending=null;
-   }
+   ui.recover=settleRecovery(model,ui);
    if(ui.choosing&&!model.busy)ui.choosing=null;
    const screen=pregameScreen(model,ui);
    // Every input says it takes taps, so a screen refused while withheld takes them again once the data returns.

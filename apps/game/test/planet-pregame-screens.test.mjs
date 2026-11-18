@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {NO_COMMAND_REASON,roundStampInput,createPregameUi,pregameScreen,withheldStatus,busyWith,refusal,menuInput,displayInput,hostSetupInput,lobbyCounts,hostLobbyInput,joinInput,joinRequest,waitInput,
- recoverInput,charactersInput,roleInput,boardingInput,stageClock,roomCodeDraft,CHARACTERS,MOTION_LOCK_REASON,REGISTERED} from '../hosted/planet/pregame-input.mjs';
+ recoverInput,settleRecovery,charactersInput,roleInput,boardingInput,stageClock,roomCodeDraft,CHARACTERS,MOTION_LOCK_REASON,REGISTERED} from '../hosted/planet/pregame-input.mjs';
 import {createPlanetPreferences} from '../hosted/planet/preferences.mjs';
 import {nextMainMenuInput,MAIN_MENU_DEFAULTS} from '../../../design/phone-ui/components/main-menu/main-menu.mjs';
 import {nextDisplaySettingsInput,DISPLAY_SETTINGS_DEFAULTS} from '../../../design/phone-ui/components/display-settings/display-settings.mjs';
@@ -168,6 +168,32 @@ test('recover: Recover seat once both boxes hold something; no code length (G4);
  nextRecoverInput(RECOVER_DEFAULTS,back);
 });
 
+test('an exact Recover retry waits for the verified seat and still opens Continue',()=>{
+ const state=ui({mode:'recover',lastOp:'redeemRecovery'});
+ state.recover.matchId='match-9';
+ state.recover.pending='match-9';
+ for(const session of [
+  entry({busy:true}),entry({uncertain:true}),entry({uncertain:true,busy:true}),
+  entry({matchId:'match-9',connection:'stale'}),
+ ]){
+  state.recover=settleRecovery(session,state);
+  assert.equal(state.recover.pending,'match-9');
+  assert.equal(state.recover.recovered,null);
+ }
+
+ const verified=model({matchId:'match-9',status:'running',selfSeatId:'seat-6'});
+ state.recover=settleRecovery(verified,state);
+ assert.equal(state.recover.pending,null);
+ assert.equal(pregameScreen(verified,state),'recover');
+ assert.equal(recoverInput(verified,state,prefs).seat,6);
+
+ const refused=ui({lastOp:'redeemRecovery'});
+ refused.recover.pending='match-9';
+ assert.deepEqual(settleRecovery(entry({message:'The session request was refused.'}),refused),{
+  ...refused.recover,pending:null,
+ });
+});
+
 test('character selection: the public grid and clock; this phone\'s choice, saving while sent; never closed or assigned (G5)',()=>{
  const choosing=model({status:'choosing',selfSeatId:'seat-6',members:members.map(m=>m.seatId==='seat-6'?{...m,characterId:null}:m),canChoose:true,remainingMs:21000});
  const input=charactersInput(choosing,ui(),prefs,shown);
@@ -179,6 +205,20 @@ test('character selection: the public grid and clock; this phone\'s choice, savi
  assert.deepEqual(charactersInput(model({status:'choosing',selfSeatId:'seat-6'}),ui(),prefs,shown).mine,{id:'c6',state:'confirmed'});
  assert.equal(charactersInput(choosing,ui(),prefs,{visible:false}).status,'concealed');
  assert.equal(charactersInput({...choosing,connection:'stale'},ui(),prefs,shown).status,'stale');
+});
+
+test('a refused character choice uses the existing toast with the session message (G3)',()=>{
+ const choosing=model({status:'choosing',message:'That operation is not currently allowed.'});
+ const state=ui({lastOp:'chooseCharacter',operationAttempt:1});
+ const refused=charactersInput(choosing,state,prefs,shown);
+ assert.deepEqual(nextCharacterSelectInput(CHARACTER_SELECT_DEFAULTS,refused).toast,{
+  id:'choose-character-1',text:choosing.message,icon:'info',
+ });
+ state.operationAttempt++;
+ assert.notEqual(charactersInput(choosing,state,prefs,shown).toast.id,refused.toast.id);
+ assert.equal(charactersInput({...choosing,busy:true},state,prefs,shown).toast,null);
+ assert.equal(charactersInput(choosing,state,prefs,{visible:false}).toast,null);
+ assert.equal(charactersInput(choosing,ui({lastOp:'ready'}),prefs,shown).toast,null);
 });
 
 test('the role stage: the server\'s interval, the card without knowledge or facts (G7, G16), hidden until shown, the stamp once ready',()=>{
@@ -199,6 +239,22 @@ test('the role stage: the server\'s interval, the card without knowledge or fact
  assert.deepEqual({status:ready.status,mode:ready.ready.mode,card:ready.card,roster:ready.roster},{status:'live',mode:'done',card:null,roster:{ready:9,total:9}});
  assert.equal(roleInput(reading,ui(),prefs,{visible:false}).status,'concealed');
  assert.equal(roleInput({...reading,setupClock:{status:'unsynced'}},ui(),prefs,shown).clock,null);
+});
+
+test('a pending Ready keeps the card down and locks repeat input until the session responds',()=>{
+ const reading=model({status:'reading',busy:true,selfSeatId:'seat-6'});
+ const state=ui({lastOp:'ready'});
+ const pending=nextRoleStageInput(ROLE_STAGE_DEFAULTS,roleInput(reading,state,prefs,shown));
+ assert.equal(pending.ready.busy,true);
+ assert.equal(pending.ready.enabled,false);
+ assert.equal(pending.interactive,false);
+ assert.equal(pending.card,null);
+ assert.equal(pending.roster.ready,0);
+ const hidden=nextRoleStageInput(pending,roleInput(reading,state,prefs,{visible:false}));
+ assert.equal(hidden.status,'concealed');
+ assert.equal(hidden.card,null);
+ assert.equal(roleInput({...reading,connection:'stale'},state,prefs,shown).status,'stale');
+ assert.equal(roleInput({...reading,busy:false},state,prefs,shown).interactive,true);
 });
 
 test('boarding: the server\'s interval, holding while it runs, then waiting; no Skip, as the film is today\'s',()=>{
