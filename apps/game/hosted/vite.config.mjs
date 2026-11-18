@@ -26,7 +26,12 @@ const shellSources = ['design/phone-ui/components/phone-shell/phone-shell.mjs', 
 const actionsSources = ['design/phone-ui/components/actions/actions.mjs', 'design/phone-ui/components/actions/actions.css',
   'design/phone-ui/components/play-parts/play-parts.mjs', 'design/phone-ui/components/play-parts/play-parts.css'];
 // END Actions connection
-const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contracts/dist/', 'packages/presentation/dist/', 'packages/design-tokens/dist/', ...designSources, ...shellSources, ...actionsSources];
+// BEGIN Panels connection, for Integration's approval (the owner's plan of 16 November 2026, release 3, step 1, the
+// Lead's order of 18 November: the Panels tab is Designer's panels component as it is). Exactly its two runtime files
+// (it uses the kit, admitted above); never its preview/ or review/.
+const panelsSources = ['design/phone-ui/components/panels/panels.mjs', 'design/phone-ui/components/panels/panels.css'];
+// END Panels connection
+const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contracts/dist/', 'packages/presentation/dist/', 'packages/design-tokens/dist/', ...designSources, ...shellSources, ...actionsSources, ...panelsSources];
 
 export default {
   root: fileURLToPath(new URL('.', import.meta.url)),

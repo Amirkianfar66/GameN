@@ -300,7 +300,9 @@ test('a pass: "Pass your turn?" with Cancel and Pass, then "Turn passed" once, a
 test('the sheet\'s frame for each open panel and action; the body stays the game\'s',()=>{
  assert.equal(shellSheet(model()),null);
  const titles={actions:'Actions',card:'Your role',panels:'Panels',promises:'Promises',windows:'Windows',navigation:'Navigation',hospital:'Hospital panel',players:'Players','round-order':'Round order',settings:'Settings'};
- for(const [panel,title]of Object.entries(titles)){const f=shellSheet(model({panel}));assert.equal(f.title,title,panel);assert.equal(f.id,panel);assert.equal(f.close,true);assert.ok(kept({viewer:'seat-4',sheet:f}).sheet);}
+ // The Panels tab's three views are one sheet, the panels component's (release 3; planet-panels.test.mjs).
+ const sheetId=panel=>['players','round-order'].includes(panel)?'panels':panel;
+ for(const [panel,title]of Object.entries(titles)){const f=shellSheet(model({panel}));assert.equal(f.title,title,panel);assert.equal(f.id,sheetId(panel));assert.equal(f.close,true);assert.ok(kept({viewer:'seat-4',sheet:f}).sheet);}
  // Panels' own pages go back to Panels (sheet 27.5).
  for(const panel of ['windows','navigation','hospital','players','round-order'])assert.equal(shellSheet(model({panel})).back,true,panel);
  for(const panel of ['actions','card','panels','promises','settings'])assert.equal(shellSheet(model({panel})).back,false,panel);

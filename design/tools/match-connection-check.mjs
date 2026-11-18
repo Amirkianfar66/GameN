@@ -3,7 +3,8 @@
 // Release 3's check (docs/design/components/match-connection.md): the Planet app's match screens drawn by
 // Designer's components in the phone shell, the owner's plan of 16 November 2026. Its first step is Actions
 // (design/phone-ui/components/actions): the tiles, choosing a person or a position, the list, the check, After
-// Register, "Outcome unknown", Pass, Move and the Disabler's position. It bundles Frontend's phone harness
+// Register, "Outcome unknown", Pass, Move and the Disabler's position. Its next is the Panels tab
+// (design/phone-ui/components/panels, #296): Panels, Players and Round order. It bundles Frontend's phone harness
 // (apps/game/dev/phone: the real Planet app, controller and renderer over its synthetic connection) from this
 // tree, with the art it takes from a clean worktree of origin/main, as shell-connection-check.mjs does, and serves
 // it with the hosted game's production response headers (scripts/hosted-preview-policy.mjs, the Content Security
@@ -19,6 +20,9 @@
 //   pass                        "Pass your turn?", then "Turn passed" with the next turn
 //   blackout, blackout-fixed    the Disabler's positions in the dark, fixed with one tap; "Position A3 fixed", no Cancel
 //   reconnecting, concealed     nothing of this viewer's action stays: the sheet closes; a hidden page keeps no name
+//   panels                      the Panels tab: its five rows with their lines, this room's windows; Windows opens, Back returns
+//   players                     Players: the nine seats' public facts, the Captain and Officer, injured, in Jail, eliminated
+//   round-order                 Round order: the game's steps for the tuple, in its order and words, each with its icon
 // A capture passes with no unexpected policy report, no failed request and no page error; the shell mounted with
 // the stage in it and none of the old chrome; and the state's own facts. It writes
 // design/phone-ui/review/match-connection/: one JPEG per state and size, and check.json (the headers and their
@@ -146,6 +150,11 @@ const PRESS = seat => `.planet-stage .ms-rs-press[data-value="${seat}"]`;
 const SLOT = id => `.planet-stage .ms-rs-slot[data-value="${id}"]`;
 const SHEET = id => `document.querySelector('.ms-ps-sheet')?.dataset.sheet===${JSON.stringify(id)}`;
 const PART = name => `document.querySelector(${JSON.stringify(ACTIONS)})?.dataset.part===${JSON.stringify(name)}`;
+const PANELS = '.ms-ps-sheet .ms-ps-sheet-body > .ms-panels';
+const OPEN = value => `${PANELS} [data-intent="open"][data-value="${value}"]`;
+const VIEW = view => `document.querySelector(${JSON.stringify(PANELS)})?.dataset.view===${JSON.stringify(view)}`;
+const SHEET_BACK = '.ms-ps-sheet [data-intent="sheet-back"]';
+const SHEET_CLOSE = '.ms-ps-sheet [data-intent="sheet-close"]';
 /** The phone's own turn, in a board scenario: the offers of a scenario, as its view has them, with more. */
 const offers = list => edit(`p.offers=${JSON.stringify(list)}`);
 const offer = (type, targets = [], slots = []) => ({ type, targetSeatIds: targets, slotIds: slots, windowIds: [], promiseTargetSeatIds: [] });
@@ -185,6 +194,13 @@ const LOOK = `(() => {
       notice: [...part.querySelectorAll('.ms-k-notice p')].map(text),
       groups: [...part.querySelectorAll('.ms-ac-list .ms-k-group-label')].map(text), rows: [...part.querySelectorAll('.ms-ac-list .ms-k-row-title')].map(text),
       picked: [...part.querySelectorAll('.ms-ac-list .ms-k-row[data-picked] .ms-k-row-title')].map(text) } : null,
+    // The Panels tab's part (design/phone-ui/components/panels) in the sheet's body: its view and rows.
+    panels: (p => p ? { view: p.dataset.view, label: p.getAttribute('aria-label'), first: body?.firstElementChild === p, motion: p.dataset.motion,
+      rows: [...p.querySelectorAll('.ms-k-row')].filter(n => !n.closest('[hidden]')).map(n => ({ value: n.dataset.value ?? null, seat: n.dataset.seat ?? null, kind: n.dataset.kind ?? null,
+        title: text(n.querySelector('.ms-k-row-title')), sub: n.querySelector('.ms-k-row-sub')?.hidden ? null : text(n.querySelector('.ms-k-row-sub')),
+        icon: (n.querySelector('.ms-k-row-icon')?.dataset.icon ?? '').split(':')[0] || null, portrait: n.querySelector('.ms-k-row-lead:not([hidden]) .ms-k-pt')?.className ?? null,
+        badges: [...n.querySelectorAll('.ms-pn-badges .ms-k-pill')].map(text), off: n.getAttribute('aria-disabled') === 'true', chevron: !!n.querySelector('.ms-k-row-chev:not([hidden]) svg'), box: box(n) })),
+      note: text(p.querySelector('.ms-k-group-note')), text: text(p) } : null)(document.querySelector(${JSON.stringify(PANELS)})),
     stage: { inShell: !!document.querySelector('.ms-ps-stage > .planet-stage'), scene: document.querySelector('.planet-stage .ms-room-scene')?.dataset.room ?? null, view: document.querySelector('.planet-stage')?.dataset.view ?? null,
       lighting: document.querySelector('.planet-stage .ms-room-scene')?.dataset.lighting ?? null,
       presses: [...document.querySelectorAll('.planet-stage .ms-rs-press')].map(p => p.dataset.value + (p.hasAttribute('data-picked') ? '*' : '')),
@@ -210,12 +226,19 @@ const LOOK = `(() => {
 })()`;
 
 const names = s => (s.actions?.tiles ?? []).map(t => `${t.type}:${t.state}`).join(',');
+const rows = (s, key) => (s.panels?.rows ?? []).map(r => r[key] ?? '').join('|');
+/** The words of a role or a faction, which the Panels tab never shows (the board scenario's phone is the Hacker's, who knows the Undercover). */
+const PRIVATE_WORDS = /\b(Hacker|Undercover|Insider|Doctor|Supplier|Alien|Engineer|Disabler|Red|Blue)\b/;
 const foot = s => (s.sheet?.foot ?? []).map(b => `${b.value}:${b.label}${b.disabled ? ':off' : ''}${b.busy ? ':busy' : ''}`).join('|');
 /** Nothing of this viewer's own action is left in the page: no part, no person picked, no words of the check. */
 const gone = (s, words = []) => s.actions === null && words.every(w => !s.page.includes(w));
 
 /** Steps that more than one state starts with: the Doctor's Rescue of Crew 3, and the Hacker's Move with two rooms. */
 const STEPS = {
+  panels: async page => {
+    await page.evaluate(tap(TAB('panels')));
+    await page.waitFor(`${SHEET('panels')}&&${VIEW('list')}`, 'the Panels tab');
+  },
   rescue: async page => {
     await page.evaluate(tap(TAB('actions')));
     await page.waitFor(PART('tiles'), 'the Doctor\'s tiles');
@@ -496,6 +519,70 @@ const STATES = {
       await page.waitFor(`${game}.getModel().concealed&&document.querySelector('.ms-phone-shell')?.dataset.status==='concealed'`, 'concealed');
     },
     facts: s => ({ nothingLeft: gone(s, ['Rescue Crew 3', 'Check and register', 'Register Rescue']), noTarget: s.target === null && !s.stage.presses.length }) },
+  // ── The Panels tab (sheet 32; #296, the Lead's answers 1–7): the Hacker's phone, in Room B ──
+  panels: { page: 'phone', url: 'scenario=board', steps: STEPS.panels,
+    facts: s => ({ frame: s.sheet?.id === 'panels' && s.sheet.title === 'Panels' && s.sheet.sub === null && s.sheet.close && !s.sheet.back && !s.sheet.foot.length,
+      partOnly: !!s.panels?.first && s.sheet.children.join() === 'ms-panels' && s.sheet.game === null, view: s.panels?.view === 'list' && s.panels.label === 'Panels',
+      rows: rows(s, 'value') === 'windows|navigation|hospital|players|round-order', titles: rows(s, 'title') === 'Windows|Navigation|Hospital panel|Players|Round order',
+      // This room's windows (Room B: to Room A and to the Jail), then item 29's owner-approved words.
+      lines: rows(s, 'sub') === 'Room A ↔ Room B · Room B ↔ Jail|Captain and Officer only|Patients only|Seats, rooms and public status|Phases and timings',
+      icons: rows(s, 'icon') === 'window|course|panel|players|rules', open: s.panels?.rows.every(r => !r.off && r.chevron),
+      tabOpen: s.tabs?.buttons.find(b => b.value === 'panels')?.expanded === 'true', noCommand: s.commands.length === 0 }),
+    after: async page => {
+      // Windows opens the game's own Windows panel; its Back returns to the Panels tab, the component again.
+      await page.evaluate(tap(OPEN('windows')));
+      await page.waitFor(SHEET('windows'), 'the Windows panel');
+      const windows = await page.evaluate(LOOK);
+      await page.evaluate(tap(SHEET_BACK));
+      await page.waitFor(`${SHEET('panels')}&&${VIEW('list')}`, 'back to the Panels tab');
+      const back = await page.evaluate(LOOK);
+      return { windowsOpens: windows.sheet?.title === 'Windows' && windows.sheet.back && windows.panels === null && windows.model?.panel === 'windows',
+        backToPanels: back.panels?.view === 'list' && back.model?.panel === 'panels' && back.commands.length === 0 };
+    } },
+  // Players (sheet 32): the board as the server gives it, with the Captain and the Officer, an injured player in the
+  // Hospital, one in the Jail and one eliminated.
+  players: { page: 'phone', url: 'scenario=board', steps: async page => {
+      await page.evaluate(edit("const at=id=>p.board.seats.find(s=>s.seatId===id);p.offices.captainSeatId='seat-1';p.offices.officerSeatId='seat-7';at('seat-1').captain=true;at('seat-7').officer=true;"
+        + "Object.assign(at('seat-3'),{health:'Injured',location:'Hospital',slotId:'H1',rescueDueAfterRound:6,medical:{admittedRound:5,rescueDueAfterRound:6,rescueOpportunity:'CURRENT_NORMAL_ROUND'}});"
+        + "Object.assign(at('seat-8'),{location:'Jail',slotId:'J1',jailed:true});Object.assign(at('seat-9'),{health:'Eliminated',location:null,slotId:null})"));
+      await page.waitFor(`${game}.getModel().offices?.captainSeatId==='seat-1'`, 'the offices');
+      await STEPS.panels(page);
+      await page.evaluate(tap(OPEN('players')));
+      await page.waitFor(`${SHEET('panels')}&&${VIEW('players')}`, 'Players');
+    },
+    facts: s => ({ frame: s.sheet?.id === 'panels' && s.sheet.title === 'Players' && s.sheet.back && s.sheet.close, view: s.panels?.view === 'players' && s.panels.label === 'Players',
+      seats: rows(s, 'seat') === '1|2|3|4|5|6|7|8|9', you: s.panels?.rows[5]?.title === '6 · Crew 6 (you)' && s.panels.rows.filter(r => r.title.includes('(you)')).length === 1,
+      names: s.panels?.rows.every(r => r.title === `${r.seat} · Crew ${r.seat}${r.seat === '6' ? ' (you)' : ''}`),
+      lines: rows(s, 'sub') === 'Room A|Room A|Hospital · Injured|Room A|Room A|Room B|Room B|In Jail|Eliminated',
+      badges: s.panels?.rows.map(r => r.badges.join('+')).join('|') === 'Captain||||||Officer||', portraits: s.panels?.rows.every(r => r.portrait === 'ms-k-pt'),
+      note: s.panels?.note === 'Public facts only: seats, rooms, health and offices.', noChevron: s.panels?.rows.every(r => !r.chevron),
+      publicOnly: !!s.panels && !PRIVATE_WORDS.test(s.panels.text) }),
+    after: async page => {
+      // Back returns to the Panels tab's list, the same sheet.
+      await page.evaluate(tap(SHEET_BACK));
+      await page.waitFor(VIEW('list'), 'back to the list');
+      const seen = await page.evaluate(LOOK);
+      return { backToList: seen.sheet?.id === 'panels' && seen.sheet.title === 'Panels' && seen.model?.panel === 'panels' && rows(seen, 'value') === 'windows|navigation|hospital|players|round-order' };
+    } },
+  // Round order (sheet 32): the steps of this tuple (the Blackout rules, Blackout before the vote) in the game's words.
+  'round-order': { page: 'phone', url: 'scenario=board', steps: async page => {
+      await STEPS.panels(page);
+      await page.evaluate(tap(OPEN('round-order')));
+      await page.waitFor(`${SHEET('panels')}&&${VIEW('round-order')}`, 'Round order');
+    },
+    facts: s => ({ frame: s.sheet?.id === 'panels' && s.sheet.title === 'Round order' && s.sheet.back && s.sheet.close, view: s.panels?.view === 'round-order' && s.panels.label === 'Round order',
+      steps: rows(s, 'title') === 'Player turns|Private talk|Sync when applicable|Blackout|Damage and Hospital placement|Jail vote|Result|Remaining resolution and Rescue|Navigation',
+      kinds: rows(s, 'kind') === 'turns|private-talk|sync|blackout|hospital|jail-vote|result|resolution|navigation',
+      icons: rows(s, 'icon') === 'actions|talk|blackhole|dark|hospital|vote|vote|rescue|course',
+      // The game has no words for a step's timing, so none is drawn (#222), and no note (answer 5).
+      noTimings: s.panels?.rows.every(r => r.sub === null), noNote: s.panels?.note === null }),
+    after: async page => {
+      // ✕ closes the sheet.
+      await page.evaluate(tap(SHEET_CLOSE));
+      await page.waitFor("!document.querySelector('.ms-ps-sheet')", '✕ closed it');
+      const seen = await page.evaluate(LOOK);
+      return { closes: seen.panels === null && seen.model?.panel === 'board' };
+    } },
 };
 /** The record so far, when this run adds to it: the same candidate, art and headers. */
 async function earlier(candidate, artHead) {
@@ -587,7 +674,7 @@ const before = await earlier(candidate, art.head);
 if (before) console.log(`added to the record of ${Object.keys(before.captures).length} captures on the same candidate`);
 const record = {
   tool: 'design/tools/match-connection-check.mjs',
-  what: 'The Planet app\'s match screens drawn by Designer\'s components (release 3: Actions, design/phone-ui/components/actions) in the phone shell, in Frontend\'s phone harness (apps/game/dev/phone) built from the candidate below',
+  what: 'The Planet app\'s match screens drawn by Designer\'s components (release 3: Actions, design/phone-ui/components/actions; the Panels tab, design/phone-ui/components/panels) in the phone shell, in Frontend\'s phone harness (apps/game/dev/phone) built from the candidate below',
   candidate,
   art: { base: art.head, originMain: art.main, note: 'The harnesses\' art plugins over a clean worktree of origin/main; the harnesses and their asset tooling are byte for byte that commit\'s' },
   environment: 'Desktop Chromium (headless), each phone size at 2x pixels, focus emulated, no safe areas; the harnesses bundled by Vite and served with the production headers below. Not a phone, not Safari, not a live match.',

@@ -8,6 +8,7 @@
 import {LOCATION_OF} from '../board-v2-drawing/slots-four.mjs';
 import {PHASE_BAR_PHASES,loadingBar,phaseBar,phaseClosedToast,reconnectingBar} from '../../../../design/phone-ui/components/phone-shell/phase-bars.mjs';
 import {actionsChip,actionsFrame,actionsTarget,actionsToast} from './actions-input.mjs';
+import {panelsFrame} from './panels-input.mjs';
 
 /**
  * Today's names (render.mjs before the shell) for the phases whose bar is still the game's own: the votes, the
@@ -304,8 +305,11 @@ export function shellSheet(model,{listOpen=false,flow=null}={}){
  if(panel==='board')return null;
  if(model.dark)return frame(`dark:${panel}`,'dark','Blackout');
  if(model.phase?.expired)return frame('expired','expired','Waiting for the server');
+ // The Panels tab (Panels, Players and Round order) is the panels component's one sheet (panels-input.mjs, release 3).
+ const panels=panelsFrame(model);
+ if(panels)return panels;
  const back=PANEL_PAGES.includes(panel);
- const titles={panels:'Panels',players:'Players','round-order':'Round order',promises:'Promises',windows:'Windows',navigation:'Navigation',hospital:'Hospital panel',actions:'Actions'};
+ const titles={promises:'Promises',windows:'Windows',navigation:'Navigation',hospital:'Hospital panel',actions:'Actions'};
  if(panel==='card')return frame('card','card','Your role',{sub:'Only on this phone',detent:'large'});
  if(panel==='windows')return frame('windows','windows','Windows',{back,detent:'large',sub:model.round===null?null:`Unverified claims · Expires after Round ${model.round}`});
  return titles[panel]?frame(panel,panel,titles[panel],{back}):null;
