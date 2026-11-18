@@ -2,6 +2,8 @@
 globalThis[Symbol.for('mothership:dev-only')]=true;
 import assert from 'node:assert/strict';
 import {createServer} from 'node:http';
+import {createHostedPreviewHeaders,applyHostedPreviewHeaders} from '../../../../scripts/hosted-preview-policy.mjs';
+const previewHeaders=createHostedPreviewHeaders('gamen-mothership-staging');
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {resolve,extname,sep} from 'node:path';
 import {createHash} from 'node:crypto';
@@ -26,11 +28,11 @@ function referenceDoses(query){
  return referenceBeforeDoses;
 }
 async function verify(){for(const m of provenance.modules){const b=await readFile(resolve(repo,m.path));assert.equal(createHash('sha256').update(b).digest('hex'),m.sha256,m.path+' changed after build');}}
-const server=createServer(async(req,res)=>{try{const url=new URL(req.url,'http://local'),reference=url.pathname.startsWith('/reference/'),base=reference?repo:directory;
+const server=createServer(async(req,res)=>{applyHostedPreviewHeaders(res,'gamen-mothership-staging');try{const url=new URL(req.url,'http://local'),reference=url.pathname.startsWith('/reference/'),base=reference?repo:directory;
  const name=reference?url.pathname.slice(10):url.pathname,path=resolve(base,'.'+name);if(!path.startsWith(base+sep))throw Error('path');
  res.setHeader('content-type',({'.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.html':'text/html','.svg':'image/svg+xml','.mp4':'video/mp4','.webp':'image/webp','.json':'application/json'})[extname(path)]??'application/octet-stream');res.end(await readFile(path));}catch{res.statusCode=404;res.end();}});
 await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin=`http://127.0.0.1:${server.address().port}`,chrome=await launchBrowser(),browser=await connect(chrome.endpoint);
-const facts={scope:'Full native app comparison on typed synthetic packets, with original candidate-engine Task inputs and explicit presentation/recovery boundary fixtures. Reference-only simulation is confined to its page and the Node reference-input audit, never imported into the native app. Desktop Chromium; captures/measurements are not visual acceptance, API/emulator, production release or device evidence.',provenance,referenceInputs:{designerHead:map.designerHead,source:'design/food-supply/phone.mjs',sha256:createHash('sha256').update(referenceSource).digest('hex'),stockBeforeDoses:referenceBeforeDoses},browser:await browser.send('Browser.getVersion'),cases:[],errors:[]};
+const facts={headerProvenance:{kind:'production',projectId:'gamen-mothership-staging',headers:previewHeaders},scope:'Full native app comparison on typed synthetic packets, with original candidate-engine Task inputs and explicit presentation/recovery boundary fixtures. Reference-only simulation is confined to its page and the Node reference-input audit, never imported into the native app. Desktop Chromium; captures/measurements are not visual acceptance, API/emulator, production release or device evidence.',provenance,referenceInputs:{designerHead:map.designerHead,source:'design/food-supply/phone.mjs',sha256:createHash('sha256').update(referenceSource).digest('hex'),stockBeforeDoses:referenceBeforeDoses},browser:await browser.send('Browser.getVersion'),cases:[],errors:[]};
 const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const measure=page=>page.evaluate(`(()=>{const food=document.querySelector('.planet-food.ph'),root=food??document.querySelector('.ph'),problems=[],rect=n=>{const r=n.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height}};
  const controls=[...root.querySelectorAll('.fs-ctl:not([hidden])')].map(n=>{const r=n.getBoundingClientRect();if(r.left<-.5||r.right>innerWidth+.5||r.top<-.5||r.bottom>innerHeight+.5)problems.push(n.id+' leaves viewport');for(const t of n.querySelectorAll('.fs-label,.fs-sub'))if(t.scrollWidth>t.clientWidth+1)problems.push(n.id+' clips text');return {label:n.textContent,rect:rect(n),disabled:n.getAttribute('aria-disabled')};});

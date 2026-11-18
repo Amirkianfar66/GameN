@@ -205,8 +205,10 @@
 .ms-phone-shell .ms-ps-hero-label { font: 800 clamp(12px, 0.75rem, 13px)/1 var(--ms-ps-letter); letter-spacing: 0.08em; text-transform: uppercase; }
 .ms-phone-shell .ms-ps-hero-space { margin-top: auto; visibility: hidden; font: 600 clamp(12px, 0.75rem, 14px)/1.15 var(--ms-ps-font); }
 .ms-phone-shell .ms-ps-hero[data-off] { background: var(--ms-ps-surface-4); color: var(--ms-ps-text-2); border-color: #0A0D14; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45); --ic-knock: var(--ms-ps-surface-4); }
-.ms-phone-shell .ms-ps-hero[data-mode="vote"]:not([data-off]) { background: var(--ms-ps-paper); box-shadow: 0 0 0 3px rgba(244, 235, 221, 0.25), 0 8px 20px rgba(0, 0, 0, 0.5); --ic-knock: var(--ms-ps-paper); }
-.ms-phone-shell .ms-ps-hero[data-mode="voted"]:not([data-off]) { background: var(--ms-ps-paper-deep); --ic-knock: var(--ms-ps-paper-deep); }
+/* 0.2.10: the mode rules follow the unavailable rule and win its fill, as the pack's cascade has it (kit.css: .hero[data-mode="vote"]
+   after .hero[aria-disabled="true"]): an unavailable Vote is paper with dimmed words, as sheet 38 draws the result's round button. */
+.ms-phone-shell .ms-ps-hero[data-mode="vote"] { background: var(--ms-ps-paper); box-shadow: 0 0 0 3px rgba(244, 235, 221, 0.25), 0 8px 20px rgba(0, 0, 0, 0.5); --ic-knock: var(--ms-ps-paper); }
+.ms-phone-shell .ms-ps-hero[data-mode="voted"] { background: var(--ms-ps-paper-deep); --ic-knock: var(--ms-ps-paper-deep); }
 .ms-phone-shell .ms-ps-hero[data-mode="voted"]::after { content: ""; position: absolute; right: -4px; top: -4px; width: 22px; height: 22px; border-radius: 50%; background: var(--ms-ps-ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.6 10 16.6 18.4 8' fill='none' stroke='%23F1B84B' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat; }
 .ms-phone-shell .ms-ps-hero[aria-busy="true"] .ms-ps-hero-icon { opacity: 0.35; }
 .ms-phone-shell .ms-ps-hero[aria-busy="true"]::before { content: ""; position: absolute; width: 30px; height: 30px; top: 9px; border-radius: 50%; border: 2.5px solid currentColor; border-right-color: transparent; animation: ms-ps-spin 0.9s linear infinite; }
@@ -232,24 +234,24 @@
 .ms-phone-shell .ms-ps-target-icon .ms-ps-ic { width: 22px; height: 22px; }
 .ms-phone-shell .ms-ps-target .ms-ps-text b { font-weight: 700; }
 .ms-phone-shell .ms-ps-target .ms-k-btn { min-height: 40px; }
-/* Reconnecting: the last room stays, dimmed by the room scene, under this banner (sheet 45). */
+/* A banner: reconnecting, with Retry, where the last room stays, dimmed by the room scene, under it (sheet 45); or
+   an eliminated player's, words only, over the room they watch (sheet 44, 0.2.8). The pack draws both with one
+   builder (ui.mjs banner), so they share one look. */
 .ms-phone-shell .ms-ps-banner { position: absolute; left: 10px; right: 10px; top: calc(var(--ms-ps-over-top) + 8px); z-index: 43; display: flex; align-items: center; gap: 10px; padding: 8px 8px 8px 14px; border-radius: 16px; background: var(--ms-ps-material-strong); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); box-shadow: inset 0 0 0 1px var(--ms-ps-hairline), var(--ms-ps-shadow-soft); }
 .ms-phone-shell .ms-ps-banner-icon { flex: none; color: var(--ms-ps-accent); --ic-knock: var(--ms-ps-canvas); }
 .ms-phone-shell .ms-ps-banner-icon .ms-ps-ic { width: 22px; height: 22px; }
 .ms-phone-shell .ms-ps-banner .ms-k-btn { min-height: 38px; padding: 0 14px; font-size: 0.9375rem; border-radius: 11px; }
 /* A floating chip above the tabs: "Other rooms · n", the board's "List" (kit.css .offroom). */
-.ms-phone-shell .ms-ps-chip { position: absolute; z-index: 41; left: 50%; transform: translateX(-50%); bottom: calc(var(--ms-ps-bottom) + 32px); white-space: nowrap; max-width: calc(100% - 32px); }
+/* Its width is its words' (0.2.9), up to the phone's width less 16 px a side. Placed from the middle (left: 50%), it
+   could otherwise only take half the phone's width, so a long label was cut there, or wrapped in a narrow column. */
+.ms-phone-shell .ms-ps-chip { position: absolute; z-index: 41; left: 50%; transform: translateX(-50%); bottom: calc(var(--ms-ps-bottom) + 32px); white-space: nowrap; width: max-content; max-width: calc(100% - 32px); }
 .ms-phone-shell .ms-ps-chip-btn { min-height: 44px; padding: 0 16px; border-radius: 999px; box-shadow: var(--ms-ps-shadow-soft); max-width: 100%; }
 .ms-phone-shell .ms-ps-chip-btn[data-tone="paper"] { background: var(--ms-ps-paper); color: var(--ms-ps-ink); --ic-knock: var(--ms-ps-paper); }
 .ms-phone-shell .ms-ps-chip-btn[data-tone="steel"] { background: var(--ms-ps-surface-3); color: var(--ms-ps-text); --ic-knock: var(--ms-ps-surface-3); }
 .ms-phone-shell .ms-ps-chip-btn .ms-k-btn-label { overflow: hidden; text-overflow: ellipsis; }
 
-/* ── A toast (kit.css .toast) ─────────────────────────────────────── */
-.ms-phone-shell .ms-ps-toast { position: absolute; left: 50%; top: calc(var(--ms-ps-over-top) + 10px); z-index: 70; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; max-width: calc(100% - 32px); padding: 9px 16px 9px 12px; border-radius: 999px; background: var(--ms-ps-paper); color: var(--ms-ps-ink); font: 600 0.9375rem/1.2 var(--ms-ps-font); box-shadow: var(--ms-ps-shadow-soft); white-space: nowrap; --ic-knock: var(--ms-ps-paper); animation: ms-ps-toast-in var(--ms-ps-t-sheet) var(--ms-ps-ease) both; transition: opacity 180ms linear; }
-.ms-phone-shell .ms-ps-toast > span:last-child { overflow: hidden; text-overflow: ellipsis; }
-.ms-phone-shell .ms-ps-toast-icon .ms-ps-ic { width: 20px; height: 20px; }
-.ms-phone-shell .ms-ps-toast[data-leaving] { opacity: 0; }
-@keyframes ms-ps-toast-in { from { opacity: 0; transform: translate(-50%, -8px); } }
+/* ── A toast: the kit's (kit.css .ms-k-toast, 0.8.0), 10 px under the overlays' place ── */
+.ms-phone-shell .ms-ps-toast { --ms-k-toast-top: var(--ms-ps-over-top); }
 
 /* ── The docked sheet: clear glass over the room (kit.css .sheet) ──── */
 /* It always leaves the top bar and the tabs in view: docked between them, auto or large height. */
@@ -265,10 +267,14 @@
   animation: ms-ps-sheet-in var(--ms-ps-t-sheet) var(--ms-ps-ease) both;
 }
 .ms-phone-shell .ms-ps-sheet[data-detent="large"] { top: calc(var(--ms-ps-over-top) + 8px); }
-/* While the reconnecting banner shows (8 px under the bar), a docked sheet stays 8 px below it, so Retry and the
+/* While a banner shows (8 px under the bar), a docked sheet stays 8 px below it, so the banner (with Retry) and the
    sheet's Close are both in sight; the banner stays under the sheet, as the pack's layers it. */
 .ms-phone-shell[data-banner] .ms-ps-sheet { max-height: calc(100% - var(--ms-ps-over-top) - var(--ms-ps-banner-h, 56px) - 16px - var(--ms-ps-bottom)); }
 .ms-phone-shell[data-banner] .ms-ps-sheet[data-detent="large"] { top: calc(var(--ms-ps-over-top) + var(--ms-ps-banner-h, 56px) + 16px); }
+/* The target bar does the same (0.2.9): while a banner shows, the bar stays 8 px below it. Its Cancel only ends the
+   choosing on this phone and works while reconnecting (0.2.7), so it must stay in reach. 0.1.0-0.2.8 placed both at
+   the same place, the banner over the bar, so Retry lay over Cancel (the Gameplay builder found it on Move). */
+.ms-phone-shell[data-banner] .ms-ps-target { top: calc(var(--ms-ps-over-top) + var(--ms-ps-banner-h, 56px) + 16px); }
 @keyframes ms-ps-sheet-in { from { transform: translateY(24px); opacity: 0; } }
 .ms-phone-shell .ms-ps-sheet-grab { flex: none; width: 36px; height: 5px; border-radius: 3px; background: rgba(185, 196, 211, 0.4); margin: 7px auto 0; }
 .ms-phone-shell .ms-ps-sheet-head { flex: none; display: flex; align-items: center; gap: 10px; padding: 8px 14px 10px 18px; min-height: 52px; }
@@ -294,15 +300,27 @@
   .ms-phone-shell .ms-ps-talk { display: flex; flex-wrap: wrap; }
   .ms-phone-shell .ms-ps-talk .ms-k-btn { flex: 1 1 0; min-width: fit-content; max-width: 100%; }
 }
+/* The Largest text on a phone (0.2.9): under 14 em across, which is 200 % text on the 390 and 430 px phones.
+   - The target bar: its words keep the whole width beside the icon, and Cancel goes under them, lined up with the
+     words. Before, the words stood in a narrow column beside Cancel, many lines deep, so the bar grew to about
+     290 px at 390 x 844 (the Gameplay builder found it on Move). Every word still shows, at its full size.
+   - The chip: its label wraps inside the chip instead of being cut ("Other rooms on th…" at 200 %, at every size). */
+@container ms-k-phone (max-width: 14em) {
+  .ms-phone-shell .ms-ps-target { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; row-gap: 8px; }
+  .ms-phone-shell .ms-ps-target > .ms-k-btn { grid-column: 2; justify-self: start; }
+  .ms-phone-shell .ms-ps-chip { white-space: normal; }
+  .ms-phone-shell .ms-ps-chip-btn { padding-block: 8px; text-align: center; }
+  .ms-phone-shell .ms-ps-chip-btn .ms-k-btn-label { overflow: visible; text-overflow: clip; overflow-wrap: anywhere; }
+}
 /* Where glass can't be drawn, or the phone asks for less transparency, the sheet is solid. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .ms-phone-shell .ms-ps-sheet { background: var(--ms-ps-surface-2); } }
 @media (prefers-reduced-transparency: reduce) { .ms-phone-shell .ms-ps-sheet { background: var(--ms-ps-surface-2); -webkit-backdrop-filter: none; backdrop-filter: none; } }
 
 /* ── Reduce motion: the game's setting or the device's. Slides become the 80 ms fade. ── */
-.ms-phone-shell[data-motion="reduced"] :is(.ms-ps-sheet, .ms-ps-toast) { animation: ms-ps-fade var(--ms-ps-t-reduced) linear both; }
+.ms-phone-shell[data-motion="reduced"] .ms-ps-sheet { animation: ms-ps-fade var(--ms-ps-t-reduced) linear both; }
 .ms-phone-shell[data-motion="reduced"] .ms-ps-hero[aria-busy="true"]::before { animation: none; }
 @media (prefers-reduced-motion: reduce) {
-  .ms-phone-shell :is(.ms-ps-sheet, .ms-ps-toast) { animation: ms-ps-fade var(--ms-ps-t-reduced) linear both; }
+  .ms-phone-shell .ms-ps-sheet { animation: ms-ps-fade var(--ms-ps-t-reduced) linear both; }
   .ms-phone-shell .ms-ps-hero[aria-busy="true"]::before { animation: none; }
 }
 @keyframes ms-ps-fade { from { opacity: 0; } }

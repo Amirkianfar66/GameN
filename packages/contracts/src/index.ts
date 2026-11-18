@@ -20,3 +20,4 @@ export * from './planet-service.js';
 export * from './planet-food-task.js';
 export * from './food-task-hold.js';
 export * from './food-task-clock.js';
+export * from './planet-release-capabilities.js';

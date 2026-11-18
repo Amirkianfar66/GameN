@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/room-scene-check.mjs",
   "component": "design/phone-ui/components/room-scene",
-  "sourceCommit": "191700a14e8f3cc7a183b3dfed78ad7afddd86cd",
+  "sourceCommit": "28b74a97d2ede07fff2fdd995ac8b65e09aafe6f",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -39,13 +39,13 @@
   "captures": {
     "390x844/lit": {
       "file": "design/phone-ui/components/room-scene/review/390x844-lit.jpg",
-      "sha256": "956115cdd6c120e1b2ee43de51410b121dc84fd59d974dceb6c235fa4cc2712d",
+      "sha256": "674db8f4bb2dba9355d40e8f47d5d7f5fc06bfd2b5cdbd7da46db5141203554e",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -87,13 +87,13 @@
     },
     "390x844/own": {
       "file": "design/phone-ui/components/room-scene/review/390x844-own.jpg",
-      "sha256": "9d6ca51a6881bab23de52cc3eed06d303a8b70b219641af3f5d5cbf9b228fc84",
+      "sha256": "e6e4ff1bdf3f993e9efff32763dc7771dee71bef79f838e9a3cd3642794ae161",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -135,13 +135,13 @@
     },
     "390x844/targets": {
       "file": "design/phone-ui/components/room-scene/review/390x844-targets.jpg",
-      "sha256": "9a861bc1622bc725d537aae163c0b8718ba8ee97a3b553deeff94cf2704b29bd",
+      "sha256": "bc037697d5fabb4dff3aebc17126bd17049a454ff96cda2606c2b3c6737e8195",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -183,13 +183,13 @@
     },
     "390x844/moves": {
       "file": "design/phone-ui/components/room-scene/review/390x844-moves.jpg",
-      "sha256": "b7bfb68b962affd6036b46cfaabdaedeb267a52a5236ac7237a3f5800741aecd",
+      "sha256": "402591d061f3a978e28284d86a73801e183703ed318a745bc9ce8debf1c7f4cc",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -237,7 +237,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -288,7 +288,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -332,13 +332,13 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/room-scene/review/390x844-stale.jpg",
-      "sha256": "d36c5336f5e30546469f7445844abfcccb6d732f7ee1260a18bfe77c4a837507",
+      "sha256": "62a129bbb9a00eac019be042f61ae644f1def48d66bd03f8dc98371d39dd3554",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -386,7 +386,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -426,7 +426,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -474,7 +474,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -513,13 +513,13 @@
     },
     "390x844/today": {
       "file": "design/phone-ui/components/room-scene/review/390x844-today.jpg",
-      "sha256": "7e73b7ef4d9d40e0993143d9aebe5527a27e323f5d4c8c0ebc80f2a9e433767f",
+      "sha256": "b148bebfd092b1d711dc4a4e0035760b9f4745bfdc19fd68bb3aca456a768223",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -559,13 +559,13 @@
     },
     "430x932/lit": {
       "file": "design/phone-ui/components/room-scene/review/430x932-lit.jpg",
-      "sha256": "f5a4d07ccf68151dad29e36ac67c46cb96660f02cfae1b9c386eb855573d16d9",
+      "sha256": "475f0ce5c0c8e4ab96e84bc7b9c3190b6b6335f34d0a020397444e1b90aead81",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -607,13 +607,13 @@
     },
     "430x932/own": {
       "file": "design/phone-ui/components/room-scene/review/430x932-own.jpg",
-      "sha256": "67fe6859b349672367e41eb90baa2e7abf7a61dc215fb3c948f9a73cad657581",
+      "sha256": "d1a7c135978f3c88586cc8b4c64b54cb894d1baafa26f0ba1c8fdaf31ef82d3d",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -655,13 +655,13 @@
     },
     "430x932/targets": {
       "file": "design/phone-ui/components/room-scene/review/430x932-targets.jpg",
-      "sha256": "0a1cdcd4b0945e6e385b0cf8e95c38c2f789f37023a976c9777d5986f117a08f",
+      "sha256": "33066d6f013dc5dd73f4faf3a52b72dd0ac782a85cc0a1989ca338268dcbbfb8",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -703,13 +703,13 @@
     },
     "430x932/moves": {
       "file": "design/phone-ui/components/room-scene/review/430x932-moves.jpg",
-      "sha256": "dd96a0480265887002adc87650258c5b87067086742c2869b2f3bfc5889abfa1",
+      "sha256": "0a046bba10b7a684714f2d21a7ce41fd4e5a6bf1516afcbc738f105c98fbdc93",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -757,7 +757,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -808,7 +808,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -852,13 +852,13 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/room-scene/review/430x932-stale.jpg",
-      "sha256": "653a0e334157bab3a34a3376d73310ae857f7f90b135f4ecc10a665e9b88dc49",
+      "sha256": "1376579e2ba6a71cfe8e586030a7a173502295bd632a4c3d18ddd04e87be0387",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -906,7 +906,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -946,7 +946,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -994,7 +994,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1033,13 +1033,13 @@
     },
     "430x932/today": {
       "file": "design/phone-ui/components/room-scene/review/430x932-today.jpg",
-      "sha256": "15e3eb735cd6b1d38c1127d1345c6b5a6c55093063bec801f86fd9daa87e0488",
+      "sha256": "d79e73649e96ed3912bf2ef583bf58f55793fb2dc3d88c9348d6398470e3f144",
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1140,6 +1140,24 @@
           }
         },
         {
+          "id": "held: across a remount in the same window (the Board, then Room again, in another size), a scene given hold() keeps the frame and every press square; without it, every place is framed; hold() is geometry alone, null outside a window and after dispose()",
+          "ok": true,
+          "detail": {
+            "none": null,
+            "keys": "cold,context,k,panel,tx,ty,window,zoom",
+            "window": "blackout-9",
+            "after": null,
+            "kept": {
+              "same": true,
+              "held": true
+            },
+            "fresh": {
+              "cold": true,
+              "same": false
+            }
+          }
+        },
+        {
           "id": "private: lit, layout() gives who is where",
           "ok": true,
           "detail": {
@@ -1191,6 +1209,24 @@
           }
         },
         {
+          "id": "private: concealed drops the people too; a wake with the status alone shows the room empty, and a fresh input brings them back (0.5.1)",
+          "ok": true,
+          "detail": {
+            "empty": {
+              "figures": 0,
+              "tags": 0,
+              "you": 0,
+              "people": 0
+            },
+            "back": {
+              "figures": 5,
+              "people": 4
+            },
+            "figuresLit": 5,
+            "peopleLit": 4
+          }
+        },
+        {
           "id": "private: a new viewer, or a shared display, never gets the last viewer's offers or control",
           "ok": true,
           "detail": {
@@ -1232,15 +1268,15 @@
           "detail": {
             "resumedAt": 13000,
             "clock": 13000,
-            "afterFrames": 13016.663999998795
+            "afterFrames": 13016.65800000016
           }
         },
         {
           "id": "time: suspended, it stands where it was, through clock and updates",
           "ok": true,
           "detail": {
-            "suspendedAt": 13016.663999998795,
-            "afterUpdates": 13016.663999998795,
+            "suspendedAt": 13016.65800000016,
+            "afterUpdates": 13016.65800000016,
             "clock": 31500
           }
         },
@@ -1271,41 +1307,41 @@
           "id": "time: the clock withdrawn and a resize in one update: still where it stood, not 0 s or the clock",
           "ok": true,
           "detail": {
-            "stood": 12049.941999999477,
-            "after": 12049.941999999477,
+            "stood": 12049.969999999947,
+            "after": 12049.969999999947,
             "clock": 40000,
             "rebuilt": true,
-            "afterUpdates": 12049.941999999477
+            "afterUpdates": 12049.969999999947
           }
         },
         {
           "id": "time: reconnecting and a resize in one update: still where it stood, not 0 s or the clock",
           "ok": true,
           "detail": {
-            "stood": 12050.048000000053,
-            "after": 12050.048000000053,
+            "stood": 12049.944000000096,
+            "after": 12049.944000000096,
             "clock": 40000,
             "rebuilt": true,
-            "afterUpdates": 12050.048000000053
+            "afterUpdates": 12049.944000000096
           }
         },
         {
           "id": "time: Reduce motion and a resize in one update: still where it stood, not 0 s or the clock",
           "ok": true,
           "detail": {
-            "stood": 12049.987999999277,
-            "after": 12049.987999999277,
+            "stood": 12050.052000000256,
+            "after": 12050.052000000256,
             "clock": 40000,
             "rebuilt": true,
-            "afterUpdates": 12049.987999999277
+            "afterUpdates": 12050.052000000256
           }
         },
         {
           "id": "time: concealed while running, then shown with Reduce motion: where it stood when hidden",
           "ok": true,
           "detail": {
-            "stood": 12050.028000000322,
-            "shown": 12050.028000000322,
+            "stood": 12066.591999999939,
+            "shown": 12066.591999999939,
             "clockWhenHidden": 30000,
             "clockWhenShown": 40000
           }
@@ -1344,13 +1380,107 @@
             "quiet": true,
             "pressMoved": true
           }
+        },
+        {
+          "id": "films: a stand-in keeps its tag, its place and its press square without its figure, and only its own",
+          "ok": true,
+          "detail": {
+            "hidden": true,
+            "kept": true,
+            "othersSeen": true,
+            "restored": true
+          }
+        },
+        {
+          "id": "films: the recoil moves one figure by dx, dy, and not its tag or anyone else; null puts it back",
+          "ok": true,
+          "detail": {
+            "moved": [
+              6,
+              -3
+            ],
+            "still": true,
+            "back": true
+          }
+        },
+        {
+          "id": "films: the films container interleaves with the scene by z-index, hides while concealed and is gone after dispose()",
+          "ok": true,
+          "detail": {
+            "own": true,
+            "under": true,
+            "over": true,
+            "concealed": true,
+            "shown": true,
+            "gone": true
+          }
+        },
+        {
+          "id": "tags: at the standard text, whole and apart, each where the pack puts it (centred on its press square, 2 px above its foot)",
+          "ok": true,
+          "detail": {
+            "count": 4,
+            "whole": true,
+            "apart": true,
+            "inside": true,
+            "clear": true,
+            "where": true
+          }
+        },
+        {
+          "id": "tags: at the Large text (150 %), whole, apart, inside and clear of the room's name and control, at both sizes",
+          "ok": true,
+          "detail": {
+            "results": [
+              {
+                "phone": "390 × 844",
+                "count": 4,
+                "whole": true,
+                "apart": true,
+                "inside": true,
+                "clear": true
+              },
+              {
+                "phone": "430 × 932",
+                "count": 4,
+                "whole": true,
+                "apart": true,
+                "inside": true,
+                "clear": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "tags: at the Largest text (200 %), whole, apart, inside and clear of the room's name and control, at both sizes",
+          "ok": true,
+          "detail": {
+            "results": [
+              {
+                "phone": "390 × 844",
+                "count": 4,
+                "whole": true,
+                "apart": true,
+                "inside": true,
+                "clear": true
+              },
+              {
+                "phone": "430 × 932",
+                "count": 4,
+                "whole": true,
+                "apart": true,
+                "inside": true,
+                "clear": true
+              }
+            ]
+          }
         }
       ],
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1379,7 +1509,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-CrEs_xXs.js",
+          "source": "assets/index-C0T3Zq52.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
