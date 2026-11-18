@@ -57,28 +57,35 @@ const probes = {};
 const steady = {};
 let agreement = null;
 let failed = 0;
+/** 0.3.2: `count` of the game's tabs draw a painted tile, each drawn, in the portrait's 32 px box. */
+const tiled = (s, count) => s.tiles.filter(t => t.tile).length === count && s.tiles.every(t => t.box && t.box.join() === '32,32' && (!t.tile || t.drawn));
+const tileOf = (s, tab) => s.tiles.find(t => t.tab === tab) ?? {};
 /** What a state must show, from the shell's own DOM (and the room scene's crew where a room is drawn). */
 const EXPECT = {
   // 0.3.0: Card is the last tab and draws this viewer's own portrait, its ring the tab's colour, not amber.
-  turn: s => s.kind === 'turn' && s.name === 'Fay' && s.tabs === 4 && s.hero === 'pass' && s.heroOff && s.order.join() === 'switch,actions,hero,panels,card' && s.card.picture && s.card.drawn && !s.card.amber,
-  own: s => s.name === 'Your turn' && s.hero === 'pass' && !s.heroOff && s.promises === 'Promises, 1 new' && s.timer === '0:42',
+  // 0.3.2: Board, Actions and Panels are painted tiles; the round button's icon is painted, and grey while unavailable.
+  turn: s => s.kind === 'turn' && s.name === 'Fay' && s.tabs === 4 && s.hero === 'pass' && s.heroOff && s.order.join() === 'switch,actions,hero,panels,card' && s.card.picture && s.card.drawn && !s.card.amber
+    && tiled(s, 3) && tileOf(s, 'switch').form === 'board:tile' && s.tiles.every(t => !t.ring && !t.faded) && s.heroIcon === 'pass:painted' && s.heroGrey,
+  own: s => s.name === 'Your turn' && s.hero === 'pass' && !s.heroOff && s.promises === 'Promises, 1 new' && s.timer === '0:42' && tiled(s, 3) && s.heroIcon === 'pass:painted' && !s.heroGrey,
   urgent: s => s.urgent && s.timer === '0:08',
-  vote: s => s.kind === 'phase' && s.hero === 'vote' && !s.heroOff,
+  vote: s => s.kind === 'phase' && s.hero === 'vote' && !s.heroOff && s.heroIcon === 'vote:painted' && tiled(s, 3),
   voted: s => s.hero === 'voted',
   result: s => s.ring && s.promises === null && s.menu && s.heroOff && s.cover === 1,
   // 0.2.10: the pack's words and time for the dark (sheets 07 and 30), amber in its last 10 s as everyone's bar is.
-  dark: s => s.tone === 'dark' && s.figures === 0 && s.name === 'Blackout' && s.sub === 'Dark · positions fixed' && s.timer === '0:08' && s.urgent,
+  // 0.3.2: in the dark the game gives no person, so no portrait: the Card tab draws the card's tile, as the other three do theirs.
+  dark: s => s.tone === 'dark' && s.figures === 0 && s.name === 'Blackout' && s.sub === 'Dark · positions fixed' && s.timer === '0:08' && s.urgent && !s.card.picture && s.card.icon === 'card' && tiled(s, 4),
   target: s => s.target === 'Rescue' && s.chip === 'Other rooms · 1',
   pass: s => s.sheet === 'Pass your turn?' && s.sheetActions === 2,
-  actions: s => s.sheet === 'Actions' && s.open === 'actions',
+  // 0.3.2: the open tab's amber ring lies over its tile, and over no other.
+  actions: s => s.sheet === 'Actions' && s.open === 'actions' && tiled(s, 3) && tileOf(s, 'actions').ring && !tileOf(s, 'switch').ring && !tileOf(s, 'panels').ring,
   // 0.3.0: open, the portrait's ring is amber, and the tab is still named by its word.
   card: s => s.sheet === 'Your role' && s.open === 'card' && s.head === 'Hide card' && s.card.picture && s.card.drawn && s.card.amber && s.card.words === 'Card' && s.card.name === null,
-  // 0.3.0: with no character, the pack's card icon, in the last place.
-  'card-icon': s => s.order.join() === 'switch,actions,hero,panels,card' && !s.card.picture && s.card.icon === 'card' && s.card.words === 'Card',
+  // 0.3.0: with no character, the card's own icon in the last place; 0.3.2: as its painted tile.
+  'card-icon': s => s.order.join() === 'switch,actions,hero,panels,card' && !s.card.picture && s.card.icon === 'card' && s.card.words === 'Card' && tiled(s, 4) && tileOf(s, 'card').form === 'card:tile',
   talk: s => s.kind === 'pair' && s.talk === 2 && s.tabs === 0,
   stale: s => s.banner === 'Connection lost' && s.status === 'stale' && s.name === 'Reconnecting…' && s.sub === 'Showing Round 3 as last seen' && s.timer === null,
   // An eliminated player's phone (0.2.8): the banner's words without Retry, the phone live, Actions not offered.
-  out: s => s.banner === 'You’re out' && s.bannerKind === 'out' && s.bannerButtons === 0 && s.status === 'live' && s.tabs === 4 && s.heroOff,
+  out: s => s.banner === 'You’re out' && s.bannerKind === 'out' && s.bannerButtons === 0 && s.status === 'live' && s.tabs === 4 && s.heroOff && tiled(s, 3) && tileOf(s, 'actions').faded && !tileOf(s, 'panels').faded,
   concealed: s => s.buttons === 0 && s.name === null && s.figures === 0,
   // Edge to edge, and the banner at the bar's place: the top safe area, the bar's 52 px at the 16 px root (kit.css
   // .ph --bar-h), and 8 px, as the pack's banner on its bar-less film.
@@ -86,7 +93,7 @@ const EXPECT = {
     && s.banner === 'Connection lost' && s.bannerTop === s.layout.safe.top + 52 + 8,
   poster: s => s.kind === 'phase' && s.name === 'Setting course' && s.sub === 'The offices are setting it' && s.layout.bars.top === 0 && s.layout.bars.bottom === 0 && s.layout.stage.height === s.layout.size.height && s.tabs === 0,
   // 0.3.0: at 200 % on the small phone the portrait keeps its box (the top bar's 32 px, 0.3.1), and the Card label the other labels' level.
-  large: s => s.name === 'Your turn' && s.tabs === 4 && s.card.picture && s.card.box.join() === '32,32' && s.card.level,
+  large: s => s.name === 'Your turn' && s.tabs === 4 && s.card.picture && s.card.box.join() === '32,32' && s.card.level && tiled(s, 3),
   // 0.2.9: the target bar 8 px under the banner while reconnecting, so its Cancel is in reach; the banner keeps its place.
   'target-stale': s => s.banner === 'Connection lost' && s.target === 'Rescue' && s.over.targetTop >= s.over.bannerBottom + 8 && s.over.cancelReach,
   // 0.2.9: at 200 % on the two phones, Cancel under the words, the bar inside the phone, and the chip's label whole.
@@ -127,12 +134,18 @@ try {
           tabs: root.querySelectorAll('.ms-ps-tab[data-intent]').length, open: q('.ms-ps-tab[aria-expanded="true"]')?.dataset.value ?? null,
           // 0.3.0: the tabs' order, and the Card tab: its portrait (drawn, its box, amber or not) or its icon, its word and its name.
           order: [...root.querySelectorAll('.ms-ps-tabs > *')].map(n => n.dataset.value ?? 'hero'),
-          card: (() => { const tab = q('.ms-ps-tab[data-value="card"]'); if (!tab) return null; const pt = tab.querySelector('.ms-ps-tab-pt'), label = tab.querySelector('.ms-ps-tab-label'), other = q('.ms-ps-tab[data-value="panels"] .ms-ps-tab-label');
+          card: (() => { const tab = q('.ms-ps-tab[data-value="card"]'); if (!tab) return null; const pt = tab.querySelector('.ms-ps-tab-pt:not([data-tile])'), label = tab.querySelector('.ms-ps-tab-label'), other = q('.ms-ps-tab[data-value="panels"] .ms-ps-tab-label');
             const probe = document.createElement('i'); probe.style.color = 'var(--ms-ps-accent)'; root.append(probe); const accent = getComputedStyle(probe).color; probe.remove();
             return { picture: !!pt, drawn: pt ? getComputedStyle(pt).backgroundImage !== 'none' : null, box: pt ? [pt.getBoundingClientRect().width, pt.getBoundingClientRect().height] : null,
               // 0.3.1: no ring at rest; open, a ring in the accent (an inset shadow). amber: whether that ring is drawn.
               amber: pt ? getComputedStyle(pt).boxShadow.includes(accent) : null, ring: pt ? getComputedStyle(pt).boxShadow !== 'none' : null,
               icon: tab.querySelector('.ms-ps-tab-icon').dataset.icon.split(':')[0], words: label.textContent, name: tab.getAttribute('aria-label'), level: other ? Math.abs(label.getBoundingClientRect().top - other.getBoundingClientRect().top) < 0.5 : null }; })(),
+          // 0.3.2: each game tab's picture, a painted tile or the portrait: which, its box, whether the open tab's ring lies
+          // over a tile, and whether the tab is faded; and the round button's icon and whether it is greyed.
+          tiles: [...root.querySelectorAll('.ms-ps-tabs .ms-ps-tab[data-intent]')].map(tab => { const pt = tab.querySelector('.ms-ps-tab-pt'), r = pt ? pt.getBoundingClientRect() : null, isTile = !!pt && pt.hasAttribute('data-tile');
+            return { tab: tab.dataset.value, form: tab.querySelector('.ms-ps-tab-icon').dataset.icon.split(':').slice(0, 2).join(':'), tile: isTile, drawn: isTile ? !!pt.querySelector('svg') : null, box: r ? [r.width, r.height] : null,
+              ring: isTile ? getComputedStyle(pt, '::after').boxShadow !== 'none' : null, faded: getComputedStyle(tab).opacity !== '1' }; }),
+          heroIcon: q('.ms-ps-hero .ms-ps-hero-icon')?.dataset.icon ?? null, heroGrey: q('.ms-ps-hero .ms-ps-hero-icon svg') ? getComputedStyle(q('.ms-ps-hero .ms-ps-hero-icon svg')).filter !== 'none' : null,
           hero: q('.ms-ps-hero')?.dataset.mode ?? null, heroOff: !!q('.ms-ps-hero[data-off]'), talk: root.querySelectorAll('.ms-ps-talk button').length,
           target: t('.ms-ps-target b'), chip: t('.ms-ps-chip .ms-k-btn-label'), banner: t('.ms-ps-banner b'), bannerKind: q('.ms-ps-banner')?.dataset.kind ?? null, toast: t('.ms-ps-toast'),
           // 0.2.10: where the bar and each part of its right side lie, and how the title sits: its lines, and whether all of it shows.

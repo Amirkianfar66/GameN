@@ -1,6 +1,6 @@
 # Phone shell: Designer's runtime component
 
-**Version:** `phone-shell-0.3.1`, with `component-kit-0.8.2`. **Status (18 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its three files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
+**Version:** `phone-shell-0.3.2`, with `component-kit-0.8.2` and the icon family `phone-ui-icons-1.1.0`. **Status (18 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its three files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
 
 **What it is:** the match's frame on a phone, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
 
@@ -37,6 +37,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/`:
 | `phone-shell/phase-bars.mjs` | The phase bars' words (0.2.10): `phaseBar()`, `movedBar()`, `loadingBar()`, `reconnectingBar()`, `phaseClosedToast()`, `PHASE_WORDS`, `PHASE_BAR_PHASES`, `PHASE_BAR_REFUSED`. It imports the shell only for `clockText()`, and the shell does not import it |
 | `kit/kit.mjs`, `kit/kit.css` | The shared component kit (`component-kit-0.8.2`, [its page](kit.md)): the shell's buttons, icon buttons, toast and control policy are the kit's, as every Designer component's are, and so is how it follows the text size (0.2.11). Since 0.8.2 the toast's words wrap where they don't fit on one line |
 | `icons.mjs` | The phone interface's icon family (from #261) |
+| `icon-paint.mjs` | The family's painted form (0.3.2, `phone-ui-icons-1.1.0`): `iconTileSvg()`, a tab's icon as a tile in the crew portrait's frame, and `iconPaintedSvg()`, the drawing alone, painted, for the round button. It imports `icons.mjs` and nothing else ([the icons' page](icons.md#the-painted-form)) |
 | `phone-shell/preview/` | Development only: the preview on the pack's synthetic fixtures with the room scene in the stage, the lifecycle probe (`probe.mjs`), the agreement with the pack (`agree.mjs`) and the pack's own bar for each game step (`phase-cases.mjs`) |
 | `phone-shell/review/` | The check's captures and `check.json` |
 
@@ -172,11 +173,48 @@ So the Card tab draws the top bar's portrait itself: the same picture, the same 
 - **At rest it has no ring,** as in the top bar. The tile's own white frame gives it its edge on the dark bar.
 - **Open:** the label turns amber, as every tab's does, and a 2 px amber ring is drawn round the tile. The ring is inside the 32 px box, in the tile's own clear margin, so nothing moves. A portrait can't be filled the way an icon is, so the ring is what shows the open tab on the picture.
 - **Unavailable:** the whole tab at 38 %, as every tab.
-- **No character:** with no person, a person with no character, or a character the match's crew bundle has no portrait for, the tab keeps the pack's `card` icon, filled while open. Never an empty tile.
+- **No character:** with no person, a person with no character, or a character the match's crew bundle has no portrait for, the tab draws the `card` icon. Until 0.3.1 that was the pack's line icon, filled while open; from 0.3.2 it is the card's painted tile, as the other tabs' are. Never an empty tile.
 - **Privacy:** the portrait is the player's own public character. It carries no team colour, no role tint and no ring in a team's colour. It is this viewer's input, dropped with the tabs while concealed and for a new viewer.
 - **Accessibility:** the tab is still named by its word, "Card". The portrait is decorative (`aria-hidden`). Open is announced as on every tab (`aria-expanded`). The long press at larger text shows "Card" with the card icon.
 - **Larger text:** the portrait keeps its 32 px box at every text size, and the label keeps the other labels' level.
 - **The private talk's My card** (sheet 25) is unchanged: the owner spoke of the bottom bar.
+
+## The painted tiles
+
+**The owner's decision, 18 November 2026.** The owner sent a picture of the bottom bar, and wrote:
+
+> This is what i am thinking of bottom bar
+
+The picture: Board, Actions and Panels each as a small painted rounded-square tile like the character's portrait, the same size as the Card tab's portrait, and the round button's Pass icon painted in orange. The draft was drawn in this component and shown on the control page before any check. The owner's answer:
+
+> I am ok with this new bar
+
+It is a second departure from sheet 08, which draws line icons in the tabs and a flat icon on the round button. The Lead Designer records it in the [owner decisions](../owner-decisions.md). The pinned pack stays as it is.
+
+| | The pack's sheet 08 | The shell from 0.3.2 |
+| --- | --- | --- |
+| A tab's icon | The family's line drawing, 26 px, in the tab's colour | The same drawing as a painted tile, 32 × 32 px |
+| The open tab | Its icon filled and amber, its label amber | An amber ring round its tile, its label amber |
+| The round button's icon | The filled drawing, 25 px, in the button's ink | The same drawing painted in orange, 29 px |
+
+- **The tile** is drawn by `icon-paint.mjs` from the family's own drawing, so each icon keeps one silhouette:
+  - the crew portrait's own frame: the same path, white rim, shadow and vignette, in the same box (a test holds the two equal);
+  - a warm orange ground, lit from the upper left as a portrait's is;
+  - the icon's drawing in cream over a brown line.
+- **Its place** is the portrait's: the same 32 × 32 px box at the same level, so the tabs' boxes, the labels' level and the bar's height are as they were. The agreement with the pinned pack still holds for every part it compares.
+- **One ground for everyone.** The tile's orange follows no player, seat, character, role or team: it is the same drawing on every phone.
+  - The owner's picture shows it so, and the control page put the other choice (each player's own colour) to the owner beside it.
+  - The Lead Designer measured it the tokens' way (CIE76): the ground `#EE8B3A` is 40 from Red's accent `#FF8C8C`, 25 from interaction amber `#F1B84B` and 20 from crew c1's accent `#B45A16`.
+- **Open:** the Card tab's 2 px amber ring, laid over the tile, and the amber label. A tile is not filled the way a line icon is.
+- **Unavailable:** the whole tab at 38 %, its tile with it. The round button turns to its unavailable grey as before, and its painted icon goes grey with it.
+- **On the Board** the first tab is Room, with the room's tile.
+- **The Card tab** keeps the viewer's portrait. With no portrait it draws the card's tile.
+- **In the Blackout's dark** the game gives no one's identity, so the bar draws no portrait: four tiles, the same as on any phone.
+- **Privacy:** a tile is the same drawing whoever holds the phone, and with no person given. The probe compares them to the letter.
+- **Accessibility:** nothing a screen reader meets changes. A tile is decorative (`aria-hidden`), each tab is named by its word, and open is announced as before. The long press at larger text still shows the tab's word with the family's line icon, which reads best large.
+- **Larger text:** a tile keeps its 32 px box at every text size.
+- **Not painted:** the private talk's two buttons, the top bar, the target bar, the banners, the sheets' buttons and the kit. The owner's picture is the game's bottom bar.
+- **No picture file:** the tiles are drawn in code, inline. They carry no inline style and reach for no file, so the hosted game's policy has nothing new to allow.
 
 ## Inputs
 

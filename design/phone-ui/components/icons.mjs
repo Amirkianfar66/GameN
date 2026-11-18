@@ -14,7 +14,7 @@ const p = (d, extra = {}) => Object.freeze({ d, ...extra });
 const dot = (x, y, r = 1.25) => Object.freeze({ c: [x, y, r], dot: true });
 const ring = (x, y, r, extra = {}) => Object.freeze({ c: [x, y, r], ...extra });
 
-export const ICON_FAMILY_VERSION = 'phone-ui-icons-1.0.0';
+export const ICON_FAMILY_VERSION = 'phone-ui-icons-1.1.0';
 
 /** name → { label: the accessible name, group, parts } */
 export const ICONS = Object.freeze({
@@ -112,6 +112,9 @@ export const ICONS = Object.freeze({
 });
 
 /**
+ * 1.1.0 (the owner, 18 November 2026): the family has a painted form, for the game's bottom bar. The 79 icons
+ * above are as they were, each on its own line as before; icon-paint.mjs paints them.
+ *
  * An icon's painted form, where it is painted by hand rather than from its line drawing: the same silhouette as
  * stacked shapes (`d`, and a tone: light, main or deep), drawn in order. Kept here, beside the family, so every
  * icon's drawing is in this one file; design/phone-ui/components/icon-paint.mjs paints them. It is beside the
