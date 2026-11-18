@@ -373,7 +373,10 @@ const STATES = {
     after: async page => {
       await page.evaluate(tap(TAB('panels')));
       await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='panels'", 'Panels');
-      await page.evaluate(tap('.ms-ps-sheet [data-planet-action="panel"][data-value="navigation"]'));
+      // Both builds, #307's first: the game's own Navigation button; release 3's (#310), the panels component's row.
+      const navigation = '.ms-ps-sheet [data-planet-action="panel"][data-value="navigation"], .ms-ps-sheet-body > .ms-panels [data-intent="open"][data-value="navigation"]';
+      await page.waitFor(`document.querySelector(${JSON.stringify(navigation)})`, 'Navigation in Panels');
+      await page.evaluate(tap(navigation));
       await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='navigation'&&document.querySelector('.ms-ps-sub')?.textContent==='Officer · private'", 'the Officer\'s own bar with Navigation open');
       const seen = await page.evaluate(LOOK);
       return { ownBar: seen.bar?.name === 'Setting course' && seen.bar.sub === 'Officer · private' && seen.sheet?.title === 'Navigation' };
