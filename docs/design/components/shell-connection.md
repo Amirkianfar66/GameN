@@ -138,29 +138,33 @@ The round stamp (#288, "ROUND 1" over the room as Round 1 begins) is mounted on 
 
 When a phase's time is up, the game's controller clears this phone's open choice and closes its sheet, without a word (`apps/game/src/planet/controller.ts`: `tick()` at the clock, `receive()` at a new phase). The pack says what happened: sheet 45's stale frame is the player's own bar at 0:00, Pass off, and the toast "That phase closed · choices cleared". The shell has had those words since 0.2.10 (`phaseClosedToast()`). The in-game animation builder connected them, to the interface the Lead Designer agreed on 17 November 2026.
 
-- **`phaseClosed(before, model)`** in `shell-input.mjs` tells the moment from two models painted one after the other. `render.mjs` keeps the model painted before.
+- **`phaseClosed(before, model, { drafting })`** in `shell-input.mjs` tells the moment from two models painted one after the other. `render.mjs` keeps the model painted before.
   - **Before:** a choice in progress. Its `action.step` is one of `SHELL_CHOOSING`: `targets`, `slots`, `faction`, `direction`, `number`, `promise`, `confirm`.
   - **Now:** that phase's time is up (`phase.expired` with trusted time, the same phase id), or another phase is on.
   - Both models are live and this player's, in one match.
+  - **`drafting`** (the Lead Designer, 18 November 2026): `true` when this phone had a choice open at the paint before that the model doesn't hold, such as a Promise being drafted in its sheet. It then counts as a choice in progress, by the same rule and with the same words. Anything but `true` is no draft. Nothing passes it in this PR; release 3's Promises (#310) will, in one line of `render.mjs`.
   - It returns `{ id }`, the closed phase's id. The toast's id is `closed:<id>`, so it shows once: at 0:00 under the old bar, as the sheet draws it, and not again when the next phase arrives.
 - **`shellToast(model, { closed })`** gives the closed toast when there is one, else the pass's. The two never meet: a closed phase has no accepted action left.
-- **It reads nothing private:** the connection, the match, the seat, the phase and whether this phone had a choice open. A model with every private field filled gives the same answer.
+- **It reads nothing private:** the connection, the match, the seat, the phase and whether this phone had a choice open (in the model, or a draft in this phone's own sheet). A model with every private field filled gives the same answer.
 
 | Case | Toast |
 | --- | --- |
 | The time runs out under an open choice | Once, at 0:00 |
 | Another phase arrives before 0:00 | Once |
 | "Pass your turn?" still open at the end | Once |
+| A Promise being drafted when its phase ends (`drafting`, release 3) | Once, the same words |
+| The draft closed or sent by the player before the end | None |
 | The player cancelled the choice, or sent it | None |
 | The connection went stale, then a new phase | None: the reconnecting banner says it |
 | The phone was put away and came back | None |
 | Only a sheet open (Card, Panels), no choice | None |
 | A shared display; another match or seat; time that is not trusted | None |
 
-**Three decisions (the Lead Designer, 17 November 2026):**
+**The Lead Designer's decisions (17 November 2026, and one of 18 November):**
 
 - **One rule for every phase, the Blackout too.** The toast goes to the same phone and audience as the target bar it replaces, and only the deciding player's phone had that bar. Telling them their position wasn't fixed is useful, and it shows nothing the bar didn't. Concealed, the shell drops it.
 - **Food Supply next.** After the Captain's appointment, or an office's confirmation at the move, the next phase can be Food Supply. Food's surface then takes the bars and the toast goes with the shell, so it can show for less than its 2.4 s. The phone can't know at 0:00 what comes next.
+- **A draft, 18 November 2026.** A Promise being drafted when its phase ends closes with its sheet. One rule and no new words: the same toast covers it, on this phone only, told by `drafting`. That this phone was drafting is shown to no one else.
 - **The vote, in release 3.** Today the controller closes the game's own ballot, and this toast explains it. #267's ballot keeps "Voting closed" itself (sheet 35). The change that connects it names the two votes in `SHELL_CLOSES_ITSELF` (`shell-input.mjs`), and `phaseClosed()` then stays silent for them. That change is the Gameplay UI builder's.
 
 **Not covered:**
@@ -205,12 +209,13 @@ These refuse the changed files until Integration approves. Each was found by rev
 
 ### Tests
 
-`apps/game/test/planet-phone-shell.test.mjs` passes 19 of 19. Every input it builds is accepted by the shell's own `checkBar`, `checkTabs` and `nextPhoneShellInput`. It covers:
+`apps/game/test/planet-phone-shell.test.mjs` passes 20 of 20. Every input it builds is accepted by the shell's own `checkBar`, `checkTabs` and `nextPhoneShellInput`. It covers:
 - the bar: another player's turn, your turn, each of the game's own phase names, the pair, reconnecting with the round last seen, and "Loading the ship" on the first connect;
 - the phase bars' words: before turns with an Officer, with a block shown, with no Officer and with the Officer's block open; the appointment for everyone else, never amber, and for the Captain with it open; the Blackout lit, with the time to lights-out, and dark; Ship synchronized's ring; Setting course in all four navigation phases, for everyone and for an office with its Navigation open; a shared display;
 - the facts for those words: each read from the model, unchanged by any offer, role or private field, and every phase either `phaseBar()`'s or one of the game's own;
 - the round stamp's moment and clock (G18): Round 1's Before turns and no other phase or round, the same window for a late phone; the server time plus the time since the model arrived, kept when a model is shown again, and none while untrusted, run out or not live; nothing private read;
 - a phase that closed under an open choice: the moment from two models (the time up, another phase, every step of a choice; never one sent, registered or refused, a cancel, a sheet alone, untrusted time, or a model that isn't live or isn't this player's); the toast's words, icon and id; given once through the whole input, kept by the shell's checks, dropped under Food's surface; nothing private read;
+- a phase that closed under a draft this phone alone holds: the same toast by the same rule, only for `true`, never for a draft closed or sent before the end, a lost connection, a phone put away, a display, another match or seat, or untrusted time; a choice and a draft together are one closed phase; nothing private read;
 - the same on the game's own controller, with its test rig (`planet-support.mjs`): it clears an open choice at 0:00 without a word, and its models give the toast once; never for a cancel, a pass accepted, a lost connection, a phone put away or a sheet alone;
 - the clock: the time as given, amber from 10 s, the ring without amber for the two fixed presentations, no clock while untrusted;
 - Promises and ⋮;
@@ -230,9 +235,11 @@ These refuse the changed files until Integration approves. Each was found by rev
 - It serves them with the hosted game's production headers (`createHostedPreviewHeaders`, headers SHA-256 `424e5dec…`, the same as the shell's and the room scene's checks).
 - It drives the app at 390 × 844 and 430 × 932, and two sheets at 320 × 568 with the Largest text, in one browser, one page at a time. `--only` draws some states and adds them to the record when it names the same candidate, art and headers. This record was made in one run.
 
-**Result:** 44 of 44 captures pass: twenty-one states at both sizes, and two sheets at 320 × 568 with the Largest text. Recorded on `637079f2` (shell 0.3.3 with icons 1.1.0, kit 0.8.2 and room scene 0.5.1: the toast's place, a squeezed sheet's footer and a long title's head) with the source clean and the art from `64e55516`, in one run. `64e55516` was `origin/main` in this clone at the run; `main` has since moved to `7d18ac0f` by two documentation files (`AGENTS.md` and `docs/agent-roster.md`), so the art and the harnesses are the same.
+**Result:** 44 of 44 captures pass: twenty-one states at both sizes, and two sheets at 320 × 568 with the Largest text. Recorded on `92849b6b` (shell 0.3.3 with icons 1.1.0, kit 0.8.2 and room scene 0.5.1; the phase-closed rule's `drafting`, which nothing passes yet) with the source clean and the art from `64e55516`, in one run. `64e55516` was `origin/main` in this clone at the run; `main` has since moved to `7d18ac0f` by two documentation files (`AGENTS.md` and `docs/agent-roster.md`), so the art and the harnesses are the same.
 
-**Shell 0.3.3 changes nothing the connection gives or hears,** and nothing in these states' frame. Against `97e28d09`'s record (shell 0.3.2), in the 42 captures both have:
+**Against `637079f2`'s record,** the same 44 captures before `drafting`: every recorded box is the same (419 boxes), every check and every sheet's measure has the same answer, and the tab bar has no changed pixel. The top bar differs only at the result's ring (20 and 14 pixels) and at one digit of the Blackout's clock at 430 wide (151 pixels): the harness's time. `concealed` is the same byte for byte. The game behaves as before, as it must: nothing passes `drafting` here.
+
+**Shell 0.3.3 changes nothing the connection gives or hears,** and nothing in these states' frame. `637079f2`'s record (shell 0.3.3 merged) against `97e28d09`'s (shell 0.3.2), in the 42 captures both have:
 - **Every recorded box is the same:** 394 boxes (the bars, the tabs, the round button, each sheet, the target bar, the banners, the stage), to a tenth of a pixel. Every check has the same answer.
 - **The tab bar has no changed pixel** in any capture, a pixel counted when it is more than 32 of 255 apart. **The top bar** differs only at the result's ring (5 and 4 pixels): the harness's time.
 - **The Pass sheet** has no changed pixel at either size. The Actions sheet and the ballot differ only where the room moves behind their glass (at most 3,248 pixels, none of them in the ballot's head).

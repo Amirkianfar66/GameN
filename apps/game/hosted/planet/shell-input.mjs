@@ -116,11 +116,17 @@ export const SHELL_CLOSES_ITSELF=Object.freeze([]);
  * away inside a running phase. One rule for every phase, the Blackout's too: the toast goes to the phone that
  * showed the choice, as the target bar it replaces did, so it tells no one else anything. Returns { id }, the
  * closed phase's, so the toast shows once: at 0:00, and not again when the next phase arrives.
+ *
+ * `drafting` (the Lead Designer, 18 November 2026): a choice the model doesn't hold, open on this phone at the paint
+ * before, such as a Promise being drafted in its sheet (release 3). The renderer says so with `true`, about this
+ * phone's own sheet at that paint; nothing private is read for it. The same rule and the same words then hold: a
+ * sheet that closes under the player's thumb gets its reason. Anything but `true` is no draft.
  */
-export function phaseClosed(before,model){
+export function phaseClosed(before,model,{drafting=false}={}){
  const mine=m=>m?.connection==='live'&&!m.concealed&&m.surface==='player'&&!!m.ownSeatId&&typeof m.phase?.id==='string'&&!!m.phase.id;
  if(!mine(before)||!mine(model)||before.matchId!==model.matchId||before.ownSeatId!==model.ownSeatId)return null;
- if(!before.action||!SHELL_CHOOSING.includes(before.action.step)||SHELL_CLOSES_ITSELF.includes(before.phase.kind))return null;
+ const choosing=!!before.action&&SHELL_CHOOSING.includes(before.action.step);
+ if(!choosing&&drafting!==true||SHELL_CLOSES_ITSELF.includes(before.phase.kind))return null;
  const over=model.phase.id!==before.phase.id||model.phase.trusted===true&&model.phase.expired===true;
  return over?{id:before.phase.id}:null;
 }
