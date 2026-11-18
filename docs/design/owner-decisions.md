@@ -922,6 +922,22 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - the game's connection on #307 passes the viewer's own person;
 - the Lead reviews it at 390 × 844 and 430 × 932.
 
+**Turned heads for Atlas and Lyra as they walk away, that afternoon.**
+- **What was found:** in Room B's walks, a walker seen from about 100° to 118° round showed the crew's straight back view on a side-on body. At phone size Atlas's read as a mask: a dark dome over a crescent of skin. Lyra's read better, thanks to her bun. Only approved heads were in use, so no new angle could go in without the owner.
+- **The In-game animation builder drew a sheet:** each head beside today's, on a walking body at the phone's own size, three drawings each.
+  - Atlas's is a new turned head: his quiff, the ear, the line of brow and jaw, the end of his moustache.
+  - Lyra's is the side view already in the accepted module, never shown before.
+- **The Lead asked, in the question dialog, with the sheet's link:**
+
+> Room B walks: when Atlas or Lyra walk away at a slant (about 100°–118°), today's back-of-head drawing looks like a mask at phone size, especially Atlas's. The builder drew a turned head for each: a new side-on head for Atlas, and Lyra's existing side view. […] Which should the room page use?
+
+- **The owner chose:** "Turned heads for both", the Lead's recommendation.
+
+**What it decides:**
+- **The angles:** Atlas's turned head and Lyra's side view are used from about 100° to 118° round while walking away.
+- **Everywhere else, nothing changes:** the approved face nearer the front and the back view farther round. That is five of Atlas's drawings and 21 of Lyra's across the five views.
+- **The rule for new angles stands:** a head the owner hasn't seen goes to them as a sketch first.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
