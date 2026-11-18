@@ -130,7 +130,7 @@ try {
           card: (() => { const tab = q('.ms-ps-tab[data-value="card"]'); if (!tab) return null; const pt = tab.querySelector('.ms-ps-tab-pt'), label = tab.querySelector('.ms-ps-tab-label'), other = q('.ms-ps-tab[data-value="panels"] .ms-ps-tab-label');
             const probe = document.createElement('i'); probe.style.color = 'var(--ms-ps-accent)'; root.append(probe); const accent = getComputedStyle(probe).color; probe.remove();
             return { picture: !!pt, drawn: pt ? getComputedStyle(pt).backgroundImage !== 'none' : null, box: pt ? [pt.getBoundingClientRect().width, pt.getBoundingClientRect().height] : null,
-              // 0.3.1: no ring at rest; open, a ring in the accent (an inset shadow). `amber` is whether that ring is drawn.
+              // 0.3.1: no ring at rest; open, a ring in the accent (an inset shadow). amber: whether that ring is drawn.
               amber: pt ? getComputedStyle(pt).boxShadow.includes(accent) : null, ring: pt ? getComputedStyle(pt).boxShadow !== 'none' : null,
               icon: tab.querySelector('.ms-ps-tab-icon').dataset.icon.split(':')[0], words: label.textContent, name: tab.getAttribute('aria-label'), level: other ? Math.abs(label.getBoundingClientRect().top - other.getBoundingClientRect().top) < 0.5 : null }; })(),
           hero: q('.ms-ps-hero')?.dataset.mode ?? null, heroOff: !!q('.ms-ps-hero[data-off]'), talk: root.querySelectorAll('.ms-ps-talk button').length,
