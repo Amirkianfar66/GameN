@@ -37,6 +37,9 @@
 //   refused-phase-closed        and with the talk: the sheet closes with its phase, and no words are left
 //   promise-draft-closed        a draft open when the talk's time runs out: the shell's phase-closed toast, once
 //   promise-results             after the talk: Received and Given with their status
+//   windows                     Windows (#299) at a station: its window, the drawings by name, the box and the inks
+//   windows-drawn, -shown, -done  two strokes drawn; Show sends one SHOW_WINDOW with them; SHOWN once the view has it; Done
+//   windows-view, windows-none  away from a station, the room's windows; in the Command Room, the game's own sentence
 // And at 320 × 568 with the Largest text (the Lead's and the Bars & Icons builder's ask with shell 0.3.3):
 //   promise-incoming-largest    the partner's offer, the first game sheet the shell squeezes: its head and room
 //   promise-incoming-largest-accept   scrolled to Accept, which a tap at its place on the screen sends
@@ -174,6 +177,7 @@ const PANELS = '.ms-ps-sheet .ms-ps-sheet-body > .ms-panels';
 const OPEN = value => `${PANELS} [data-intent="open"][data-value="${value}"]`;
 const VIEW = view => `document.querySelector(${JSON.stringify(PANELS)})?.dataset.view===${JSON.stringify(view)}`;
 const PROMISES = '.ms-ps-sheet .ms-ps-sheet-body > .ms-promises';
+const WINDOWS = '.ms-ps-sheet .ms-ps-sheet-body > .ms-windows';
 const PVIEW = view => `document.querySelector(${JSON.stringify(PROMISES)})?.dataset.view===${JSON.stringify(view)}`;
 const PROW = intent => `${PROMISES} .ms-k-row[data-intent="${intent}"]`;
 const KIND = kind => `${PROMISES} [data-intent="kind"][data-value="${kind}"]`;
@@ -278,6 +282,19 @@ const LOOK = `(() => {
         last: (() => { let n = e.nextElementSibling; while (n?.classList.contains('ms-k-vh')) n = n.nextElementSibling; return n === null; })(),
         whole: (() => { const r = e.getBoundingClientRect(), b = body?.getBoundingClientRect(); return !!b && r.top >= b.top - 0.5 && r.bottom <= b.bottom + 0.5; })() } : null)(p.querySelector('.ms-k-error')),
       text: text(p) } : null)(document.querySelector(${JSON.stringify(PROMISES)})),
+    // The Windows sheet's part (design/phone-ui/components/windows): each window's head, the drawings' lines, the
+    // drawing box and its strokes, the inks, Undo, the stamp, and the no-window block.
+    windows: (w => w ? { first: body?.firstElementChild === w, label: w.getAttribute('aria-label'),
+      heads: [...w.querySelectorAll('.ms-k-section-head')].filter(n => !n.closest('[hidden]')).map(h => [...h.children].map(text).filter(Boolean).join('|')),
+      metas: [...w.querySelectorAll('.ms-wn-meta')].filter(n => !n.closest('[hidden]')).map(m => [...m.children].map(text).join('|')),
+      labels: [...w.querySelectorAll('.ms-k-group-label')].filter(n => !n.hidden && !n.closest('[hidden]')).map(text),
+      drawings: [...w.querySelectorAll('.ms-wn-drawing')].filter(n => !n.closest('[hidden]')).length,
+      pad: (b => b ? { label: b.getAttribute('aria-label'), strokes: b.querySelectorAll('.ms-wn-stroke').length } : null)(w.querySelector('.ms-wn-pad')),
+      inks: [...w.querySelectorAll('.ms-wn-swatch')].map(b => b.getAttribute('aria-label') + ':' + b.getAttribute('aria-checked')),
+      undoOff: w.querySelector('[data-intent="undo"]')?.hasAttribute('data-off') ?? null,
+      stamp: text(w.querySelector('.ms-wn-stamp .ms-k-stamp')) || null,
+      wait: (n => n ? [text(n.querySelector('.ms-k-wait-title')), text(n.querySelector('.ms-k-wait-line'))].filter(Boolean).join('|') : null)(w.querySelector('.ms-k-wait')),
+      text: text(w) } : null)(document.querySelector(${JSON.stringify(WINDOWS)})),
     // Every inline error on the phone: a refusal's words show in one place at most.
     notes: all('.ms-k-error').length,
     stage: { inShell: !!document.querySelector('.ms-ps-stage > .planet-stage'), scene: document.querySelector('.planet-stage .ms-room-scene')?.dataset.room ?? null, view: document.querySelector('.planet-stage')?.dataset.view ?? null,
@@ -316,6 +333,22 @@ const foot = s => (s.sheet?.foot ?? []).map(b => `${b.value}:${b.label}${b.disab
 const gone = (s, words = []) => s.actions === null && words.every(w => !s.page.includes(w));
 
 /** Steps that more than one state starts with: the Doctor's Rescue of Crew 3, and the Hacker's Move with two rooms. */
+/** A stroke drawn in the drawing box as a finger would: pressed, moved in eight steps, released (real input events). */
+async function drawStroke(page, [x0, y0], [x1, y1]) {
+  const pad = `${WINDOWS} .ms-wn-pad`;
+  await page.evaluate(`document.querySelector(${JSON.stringify(pad)}).scrollIntoView({block:'center'})`);
+  await sleep(150);
+  const box = await page.evaluate(`(r => ({ x: r.x, y: r.y, w: r.width, h: r.height }))(document.querySelector(${JSON.stringify(pad)}).getBoundingClientRect())`);
+  const at = (u, v) => ({ x: box.x + u * box.w, y: box.y + v * box.h });
+  const a = at(x0, y0), b = at(x1, y1);
+  await page.send('Input.dispatchMouseEvent', { type: 'mousePressed', x: a.x, y: a.y, button: 'left', buttons: 1, clickCount: 1 });
+  for (let i = 1; i <= 8; i++) {
+    const q = at(x0 + (x1 - x0) * i / 8, y0 + (y1 - y0) * i / 8);
+    await page.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: q.x, y: q.y, button: 'left', buttons: 1 });
+  }
+  await page.send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: b.x, y: b.y, button: 'left', buttons: 0, clickCount: 1 });
+}
+
 const STEPS = {
   panels: async page => {
     await page.evaluate(tap(TAB('panels')));
@@ -330,6 +363,12 @@ const STEPS = {
   promises: async page => {
     await page.evaluate(tap(TOP_PROMISES));
     await page.waitFor(`${SHEET('promises')}&&${PVIEW('list')}`, 'Promises');
+  },
+  /** Windows, from the Panels tab's row, as a player opens it. */
+  windows: async page => {
+    await STEPS.panels(page);
+    await page.evaluate(tap(OPEN('windows')));
+    await page.waitFor(`${SHEET('windows')}&&document.querySelector(${JSON.stringify(WINDOWS)})`, 'Windows');
   },
   /** The terms of a Jail Vote for Crew 3, drafted and not sent: the six kinds, Jail Vote, Next, Crew 3, Next. */
   terms: async page => {
@@ -981,6 +1020,67 @@ const STATES = {
       rows: promiseRows(s) === 'Your quota / Given 1/1 · Received 1/1|Jail Vote / From Crew 3 / Not fulfilled|Meet in Room B / To Crew 1 / Pending',
       portraits: s.promises?.rows.slice(1).every(r => r.portrait), note: s.promises?.notes.join('|') === '“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.',
       noTalk: !s.promises?.text.includes('talking now'), noCommand: s.commands.length === 0 }) },
+  // ── Windows (#299, release 3 step 3; sheet 34) ──
+  // At a station (B1, Room A ↔ Room B's): the sheet shows that window only (the component's decision 2), with this
+  // round's drawings by name, the drawing box, the four inks, and Show off while nothing is drawn.
+  windows: { page: 'phone', url: 'scenario=windows', steps: STEPS.windows,
+    facts: s => ({ frame: s.sheet?.id === 'windows' && s.sheet.title === 'Windows' && s.sheet.back && s.sheet.close && s.sheet.sub === null,
+      part: s.windows?.first === true, showOff: foot(s) === 'show:Show:off', noCommand: s.commands.length === 0, statusClear: s.status === null,
+      // This player's room first: Room B, at B1; each drawing's author by name, this player's own "Can't be changed".
+      head: s.windows?.heads.join('||') === 'Room B ↔ Room A|Your station · B1', drawings: s.windows?.drawings === 2,
+      metas: s.windows?.metas.join('||') === '1 · Crew 1 · Round 6|Unverified||2 · Crew 6 · Round 6|Can’t be changed', label: s.windows?.labels.join('|') === 'Shown this round',
+      box: s.windows?.pad?.label === 'Drawing for Room B ↔ Room A' && s.windows.pad.strokes === 0,
+      inks: s.windows?.inks.join('|') === 'Gold:true|Paper:false|Teal:false|Pink:false', undoOff: s.windows?.undoOff === true }) },
+  // Two strokes, the second in Teal, drawn with real input in the box: the draft is this phone's own, nothing is sent.
+  'windows-drawn': { from: 'windows', steps: async page => {
+      await drawStroke(page, [0.15, 0.3], [0.45, 0.7]);
+      await page.evaluate(tap(`${WINDOWS} .ms-wn-swatch[aria-label="Teal"]`));
+      await drawStroke(page, [0.55, 0.7], [0.85, 0.3]);
+      await page.waitFor(`document.querySelectorAll(${JSON.stringify(WINDOWS + ' .ms-wn-pad .ms-wn-stroke')}).length===2`, 'two strokes in the box');
+    },
+    facts: s => ({ strokes: s.windows?.pad?.strokes === 2, showOn: foot(s) === 'show:Show', noCommand: s.commands.length === 0,
+      teal: s.windows?.inks.join('|') === 'Gold:false|Paper:false|Teal:true|Pink:false', undoOn: s.windows?.undoOff === false }) },
+  // Show: the controller's own draft of the drawing, then confirm; one SHOW_WINDOW with the two strokes. The harness
+  // answers every command and changes nothing, so the check plays the server: the next view has the drawing, by this
+  // player, at Room A ↔ Room B. Then the shown view: the drawing with its SHOWN stamp, and Done.
+  'windows-shown': { from: 'windows-drawn', steps: async page => {
+      await page.evaluate(tap(FOOT('show')));
+      await page.waitFor(`(window.planetHarness?.requests??[]).some(r=>r.operation==='command'&&r.request.command.type==='SHOW_WINDOW')`, 'Show sent');
+      await page.evaluate(edit("const c=h.requests.filter(r=>r.operation==='command').at(-1).request.command;p.windows.find(w=>w.windowId===c.windowId).drawings.push({id:'shown-3',windowId:c.windowId,authorSeatId:p.self.seatId,round:p.round,order:2,drawing:c.drawing})"));
+      await page.waitFor(`document.querySelector(${JSON.stringify(WINDOWS + ' .ms-wn-stamp')})&&document.querySelector('.ms-ps-sheet-foot [data-value="done"]')`, 'the shown view');
+    },
+    facts: s => ({ sent: s.commands.length === 1 && s.commands[0].type === 'SHOW_WINDOW' && s.commands[0].windowId === 'A_B' && s.commands[0].drawing?.strokes?.length === 2,
+      // The pack's pen: Gold first, then Teal, each 6 wide in 512; every point the finger passed.
+      strokes: s.commands[0]?.drawing?.strokes?.map(x => `${x.color}/${x.width}/${x.points.length}`).join(' ') === '#F7D886/6/9 #57BBA8/6/9',
+      stamp: s.windows?.stamp === 'SHOWN', done: foot(s) === 'done:Done', noPad: s.windows?.pad === null,
+      shownFirst: s.windows?.metas[0] === '3 · Crew 6 · Round 6|Can’t be changed' && s.windows.metas.length === 3,
+      // The shown view is the receipt: no toast, and no status line.
+      quiet: s.toast === null && s.status === null }) },
+  // Done: the station's view again, with a blank box and Show off; the drawing is among this round's.
+  'windows-done': { from: 'windows-shown', steps: async page => {
+      await page.evaluate(tap(FOOT('done')));
+      await page.waitFor(`document.querySelector(${JSON.stringify(WINDOWS + ' .ms-wn-pad')})`, 'the box again');
+    },
+    facts: s => ({ blank: s.windows?.pad?.strokes === 0, showOff: foot(s) === 'show:Show:off', oneCommand: s.commands.length === 1, noStamp: s.windows?.stamp === null,
+      shownAmong: s.windows?.metas.join('||') === '1 · Crew 1 · Round 6|Unverified||2 · Crew 6 · Round 6|Can’t be changed||3 · Crew 6 · Round 6|Can’t be changed' }) },
+  // Away from a station (B5): the view, the room's windows, each with its drawings, and no footer.
+  'windows-view': { page: 'phone', url: 'scenario=windows', steps: async page => {
+      await page.evaluate(edit("p.board.seats.find(x=>x.seatId===p.self.seatId).slotId='B5';for(const w of p.windows)w.canDraw=false;p.offers=p.offers.filter(o=>o.type!=='SHOW_WINDOW')"));
+      await page.waitFor(`${game}.getModel().board?.seats?.find(x=>x.seatId===${game}.getModel().ownSeatId)?.slotId==='B5'`, 'at B5');
+      await STEPS.windows(page);
+    },
+    facts: s => ({ noPad: s.windows?.pad === null, noFoot: s.sheet?.foot.length === 0, noCommand: s.commands.length === 0,
+      heads: s.windows?.heads.join('||') === 'Room B ↔ Room A|Ends with the round||Room B ↔ Jail|Ends with the round',
+      metas: s.windows?.metas.join('||') === '1 · Crew 1 · Round 6|Unverified||2 · Crew 6 · Round 6|Can’t be changed' && s.windows.drawings === 2 }) },
+  // In the Command Room, which has no window: the game's own sentence, the one it has for no window and windows
+  // closed now alike (W1), in the component's waiting block.
+  'windows-none': { page: 'phone', url: 'scenario=windows', steps: async page => {
+      await page.evaluate(edit("Object.assign(p.board.seats.find(x=>x.seatId===p.self.seatId),{location:'Command Room',slotId:'C1'});p.windows=[];p.offers=p.offers.filter(o=>o.type!=='SHOW_WINDOW')"));
+      await page.waitFor(`${game}.getModel().board?.seats?.find(x=>x.seatId===${game}.getModel().ownSeatId)?.location==='Command Room'`, 'in the Command Room');
+      await STEPS.windows(page);
+    },
+    facts: s => ({ wait: s.windows?.wait === 'No window is visible from your current location.', noPad: s.windows?.pad === null, noFoot: s.sheet?.foot.length === 0,
+      noCommand: s.commands.length === 0, noHead: s.windows?.heads.length === 0 }) },
   // Shell 0.3.3 in the game (the Lead's and the Bars & Icons builder's ask, 18 November): the partner's offer, on the
   // smallest phone at the Largest text, the first game sheet the shell squeezes. Its head, its content's room, then
   // Accept reached by scrolling, and its tap, at its place on the screen, sending the one ACCEPT_PROMISE.

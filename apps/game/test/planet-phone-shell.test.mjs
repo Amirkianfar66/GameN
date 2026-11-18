@@ -345,7 +345,9 @@ test('the sheet\'s frame for each open panel and action; the body stays the game
  for(const panel of ['windows','navigation','hospital','players','round-order'])assert.equal(shellSheet(model({panel})).back,true,panel);
  for(const panel of ['actions','card','panels','promises','settings'])assert.equal(shellSheet(model({panel})).back,false,panel);
  assert.equal(shellSheet(model({panel:'card'})).sub,'Only on this phone');assert.equal(shellSheet(model({panel:'card'})).detent,'large');
- assert.equal(shellSheet(model({panel:'windows'})).sub,'Unverified claims · Expires after Round 3');
+ // Windows are the windows component's one sheet (release 3; planet-windows.test.mjs): its frame has no sub, as sheet
+ // 34 draws it; each window's head says it ends with the round.
+ assert.equal(shellSheet(model({panel:'windows'})).sub,null);assert.equal(shellSheet(model({panel:'windows'})).detent,'large');
  // The dark, a closed phase and an unknown outcome, as today's sheet titled them.
  assert.equal(shellSheet(model({panel:'actions',dark:true})).title,'Blackout');
  assert.equal(shellSheet(model({panel:'card',phase:{...turn,expired:true}})).title,'Waiting for the server');

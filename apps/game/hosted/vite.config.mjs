@@ -39,7 +39,12 @@ const panelsSources = ['design/phone-ui/components/panels/panels.mjs', 'design/p
 // (it uses the kit, admitted above); never its preview/ or review/.
 const promisesSources = ['design/phone-ui/components/promises/promises.mjs', 'design/phone-ui/components/promises/promises.css'];
 // END Promises connection
-const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contracts/dist/', 'packages/presentation/dist/', 'packages/design-tokens/dist/', ...designSources, ...shellSources, ...actionsSources, ...panelsSources, ...promisesSources];
+// BEGIN Windows connection, for Integration's approval (the owner's plan of 16 November 2026, release 3, step 3, the
+// Lead's order of 18 November: Windows are Designer's windows component as it is). Exactly its two runtime files
+// (it uses the kit, admitted above); never its preview/ or review/.
+const windowsSources = ['design/phone-ui/components/windows/windows.mjs', 'design/phone-ui/components/windows/windows.css'];
+// END Windows connection
+const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contracts/dist/', 'packages/presentation/dist/', 'packages/design-tokens/dist/', ...designSources, ...shellSources, ...actionsSources, ...panelsSources, ...promisesSources, ...windowsSources];
 
 export default {
   root: fileURLToPath(new URL('.', import.meta.url)),

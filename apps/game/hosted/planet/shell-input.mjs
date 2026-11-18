@@ -10,6 +10,7 @@ import {PHASE_BAR_PHASES,loadingBar,phaseBar,phaseClosedToast,reconnectingBar} f
 import {actionsChip,actionsFrame,actionsTarget,actionsToast} from './actions-input.mjs';
 import {panelsFrame} from './panels-input.mjs';
 import {PROMISES_SHEET_ID,promisesFrame,promisesOpen,promisesToast} from './promises-input.mjs';
+import {WINDOWS_SHEET_ID,windowsFrame} from './windows-input.mjs';
 
 /**
  * Today's names (render.mjs before the shell) for the phases whose bar is still the game's own: the votes, the
@@ -312,7 +313,7 @@ const frame=(id,kind,title,more={})=>({id,kind,title,sub:null,back:false,close:t
  * check, After Register, "Outcome unknown" and "Pass your turn?". The other bodies are the game's own until their
  * components come. `listOpen`: the board's List is showing; `flow`: this phone's own pick in its action.
  */
-export function shellSheet(model,{listOpen=false,flow=null,promises=null}={}){
+export function shellSheet(model,{listOpen=false,flow=null,promises=null,windows=null}={}){
  if(model.concealed)return null;
  // A shared display opens Settings only (the controller's rule): its preferences, and the host's controls when it hosts.
  if(model.surface!=='player')return model.panel==='settings'?frame('settings','settings','Settings'):null;
@@ -322,6 +323,10 @@ export function shellSheet(model,{listOpen=false,flow=null,promises=null}={}){
  // release 3); `promises` is this phone's own view and draft in it.
  const promise=promisesFrame(model,{flow:promises});
  if(promise)return promise;
+ // Windows (the panel, or Show drafted or under way) are the windows component's one sheet (windows-input.mjs,
+ // release 3); `windows` is this phone's own drawing, Show and the drawing just shown in it.
+ const windowSheet=windowsFrame(model,{flow:windows});
+ if(windowSheet)return windowSheet;
  const action=model.action;
  if(action){
   if(shellPicking(action))return listOpen?frame('target-list','target-list',action.label,{sub:action.prompt||null}):null;
@@ -339,9 +344,8 @@ export function shellSheet(model,{listOpen=false,flow=null,promises=null}={}){
  const panels=panelsFrame(model);
  if(panels)return panels;
  const back=PANEL_PAGES.includes(panel);
- const titles={windows:'Windows',navigation:'Navigation',hospital:'Hospital panel',actions:'Actions'};
+ const titles={navigation:'Navigation',hospital:'Hospital panel',actions:'Actions'};
  if(panel==='card')return frame('card','card','Your role',{sub:'Only on this phone',detent:'large'});
- if(panel==='windows')return frame('windows','windows','Windows',{back,detent:'large',sub:model.round===null?null:`Unverified claims · Expires after Round ${model.round}`});
  return titles[panel]?frame(panel,panel,titles[panel],{back}):null;
 }
 
@@ -354,7 +358,7 @@ export function shellSheet(model,{listOpen=false,flow=null,promises=null}={}){
  * bars keep their shape and the stage its size. A shared display takes taps: it has no tabs, Promises, target bar
  * or chip, so its only controls are ⋮, the Settings sheet's Close and Retry.
  */
-export function shellInput(model,{view='room',room=null,food=null,reducedMotion=false,lastRound=null,listOpen=false,closed=null,flow=null,promises=null,seen=null,seenVersions=null}={}){
+export function shellInput(model,{view='room',room=null,food=null,reducedMotion=false,lastRound=null,listOpen=false,closed=null,flow=null,promises=null,windows=null,seen=null,seenVersions=null}={}){
  const display=model.surface!=='player',status=shellStatus(model,{food}),hidden=status==='concealed';
  return {
   // Without a current state the model has no versions either. The person kept as last seen is drawn with the versions
@@ -362,7 +366,7 @@ export function shellInput(model,{view='room',room=null,food=null,reducedMotion=
   status,interactive:true,reducedMotion:!!reducedMotion,viewer:display?null:model.ownSeatId??null,versions:model.versions??(model.connection!=='live'?seenVersions:null)??null,
   bar:shellBar(model,{lastRound}),tabs:display?null:shellTabs(model,{view,seen}),
   target:hidden?null:shellTarget(model,{view}),chip:hidden?null:shellChip(model,{view,room}),banner:hidden?null:shellBanner(model,{lastRound}),
-  toast:hidden?null:shellToast(model,{closed,flow}),sheet:hidden?null:shellSheet(model,{listOpen,flow,promises}),
+  toast:hidden?null:shellToast(model,{closed,flow}),sheet:hidden?null:shellSheet(model,{listOpen,flow,promises,windows}),
  };
 }
 
@@ -384,9 +388,10 @@ export function shellHostSheet(sheet,hostFrame){
  * it. `opened` hears which of the shell's controls opened something, so the focus can go back to it. `live()` is
  * false once the renderer is disposed: then nothing is called. While a host sheet is open (`host.open()`), its
  * footer, Back and Close are its own. The Promises sheet's footer and Back are its own too (`promises`, release 3:
- * promises-input.mjs promisesHandlers); its Close closes it, as every sheet's.
+ * promises-input.mjs promisesHandlers); its Close closes it, as every sheet's. The Windows sheet's footer, Show and
+ * Done, is its own (`windows`, release 3: windows-input.mjs windowsHandlers); its Back returns to Panels.
  */
-export function shellHandlers({openPanel,begin,confirm,dismiss,toggleView,showBoard,openList,closeList,retry=null,checkReceipt=null,cancelTarget=null,cancelCheck=null,reconnect=null,layout=null,focusReturn=null,opened=null,live=()=>true,host=null,promises=null}){
+export function shellHandlers({openPanel,begin,confirm,dismiss,toggleView,showBoard,openList,closeList,retry=null,checkReceipt=null,cancelTarget=null,cancelCheck=null,reconnect=null,layout=null,focusReturn=null,opened=null,live=()=>true,host=null,promises=null,windows=null}){
  const when=run=>(...args)=>{if(live())run(...args);};
  const from=(intent,value=null)=>opened?.({intent,value});
  return {
@@ -402,6 +407,7 @@ export function shellHandlers({openPanel,begin,confirm,dismiss,toggleView,showBo
   onSheetAction:when((id,sheetId)=>{
    if(host?.open())host.action(id);
    else if(sheetId===PROMISES_SHEET_ID&&promises)promises.action(id);
+   else if(sheetId===WINDOWS_SHEET_ID&&windows)windows.action(id);
    else if(['confirm','register','pass'].includes(id))confirm();
    else if(id==='cancel'){if(sheetId==='action-check'&&cancelCheck)cancelCheck();else dismiss();}
    else if(id==='done')dismiss();

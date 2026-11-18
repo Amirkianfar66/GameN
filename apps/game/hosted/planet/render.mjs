@@ -1,6 +1,5 @@
 import {crewPortraitVariable,disposeCrewMounts,setCrewMountActivity,setCrewPictureSurface} from '../crew-runtime.mjs';
 import {PLANET_ACTION_LABELS,planetBlackholePresentation,planetTerminalArrival,planetPanelRequestText,planetHasPrivateFeedback} from '@mothership/presentation';
-import {PlanetDrawingSchema} from '@mothership/contracts';
 import {slotRects} from '../board-v2-drawing/fit-four.mjs';
 import {BOARD_ROOMS,sceneOf,slotsOf,LOCATION_OF} from '../board-v2-drawing/slots-four.mjs';
 import {boardV2SceneFrame,paintBoardV2} from '../board-v2-scene.mjs';
@@ -30,8 +29,9 @@ import {panelsHandlers,panelsPart,panelsView} from './panels-input.mjs';
 import {mountPromises} from '../../../../design/phone-ui/components/promises/promises.mjs';
 import {PROMISE_COMMANDS,promisesDrafting,promisesFlow,promisesHandlers,promisesPart,promisesRefusal,withoutRefusal} from './promises-input.mjs';
 import {refusalStatus} from './refusal-words.mjs';
+import {mountWindows} from '../../../../design/phone-ui/components/windows/windows.mjs';
+import {windowsFlow,windowsHandlers,windowsPart} from './windows-input.mjs';
 
-const windowNames={A_B:'Room A ↔ Room B',A_HOSPITAL:'Room A ↔ Hospital',B_JAIL:'Room B ↔ Jail'};
 const number=id=>id?`Player ${id.slice(5)}`:'—';
 const putBox=(node,r)=>{if(!r)return;for(const k of ['left','top','width','height'])if(Number.isFinite(r[k]))node.style[k]=`${r[k]}px`;};
 const roomFor=slot=>BOARD_ROOMS.find(room=>slotsOf(room,9).some(s=>s.id===slot));
@@ -91,6 +91,9 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  let flow=null,part=null;
  // Promises (release 3): this phone's own view and draft in the promises component's sheet (promises-input.mjs promisesFlow).
  let promises=null;
+ // Windows (release 3): this phone's own drawing, Show and the drawing just shown, in the windows component's sheet
+ // (windows-input.mjs windowsFlow). Dropped when hidden, put away or concealed, as the game's own local drawings were.
+ let windows=null;
  // A refused command's words in the open sheet (R2 with A3): they go at the player's next intent, any tap in the sheet
  // or out of it (`calm`); `said` is the last words shown there, which the status line then doesn't repeat
  // (refusal-words.mjs refusalStatus).
@@ -113,6 +116,10 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  // controller's own draft and confirm it (promises-input.mjs promisesHandlers).
  const promiseTaps=promisesHandlers({model:()=>controller.getModel(),flow:()=>promises,setFlow:next=>{promises=next;render(controller.getModel());},
   begin,choose:value=>controller.choose(value),confirm:()=>controller.confirm(),focusReturn:()=>focusBack(),live:()=>!disposed&&!!model});
+ // The Windows sheet's drawing is kept as the component reports it, then paints; Show makes the controller's own
+ // draft of it and confirms it (windows-input.mjs windowsHandlers).
+ const windowTaps=windowsHandlers({model:()=>controller.getModel(),flow:()=>windows,setFlow:next=>{windows=next;render(controller.getModel());},
+  showDrawing:(windowId,drawing)=>controller.showDrawing(windowId,drawing),confirm:()=>controller.confirm(),focusReturn:()=>focusBack(),live:()=>!disposed&&!!model});
  const choose=value=>actions.choose(value);
  // Cancel: back to the tiles (a refused Register's held check too, R2), a move back to choosing, or only closed
  // (actionsCancel); the rest as before.
@@ -139,6 +146,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
    back:()=>{hostSheet.back();uiKey=null;if(model)render(controller.getModel());},close:()=>hostSheet.close()},
   // The Promises sheet's footer (Next, Back, Offer, Accept, Decline) and the Back in its head (release 3).
   promises:{action:id=>promiseTaps.action(id),back:()=>promiseTaps.back()},
+  // The Windows sheet's footer (Show, Done); its Back returns to Panels, as every panel page's (release 3).
+  windows:{action:id=>windowTaps.action(id)},
  }));
  shell.stage.append(stage);
  // The game's own result window and status line lie over the room in the shell's cover: under its bars, target
@@ -146,7 +155,6 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  // the result window's component (#267) they are today's, between the bars as before.
  shell.slot('cover').append(resultPanel,status);
  const rects=(room,count,panel)=>sceneMode==='room'?allLayouts.roomPresses[room]:allLayouts.boardPresses[room];
- const drawings=new Map();
  const reduced=()=>model?.motion==='reduced'||document.documentElement.dataset.motion==='reduced'||media.matches;
  const completeArt=()=>{const loaded=new Set((document.documentElement.dataset.art??'').split(' '));return ['public-board','player-ui','roles','scene-art','abilities','board-v2-art','board-v2-motion-art','board-v2-films-art'].every(name=>loaded.has(name));};
  const artForRoom=room=>room==='hospital'?
@@ -195,41 +203,6 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   for(const grant of a?.protectionGrants??[])addText(`Protection for ${number(grant.targetSeatId)} from Round ${grant.activeFromRound}: ${grant.consumed?'consumed':'registered'}.`);
   const file=library.roleFile(model,p);if(file)sheetBody.append(file);
  }
- function paintDrawing(canvas,drawing){
-  const c=canvas.getContext('2d');c.clearRect(0,0,canvas.width,canvas.height);c.lineCap='round';c.lineJoin='round';
-  if(!PlanetDrawingSchema.safeParse(drawing).success)return;
-  for(const stroke of drawing.strokes){c.strokeStyle=stroke.color;c.fillStyle=stroke.color;c.lineWidth=stroke.width;const [[x,y]]=stroke.points;c.beginPath();c.moveTo(x*canvas.width,y*canvas.height);for(const [px,py]of stroke.points.slice(1))c.lineTo(px*canvas.width,py*canvas.height);if(stroke.points.length===1){c.arc(x*canvas.width,y*canvas.height,stroke.width/2,0,Math.PI*2);c.fill();}else c.stroke();}
- }
- function renderWindows(p){
-  if(!p?.windows?.length){addText('No window is visible from your current location.');return;}
-  for(const window of p.windows){
-   const heading=el('h3',windowNames[window.windowId]);heading.prepend(library.art(`wn-lintel-${window.windowId.toLowerCase().replaceAll('_','-')}`));sheetBody.append(heading);
-   for(const record of [...window.drawings].sort((a,b)=>a.order-b.order||a.id.localeCompare(b.id))){
-    const figure=el('figure');const canvas=el('canvas');canvas.width=512;canvas.height=280;canvas.setAttribute('role','img');canvas.setAttribute('aria-label',`Unverified drawing by ${number(record.authorSeatId)}, order ${record.order+1}`);paintDrawing(canvas,record.drawing);figure.append(canvas,el('figcaption',`${record.order+1}. ${number(record.authorSeatId)} · Round ${record.round}`));sheetBody.append(figure);
-   }
-   if(!window.canDraw){addText('View only from this position.');continue;}
-   const key=`${model.round}:${window.windowId}:${model.board?.seats.find(s=>s.seatId===model.ownSeatId)?.slotId}`;
-   let local=drawings.get(key);if(!local){local={strokes:[]};drawings.set(key,local);}
-   const canvas=el('canvas',null,'planet-drawing');canvas.width=512;canvas.height=280;canvas.tabIndex=0;canvas.setAttribute('aria-label',`Local drawing for ${windowNames[window.windowId]}. Use pointer or touch to draw; arrow keys position the pen, Space draws.`);paintDrawing(canvas,local);
-   const tools=el('div',null,'planet-drawing-tools'),ink=el('input'),width=el('select');ink.type='color';ink.value='#F7D886';ink.id=`planet-ink-${window.windowId}`;width.id=`planet-width-${window.windowId}`;
-   const inkLabel=el('label','Ink');inkLabel.htmlFor=ink.id;tools.append(inkLabel,ink);for(const n of [2,4,8,12,24]){const o=el('option',String(n));o.value=String(n);width.append(o);}width.value='4';const widthLabel=el('label','Width');widthLabel.htmlFor=width.id;tools.append(widthLabel,width);
-   let stroke=null,total=local.strokes.reduce((n,s)=>n+s.points.length,0),cursor=[.5,.5];
-   const start=point=>{if(local.strokes.length>=128||total>=4096)return;stroke={color:ink.value.toUpperCase(),width:Number(width.value),points:[point]};local.strokes.push(stroke);total++;paintDrawing(canvas,local);};
-   const append=point=>{if(!stroke||stroke.points.length>=512||total>=4096)return;stroke.points.push(point);total++;paintDrawing(canvas,local);};
-   const point=e=>{const r=canvas.getBoundingClientRect();return [Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))];};
-   canvas.addEventListener('pointerdown',e=>{e.preventDefault();canvas.setPointerCapture(e.pointerId);start(point(e));});canvas.addEventListener('pointermove',e=>append(point(e)));for(const event of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(event,()=>{stroke=null;});
-   canvas.addEventListener('keydown',e=>{
-    if(e.key.startsWith('Arrow')){e.preventDefault();cursor=[Math.max(0,Math.min(1,cursor[0]+(e.key==='ArrowRight'?.04:e.key==='ArrowLeft'?-.04:0))),Math.max(0,Math.min(1,cursor[1]+(e.key==='ArrowDown'?.04:e.key==='ArrowUp'?-.04:0)))];if(e.shiftKey){if(!stroke)start(cursor);else append(cursor);}else stroke=null;}
-    if(e.key===' '){e.preventDefault();start(cursor);stroke=null;}
-   });
-   const show=button('Show','show',window.windowId);show.id=`planet-show-${window.windowId}`;
-   show.disabled=!p.offers?.some(o=>o.type==='SHOW_WINDOW'&&o.windowIds.includes(window.windowId));
-   show.addEventListener('click',()=>controller.showDrawing(window.windowId,structuredClone(local)));
-   const reset=button('Clear local draft','local-clear');reset.addEventListener('click',()=>{local.strokes=[];stroke=null;total=0;paintDrawing(canvas,local);});
-   const undo=button('Undo local stroke','local-undo');undo.addEventListener('click',()=>{local.strokes.pop();stroke=null;total=local.strokes.reduce((n,s)=>n+s.points.length,0);paintDrawing(canvas,local);});
-   sheetBody.append(tools,canvas,undo,reset,show);
-  }
- }
  // An action's body. Its name is the sheet's title and its Pass, Vote or Register is the sheet's footer action
  // (shell-input.mjs shellSheet); choosing on the scene or the board shows the target bar instead.
  function renderAction(){
@@ -249,7 +222,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  function renderUI(sheetFrame){
   const focus=document.activeElement?.id;
   sheetBody.replaceChildren();
-  if(model.concealed){more=false;drawings.clear();return;}
+  if(model.concealed){more=false;return;}
   if(!sheetFrame)return;
   const p=model.privateArea;
   // Actions' own sheets are its parts' alone (syncSheetPart): "Outcome unknown", the check, After Register, Pass and its List.
@@ -271,7 +244,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   else if(sheetFrame.kind==='card')renderCard(p);
   // Promises are the promises component's alone (syncSheetPart): the list, the six kinds, Jail Vote's player, the terms and an incoming offer.
   else if(sheetFrame.kind==='promises'){/* Nothing of the game's. */}
-  else if(sheetFrame.kind==='windows')renderWindows(p);
+  // Windows are the windows component's alone (syncSheetPart): this room's windows, the drawing box and the shown drawing.
+  else if(sheetFrame.kind==='windows'){/* Nothing of the game's. */}
   else if(sheetFrame.kind==='navigation'){
    const setting=planetHasPrivateFeedback(model.versions)&&model.phase?.kind==='NAV_SETTING';if(setting)addText('The course is being set.');if(p?.navigation){const picture=library.route(p.navigation);if(picture)sheetBody.append(picture);addText(`Position: ${p.navigation.position}`);if(!setting)addText(`Final direction: ${p.navigation.direction??'awaiting resolution'}`);if(p.offers?.some(o=>o.type==='CHOOSE_NAV_DIRECTION'))sheetBody.append(beginButton('CHOOSE_NAV_DIRECTION'));if(p.offers?.some(o=>o.type==='CONFIRM_NAVIGATION'))sheetBody.append(beginButton('CONFIRM_NAVIGATION'));}
    else addText('Current route and direction are private to the offices.');
@@ -306,12 +280,14 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   */
  function syncSheetPart(status){
   const want=actionsPart(model,{frame:shellFrame,flow,reducedMotion:reduced()})??panelsPart(model,{frame:shellFrame,status,reducedMotion:reduced()})
-   ??promisesPart(model,{frame:shellFrame,flow:promises,status,reducedMotion:reduced()}),host=shell.sheetBody;
+   ??promisesPart(model,{frame:shellFrame,flow:promises,status,reducedMotion:reduced()})
+   ??windowsPart(model,{frame:shellFrame,flow:windows,status,reducedMotion:reduced()}),host=shell.sheetBody;
   if(part&&(!want||!host||part.name!==want.name||part.key!==want.key||part.host!==host))closeSheetPart();
   if(!want||!host)return;
   const key=JSON.stringify(want.input);
   if(!part){
-   const mount=want.name==='panels'?mountPanels(host,want.input,panelTaps):want.name==='promises'?mountPromises(host,want.input,promiseTaps):ACTIONS_PARTS[want.name](host,want.input,actions);
+   const mount=want.name==='panels'?mountPanels(host,want.input,panelTaps):want.name==='promises'?mountPromises(host,want.input,promiseTaps)
+    :want.name==='windows'?mountWindows(host,want.input,windowTaps):ACTIONS_PARTS[want.name](host,want.input,actions);
    part={name:want.name,key:want.key,host,input:key,mount};
    host.prepend(part.mount.element);if(!shellRunning)part.mount.suspend?.();
   }else if(key!==part.input){part.input=key;part.mount.update(want.input);}
@@ -509,8 +485,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   if(model.result){resultPanel.hidden=false;const side=planetTerminalArrival(model),banner=el('h2',model.result.winner?`${model.result.winner} reached its planet`:'No winner','planet-end-banner');banner.prepend(library.art(`en-banner-${side?side.toLowerCase():'none'}`,'planet-library-fill'));resultPanel.append(banner,el('p',model.result.reason.replaceAll('_',' ')));if(model.result.alienCoWinner)resultPanel.append(el('p','Alien co-victory'));for(const reveal of model.endReveal?.roles??[])resultPanel.append(el('p',`${number(reveal.seatId)} · ${reveal.role}`));if(model.endReveal){const code=el('p',`Original Code: ${model.endReveal.code.map(number).join(', ')}`,'planet-end-code');code.prepend(library.art('en-code'));resultPanel.append(code);}}
   if(model.result&&terminalAction)resultPanel.append(terminalAction);
   if(model.concealed||model.dark)resultPanel.hidden=true;
-  if(lastPanel!==model.panel){drawings.clear();more=false;lastPanel=model.panel;}
-  if(model.privateArea===null||model.concealed||model.dark||model.phase?.expired)drawings.clear();
+  if(lastPanel!==model.panel){more=false;lastPanel=model.panel;}
   const ownRoom=phoneRoom(model.board?.seats.find(s=>s.seatId===model.ownSeatId)?.location);
   if(ownRoom&&ownRoom!==lastOwnRoom){currentRoom=ownRoom;lastOwnRoom=ownRoom;}
   const ownTalk=!model.dark&&['HACK_DECLARE','HACK_RESULT','HACK'].includes(model.phase?.kind)&&model.ownSeatId&&[model.talk?.actorSeatId,model.talk?.targetSeatId].includes(model.ownSeatId)?model.talk.id:null;
@@ -532,8 +507,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   // The shell: this phone's input (shell-input.mjs). While the Food surface owns the chrome (active, or its
   // Task over the whole screen) the shell is concealed under it: its bars keep their shape as empty material,
   // with no name, time or control, as today's header and nav were hidden and inert.
-  flow=actionsFlow(flow,model);promises=promisesFlow(promises,model);
-  const input=shellInput(model,{view:sceneMode,room:currentRoom,food:foodSurface,reducedMotion:reduced(),lastRound,listOpen,closed,flow,promises,seen:ownSeen,seenVersions});
+  flow=actionsFlow(flow,model);promises=promisesFlow(promises,model);windows=windowsFlow(windows,model);
+  const input=shellInput(model,{view:sceneMode,room:currentRoom,food:foodSurface,reducedMotion:reduced(),lastRound,listOpen,closed,flow,promises,windows,seen:ownSeen,seenVersions});
   input.sheet=shellHostSheet(input.sheet,hostSheet?.frame()??null);
   // The host sheet's own toast (Copied, a receipt), once, when the game gives none.
   const nextToast=input.toast??hostSheet?.toast?.()??null;if(nextToast)toast=nextToast;
@@ -607,12 +582,12 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  };
  // Escape closes what is open, as today's Close; the shell moves the focus to itself when the focused control ends.
  const onKey=e=>{if(e.key==='Escape')dismiss();};
- const onVisibility=()=>{controller.setVisible(document.visibilityState==='visible');syncSceneActivity();syncShellActivity();if(document.visibilityState!=='visible'){motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;}};
+ const onVisibility=()=>{controller.setVisible(document.visibilityState==='visible');syncSceneActivity();syncShellActivity();if(document.visibilityState!=='visible'){motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();windows=null;if(raf!==null)win.cancelAnimationFrame(raf);raf=null;}};
  const onMotion=()=>{motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;if(model)render(controller.getModel());};
  const onArt=()=>{uiKey=null;if(model)render(controller.getModel());};
  // A blur is not the player's intent (a notification can blur the window for an instant): the sheets close, a refused
  // command's words with them, and the status line may say those words once more, as nothing showed them last (R2).
- const onBlur=()=>{blurred=true;syncSceneActivity();syncShellActivity();calm();said=null;controller.dismiss();motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;};
+ const onBlur=()=>{blurred=true;syncSceneActivity();syncShellActivity();calm();said=null;controller.dismiss();motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();windows=null;if(raf!==null)win.cancelAnimationFrame(raf);raf=null;};
  const onFocus=()=>{blurred=false;if(model)render(controller.getModel());syncSceneActivity();syncShellActivity();};
  const onResize=()=>{uiKey=null;if(model)render(controller.getModel());};
  // The shell reports its bars' and stage's sizes (onLayout), which replaced the old bars' ResizeObserver.
@@ -621,5 +596,5 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  return {get view(){return sceneMode;},bars(){const bars=disposed?null:shell.layout()?.bars;return {top:bars?.top??0,bottom:bars?.bottom??0};},
   foodSurface(next){if(JSON.stringify(next)===JSON.stringify(foodSurface))return;foodSurface=next;uiKey=null;if(model)render(controller.getModel());},
   navigate(next){calm();if(next==='switch'){sceneMode=sceneMode==='room'?'board':'room';if(sceneMode==='room'&&lastOwnRoom)currentRoom=lastOwnTalk?'capsule':lastOwnRoom;uiKey=null;controller.dismiss();}else controller.openPanel(next);},
-  settingsChanged(){if(model?.panel==='settings'){uiKey=null;render(controller.getModel());}},dispose(){if(disposed)return;disposed=true;stop();closeScene();closeSheetPart();disconnect();blackoutGeometry.clear();if(raf!==null)win.cancelAnimationFrame(raf);disposeCrewMounts(holder);motion.dispose();capsule.dispose();blackout.dispose();films.dispose();rescue.dispose();cinematic.dispose();drawings.clear();shell.dispose();delete root.dataset.crewArt;root.replaceChildren();}};
+  settingsChanged(){if(model?.panel==='settings'){uiKey=null;render(controller.getModel());}},dispose(){if(disposed)return;disposed=true;stop();closeScene();closeSheetPart();disconnect();blackoutGeometry.clear();if(raf!==null)win.cancelAnimationFrame(raf);disposeCrewMounts(holder);motion.dispose();capsule.dispose();blackout.dispose();films.dispose();rescue.dispose();cinematic.dispose();windows=null;shell.dispose();delete root.dataset.crewArt;root.replaceChildren();}};
 }
