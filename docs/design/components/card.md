@@ -177,12 +177,15 @@ Listed, not omitted:
   | Check | Result |
   | --- | --- |
   | `packages/design-tokens/test/card.test.mjs` | 9 of 9 (also on `6c142c0d`, after the shell's merge): the runtime-safe graph, every style scoped (layout only, the role card's parts untouched), the pinned pack unchanged, the pack's words and the one amendment, the Knowledge rows, the sheet's words and head, the inputs' refusals, the privacy rules and the check's record |
-  | `npm run test:design` | 400 of 400 (on `96bd1fe`, before the shell's merge; CI runs the suites on each push) |
-  | `npm run test:tooling` | 337 of 337 (on `96bd1fe`) |
+  | `npm run test:design` | 404 of 404 on `8409dcf0` (400 of 400 on `96bd1fe`, before the shell's merge; CI runs the suites on each push) |
+  | `npm run test:tooling` | 356 of 356 on `8409dcf0` (337 of 337 on `96bd1fe`) |
   | `npm run build`, `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
-- **`node design/tools/card-check.mjs`:** recorded on `f76cefe7` (the card's floor everywhere, on the shell at `67989624`, 0.2.1), with the source clean. The same result as on `bc6ea5d5`, `6c142c0d`, `1679a0e`, `b1559cf` and `a35c414`. Against `fa8c2de5`'s captures nothing changes but JPEG noise, and `320x568-large-card-150` is new: the card at Large on 320 × 568 keeps its 240 px place (below). Earlier, on `bc6ea5d5` and `6c142c0d`:
+- **`node design/tools/card-check.mjs`:** recorded on `a4bfbbf6` (18 November), with the source clean: #268's head `c20cac9f` merged, which brings kit 0.8.0, shell 0.2.8 and room scene 0.5.0 under the Card sheet, unchanged. The same result: 22 of 22 captures, probe 10 of 10, agreement 6 of 6.
+  - **Against the record on `f76cefe7`:** every recorded field is the same, but for the bundle's file name in the known Zod report.
+  - **In the pictures the sheet is unchanged.** Seven are byte for byte the same and nine differ by JPEG noise alone. Six change only behind or above the sheet: `stale`'s top bar draws the shell's Reconnecting icon anew, and at Large and the Largest text on 320 × 568 the room scene's name tags behind the sheet's glass are whole (room scene 0.5.0).
+- **Before that,** recorded on `f76cefe7` (the card's floor everywhere, on the shell at `67989624`, 0.2.1), with the source clean. The same result as on `bc6ea5d5`, `6c142c0d`, `1679a0e`, `b1559cf` and `a35c414`. Against `fa8c2de5`'s captures nothing changes but JPEG noise, and `320x568-large-card-150` is new: the card at Large on 320 × 568 keeps its 240 px place (below). Earlier, on `bc6ea5d5` and `6c142c0d`:
   - **The three 200 % captures at 320 × 568** show the kit's Largest-text forms: the switcher's three words one per row, and a row's value under its title. This is the fix for my Largest-text finding.
   - **Reconnecting:** the sheet stays 8 px below the shell's banner, so Retry is in sight.
   - **The card's floor** (the Lead, 16 November 2026): with the switcher stacked, the card at 200 % on 320 × 568 had shrunk to its corner, about 50 px, and at 150 % there it was 126 px tall.
