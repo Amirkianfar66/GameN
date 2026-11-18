@@ -628,6 +628,36 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - **The test's two pictures are approved:** the empty room in the new camera and colours, and one masked edit for its furniture. One re-run only if a check fails.
 - **The go comes after review.** The Lead reviews sheet PV6-A first, then gives the image session the go, naming the sheet's version and its hashes.
 
+**The people chosen, about four hours later.**
+- The two pictures passed their checks, and the room half of the test page was checked on phones. The Lead then sent the owner the people sketches (https://claude.ai/artifact/VQjScvvYG3DpQf7dGmNXE2, version 1794975865-38fc). With them went four questions, three with a recommendation:
+  1. **Lyra:** A, seen from behind as she types (recommended), or B, looking back over her shoulder.
+  2. **Juno:** A, a new side view looking down at her laptop (recommended), or B, the approved face looking up toward us.
+  3. **Body shape:** keep the crew's current build (recommended), or try the taller build from the owner's pictures.
+  4. **The go:** may the builder draw the three in full, with light and shadows?
+- The Lead also told the owner the cost of the finish. It takes about 1.5 times as long to draw as today's people. That was measured on a test computer without a graphics chip, so phone speed is checked later, in the game.
+- The owner answered, word for word:
+
+> As you recommended
+
+**What it decides:**
+- **Vega, as sketched:**
+  - the approved face, with the test tube held up before her eyes;
+  - her far hand on the bench's near corner, fitted to the painted bench.
+- **Lyra: A.** Seen from behind as she types at the console. The back of her head is a new view, drawn by code.
+- **Juno: A.** A new side view, looking down at the laptop on her cart.
+- **Body shape:** the crew's current build stays. Only these views and poses are new.
+- **The go.** The fourth question had no options. The Lead reads the answer as yes: drawing the people in full, with the room's light and shadow, is the plan the owner set in "Lets test 1 view" above.
+
+**What it means for the work:**
+1. The Motion & Cinematics builder draws the three in full, with the light and shadow finish, against the real room. That means the furnished picture and the test page's layers. It publishes them on a test page for the Lead's review at 390 × 844 and 430 × 932.
+2. After that review, the Pre-game Animation builder puts them in the test page's three places, in the same depth order, and the checks run again.
+3. The Lead reviews the whole page, then sends it to the owner.
+
+**What it does not settle:**
+- **The other views:** PV5-B to PV5-E stay held.
+- **Phone speed:** the finish's cost is measured on a phone, in the game, before anything is adopted.
+- **The game's crew drawing.** Lyra's back view, Juno's side view and the finish stay in the test until the owner adopts the result.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
