@@ -1086,6 +1086,7 @@ The Lead then recommended one shared view for each fixed room. The owner:
   - every view passes, with no errors and no sideways scroll, and Held is still;
   - one known gap is left. At 200 % on the 390 phone, while Atlas walks out of view E, the accepted tag layout reports that one tag can't be placed clear (drawings 28 to 31 of 112). It comes from the room scene's tag rule for out-of-view chips, which the Lead fixes in the component.
 - **Found and fixed in the Lead's review:** in view C, the laptop Juno leaves on the cart was drawn over the jars while Juno was away. It now keeps its place in the room's order, so the jars cover it as when Juno sits there.
+- **Corrected after sending:** the page's top label still read "For the Lead · all five views · not for the owner yet". Version 1795033977-0ba3 changes only those words, to "For the owner · 18 November · all five views". The code and the rooms' files are the same, file for file.
 - **View C's last fixes:**
   - the jar tops come from PV6-C-5;
   - the dispenser's left edge is drawn by code, in its own layer just after the capsule's, because the edit did not take there;
