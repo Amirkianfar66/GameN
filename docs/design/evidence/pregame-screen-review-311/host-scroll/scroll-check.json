@@ -1,0 +1,208 @@
+{
+  "tool": "design/tools/host-controls-scroll-check.mjs",
+  "toolSha256": "40dd31b357f656d5ed6817bfc06a3b7a362be0a759543e38c9868e240ba4038e",
+  "createdAt": "2026-11-18T13:52:49.947Z",
+  "sourceCommit": "ab0d4decb633fedbe2a1be98e8f6889073a9fcfd",
+  "sourceClean": true,
+  "sourceTrees": {
+    "design/phone-ui/components": "eeed57ed4236a45d07fe20a546b50626920f4108",
+    "design/phone-ui/prototype": "3761981f2794b66f25fdb889e838fa36e2295a81",
+    "design/room-drawing/assets": "66948cc7c76fe00c3c4b9849c146dcf9ee14a30b",
+    "design/crew-drawing/assets": "3a03eff9560354bffb9ce1127c14d7d1990b1df0",
+    "design/tools/lib": "4677623fc753ccf1b04cabdfabfb42969b1566a4",
+    "packages/design-tokens/src": "59e15e51c628e2d559e59deb2233f762f302228c"
+  },
+  "browser": "Google Chrome 157.0.8103.80",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "responseHeaders": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "captures": {
+    "390x844": {
+      "file": "390x844-real-largest-scrolled.jpg",
+      "url": "http://127.0.0.1:59427/index.html?single=1&size=390x844&state=real-largest",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixels": [
+        780,
+        1688
+      ],
+      "sha256": "ee8d24f13c7a4f99de84953f4555208e9560f2e3cf20277f79adfd19931f687c",
+      "ok": true,
+      "scrollBefore": 0,
+      "textSizePx": 32,
+      "scrollTop": 203,
+      "body": {
+        "left": 0,
+        "top": 310.1875,
+        "right": 390,
+        "bottom": 660.78125,
+        "width": 390,
+        "height": 350.59375
+      },
+      "code": {
+        "left": 32,
+        "top": 417.90625,
+        "right": 358,
+        "bottom": 552.296875,
+        "width": 326,
+        "height": 134.390625
+      },
+      "footer": {
+        "left": 0,
+        "top": 660.78125,
+        "right": 390,
+        "bottom": 749.78125,
+        "width": 390,
+        "height": 89
+      },
+      "codeFullyVisible": true,
+      "groupsFullyVisible": true,
+      "splitGroups": 0,
+      "horizontalOverflow": false,
+      "codeText": "Zq3x_9Lk-T2vWm8RbYc4N7hJ-pQs0FdE",
+      "matchIdText": "3f2a1b4c-9d8e-4f7a-b6c5-1234567890ab",
+      "privacyCue": "Private to this phone",
+      "footerLabels": [
+        "Hide",
+        "Copy"
+      ],
+      "footerFullyVisible": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bD9b-zwI.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "430x932": {
+      "file": "430x932-real-largest-scrolled.jpg",
+      "url": "http://127.0.0.1:59427/index.html?single=1&size=430x932&state=real-largest",
+      "viewport": {
+        "width": 430,
+        "height": 932
+      },
+      "pixels": [
+        860,
+        1864
+      ],
+      "sha256": "82ccf2a2d6b5d64f2f35638b4fa8d793b8fe9a69f1c38d9121755930b098f714",
+      "ok": true,
+      "scrollBefore": 0,
+      "textSizePx": 32,
+      "scrollTop": 64,
+      "body": {
+        "left": 0,
+        "top": 268.72991943359375,
+        "right": 430,
+        "bottom": 755.3236694335938,
+        "width": 430,
+        "height": 486.59375
+      },
+      "code": {
+        "left": 32,
+        "top": 515.4486694335938,
+        "right": 398,
+        "bottom": 605.0424194335938,
+        "width": 366,
+        "height": 89.59375
+      },
+      "footer": {
+        "left": 0,
+        "top": 755.3236694335938,
+        "right": 430,
+        "bottom": 844.3236694335938,
+        "width": 430,
+        "height": 89
+      },
+      "codeFullyVisible": true,
+      "groupsFullyVisible": true,
+      "splitGroups": 0,
+      "horizontalOverflow": false,
+      "codeText": "Zq3x_9Lk-T2vWm8RbYc4N7hJ-pQs0FdE",
+      "matchIdText": "3f2a1b4c-9d8e-4f7a-b6c5-1234567890ab",
+      "privacyCue": "Private to this phone",
+      "footerLabels": [
+        "Hide",
+        "Copy"
+      ],
+      "footerFullyVisible": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-bD9b-zwI.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "scope": "Supplemental canonical-component preview, not the integrated app. Existing real-largest fixture; synthetic code and Match ID. Desktop Chromium at 2x pixels, 200% text, safe areas 47px/34px. Only the sheet body was scrolled. No physical-phone, Safari, screen-reader, live-match, or performance claim."
+}

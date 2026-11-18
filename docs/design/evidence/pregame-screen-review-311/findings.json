@@ -1,0 +1,39 @@
+{
+  "date": "2026-11-18",
+  "reviewer": "Codex Screen Designer",
+  "candidate": "a5a6cdffa913c8a08248f7e02f5f48fc1944ced6",
+  "runtime": "39961a807d811aa2efb177f888302da17f0c2431",
+  "artwork": "64e55516d2f0026842c5c2a675f2eccda20e0a9e",
+  "viewports": [
+    "390x844",
+    "430x932"
+  ],
+  "leadAcceptance": "Pending in #314. These findings are not the Lead Designer's acceptance.",
+  "parts": {
+    "recover": {
+      "verdict": "close",
+      "sheet": "14",
+      "note": "The recovered-seat confirmation, check tile, words and Continue match the pack composition at both sizes. Seat 6 is fixture data. The known absent code-length hint is G4; the server and Frontend retain recovery authority."
+    },
+    "characters": {
+      "verdict": "close",
+      "sheet": "16",
+      "note": "The timer is in the header, the grid and footer retain the pack composition, and the server refusal uses the existing shell toast. Taken seats differ with the fixture. The 430 capture catches the toast during its fade; this is still evidence, not a motion-readability measurement."
+    },
+    "role-ready": {
+      "verdict": "close",
+      "sheet": "17, 18",
+      "note": "The pending Ready state uses the existing card back and busy control at both sizes; the privacy cue and footer remain visible. The kit intentionally refuses non-interactive controls without dimming, so Show role's appearance alone does not mean it is offered. Ready settlement remains Frontend/server-owned; G7 facts stay null."
+    },
+    "settings": {
+      "verdict": "close",
+      "sheet": "32",
+      "note": "The integrated host Settings sheet shows the released switch, size selector, local-only note and Host controls row at both sizes. Existing clean-runtime captures are reused with their exact hashes. The non-host 390 comparison and the host captures show different audience inputs, not an omitted row."
+    },
+    "host-controls": {
+      "verdict": "close",
+      "sheet": "15",
+      "note": "The sheet title, privacy cue, code card, note and Reveal/Copy footer follow the released component at both sizes. Whole mask groups wrap to two lines at 390 and one at 430. No expiry is shown under G4. The repeated shared refusal is a separate non-blocking proposal; supplemental real-largest scrolled captures show the complete code with intact groups."
+    }
+  }
+}
