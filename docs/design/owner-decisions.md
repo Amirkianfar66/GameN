@@ -795,6 +795,21 @@ The Lead then recommended one shared view for each fixed room. The owner:
 
 **What it does not settle:** the icons' single style. The new builder first inventories every icon and proposes one source. A change to how an icon looks goes to the owner through the Lead.
 
+**The film test's source kept for Codex, about an hour later.**
+- **The situation:** the source of the paused Doctor film test was only in one builder's session. That is 26 files under `design/pregame-animation/doctor-test/`: the face and hand drawings, the timing, the sets, the panels, the plates and the noir prototype. Its builder is the Rooms builder, until today the Pre-game Animation builder. The source was never pushed, as the owner's 16 November rule said: no branch until the owner likes a direction. Without it, Codex would have only the test pages' finished pictures.
+- **The Lead asked, in the question dialog:**
+
+> May the Rooms builder save it to GitHub as one branch, with no PR, so Codex can build on it?
+
+- **The owner chose:** "Yes, one branch", the Lead's recommendation.
+
+**What it decides:**
+- **The branch:** the source goes to one branch, `claude/designer-pregame-doctor-test`, with no PR. Nothing in the game changes, and the test pages stay test pages.
+- **The rule:** the 16 November rule is lifted for this handover only. The film test's direction is still the owner's choice.
+- **What goes in:** the briefing-room prompts go in the branch as text, so Codex can read them. The owner's own pictures stay out, as they stay out of every image tool.
+
+**What it does not settle:** whether Codex carries on with the test, and the test's open choices, which #311 lists.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
