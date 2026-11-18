@@ -273,3 +273,6 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 /* A change the owner approved: its status line and its badge, in the page's OK green. */
 .bc-ok-line { color: var(--bc-ok) !important; font-weight: 600; }
 .bc-count-ok { background: var(--bc-ok-fill); color: #06140D; }
+/* The line at the top for what the owner approved lately: the page's OK green, where a draft's line is the Change colour. */
+.bc-approved { margin: 14px 0 0; padding: 12px 14px; border: 1px solid var(--bc-ok); border-radius: 12px; background: var(--bc-panel); color: var(--bc-ink-2); }
+.bc-approved b { color: var(--bc-ok); font-weight: 600; }

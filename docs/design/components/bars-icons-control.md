@@ -30,7 +30,7 @@ The page has three sections. Bars and Icons are divided into sub-parts, each wit
 
 | Section | Sub-parts | What each holds |
 | --- | --- | --- |
-| **Bars** | Bottom bar · painted icons (14 pairs) · Card tab · before and after (9 pairs) · Toast over a sheet · draft (7 pairs) · Long title at the largest text · two drafts · Top bar (20 states) · Bottom bar (15) · Other bars (8: the target bar, the banners, the chip, the toast) · Sheets (9) · Whole phone (3) | Each state is a strip of the phone at the phone's own width, with its name, the size of its bar and the phone pack's sheet number. The first sub-part is [the Card tab's change](#the-card-tab-before-and-after). |
+| **Bars** | Bottom bar · painted icons (14 pairs) · Card tab · before and after (9 pairs) · Toast over a sheet (7 pairs) · Long title at the largest text · Top bar (20 states) · Bottom bar (15) · Other bars (8: the target bar, the banners, the chip, the toast) · Sheets (9) · Whole phone (3) | Each state is a strip of the phone at the phone's own width, with its name, the size of its bar and the phone pack's sheet number. The first sub-part is [the Card tab's change](#the-card-tab-before-and-after). |
 | **Icons** | Navigation (8) · Game actions (26) · People and places (8) · Phases (7) · Before the match (3) · Controls (27) · Drawn twice (31) · Other drawings (8) | The icons of `design/phone-ui/components/icons.mjs`, at rest and selected, on dark glass and on paper. The last two list the game's own drawings that are still on screen, beside the icon that replaces each. |
 | **Status** | — | The owner's marks, and the version and pull request of each part. |
 
@@ -88,37 +88,22 @@ So a change of look is shown here first, as a draft:
 
 A change that is more than a look (behaviour, data, privacy, the connection's inputs) keeps the usual order: checks, the Lead's review, then the owner.
 
-**The drafts on the page now.** Three, the Lead Designer's proposals, each with its own mark. The owner's painted bottom bar was the fourth; it is approved and has its own section above.
+**No draft is on the page now.** The three that were, all the Lead Designer's proposals, were approved by the owner on 18 November 2026, in the Lead's session ("I approve all as your recommendation"), and are shell 0.3.3 with its record ([the shell's page](phone-shell.md#the-toasts-place-a-squeezed-sheet-and-a-long-title-033)). Their views stay, as before and after.
 
-*The toast over a sheet or a banner* (`#toast-draft`, the second sub-part of Bars).
-- **Today:** the toast drops in 10 px under the top bar. Over a tall sheet it lies across the sheet's head and cuts the title and Close through; with the reconnecting banner showing, it lies on the banner.
-- **The draft, one rule:** the toast never covers the bar, a banner or an open sheet's head. From its own place it takes the first free place going down: 8 px under the banner, then 8 px under a sheet's head, over the sheet's body. With nothing in its way it keeps its place.
-- **The view:** seven states, each as the bar is today above the draft: three with a tall sheet, two with the banner (with and without a sheet), a low sheet, and no sheet.
-- **The owner's mark:** `draft-toast-under-sheet-head`.
+*The toast over a sheet or a banner* (`#toast-draft`).
+- **Before:** the toast dropped in 10 px under the top bar, across a tall sheet's head or on the reconnecting banner.
+- **After, one rule:** the toast never covers the bar, a banner or an open sheet's head. It takes the first free place going down, 8 px clear.
+- **The view:** seven states, each as the bar was above as it is: three with a tall sheet, two with the banner (with and without a sheet), a low sheet, and no sheet.
+- **The owner's mark:** `draft-toast-under-sheet-head`, kept for a Change.
 
-*A long title at the largest text* (`#sheet-draft`): two drafts for one problem, each shown alone and both together.
-- **Today:** a sheet's footer stays at its foot, and its title sits beside Back and Close. On a 320 × 568 phone at the Largest text, a long title takes three lines there and two stacked footer buttons a row each. The body gets a line or two, and the sheet's parts are taller than the sheet.
-- **Draft A, the footer scrolls** (`draft-sheet-footer-scrolls`): when the body would get less than a third of the sheet's height and its content needs more, the footer scrolls with the body. The body takes all the room under the head, and the actions follow the content.
-- **Draft B, the head stacks** (`draft-sheet-head-stacks`): when the title would take more than two lines beside its buttons, and the head is shorter that way, the buttons take a row of their own (Back at the left, the rest at the right) and the title and its line take the full width. The text keeps the player's size. The Lead Designer asked for this in place of a cap on the title's size.
-- **The view:** one sheet, "Offer from Fay · Player 6", with a card's stand-in, a note and two buttons, as six stills in four groups: today; draft A as it opens and scrolled to its end; draft B; both, as they open and scrolled to their end. Under each still is the room its content gets, the height of the title's part, and how much of the sheet is cut at its foot, all measured from the sheet that still draws. Buttons set the phone and the text size.
-- **Each still is the component at its own commit,** read from git by the build tool: today `bf95c1a0`, draft A `346618f7`, draft B `a9e70acc`, both `9bc36fd5`. None of the four has the painted icons, so their bottom bars are the same.
-- **Measured on the page, the content's room:**
+*A long title at the largest text* (`#sheet-draft`).
+- **Before:** on a 320 × 568 phone at the Largest text, a long title and two stacked footer buttons left the body a line or two, and the sheet's foot was cut.
+- **After:** the footer scrolls with the body when the body would be squeezed (the draft's A), and the head stacks where its title would take more than two lines beside its buttons (the draft's B). The owner approved both together, as the Lead recommended.
+- **The view:** one sheet, "Offer from Fay · Player 6", as three stills: before, and after as it opens and scrolled to its end. Under each is the room its content gets, the height of the title's part and what is cut, measured from the sheet that still draws. Buttons set the phone and the text size.
+- **The owner's marks:** `draft-sheet-footer-scrolls` and `draft-sheet-head-stacks`, kept for a Change.
+- **While they were drafts** (versions 9 to 12 of the page) the view showed each draft alone and both together, from four commits. On the smallest phone at the Largest text the content had 16 px before, 132 px with A alone, 16 px with B alone and 162 px with both. Those four are gone from the page: the head's code was rewritten for its record, and an earlier commit's styles are no longer in today's stylesheet.
 
-| Phone and text | Today | Draft A | Draft B | Both |
-| --- | --- | --- | --- | --- |
-| 320 × 568, Largest | 16 px, 34 px cut at the foot | 132 px | 16 px, 3 px cut | 162 px |
-| 320 × 568, Large | 66 px | 215 px | 77 px | 226 px |
-| 320 × 568, Standard | 248 px | the same | the same | the same |
-| 390 × 844, Largest | 351 px | the same | the same | the same |
-| 390 × 844 and 430 × 932, Standard | 562 px and 650 px | the same | the same | the same |
-| 430 × 932, Largest | 487 px | the same | the same | the same |
-
-- **What the numbers say:** draft B alone gives the content no more room at the Largest text: the 31 px it takes off the head (262 to 231) go to the footer, which today is cut. Its gain shows with draft A: 162 px against 132.
-- **At 390 px at the Largest text** the title takes three lines too, but a stacked head would be 2 px taller (231 against 229), so the head stays a row.
-
-"Today" in every draft's view is the shell's own file at `bf95c1a0` (shell 0.3.1), read from git by the build tool, as the Card tab's "before" is.
-
-**Not done yet, on purpose:** the shell's record, its version and its tests for the three drafts.
+"Before" in both views is the shell's own file at `39f35b95` (shell 0.3.2), read from git by the build tool, as the other befores are.
 
 ## Sizes, backgrounds and colours
 
