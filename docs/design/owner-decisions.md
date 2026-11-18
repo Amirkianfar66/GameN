@@ -938,6 +938,22 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - **Everywhere else, nothing changes:** the approved face nearer the front and the back view farther round. That is five of Atlas's drawings and 21 of Lyra's across the five views.
 - **The rule for new angles stands:** a head the owner hasn't seen goes to them as a sketch first.
 
+**The Card tab's portrait is square, like the top bar's, at the same size, minutes later.**
+- **Where the Lead read it:** the owner's message in the Bars & Icons builder's session, in that session's own transcript (15:07 UTC). Word for word:
+
+> The shape of it should be similar to the top character icon not circular but cubic same size
+
+**What it decides:**
+- **The shape:** the portrait's own square tile, as the top bar draws it. This replaces Designer's round portrait above.
+- **The size:** the top bar's, 32 px. This replaces the icon's 26 px box.
+- **What stays:**
+  - Card is still the rightmost tab.
+  - The label is still "Card", and so is the accessible name.
+  - With no character the tab shows the card icon, and at 38 % it is unavailable, as every tab.
+- **In the Blackout's dark the tab shows the card icon.** The game gives no identities in the dark, so the portrait returns with the lights. Designer keeps that.
+
+**Designer's proposal, for what the words leave open:** an amber outline round the tile, only while Card is open. The soft ring at rest goes, since the top bar's tile has none. The Lead reviews it at 390 × 844 and 430 × 932 before the owner sees it on the Bars & Icons control page.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
