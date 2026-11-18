@@ -39,6 +39,7 @@
 //   promise-results             after the talk: Received and Given with their status
 //   windows                     Windows (#299) at a station: its window, the drawings by name, the box and the inks
 //   windows-drawn, -shown, -done  two strokes drawn, no focus ring; Show sends one SHOW_WINDOW with them; SHOWN once the view has it; Done
+//   windows-finger              opened by a finger's taps, two strokes by a finger: no focus ring while drawing or after
 //   windows-view, windows-none  away from a station, the room's windows; in the Command Room, the game's own sentence
 //   windows-keyboard-show       Show by Enter: once Done takes its place, the focus is on Done (#307's focus rule)
 //   panels-back-focus           Players' Back by Enter: the Panels list, the focus on the sheet's Close (the same rule)
@@ -360,6 +361,31 @@ async function drawStroke(page, [x0, y0], [x1, y1]) {
     await page.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: q.x, y: q.y, button: 'left', buttons: 1 });
   }
   await page.send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: b.x, y: b.y, button: 'left', buttons: 0, clickCount: 1 });
+}
+/** A finger's tap at the centre of a control, with Chrome's own touch input; the control must be what a finger touches there. */
+async function fingerTap(page, selector) {
+  await page.evaluate(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'nearest'})`);
+  await sleep(100);
+  const point = await page.evaluate(`(n=>{const r=n.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,hit=document.elementFromPoint(x,y);return {x,y,touched:!!hit&&(hit===n||n.contains(hit))};})(document.querySelector(${JSON.stringify(selector)}))`);
+  if (!point.touched) throw new Error(`a finger at the centre of ${selector} would not touch it`);
+  await page.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: point.x, y: point.y }] });
+  await page.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+}
+/** Whether the drawing box drew its ring in the middle of each finger stroke of the state being run (fingerStroke). */
+const midStroke = [];
+/** A stroke drawn in the drawing box by a finger (Chrome's own touch input): down, moved in eight steps, up; the ring looked at halfway. */
+async function fingerStroke(page, [x0, y0], [x1, y1]) {
+  const pad = `${WINDOWS} .ms-wn-pad`;
+  await page.evaluate(`document.querySelector(${JSON.stringify(pad)}).scrollIntoView({block:'center'})`);
+  await sleep(150);
+  const box = await page.evaluate(`(r => ({ x: r.x, y: r.y, w: r.width, h: r.height }))(document.querySelector(${JSON.stringify(pad)}).getBoundingClientRect())`);
+  const at = i => ({ x: box.x + (x0 + (x1 - x0) * i / 8) * box.w, y: box.y + (y0 + (y1 - y0) * i / 8) * box.h });
+  await page.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [at(0)] });
+  for (let i = 1; i <= 8; i++) {
+    await page.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [at(i)] });
+    if (i === 4) midStroke.push(await page.evaluate(RING));
+  }
+  await page.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
 }
 
 const STEPS = {
@@ -1045,7 +1071,9 @@ const STATES = {
       box: s.windows?.pad?.label === 'Drawing for Room B ↔ Room A' && s.windows.pad.strokes === 0,
       inks: s.windows?.inks.join('|') === 'Gold:true|Paper:false|Teal:false|Pink:false', undoOff: s.windows?.undoOff === true }) },
   // Two strokes, the second in Teal, drawn with real input in the box: the draft is this phone's own, nothing is sent.
-  'windows-drawn': { from: 'windows', steps: async page => {
+  'windows-drawn': { from: 'windows',
+    note: 'Opened by the script\'s clicks, drawn with a mouse: no focus ring after the strokes (windows-0.1.1, #299). The ring in this state\'s pictures recorded on d46b8643 and before was the defect windows-0.1.1 fixed, not the rule.',
+    steps: async page => {
       await drawStroke(page, [0.15, 0.3], [0.45, 0.7]);
       await page.evaluate(tap(`${WINDOWS} .ms-wn-swatch[aria-label="Teal"]`));
       await drawStroke(page, [0.55, 0.7], [0.85, 0.3]);
@@ -1079,6 +1107,27 @@ const STATES = {
     },
     facts: s => ({ blank: s.windows?.pad?.strokes === 0, showOff: foot(s) === 'show:Show:off', oneCommand: s.commands.length === 1, noStamp: s.windows?.stamp === null,
       shownAmong: s.windows?.metas.join('||') === '1 · Crew 1 · Round 6|Unverified||2 · Crew 6 · Round 6|Can’t be changed||3 · Crew 6 · Round 6|Can’t be changed' }) },
+  // A finger all the way (the Lead, 18 November): the Panels tab and the Windows row opened by a finger's taps, two
+  // strokes by a finger with Teal tapped between them. No ring in the middle of either stroke, nor after them, with
+  // the focus in the box; the draft is this phone's own, nothing is sent.
+  'windows-finger': { page: 'phone', url: 'scenario=windows', touch: true, steps: async page => {
+      midStroke.length = 0;
+      await fingerTap(page, TAB('panels'));
+      await page.waitFor(`${SHEET('panels')}&&${VIEW('list')}`, 'the Panels tab by a finger');
+      await fingerTap(page, OPEN('windows'));
+      await page.waitFor(`${SHEET('windows')}&&document.querySelector(${JSON.stringify(WINDOWS)})`, 'Windows by a finger');
+      await fingerStroke(page, [0.15, 0.3], [0.45, 0.7]);
+      await page.waitFor(`document.querySelectorAll(${JSON.stringify(WINDOWS + ' .ms-wn-pad .ms-wn-stroke')}).length===1`, 'a stroke in the box');
+      await fingerTap(page, `${WINDOWS} .ms-wn-swatch[aria-label="Teal"]`);
+      await page.waitFor(`document.querySelector(${JSON.stringify(WINDOWS + ' .ms-wn-swatch[aria-label="Teal"]')})?.getAttribute('aria-checked')==='true'`, 'Teal by a finger');
+      await fingerStroke(page, [0.55, 0.7], [0.85, 0.3]);
+      await page.waitFor(`document.querySelectorAll(${JSON.stringify(WINDOWS + ' .ms-wn-pad .ms-wn-stroke')}).length===2`, 'two strokes in the box');
+    },
+    extra: async page => ({ ring: await page.evaluate(RING), midStroke: [...midStroke],
+      onBox: await page.evaluate(`document.activeElement===document.querySelector(${JSON.stringify(WINDOWS + ' .ms-wn-pad')})`) }),
+    facts: (s, looks, { ring, midStroke: mid, onBox }) => ({ strokes: s.windows?.pad?.strokes === 2, showOn: foot(s) === 'show:Show', noCommand: s.commands.length === 0,
+      teal: s.windows?.inks.join('|') === 'Gold:false|Paper:false|Teal:true|Pink:false',
+      noRingWhileDrawing: mid?.length === 2 && mid.every(r => r === false), noRing: ring === false, onBox: onBox === true }) },
   // Away from a station (B5): the view, the room's windows, each with its drawings, and no footer.
   'windows-view': { page: 'phone', url: 'scenario=windows', steps: async page => {
       await page.evaluate(edit("p.board.seats.find(x=>x.seatId===p.self.seatId).slotId='B5';for(const w of p.windows)w.canDraw=false;p.offers=p.offers.filter(o=>o.type!=='SHOW_WINDOW')"));
@@ -1201,6 +1250,7 @@ try {
           if (page) await page.close();
           page = await openPage(browser, { width, height, scale: 2 });
           await page.send('Emulation.setFocusEmulationEnabled', { enabled: true });
+          if (state.touch) await page.send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 });
           await page.send('Page.addScriptToEvaluateOnNewDocument', { source: POLICY });
           const address = state.page === 'food' ? `${origin}/food/app.html?${state.url}` : `${origin}/index.html?${state.url}&count=9&tuple=blackout`;
           await page.goto(address, state.page === 'food' ? 'window.foodAppHarness?.ready' : 'window.planetHarness');
@@ -1230,7 +1280,7 @@ try {
         const after = await state.after?.(page, seen) ?? {};
         Object.assign(checks, Object.fromEntries(Object.entries(after).filter(([key]) => !key.startsWith('info'))));
         const info = Object.fromEntries([...Object.entries(own), ...Object.entries(after)].filter(([key]) => key.startsWith('info')));
-        Object.assign(result, { ok: Object.values(checks).every(Boolean), checks, ...(Object.keys(info).length ? { info } : {}),
+        Object.assign(result, { ok: Object.values(checks).every(Boolean), checks, ...(Object.keys(info).length ? { info } : {}), ...(state.note ? { note: state.note } : {}),
           file: file.slice(REPO.length + 1), sha256: sha256(bytes), seen, ...(Object.keys(extra).length ? { extra } : {}), problems });
       } catch (error) {
         Object.assign(result, { error: String(error.message ?? error) });
@@ -1253,7 +1303,7 @@ const before = await earlier(candidate, art.head);
 if (before) console.log(`added to the record of ${Object.keys(before.captures).length} captures on the same candidate`);
 const record = {
   tool: 'design/tools/match-connection-check.mjs',
-  what: 'The Planet app\'s match screens drawn by Designer\'s components (release 3: Actions, design/phone-ui/components/actions; the Panels tab, design/phone-ui/components/panels; Promises, design/phone-ui/components/promises) in the phone shell, in Frontend\'s phone harness (apps/game/dev/phone) built from the candidate below',
+  what: 'The Planet app\'s match screens drawn by Designer\'s components (release 3: Actions, design/phone-ui/components/actions; the Panels tab, design/phone-ui/components/panels; Promises, design/phone-ui/components/promises; Windows, design/phone-ui/components/windows) in the phone shell, in Frontend\'s phone harness (apps/game/dev/phone) built from the candidate below',
   candidate,
   art: { base: art.head, originMain: art.main, note: 'The harnesses\' art plugins over a clean worktree of origin/main; the harnesses and their asset tooling are byte for byte that commit\'s' },
   environment: 'Desktop Chromium (headless), each phone size at 2x pixels, focus emulated, no safe areas; the harnesses bundled by Vite and served with the production headers below. Not a phone, not Safari, not a live match.',
