@@ -7,6 +7,10 @@
 // is how the shell shows it draws the pack's bars and not a second design of them.
 // The phase bars too (0.2.10): each bar the pack draws for a game step (phase-cases.mjs), the pack's own input
 // to topBar() beside the shell drawing what ../phase-bars.mjs returns for that step.
+// One departure (0.3.0, the owner's 18 November 2026 decision): Card and Panels change places. Each of the two is
+// compared with the pack's tab of the same name for its words and state, and with the pack's other tab for its
+// place: the shell's Card lies where the pack draws Panels, and its Panels where the pack draws Card. No case
+// gives the shell a person, so its Card tab draws the pack's card icon here; the probe checks the portrait.
 
 import { topBar, tabs, sheet, button, banner } from '../../../prototype/ui.mjs';
 import { mountPhoneShell } from '../phone-shell.mjs';
@@ -88,8 +92,10 @@ const PARTS = [
   ['round', '.tb-round', '.ms-ps-round'], ['timer', '.timer', '.ms-ps-timer'], ['menu', '.tb-menu', '.ms-ps-menu'],
   ['tabs', '.tabs', '.ms-ps-tabs'], ['tab-switch', '.tab[data-tab="switch"]', '.ms-ps-tab[data-value="switch"]'],
   ['tab-actions', '.tab[data-tab="actions"]', '.ms-ps-tab[data-value="actions"]'], ['hero', '.hero', '.ms-ps-hero'],
-  ['tab-card', '.tab[data-tab="card"]', '.ms-ps-tab[data-value="card"]'], ['tab-panels', '.tab[data-tab="panels"]', '.ms-ps-tab[data-value="panels"]'],
-  ['panels-badge', '.tab[data-tab="panels"] .badge-dot', '.ms-ps-tab[data-value="panels"] .ms-ps-badge:not([hidden])'],
+  // The fourth entry is the pack's part whose place the shell's takes (0.3.0): Card and Panels change places.
+  ['tab-card', '.tab[data-tab="card"]', '.ms-ps-tab[data-value="card"]', '.tab[data-tab="panels"]'], ['tab-panels', '.tab[data-tab="panels"]', '.ms-ps-tab[data-value="panels"]', '.tab[data-tab="card"]'],
+  // The badge keeps its place inside its tab: each is measured from its own tab (the fifth entry, the two tabs).
+  ['panels-badge', '.tab[data-tab="panels"] .badge-dot', '.ms-ps-tab[data-value="panels"] .ms-ps-badge:not([hidden])', null, ['.tab[data-tab="panels"]', '.ms-ps-tab[data-value="panels"]']],
   // A docked sheet, where a case draws one (none elsewhere, in both).
   ['sheet', '.sheet', '.ms-ps-sheet'], ['sheet-head', '.sheet-head', '.ms-ps-sheet-head'],
   ['sheet-back', '.sheet-head > .icon-btn[aria-label="Back"]', '.ms-ps-sheet-head > [data-intent="sheet-back"]'],
@@ -158,9 +164,9 @@ export async function runPhoneShellAgreement({ size, versions }) {
     await settle(root.querySelector('.ms-ps-sheet'));
     const differences = [];
     const parts = {};
-    for (const [name, packSel, shellSel] of PARTS) {
+    for (const [name, packSel, shellSel, placeSel = null, within = null] of PARTS) {
       const a = pack.querySelector(packSel), b = root.querySelector(shellSel);
-      const pa = box(pack, a), pb = box(host, b);
+      const pa = box(within ? pack.querySelector(within[0]) : pack, placeSel ? pack.querySelector(placeSel) : a), pb = box(within ? root.querySelector(within[1]) : host, b);
       const wa = name.endsWith('badge') || ['name', 'sub', 'round', 'timer', 'hero'].includes(name) || name.startsWith('tab-') ? words(a) : null;
       const wb = wa !== null || words(b) !== null ? words(b) : null;
       parts[name] = { pack: pa, shell: pb, words: wa };
