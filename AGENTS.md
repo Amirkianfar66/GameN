@@ -23,7 +23,8 @@ The original bootstrap allocation and the current session allocation are recorde
 | --- | --- | --- | --- |
 | Backend and Integration | Codex Astra | `services/game-api/`, `packages/engine/`, `infra/firebase/`, `docs/backend/` | `agent/backend-foundation` |
 | Frontend | Codex | `apps/game/`, `packages/presentation/`, `docs/frontend/` | `agent/frontend-tabletop` |
-| Pre-game and global interface | Codex | Pre-game components, Settings and Host controls, game connections and pre-game films | [Existing branches in #311](https://github.com/Amirkianfar66/GameN/issues/311) |
+| Pre-game Screen Designer | Codex | Canonical pre-game screens, film placement, Settings and Host controls | [Screen handover in #311](https://github.com/Amirkianfar66/GameN/issues/311) |
+| Pre-game Animator | Codex | Brand intro, private role films and crew boarding, including reduced-motion variants | [Film handover in #311](https://github.com/Amirkianfar66/GameN/issues/311#issuecomment-6978411308) |
 | Visual and Motion Designer | Claude Code | Shared visual system and in-game components in `design/`, `packages/design-tokens/` and `docs/design/` | `agent/designer-art-direction` |
 | Game Design and Balance | Claude Code | `tools/balance/`, `tests/scenarios/`, `docs/balance/` | `agent/game-balance-baseline` |
 
@@ -43,7 +44,7 @@ This dated ownership agreement supersedes conflicting handoff wording in the ori
 
 ### Pre-game and global interface — 18 November 2026
 
-The owner assigned Codex the pre-game screens **and their canonical components**, their connections in the game, Settings and Host controls (including during a match), and the brand, private role and boarding films. Continue the existing components, film sources and PRs. The preview and the game use the same source. The shared role card belongs to pre-game even where the in-match Card sheet consumes it. Codex owns the Round 1 stamp's mount in the pre-game connection. Designer owns the stamp. [Owner handover and PR map](https://github.com/Amirkianfar66/GameN/issues/311) · [Film production and privacy](https://github.com/Amirkianfar66/GameN/issues/311#issuecomment-6978411308)
+The Pre-game Screen Designer and Pre-game Animator work in separate Codex chats under Integration and collaborate with the existing Frontend agent. The Screen Designer owns each canonical screen and its composition, including the shared role card used in the match, Settings and Host controls wherever they open. The Animator owns the canonical films and their playback interfaces. Frontend connects both to authorized data, commands, navigation and recovery. Frontend also owns accessibility behavior, runtime performance and the Round 1 stamp mount. The stamp artwork belongs to the Claude Designer team. Continue the existing components, films and PRs. The preview and game consume the same visual source. [Owner handover and PR map](https://github.com/Amirkianfar66/GameN/issues/311) · [Film production and privacy](https://github.com/Amirkianfar66/GameN/issues/311#issuecomment-6978411308)
 
 Use the characters, rooms and style exactly as Designer releases them. Take a proposed change to their look to the Lead Designer first. The owner approves the look, and each pre-game screen PR requires the Lead Designer's explicit visual acceptance of the integrated result in that PR before merge. The Claude Designer team comprises the **Lead, Bars & Icons, Rooms, In-game animation and Gameplay UI**. Codex consumes their shared kit, shell, bars, icons, tokens and release assets as released. The detailed ownership and file boundaries are in the [agent roster](docs/agent-roster.md#current-allocation).
 
