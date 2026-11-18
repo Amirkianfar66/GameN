@@ -93,8 +93,11 @@ The test finds an icon drawn inside a Designer component (`design/phone-ui/compo
 - the Panels list, Navigation, the Hospital panel, Promises and the Captain's commands;
 - the pre-match Settings button.
 
-**What retires it:**
+**What retires it, in two steps:**
+
+**1. Release 3, the match screens** (the Gameplay UI builder's, on `claude/designer-connect-match`):
 - **Actions' tiles (#310, release 3's first step):** #310 draws them with Actions' part from the family.
+- **The Panels list (#296) and the Captain's commands (#302).**
 - **Every other use, after #310,** keeps `phoneActionIcon`, `phonePanelIcon` or `labelPhoneControl` until its component connects (`render.mjs` lines on #310's head `42902655`):
   - the Card sheet's offers (`:160`) — the Card sheet, #270;
   - Promises (`:184`) — #297;
@@ -104,7 +107,7 @@ The test finds an icon drawn inside a Designer component (`design/phone-ui/compo
   - the Hospital panel (`:265`) — #306;
   - the Captain's plates (`:272`) — the Captain console, #302;
   - Actions' other offers (`:275`): the Officer's appointment and block (#300), the ballot (#267) and the declaration (#293).
-- **The pre-match Settings button** (`app.mjs:69`): release 4's pre-game connection (#308).
+**2. Release 4, before the match:** the pre-match Settings button (`app.mjs:69`). The pre-game screens are Codex's since 18 November (#311), and their connection is #308.
 
 The test does not check `apps/game/`, which is Frontend's area. This page lists the clash until it ends.
 
@@ -115,13 +118,14 @@ These stay as they are for their pinned releases and records. Nothing new uses t
 **What shows on screen.** The Planet app was checked at 390 × 844 on #307's `99c20a18`:
 - art from `main` at `64e55516`;
 - Frontend's phone harness, built as `design/tools/shell-connection-check.mjs` builds it, under the production headers;
-- 21 scenarios, 180 screens: each scenario's start, the Board, Actions, Card and Panels, each panel, Promises and ⋮.
+- 21 scenarios, 180 screens: each scenario's start, the Board, Actions, Card and Panels, each panel, Promises and ⋮;
+- 9 pre-match states, 57 screens: the role reading in each setup flow, choosing a character, the host's room, the shared display and the end. Each was taken at its start, 2.5 s and 5 s later, and after its buttons.
 
 On each screen, every visible picture was listed and named by the custom property that defines it.
 
 | Set | Where it is | What it looks like | Shows in the Planet app |
 | --- | --- | --- | --- |
-| The comic board markers, `design-0.2.0` | `design/exports/public-board/` and `player-ui/` (marker-captain, -health, -jail, -self, -turn; icon-location; icon-connection-stale; icon-private; icon-action-shot; pip-resource; tokens), from `design/source/markers`, `cards/ui-icons.svg` and `board/room-icons.svg` | 32 grid, ink baked in, strokes 2.2–2.6, ink and paper badges | **No.** The app imports `comic.css` (`app.mjs:16`), but nothing on screen draws these. |
+| The comic board markers, `design-0.2.0` | `design/exports/public-board/` and `player-ui/` (marker-captain, -health, -jail, -self, -turn; icon-location; icon-connection-stale; icon-private; icon-action-shot; pip-resource; tokens), from `design/source/markers`, `cards/ui-icons.svg` and `board/room-icons.svg` | 32 grid, ink baked in, strokes 2.2–2.6, ink and paper badges | **No.** The app imports `comic.css` (`app.mjs:16`) and `phone.css` (`app.mjs:22`), but nothing on screen draws these. `phone.css:112`'s `icon-private-closed-paper` is the role card's back, `.phone-role-back`, which only the earlier app's `role-confirmation.js` and `setup-controls.js` draw. |
 | The ability icons, `abilities-0.7.0` | `design/abilities/assets/icon-action-*.svg` | 32 grid, ink baked in, strokes 1.4–3.6 | **No.** |
 | Phone feedback | `design/phone-feedback/source/icons.mjs`, `ports/icons.mjs` and `assets/icon-*.svg` | 24 grid, 1.9 stroke, amber baked into the SVGs | **No:** no runtime file loads them. |
 | The library art's icons | `apps/game/candidates/planet-library/*.css`, from `design/tools/library-assets.mjs` | 48 or 32 grid, multi-colour, strokes 1–5 | **Yes**, see below. |
@@ -138,7 +142,7 @@ On each screen, every visible picture was listed and named by the custom propert
 | `wn-lintel-a-b`, `wn-lintel-a-hospital`, 24 × 24 | each window's heading, in the Windows sheet (`render.mjs`, `renderWindows`) | `window` | the Windows component (#299) |
 | `en-code`, 24 × 24 | the final Code's line, in the end result | `code` | the end scene (#271) and its Roles list (#304); not yet in a test release |
 | `wn-station`, 28 × 17 | each window's place, in the room and on the Board (`planet.css:69`) | `window` | the Windows component (#299) with the room scene; not yet scheduled |
-| The Captain's plates (`board-v2-film-captain-plate-*`), 358 × 46 | behind the Captain's Release and Eject tiles in Actions, beside the game's own icon on the same tile | `release`, `eject` | the Captain console (#302) |
+| The Captain's plates (`board-v2-film-captain-plate-*`), 358 × 46 | behind the Captain's Release and Eject tiles in Actions, beside the game's own icon on the same tile | `release`, `eject` | not by #302: the Captain console keeps the film's plates as its art, so their padlock and eject sign stay, while its confirm's "who" block shows the family's icons. That is a second clash. It ends only with the later proposal below. |
 
 **Library pieces that show and are art, not icons:**
 - the end banner (`en-banner-red`);
@@ -149,6 +153,11 @@ On each screen, every visible picture was listed and named by the custom propert
 - the Hospital rescue film's small frames.
 
 **What the check is not:** desktop Chromium, not a phone; the harness's scenarios, not a live match.
+
+**Planned moves, approved by the Lead on 18 November:**
+- **The office badge** (`planet.css:68` and `:70`) moves to the family's `officer` and `block` when the board tags (#298) connect.
+- **The Release and Eject glyphs in the room films:** a later proposal, only when the room films (#262) next change. They would be drawn from the family, coloured inside the plate. The before and after go to the Lead and the owner first. Until then the films keep `commandIcon()`, and the Captain console shows both drawings.
+- **#303's copy** moves to `../icons.mjs` once #303 and #261 are both on `main`.
 
 ## Every icon of the family
 
@@ -245,6 +254,7 @@ On each screen, every visible picture was listed and named by the custom propert
 **Adding an icon:**
 - Draw it in the source only, in the style above, with an accessible name and a group.
 - It is a minor version (`phone-ui-icons-1.1.0`), with a row here.
+- Draw it only when a released screen needs it. Two icons that older sets have, and the family lacks, wait for that: the Engineer's "capture" and "showdown".
 
 **Redrawing an icon:**
 - It changes its look, so it needs the Lead's agreement and the owner's approval first.
