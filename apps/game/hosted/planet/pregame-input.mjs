@@ -224,15 +224,18 @@ export function stageClock(model){
  * (G7, G16); it is face down while this phone is hidden or the role is concealed (the session's reveal flag).
  */
 export function roleInput(model,ui,prefs,{visible}){
- const self=own(model),clock=stageClock(model),role=model.ownRole;
+ const self=own(model),clock=stageClock(model);
+ const readyPending=!!self&&busyWith(model,ui,'ready');
+ const role=readyPending?null:model.ownRole;
  const timed=clock&&clock.filmAtMs>0&&clock.endsAtMs>clock.filmAtMs?{elapsedMs:clock.elapsedMs,filmAtMs:clock.filmAtMs,endsAtMs:clock.endsAtMs}:null;
  const look=role?planetRoleLook(role.role,role.faction):null;
  // The session gives the role only while it is shown and this viewer isn't ready: before Show role it is the
  // card's back with Show role (concealed); once ready, the stamp and the count, with the card face down.
- const status=!visible?'concealed':model.connection!=='live'?'stale':role||self?.ready?'live':'concealed';
- return {status,viewer:model.selfSeatId,clock:timed,view:timed&&timed.elapsedMs>=timed.filmAtMs?'after':'card',film:'pending',
+ // A visible player can see their pending request while the server withholds the card.
+ const status=!visible?'concealed':model.connection!=='live'?'stale':role||self?.ready||readyPending?'live':'concealed';
+ return {status,interactive:!readyPending,viewer:model.selfSeatId,clock:timed,view:timed&&timed.elapsedMs>=timed.filmAtMs?'after':'card',film:'pending',
   card:role?{role:role.role,team:role.faction,facts:null,character:self?.characterId??null,device:look?.device??null,art:'ok'}:null,
-  ready:{mode:self?.ready?'done':'ready',enabled:model.canReady,busy:busyWith(model,ui,'ready'),reason:null},
+  ready:{mode:self?.ready?'done':'ready',enabled:model.canReady,busy:readyPending,reason:null},
   roster:model.playerCount?{ready:model.members.filter(member=>member.ready).length,total:model.playerCount}:null,reducedMotion:prefs.reduced};
 }
 

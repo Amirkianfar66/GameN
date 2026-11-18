@@ -241,6 +241,22 @@ test('the role stage: the server\'s interval, the card without knowledge or fact
  assert.equal(roleInput({...reading,setupClock:{status:'unsynced'}},ui(),prefs,shown).clock,null);
 });
 
+test('a pending Ready keeps the card down and locks repeat input until the session responds',()=>{
+ const reading=model({status:'reading',busy:true,selfSeatId:'seat-6'});
+ const state=ui({lastOp:'ready'});
+ const pending=nextRoleStageInput(ROLE_STAGE_DEFAULTS,roleInput(reading,state,prefs,shown));
+ assert.equal(pending.ready.busy,true);
+ assert.equal(pending.ready.enabled,false);
+ assert.equal(pending.interactive,false);
+ assert.equal(pending.card,null);
+ assert.equal(pending.roster.ready,0);
+ const hidden=nextRoleStageInput(pending,roleInput(reading,state,prefs,{visible:false}));
+ assert.equal(hidden.status,'concealed');
+ assert.equal(hidden.card,null);
+ assert.equal(roleInput({...reading,connection:'stale'},state,prefs,shown).status,'stale');
+ assert.equal(roleInput({...reading,busy:false},state,prefs,shown).interactive,true);
+});
+
 test('boarding: the server\'s interval, holding while it runs, then waiting; no Skip, as the film is today\'s',()=>{
  const boarding=model({status:'boarding',selfSeatId:'seat-6',setup:{id:'b1',startedAt:1000,endsAt:11000},setupClock:{status:'synced',serverNowMs:4000,uncertaintyMs:40}});
  const input=boardingInput(boarding,prefs,shown);
