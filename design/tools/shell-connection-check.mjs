@@ -428,9 +428,14 @@ const STATES = {
       await page.evaluate(tap(TAB('panels')));
       await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='panels'", 'Panels');
       // The game's own Panels list, or (with release 3, #310) the Panels component's row.
-      await page.evaluate(tap('.ms-ps-sheet [data-planet-action="panel"][data-value="navigation"], .ms-ps-sheet-body > .ms-panels [data-intent="open"][data-value="navigation"]'));
+      const ROW = '.ms-ps-sheet [data-planet-action="panel"][data-value="navigation"], .ms-ps-sheet-body > .ms-panels [data-intent="open"][data-value="navigation"]';
+      await page.evaluate(`document.querySelector(${JSON.stringify(ROW)}).focus()`);
+      await page.evaluate(tap(ROW));
       await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='navigation'&&document.querySelector('.ms-ps-sub')?.textContent==='Officer · private'", 'the Officer\'s own bar with Navigation open');
       const seen = await page.evaluate(LOOK);
+      // The row that opened the page had the focus, in Panels' content: the focus is now in the page's sheet, on its
+      // Back, and not on the Panels tab behind it (shell-input.mjs shellSheetFocus(), 'content').
+      const forward = await page.evaluate("(()=>{const a=document.activeElement;return {intent:a?.dataset?.intent??null,sheet:a?.closest?.('.ms-ps-sheet')?.dataset.sheet??null};})()");
       // Back from a panel's page opens Panels, another sheet in its place: the focus goes into that sheet, to its
       // Close (it has no footer), and not to the Panels tab behind it (shell-input.mjs shellSheetKept()).
       await page.evaluate("document.querySelector('.ms-ps-sheet [data-intent=\"sheet-back\"]').focus()");
@@ -439,6 +444,7 @@ const STATES = {
       await sleep(200);
       const where = await page.evaluate("(()=>{const a=document.activeElement;return {intent:a?.dataset?.intent??null,sheet:a?.closest?.('.ms-ps-sheet')?.dataset.sheet??null};})()");
       return { ownBar: seen.bar?.name === 'Setting course' && seen.bar.sub === 'Officer · private' && seen.sheet?.title === 'Navigation',
+        forwardIntoPage: forward.intent === 'sheet-back' && forward.sheet === 'navigation',
         backIntoPanels: where.intent === 'sheet-close' && where.sheet === 'panels' };
     } },
   display: { page: 'phone', url: 'scenario=display', steps: async page => {
