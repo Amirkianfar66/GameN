@@ -9,13 +9,19 @@ import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { MAIN_MENU_DEFAULTS, MAIN_MENU_VERSION, MENU_WORDS, brandWordsBox, nextMainMenuInput } from '../../../design/phone-ui/components/main-menu/main-menu.mjs';
 import { layout as hostedBrandLayout } from '../../../apps/game/hosted/pregame-films/brand/brand.mjs';
-import { layout as designBrandLayout } from '../../../design/pregame-films/brand/brand.mjs';
+import { brandSvg, layout as designBrandLayout } from '../../../design/pregame-films/brand/brand.mjs';
 import { ENTRY_PARTS_VERSION, ENTRY_TONES, createEntryParts } from '../../../design/phone-ui/components/entry-parts/entry-parts.mjs';
 
 const REPO = resolve(fileURLToPath(new URL('../../../', import.meta.url)));
 const COMPONENT = 'design/phone-ui/components/main-menu';
 const PARTS = 'design/phone-ui/components/entry-parts';
 const read = path => readFileSync(join(REPO, path), 'utf8');
+
+test('the static entry graphic is the complete released wordmark', () => {
+  // The viewBox accommodates both the width and height limits in the released layout.
+  const still = brandSvg(1650, { width: 390, height: 425, variant: 'reduced' });
+  assert.equal(read(`${COMPONENT}/entry-title.svg`).trimEnd(), still);
+});
 
 /** The static imports of a module, resolved: relative ones to files, the rest as package names. */
 function graph(entry) {
