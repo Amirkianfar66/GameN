@@ -1093,6 +1093,17 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - **Juno in view C** faces the camera, so the head is the approved face, looking down at the laptop as the owner chose for Juno in view A. At that size the lowered eyes can read as closed. The Lead asked the owner whether to keep it or have a "looking down, eyes open" face drawn, with a sketch first.
 - **The question to the owner:** is this the way to go for the rooms?
 
+**The painted bar everywhere, that evening.** The owner wrote to the Bars & Icons builder, in that session's own transcript (20:28:56 UTC), word for word:
+
+> We should use the new painted bar
+
+- **What came before it:** about two minutes earlier the Lead had sent the owner the rebuilt Hacker test page. That page still drew shell 0.2.12's bottom bar: line icons, with Card not last. The Room B page draws no game bars.
+- **What it decides:** every bottom bar the owner sees is the painted one, shell 0.3.2 or later.
+  - The Hacker test page is rebuilt with shell 0.3.3 at once.
+  - Every other owner test page takes shell 0.3.3 or later when it is next built.
+  - The game takes it through #307 and #310 when Integration merges them.
+- **What it doesn't change:** the painted bar itself, as the owner approved it at 17:41 UTC (above). No new look.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
