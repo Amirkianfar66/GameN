@@ -160,7 +160,12 @@ const LOOK = `(() => {
       gauge: q('.ms-ps-slot .fs-food', bar)?.getAttribute('aria-label') ?? null, controls: all('button', bar).length, box: box(bar) } : null,
     tabs: tabs ? { hidden: tabs.getAttribute('aria-hidden') === 'true', buttons: all('button[data-intent]', tabs).map(control), box: box(tabs),
       // Shell 0.3.0: the Card tab's picture, this viewer's own crew portrait: whether it is drawn, with which picture, and its box.
-      card: (() => { const tab = q('[data-intent="tab"][data-value="card"]', tabs), pt = tab ? q('.ms-ps-tab-pt', tab) : null; return tab ? { portrait: !!pt, picture: pt ? getComputedStyle(pt).backgroundImage !== 'none' : null, property: pt ? (/--ms-asset-[a-z0-9-]+/.exec(pt.style.backgroundImage)?.[0] ?? null) : null, size: pt ? [pt.getBoundingClientRect().width, pt.getBoundingClientRect().height] : null, icon: !!q('svg', tab), words: text(q('.ms-ps-tab-label', tab)), name: tab.getAttribute('aria-label') } : null; })() } : null,
+      // Shell 0.3.2: the portrait is the tab's picture that is not a painted tile; with no portrait the tab draws the card's tile.
+      card: (() => { const tab = q('[data-intent="tab"][data-value="card"]', tabs), pt = tab ? q('.ms-ps-tab-pt:not([data-tile])', tab) : null; return tab ? { tile: !!q('.ms-ps-tab-pt[data-tile] svg', tab), portrait: !!pt, picture: pt ? getComputedStyle(pt).backgroundImage !== 'none' : null, property: pt ? (/--ms-asset-[a-z0-9-]+/.exec(pt.style.backgroundImage)?.[0] ?? null) : null, size: pt ? [pt.getBoundingClientRect().width, pt.getBoundingClientRect().height] : null, icon: !!q('svg', tab), words: text(q('.ms-ps-tab-label', tab)), name: tab.getAttribute('aria-label') } : null; })(),
+      // Shell 0.3.2: each game tab's painted tile (which icon, its box, whether the open tab's ring lies over it) and the round button's icon.
+      tiles: all('.ms-ps-tab[data-intent="tab"]', tabs).map(tab => { const pt = q('.ms-ps-tab-pt[data-tile]', tab), r = pt ? pt.getBoundingClientRect() : null;
+        return { tab: tab.dataset.value, icon: q('.ms-ps-tab-icon', tab)?.dataset.icon ?? null, tile: !!(pt && q('svg', pt)), size: r ? [r.width, r.height] : null, ring: pt ? getComputedStyle(pt, '::after').boxShadow !== 'none' : null }; }),
+      heroIcon: q('.ms-ps-hero-icon', tabs)?.dataset.icon ?? null } : null,
     talk: talk ? all('button[data-intent]', talk).map(control) : null,
     hero: hero ? { mode: hero.dataset.mode, ...control(hero) } : null,
     target: target ? { title: text(q('.ms-ps-text b', target)), sub: text(q('.ms-ps-text span', target)), cancel: q('[data-intent="cancel-target"]', target) ? control(q('[data-intent="cancel-target"]', target)) : null, box: box(target) } : null,
@@ -192,6 +197,8 @@ const LOOK = `(() => {
 const HIT = point => `(() => { const n = document.elementFromPoint(${point[0]}, ${point[1]}); return { tag: n?.tagName ?? null, shell: !!n?.closest('.ms-phone-shell') && !n.closest('.ms-ps-stage'), food: !!n?.closest('.planet-food'), stage: !!n?.closest('.ms-ps-stage') }; })()`;
 const centre = b => [b.x + b.width / 2, b.y + b.height / 2];
 const values = s => (s.tabs?.buttons ?? []).map(b => b.intent === 'hero' ? `hero:${b.value}` : b.value).join(',');
+/** Shell 0.3.2: the game's tabs draw exactly these painted tiles, in order, each drawn in the portrait's 32 px box. */
+const painted = (s, icons) => { const tiles = (s.tabs?.tiles ?? []).filter(t => t.tile); return tiles.map(t => t.icon).join() === icons.join() && tiles.every(t => t.size.join() === '32,32'); };
 
 /**
  * Each state: the page and address it starts from (or `from`, the state it continues), the steps that reach it
@@ -203,13 +210,16 @@ const STATES = {
       await page.waitFor(`${game}.getModel().activeSeatId==='seat-1'`, 'another player\'s turn');
     },
     facts: s => ({ turnBar: s.bar?.kind === 'turn' && s.bar.name === 'Crew 1' && s.bar.sub === 'Player 1 · Turn' && s.bar.portrait, clock: /^\d:\d\d$/.test(s.bar?.clock ?? ''), round: s.bar?.round === 'R6',
-      promisesMenu: !!s.bar?.promises && s.bar.menu, tabs: values(s) === 'switch,actions,hero:pass,panels,card', passOff: s.hero?.mode === 'pass' && s.hero.disabled, live: s.shell?.status === 'live' }) },
+      promisesMenu: !!s.bar?.promises && s.bar.menu, tabs: values(s) === 'switch,actions,hero:pass,panels,card', passOff: s.hero?.mode === 'pass' && s.hero.disabled, live: s.shell?.status === 'live',
+      // Shell 0.3.2 (the owner, 18 November 2026): Board, Actions and Panels are painted tiles in the portrait's 32 px box, with no ring at rest; the round button's icon is painted.
+      tiles: painted(s, ['board:tile', 'actions:tile', 'panels:tile']) && s.tabs.tiles.every(t => !t.tile || t.ring === false) && s.tabs.heroIcon === 'pass:painted' }) },
   own: { page: 'phone', url: 'scenario=board',
     facts: s => ({ yourTurn: s.bar?.kind === 'turn' && s.bar.name === 'Your turn' && s.bar.sub === 'Player 6 · Crew 6', passOn: s.hero?.mode === 'pass' && !s.hero.disabled && s.model?.canPass === true,
       // Shell 0.3.0: Card is the last tab and draws this viewer's own portrait (Player 6's); the tab keeps its word.
       // Shell 0.3.1: at the top bar's 32 px.
       cardTab: values(s) === 'switch,actions,hero:pass,panels,card' && s.tabs.card?.portrait === true && s.tabs.card.picture === true && s.tabs.card.property === '--ms-asset-crew-portrait-c6' && s.tabs.card.size.join() === '32,32'
-        && !s.tabs.card.icon && s.tabs.card.words === 'Card' && s.tabs.card.name === null,
+        && !s.tabs.card.icon && !s.tabs.card.tile && s.tabs.card.words === 'Card' && s.tabs.card.name === null,
+      tiles: painted(s, ['board:tile', 'actions:tile', 'panels:tile']) && s.tabs.heroIcon === 'pass:painted',
       roomScene: s.stage.scene === 'room-b' && s.stage.view === 'room' }) },
   pass: { from: 'own', steps: async page => {
       await page.evaluate(tap(HERO));
@@ -355,9 +365,11 @@ const STATES = {
   blackout: { page: 'phone', url: 'scenario=blackout', steps: async page => {
       await page.waitFor(`${game}.getModel().dark&&document.querySelector('.ms-ps-tb')?.dataset.tone==='dark'`, 'the Blackout\'s dark');
     },
-    // In the dark the model gives no identities, the viewer's own among them: the Card tab keeps the card icon.
+    // In the dark the model gives no identities, the viewer's own among them: the Card tab draws no portrait, and the
+    // card's own icon in its place (its painted tile from shell 0.3.2, as the other three tabs draw theirs).
     facts: s => ({ dark: s.bar?.tone === 'dark' && s.bar.name === 'Blackout' && s.bar.glyph === 'dark', clock: !!s.bar?.clock, words: s.bar?.sub === 'Dark · positions fixed',
-      cardIcon: s.tabs?.card?.portrait === false && s.tabs.card.icon === true && s.model?.identities === 0 }) },
+      cardIcon: s.tabs?.card?.portrait === false && s.tabs.card.icon === true && s.tabs.card.tile === true && s.model?.identities === 0,
+      fourTiles: painted(s, ['board:tile', 'actions:tile', 'panels:tile', 'card:tile']) }) },
   // The phase bars (shell 0.2.10): Designer's words for a phase with no active player, from phase-bars.mjs, on the
   // harness's own scenarios. Each deciding player's phone shows everyone's bar until their own choice is open.
   before: { page: 'phone', url: 'scenario=block', steps: async page => {

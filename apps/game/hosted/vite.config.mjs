@@ -13,12 +13,15 @@ const repositoryRoot = fileURLToPath(new URL('../../../', import.meta.url));
 const designSources = ['design/phone-ui/components/room-scene/', 'design/phone-ui/components/icons.mjs', 'design/phone-ui/components/tag-layout.mjs'];
 // END room connection
 // BEGIN shell connection, for Integration's approval (the owner's plan of 16 November 2026, release 2: the
-// match's frame is Designer's phone shell as it is). Exactly the shell's three runtime files and the kit's two,
+// match's frame is Designer's phone shell as it is). Exactly the shell's three runtime files, the kit's two and the icons' painted form,
 // which the shell imports (it uses icons.mjs, admitted above); never its preview/ or review/, nor the kit's.
 // phase-bars.mjs (shell 0.2.10) holds the top bar's words for each game step; it imports the shell only.
+// icon-paint.mjs (shell 0.3.2, icons 1.1.0; the owner, 18 November 2026) paints the bottom bar's icons as tiles; the
+// shell imports it, and it imports icons.mjs only.
 const shellSources = ['design/phone-ui/components/phone-shell/phone-shell.mjs', 'design/phone-ui/components/phone-shell/phone-shell.css',
   'design/phone-ui/components/phone-shell/phase-bars.mjs',
-  'design/phone-ui/components/kit/kit.mjs', 'design/phone-ui/components/kit/kit.css'];
+  'design/phone-ui/components/kit/kit.mjs', 'design/phone-ui/components/kit/kit.css',
+  'design/phone-ui/components/icon-paint.mjs'];
 // END shell connection
 // BEGIN Actions connection, for Integration's approval (the owner's plan of 16 November 2026, release 3: Actions
 // on a player's phone is Designer's Actions component as it is). Exactly its two runtime files and the gameplay
