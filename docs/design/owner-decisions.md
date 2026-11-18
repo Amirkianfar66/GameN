@@ -810,6 +810,20 @@ The Lead then recommended one shared view for each fixed room. The owner:
 
 **What it does not settle:** whether Codex carries on with the test, and the test's open choices, which #311 lists.
 
+**Room B's view D tried again from its plan alone, minutes later.**
+- **What happened:** the go for view D (Atlas's view) gave two step-1 pictures. Both were painted well, and both failed the same-room check "every lamp in view lit at its place". The walls were off the plan's lines: the north-east corner sat about 90 px right of the guide's, and the east wall's lamp about 250 px off. Both pictures put the corner near where PV6-A-2 has its own corner. PV6-A-2 is the earlier picture sent with D's guide as the style reference. PV6-A's own first step, sent with its guide alone, had kept its walls on the guide's lines.
+- **The spend:** the work stopped within the owner's limit, at about $0.14 of the $0.18 cap. Step 2 was not run.
+- **The Lead asked, in the question dialog:**
+
+> May we try D again from its plan alone, at about $0.12 more for D ($0.19 at most with one re-run)? B, C and E would be made the same way, within the spend you already approved.
+
+- **The owner chose:** "Yes, plan alone", the Lead's recommendation.
+
+**What it decides:**
+- **D's retry:** step 1 is sent with D's guide alone (the sheet's one-picture prompt, s1-one), then step 2 runs as the sheet has it. That is about $0.12 more for D, $0.19 at most with one re-run.
+- **B, C and E** take the same plan-alone first step once D passes, within the owner's earlier approval of about $0.12 a view, at most $0.18 with one re-run.
+- **The checks are unchanged.** Each picture is checked against PV6-A for being the same room, and the Lead reviews it before the owner sees it.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
