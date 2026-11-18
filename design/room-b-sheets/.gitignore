@@ -20,14 +20,22 @@ pv8/pub-*/img/PV6-*.png
 # The same-room check's figure: PV6-A-2 cast onto the room's planes, so it holds that picture.
 pv8/pub-*/img/pv6-*-cast.png
 
-# The views' people data (people-B, people-D): their depth bands, the capsule's band and their pages are written by their
-# scripts from the image tool's pictures, which a run puts beside them; their checks and captures stay out too.
+# The views' people data (people-B, people-D, people-E): their depth bands, the capsule's and the stool's bands, the strip
+# check's crop and their pages are written by their scripts from the image tool's pictures, which a run puts beside them; their
+# checks and captures stay out too.
 pv8/people-*/PV6-*.png
 pv8/people-*/band-*.png
 pv8/people-*/capsule-*.png
+pv8/people-*/stool-*.png
+pv8/people-*/strip-check-*.png
 pv8/people-*/B*.png
 pv8/people-*/_*.png
 pv8/people-*/*.html
 pv8/people-*/*.log
 pv8/people-*/_lift/
 pv8/people-*/_listing.txt
+
+# Inputs from the records page and checks on real pictures: each holds the image tool's pictures or pieces of them.
+pv8/_in-*/
+pv8/real-*/
+pv8/strips-*/

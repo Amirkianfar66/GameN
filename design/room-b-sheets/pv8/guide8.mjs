@@ -7,7 +7,7 @@
 // pv6-<view>-empty.svg (without), pv6-<view>-regions.svg and pv6-<view>-empty-regions.svg (colour check v4's maps),
 // pv6-<view>-empty-annotated.svg, pv6-<view>-furniture.svg and pv6-<view>-stations.svg (the PLACE outlines and their label map),
 // and pieces8-<view>.json. The option is the query's (guide8.mjs?view=B&option=1) or PV8_OPTION, 1 by default. Generates nothing.
-import { writeFileSync } from 'fs';
+import { writeFileSync, existsSync, readFileSync } from 'fs';
 import { camera, project } from '../ring/ring4b.mjs';
 import { IDS, figureAt, spriteRect, standInPng, FULL } from '../vis/vis5.mjs';
 import { CEILING, SKY } from '../pv5/guide5.mjs';
@@ -24,6 +24,8 @@ export const PLUM = { deep: '#2A172E', shadow: '#582D59', mid: '#684166', light:
 export const WARM = { orange: '#EC793C', cream: '#FCE3A0', rust: '#75402E' }, BLUEGREEN = ['#3A9497', '#066D84'];
 export const MAP = { back: '#FF0000', left: '#00FF00', right: '#0000FF', deck: '#FFFF00', window: '#FF00FF', screen: '#00FFFF', display: '#FF8000', skylight: '#0080FF', lamp: '#FFC800' };
 export const VIEWER = new URL(import.meta.url).searchParams.get('view') ?? process.argv[2];
+// C's version 6: the lit strips at the foot of the back wall, cut from the step-1 picture by strips8.py (their plaques, in pixels)
+const STRIPS = VIEWER && existsSync(DIR + `strips-${VIEWER}.json`) ? JSON.parse(readFileSync(DIR + `strips-${VIEWER}.json`, 'utf8')).strips : [];
 if (!['B', 'C', 'D', 'E'].includes(VIEWER)) throw new Error(`guide8.mjs: no view ${VIEWER}`);
 export const OPTION = +(new URL(import.meta.url).searchParams.get('option') ?? process.env.PV8_OPTION ?? 1);
 export const STAGING = { fov: 70, farScale: 1 };
@@ -42,7 +44,7 @@ const lampOn = l => { const n = l.wall === 'north' ? [0, 0, -1] : l.wall === 'so
 const LAMPS6 = LAMPS.map(lampOn);
 const quadOn = (l, w, h, out = 0.04) => { const u = [-l.n[2], 0, l.n[0]], c = [l.at[0] + l.n[0] * out, l.at[1], l.at[2] + l.n[2] * out];
   return [[c[0] - u[0] * w / 2, c[1] - h / 2, c[2] - u[2] * w / 2], [c[0] + u[0] * w / 2, c[1] - h / 2, c[2] + u[2] * w / 2], [c[0] + u[0] * w / 2, c[1] + h / 2, c[2] + u[2] * w / 2], [c[0] - u[0] * w / 2, c[1] + h / 2, c[2] - u[2] * w / 2]]; };
-export function draw(mode, { furniture = true, capsule = true, stool = true } = {}) {   // capsule / stool: false draws the stations without the food capsule / Juno's stool (the step-2 guide)
+export function draw(mode, { furniture = true, capsule = true, stool = true, strips = true } = {}) {   // capsule / stool / strips: false draws the stations without the food capsule / Juno's stool / C's vent grilles (the step-2 guide)
   const plan = mode === 'plan', out = [], defs = []; let n = 0;
   const clip = pp => { const id = `c${n++}`; defs.push(`<clipPath id="${id}"><polygon points="${pts(pp)}"/></clipPath>`); return id; };
   const glow = (cx, cy, rx, ry, stops, cid) => { const id = `g${n++}`; defs.push(`<radialGradient id="${id}">${stops.map(([o, c, a]) => `<stop offset="${o}" stop-color="${c}" stop-opacity="${a}"/>`).join('')}</radialGradient>`);
@@ -84,8 +86,13 @@ export function draw(mode, { furniture = true, capsule = true, stool = true } = 
         const fill = top ? (display ? VIOLET.deep : PLUM.light) : box ? (i === 0 ? (o.name === 'microscope' ? PLUM.warm : PLUM.mid) : VIOLET.shadow) : PLUM.mid;
         out.push(`<polygon points="${pts(pp)}" fill="${fill}" stroke="${top ? (display ? PLUM.light : WARM.orange) : PLUM.deep}" stroke-width="${top ? 1.6 : 0.9}" stroke-linejoin="round"/>`); });
       if (plan && display) { const front = o.faces[0], m = front.pts.map(p => p).reduce((a, p) => [a[0] + p[0] / 4, a[1] + p[1] / 4, a[2] + p[2] / 4], [0, 0, 0]); for (const [k, col] of BLUEGREEN.entries()) { const d = [m[0] + (k - 0.5) * 0.08, 0.62, m[2]], a = at(d), r = (FP * 0.012) / depth(d); out.push(`<circle cx="${f1(a[0])}" cy="${f1(a[1])}" r="${f1(Math.max(1.5, r))}" fill="${col}"/>`); } } } }
+  if (plan && furniture && strips) for (const s of STRIPS) out.push(grilleSvg(s.plaque));   // the full guide only: step 3's input shows a grille in each strip's shape
   return { body: out.join(''), defs: defs.join('') };
 }
+// C's version 6: a plain vent grille in each strip's plaque: a steel frame with six dark slots, unlit
+function grilleSvg([x0, y0, x1, y1]) { const w = x1 + 1 - x0, h = y1 + 1 - y0, n = 6, sw = (w - 8) / n;
+  const slots = Array.from({ length: n }, (_, i) => `<rect x="${f1(x0 + 4 + i * sw + 1)}" y="${f1(y0 + 5)}" width="${f1(sw - 2)}" height="${f1(h - 10)}" rx="1" fill="${VIOLET.deep}"/>`).join('');
+  return `<rect x="${x0}" y="${y0}" width="${w}" height="${h}" rx="3" fill="${PLUM.mid}" stroke="${PLUM.deep}" stroke-width="1.6"/>${slots}`; }
 // the food capsule (capsule8.mjs, ship-life's counter unit): a box in the room's steel-plum, its front face with the paper hatch and
 // its handle, two vent slots under the hatch and the small light above it, unlit (the code draws its state over it); in the map,
 // furniture black like every piece
@@ -164,7 +171,7 @@ if (process.argv[1] && import.meta.url.endsWith(process.argv[1].split('/').pop()
   // C's version 5 and E's version 3 (the Lead and the owner, 18 November): Juno's stool is painted in step 3 too, so step 2's input shows it neither
   const inPic = o => !!o && o.faces.some(f => { const pp = P(f.pts); return !!pp && pp.some(([x, y]) => x >= 0 && x <= GW && y >= 0 && y <= GH); });
   const stoolIn = inPic(room.objects.find(o => o.name === 'stool' && o.place !== VIEWER));
-  if (capIn || stoolIn) { const g2 = draw('plan', { capsule: false, stool: false }); writeFileSync(DIR + `pv6-${VIEWER}-guide-s2.svg`, svgOf(g2.body, g2.defs, VIOLET.deep)); }
+  if (capIn || stoolIn) { const g2 = draw('plan', { capsule: false, stool: false, strips: false }); writeFileSync(DIR + `pv6-${VIEWER}-guide-s2.svg`, svgOf(g2.body, g2.defs, VIOLET.deep)); }
   writeFileSync(DIR + `pv6-${VIEWER}-regions.svg`, svgOf(m.body, m.defs, '#000', '', true)); writeFileSync(DIR + `pv6-${VIEWER}-empty-regions.svg`, svgOf(em.body, em.defs, '#000', '', true));
   const ps = pieces(), shapes = ps.map(p => p.objects.flatMap(o => o.faces.map(f => P(f.pts)).filter(Boolean)));
   writeFileSync(DIR + `pv6-${VIEWER}-furniture.svg`, svgOf(shapes.flat().map(pp => `<polygon points="${pts(pp)}" fill="#FFF"/>`).join(''), '', '#000', '', true));

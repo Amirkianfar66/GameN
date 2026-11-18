@@ -1,0 +1,450 @@
+{
+ "view": "E",
+ "layers": "the records page's layers (picture.json), by the Lead's recipe: d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November); the furniture from PV6-E-3 over PV6-E-1, Juno's stool from PV6-E-4 over PV6-E-3",
+ "camera": "straight lines: d = forward + u right + v up; depth along the camera's axis",
+ "rule": "by depth alone: each pixel after every person farther than it; a seat stays behind its owner; the stool's bands each just after the furniture band of the same number, and a stool pixel painted over a furniture pixel never under it",
+ "parts": [
+  {
+   "station": "C console",
+   "file": "PV6-E-3-C-console.png",
+   "from": "PV6-E-3",
+   "px": 69172,
+   "x": [
+    0,
+    148
+   ],
+   "y": [
+    947,
+    1502
+   ],
+   "inItsOutline": 1.0,
+   "outlineCovered": 0.9776,
+   "iouWithOutline": 0.9137,
+   "offPlan": {
+    "left": 0,
+    "right": 6,
+    "top": -6,
+    "bottom": 6,
+    "centre": [
+     0.0,
+     -1.2
+    ]
+   }
+  },
+  {
+   "station": "B laptop cart",
+   "file": "PV6-E-3-B-laptop-cart.png",
+   "from": "PV6-E-3",
+   "px": 22147,
+   "x": [
+    254,
+    384
+   ],
+   "y": [
+    885,
+    1077
+   ],
+   "inItsOutline": 1.0,
+   "outlineCovered": 1.0,
+   "iouWithOutline": 0.8324,
+   "offPlan": {
+    "left": -6,
+    "right": 6,
+    "top": -6,
+    "bottom": 6,
+    "centre": [
+     0.1,
+     0.6
+    ]
+   }
+  },
+  {
+   "station": "D bench",
+   "file": "PV6-E-3-D-bench.png",
+   "from": "PV6-E-3",
+   "px": 70447,
+   "x": [
+    760,
+    1023
+   ],
+   "y": [
+    867,
+    1191
+   ],
+   "inItsOutline": 1.0,
+   "outlineCovered": 1.0,
+   "iouWithOutline": 0.926,
+   "offPlan": {
+    "left": -6,
+    "right": 0,
+    "top": -6,
+    "bottom": 6,
+    "centre": [
+     -2.6,
+     0.3
+    ]
+   }
+  },
+  {
+   "station": "B stool",
+   "file": "PV6-E-4-B-stool.png",
+   "from": "PV6-E-4",
+   "px": 6748,
+   "x": [
+    381,
+    446
+   ],
+   "y": [
+    910,
+    1019
+   ],
+   "inItsOutline": 1.0,
+   "outlineCovered": 0.9807,
+   "iouWithOutline": 0.8892,
+   "offPlan": {
+    "left": -2,
+    "right": 2,
+    "top": -2,
+    "bottom": 2,
+    "centre": [
+     -1.9,
+     -0.2
+    ]
+   }
+  }
+ ],
+ "depthHits": {
+  "C console": {
+   "hit": 64561,
+   "pixels": 69172,
+   "depthM": [
+    1.25,
+    1.81
+   ]
+  },
+  "B laptop cart": {
+   "hit": 18438,
+   "pixels": 22147,
+   "depthM": [
+    2.73,
+    3.37
+   ]
+  },
+  "D bench": {
+   "hit": 65237,
+   "pixels": 70447,
+   "depthM": [
+    2.07,
+    2.91
+   ]
+  },
+  "B stool": {
+   "hit": 6107,
+   "pixels": 6748,
+   "depthM": [
+    3.21,
+    3.54
+   ]
+  }
+ },
+ "people": [
+  {
+   "id": "B2",
+   "name": "Juno",
+   "Z": 3.334
+  },
+  {
+   "id": "B4",
+   "name": "Atlas",
+   "Z": 3.01
+  },
+  {
+   "id": "B3",
+   "name": "Lyra",
+   "Z": 1.67
+  }
+ ],
+ "order": [
+  "band-0",
+  "stool-0",
+  "B2",
+  "band-1",
+  "B4",
+  "band-2",
+  "stool-2",
+  "B2 front",
+  "B4 front",
+  "B3",
+  "band-3",
+  "B3 front"
+ ],
+ "fronts": {
+  "B2": "band-2",
+  "B4": "band-2",
+  "B3": "band-3"
+ },
+ "bands": [
+  {
+   "band": 0,
+   "file": "band-0.png",
+   "after": [],
+   "before": [
+    "B2",
+    "B4",
+    "B3"
+   ],
+   "px": 134,
+   "seamFillPx": 61,
+   "stations": [
+    "B laptop cart"
+   ]
+  },
+  {
+   "band": 1,
+   "file": "band-1.png",
+   "after": [
+    "B2"
+   ],
+   "before": [
+    "B4",
+    "B3"
+   ],
+   "px": 4189,
+   "seamFillPx": 499,
+   "stations": [
+    "B laptop cart"
+   ]
+  },
+  {
+   "band": 2,
+   "file": "band-2.png",
+   "after": [
+    "B2",
+    "B4"
+   ],
+   "before": [
+    "B3"
+   ],
+   "px": 96841,
+   "seamFillPx": 835,
+   "stations": [
+    "B laptop cart",
+    "C console",
+    "D bench"
+   ]
+  },
+  {
+   "band": 3,
+   "file": "band-3.png",
+   "after": [
+    "B2",
+    "B4",
+    "B3"
+   ],
+   "before": [],
+   "px": 60602,
+   "seamFillPx": 0,
+   "stations": [
+    "C console"
+   ]
+  }
+ ],
+ "stoolBands": [
+  {
+   "band": 0,
+   "file": "stool-0.png",
+   "after": [],
+   "before": [
+    "B2",
+    "B4",
+    "B3"
+   ],
+   "px": 6373,
+   "seamFillPx": 87,
+   "stations": [
+    "B stool"
+   ]
+  },
+  {
+   "band": 2,
+   "file": "stool-2.png",
+   "after": [
+    "B2",
+    "B4"
+   ],
+   "before": [
+    "B3"
+   ],
+   "px": 375,
+   "seamFillPx": 0,
+   "stations": [
+    "B stool"
+   ]
+  }
+ ],
+ "conflictPx": 0,
+ "check": {
+  "bandsAgainstLayers": {
+   "maxAbsDiff": 0,
+   "furnitureOnly": 0
+  },
+  "againstPlaced": {
+   "meanAbsDiff": 0.117,
+   "p99": 2.0,
+   "max": 95,
+   "measure": "the largest of |R|, |G|, |B| per pixel, over the whole picture"
+  },
+  "furnitureAgainstPV6E3": {
+   "meanAbsDiff": 0.1061,
+   "p99": 1.0
+  },
+  "seatBehindItsOwnerPx": {
+   "B stool": 5631
+  },
+  "stoolRaisedOverTheFurniture": {
+   "px": 375,
+   "x": [
+    381,
+    384
+   ],
+   "y": [
+    917,
+    1013
+   ],
+   "over": [
+    "B laptop cart"
+   ],
+   "fromBands": [
+    0
+   ],
+   "toBands": [
+    2
+   ],
+   "stoolOpaquePx": 87,
+   "furnitureOpaquePx": 90,
+   "againstPV6E4": {
+    "asDrawn": {
+     "meanAbsDiff": 4.83,
+     "max": 41,
+     "over16Px": 37
+    },
+    "furnitureOverTheStool": {
+     "meanAbsDiff": 52.8,
+     "max": 186,
+     "over16Px": 309
+    }
+   }
+  },
+  "stoolUnderTheFurniturePx": 0,
+  "pv6e3AgainstPv6e4UnderTheFurniture": {
+   "furniturePx": 160664,
+   "differingPx": 0,
+   "maxAbsDiff": 0
+  },
+  "sameOnBothPhones": {
+   "390x844 Juno": 0.0,
+   "390x844 Lyra": 0.0,
+   "390x844 Atlas": 0.0,
+   "430x932 Juno": 0.31,
+   "430x932 Lyra": 0.192,
+   "430x932 Atlas": 0.325
+  }
+ },
+ "report": {
+  "B2": {
+   "name": "Juno",
+   "Z": 3.334,
+   "seat": "B stool",
+   "overlaps": {
+    "B laptop cart": {
+     "px": 5487,
+     "nearerPx": 5381,
+     "depthM": [
+      2.83,
+      3.37
+     ],
+     "drawn": "in front where nearer"
+    },
+    "B stool": {
+     "px": 2302,
+     "nearerPx": 1756,
+     "depthM": [
+      3.21,
+      3.54
+     ],
+     "drawn": "behind them: their seat"
+    }
+   },
+   "inFrontOfThem": {
+    "B laptop cart": 0.3373,
+    "B stool": 0.0157
+   },
+   "hiddenShare": 0.3389,
+   "boxShare": 0.2283,
+   "lowerShare": 0.444,
+   "faceHidden": 0.0,
+   "pressHiddenShare": 0.0678,
+   "pressCentreHidden": 0.0
+  },
+  "B4": {
+   "name": "Atlas",
+   "Z": 3.01,
+   "seat": null,
+   "overlaps": {
+    "D bench": {
+     "px": 11545,
+     "nearerPx": 11545,
+     "depthM": [
+      2.27,
+      2.85
+     ],
+     "drawn": "in front where nearer"
+    }
+   },
+   "inFrontOfThem": {
+    "D bench": 0.5006
+   },
+   "hiddenShare": 0.5006,
+   "boxShare": 0.5072,
+   "lowerShare": 0.9932,
+   "faceHidden": 0.0,
+   "pressHiddenShare": 0.0005,
+   "pressCentreHidden": 0.0
+  },
+  "B3": {
+   "name": "Lyra",
+   "Z": 1.67,
+   "seat": null,
+   "overlaps": {
+    "C console": {
+     "px": 3248,
+     "nearerPx": 505,
+     "depthM": [
+      1.48,
+      1.81
+     ],
+     "drawn": "in front where nearer"
+    },
+    "B laptop cart": {
+     "px": 10776,
+     "nearerPx": 0,
+     "depthM": [
+      2.73,
+      3.33
+     ],
+     "drawn": "behind them"
+    }
+   },
+   "inFrontOfThem": {
+    "C console": 0.0021
+   },
+   "hiddenShare": 0.0021,
+   "boxShare": 0.0484,
+   "lowerShare": 0.0953,
+   "faceHidden": 0.0,
+   "pressHiddenShare": 0.0,
+   "pressCentreHidden": 0.0
+  }
+ },
+ "tags": "drawn above every layer (the page's overlay)"
+}

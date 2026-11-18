@@ -15,12 +15,12 @@ const fileOf = x => ALL.find(b => b.file === `${x}.png`);
 const orderRow = x => fileOf(x) ? `<li><code>${x}.png</code>: ${esc(fileOf(x).stations.map(station).join(', '))} (${n0(fileOf(x).px)} px)</li>`
   : x.endsWith(' front') ? `<li class="front">${NAME[x.split(' ')[0]]}'s “front” element, if their figure has one: a part of their figure drawn over their own station where it is nearer than they are</li>`
   : `<li class="person">${NAME[x]} (${x}), ${O.people.find(p => p.id === x).Z.toFixed(2)} m</li>`;
-const FILES = ['scene.json', 'occlusion.json', 'picture.json', 'geo-B.json', ...O.bands.map(b => b.file), ...O.capsuleBands.map(b => b.file)];
+const FILES = ['scene.json', 'occlusion.json', 'picture.json', 'geo-B.json', 'guide-openings.json', ...O.bands.map(b => b.file), ...O.capsuleBands.map(b => b.file)];
 const ph = k => S.phones[k];
 const peopleRows = O.people.map(p => { const r = O.report[p.id], q = ph('390x844').people.find(x => x.id === p.id), q4 = ph('430x932').people.find(x => x.id === p.id);
   return `<tr><td>${esc(r.name)} <span class="mono">${p.id}</span></td><td class="num">${p.Z.toFixed(2)} m</td><td class="num">${q.feet.join(', ')}<br>${q4.feet.join(', ')}</td><td class="num">${q.heightPx} · ${q4.heightPx} px</td><td>${Object.keys(r.inFrontOfThem).length ? Object.entries(r.inFrontOfThem).map(([s, v]) => `${esc(station(s))} ${pct(v)}`).join(', ') : 'nothing'}</td><td class="num">${pct(r.boxShare)} · ${pct(r.lowerShare)}</td><td class="num">${pct(r.faceHidden)} · ${pct(r.pressHiddenShare)}</td></tr>`; }).join('');
 const partRows = O.parts.map(p => `<tr><td>${esc(station(p.station))}</td><td>${esc(p.from)}</td><td class="num">${n0(p.px)}</td><td class="num">${pct(p.inItsOutline)} · ${pct(p.outlineCovered)}</td><td class="num">${O.depthHits[p.station].depthM[0].toFixed(2)}–${O.depthHits[p.station].depthM[1].toFixed(2)} m</td><td class="num">${p.offPlan.centre.join(', ')} px</td></tr>`).join('');
-const bandFigs = ALL.map(b => `<figure><div class="chk"><img src="${b.file}" alt="${esc(b.file)}: ${esc(b.stations.map(station).join(', '))}" width="1024" height="1536" loading="eager"></div><figcaption><code>${b.file}</code> · after ${b.after.length ? b.after.map(i => NAME[i]).join(', ') : 'nobody'} · before ${b.before.map(i => NAME[i]).join(', ')}</figcaption></figure>`).join('');
+const bandFigs = ALL.map(b => `<figure><div class="chk"><img src="${b.file}" alt="${esc(b.file)}: ${esc(b.stations.map(station).join(', '))}" width="1024" height="1536" loading="eager"></div><figcaption><code>${b.file}</code> · after ${b.after.length ? b.after.map(i => NAME[i]).join(', ') : 'nobody'} · before ${b.before.length ? b.before.map(i => NAME[i]).join(', ') : 'nobody'}</figcaption></figure>`).join('');
 const fileRows = FILES.map(f => `<tr><td><a href="${f}"><code>${f}</code></a></td><td><span class="mono">${sha(f)}</span></td></tr>`).join('');
 // the capsule: its band cropped around it, with the painted hatch and lens drawn over it (painting pixels, at their centres)
 const K = S.capsule, CB = O.capsuleBands[0], mid = p => [p[0] + 0.5, p[1] + 0.5];
@@ -112,6 +112,7 @@ a { color: var(--accent); }
   <section>
     <h2>Files</h2>
     <div class="table-scroll"><table><thead><tr><th>File</th><th>sha256</th></tr></thead><tbody>${fileRows}</tbody></table></div>
+    <p class="muted"><code>guide-openings.json</code> is the skylight as the camera sees it, in painting pixels: its glass outline, its mullions and its box. With the plate's placement in scene.json, it lets the shared voyage be clipped to the plate's black inside the opening.</p>
   </section>
 </div>`;
 writeFileSync(DIR + 'page.html', html); console.log('page.html', html.length, 'chars; files', FILES.join(', '));

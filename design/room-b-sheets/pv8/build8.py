@@ -34,14 +34,24 @@ def build(V):
     VI = cp(os.path.join(D, f'visits-{LAYOUT}.json'), f'visits-{LAYOUT}.json'); VJ = json.load(open(os.path.join(D, f'visits-{LAYOUT}.json')))
     prompts = {k: {'text': t, 'sha256': hashlib.sha256(t.encode('utf-8')).hexdigest(), 'chars': len(t)} for k, t in P.items()}
     name, crew, num = NAMES[V]
-    VER = {'B': 4, 'C': 5, 'D': 2, 'E': 3}[V]   # C's version 5 and E's version 3: Juno's stool painted in step 3 as well
-    S3 = {q['name'] for q in K['pieces'] if q.get('step') == 3}
+    VER = {'B': 4, 'C': 7, 'D': 2, 'E': 3}[V]   # C's version 5 and E's version 3: Juno's stool painted in step 3 as well; C's version 6: the vent strips; C's version 7: the seat trimmed by the cart's jars
+    S3ALL = {q['name'] for q in K['pieces'] if q.get('step') == 3}; STRIPS3 = sorted(n for n in S3ALL if n.startswith('vent strip')); S3 = S3ALL - set(STRIPS3)
+    SF = os.path.join(D, f'strips-{V}.json'); STRIPS_REC = json.load(open(SF)) if os.path.exists(SF) else None
+    TF = os.path.join(D, f'trim-{V}.json'); TRIM_REC = json.load(open(TF)) if os.path.exists(TF) else None
+    # C's version 7 (the Lead, 18 November): step 2 is done and accepted; step 3 starts from its picture, the trim's base
+    B2 = TRIM_REC['source']['base'] if TRIM_REC else None
+    STEPS = {'s1': {'status': 'done', 'picture': STRIPS_REC['source']['label'], 'sha256': STRIPS_REC['source']['sha256']},
+             's2': {'status': 'done', 'picture': B2['label'], 'records': B2['records'], 'sha256': B2['sha256'], 'accepted': 'the Lead, 18 November 2026'},
+             's3': {'status': "for the Lead's go", 'base': {'picture': B2['label'], 'records': B2['records'], 'sha256': B2['sha256']}}} if B2 else None
     S3WHAT = 'the food capsule and the stool, two separate shapes' if S3 == {'food capsule', 'stool'} else 'the stool alone' if S3 == {'stool'} else 'the food capsule alone'
+    if STRIPS3: S3WHAT = 'the food capsule, the stool and the two vent strips, four separate shapes'
     WITHOUT = 'without the capsule and the stool' if S3 == {'food capsule', 'stool'} else 'without the stool' if S3 == {'stool'} else 'without the capsule'
     BUDGET3 = {'B': 'one PLACE edit (step 2) and one capsule edit (step 3), about $0.12, over the accepted step 1; one re-run only if a check fails, at most $0.18',
-               'C': 'one empty-room picture (step 1), one PLACE edit (step 2) and one edit for the capsule and the stool (step 3), about $0.18; one re-run only if a check fails, at most $0.24',
+               'C': 'one PLACE edit (step 2) and one edit for the capsule, the stool and the two vent strips (step 3), about $0.12, over the accepted step 1 (PV6-C-2); one re-run only if a check fails, at most $0.18',
                'E': 'one PLACE edit (step 2) and one stool edit (step 3), about $0.12, over the accepted step 1 (PV6-E-1); one re-run only if a check fails, at most $0.18'}
-    m = {'sheet': f'PV6-{V}', 'version': VER, 'date': '2026-11-18', 'status': f"Version {VER}, for the Lead's go. Nothing is generated before it.", 'generated': A['generated'],
+    if STEPS: BUDGET3[V] = f"one edit for the capsule, the stool and the two vent strips (step 3), about $0.057, over the accepted step 2 ({B2['label']}); no re-run; C ends at about $0.245 (the Lead, 18 November)"
+    STATUS = f"Version {VER}, for the Lead's go on step 3. Step 2 is done ({B2['label']}, accepted by the Lead); nothing more is generated before the go." if STEPS else f"Version {VER}, for the Lead's go. Nothing is generated before it."
+    m = {'sheet': f'PV6-{V}', 'version': VER, 'date': '2026-11-18', 'status': STATUS, **({'steps': STEPS} if STEPS else {}), 'generated': A['generated'],
          'owner': {'decision': "accepted the one-view test as the way to go for Room B: name tags at the feet; stronger shadows on the people (the In-game animation builder's); start the other four views, B, C, D and E, in this look",
                    'recorded': '#280 at 4350eee6 (relayed by the Lead)', 'spend': 'about $0.12 a view, at most $0.18 with one re-run',
                    'capsule': {'asked': "Just don't forget in each room you have a food capsule characters eating from eat like past (the owner, relayed by the Lead, 18 November)", 'design': "ship-life's food capsule (#230, approved 11 November)", 'layout': LAYOUT, 'chosen': LAYOUT_CHOICE},
@@ -55,7 +65,7 @@ def build(V):
                   'inThisView': [{'id': l['id'], 'wall': l['wall'], 'depthM': l['depthM'], 'coreInFrame': l['coreInFrame']} for l in json.load(open(os.path.join(D, f'pv6-{V}-marks.json')))['lamps']]},
          'colourPlan': A['colourPlan'], 'colourCheck': A['colourCheck'],
          'kit': {'views': {V: {'files': files, 'refs': refs, 'expected': {'s1': {'inputSha256': files['empty']['sha256']}, 's2': K['expected'], **({'s3': K['expected3']} if STEP3 else {})}, 'prompts': prompts, 'split': K['split'], 'shapes': K['shapes'],
-                               **({'split3': K['split3'], 'shapes3': K['shapes3']} if STEP3 else {}), 'pieces': [{k: q[k] for k in ('place', 'name', 'unit', 'kind', 'grey') + (('step',) if STEP3 else ()) if k in q} for q in K['pieces']], 'outlineShare': K['outlineShare']}},
+                               **({'split3': K['split3'], 'shapes3': K['shapes3']} if STEP3 else {}), **({'strips3': STRIPS_REC} if STRIPS_REC else {}), **({'trim3': TRIM_REC} if TRIM_REC else {}), 'pieces': [{k: q[k] for k in ('place', 'name', 'unit', 'kind', 'grey') + (('step',) if STEP3 else ()) + ('trim',) if k in q} for q in K['pieces']], 'outlineShare': K['outlineShare']}},
                  'lift': A['kit']['lift'], 'colourCheck': {'file': 'colour-check-v4.py', 'sha256': A['colourCheck']['sha256']}, 'tool': {'file': TOOL, 'sha256': sha(os.path.join(out, TOOL))}},
          'capsule': R['capsule'], 'visits': {**VI, 'layout': LAYOUT, 'units': VJ['units'], 'beats': VJ['beats'], 'measure': VJ['measure']},
          'figures': figures,
@@ -72,6 +82,10 @@ def build(V):
         what['s2-one'] = (f'step 2 (PLACE, one masked edit: the furniture, {WITHOUT}), for a tool that takes one picture', f'input the step-1 picture with the step-2 guide (img/pv6-{V}-guide-s2.png) inside img/pv6-{V}-place.png; mask alpha 0 = repaint')
         what['s3'] = (f'step 3 ({S3WHAT}, one masked edit)', f'input the kept step-2 picture with the guide (img/pv6-{V}-guide.png) inside img/pv6-{V}-place3.png (mask alpha 0 = repaint); no second picture')
         what['s3-one'] = ('step 3, for a tool that takes one picture: the same text as s3', f'input the kept step-2 picture with the guide inside img/pv6-{V}-place3.png; mask alpha 0 = repaint')
+    if STEPS:   # C's version 7: step 2's part stays for the record, marked done; step 3's input is its accepted picture
+        for k in ('s2', 's2-one'): what[k] = (f"{what[k][0]}; done: {B2['label']}, accepted by the Lead", what[k][1])
+        what['s3'] = (what['s3'][0], f"input the kept step-2 picture, {B2['label']} (sha256 {B2['sha256']}), with the guide (img/pv6-{V}-guide.png) inside img/pv6-{V}-place3.png (mask alpha 0 = repaint); no second picture")
+        what['s3-one'] = (what['s3-one'][0], f"input {B2['label']} with the guide inside img/pv6-{V}-place3.png; mask alpha 0 = repaint")
     for k, (title, inp) in what.items():
         lines += [f"===== BEGIN PV6-{V} {k}: {title} · {inp} · sha256 {prompts[k]['sha256']} · {prompts[k]['chars']} characters", prompts[k]['text'], '===== END', '']
     open(os.path.join(out, f'room-b-pv6{V.lower()}-prompts.txt'), 'w', encoding='utf-8', newline='').write('\n'.join(lines))

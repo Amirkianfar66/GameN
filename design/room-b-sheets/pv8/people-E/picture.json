@@ -1,0 +1,84 @@
+{
+ "note": "The pictures of Room B's view E (Vega's) for the people and E's page: the plate is PV6-E-1, the empty room; the three furniture pieces are the layers lifted from PV6-E-3 inside step 2's PLACE mask, and Juno's stool is the layer lifted from PV6-E-4 inside step 3's mask, each drawn by depth. PV6-E-3 and PV6-E-4 themselves are used only to check the layers and the rebuild. All are AI-generated pictures from the records page, checked by hash. This record keeps hashes, not links (the Lead, 18 November).",
+ "view": "E",
+ "records": {
+  "version": "1795014548-4a78",
+  "passed": "the Lead, 18 November 2026: E's pictures accepted (PV6-E-3, step 2; PV6-E-4, the stool, step 3)",
+  "remark": "the image builder, 18 November: the stool's layer carries a small fringe of unchanged wall and floor beside its post, which the Lead says does not matter; the rejected PV6-E-2 is not used"
+ },
+ "plate": {
+  "label": "PV6-E-1",
+  "file": "PV6-E-1.png",
+  "records": "img/PV6-E-1.png",
+  "sha256": "4b00f639165de3d7e1c6156a9f866f4571b409a49d5162425ed942d7bb82d3f3",
+  "what": "the empty room, step 1"
+ },
+ "placed2": {
+  "label": "PV6-E-3",
+  "file": "PV6-E-3.png",
+  "records": "img/PV6-E-3.png",
+  "sha256": "fcd8c31fa5ad4e9b533445d5c0a7a9962d8d4c5445d17c769d648d61a7c69013",
+  "what": "the furnished room without the stool, step 2: one masked edit of PV6-E-1, kept inside the PLACE mask in code; for the furniture layers' check only"
+ },
+ "placed": {
+  "label": "PV6-E-4",
+  "file": "PV6-E-4.png",
+  "records": "img/PV6-E-4.png",
+  "sha256": "12fb6d6f1eb7591913e44e280c58b2142aa51dc5c13389531b8c1cce809982d9",
+  "what": "the furnished room with Juno's stool, step 3: one masked edit of PV6-E-3 inside the stool's shape (its visible outline grown 2 px, less every other piece's outline), kept in code; for the stool layer's check and the rebuild check only"
+ },
+ "raw": {
+  "step2": { "file": "PV6-E-3-raw.png", "records": "img/PV6-E-3-raw.png", "sha256": "55da9eb72a84be38471e5138e9e5889c4f3daeded1fc7158bd7d6867461479a5" },
+  "step3": { "file": "PV6-E-4-raw.png", "records": "img/PV6-E-4-raw.png", "sha256": "b8b3bd22300eeb08444cf0f9ea0328abaa093311b1e9f58e97cbaf4b6688d0f8" },
+  "use": "the edits as the tool returned them, kept again here in code (pv8_tools.py keep E and keep3 E) to reproduce PV6-E-3 and PV6-E-4 byte for byte"
+ },
+ "layers": {
+  "record": {
+   "file": "_in/PV6-E-3-lift.json",
+   "records": "records/PV6-E-3-lift.json",
+   "sha256": "134d2c6da15e7c2def838b03e8d4ac0aaa7129ef25e134cec8a8f7ea34c170f3"
+  },
+  "recipe": "d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November)",
+  "from": "PV6-E-3 over PV6-E-1 (pv8_tools.py lift E)",
+  "pieces": {
+   "C console": {
+    "file": "PV6-E-3-C-console.png",
+    "sha256": "9fa633f6f34d232180a70904b0d77a21b89c0fc979fdde628903db7e14dce4cd"
+   },
+   "B laptop cart": {
+    "file": "PV6-E-3-B-laptop-cart.png",
+    "sha256": "f4dee36cd6683dda2f6a39e55df41592f97fe17fa554e1dc5ced0b336e3edf36"
+   },
+   "D bench": {
+    "file": "PV6-E-3-D-bench.png",
+    "sha256": "33aefd54d55c7f6ef3fa55d3319cf1524462deecb117a7aac407942cdfba4b41"
+   }
+  }
+ },
+ "layers3": {
+  "record": {
+   "file": "_in/PV6-E-4-lift3.json",
+   "records": "records/PV6-E-4-lift3.json",
+   "sha256": "98dd443ba2765bac96b8169448194df961bdafee103e123bbe86f88b54634092"
+  },
+  "recipe": "d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November)",
+  "from": "PV6-E-4 over PV6-E-3 (pv8_tools.py lift3 E)",
+  "pieces": {
+   "B stool": {
+    "file": "PV6-E-4-B-stool.png",
+    "sha256": "113a77bcf8a731c96f93e24e286498d8a3629b678547dc416a3a0e4bdc5b43fc"
+   }
+  }
+ },
+ "sheet": {
+  "label": "PV6-E",
+  "version": 3,
+  "manifest": "../pub-E/room-b-pv6e.json",
+  "sha256": "e057da6676cdbea398bfc2350c67e306c469fb7449a03efa8b5b5133779f61b3"
+ },
+ "camera": {
+  "report": "../camera-report-E.json",
+  "version": 2,
+  "sha256": "d460d08419b5ffbf279d53ca6901594badd74be05ba8de017b03ac8c169ec7f1"
+ }
+}

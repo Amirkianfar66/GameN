@@ -2,7 +2,6 @@
  "note": "The pictures of Room B's view D (Atlas's) for the people and D's page: the plate is PV6-D-3, the empty room; the three pieces are the layers lifted from PV6-D-4 inside its PLACE mask, drawn by depth; PV6-D-4 itself is used only to check that the room and its layers rebuild it. All are AI-generated pictures from the records page, checked by hash.",
  "view": "D",
  "records": {
-  "page": "https://claude.ai/artifact/DktwvLiaiYHRKTMpQLR97h",
   "version": "1795006342-c960",
   "passed": "the image builder, 18 November 2026: view D passes"
  },
@@ -42,7 +41,6 @@
   }
  },
  "sheet": {
-  "page": "https://claude.ai/artifact/JRaXm2xwPNLyYesZE3N2WA",
   "version": "1795006672-1dbd",
   "pictureMadeFrom": "1795003926-70e5 (the kit is the same in both)"
  },

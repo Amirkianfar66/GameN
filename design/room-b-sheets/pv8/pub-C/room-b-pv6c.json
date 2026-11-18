@@ -1,8 +1,30 @@
 {
  "sheet": "PV6-C",
- "version": 5,
+ "version": 7,
  "date": "2026-11-18",
- "status": "Version 5, for the Lead's go. Nothing is generated before it.",
+ "status": "Version 7, for the Lead's go on step 3. Step 2 is done (PV6-C-3, accepted by the Lead); nothing more is generated before the go.",
+ "steps": {
+  "s1": {
+   "status": "done",
+   "picture": "PV6-C-2",
+   "sha256": "b8e59a54f9634225fa2c1932323e3e3ea326e8aa7bec19e788e042810cdb182c"
+  },
+  "s2": {
+   "status": "done",
+   "picture": "PV6-C-3",
+   "records": "img/PV6-C-3.png",
+   "sha256": "c9170c5d8cb620a8877ba7eb8d290a2b10aa1572ebeb3a75232a5693bf542284",
+   "accepted": "the Lead, 18 November 2026"
+  },
+  "s3": {
+   "status": "for the Lead's go",
+   "base": {
+    "picture": "PV6-C-3",
+    "records": "img/PV6-C-3.png",
+    "sha256": "c9170c5d8cb620a8877ba7eb8d290a2b10aa1572ebeb3a75232a5693bf542284"
+   }
+  }
+ },
  "generated": "Every picture made from this sheet is AI-generated. Its record says so, with its tool, model, prompt, date and settings, and it is never presented as made by a person.",
  "owner": {
   "decision": "accepted the one-view test as the way to go for Room B: name tags at the feet; stronger shadows on the people (the In-game animation builder's); start the other four views, B, C, D and E, in this look",
@@ -16,7 +38,7 @@
   },
   "staging": "option 1 (the Lead's approval, 18 November): identical furniture in D and E, a person cheated alone; in B and C a station moves with its person, as in version 1, each move listed with its distance"
  },
- "test": "One view, Lyra's (place C): the empty room painted over a straight-lined guide, then one PLACE edit for the furniture, then one masked edit for the food capsule and the stool, two separate shapes, by PV6-A's method; the people stay code.",
+ "test": "One view, Lyra's (place C): the empty room painted over a straight-lined guide, then one PLACE edit for the furniture, then one masked edit for the food capsule, the stool and the two vent strips, four separate shapes, by PV6-A's method; the people stay code.",
  "camera": {
   "lens": "rectilinear (straight lines)",
   "acrossDeg": 70,
@@ -869,7 +891,7 @@
     "files": {
      "guide": {
       "published": "img/pv6-C-guide.png",
-      "sha256": "5ef2e1432a9c09c7210bc7491e2fa7d9e6f69f59a38d67c5c27ed2a48ffd101a"
+      "sha256": "95bd8a103dcf16e0133024a6773b1dca09c2c68b3cca1ae6b5621d81989a928d"
      },
      "regions": {
       "published": "img/pv6-C-regions.png",
@@ -905,11 +927,11 @@
      },
      "place3": {
       "published": "img/pv6-C-place3.png",
-      "sha256": "24a2424d12d2027683adbbb00700777347794566eba9046f10a81911a1b662fe"
+      "sha256": "d2cc4f82ea1dc432af1b9d42469b225c549eaad07bc0a802ef5aa6ef9e3230ee"
      },
      "split3": {
       "published": "img/pv6-C-split3.png",
-      "sha256": "b64bd5f9bc2bba3c60844c5631610ff6841b929334ed0022803178f346bd31b5"
+      "sha256": "27d2018f2f65a2cf5c61df48c6ae4c016d976d29af4897b0d856d51af84524a4"
      },
      "marks": {
       "published": "pv6-C-marks.json",
@@ -948,8 +970,8 @@
       "over10": true
      },
      "s3": {
-      "maskedShare": 0.0062,
-      "rawMaskAlpha": "a85f8fef1181439089d9f39a04e5deaa3167639a129a1a7724a93849b6beb625"
+      "maskedShare": 0.0071,
+      "rawMaskAlpha": "18e67f375619e5d59322ef500f7f82c3e97b140ce1dc5d991f8419de6d11309c"
      }
     },
     "prompts": {
@@ -974,14 +996,14 @@
       "chars": 3007
      },
      "s3": {
-      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the two masked shapes, and leave everything outside them exactly as it is. Each shape holds one object that fills it exactly, with nothing of it outside its shape, painted in full detail in the picture's style and light. The small shape on the bench's far end, the right end in this picture, holds one small food dispenser standing on the workbench's top: a steel housing with a rounded top, about 0.24 m wide, 0.40 m tall and 0.22 m deep; a small round lens high on its front, unlit and dark; below it, a large closed hatch of warm paper-white filling most of the front, with a small dark handle along its bottom edge; no vent slots; nothing written, printed or lit on it. The shape behind the cart, over its middle, holds the top of a round stool that stands on the deck behind the low wheeled cart: only its round seat shows above the cart, which hides its single post and its ring of feet. Paint both in the same metal, paint and wear as the furniture around them.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
-      "sha256": "a7a992ccb57aab18e843fbd8921a58488762925da7a43d06e0288c7175b53837",
-      "chars": 3382
+      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the four masked shapes, and leave everything outside them exactly as it is. Each shape holds one object that fills it exactly, with nothing of it outside its shape, painted in full detail in the picture's style and light. The small shape on the bench's far end, the right end in this picture, holds one small food dispenser standing on the workbench's top: a steel housing with a rounded top, about 0.24 m wide, 0.40 m tall and 0.22 m deep; a small round lens high on its front, unlit and dark; below it, a large closed hatch of warm paper-white filling most of the front, with a small dark handle along its bottom edge; no vent slots; nothing written, printed or lit on it. The shape behind the cart, over its middle, holds the top of a round stool that stands on the deck behind the low wheeled cart: only its round seat shows above the cart, which hides its single post and its ring of feet. The glass jars standing on the cart are in front of the seat and hide its lower edge; leave them as they are. Paint both in the same metal, paint and wear as the furniture around them. The two narrow shapes at the foot of the back wall each hold a plain vent grille: dark slots in a steel frame, unlit, with no colour and no light.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+      "sha256": "51dd714453be359935dfc9c31a4b68a2e08081a4da4eb26481c10e611e7ae959",
+      "chars": 3640
      },
      "s3-one": {
-      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the two masked shapes, and leave everything outside them exactly as it is. Each shape holds one object that fills it exactly, with nothing of it outside its shape, painted in full detail in the picture's style and light. The small shape on the bench's far end, the right end in this picture, holds one small food dispenser standing on the workbench's top: a steel housing with a rounded top, about 0.24 m wide, 0.40 m tall and 0.22 m deep; a small round lens high on its front, unlit and dark; below it, a large closed hatch of warm paper-white filling most of the front, with a small dark handle along its bottom edge; no vent slots; nothing written, printed or lit on it. The shape behind the cart, over its middle, holds the top of a round stool that stands on the deck behind the low wheeled cart: only its round seat shows above the cart, which hides its single post and its ring of feet. Paint both in the same metal, paint and wear as the furniture around them.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
-      "sha256": "a7a992ccb57aab18e843fbd8921a58488762925da7a43d06e0288c7175b53837",
-      "chars": 3382
+      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the four masked shapes, and leave everything outside them exactly as it is. Each shape holds one object that fills it exactly, with nothing of it outside its shape, painted in full detail in the picture's style and light. The small shape on the bench's far end, the right end in this picture, holds one small food dispenser standing on the workbench's top: a steel housing with a rounded top, about 0.24 m wide, 0.40 m tall and 0.22 m deep; a small round lens high on its front, unlit and dark; below it, a large closed hatch of warm paper-white filling most of the front, with a small dark handle along its bottom edge; no vent slots; nothing written, printed or lit on it. The shape behind the cart, over its middle, holds the top of a round stool that stands on the deck behind the low wheeled cart: only its round seat shows above the cart, which hides its single post and its ring of feet. The glass jars standing on the cart are in front of the seat and hide its lower edge; leave them as they are. Paint both in the same metal, paint and wear as the furniture around them. The two narrow shapes at the foot of the back wall each hold a plain vent grille: dark slots in a steel frame, unlit, with no colour and no light.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+      "sha256": "51dd714453be359935dfc9c31a4b68a2e08081a4da4eb26481c10e611e7ae959",
+      "chars": 3640
      }
     },
     "split": {
@@ -1007,7 +1029,7 @@
      },
      {
       "pieces": [
-       2
+       3
       ],
       "px": 57723,
       "bbox": [
@@ -1022,7 +1044,7 @@
      },
      {
       "pieces": [
-       4
+       6
       ],
       "px": 43582,
       "bbox": [
@@ -1038,27 +1060,44 @@
     ],
     "split3": {
      "B stool": 80,
-     "D food capsule": 40
+     "wall vent strip left": 200,
+     "D food capsule": 40,
+     "wall vent strip right": 220
     },
     "shapes3": [
      {
       "pieces": [
        1
       ],
-      "px": 5248,
+      "px": 4182,
       "bbox": [
        197,
        1077,
        328,
-       1141
+       1133
       ],
-      "visibleCentreX": 262,
+      "visibleCentreX": 263,
       "cutByEdge": false,
-      "tall": 0.49
+      "tall": 0.43
      },
      {
       "pieces": [
-       3
+       2
+      ],
+      "px": 1224,
+      "bbox": [
+       283,
+       941,
+       334,
+       965
+      ],
+      "visibleCentreX": 308,
+      "cutByEdge": false,
+      "tall": 0.47
+     },
+     {
+      "pieces": [
+       4
       ],
       "px": 4519,
       "bbox": [
@@ -1070,8 +1109,305 @@
       "visibleCentreX": 637,
       "cutByEdge": false,
       "tall": 1.69
+     },
+     {
+      "pieces": [
+       5
+      ],
+      "px": 1224,
+      "bbox": [
+       781,
+       941,
+       832,
+       965
+      ],
+      "visibleCentreX": 806,
+      "cutByEdge": false,
+      "tall": 0.47
      }
     ],
+    "strips3": {
+     "view": "C",
+     "what": "the lit strips at the foot of the back wall, each a plaque of four teal cells that reads as a level gauge, cut from the step-1 picture for step 3 to repaint as a plain vent grille (the Lead, 18 November)",
+     "method": "the lit teal cells (G > R + 35, B > R + 25, G > 110) in each window, and the plaque around them bounded by its dark outer frame: the darkest row or column within 8 px outside the cells on each side; boxes are inclusive pixel indices",
+     "source": {
+      "label": "PV6-C-2",
+      "sha256": "b8e59a54f9634225fa2c1932323e3e3ea326e8aa7bec19e788e042810cdb182c"
+     },
+     "strips": [
+      {
+       "name": "vent strip left",
+       "window": [
+        270,
+        925,
+        349,
+        974
+       ],
+       "cells": [
+        291,
+        948,
+        324,
+        956
+       ],
+       "cellsPx": 165,
+       "plaque": [
+        284,
+        942,
+        332,
+        963
+       ]
+      },
+      {
+       "name": "vent strip right",
+       "window": [
+        765,
+        925,
+        844,
+        974
+       ],
+       "cells": [
+        790,
+        948,
+        822,
+        956
+       ],
+       "cellsPx": 168,
+       "plaque": [
+        782,
+        942,
+        830,
+        963
+       ]
+      }
+     ]
+    },
+    "trim3": {
+     "view": "C",
+     "what": "the glass jars PV6-C-3 paints on the cart's top reach into the stool seat's step-3 shape; the stool stands behind the cart, so the seat's shape is trimmed by the cart's lift and the jars stay in front of it (the Lead, 18 November)",
+     "method": "the cart's lift from the step-2 picture (the records page's layer, not a new cut): its alpha above 127, grown 1 px (a 3 x 3 max), kept inside the stool's outline grown 2 px; row runs (y, x0, x1), inclusive pixel indices",
+     "source": {
+      "cartLift": {
+       "label": "PV6-C-3-B-laptop-cart",
+       "records": "img/PV6-C-3-B-laptop-cart.png",
+       "sha256": "1e1100ea4530b20181a34c356b3870f97228ae97d08dd72484c02f5ac97ce27b"
+      },
+      "base": {
+       "label": "PV6-C-3",
+       "records": "img/PV6-C-3.png",
+       "sha256": "c9170c5d8cb620a8877ba7eb8d290a2b10aa1572ebeb3a75232a5693bf542284"
+      }
+     },
+     "zone": "the stool's outline grown 2 px",
+     "px": 1384,
+     "bbox": [
+      197,
+      1105,
+      327,
+      1142
+     ],
+     "runs": [
+      [
+       1105,
+       324,
+       327
+      ],
+      [
+       1106,
+       319,
+       327
+      ],
+      [
+       1107,
+       317,
+       327
+      ],
+      [
+       1108,
+       316,
+       327
+      ],
+      [
+       1109,
+       305,
+       310
+      ],
+      [
+       1109,
+       316,
+       327
+      ],
+      [
+       1110,
+       302,
+       310
+      ],
+      [
+       1110,
+       315,
+       327
+      ],
+      [
+       1111,
+       296,
+       327
+      ],
+      [
+       1112,
+       291,
+       327
+      ],
+      [
+       1113,
+       288,
+       327
+      ],
+      [
+       1114,
+       284,
+       327
+      ],
+      [
+       1115,
+       283,
+       327
+      ],
+      [
+       1116,
+       282,
+       323
+      ],
+      [
+       1117,
+       268,
+       318
+      ],
+      [
+       1118,
+       263,
+       313
+      ],
+      [
+       1119,
+       259,
+       309
+      ],
+      [
+       1120,
+       254,
+       304
+      ],
+      [
+       1121,
+       249,
+       299
+      ],
+      [
+       1122,
+       249,
+       295
+      ],
+      [
+       1123,
+       240,
+       290
+      ],
+      [
+       1124,
+       235,
+       285
+      ],
+      [
+       1125,
+       233,
+       281
+      ],
+      [
+       1126,
+       226,
+       276
+      ],
+      [
+       1127,
+       221,
+       271
+      ],
+      [
+       1128,
+       218,
+       267
+      ],
+      [
+       1129,
+       213,
+       262
+      ],
+      [
+       1130,
+       207,
+       257
+      ],
+      [
+       1131,
+       203,
+       253
+      ],
+      [
+       1132,
+       201,
+       248
+      ],
+      [
+       1133,
+       197,
+       243
+      ],
+      [
+       1134,
+       197,
+       239
+      ],
+      [
+       1135,
+       197,
+       234
+      ],
+      [
+       1136,
+       197,
+       229
+      ],
+      [
+       1137,
+       197,
+       225
+      ],
+      [
+       1138,
+       197,
+       220
+      ],
+      [
+       1139,
+       197,
+       215
+      ],
+      [
+       1140,
+       197,
+       211
+      ],
+      [
+       1141,
+       197,
+       206
+      ],
+      [
+       1142,
+       197,
+       201
+      ]
+     ]
+    },
     "pieces": [
      {
       "place": "B",
@@ -1083,6 +1419,26 @@
       "place": "B",
       "name": "stool",
       "grey": 80,
+      "step": 3,
+      "trim": {
+       "by": "PV6-C-3-B-laptop-cart",
+       "sha256": "1e1100ea4530b20181a34c356b3870f97228ae97d08dd72484c02f5ac97ce27b",
+       "pxBefore": 5248,
+       "pxAfter": 4182,
+       "parts": 1,
+       "bbox": [
+        197,
+        1077,
+        328,
+        1133
+       ]
+      }
+     },
+     {
+      "place": "wall",
+      "name": "vent strip left",
+      "kind": "painted",
+      "grey": 200,
       "step": 3
      },
      {
@@ -1097,6 +1453,13 @@
       "unit": "K1",
       "kind": "counter",
       "grey": 40,
+      "step": 3
+     },
+     {
+      "place": "wall",
+      "name": "vent strip right",
+      "kind": "painted",
+      "grey": 220,
       "step": 3
      },
      {
@@ -1310,7 +1673,7 @@
   },
   "walks": {
    "published": "img/pv6-C-walks.png",
-   "sha256": "8033bc9053428e161e438b07637cd1d658b1843f3ac6f1203352160a25303bd0"
+   "sha256": "5123b88c7aab0ab0517c2e62d2c48a9d8d6e28970cecc1870ccc2773444d150f"
   }
  },
  "cameraReport": {
@@ -1318,7 +1681,7 @@
   "sha256": "39a0e51dfad20884e1b3dea2b94c93b9e304897a1a187f3c544583eacf29935b"
  },
  "budget": {
-  "afterTheGo": "one empty-room picture (step 1), one PLACE edit (step 2) and one edit for the capsule and the stool (step 3), about $0.18; one re-run only if a check fails, at most $0.24",
+  "afterTheGo": "one edit for the capsule, the stool and the two vent strips (step 3), about $0.057, over the accepted step 2 (PV6-C-3); no re-run; C ends at about $0.245 (the Lead, 18 November)",
   "generatedSoFar": 0
  },
  "referencesSentToTheModel": "PV6-A-2 at step 1 and PV6-A-3 at step 2, the team's own AI-generated pictures of this room (records page), as a second picture where the image tool takes one; none at step 3; none of the owner's reference pictures"

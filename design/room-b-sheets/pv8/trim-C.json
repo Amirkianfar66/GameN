@@ -1,0 +1,67 @@
+{
+ "view": "C",
+ "what": "the glass jars PV6-C-3 paints on the cart's top reach into the stool seat's step-3 shape; the stool stands behind the cart, so the seat's shape is trimmed by the cart's lift and the jars stay in front of it (the Lead, 18 November)",
+ "method": "the cart's lift from the step-2 picture (the records page's layer, not a new cut): its alpha above 127, grown 1 px (a 3 x 3 max), kept inside the stool's outline grown 2 px; row runs (y, x0, x1), inclusive pixel indices",
+ "source": {
+  "cartLift": {
+   "label": "PV6-C-3-B-laptop-cart",
+   "records": "img/PV6-C-3-B-laptop-cart.png",
+   "sha256": "1e1100ea4530b20181a34c356b3870f97228ae97d08dd72484c02f5ac97ce27b"
+  },
+  "base": {
+   "label": "PV6-C-3",
+   "records": "img/PV6-C-3.png",
+   "sha256": "c9170c5d8cb620a8877ba7eb8d290a2b10aa1572ebeb3a75232a5693bf542284"
+  }
+ },
+ "zone": "the stool's outline grown 2 px",
+ "px": 1384,
+ "bbox": [
+  197,
+  1105,
+  327,
+  1142
+ ],
+ "runs": [
+  [1105, 324, 327],
+  [1106, 319, 327],
+  [1107, 317, 327],
+  [1108, 316, 327],
+  [1109, 305, 310],
+  [1109, 316, 327],
+  [1110, 302, 310],
+  [1110, 315, 327],
+  [1111, 296, 327],
+  [1112, 291, 327],
+  [1113, 288, 327],
+  [1114, 284, 327],
+  [1115, 283, 327],
+  [1116, 282, 323],
+  [1117, 268, 318],
+  [1118, 263, 313],
+  [1119, 259, 309],
+  [1120, 254, 304],
+  [1121, 249, 299],
+  [1122, 249, 295],
+  [1123, 240, 290],
+  [1124, 235, 285],
+  [1125, 233, 281],
+  [1126, 226, 276],
+  [1127, 221, 271],
+  [1128, 218, 267],
+  [1129, 213, 262],
+  [1130, 207, 257],
+  [1131, 203, 253],
+  [1132, 201, 248],
+  [1133, 197, 243],
+  [1134, 197, 239],
+  [1135, 197, 234],
+  [1136, 197, 229],
+  [1137, 197, 225],
+  [1138, 197, 220],
+  [1139, 197, 215],
+  [1140, 197, 211],
+  [1141, 197, 206],
+  [1142, 197, 201]
+ ]
+}

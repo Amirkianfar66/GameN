@@ -1,0 +1,55 @@
+{
+ "view": "C",
+ "what": "the lit strips at the foot of the back wall, each a plaque of four teal cells that reads as a level gauge, cut from the step-1 picture for step 3 to repaint as a plain vent grille (the Lead, 18 November)",
+ "method": "the lit teal cells (G > R + 35, B > R + 25, G > 110) in each window, and the plaque around them bounded by its dark outer frame: the darkest row or column within 8 px outside the cells on each side; boxes are inclusive pixel indices",
+ "source": {
+  "label": "PV6-C-2",
+  "sha256": "b8e59a54f9634225fa2c1932323e3e3ea326e8aa7bec19e788e042810cdb182c"
+ },
+ "strips": [
+  {
+   "name": "vent strip left",
+   "window": [
+    270,
+    925,
+    349,
+    974
+   ],
+   "cells": [
+    291,
+    948,
+    324,
+    956
+   ],
+   "cellsPx": 165,
+   "plaque": [
+    284,
+    942,
+    332,
+    963
+   ]
+  },
+  {
+   "name": "vent strip right",
+   "window": [
+    765,
+    925,
+    844,
+    974
+   ],
+   "cells": [
+    790,
+    948,
+    822,
+    956
+   ],
+   "cellsPx": 168,
+   "plaque": [
+    782,
+    942,
+    830,
+    963
+   ]
+  }
+ ]
+}

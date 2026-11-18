@@ -1,0 +1,165 @@
+{
+ "view": "E",
+ "strip": {
+  "px": 375,
+  "x": [
+   381,
+   384
+  ],
+  "y": [
+   917,
+   1013
+  ],
+  "file": "stool-2.png",
+  "cartDepthM": [
+   2.982,
+   2.982
+  ]
+ },
+ "body": "the visits' body for depth tests: a cylinder 0.2 m in radius and 1.72 m tall at the person's deck point; a strip pixel is covered where its ray enters the body above the deck",
+ "order": [
+  "band-0",
+  "stool-0",
+  "B2",
+  "band-1",
+  "B4",
+  "band-2",
+  "stool-2",
+  "B2 front",
+  "B4 front",
+  "B3",
+  "band-3",
+  "B3 front"
+ ],
+ "rule": "a person's pixels under the strip count where the person is nearer than the cart at that pixel; the strip is drawn over them only if their place in the order is before stool-2",
+ "atRest": {
+  "body": {
+   "Juno at rest": {
+    "Z": 3.334,
+    "underStrip": 375,
+    "nearerThanTheCart": 0,
+    "stripDrawnOverThem": 0
+   },
+   "Atlas at rest": {
+    "Z": 3.01,
+    "underStrip": 0,
+    "nearerThanTheCart": 0,
+    "stripDrawnOverThem": 0
+   },
+   "Lyra at rest": {
+    "Z": 1.67,
+    "underStrip": 0,
+    "nearerThanTheCart": 0,
+    "stripDrawnOverThem": 0
+   }
+  },
+  "placeholderShapes390": {
+   "Juno": {
+    "Z": 3.334,
+    "underStrip": 274,
+    "nearerThanTheCart": 0,
+    "stripDrawnOverThem": 0
+   },
+   "Lyra": {
+    "Z": 1.67,
+    "underStrip": 0,
+    "nearerThanTheCart": 0,
+    "stripDrawnOverThem": 0
+   },
+   "Atlas": {
+    "Z": 3.01,
+    "underStrip": 0,
+    "nearerThanTheCart": 0,
+    "stripDrawnOverThem": 0
+   }
+  }
+ },
+ "walks": {
+  "Mira": {
+   "inView": false,
+   "note": "out of view in E (the chip); the walk is out of frame all the way"
+  },
+  "Juno": {
+   "inView": true,
+   "frames": 293,
+   "stepM": 0.01,
+   "lengthM": 2.91,
+   "depthM": [
+    1.813,
+    3.334
+   ],
+   "framesUnderTheStrip": 16,
+   "underSectionM": [
+    0.0,
+    0.15
+   ],
+   "framesNearerThanTheCartUnderIt": 0,
+   "nearerSectionM": null,
+   "mostNearerPx": 0,
+   "stripDrawnOverThemPx": 0,
+   "slot": "before stool-2",
+   "mostAt": {
+    "atM": 0.0,
+    "Z": 3.334,
+    "underStrip": 375,
+    "nearerThanTheCart": 0,
+    "stripDrawnOverThem": 0
+   }
+  },
+  "Lyra": {
+   "inView": true,
+   "frames": 268,
+   "stepM": 0.01,
+   "lengthM": 2.663,
+   "depthM": [
+    1.67,
+    1.813
+   ],
+   "framesUnderTheStrip": 41,
+   "underSectionM": [
+    0.23,
+    0.63
+   ],
+   "framesNearerThanTheCartUnderIt": 41,
+   "nearerSectionM": [
+    0.23,
+    0.63
+   ],
+   "mostNearerPx": 375,
+   "stripDrawnOverThemPx": 0,
+   "slot": "after stool-2",
+   "mostAt": {
+    "atM": 0.24,
+    "Z": 1.682,
+    "underStrip": 375,
+    "nearerThanTheCart": 375,
+    "stripDrawnOverThem": 0
+   }
+  },
+  "Atlas": {
+   "inView": true,
+   "frames": 247,
+   "stepM": 0.01,
+   "lengthM": 2.422,
+   "depthM": [
+    1.813,
+    3.015
+   ],
+   "framesUnderTheStrip": 0,
+   "underSectionM": null,
+   "framesNearerThanTheCartUnderIt": 0,
+   "nearerSectionM": null,
+   "mostNearerPx": 0,
+   "stripDrawnOverThemPx": 0,
+   "slot": "before stool-2",
+   "mostAt": {
+    "atM": 0.0,
+    "Z": 3.01,
+    "underStrip": 0,
+    "nearerThanTheCart": 0,
+    "stripDrawnOverThem": 0
+   }
+  }
+ },
+ "peoplePixelsCovered": 0
+}

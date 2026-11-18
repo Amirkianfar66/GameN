@@ -2,7 +2,6 @@
  "note": "The pictures of Room B's view B (Juno's) for the people and B's page: the plate is PV6-B-1, the empty room; the three furniture pieces are the layers lifted from PV6-B-3 inside step 2's PLACE mask, and the food capsule is the layer lifted from PV6-B-4 inside step 3's mask, each drawn by depth. PV6-B-3 and PV6-B-4 themselves are used only to check the layers and the rebuild. All are AI-generated pictures from the records page, checked by hash.",
  "view": "B",
  "records": {
-  "page": "https://claude.ai/artifact/DktwvLiaiYHRKTMpQLR97h",
   "version": "1795010404-1b7a",
   "passed": "the Lead, 18 November 2026: B's pictures accepted (PV6-B-3, step 2; PV6-B-4, step 3), the larger painted hatch on purpose"
  },
@@ -112,7 +111,6 @@
   "decision": "the Lead, 18 November 2026: accepted, with the larger hatch on purpose. Code follows the painting: the light, the shutter, the hatch's opening, the tray, the portion and the wrapper fit the painted hatch and the painted lens, not the sheet's projection"
  },
  "sheet": {
-  "page": "https://claude.ai/artifact/VUKXNE3AeUZSJnJhdnxB37",
   "version": "1795009181-bcdd"
  },
  "camera": {

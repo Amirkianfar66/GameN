@@ -18,6 +18,9 @@ node plan8.mjs B C D E > /dev/null
 node render8.cjs "$(for V in B C D E; do printf 'pv6-%s-plan.svg,pv6-%s-walks.svg,' "$V" "$V"; done | sed 's/,$//')" > /dev/null
 python3 -I build8.py B C D E
 for V in B C D E; do bash dryrun8.sh "pub-$V" "$V" > /dev/null; done
+# C's version 7: s3's input on the accepted step-2 picture, checked (dry3on8.py), where the records page's PV6-C-3 and its cart's lift
+# are in hand (PV8_C3, PV8_C3_LIFT); otherwise sheet8 uses s3check-C.json as kept, and stops if it is not this manifest's
+if [ -n "${PV8_C3:-}" ]; then python3 -I dry3on8.py pub-C C "$PV8_C3" "$PV8_C3_LIFT" > /dev/null; fi
 node sheet8.mjs B C D E
 python3 -I - <<'PY'
 import json

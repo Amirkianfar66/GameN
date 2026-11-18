@@ -27,6 +27,11 @@ for p in PIECES:
 # of step 3 must not touch each other.
 S3NAMES = ('food capsule', 'stool')
 CAP = [p for p in pieces if p['name'] in S3NAMES]; STEP2 = [p for p in pieces if p['name'] not in S3NAMES]
+# C's version 7 (the Lead, 18 November): the seat's shape less the cart's lift from the accepted step-2 picture, grown 1 px
+# (trim8.py, trim-<view>.json), so the glass jars painted on the cart stay in front of the seat
+TF = os.path.join(D, f'trim-{V}.json'); TREC = json.load(open(TF)) if os.path.exists(TF) else None; TRIM = np.zeros((H, W), bool)
+for y, x0, x1 in (TREC['runs'] if TREC else []): TRIM[y, x0:x1 + 1] = True
+if TREC: assert int(TRIM.sum()) == TREC['px'], 'the trim record does not add up'
 place = np.zeros((H, W), bool); split = np.zeros((H, W), np.uint8)
 for p in sorted(STEP2, key=lambda p: p['grey']): g = L.grow(np.abs(lab - p['grey']) <= 2, GROW); place |= g; split[g] = p['grey']
 place3 = np.zeros((H, W), bool); split3 = np.zeros((H, W), np.uint8)
@@ -36,12 +41,27 @@ for p in CAP:
     if p['name'] == 'stool':
         for q in pieces:
             if q is not p: g &= ~(np.abs(lab - q['grey']) <= 2)
+        if TREC:   # version 7: less the trim, which stays inside the stool's outline grown 2 px
+            assert not (TRIM & ~L.grow(np.abs(lab - p['grey']) <= 2, 2)).any(), "the trim reaches past the stool's outline grown 2 px"
+            before = int(g.sum()); g &= ~TRIM; ys, xs = np.where(g)
+            p['trim'] = {'by': TREC['source']['cartLift']['label'], 'sha256': TREC['source']['cartLift']['sha256'], 'pxBefore': before, 'pxAfter': int(g.sum()),
+                         'parts': len(L.parts(g)[1]) - 1, 'bbox': [int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1]}
     grown3[p['grey']] = g; place3 |= g; split3[g] = p['grey']
 for a in grown3:
     for b in grown3:
         if a < b: assert not (L.grow(grown3[a], 1) & grown3[b]).any(), 'two shapes of step 3 touch'
+# C's version 6 (the Lead, 18 November): the lit strips at the foot of the back wall, cut from the step-1 picture by strips8.py, each
+# its own shape of step 3: its plaque grown 1 px (within 2 px, and within 10% of its box); none may touch another shape of step 3
+# or any shape of step 2
+SF = os.path.join(D, f'strips-{V}.json')
+for k, s in enumerate(json.load(open(SF))['strips'] if os.path.exists(SF) else []):
+    x0, y0, x1, y1 = s['plaque']; r = np.zeros((H, W), bool); r[y0:y1 + 1, x0:x1 + 1] = True; g = L.grow(r, 1); grey = 200 + 20 * k
+    assert not (L.grow(g, 1) & place).any(), f"{s['name']} touches a shape of step 2"
+    for b in grown3: assert not (L.grow(g, 1) & grown3[b]).any(), f"{s['name']} touches a shape of step 3"
+    p = {'place': 'wall', 'name': s['name'], 'kind': 'painted', 'grey': grey, 'px': int(r.sum()), 'bbox': [x0, y0, x1 + 1, y1 + 1], 'visibleCentreX': round((x0 + x1 + 1) / 2), 'cutByEdge': False, 'plaque': s['plaque']}
+    pieces.append(p); CAP.append(p); grown3[grey] = g; place3 |= g; split3[g] = grey
 for p in pieces: p['step'] = 3 if p in CAP else 2
-assert not (furn & ~(place | place3)).any(), 'an outline is outside the masks'
+assert not (furn & ~(place | place3 | TRIM)).any(), 'an outline is outside the masks'   # version 7: or under the cart's trim, in front of it
 assert ((split > 0) == place).all(), 'the split map is not the PLACE mask'
 pieces.sort(key=lambda p: p['visibleCentreX'])
 def shapes_of(mask, smap):
@@ -54,10 +74,10 @@ def shapes_of(mask, smap):
 shapes = shapes_of(place, split)
 save(place, f'pv6-{V}-place.png'); save(split, f'pv6-{V}-split.png')
 # the split maps' pieces in their left-to-right order, as before
-out = {'pieces': pieces, 'shapes': shapes, 'split': {f"{p['place']} {p['name']}": p['grey'] for p in pieces if p['name'] not in S3NAMES}, 'outlineShare': round(float(furn.mean()), 4),
+out = {'pieces': pieces, 'shapes': shapes, 'split': {f"{p['place']} {p['name']}": p['grey'] for p in pieces if p['step'] == 2}, 'outlineShare': round(float(furn.mean()), 4),
        'expected': {'maskedShare': round(float(place.mean()), 4), 'rawMaskAlpha': alpha(place), 'over10': bool(place.mean() > 0.10)}}
 if CAP:   # version 4: step 3, the capsule alone
     save(place3, f'pv6-{V}-place3.png'); save(split3, f'pv6-{V}-split3.png')
-    out |= {'shapes3': shapes_of(place3, split3), 'split3': {f"{p['place']} {p['name']}": p['grey'] for p in pieces if p['name'] in S3NAMES}, 'expected3': {'maskedShare': round(float(place3.mean()), 4), 'rawMaskAlpha': alpha(place3)}}
+    out |= {'shapes3': shapes_of(place3, split3), 'split3': {f"{p['place']} {p['name']}": p['grey'] for p in pieces if p['step'] == 3}, 'expected3': {'maskedShare': round(float(place3.mean()), 4), 'rawMaskAlpha': alpha(place3)}}
 json.dump(out, open(os.path.join(D, f'kit8-{V}.json'), 'w'), indent=1)
 print('outlines', out['outlineShare'], '| PLACE mask', out['expected']['maskedShare'], '(over 10%)' if out['expected']['over10'] else '', '| step 3', out.get('expected3'), '|', len(shapes), 'shapes:', ' | '.join(' + '.join(f"{pieces[i]['place']}'s {pieces[i]['name']}" for i in s['pieces']) + f" x {s['bbox'][0]}-{s['bbox'][2]}" for s in shapes))
