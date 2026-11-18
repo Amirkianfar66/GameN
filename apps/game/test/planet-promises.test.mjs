@@ -64,6 +64,37 @@ test('Promises are the component\'s one sheet: the panel, or its three commands 
  }
 });
 
+test('the Promises panel never falls through to a bare title: with no other command, it is the component\'s sheet, or the shell\'s Blackout and "Waiting for the server"',()=>{
+ const phases=[talking,turn,{...turn,id:'vote-1',kind:'JAIL_VOTE'},{...turn,id:'captain-1',kind:'CAPTAIN_ELECTION'},{...turn,id:'blackout-1',kind:'BLACKOUT'},{...turn,id:'open-1',endsAt:null,remainingMs:null}];
+ const talks=[{id:'talk',actorSeatId:'seat-4',targetSeatId:'seat-1'},{id:'talk',actorSeatId:'seat-2',targetSeatId:'seat-3'},null];
+ const areas=[{},{promises:[],offers:[]},{promises:[accept(promise('given',4,1,'MEET_B')),accept(promise('received',3,4,'JAIL_VOTE',{targetSeatId:'seat-2'}))],promiseQuota:{given:true,received:true},offers:[]}];
+ const views=[null,{view:'kinds',kind:null,target:null},{view:'confirm',kind:'JAIL_VOTE',target:'seat-3'},{view:'incoming',kind:null,target:null}];
+ const actions=[null,...PROMISE_COMMANDS.flatMap(type=>['targets','promise','number','confirm','sending','accepted'].map(step=>act(type,step)))];
+ let count=0;
+ for(const phase of phases)for(const talk of talks)for(const area of areas)for(const dark of [false,true])for(const expired of [false,true])for(const action of actions)for(const view of views){
+  // The controller gives no action once the phase has run out (an action needs its `valid`), and no Promise is
+  // offered in the dark (its phaseAllows), so a Promise command is never under way in either.
+  if(action&&(dark||expired))continue;
+  const m=model({phase:{...phase,expired},talk,dark,action},area),flow=promisesFlow(view,m),sheet=shellSheet(m,{promises:flow});
+  const what=JSON.stringify({phase:phase.kind,talk:talk?.actorSeatId??null,area:areas.indexOf(area),dark,expired,action:action&&`${action.type} ${action.step}`,view});
+  if(dark)assert.deepEqual([sheet?.id,sheet?.kind,sheet?.title],['dark:promises','dark','Blackout'],what);
+  else if(expired)assert.deepEqual([sheet?.id,sheet?.kind,sheet?.title],['expired','expired','Waiting for the server'],what);
+  else{assert.equal(sheet?.id,PROMISES_SHEET_ID,what);assert.deepEqual(sheet,promisesFrame(m,{flow}),what);}
+  count++;
+ }
+ assert.equal(count,6*3*3*views.length*(4+PROMISE_COMMANDS.length*6));
+ // Those two are the shell's frames for every panel, as before.
+ assert.equal(shellSheet(model({panel:'windows',dark:true})).title,'Blackout');assert.equal(shellSheet(model({panel:'windows',phase:{...talking,expired:true}})).title,'Waiting for the server');
+ // With another command under way, the Promises panel changes nothing: the sheet is that command's, as from the board.
+ for(const a of [act('VOTE','targets',{choices:[{value:'seat-1',label:'Player 1'}]}),act('PASS_TURN','confirm'),act('SCAN','targets',{choices:[{value:'seat-2',label:'Crew 2'}]}),
+  act('SCAN','confirm'),act('SCAN','accepted'),act('MOVE','slots',{choices:[{value:'A3',label:'A3'}]}),act('SELECT_BLACKOUT_SLOT','slots')]){
+  for(const dark of [false,true]){
+   const m=model({action:a,dark});
+   assert.equal(promisesOpen(m),false,a.type);assert.deepEqual(shellSheet(m),shellSheet({...m,panel:'board'}),`${a.type} ${a.step} ${dark}`);
+  }
+ }
+});
+
 test('the input: the quota, the talk\'s partner only during the 60 s talk, the commands as the model offers them, Jail Vote\'s players exactly the offer\'s',()=>{
  const input=promisesInput(model());
  assert.equal(input.viewer,4);assert.equal(input.versions,versions);assert.equal(input.view,'list');assert.equal(input.status,'live');
