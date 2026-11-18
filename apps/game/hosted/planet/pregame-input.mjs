@@ -34,7 +34,7 @@ const own=model=>model.members.find(member=>member.seatId===model.selfSeatId)??n
 
 /** The phone's local state the screens read: navigation, drafts and the command it last sent (G10). */
 export function createPregameUi(){
- return {mode:'menu',lastOp:null,hostCount:7,join:{tried:false},recover:{matchId:'',codeLength:0,pending:null,recovered:null},
+ return {mode:'menu',lastOp:null,operationAttempt:0,hostCount:7,join:{tried:false},recover:{matchId:'',codeLength:0,pending:null,recovered:null},
   lobby:{copied:false,toast:null},choosing:null};
 }
 
@@ -174,6 +174,18 @@ export function waitInput(model,ui,draft,prefs){
 
 // ── Recover ──────────────────────────────────────────────────────────────────────────────────────────────
 
+/** Keep the requested match until the session can verify the recovered seat or settle the refusal. */
+export function settleRecovery(model,ui){
+ const recover=ui.recover;
+ if(!recover.pending||model.busy||model.uncertain)return recover;
+ if(model.matchId===recover.pending){
+  if(!model.selfSeatId)return recover;
+  return {...recover,pending:null,recovered:{matchId:model.matchId}};
+ }
+ if(ui.lastOp==='redeemRecovery')return {...recover,pending:null};
+ return recover;
+}
+
 /** Recover: the Match ID draft, Recover seat once both boxes hold something; no code length (G4). */
 export function recoverInput(model,ui,prefs){
  const r=ui.recover;
@@ -189,10 +201,12 @@ export const CHARACTERS=Object.freeze(Array.from({length:9},(_,i)=>Object.freeze
 
 /** Character selection: the public grid and clock; this phone's choice and the session's offer (G5). */
 export function charactersInput(model,ui,prefs,{visible}){
- const self=own(model),holders={};
+ const self=own(model),holders={},status=stageStatus(model,{visible});
  for(const member of model.members)if(member.seatId!==model.selfSeatId&&member.characterId)holders[member.characterId]=seatNumber(member.seatId);
  const saving=busyWith(model,ui,'chooseCharacter')&&ui.choosing?{id:ui.choosing,state:'saving'}:null;
- return {status:stageStatus(model,{visible}),viewer:model.selfSeatId,versions:model.versions,characters:CHARACTERS,holders,
+ const declined=status==='live'?refusal(model,ui,'chooseCharacter'):null;
+ const toast=declined?{id:`choose-character-${ui.operationAttempt}`,text:declined,icon:'info'}:null;
+ return {status,viewer:model.selfSeatId,versions:model.versions,characters:CHARACTERS,holders,toast,
   timer:Number.isFinite(model.remainingMs)?{remainingMs:model.remainingMs}:null,closed:false,
   mine:saving??(self?.characterId?{id:self.characterId,state:'confirmed'}:null),choose:control(model.canChoose),reducedMotion:prefs.reduced};
 }

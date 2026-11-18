@@ -530,9 +530,37 @@ const STATES = {
       await page.evaluate(tap('.ms-ps-sheet [data-intent="sheet-back"]'));
       await page.waitFor("!!document.querySelector('.ms-ps-sheet .ms-host-controls [data-intent=\"deadline\"]')", 'back to the list');
       const list = await page.evaluate(SHEET);
-      // The toast goes by itself before the next state, so it doesn't lie over that state's title.
-      await page.waitFor("!document.querySelector('.ms-phone-shell .ms-ps-toast')", 'the toast gone', 6000);
-      return { copied, toast: true, refusedCopy, hidden: hidden.code === MASK && !hidden.secretInPage, backToList: list.title === 'Host controls' && list.code === null && !list.secretInPage };
+      // Keep the old body long enough to check that dismissal erases it as well as removing it from the page.
+      async function checkDismissal(dismiss, resume) {
+        await page.evaluate(tap('.ms-host-controls [data-intent="issue-recovery"][data-value="6"]'));
+        await page.waitFor("!!document.querySelector('.ms-ps-sheet .ms-hc-card:not([hidden])')", 'a new code card');
+        await page.evaluate(tap('.ms-ps-sheet [data-intent="sheet-local"][data-value="reveal"]'));
+        await page.waitFor("document.querySelector('.ms-ps-sheet .ms-hc-code')?.textContent==='SYNTHETIC-RECOVERY-CODE'", 'the new code revealed');
+        await page.evaluate("window.__hostBodyToCheck=document.querySelector('.ms-ps-sheet .ms-host-controls')");
+        await dismiss();
+        await page.waitFor("!document.querySelector('.ms-ps-sheet .ms-host-controls')", 'Host controls dismissed');
+        const cleared = await page.evaluate("!window.__hostBodyToCheck.isConnected&&!window.__hostBodyToCheck.textContent.includes('SYNTHETIC-RECOVERY-CODE')");
+        await resume?.();
+        await page.evaluate(tap('.ms-ps-tb [data-intent="menu"]'));
+        await page.evaluate(tap('.ms-settings-sheet [data-intent="host-controls"]'));
+        await page.waitFor("!!document.querySelector('.ms-ps-sheet .ms-host-controls [data-intent=deadline]')", 'the reopened Host controls list');
+        const remounted = await page.evaluate(`(() => {
+          const next = document.querySelector('.ms-ps-sheet .ms-host-controls');
+          const fresh = next !== window.__hostBodyToCheck && !next.textContent.includes('SYNTHETIC-RECOVERY-CODE');
+          delete window.__hostBodyToCheck;
+          return fresh;
+        })()`);
+        return cleared && remounted;
+      }
+      const closedCodeCleared = await checkDismissal(() => page.evaluate(tap('.ms-ps-sheet [data-intent="sheet-close"]')));
+      const concealedCodeCleared = await checkDismissal(
+        () => page.evaluate("Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>'hidden'});document.dispatchEvent(new Event('visibilitychange'))"),
+        async () => {
+          await page.evaluate("delete document.visibilityState;document.dispatchEvent(new Event('visibilitychange'))");
+          await page.waitFor(`${SESSION}.getModel().status==='running'&&${H}.app.game?.getModel().connection==='live'`, 'the fresh host view');
+        });
+      return { copied, toast: true, refusedCopy, hidden: hidden.code === MASK && !hidden.secretInPage,
+        backToList: list.title === 'Host controls' && list.code === null && !list.secretInPage, closedCodeCleared, concealedCodeCleared };
     } },
   'host-abort': { from: 'host-code-revealed', inMatch: true, steps: async page => {
       await page.evaluate(tap('.ms-host-controls [data-intent="abort-ask"]'));

@@ -4,8 +4,8 @@
 // The shell connection's hooks place them (#307): `settings(parent)` for the Settings sheet's content, and
 // `hostSheet` ({ frame, mount, action, back, close, toast }) for Host controls' sheet while it is open.
 //
-// One instance of each per match, kept through the renderer's redraws: each redraw empties the sheet's body and asks
-// again, and the same element goes back with its state and, where it had it, the focus. The manager keeps this
+// While a sheet is open, each redraw puts the same element back with its state and, where it had it, the focus.
+// The Host controls body is disposed when the sheet closes or the viewer loses access. The manager keeps this
 // phone's own state (the sheet open, its view, the seat it asked a code for, Reveal) and routes each tap to the
 // session's existing operations (advance, runBots, issueRecovery, abort, and retry for its own request). It keeps no
 // copy of the session's data: the issued code stays the session's, and reaches the page only while revealed.
@@ -28,7 +28,11 @@ export function createMatchSettings({session,preferences,game,win,rerender}){
  const hostInput=()=>hostControlsInput(session.getModel(),game.getModel(),ui,{reducedMotion:prefs().reduced});
  const again=()=>{if(!disposed)rerender();};
  const paint=()=>{if(disposed)return;sheet?.update(settingsInput());host?.update(hostInput());};
- const reset=()=>{ui.open=false;ui.view='list';ui.revealed=false;toast=null;};
+ const reset=()=>{
+  ui.open=false;ui.view='list';ui.revealed=false;toast=null;frameKey=null;
+  host?.dispose();
+  host=null;
+ };
  const unsubscribe=preferences.subscribe(paint);
 
  /** The focus a redraw took from a component's control goes back to it once the same element is placed again. */
@@ -72,7 +76,7 @@ export function createMatchSettings({session,preferences,game,win,rerender}){
   /** Host controls' sheet while open, or null: the Settings sheet then shows. It closes when the host leaves Settings. */
   frame(){
    if(disposed||!ui.open)return null;
-   if(game.getModel().panel!=='settings'||!offered()){reset();frameKey=null;return null;}
+   if(game.getModel().panel!=='settings'||!offered()){reset();return null;}
    const frame=hostControlsSheet(hostInput());frameKey=JSON.stringify(frame);return frame;
   },
   mount(body){
@@ -92,7 +96,7 @@ export function createMatchSettings({session,preferences,game,win,rerender}){
    else if(id==='retry'){sent=hostRetrySent(ui);void session.retry();}
    paint();
   },
-  back(){if(ui.view==='list')ui.open=false;else {ui.view='list';ui.revealed=false;}},
+  back(){if(ui.view==='list')reset();else {ui.view='list';ui.revealed=false;}},
   close(){reset();},
   /** A local toast once: "Copied", or a receipt in the session's own words. */
   toast(){const next=toast;toast=null;return next;},
