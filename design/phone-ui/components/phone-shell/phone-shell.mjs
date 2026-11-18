@@ -630,10 +630,27 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     }
   }
 
+  // Draft (18 November, the Lead Designer's proposal; not recorded): beside Back and Close a sheet's title has a
+  // narrow column, and at the Largest text on a narrow phone it breaks into three lines or more. When it would,
+  // the head stacks: its buttons on a row of their own, then the title and its line on the full width. The measure
+  // is taken with the head as a row, whatever it is now, so the answer does not depend on the last one.
+  function fitHead() {
+    const sheet = parts.sheet?.isConnected ? parts.sheet : null;
+    if (!sheet) return;
+    const head = sheet.querySelector('.ms-ps-sheet-head'), h2 = head.querySelector('h2');
+    let stacked = false;
+    if (head.children.length > 1) {
+      if (sheet.hasAttribute('data-head-stacked')) sheet.removeAttribute('data-head-stacked');
+      const cs = win.getComputedStyle(h2), line = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.2;
+      stacked = line > 0 && h2.offsetHeight > line * 2.5;
+    }
+    if (stacked !== sheet.hasAttribute('data-head-stacked')) sheet.toggleAttribute('data-head-stacked', stacked);
+  }
+
   // ── The docked sheet's frame (ui.mjs sheet) ─────────────────────────
   function paintSheet() {
     const s = state.status === 'concealed' ? null : state.sheet;
-    if (parts.sheet && (!s || parts.sheet.dataset.sheet !== s.id)) { remove(parts.sheet); parts.sheet = null; }
+    if (parts.sheet && (!s || parts.sheet.dataset.sheet !== s.id)) { observer?.unobserve(parts.sheet.querySelector('.ms-ps-sheet-head')); remove(parts.sheet); parts.sheet = null; }
     root.toggleAttribute('data-sheet', !!s);
     if (!s) return;
     if (!parts.sheet) {
@@ -648,6 +665,8 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       node.setAttribute('aria-labelledby', h2.id);
       node.append(el('div', 'ms-ps-sheet-grab', { 'aria-hidden': 'true' }), head, el('div', 'ms-ps-sheet-body'));
       parts.sheet = node;
+      // The head is watched for its size: its words grow with the text size, and fitHead() fits it again.
+      observer?.observe(head);
       const before = parts.tabs && parts.tabs.parentNode === root ? parts.tabs : null;
       root.insertBefore(node, before);
     }
@@ -786,7 +805,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     else root.style.removeProperty('--ms-ps-talk-h');
   }
   let observedBanner = null;
-  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => { placeBanner(); placeTalk(); reportLayout(); }) : null;
+  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => { placeBanner(); placeTalk(); fitHead(); reportLayout(); }) : null;
   observer?.observe(root);
   observer?.observe(bar);
   observer?.observe(stage);
@@ -806,6 +825,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     if (!observer) placeTalk();
     paintOver();
     paintSheet();
+    fitHead();
     paintToast();
     if (suspended) root.dataset.suspended = ''; else delete root.dataset.suspended;
     // The ResizeObserver reports every change of the bars or the stage, without measuring on each update
