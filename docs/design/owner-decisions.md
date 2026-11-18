@@ -941,6 +941,16 @@ The Lead then recommended one shared view for each fixed room. The owner:
   - Lyra: the approved face at 99°, her side view from 102° to 116°, the back view at 119°;
   - no drawing flickers between heads.
 - **The rule for new angles stands:** a head the owner hasn't seen goes to them as a sketch first.
+- **Lyra at her console in view E** stands, rather than walks, and is seen 97.5° round. The In-game animation builder showed two heads in place on both phones:
+  - her side view, eyes on her console;
+  - the approved face with its eyes down, turned towards the camera.
+
+  The Lead chose her side view:
+  - 97.5° is within the owner's "about 100°";
+  - it is the owner's own choice for her turned head;
+  - her eyes stay on her work.
+
+  The other head read as a sleepy face turned over her shoulder. Both are drawings the crew already has, so nothing new was drawn.
 
 **The Card tab's portrait is square, like the top bar's, at the same size, minutes later.**
 - **Where the Lead read it:** the owner's message in the Bars & Icons builder's session, in that session's own transcript (15:07 UTC). Word for word:
@@ -982,6 +992,12 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - The draft is built from the real component, never a mock, so the later checks cover exactly what the owner approved.
 - A change that isn't only a look keeps the usual order: checks, then the Lead's review, then the owner. That covers behaviour, data, privacy and the game's connection.
 
+**How a draft is kept, the same afternoon** (the Lead's rule for the builders, so a draft runs no tests):
+- A draft stays uncommitted where the builder can keep it so.
+- A builder's session may have to save and push every change. A draft pushed that way is committed with `[skip ci]`, and its draft PR says "Draft look: checks skipped until the owner's OK". The repository's checks run on pull requests, and GitHub skips them for a head commit that carries those words.
+- The first commit after the owner's OK goes without `[skip ci]`, so the full checks run then.
+- `[skip ci]` is never used on anything but a draft of a look. A fix that changes nothing drawn, such as moving a drawing into the one icon source, runs its checks at once.
+
 **One more small edit for view C, half an hour later.**
 - **What was found:** view C's step-3 picture (PV6-C-4) passed every measured check, but failed by eye in two places:
   - **The jar tops:** the three glass jars on the cart ended in a soft, blurred cut just under the stool's seat. Step 2 had painted them only up to its mask's edge, so the seam showed once the seat was painted behind them. Layering can't fix it: the jar tops are missing from the painting itself.
@@ -996,6 +1012,46 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - **One edit over PV6-C-4,** about $0.06, with no re-run. View C ends at about $0.30.
 - **The shapes:** the three jar tops, each in its own tight shape, whole and in front of the seat; and a narrow band along the dispenser's left side.
 - **The order:** the Rooms builder's sheet (version 8), the Lead's review, then the image builder's one call.
+
+**The bottom bar's icons painted, as the owner drew it, that afternoon.**
+- **Where the Lead read it:** the owner's message in the Bars & Icons builder's session, in that session's own transcript (16:28 UTC), with a picture of the bar. Word for word:
+
+> This is what i am thinking of bottom bar
+
+- **The picture** is the owner's own. It stays in that session; it is not in the repository and is not published.
+- **The draft:** the builder drew it in the real shell (#325) and put it on the Bars & Icons control page (version 8) for the owner and the Lead at the same moment, under the order above. The Lead checked it at 390 × 844 and 430 × 932 in all 14 states.
+- **The owner's answer** in the same session (17:41 UTC). Word for word:
+
+> I am ok with this new bar
+
+**What it decides:**
+- **Board, Actions and Panels are small painted tiles:**
+  - the crew portrait's own frame, at its size (32 px) and in its place;
+  - a warm orange ground, with the drawing in cream and a brown line.
+- **The Card tab** keeps the player's own portrait. With no character, or in the Blackout's dark, it shows the card's tile.
+- **The round button's icon** (Pass or Vote) is painted in orange. It turns grey when the button is unavailable.
+- **An open tab** has an amber ring round its tile and an amber label. **An unavailable tab's** tile fades with its label.
+- **Unchanged:** the words, the order of the tabs, the bar's height and where you tap.
+- **One orange for every player,** as in the owner's picture. The page put the choice beside it: a player with a teal character, whose tiles stay orange. The owner asked for no change.
+- **It departs from** sheet 08's line icons, in all its states and in every sheet that draws the tab bar.
+- **Measured,** as tokens 0.5.0 measures (CIE76): the tile's ground `#EE8B3A` is
+  - 40 from Red's accent `#FF8C8C` (the rooms were approved at 16–20),
+  - 25 from the amber of interaction `#F1B84B`,
+  - 20 from crew c1's accent `#B45A16`.
+
+  The ground is fixed: it says nothing about a player, a team or a role.
+- **Scope:** only the game's tab bar and the round button. Rows, sheets, the top bar and the kit keep their line icons.
+
+**How it is built:**
+- **Shell 0.3.2 on #325:** a change of look only, with no new input.
+- **Icons 1.1.0:** the painted form sits beside the family in the one icon source, and the tiles read it from there. #325 is stacked on #313 for the source's guard, page and test.
+- **The checks add:**
+  - the tiles, the open ring and the faded tile;
+  - the Blackout's card tile in the privacy check;
+  - a test that the tile's frame is the portrait's own.
+- **Then** #307's re-record and the Lead's review of the checked build.
+
+**Not answered yet,** on the same page: the toast's place, and the two drafts for a long title at the largest text.
 
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
