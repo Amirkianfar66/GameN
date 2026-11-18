@@ -1,7 +1,9 @@
 // mothership:dev-only
 //
 // Serves the design/ directory on the loopback interface so the Designer's pages can be
-// opened in a browser. Read-only, GET only, nothing outside design/ is reachable.
+// opened in a browser. Read-only, GET only, nothing outside design/ is reachable. A page whose
+// runtime modules import the game's hosted modules (design/room-drawing/runtime/) is served from
+// the repository's root instead (root), so those imports resolve as they do in the game.
 
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
@@ -21,7 +23,7 @@ const TYPES = {
   '.md': 'text/plain; charset=utf-8',
 };
 
-export async function startStaticServer({ port = 0 } = {}) {
+export async function startStaticServer({ port = 0, root = DESIGN_ROOT } = {}) {
   const server = createServer(async (request, response) => {
     const send = (status, body, type = 'text/plain; charset=utf-8') => {
       response.writeHead(status, { 'content-type': type, 'cache-control': 'no-store', 'x-content-type-options': 'nosniff' });
@@ -40,8 +42,8 @@ export async function startStaticServer({ port = 0 } = {}) {
       return response.end();
     }
     if (pathname.endsWith('/')) pathname += 'index.html';
-    const file = resolve(DESIGN_ROOT, `.${pathname}`);
-    if (file !== DESIGN_ROOT && !file.startsWith(DESIGN_ROOT + sep)) return send(403, 'Forbidden');
+    const file = resolve(root, `.${pathname}`);
+    if (file !== root && !file.startsWith(root + sep)) return send(403, 'Forbidden');
     const type = TYPES[extname(file)];
     if (!type) return send(404, 'Not found');
     try {

@@ -5,12 +5,12 @@ The game owner's approved redraw of the five rooms to match the crew (8 November
 | Path | What it is | Runtime? |
 | --- | --- | --- |
 | `assets/` | The 25 exports: each room's back picture, the layers drawn in front of its places, its lights-out picture, and the private-talk capsule's pictures, trimmed. `manifest.json` gives each one's hash, size, depth, and the bundle, property and shipped picture it replaces | **Yes**, once Integration builds them into the bundles |
-| `source/` | The films' code: `captain.mjs` and `medical.mjs`, drop-ins for the board's film art modules (the Jail's door and airlock; the Hospital's drone, monitors and lamps) with the same exports and geometry, and `jail-door-art.mjs` and `medical-art.mjs`, the art they draw (generated). Each starts with `// mothership:dev-only`; a port drops that line and rewrites the import specifiers the record gives | **Yes**, as exact ports to `apps/game/hosted/room-drawing/`, once Integration pins them |
+| `runtime/` | The films' code, the release's runtime source: `captain-fx.mjs` and `medical-fx.mjs`, drop-ins for the board's film art modules (the Jail's door and airlock; the Hospital's drone, monitors and lamps) with the same exports and geometry, and `jail-door-art.mjs` and `medical-art.mjs`, the art they draw (generated). No development mark: they import only the board's drawing kits already in the hosted graph (`apps/game/hosted/board-v2-drawing/`) and each other. The game imports them as they are, and the review page draws with them (the owner's one-source decision, 14 November 2026) | **Yes**, once Integration admits them |
 | `release-candidate.json` | The record: the approval, the sources, dependencies and inputs with their hashes, the trim, the consumers and their exact-release dispatch, what is not replaced, the sizes | No (a record) |
 | `review.html`, `review.mjs` | The review page: each room released, lit and with the lights out, beside today's lights-out picture; and the films' pieces, today and redrawn (`?view=films`) | No (dev-only) |
 | `review/` | `night.png`, `films.png`, and `renders.json` with the trim's evidence and the Jail door at rest against the room, from desktop Chrome | **No**: review media, never imported or bundled |
 
-The drawing the exports come from is `design/room-pilot/`: Room A by hand, the other four and the capsule shape for shape from today's pictures, the lights-out pictures, the films' pieces and the trim. It stays a development tool. The runtime reads the exports, as bundles, and the four ports of `source/`.
+The drawing the exports come from is `design/room-pilot/`: Room A by hand, the other four and the capsule shape for shape from today's pictures, the lights-out pictures, the films' pieces and the trim. It stays a development tool. The runtime reads the exports, as bundles, and the four modules of `runtime/`, as they are.
 
 Write and check:
 

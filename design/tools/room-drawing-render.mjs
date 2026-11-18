@@ -20,7 +20,7 @@ import { join, relative } from 'node:path';
 import { connect, launchBrowser, openPage } from './lib/chrome.mjs';
 import { DESIGN_ROOT, startStaticServer } from './lib/static-server.mjs';
 import { build } from './room-drawing-export.mjs';
-import { JAIL_DOOR, jailDoorSvg } from '../room-drawing/source/captain.mjs';
+import { JAIL_DOOR, jailDoorSvg } from '../room-drawing/runtime/captain-fx.mjs';
 
 const ROOT = join(DESIGN_ROOT, '..');
 const OUT = join(DESIGN_ROOT, 'room-drawing', 'review');
@@ -51,7 +51,9 @@ const COMPARE = `async (a, b, w = 1024, h = 768) => {
 
 await mkdir(OUT, { recursive: true });
 const exports = build();
-const server = await startStaticServer();
+// From the repository's root: the review page draws with the release's runtime modules, which import
+// the game's hosted drawing kits.
+const server = await startStaticServer({ root: ROOT });
 const chrome = await launchBrowser();
 const outputs = {};
 const trim = {};
@@ -61,7 +63,7 @@ try {
   const browser = await connect(chrome.endpoint);
   browserName = (await browser.send('Browser.getVersion')).product;
   const page = await openPage(browser, { width: 1640, height: 400, scale: 1 });
-  await page.goto(`${server.origin}/room-drawing/review.html`);
+  await page.goto(`${server.origin}/design/room-drawing/review.html`);
   await page.fitHeight();
   const file = join(OUT, 'night.png');
   const size = await page.screenshot(file);
@@ -79,7 +81,7 @@ try {
   doorAtRest = { ...rest, over8Share: Number((rest.over8 / rest.pixels).toFixed(5)), over32Share: Number((rest.over32 / rest.pixels).toFixed(5)) };
   await page.close();
   const films = await openPage(browser, { width: 1640, height: 400, scale: 1 });
-  await films.goto(`${server.origin}/room-drawing/review.html?view=films`);
+  await films.goto(`${server.origin}/design/room-drawing/review.html?view=films`);
   await films.fitHeight();
   const filmsFile = join(OUT, 'films.png');
   const filmsSize = await films.screenshot(filmsFile);
@@ -96,7 +98,7 @@ const worst = Math.max(...Object.values(trim).map(entry => entry.over32Share));
 const record = {
   tool: 'design/tools/room-drawing-render.mjs', browser: browserName, outputs,
   trim: { scale: 2, worstOver32Share: worst, exports: trim },
-  doorAtRest: { what: 'design/room-drawing/source/captain.mjs jailDoorSvg() at rest, over the release\'s Jail in JAIL_DOOR.box, against the Jail alone, at twice its pixels', ...doorAtRest },
+  doorAtRest: { what: 'design/room-drawing/runtime/captain-fx.mjs jailDoorSvg() at rest, over the release\'s Jail in JAIL_DOOR.box, against the Jail alone, at twice its pixels', ...doorAtRest },
 };
 await writeFile(join(OUT, 'renders.json'), `${JSON.stringify(record, null, 2)}\n`);
 console.log(`design/room-drawing/review/night.png and films.png; trim compared for ${exports.length} exports, at most ${(worst * 100).toFixed(2)}% of pixels differing by 32 or more; the door at rest differs from the room in ${(doorAtRest.over32Share * 100).toFixed(3)}%`);

@@ -8,9 +8,11 @@
 //   ?view=films: the films' pieces of the rooms, today and redrawn: the Captain's Jail door at
 //     rest, half open, open and in a lockdown with the EJECT airlock open; the Hospital's drone in
 //     its four poses, a berth's monitor and its lamp; the private-talk capsule.
+// The films are drawn by the release's runtime modules (./runtime/), the files the game imports as
+// they are, so this page is served from the repository's root (design/tools/room-drawing-render.mjs).
 
-import { AIRLOCK, JAIL_DOOR, airlockSvg, jailDoorSvg } from './source/captain.mjs';
-import { DRONE, berthScreenSvg, droneSvg, lampSvg } from './source/medical.mjs';
+import { AIRLOCK, JAIL_DOOR, airlockSvg, jailDoorSvg } from './runtime/captain-fx.mjs';
+import { DRONE, berthScreenSvg, droneSvg, lampSvg } from './runtime/medical-fx.mjs';
 
 window.__designReady = false;
 

@@ -10,7 +10,8 @@
 //  - the lights-out pictures follow the reviewed night rule, with the room's light taken away;
 //  - the private-talk capsule is redrawn with the rooms, its badge left as it is;
 //  - the films' code: drop-ins with the board's exports, geometry and every other piece of art,
-//    whose Jail door at rest is the redrawn Jail's, ported by dropping a line and rewriting imports;
+//    whose Jail door at rest is the redrawn Jail's; the release's runtime source, which the game
+//    imports as it is and the review page draws with (the owner's one-source decision, 14 November);
 //  - the review record covers every export, and the release stays within its size.
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
@@ -20,10 +21,10 @@ import { NIGHT, nightFill, nightSpace } from '../../../design/board-v2/scenes/li
 import { pathShapes } from '../../../design/room-pilot/ink-room.mjs';
 import { ROOMS } from '../../../design/room-pilot/rooms.mjs';
 import { TOLERANCE } from '../../../design/room-pilot/trim.mjs';
-import { OUT, PORTS, RELEASE, build, filmModules, manifestOf, portOf, releaseCandidate } from '../../../design/tools/room-drawing-export.mjs';
-import * as captain from '../../../design/room-drawing/source/captain.mjs';
-import * as medical from '../../../design/room-drawing/source/medical.mjs';
-import { JAIL_DOOR_ART } from '../../../design/room-drawing/source/jail-door-art.mjs';
+import { HOSTED_KITS, OUT, RELEASE, RUNTIME, build, filmModules, importsOf, manifestOf, releaseCandidate } from '../../../design/tools/room-drawing-export.mjs';
+import * as captain from '../../../design/room-drawing/runtime/captain-fx.mjs';
+import * as medical from '../../../design/room-drawing/runtime/medical-fx.mjs';
+import { JAIL_DOOR_ART } from '../../../design/room-drawing/runtime/jail-door-art.mjs';
 import * as captainToday from '../../../apps/game/hosted/board-v2-drawing/captain-fx.mjs';
 import * as medicalToday from '../../../apps/game/hosted/board-v2-drawing/medical-fx.mjs';
 
@@ -227,20 +228,29 @@ test('at rest, the Jail door is the redrawn Jail: its every outline and fill is 
   assert.equal(new Set(all).size, all.length);
 });
 
-test('the films\' code is ported by dropping its first line and rewriting its imports, into its own runtime directory', () => {
+test('the films\' code is the release\'s runtime source: the game imports it as it is, and the review page draws with it', () => {
   const record = JSON.parse(text(`${OUT}/release-candidate.json`));
-  assert.equal(record.ports.length, PORTS.length);
-  for (const { source, runtime, imports } of PORTS) {
-    const body = text(source);
-    assert.ok(body.startsWith('// mothership:dev-only\n'), source);
-    const port = portOf(body, imports);
-    assert.equal(record.ports.find(entry => entry.source === source).portSha256, sha(port), source);
-    // Every import of the port resolves beside it in the runtime, and none reaches into design/.
-    for (const [, spec] of port.matchAll(/^import [^;]+ from '([^']+)';$/gm)) {
-      assert.ok(!spec.includes('design/'), `${runtime} imports ${spec}`);
-      const target = new URL(spec, new URL(runtime, root));
-      const inRelease = PORTS.some(entry => new URL(entry.runtime, root).href === target.href);
-      assert.ok(inRelease || readdirSync(new URL('./', target)).includes(target.pathname.split('/').at(-1)), `${runtime}: ${spec} resolves to nothing`);
+  assert.deepEqual(record.runtime.map(entry => entry.module), RUNTIME.map(entry => entry.module));
+  assert.ok(!('ports' in record), 'no port is copied into apps/');
+  // Runtime-safe: no development mark, no package, and nothing it imports but the board's drawing
+  // kits already in the hosted graph and the release's own runtime modules.
+  const allowed = new Set([...HOSTED_KITS, ...RUNTIME.map(entry => entry.module)]);
+  for (const { module } of RUNTIME) {
+    const body = text(module);
+    assert.ok(!body.includes('mothership:dev-only'), `${module}: no development mark`);
+    const entry = record.runtime.find(item => item.module === module);
+    assert.equal(entry.sha256, sha(Buffer.from(body)), module);
+    assert.deepEqual(entry.imports, importsOf(body), `${module}: the recorded import graph`);
+    for (const spec of importsOf(body)) {
+      assert.ok(spec.startsWith('.'), `${module} imports a package: ${spec}`);
+      const path = new URL(spec, new URL(module, root)).href.slice(root.href.length);
+      assert.ok(allowed.has(path), `${module} imports ${path}`);
     }
   }
+  for (const kit of HOSTED_KITS) assert.ok(!text(kit).includes('mothership:dev-only'), `${kit} is in the hosted graph`);
+  // The review page draws the films with these same files, and there is no second copy.
+  const review = text(`${OUT}/review.mjs`);
+  assert.match(review, /from '\.\/runtime\/captain-fx\.mjs'/);
+  assert.match(review, /from '\.\/runtime\/medical-fx\.mjs'/);
+  assert.ok(!readdirSync(new URL(`${OUT}/`, root)).includes('source'), 'no source copy beside the runtime');
 });

@@ -69,32 +69,29 @@ const CAPSULE = 'design/board-v2/assets/capsule';
 
 /**
  * The films' code: drop-ins for two of the board's film art modules, with the same exports and
- * geometry (design/room-drawing/source/), and the art they draw, generated here. A port drops the
- * first line (// mothership:dev-only) and rewrites the import specifiers given, nothing else, into a
- * runtime directory of the release's own, so a board dispatches by exact release; the board-v2
- * drawing modules it imports stay where they are.
+ * geometry, and the art they draw, generated here. Since the owner's one-source decision of 14 November
+ * 2026 they are the release's runtime modules, in design/room-drawing/runtime/: the game imports them
+ * as they are, nothing is copied into apps/, and the release's review page draws with the same files.
+ * They import only the board's drawing kits already in the hosted graph (HOSTED_KITS) and each other,
+ * so a board dispatches by exact release and the kits stay where they are.
  */
-export const RUNTIME_DIRECTORY = 'apps/game/hosted/room-drawing';
-const KIT = { '../../board-motion/scenes/kit.mjs': '../board-v2-drawing/scene-kit.mjs', '../../board-v2/fx/blocked.mjs': '../board-v2-drawing/blocked-fx.mjs', '../../board-v2/fx/label-box.mjs': '../board-v2-drawing/label-box.mjs' };
-export const PORTS = Object.freeze([
-  { source: `${OUT}/source/captain.mjs`, runtime: `${RUNTIME_DIRECTORY}/captain-fx.mjs`, today: 'apps/game/hosted/board-v2-drawing/captain-fx.mjs', canonical: `${SNAPSHOT}/design/board-v2/fx/captain.mjs`, imports: KIT },
-  { source: `${OUT}/source/jail-door-art.mjs`, runtime: `${RUNTIME_DIRECTORY}/jail-door-art.mjs`, today: null, canonical: null, imports: {} },
-  { source: `${OUT}/source/medical.mjs`, runtime: `${RUNTIME_DIRECTORY}/medical-fx.mjs`, today: 'apps/game/hosted/board-v2-drawing/medical-fx.mjs', canonical: `${SNAPSHOT}/design/board-v2/fx/medical.mjs`, imports: { ...KIT, '../../board-v2/scenes/hospital-ward.mjs': '../board-v2-drawing/hospital-ward.mjs' } },
-  { source: `${OUT}/source/medical-art.mjs`, runtime: `${RUNTIME_DIRECTORY}/medical-art.mjs`, today: null, canonical: null, imports: {} },
+export const RUNTIME_DIRECTORY = `${OUT}/runtime`;
+/** The board's drawing kits the films' code imports: already in the hosted graph, read and not changed. */
+export const HOSTED_KITS = Object.freeze(['scene-kit', 'blocked-fx', 'label-box', 'hospital-ward'].map(name => `apps/game/hosted/board-v2-drawing/${name}.mjs`));
+export const RUNTIME = Object.freeze([
+  Object.freeze({ module: `${RUNTIME_DIRECTORY}/captain-fx.mjs`, today: 'apps/game/hosted/board-v2-drawing/captain-fx.mjs', canonical: `${SNAPSHOT}/design/board-v2/fx/captain.mjs` }),
+  Object.freeze({ module: `${RUNTIME_DIRECTORY}/jail-door-art.mjs`, generated: true }),
+  Object.freeze({ module: `${RUNTIME_DIRECTORY}/medical-fx.mjs`, today: 'apps/game/hosted/board-v2-drawing/medical-fx.mjs', canonical: `${SNAPSHOT}/design/board-v2/fx/medical.mjs` }),
+  Object.freeze({ module: `${RUNTIME_DIRECTORY}/medical-art.mjs`, generated: true }),
 ]);
-/** A source's port: its first line dropped, its import specifiers rewritten, nothing else. */
-export function portOf(source, imports) {
-  if (!source.startsWith('// mothership:dev-only\n')) throw new Error('A port\'s source starts with the development mark');
-  let port = source.slice(source.indexOf('\n') + 1);
-  for (const [from, to] of Object.entries(imports)) port = port.replaceAll(`'${from}'`, `'${to}'`);
-  return port;
-}
+/** A module's static import specifiers, in order. */
+export const importsOf = source => [...source.matchAll(/^import [^;]+ from '([^']+)';$/gm)].map(m => m[1]);
 
 /** The generated art modules of the films' code, as { path: text }. */
 export function filmModules() {
   return {
-    [`${OUT}/source/jail-door-art.mjs`]: jailDoorArtModule(jailDoorArt(text(ROOMS.find(r => r.id === 'jail').today.back), FAMILIES.jail)),
-    [`${OUT}/source/medical-art.mjs`]: medicalArtModule(medicalArt(Object.fromEntries(DRONE_FRAMES.map((frame, i) => [frame, text(DRONES[i])])))),
+    [`${RUNTIME_DIRECTORY}/jail-door-art.mjs`]: jailDoorArtModule(jailDoorArt(text(ROOMS.find(r => r.id === 'jail').today.back), FAMILIES.jail)),
+    [`${RUNTIME_DIRECTORY}/medical-art.mjs`]: medicalArtModule(medicalArt(Object.fromEntries(DRONE_FRAMES.map((frame, i) => [frame, text(DRONES[i])])))),
   };
 }
 
@@ -167,8 +164,9 @@ export function build() {
 const SOURCES = [
   'design/room-pilot/rooms.mjs', 'design/room-pilot/room-a.mjs', 'design/room-pilot/ink-room.mjs', 'design/room-pilot/ward-four.mjs',
   'design/room-pilot/night.mjs', 'design/room-pilot/trim.mjs', 'design/room-pilot/films.mjs', 'design/tools/room-drawing-export.mjs',
+  `${RUNTIME_DIRECTORY}/captain-fx.mjs`, `${RUNTIME_DIRECTORY}/medical-fx.mjs`,
 ];
-const DEPENDENCIES = ['design/crew-drawing/source/ink.mjs', 'design/board-v2/scenes/lighting.mjs', 'design/board-motion/scenes/index.mjs', 'design/board-motion/scenes/kit.mjs', 'design/board-motion/figures/body.mjs', 'design/board-motion/figures/gestures.mjs', 'design/board-motion/scenes/frame.mjs', 'design/board-v2/fx/blocked.mjs', 'design/board-v2/fx/label-box.mjs', 'design/board-v2/scenes/hospital-ward.mjs'];
+const DEPENDENCIES = ['design/crew-drawing/source/ink.mjs', 'design/board-v2/scenes/lighting.mjs', 'design/board-motion/scenes/index.mjs', 'design/board-motion/scenes/kit.mjs', 'design/board-motion/figures/body.mjs', 'design/board-motion/figures/gestures.mjs', 'design/board-motion/scenes/frame.mjs', 'design/board-v2/fx/blocked.mjs', 'design/board-v2/fx/label-box.mjs', 'design/board-v2/scenes/hospital-ward.mjs', ...HOSTED_KITS];
 
 export function manifestOf(exports) {
   return {
@@ -199,10 +197,10 @@ export function releaseCandidate(exports, manifestText, generated = filmModules(
     sources: SOURCES.map(path => ({ path, sha256: sha(readFileSync(resolve(root, path))) })),
     dependencies: DEPENDENCIES.map(path => ({ path, sha256: sha(readFileSync(resolve(root, path))), note: 'read, not changed' })),
     inputs: [...ROOMS.flatMap(r => [r.today.back, ...Object.values(r.today.layers)]), ...DRONES, ...CAPSULE_PICTURES.map(name => `${CAPSULE}/${name}.svg`)].map(path => ({ path, sha256: sha(readFileSync(resolve(root, path))) })),
-    ports: PORTS.map(({ source, runtime, today, canonical, imports }) => {
-      const body = generated[source] ?? readFileSync(resolve(root, source), 'utf8');
+    runtime: RUNTIME.map(({ module, today, canonical }) => {
+      const body = generated[module] ?? readFileSync(resolve(root, module), 'utf8');
       return {
-        source, sha256: sha(body), runtime, portSha256: sha(portOf(body, imports)), imports,
+        module, sha256: sha(body), imports: importsOf(body),
         ...(today ? { replacesUnderThisRelease: today, todaySha256: sha(readFileSync(resolve(root, today))), dropInFor: canonical, canonicalSha256: sha(readFileSync(resolve(root, canonical))) } : { generated: 'design/tools/room-drawing-export.mjs (design/room-pilot/films.mjs)' }),
       };
     }),
@@ -222,7 +220,7 @@ export function releaseCandidate(exports, manifestText, generated = filmModules(
       { module: 'apps/game/hosted/board-v2-host.mjs', reads: 'For each room: --bm-scene-<room>-back and its layers (the scene art bundle), the four-berth ward\'s --board-v2-film-scenes-hospital-ward-four-* (the films art bundle), and in a Blackout --board-v2-motion-<room>-dark or --board-v2-film-lighting-hospital-ward-four-dark.' },
       { module: 'apps/game/hosted/scene-board.mjs', reads: 'The comic board\'s scene mode: --bm-scene-<zone>-back and its layers.' },
       { module: 'apps/game/hosted/board-v2-scene.mjs', reads: 'The private-talk capsule: --board-v2-art-capsule-<back|door-0..3|busy|dark> (the board-v2 art bundle); its badge stays.' },
-      { module: 'apps/game/hosted/board-v2-films.mjs', reads: 'The Captain\'s films: jailDoorSvg() and airlockSvg() from board-v2-drawing/captain-fx.mjs; the Hospital\'s: droneSvg(), berthScreenSvg() and lampSvg() from board-v2-drawing/medical-fx.mjs. Under this release they come from the ports in apps/game/hosted/room-drawing/, with the same exports and geometry.' },
+      { module: 'apps/game/hosted/board-v2-films.mjs', reads: 'The Captain\'s films: jailDoorSvg() and airlockSvg() from board-v2-drawing/captain-fx.mjs; the Hospital\'s: droneSvg(), berthScreenSvg() and lampSvg() from board-v2-drawing/medical-fx.mjs. Under this release they come from design/room-drawing/runtime/captain-fx.mjs and medical-fx.mjs, imported as they are (nothing copied into apps/), with the same exports and geometry.' },
     ],
     dispatch: 'Exact release only. These pictures belong to the art release that registers them (after design-0.7.0); every earlier release keeps its bundles byte for byte. A board draws the new rooms only under that release, as the crew\'s exact-release dispatch does, and draws the new crew and the new rooms together.',
     notReplaced: [
@@ -258,7 +256,7 @@ async function main() {
     }
   }
   if (problems.length) { console.error(problems.join('\n')); process.exitCode = 1; return; }
-  console.log(`${check ? 'Checked' : 'Wrote'} ${files.size} files (${exports.length} exports, ${PORTS.length} ports).`);
+  console.log(`${check ? 'Checked' : 'Wrote'} ${files.size} files (${exports.length} exports, ${RUNTIME.length} runtime modules).`);
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await main();

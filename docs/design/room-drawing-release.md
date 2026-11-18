@@ -24,15 +24,15 @@ All the pictures are trimmed for size.
 | Path | What it is |
 | --- | --- |
 | `design/room-drawing/assets/` | The 25 exports: the rooms' 18 pictures and the capsule's 7. Each is an SVG in the scene units of the picture it replaces. `manifest.json` gives each export's SHA-256, size, kind, depth, and the bundle, CSS property and shipped picture it replaces, with that picture's SHA-256 |
-| `design/room-drawing/source/` | The films' code: `captain.mjs` and `medical.mjs`, drop-ins for two of the board's film art modules, and `jail-door-art.mjs` and `medical-art.mjs`, the art they draw (generated). Each starts with `// mothership:dev-only`; a port drops that line and rewrites the import specifiers the record gives, nothing else |
-| `design/room-drawing/release-candidate.json` | The record: the approval; every source, dependency and input with its SHA-256; the ports with their runtime paths, import rewrites and hashes; the trim; the consumers and their dispatch; what is not replaced; the sizes |
+| `design/room-drawing/runtime/` | The films' code, the release's runtime source: `captain-fx.mjs` and `medical-fx.mjs`, drop-ins for two of the board's film art modules, and `jail-door-art.mjs` and `medical-art.mjs`, the art they draw (generated). No development mark: they import only the board's drawing kits already in the hosted graph and each other. The game imports them as they are, and the review page draws with them |
+| `design/room-drawing/release-candidate.json` | The record: the approval; every source, dependency and input with its SHA-256; the runtime modules with their hashes and import graph; the trim; the consumers and their dispatch; what is not replaced; the sizes |
 | `design/room-drawing/review/` | Review media: `night.png` (each room released, lit and with the lights out, beside today's lights-out picture), `films.png` (the films' pieces, today and redrawn) and `renders.json` (the trim's evidence and the Jail door at rest against the room, from desktop Chrome) |
 | `design/room-pilot/` | The drawing the exports come from: `rooms.mjs` (the five rooms), `room-a.mjs` (Room A, by hand), `ink-room.mjs` (the other four and the capsule, shape for shape from today's pictures), `ward-four.mjs` (the ward's places), `night.mjs` (the lights-out pictures), `films.mjs` (the films' pieces) and `trim.mjs` (the trim) |
 
 Write and check:
 
 ```sh
-node design/tools/room-drawing-export.mjs           # assets/, source/*-art.mjs and release-candidate.json
+node design/tools/room-drawing-export.mjs           # assets/, runtime/*-art.mjs and release-candidate.json
 node design/tools/room-drawing-export.mjs --check   # the same, compared with the files; writes nothing
 node design/tools/room-drawing-render.mjs           # review/ (needs CHROME_PATH)
 node --test packages/design-tokens/test/room-drawing.test.mjs
@@ -97,7 +97,7 @@ Each export replaces exactly one picture the board reads today, under the same C
 
 Some films draw parts of a room again, over the room, so that they can move them. With the rooms redrawn, those parts would show today's drawing on top of the new room. So they are redrawn with the rooms, in two drop-ins for the board's film art modules.
 
-The drop-ins are `design/room-drawing/source/captain.mjs` for `design/board-v2/fx/captain.mjs`, and `medical.mjs` for `fx/medical.mjs`, whose sources are kept in the release snapshot `cb9386bd`. Each has the same exports, constants, boxes, beats, signals and colours as the module it replaces. Every other piece of art draws byte for byte as today's (tested).
+The drop-ins are `design/room-drawing/runtime/captain-fx.mjs` for `design/board-v2/fx/captain.mjs`, and `medical-fx.mjs` for `fx/medical.mjs`, whose sources are kept in the release snapshot `cb9386bd`. Each has the same exports, constants, boxes, beats, signals and colours as the module it replaces. Every other piece of art draws byte for byte as today's (tested).
 
 1. **The Captain's RELEASE and EJECT films: the Jail.**
    - **`jailDoorSvg()`.** The film draws the Jail's blast door, its lamp and its keypad's screen over the room, "so that at rest the overlay is the room itself", then slides the door open. These pieces are now drawn exactly as the redrawn Jail draws them: the same shapes, seeds, tones and trim, generated into `jail-door-art.mjs`. Every outline and fill at rest is one the room draws (tested).
@@ -112,16 +112,16 @@ The drop-ins are `design/room-drawing/source/captain.mjs` for `design/board-v2/f
    - The cabin, its door frames and its busy light are redrawn shape for shape from today's pictures, the cabin darkening toward the panel's edges as the rooms do.
    - Its lights-out picture is drawn from them by the night rule.
 
-**The ports.** A port drops the first line and rewrites the import specifiers listed in `release-candidate.json`, into a runtime directory of the release's own, so that a board dispatches by exact release.
+**The runtime modules.** Under the owner's one-source decision of 14 November 2026, the films' code is the release's own runtime source, in `design/room-drawing/runtime/`, and the game imports it as it is. The four ports into `apps/game/hosted/room-drawing/` that this release first asked Frontend to copy are withdrawn (15 November 2026): nothing is copied into `apps/`, and the review page draws with the same files.
 
-| Source | Port | Imports rewritten |
-| --- | --- | --- |
-| `design/room-drawing/source/captain.mjs` | `apps/game/hosted/room-drawing/captain-fx.mjs` | `kit.mjs`, `blocked.mjs` and `label-box.mjs`, to `../board-v2-drawing/` |
-| `design/room-drawing/source/jail-door-art.mjs` | `apps/game/hosted/room-drawing/jail-door-art.mjs` | none |
-| `design/room-drawing/source/medical.mjs` | `apps/game/hosted/room-drawing/medical-fx.mjs` | the same, and `hospital-ward.mjs`, to `../board-v2-drawing/` |
-| `design/room-drawing/source/medical-art.mjs` | `apps/game/hosted/room-drawing/medical-art.mjs` | none |
+| Module | Imports |
+| --- | --- |
+| `design/room-drawing/runtime/captain-fx.mjs` | `scene-kit.mjs`, `blocked-fx.mjs` and `label-box.mjs` in `apps/game/hosted/board-v2-drawing/`, and `./jail-door-art.mjs` |
+| `design/room-drawing/runtime/jail-door-art.mjs` | none (generated) |
+| `design/room-drawing/runtime/medical-fx.mjs` | the same three, `hospital-ward.mjs` there, and `./medical-art.mjs` |
+| `design/room-drawing/runtime/medical-art.mjs` | none (generated) |
 
-The port's imports all resolve to files that exist, and none reaches into `design/` (tested). Under this release, `board-v2-films.mjs` takes `jailDoorSvg()`, `airlockSvg()`, `droneSvg()`, `berthScreenSvg()` and `lampSvg()` from these ports. Every earlier release keeps `board-v2-drawing/captain-fx.mjs` and `medical-fx.mjs`.
+They carry no development mark, and import nothing but those kits, already in the hosted graph, and each other (tested; `release-candidate.json` records each module's SHA-256 and imports). When they moved from `source/`, their drawing did not change: their code is the sources' byte for byte but for the header and the import specifiers, the kits they now import hold the same values as the design kits they imported, 461 calls across every film function draw the same SVG, and the review page's renders are byte-identical. Under this release, `board-v2-films.mjs` takes `jailDoorSvg()`, `airlockSvg()`, `droneSvg()`, `berthScreenSvg()` and `lampSvg()` from these modules. Every earlier release keeps `board-v2-drawing/captain-fx.mjs` and `medical-fx.mjs`.
 
 ## How the pictures are made
 
@@ -153,7 +153,7 @@ The port's imports all resolve to files that exist, and none reaches into `desig
 
 The rooms' 18 pictures are 275 KB gzipped and the capsule's 7 are 34 KB, about six times today's for the crew's hand-drawn line.
 
-The films' code ports are 44 KB (`captain-fx.mjs`), 51 KB (`jail-door-art.mjs`), 26 KB (`medical-fx.mjs`) and 63 KB (`medical-art.mjs`), raw.
+The films' runtime modules are 43 KB (`captain-fx.mjs`), 50 KB (`jail-door-art.mjs`), 25 KB (`medical-fx.mjs`) and 62 KB (`medical-art.mjs`), raw.
 
 A film writes each of its pieces again whenever a frame changes it. Against today's `board-v2-drawing/` modules:
 - the Jail door overlay is about 20 KB at rest and 25 KB while sliding, against 3 KB and 5 KB;
@@ -172,8 +172,8 @@ A film writes each of its pieces again whenever a frame changes it. Against toda
   - in a Blackout, reads `--board-v2-motion-<room>-dark` or `--board-v2-film-lighting-hospital-ward-four-dark`.
 - **`apps/game/hosted/scene-board.mjs`** (the comic board's scene mode) reads `--bm-scene-<zone>-back` and its layers.
 - **`apps/game/hosted/board-v2-scene.mjs`** reads the capsule's `--board-v2-art-capsule-*`.
-- **`apps/game/hosted/board-v2-films.mjs`** takes the films' drawing functions; under this release, from the ports.
-- **Dispatch by exact release.** These pictures and ports belong to the art release that registers them, after `design-0.7.0`. Every earlier release keeps its bundles and drawing modules byte for byte. A board draws the new rooms only under that release, together with the new crew, as the crew's exact-release dispatch does.
+- **`apps/game/hosted/board-v2-films.mjs`** takes the films' drawing functions; under this release, from `design/room-drawing/runtime/`, imported as they are.
+- **Dispatch by exact release.** These pictures and runtime modules belong to the art release that registers them, after `design-0.7.0`. Every earlier release keeps its bundles and drawing modules byte for byte. A board draws the new rooms only under that release, together with the new crew, as the crew's exact-release dispatch does.
 
 ## What is unverified, and what comes next
 
@@ -181,6 +181,6 @@ A film writes each of its pieces again whenever a frame changes it. Against toda
   - no phone has drawn these pictures or the films' frames;
   - the bundles' sizes after registration;
   - the owner has not seen the lights-out pictures or the films' pieces separately.
-- **Integration:** register the release ([DSN-REQ-18](integration-requests.md#dsn-req-18)), build the four bundles' new versions, and pin the ports.
-- **Frontend:** port the films' code, check the consumers and the exact-release dispatch, then measure on devices.
+- **Integration:** register the release ([DSN-REQ-18](integration-requests.md#dsn-req-18)), build the four bundles' new versions, and admit the four runtime modules to the hosted graph.
+- **Frontend:** import the films' code from `design/room-drawing/runtime/` under this release, check the consumers and the exact-release dispatch, then measure on devices.
 - **Designer:** review the board's captures of the new rooms (lit, in a Blackout, and the Captain's and the Hospital's films) before Integration merges the adoption.
