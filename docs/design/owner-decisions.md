@@ -735,6 +735,44 @@ The Lead then recommended one shared view for each fixed room. The owner:
   - every move is listed in the view's sheet.
 - **The eating visit** is drawn by code with the new people, as the record above says. The staging carries each walk's path, including where the walker leaves and re-enters a view.
 
+**The pre-game moves to Codex, about half an hour later.**
+- The owner asked, word for word:
+
+> I want the agent who responsible for Top bar and bottom bar work on , which is responsible for it? and what do you think if I handle the pregame & Global UI via Codex agents , because I feel the work of Claude is too heavy and Codex agents are free also the work of pregame UI is more related to server and front-end compare the in game , what do you think?
+
+- **The Lead answered:**
+  - The top and bottom bars are the Lead's: Designer's phone shell (#265), whose connection in the game is still under way.
+  - Moving the pre-game screens to Codex fits, on three conditions:
+    1. Codex builds from the approved phone pack, and the shared kit, the bars, the toasts and the banners stay one shared design.
+    2. The Lead accepts each pre-game screen's look before it merges.
+    3. The pre-game films stay with Designer.
+- **The owner answered:**
+
+> I agree but just Lets also path them animations pre game to have one source of truth for pregame , what do you think?
+
+- **The Lead recommended** that Codex own the whole pre-game flow, including when each film plays, while Designer draws the films. Codex owning the films outright would also work, with one rule. The owner answered:
+
+> As you recommended butI would  rather Codex owns the films outright, that works too, with one rule: Codex uses the characters, rooms and style exactly as Designer releases them, and any change to how they look comes to me first.
+
+**What it decides:**
+- **Codex agents own the pre-game, end to end:**
+  - the pre-game and global screens: main menu and entry, host setup and lobby, join and waiting, recover, character selection, role stage and card, boarding, host controls and display settings;
+  - their connection in the game;
+  - the pre-game films, outright: the brand intro, the role films and the boarding film, with the paused pre-game animation test.
+- **The rule,** in the owner's words: Codex uses the characters, rooms and style exactly as Designer releases them, and any change to how they look comes to "me" first. The owner quoted the Lead's wording, where "me" is the Lead Designer, and the owner approves any look as always. In practice:
+  - the crew drawing, the rooms, the tokens, the shared kit, the shell's bars, the toasts and the banners are used as Designer releases them;
+  - a change to any of them, or a new look, goes to the Lead first.
+- **Codex builds the screens from the approved phone pack,** and the Lead accepts each pre-game screen's look before it merges, as for Frontend today.
+- **The Designer builders hand over:**
+  - the Pre-game & Global UI builder hands over its open work and stops;
+  - the Pre-game Animation builder hands over its paused film test and keeps working on the rooms.
+- **The integration owner (Codex Astra)** records the new split in AGENTS.md and the agent roster.
+
+**What it does not settle:**
+- **Which Codex agent** takes the work, and when.
+- **The top and bottom bars:** they stay with the Lead. The owner's first question also asked for them to be worked on; what they want changed is still to be asked.
+- **The open choices of the paused film test,** such as the ship through the window and whether its look goes beyond the Doctor test. They stay the owner's and pass to Codex with the test.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
