@@ -261,8 +261,9 @@
 
 /* ── A toast: the kit's (kit.css .ms-k-toast, 0.8.0), 10 px under the overlays' place ── */
 .ms-phone-shell .ms-ps-toast { --ms-k-toast-top: var(--ms-ps-over-top); }
-/* 0.3.2: over an open sheet whose head it would touch, it sits 8 px under that head instead, over the sheet's body, so
-   it never cuts the title or Close through (phone-shell.mjs placeToast sets the attribute and the place). */
+/* 0.3.2, a draft: it never covers the bar, a banner or an open sheet's head. When its own place would touch a banner
+   or a sheet's head, it takes the first free place below, 8 px clear (phone-shell.mjs placeToast sets the attribute
+   and the place). */
 .ms-phone-shell[data-toast-under] .ms-ps-toast { --ms-k-toast-top: var(--ms-ps-toast-top); }
 
 /* ── The docked sheet: clear glass over the room (kit.css .sheet) ──── */
@@ -297,6 +298,13 @@
 .ms-phone-shell .ms-ps-sheet:not(:has(.ms-ps-sheet-foot)) .ms-ps-sheet-body { padding-bottom: 30px; }
 .ms-phone-shell .ms-ps-sheet-foot { flex: none; display: flex; gap: 10px; padding: 10px 16px 28px; border-top: 1px solid var(--ms-ps-glass-line); }
 .ms-phone-shell .ms-ps-sheet-foot .ms-k-btn { flex: 1; }
+/* The body and the footer share a wrapper that is no box of its own: the sheet lays the two out as its own children.
+   0.3.2, a draft: when the body would be squeezed to under a third of the sheet (a small phone, a large text size, a
+   long title, stacked buttons; phone-shell.mjs fitSheet), the wrapper scrolls instead of the body, so the body takes
+   all the room under the head and the footer follows the content. */
+.ms-phone-shell .ms-ps-sheet-scroll { display: contents; }
+.ms-phone-shell .ms-ps-sheet[data-foot-scrolls] .ms-ps-sheet-scroll { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; }
+.ms-phone-shell .ms-ps-sheet[data-foot-scrolls] .ms-ps-sheet-body { flex: none; overflow: visible; }
 /* Larger text on a narrow phone (0.2.1, #228's .sheet-foot rule): under 19 em across, footer buttons that no
    longer fit side by side take a row each, in the same order, at full width, and a label that still doesn't
    fit wraps inside its button. Before, "Register Rescue" ran past the sheet's edge at 200 % (found on Actions).
