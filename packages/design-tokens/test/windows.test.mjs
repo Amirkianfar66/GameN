@@ -249,13 +249,23 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   const agree = record.agree;
   assert.ok(agree.ok && agree.checks.length === 9 && agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'the sheet agrees with the frozen pack\'s windows screen in each state');
   assert.deepEqual(agree.problems, [], 'agreement: no page problem');
-  // The drawing box's focus ring, with Chrome's own input: none while a finger or a mouse draws, even after Tab; the
-  // keyboard shows it, and so does a key after a finger's stroke (the Lead, 18 November).
+  // The drawing box's focus ring, with Chrome's own input (the Lead, 18 November): none while a finger or a mouse
+  // draws, even after Tab; the keyboard's own focus shows it, the very next key after a finger's stroke shows it
+  // again, Tab back in after a blur shows it, and a keyboard-only player always sees it. Each look also saw what it
+  // wanted of the box's reports, so every stroke reached it.
   const ring = record.ring;
-  assert.ok(ring?.ok && ring.checks.length === 6 && ring.checks.every(c => c.ok && c.detail.focused), 'the ring: every case passed');
-  const rings = Object.fromEntries(ring.checks.map(c => [c.id, c.detail.ring]));
-  assert.deepEqual(rings, {
-    'ring: a finger draws, no ring': false, 'ring: a mouse draws, no ring': false, 'ring: Tab, then a finger draws, no ring': false,
-    'ring: Tab, then a mouse draws, no ring': false, 'ring: Tab reaches the box, the ring': true, 'ring: a finger draws, then an arrow key, the ring': true,
+  assert.ok(ring?.ok && ring.checks.length === 8 && ring.checks.every(c => c.ok && c.detail.problems.length === 0 && c.detail.looks.every(l => l.ok)), 'the ring: every case passed');
+  const at = l => `${l.label}: ${l.focused ? (l.ring ? 'ring' : 'no ring') : 'focus elsewhere'}`;
+  assert.deepEqual(Object.fromEntries(ring.checks.map(c => [c.id, c.detail.looks.map(at)])), {
+    'ring: a finger draws, no ring while drawing or after': ['while the finger draws: no ring', 'after the stroke: no ring'],
+    'ring: a mouse draws, no ring while drawing or after': ['while the mouse draws: no ring', 'after the stroke: no ring'],
+    'ring: Tab reaches the box, the ring': ['Tab reaches the box: ring'],
+    'ring: Tab, then a finger draws, no ring while drawing; the very next key, the ring': ['while the finger draws: no ring', 'after the stroke: no ring', 'the very next key: ring'],
+    'ring: Tab, then a mouse draws, no ring while drawing or after': ['while the mouse draws: no ring', 'after the stroke: no ring'],
+    'ring: a finger draws, then an arrow key, the ring': ['while the finger draws: no ring', 'the next key: ring'],
+    'ring: a finger draws, a tap away blurs the box, then Tab back in, the ring': ['while the finger draws: no ring', 'after the stroke: no ring', 'a tap away: focus elsewhere', 'Tab back in: ring'],
+    'ring: a keyboard-only player always sees it': ['Tab reaches the box: ring', 'an arrow moves the pen: ring', 'while Shift and the arrows draw: ring', 'the line drawn: ring', 'Space draws a dot: ring', 'Shift+Tab leaves the box: focus elsewhere', 'Tab comes back: ring'],
   });
+  const away = ring.checks.find(c => c.id.includes('a tap away')).detail.looks.find(l => l.label === 'a tap away');
+  assert.equal(away.mark, false, 'the blur took the pointer\'s mark away');
 });
