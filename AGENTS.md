@@ -15,7 +15,7 @@ Read `docs/project-context.md`, `docs/architecture/rendering-direction.md`, and 
 
 Do not blindly merge the source JSON files. Superseded mechanics remain present for history, and a layout proposal may contain provisional behavior. A conflict or missing rule belongs in the decision register with evidence.
 
-## Four workstreams
+## Workstreams
 
 The original bootstrap allocation and the current session allocation are recorded in [docs/agent-roster.md](docs/agent-roster.md). Backend/Integration and Frontend currently run in separate Codex chats; Visual and Motion Design and Game Design and Balance use Claude Code. Claude starts with `CLAUDE.md`, which imports this shared instruction file. The first-branch names below are historical launch references, not instructions to restart completed work.
 
@@ -23,7 +23,8 @@ The original bootstrap allocation and the current session allocation are recorde
 | --- | --- | --- | --- |
 | Backend and Integration | Codex Astra | `services/game-api/`, `packages/engine/`, `infra/firebase/`, `docs/backend/` | `agent/backend-foundation` |
 | Frontend | Codex | `apps/game/`, `packages/presentation/`, `docs/frontend/` | `agent/frontend-tabletop` |
-| Visual and Motion Designer | Claude Code | `design/`, `packages/design-tokens/`, `docs/design/` | `agent/designer-art-direction` |
+| Pre-game and global interface | Codex | Pre-game components, Settings and Host controls, game connections and pre-game films | [Existing branches in #311](https://github.com/Amirkianfar66/GameN/issues/311) |
+| Visual and Motion Designer | Claude Code | Shared visual system and in-game components in `design/`, `packages/design-tokens/` and `docs/design/` | `agent/designer-art-direction` |
 | Game Design and Balance | Claude Code | `tools/balance/`, `tests/scenarios/`, `docs/balance/` | `agent/game-balance-baseline` |
 
 Shared files (`packages/contracts/`, canonical rule definitions, root manifests/lockfiles, CI and architecture decisions) are owned by Codex Astra in its integration role. Shared contracts still require review by affected roles. Propose cross-boundary changes explicitly and integrate them through a focused PR; do not let several agents rewrite the same files concurrently.
@@ -39,6 +40,12 @@ The owner's 15 November clarification makes Designer accountable for delivering 
 Integrate one representative state early, then extend it. The phone visual merge gate below remains unchanged. Apply this workflow without adding a rewrite to the frozen Food release; existing pinned releases and historical source artifacts remain intact.
 
 This dated ownership agreement supersedes conflicting handoff wording in the original `agents/` briefs, which remain byte-preserved under `docs/bootstrap-source-lock.json` as historical evidence.
+
+### Pre-game and global interface — 18 November 2026
+
+The owner assigned Codex the pre-game screens **and their canonical components**, their connections in the game, Settings and Host controls (including during a match), and the brand, private role and boarding films. Continue the existing components, film sources and PRs. The preview and the game use the same source. The shared role card belongs to pre-game even where the in-match Card sheet consumes it. Codex owns the Round 1 stamp's mount in the pre-game connection. Designer owns the stamp. [Owner handover and PR map](https://github.com/Amirkianfar66/GameN/issues/311) · [Film production and privacy](https://github.com/Amirkianfar66/GameN/issues/311#issuecomment-6978411308)
+
+Use the characters, rooms and style exactly as Designer releases them. Take a proposed change to their look to the Lead Designer first. The owner approves the look, and each pre-game screen PR requires the Lead Designer's explicit visual acceptance of the integrated result in that PR before merge. The Claude Designer team comprises the **Lead, Bars & Icons, Rooms, In-game animation and Gameplay UI**. Codex consumes their shared kit, shell, bars, icons, tokens and release assets as released. The detailed ownership and file boundaries are in the [agent roster](docs/agent-roster.md#current-allocation).
 
 ## Collaboration protocol
 
@@ -68,7 +75,7 @@ Before merge:
 2. Attach the changed states at **390 × 844** and **430 × 932**, the two current iPhone development presets. Capture the deployed candidate or a harness using the exact production response headers, including Content Security Policy; record the URL, candidate and artwork identities, header values/hash and any harness differences. A header-free harness is not release evidence. Broader viewport coverage, including routine 320 × 568 captures, is deferred by the owner; preserve existing accessibility and reduced-motion support. Supply a reproducible supplemental comparison for missing states, and motion/reduced-motion evidence when motion changes. A capture error, historical `same`/`close` finding or a tool run alone is not acceptance.
 3. Obtain a PR comment or review from the Visual and Motion Designer that explicitly accepts the affected parts and identifies the reviewed candidate commit and comparison evidence. If later changes affect those parts or their rendered dependencies, refresh the evidence and obtain renewed approval. For unrelated later edits, Integration records why the approved rendered inputs remain unchanged.
 4. A departure from a sheet needs **both Designer's agreement and the owner's explicit approval before implementation**. Record the exact sheet/state, proposed departure, reason, both approval references, scope and date in [docs/design/owner-decisions.md](docs/design/owner-decisions.md). A rule, privacy, contract, accessibility or platform conflict is raised with Designer in #222; it is not permission to silently substitute another interface or alter gameplay. Existing authoritative rules and disclosure limits remain in force until an owner-approved specification change resolves the conflict.
-5. Verify that the PR uses Designer's canonical component rather than rebuilding or copying its visuals. Account for every relevant owner-approved visual deliverable: included with evidence, or explicitly deferred/excluded by an owner decision. A narrower implementation scope is not permission to silently omit approved work.
+5. Verify that the preview and the playable screen consume the canonical component. Codex maintains the pre-game components under the 18 November assignment and consumes Designer's shared parts as released. In-game components follow the Designer ownership agreement. Account for every relevant owner-approved visual deliverable: included with evidence, or explicitly deferred/excluded by an owner decision. A narrower implementation scope is not permission to silently omit approved work.
 6. Integration verifies the approval and any exception record, then the existing required checks and technical review. Source-only design proposals, review tooling and documentation that do not change the playable phone interface may be marked not applicable with a concrete explanation; their merge does not approve or activate a native interface.
 
 The PR template records this gate. It is a required human merge review, not a claim that CI or GitHub branch protection can identify the Designer's agent role. Do not infer a Designer approval from a GitHub username shared by several agents.

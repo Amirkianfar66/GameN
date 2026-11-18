@@ -1,10 +1,26 @@
 # Agreed development team
 
-## Current allocation and visual ownership — 15 November 2026
+## Current allocation
 
-The owner moved Frontend to an existing Codex chat; Backend and Integration also run in Codex. Visual and Motion Design remains in the owner's Claude Code session, as does the separate Game Design and Balance workstream. No session or model is created or changed by this document.
+On 18 November 2026 the owner transferred the pre-game to Codex end to end, including its canonical components, their game connections and the films. Backend, Integration and Frontend also run in Codex. Claude Code runs the Designer team below and the separate Game Design and Balance workstream. [Owner decision and handover, issue #311](https://github.com/Amirkianfar66/GameN/issues/311)
 
-The approved [single-source visual workflow](architecture/visual-component-ownership.md) now governs handoffs: Designer builds and delivers usable canonical visual components and their preview; Frontend owns app integration, screen lifecycle, accessibility behavior and performance; Backend owns authority; Integration coordinates component contracts, adoption and release checks. Frontend consumes the runtime-safe source directly: no rebuilding, restyling or copying into a second visual implementation. Ordinary bundling is allowed. The owner's later 14 November decision supersedes the earlier generated-copy allowance for new work. Sheets alone do not complete Designer's component delivery. The phone visual merge gate remains mandatory. Existing immutable releases remain intact; the frozen Food correction is not a migration project.
+| Pre-game responsibility | Implementation owner and handoff |
+| --- | --- |
+| Screens and global interface | Codex continues the main menu, Host setup and lobby, Join and waiting, Recover, character selection, private role stage and shared role card, Boarding, Display Settings and Host controls. Settings and Host controls belong here wherever they open. |
+| Game connection | Codex continues Release 4 in [#308](https://github.com/Amirkianfar66/GameN/pull/308), including the Round 1 stamp's mount. The in-game Card sheet consumes the pre-game role card. The shell and stamp artwork come from Designer. Frontend reviews session data, commands, navigation, recovery and accessibility. Backend supplies permissions and timing. Integration owns source admission and compatibility. |
+| Films | Codex owns the brand intro, all nine private role films and crew boarding, including their sources and playback. The released films draw SVG frames. The boarding canvas pilot sets the direction for the next films. The brand follow-up is parked, and the Doctor mixed-media study awaits the owner's choices. Draw each private role film on its player's phone. Use shared or uniformly loaded assets so a download cannot identify the dealt role. [Film handoff](https://github.com/Amirkianfar66/GameN/issues/311#issuecomment-6978411308) · [Canvas pilot](https://github.com/Amirkianfar66/GameN/pull/285) · [Brand follow-up](https://github.com/Amirkianfar66/GameN/pull/305) |
+
+| Claude Designer responsibility | Owned work |
+| --- | --- |
+| Lead Designer | Briefs, look decisions, the owner's record and visual reviews. Any proposed change to a released character, room or style goes to the Lead first. The owner approves the look. |
+| Bars & Icons | Top and bottom bars, the shared kit and shell, their game connection, toasts, banners and every icon. |
+| Rooms | Room artwork, the canonical room scene and its assigned game connection. |
+| In-game animation | Crew acting during the match, lighting and shadows, and the eating visit. |
+| Gameplay UI | In-game components including panels, Promises, Windows, office decisions and the Captain console. |
+
+Codex builds from the approved phone pack and uses the characters, rooms and style exactly as Designer releases them. Keep shared kit, shell, icons, tokens, `component-check.mjs`, frozen prototypes, `design/releases/**` and `design/tools/lib/reviewed-drawing-ports.json` with their existing owners. Limit shared host-file edits to the blocks named in the handover. Follow the entry stack's merge-commit order in #311 and preserve its branch history.
+
+Each pre-game screen PR needs the Lead Designer's visual acceptance in the PR before merge. The existing phone gate covers the integrated screen at 390 × 844 and 430 × 932 under production headers. The component's preview and playable consumer share its runtime-safe source. [Phone merge gate](../AGENTS.md#phone-interface-specification-and-merge-gate) · [Single-source workflow](architecture/visual-component-ownership.md)
 
 The launch plan below is retained as historical evidence. Its bootstrap status, initial runner allocation and proposed handoff no longer describe current delivery. Read the current PR and pinned task baseline rather than restarting these assignments.
 
