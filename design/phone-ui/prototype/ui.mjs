@@ -125,8 +125,9 @@ export function sheet({ title, sub = null, body = [], foot = null, detent = 'aut
     h('div.sheet-title', h('h2', title), sub ? h('p', sub) : null),
     actions,
     close ? h('button.icon-btn', { type: 'button', 'aria-label': 'Close', 'data-go': typeof close === 'string' ? close : null }, ic('close')) : null);
+  // .sheet-main holds the title and the content: at larger text on the smallest phones they scroll together (kit.css).
   const s = h('section.sheet', { 'data-detent': detent, 'data-over': overTabs ? 'tabs' : null, role: 'dialog', 'aria-label': label ?? title, style },
-    h('div.sheet-grab', { 'aria-hidden': 'true' }), head, h('div.sheet-body', body), foot ? h('div.sheet-foot', foot) : null);
+    h('div.sheet-grab', { 'aria-hidden': 'true' }), h('div.sheet-main', head, h('div.sheet-body', body)), foot ? h('div.sheet-foot', foot) : null);
   return scrim ? [h('div.scrim', { 'aria-hidden': 'true' }), s] : [s];
 }
 

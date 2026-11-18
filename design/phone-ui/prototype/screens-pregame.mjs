@@ -59,8 +59,9 @@ export const PREGAME_SCREENS = {
     const area = h('div.card-area');
     if (state === 'concealed') area.append(h('div.cardback', ic('hide'), h('p', 'Role hidden'), button('Show role', { kind: 'secondary', small: true, icon: 'show', go: `s=role&role=${encodeURIComponent(role)}&t=${t}` })));
     else area.append(roleCard(role, { character: me.character, art: state === 'missing' ? 'missing' : 'ok' }));
-    root.append(area);
     const foot = h('div.stage-foot');
+    // The card and its foot: one column at larger text, so the foot never covers the card (screens.css .stage-body).
+    root.append(h('div.stage-body', area, foot));
     if (t < STAGE_MS) {
       foot.append(h('p.note', state === 'missing' ? 'Film unavailable · your card stays up until Ready' : state === 'skipped' ? 'Film skipped on this phone · the stage keeps time' : t < CARD_MS ? `Your film starts in 0:${String(Math.ceil((CARD_MS - t) / 1000)).padStart(2, '0')}` : 'Ready opens at 0:30'));
       foot.append(button('Ready', { block: true, disabled: true, icon: 'check' }));
@@ -70,7 +71,6 @@ export const PREGAME_SCREENS = {
       foot.append(h('p.note', 'Hide your phone, then tap Ready'), button('Ready', { block: true, icon: 'check', go: `s=role&role=${encodeURIComponent(role)}&t=${t}&state=waiting` }));
     }
     root.append(h('div', { style: { position: 'absolute', top: 'calc(var(--safe-t) + 4px)', right: '6px', zIndex: 41 } }));
-    root.append(foot);
     if (state === 'late') root.append(toast('Rejoined · the stage carried on', 'info'));
     if (state === 'waiting') root.append(h('div', { style: { position: 'absolute', left: 0, right: 0, top: 'calc(var(--top) + 18px)', textAlign: 'center', zIndex: 32 } }, pill('Ready', { icon: 'check', tone: 'accent' })));
   }, { auto: p => { const t = Number(p.t ?? 4000); return t < CARD_MS ? { after: CARD_MS - t, go: `s=role&role=${encodeURIComponent(p.role ?? 'Doctor')}&t=${CARD_MS}`, tx: 'fade' } : t < STAGE_MS && p.state !== 'skipped' ? { after: STAGE_MS - t, go: `s=role&role=${encodeURIComponent(p.role ?? 'Doctor')}&t=${STAGE_MS}`, tx: 'fade' } : null; } }),

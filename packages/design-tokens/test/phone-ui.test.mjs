@@ -13,6 +13,9 @@
 //   - a hack declaration offers the same three sides to every role and lets only the Undercover and
 //     the Alien claim any; each Promise result is a valid match moment (one given, one received);
 //   - the glass keeps the owner's 56% with a halo under light words, and a result says each count once;
+//   - with larger text on a narrow phone words reflow instead of being cut (the owner, 11 November 2026):
+//     every such layout is a container query on the phone under 20 em, so none applies at 100% text, and
+//     sheet 56 shows the reflowed screens at 320 × 568 with 200% text;
 //   - the room view is framed wider than the first draft (the owner found it too zoomed in, 9
 //     November 2026): it fills the space between the bars and keeps everyone present in view;
 //   - each tab (Board, Actions, Pass, Card, Panels) and the top bar's Promises and settings menu (⋮)
@@ -379,6 +382,24 @@ test('the glass keeps the owner’s level, light words on it carry a halo, and a
   const vote = read('design/phone-ui/prototype/screens-vote.mjs');
   assert.doesNotMatch(vote, /note: `\$\{n\} \$\{n === 1/, 'no “N votes” line under a counted name (the owner, 10 November)');
   assert.match(vote, /label: `Player \$\{seat\.seat\}, \$\{seat\.name\}, \$\{n\} \$\{n === 1 \? 'vote' : 'votes'\}`/, 'the accessible name still says the count');
+});
+
+test('larger text reflows on a narrow phone and never applies at 100% text (the owner, 11 November 2026)', () => {
+  const css = ['kit.css', 'screens.css'].map(f => read(`design/phone-ui/prototype/${f}`)).join('\n');
+  assert.match(css, /#app > \.ph \{ container: phone \/ size; \}/, 'the phone is the size container');
+  assert.match(css, /\.tb \{[^}]*container: topbar \/ inline-size;/, 'the top bar keeps its own named container');
+  assert.doesNotMatch(css, /@container \(max-width: [\d.]+rem\)/, 'the top bar’s rules name their container, so they stay in the bar');
+  const widths = [...css.matchAll(/@container phone \(max-width: ([\d.]+)em\)/g)].map(m => Number(m[1]));
+  assert.ok(widths.length >= 10, 'the larger-text layouts are container queries on the phone');
+  // At 100% text a 320 px phone is 20 em across, so no larger-text layout applies at any phone size.
+  for (const w of widths) assert.ok(w < 20, `under ${w} em stays below a 320 px phone at 100% text`);
+  // The action tiles' own grid is the phone less the sheet's two 16 px sides: 18 em at 320 px and 100% text.
+  const tiles = /@container \(max-width: ([\d.]+)em\) \{\s*\.tiles > \.tile \{/.exec(css);
+  assert.ok(tiles && Number(tiles[1]) < 18, 'the tiles become rows only below their grid’s width at 100% text');
+  const sheet = SHEETS.find(s => s.id === '56');
+  for (const q of ['s=actions&', 's=card&', 's=settings&', 's=promises&state=results', 's=end&']) {
+    assert.ok(sheet.frames.some(f => f.q.startsWith(q) && f.size === '320x568' && f.text === '2'), `sheet 56 shows ${q} at 320 × 568 with 200% text`);
+  }
 });
 
 test('the kit’s colours, type and motion are tokens 0.5.0', () => {

@@ -103,8 +103,8 @@
       "slug": "controls",
       "title": "Controls, lists, feedback and cards",
       "file": "design/phone-ui/review/sheets/06-controls.jpg",
-      "sha256": "cba1cb3f51b283cdfee13a2c714fb8b7f0291aa433f055ba160967d5f3b7c3cf",
-      "bytes": 255265,
+      "sha256": "0a3b76c5619eb25c67619ce0dfcc197553891ffa62fac86edd9da4d06a1f107a",
+      "bytes": 255320,
       "size": {
         "width": 2158,
         "height": 1427
@@ -537,8 +537,8 @@
       "slug": "join",
       "title": "Join",
       "file": "design/phone-ui/review/sheets/12-join.jpg",
-      "sha256": "2968ee9cca570a602bd02f0adbb3a36afe5106dbf74e10566c2b00a1e7532281",
-      "bytes": 160635,
+      "sha256": "2291d5b8b35860daaf712f5823f6c21a19f04c73c9a587f5bebea5aaacaa40be",
+      "bytes": 160643,
       "size": {
         "width": 1846,
         "height": 1227
@@ -676,8 +676,8 @@
       "slug": "join-lobby",
       "title": "Waiting for admission and the player lobby",
       "file": "design/phone-ui/review/sheets/13-join-lobby.jpg",
-      "sha256": "653889e14ea76ad76213e983ad4f2caa30b8da94a9b14fdf52d7642de41957be",
-      "bytes": 152470,
+      "sha256": "632d4602305502be0824195d7e5af24c9cac8c2e2e3f6eab3c079ad6264a013c",
+      "bytes": 152458,
       "size": {
         "width": 1846,
         "height": 1227
@@ -1093,8 +1093,8 @@
       "slug": "characters",
       "title": "Character selection",
       "file": "design/phone-ui/review/sheets/16-characters.jpg",
-      "sha256": "93d1b026d38de63d99c1fd9a7abb8fa395c36723786b4c0b4a927697df58cc4b",
-      "bytes": 351405,
+      "sha256": "a78a4a834a46c272e755e5ff2ee5e3dbb7d9583fbac484e73178277471a12cf4",
+      "bytes": 351387,
       "size": {
         "width": 2288,
         "height": 1254
@@ -1603,8 +1603,8 @@
       "slug": "boarding",
       "title": "Shared boarding into Round 1",
       "file": "design/phone-ui/review/sheets/19-boarding.jpg",
-      "sha256": "725b01857ecf74b6c96248b1e88e9ca2f3a431f791745b96243c9558bf301fbd",
-      "bytes": 255219,
+      "sha256": "95b7ea6391ae09d89895cc9e4a48da492e8726c2e933471032cdb5c3a55305c7",
+      "bytes": 255194,
       "size": {
         "width": 2288,
         "height": 1227
@@ -4123,8 +4123,8 @@
       "slug": "targeting",
       "title": "Targeting and registering",
       "file": "design/phone-ui/review/sheets/29-targeting.jpg",
-      "sha256": "1e3c74f2f768db5071aa3037e86989955488721d7dfbe9f00557186bf2c506d8",
-      "bytes": 569280,
+      "sha256": "5534f8a8b175b6714a693793abbb7c071edf1220138a88171d4e4186e7455010",
+      "bytes": 569296,
       "size": {
         "width": 3037,
         "height": 1304
@@ -6798,7 +6798,7 @@
       "slug": "end",
       "title": "Blackhole, elimination and the end of a match",
       "file": "design/phone-ui/review/sheets/44-end.jpg",
-      "sha256": "29bdbf03ee03e961722ebbfee38ecf4b35349f603cf9ed465e873fa7a41e71d6",
+      "sha256": "78cbcddb3fd8384b22fc75db26a47fac87d9c804b90c5aee70d5a56470418876",
       "bytes": 292874,
       "size": {
         "width": 2288,
@@ -7447,8 +7447,8 @@
       "slug": "browser-chrome",
       "title": "In Safari, with its toolbars",
       "file": "design/phone-ui/review/sheets/52-browser-chrome.jpg",
-      "sha256": "b5c54185097d448dbe3cc4331be231b2381c0b4640685b01dc26a01eba5f192c",
-      "bytes": 306507,
+      "sha256": "8805755e84d4c16297cdb63c24229236c20fccd46cc2c159fee2a8a288487772",
+      "bytes": 306511,
       "size": {
         "width": 1846,
         "height": 1137
@@ -7586,8 +7586,8 @@
       "slug": "larger-text",
       "title": "Larger text",
       "file": "design/phone-ui/review/sheets/53-larger-text.jpg",
-      "sha256": "41f1c2ad21fdd3c8794695326635f2606afb0f57066eff3842e4bde5de10ceca",
-      "bytes": 391554,
+      "sha256": "997887959d40294eedbb8092515d31dcd8977697c2d4ff53cc6cba03c237dcd5",
+      "bytes": 393018,
       "size": {
         "width": 2288,
         "height": 1227
@@ -7637,13 +7637,13 @@
           "contrast": {
             "letters": 135,
             "noInk": 0,
-            "moving": 7,
-            "min": 5.48,
+            "moving": 5,
+            "min": 5.79,
             "low": [],
             "closest": {
               "text": "Doctor · Room A",
-              "letter": "A",
-              "ratio": 5.48,
+              "letter": "m",
+              "ratio": 5.79,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -8127,11 +8127,11 @@
       "slug": "small-phone-largest-text",
       "title": "320 × 568 at the Largest text",
       "file": "design/phone-ui/review/sheets/56-small-phone-largest-text.jpg",
-      "sha256": "7f8b29796fdb754e64749ee8f36f1c22d61e48961e127f7d9a56c9ab9e3d1014",
-      "bytes": 337514,
+      "sha256": "97d21f1d7e9de3e51ee97eea85d7b0bcd24a85169f88b2e920cb379b96f7820a",
+      "bytes": 616261,
       "size": {
-        "width": 2372,
-        "height": 978
+        "width": 4653,
+        "height": 1054
       },
       "frames": [
         {
@@ -8319,6 +8319,192 @@
             },
             "moments": 16
           }
+        },
+        {
+          "label": "Actions · tiles as rows",
+          "src": "s=actions&role=Doctor&active=4&safe=20%2C0&text=2",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 114,
+            "noInk": 0,
+            "moving": 7,
+            "min": 6.09,
+            "low": [],
+            "closest": {
+              "text": "Round 3",
+              "letter": "R",
+              "ratio": 6.09,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 25,
+              "inactive": 0
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Check and register",
+          "src": "s=actions&state=confirm&safe=20%2C0&text=2",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 91,
+            "noInk": 0,
+            "moving": 2,
+            "min": 4.63,
+            "low": [],
+            "closest": {
+              "text": "Player 5 · Hospital",
+              "letter": "l",
+              "ratio": 4.63,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 105,
+              "inactive": 0
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Card · Resources",
+          "src": "s=card&role=Doctor&state=holds&safe=20%2C0&text=2",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 82,
+            "noInk": 0,
+            "moving": 4,
+            "min": 5.05,
+            "low": [],
+            "closest": {
+              "text": "Resources",
+              "letter": "c",
+              "ratio": 5.05,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 84,
+              "inactive": 4
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Display, from the menu",
+          "src": "s=settings&from=menu&safe=20%2C0&text=2",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 99,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.61,
+            "low": [],
+            "closest": {
+              "text": "These stay on this phone. They never cha",
+              "letter": "T",
+              "ratio": 5.61,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 30,
+              "inactive": 0
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Promise result",
+          "src": "s=promises&state=results&case=condition&safe=20%2C0&text=2",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 96,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.76,
+            "low": [],
+            "closest": {
+              "text": "Received",
+              "letter": "e",
+              "ratio": 6.76,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 151,
+              "inactive": 4
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "End of the match",
+          "src": "s=end&winner=Blue&safe=20%2C0&text=2",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 53,
+            "noInk": 0,
+            "moving": 0,
+            "min": 10.45,
+            "low": [],
+            "closest": {
+              "text": "Round 6",
+              "letter": "R",
+              "ratio": 10.45,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 152,
+              "inactive": 0
+            },
+            "moments": 16
+          }
         }
       ],
       "problems": []
@@ -8342,8 +8528,8 @@
       "slug": "today-vs-proposal",
       "title": "Today’s playable build and this proposal",
       "file": "design/phone-ui/review/sheets/61-today-vs-proposal.jpg",
-      "sha256": "1fb923c8b67f692043dd3fdcdf37784604d375c8a34c4dcace93232b70242c73",
-      "bytes": 352425,
+      "sha256": "f9f517e6af9ae2c3f3edd3d726145f5bdd219ea45bd27abca4bc53b5ed3b3035",
+      "bytes": 352424,
       "size": {
         "width": 1800,
         "height": 1209
