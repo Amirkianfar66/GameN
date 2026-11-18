@@ -646,8 +646,16 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       title.append(h2, el('p'));
       head.append(title);
       node.setAttribute('aria-labelledby', h2.id);
-      node.append(el('div', 'ms-ps-sheet-grab', { 'aria-hidden': 'true' }), head, el('div', 'ms-ps-sheet-body'));
+      // The body and the footer share a wrapper that is no box of its own, so the sheet lays them out as before,
+      // until the body would be squeezed (fitSheet): then the wrapper scrolls, and the footer follows the body.
+      const scroll = el('div', 'ms-ps-sheet-scroll');
+      scroll.append(el('div', 'ms-ps-sheet-body'));
+      node.append(el('div', 'ms-ps-sheet-grab', { 'aria-hidden': 'true' }), head, scroll);
       parts.sheet = node;
+      // What the body holds is its content's own; only its size is watched, to fit the footer again when it changes.
+      observer?.observe(node);
+      sheetWatch?.disconnect();
+      sheetWatch?.observe(scroll, { childList: true, subtree: true, characterData: true });
       const before = parts.tabs && parts.tabs.parentNode === root ? parts.tabs : null;
       root.insertBefore(node, before);
     }
@@ -677,8 +685,8 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       anchor = b;
     }
     // The footer's buttons, kept by id.
-    let foot = node.querySelector(':scope > .ms-ps-sheet-foot');
-    if (s.actions.length && !foot) { foot = el('div', 'ms-ps-sheet-foot'); node.append(foot); }
+    let foot = node.querySelector('.ms-ps-sheet-scroll > .ms-ps-sheet-foot');
+    if (s.actions.length && !foot) { foot = el('div', 'ms-ps-sheet-foot'); node.querySelector('.ms-ps-sheet-scroll').append(foot); }
     if (!s.actions.length && foot) { remove(foot); foot = null; }
     if (!foot) return;
     const ids = s.actions.map(a => a.id);
@@ -697,17 +705,60 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
   // ── A toast: a local confirmation, shown once per id ────────────────
   function paintToast() {
     const t = state.status === 'concealed' ? null : state.toast;
-    if (!t) { if (toastTimer) win.clearTimeout(toastTimer); toastTimer = null; if (parts.toast) { parts.toast.remove(); parts.toast = null; } return; }
+    if (!t) { if (toastTimer) win.clearTimeout(toastTimer); toastTimer = null; if (parts.toast) { observer?.unobserve(parts.toast); parts.toast.remove(); parts.toast = null; } return; }
     if (toastShown === t.id) return;
     toastShown = t.id;
-    if (parts.toast) parts.toast.remove();
+    if (parts.toast) { observer?.unobserve(parts.toast); parts.toast.remove(); }
     // The kit's toast (0.8.0) draws it, drops it in and fades it out; its time and its place are the shell's.
     const props = { text: t.text, icon: t.icon, extra: ['ms-ps-toast'] };
     const node = kit.toast(props);
     root.append(node);
     parts.toast = node;
+    // Its height changes with the text size, and with it whether it would touch an open sheet's head (placeToast).
+    observer?.observe(node);
     if (toastTimer) win.clearTimeout(toastTimer);
-    toastTimer = win.setTimeout(() => { toastTimer = null; if (parts.toast === node) { kit.setToast(node, { ...props, leaving: true }); win.setTimeout(() => { if (parts.toast === node) { node.remove(); parts.toast = null; } }, 200); } }, TOAST_MS);
+    toastTimer = win.setTimeout(() => { toastTimer = null; if (parts.toast === node) { kit.setToast(node, { ...props, leaving: true }); win.setTimeout(() => { if (parts.toast === node) { observer?.unobserve(node); node.remove(); parts.toast = null; placeToast(); } }, 200); } }, TOAST_MS);
+  }
+  /**
+   * The toast's place (0.3.2, a draft): it never covers the bar, a banner or an open sheet's head. Its own place is
+   * 10 px under the bar. From there it takes the first free place going down: 8 px under the banner when it would
+   * touch the banner, so the banner's words and Retry stay whole; then 8 px under an open sheet's head when it would
+   * touch that, over the sheet's body, so Back, the title and Close stay whole and in reach. A sheet that starts
+   * lower down is not touched, and the toast keeps the place it has. Measured in layout, so a sheet still sliding in
+   * counts where it comes to rest.
+   */
+  function placeToast() {
+    const toast = parts.toast?.isConnected ? parts.toast : null;
+    delete root.dataset.toastUnder;
+    root.style.removeProperty('--ms-ps-toast-top');
+    if (!toast) return;
+    // Its own place and height, read with the override off. Every place is from the shell's top.
+    const own = toast.offsetTop, tall = toast.offsetHeight;
+    let top = own;
+    const clear = (from, to) => { if (top + tall + 8 > from && top < to + 8) top = to + 8; };
+    const banner = parts.banner?.isConnected ? parts.banner : null;
+    if (banner) clear(banner.offsetTop, banner.offsetTop + banner.offsetHeight);
+    const sheet = parts.sheet?.isConnected ? parts.sheet : null, head = sheet?.querySelector('.ms-ps-sheet-head') ?? null;
+    if (head) clear(sheet.offsetTop, sheet.offsetTop + head.offsetTop + head.offsetHeight);
+    if (top === own) return;
+    root.dataset.toastUnder = '';
+    // The kit draws a toast 10 px under --ms-k-toast-top.
+    root.style.setProperty('--ms-ps-toast-top', `${top - 10}px`);
+  }
+  /**
+   * The footer of a squeezed sheet (0.3.2, a draft). A sheet's footer stays at its foot, and the body scrolls above
+   * it. On a small phone at a large text size, a long title and a footer of stacked buttons can leave the body a
+   * line or two. When the body would get less than a third of the sheet's height and its content needs more, the
+   * footer scrolls with the body instead: the body takes all the room under the head, and the actions follow the
+   * content. Everywhere else nothing changes. Measured in layout, from sizes that are the same in both forms.
+   */
+  function fitSheet() {
+    const sheet = parts.sheet?.isConnected ? parts.sheet : null;
+    if (!sheet) return;
+    const head = sheet.querySelector('.ms-ps-sheet-head'), body = sheet.querySelector('.ms-ps-sheet-body'), foot = sheet.querySelector('.ms-ps-sheet-scroll > .ms-ps-sheet-foot');
+    const whole = sheet.clientHeight, room = foot ? whole - (head.offsetTop + head.offsetHeight) - foot.offsetHeight : whole;
+    const squeezed = !!foot && whole > 0 && room < whole / 3 && body.scrollHeight > room + 1;
+    if (sheet.hasAttribute('data-foot-scrolls') !== squeezed) sheet.toggleAttribute('data-foot-scrolls', squeezed);
   }
 
   // ── The large-content view: a tab's word, large, on a long press ────
@@ -786,7 +837,13 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     else root.style.removeProperty('--ms-ps-talk-h');
   }
   let observedBanner = null;
-  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => { placeBanner(); placeTalk(); reportLayout(); }) : null;
+  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => { placeBanner(); placeTalk(); fitSheet(); placeToast(); reportLayout(); }) : null;
+  // A sheet's content is mounted and changed by its owner, after the shell's own update: the footer is fitted again then.
+  let sheetFit = 0;
+  const sheetWatch = typeof win.MutationObserver === 'function' ? new win.MutationObserver(() => {
+    if (sheetFit) return;
+    sheetFit = win.requestAnimationFrame(() => { sheetFit = 0; if (!disposed) { fitSheet(); placeToast(); } });
+  }) : null;
   observer?.observe(root);
   observer?.observe(bar);
   observer?.observe(stage);
@@ -807,6 +864,8 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     paintOver();
     paintSheet();
     paintToast();
+    fitSheet();
+    placeToast();
     if (suspended) root.dataset.suspended = ''; else delete root.dataset.suspended;
     // The ResizeObserver reports every change of the bars or the stage, without measuring on each update
     // (the model updates about four times a second); without one, each update measures.
@@ -836,6 +895,8 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     hideHud();
     if (toastTimer) win.clearTimeout(toastTimer);
     observer?.disconnect();
+    sheetWatch?.disconnect();
+    if (sheetFit) win.cancelAnimationFrame(sheetFit);
     textSize.dispose();
     policy.dispose();
     root.removeEventListener('click', onClick);
