@@ -11,6 +11,7 @@
 // part's box, its type and colours, its ::before and ::after, and an icon's drawing.
 
 import { seatOf as seat } from '../../../prototype/fixtures.mjs';
+import { HACK_ART } from '../../../../../apps/game/hosted/scene-drawing/phone-kit-art.mjs';
 
 const BUTTON = (p, k) => [
   ['button', p, k, { pseudo: ['::before', '::after'] }],
@@ -45,6 +46,36 @@ const ROW_PILL = n => {
     [`row ${n} pill words`, `${p} > span`, `${k} > .ms-k-pill-label`, { words: true }],
   ];
 };
+
+/** A side card's parts (sheet 25's .declare-sides; 0.7.0): the tile, its art, its name, and its note with the lock. */
+const CARD = n => {
+  const p = `:scope > .declare-sides > :nth-child(${n})`, k = `:scope > .ms-k-tiles > :nth-child(${n})`;
+  return [
+    [`card ${n}`, p, k],
+    [`card ${n} art`, `${p} > .hack-card`, `${k} > .ms-k-tile-art`],
+    [`card ${n} art drawing`, `${p} > .hack-card > svg`, `${k} > .ms-k-tile-art > svg`],
+    [`card ${n} name`, `${p} > b`, `${k} > .ms-k-tile-name`, { words: true }],
+    [`card ${n} note`, `${p} > small`, `${k} > .ms-k-tile-note:not([hidden])`, { words: true }],
+    [`card ${n} lock`, `${p} > small > svg`, `${k} > .ms-k-tile-note > svg`, { svg: true }],
+  ];
+};
+
+/** A notice's parts (screens.css .registered; 0.7.0): the box, its stamp or its icon, and its lines. */
+const NOTICE = ({ stamp = false, icon = false, lines = 1 } = {}) => [
+  ['notice', ':scope > .registered', ':scope > .ms-k-notice'],
+  ...(stamp ? [['stamp', ':scope > .registered > .stamp', ':scope > .ms-k-notice > .ms-k-stamp', { words: true }]] : []),
+  ...(icon ? [['icon', ':scope > .registered > .big-icon', ':scope > .ms-k-notice > .ms-k-notice-icon'],
+    ['icon drawing', ':scope > .registered > .big-icon > svg', ':scope > .ms-k-notice > .ms-k-notice-icon > svg', { svg: true }]] : []),
+  ...Array.from({ length: lines }, (_, i) => [`line ${i + 1}`, `:scope > .registered > p:nth-of-type(${i + 1})`, `:scope > .ms-k-notice > p:nth-of-type(${i + 1})`, { words: true }]),
+];
+
+/** A toast's parts (kit.css .toast; 0.8.0): the pill, its icon and its words. Each half draws it in a holder whose top is where a bar
+    would end (the pack's --top, the kit's --ms-k-toast-top), so it sits 10 px under it. */
+const TOAST = [
+  ['toast', ':scope > div > .toast', ':scope > div > .ms-k-toast'],
+  ['toast icon', ':scope > div > .toast > svg', ':scope > div > .ms-k-toast > .ms-k-toast-icon > svg', { svg: true }],
+  ['toast words', ':scope > div > .toast > span', ':scope > div > .ms-k-toast > .ms-k-toast-text', { words: true }],
+];
 
 /** A waiting block's parts (screens.css .wait): the tile and its drawing, or a portrait; the title; the line and its spinner. */
 const WAIT = ({ lead = false, spinner = false } = {}) => [
@@ -160,6 +191,14 @@ export const CASES = Object.freeze([
       kit.row({ tag: 'div', lead: kit.portrait(seat(2), versions), title: 'Vote with me', sub: 'From Ben · Round 2', value: kit.pill({ text: 'Fulfilled', icon: 'check', tone: 'amber' }) }),
       kit.row({ tag: 'div', lead: kit.portrait(seat(3), versions), title: 'Captain Support', sub: 'To Cleo · Round 2', value: kit.pill({ text: 'Not fulfilled' }) })),
     parts: [['list', ':scope > .list', ':scope > .ms-k-list'], ...[1, 2, 3].flatMap(n => [...ROW(n), ...ROW_PILL(n)])] },
+  // Kit 0.7.0: the section head (screens.css .section-head), as sheet 34 heads a window and sheet 28 the turn.
+  { id: 'section head', where: 'both',
+    pack: ({ ui }) => [ui.h('div.section-head', ui.h('h3', 'Room A ↔ Hospital'), ui.h('span', 'Your station · A2')), ui.h('div.section-head', ui.h('h3', 'Your turn'), ui.h('span', 'Round 3'))],
+    kit: ({ kit }) => [kit.sectionHead({ title: 'Room A ↔ Hospital', aside: 'Your station · A2' }), kit.sectionHead({ title: 'Your turn', aside: 'Round 3' })],
+    parts: [1, 2].flatMap(n => [
+      [`head ${n}`, `:scope > .section-head:nth-child(${n})`, `:scope > .ms-k-section-head:nth-child(${n})`],
+      [`head ${n} title`, `:scope > .section-head:nth-child(${n}) > h3`, `:scope > .ms-k-section-head:nth-child(${n}) > .ms-k-section-title`, { words: true }],
+      [`head ${n} aside`, `:scope > .section-head:nth-child(${n}) > span`, `:scope > .ms-k-section-head:nth-child(${n}) > .ms-k-section-aside`, { words: true }]]) },
   { id: 'group', where: 'both',
     pack: ({ ui }) => [ui.groupLabel('In the match'), ui.list(ui.row({ title: 'Seats', value: '9' })), ui.groupNote('The host can change this before the match starts.')],
     kit: ({ kit }) => [kit.groupLabel('In the match'), kit.list(kit.row({ title: 'Seats', value: '9' })), kit.groupNote('The host can change this before the match starts.')],
@@ -231,6 +270,26 @@ export const CASES = Object.freeze([
     parts: [1, 2, 3, 4].flatMap(n => [[`pill ${n}`, `:scope > .pill:nth-child(${n})`, `:scope > .ms-k-pill:nth-child(${n})`],
       [`pill ${n} drawing`, `:scope > .pill:nth-child(${n}) > svg`, `:scope > .ms-k-pill:nth-child(${n}) > .ms-k-pill-icon > svg`, { svg: true }],
       [`pill ${n} words`, `:scope > .pill:nth-child(${n}) > span`, `:scope > .ms-k-pill:nth-child(${n}) > .ms-k-pill-label`, { words: true }]]) },
+  // Kit 0.7.0: the notice (screens.css .registered), moved in from play-parts: sheet 40's BLOCKED, sheet 43's
+  // spent attempt, and sheet 42's MATCHED with its row inside.
+  { id: 'notice stamp', where: 'both',
+    pack: ({ ui }) => ui.h('div.registered', ui.stamp('BLOCKED', 'amber'), ui.h('p', 'Gus can’t move this round'), ui.h('p', 'Everyone sees the block')),
+    kit: ({ kit }) => kit.notice({ stamp: { text: 'BLOCKED', tone: 'amber' }, lines: ['Gus can’t move this round', 'Everyone sees the block'] }),
+    parts: NOTICE({ stamp: true, lines: 2 }) },
+  { id: 'notice icon', where: 'both',
+    pack: ({ ui }) => ui.h('div.registered', ui.h('span.big-icon', ui.ic('lock', { filled: true })), ui.h('p', 'Your attempt is used')),
+    kit: ({ kit }) => kit.notice({ icon: 'lock', lines: ['Your attempt is used'] }),
+    parts: NOTICE({ icon: true, lines: 1 }) },
+  { id: 'notice extra', where: 'both',
+    pack: ({ ui }) => ui.h('div.registered', ui.stamp('MATCHED', 'amber'), ui.h('p', 'Gus · Blue guess'), ui.list(ui.row({ tag: 'div', icon: 'code', tint: 'paper', title: 'In the Code', value: 'Yes' }))),
+    kit: ({ kit }) => kit.notice({ stamp: { text: 'MATCHED', tone: 'amber' }, lines: ['Gus · Blue guess'], extra: kit.list(kit.row({ tag: 'div', icon: 'code', tint: 'paper', title: 'In the Code', value: 'Yes' })) }),
+    parts: [...NOTICE({ stamp: true, lines: 1 }),
+      ['list', ':scope > .registered > .list', ':scope > .ms-k-notice > .ms-k-list'],
+      ['row', ':scope > .registered > .list > li > .row', ':scope > .ms-k-notice > .ms-k-list > li > .ms-k-row', { pseudo: ['::before'] }],
+      ['row icon', ':scope > .registered > .list > li > .row > .row-icon', ':scope > .ms-k-notice > .ms-k-list > li > .ms-k-row > .ms-k-row-icon'],
+      ['row icon drawing', ':scope > .registered > .list > li > .row > .row-icon > svg', ':scope > .ms-k-notice > .ms-k-list > li > .ms-k-row > .ms-k-row-icon > svg', { svg: true }],
+      ['row title', ':scope > .registered .row-title', ':scope > .ms-k-notice .ms-k-row-title', { words: true }],
+      ['row value', ':scope > .registered .row-value', ':scope > .ms-k-notice .ms-k-row-value', { words: true }]] },
   { id: 'stamps', where: 'both',
     pack: ({ ui }) => [ui.stamp('Jailed'), ui.stamp('Saved', 'amber'), ui.stamp('Sent', 'pending'), ui.stamp('Winner', 'gold'), ui.stamp('Out', 'steel')],
     kit: ({ kit }) => [kit.stamp({ text: 'Jailed' }), kit.stamp({ text: 'Saved', tone: 'amber' }), kit.stamp({ text: 'Sent', tone: 'pending' }), kit.stamp({ text: 'Winner', tone: 'gold' }), kit.stamp({ text: 'Out', tone: 'steel' })],
@@ -286,10 +345,59 @@ export const CASES = Object.freeze([
     kit: ({ kit }) => kit.facts(['Uses your one given Promise only if Ava accepts', { icon: 'lock', text: 'Only you and Ava see it' }]),
     parts: FACTS(2) },
   // The paper card (kit.css .comic), padded by its screen as sheet 33's offer card is.
+  // Kit 0.7.0: sheet 25's side cards, the tile with the card's art, its lock before the note, and no label of its own.
+  // The grid and the cards' height and colour are the private talk's own rules, given here as its own styles.
+  { id: 'tiles art', where: 'both',
+    pack: ({ ui }) => {
+      const sides = ui.h('div.declare-sides', ['blue', 'red', 'alien'].map((s, i) => ui.h('button.tile', { type: 'button', 'data-state': i === 0 ? 'selected' : 'unavailable', 'aria-disabled': i === 0 ? null : 'true' },
+        ui.h('span.hack-card', { html: HACK_ART[`hack-side-${s}`]() }), ui.h('b', ['Blue', 'Red', 'Alien'][i]), i === 0 ? null : ui.h('small', ui.ic('lock', { filled: true }), 'Not for your role'))));
+      // As screens-more.mjs talk() does once it has drawn: each card's art at the tile's width.
+      sides.querySelectorAll('.hack-card svg').forEach(svg => { svg.style.width = '100%'; svg.style.height = 'auto'; svg.style.display = 'block'; });
+      return sides;
+    },
+    kit: ({ kit }) => {
+      const grid = kit.tiles(['blue', 'red', 'alien'].map((s, i) => kit.tile({ art: HACK_ART[`hack-side-${s}`](), name: ['Blue', 'Red', 'Alien'][i], label: false,
+        ...(i === 0 ? { state: 'selected' } : { state: 'unavailable', note: 'Not for your role', noteIcon: 'lock' }) })));
+      grid.style.marginTop = '6px';
+      for (const card of grid.children) { card.style.minHeight = '150px'; card.style.background = '#0A1530'; }
+      return grid;
+    },
+    parts: [1, 2, 3].flatMap(CARD) },
+  // Kit 0.7.1: the spent tile (the pack's .tile[data-state="spent"]: Actions' used Talk, the Captain console's used plate).
+  { id: 'tile spent', where: 'both',
+    pack: ({ ui }) => ui.h('div.tiles', packTile(ui, 'talk', 'Talk', { state: 'spent', note: 'Used' })),
+    kit: ({ kit }) => kit.tiles(kit.tile({ icon: 'talk', name: 'Talk', state: 'spent', note: 'Used' })),
+    parts: TILE(1) },
+  // Kit 0.7.1: a tile's art given as a node the component draws, here a side card's art, as sheet 25 draws it.
+  { id: 'tile art node', where: 'both',
+    pack: ({ ui }) => {
+      const sides = ui.h('div.declare-sides', ui.h('button.tile', { type: 'button', 'data-state': 'selected' }, ui.h('span.hack-card', { html: HACK_ART['hack-side-blue']() }), ui.h('b', 'Blue')));
+      sides.querySelectorAll('.hack-card svg').forEach(svg => { svg.style.width = '100%'; svg.style.height = 'auto'; svg.style.display = 'block'; });
+      return sides;
+    },
+    kit: ({ kit }) => {
+      const t = document.createElement('template');
+      t.innerHTML = HACK_ART['hack-side-blue']().trim();
+      const grid = kit.tiles(kit.tile({ art: t.content.firstElementChild, name: 'Blue', state: 'selected', label: false }));
+      grid.style.marginTop = '6px';
+      for (const card of grid.children) { card.style.minHeight = '150px'; card.style.background = '#0A1530'; }
+      return grid;
+    },
+    parts: CARD(1).filter(([name]) => !/note|lock/.test(name)) },
   { id: 'paper card', where: 'plain',
     pack: ({ ui }) => ui.h('article.comic', { style: { padding: '14px' } }, ui.h('div', { style: { height: '60px' } })),
     kit: ({ kit }) => { const card = kit.comic(kit.h('div', null, { style: 'height: 60px' })); card.style.padding = '14px'; return card; },
     parts: [['card', ':scope > .comic', ':scope > .ms-k-comic']] },
+
+  // ── The toast (0.8.0): the lobby's "Copied" and the shell's "Turn passed", each 10 px under where a bar ends ──
+  { id: 'toast', where: 'both',
+    pack: ({ ui }) => ui.h('div', { style: { position: 'relative', height: '5rem', '--top': '0px' } }, ui.toast('Copied')),
+    kit: ({ kit }) => { const holder = kit.h('div', null, { style: 'position: relative; height: 5rem; --ms-k-toast-top: 0px' }); holder.append(kit.toast({ text: 'Copied' })); return holder; },
+    parts: TOAST },
+  { id: 'toast info', where: 'both',
+    pack: ({ ui }) => ui.h('div', { style: { position: 'relative', height: '5rem', '--top': '0px' } }, ui.toast('Turn passed', 'info')),
+    kit: ({ kit }) => { const holder = kit.h('div', null, { style: 'position: relative; height: 5rem; --ms-k-toast-top: 0px' }); holder.append(kit.toast({ text: 'Turn passed', icon: 'info' })); return holder; },
+    parts: TOAST },
 
   // ── The 3 × 3: every state, a count, You and a mark (in a list in seat order when it is narrow) ──
   { id: 'cells', where: 'both',

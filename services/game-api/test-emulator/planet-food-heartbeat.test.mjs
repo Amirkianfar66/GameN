@@ -4,6 +4,7 @@ import {before,after,test} from 'node:test';
 import {initializeApp,deleteApp} from 'firebase-admin/app';
 import {getFirestore} from 'firebase-admin/firestore';
 import {createFirestorePlanetStore} from '../dist/planet-store.js';
+import {withPlanetRequestTiming} from '../dist/planet-game.js';
 import {planetServiceHarness,digest,ok,denied} from '../test/planet-service-helper.mjs';
 import {enterTimedPlanetBoarding} from '../test/planet-timed-reading-helper.mjs';
 import {assertLocalEmulators} from '../../../infra/firebase/test/helpers.mjs';
@@ -46,10 +47,11 @@ function lostHeartbeatAcknowledgement(base){
   };
 }
 
-async function setup(count){
+async function setup(count,{display=false}={}){
   const base=createFirestorePlanetStore(db),store=lostHeartbeatAcknowledgement(base);
   const h=await planetServiceHarness({count,humans:1,store,setupFlowVersion:3,
     engineProfile:'food-task-1.4',assetManifestVersion:'design-0.9.0',sample:.999999});
+  if(display)ok(await h.approve(await h.admission(h.display,'display','Observer')));
   const {session:boarding}=await enterTimedPlanetBoarding(h);
   h.setTime(boarding.setup.endsAt);await h.service.runDeadline(await h.currentJob());
   await h.service.runBots(h.matchId);
@@ -143,3 +145,39 @@ for(const count of [7,8,9])test(`${count}: Firestore detached heartbeat admissio
     sameHash(stamp(await observations(f,entryKey)),returnedStamp,'Old wake after phase change cannot restore Task or renew presence');
     assert.equal(store.stats.faults,1);
   });
+
+test('Firestore host and display reads do not invalidate a paused heartbeat capture',{timeout:90000},async()=>{
+  const {h,base,store,task}=await setup(9,{display:true});
+  const control='foodIngressControl/'+h.matchId,session='session/'+h.matchId;
+  const before=await base.readOnly(tx=>tx.get(control));
+  const captured=Promise.withResolvers(),resume=Promise.withResolvers();
+  let pause=true,timing,observed,afterObservers;
+  h.reload({store:{...store,readOnly:async operation=>{
+    const reads=new Set();
+    const result=await base.readOnly(tx=>operation({get:key=>{reads.add(key);return tx.get(key);}}));
+    if(pause&&reads.has(session)&&reads.has(control)){
+      pause=false;captured.resolve();await resume.promise;
+    }
+    return result;
+  }}});
+  h.setTime(task.startedAt+100);
+  const beat=withPlanetRequestTiming(()=>h.invoke(h.players[0],'foodHeartbeat',{matchId:h.matchId,taskId:task.taskId}),
+    summary=>{timing=summary;});
+  try{
+    await Promise.race([captured.promise,beat.then(()=>assert.fail('Heartbeat did not capture Control'))]);
+    h.setTime(task.startedAt+250);
+    observed=await Promise.all([h.host,h.display].map(uid=>h.invoke(uid,'read',{matchId:h.matchId})));
+    afterObservers=await base.readOnly(tx=>tx.get(control));
+  }finally{
+    h.setTime(task.startedAt+500);resume.resolve();
+  }
+  const result=await beat;
+  assert.deepEqual(afterObservers,before);
+  for(const read of observed){
+    assert.equal(read.serverTimeMs,task.startedAt+250);
+    assert.equal(ok(read).foodPlayerView,null);
+  }
+  assert.equal(timing.stages.admission?.count,1);
+  assert.equal(ok(result).renewed,true);
+  assert.equal(result.serverTimeMs,task.startedAt+500);
+});

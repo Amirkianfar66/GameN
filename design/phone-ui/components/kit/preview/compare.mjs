@@ -30,6 +30,19 @@ export const ACCEPTED = Object.freeze([
   // Kit 0.6.1: a row's value may be a node. The Promise rows (sheets 33 and 33.1) give a pill there.
   { texts: [200], sections: ['glass'], cases: /^row pill value$/, partMatch: /^(list|row [1-3]( .+)?)$/, keys: ['display', 'column-gap', 'row-gap', 'h', 'w', 'x', 'y', '::before bottom', 'margin-right'],
     why: 'At 200 % text in a phone root (the shell\'s, which the glass cases sit in), a row puts its value under its title, the kit 0.5.0 rule (#228), now also when the value is a pill, as the Promise rows give it: in the pinned pack the pill keeps its place and squeezes the title onto narrow lines, where a longer title is cut' },
+  // Kit 0.7.0: the notice (sheet 42's Scan result holds a row inside it).
+  { texts: [200], sections: ['glass'], cases: /^notice extra$/, partMatch: /^(notice|list|row( .+)?)$/, keys: ['display', 'column-gap', 'row-gap', 'h', 'w', 'x', 'y', 'margin-right'],
+    why: 'At 200 % text in a phone root (the shell\'s, which the glass cases sit in), the row a notice holds puts its value under its title, the kit 0.5.0 row rule (#228), so the notice centres a narrower list and grows by the line; the pinned pack keeps the value beside the title' },
+  // Kit 0.7.0: sheet 25's side cards, the tile with a card's art.
+  { cases: /^tiles art$/, partMatch: /^card [23]( .+)?$/, keys: ['cursor', 'text-shadow'],
+    why: 'Sheet 25 draws its unavailable sides as disabled buttons, with a button\'s hand cursor and, on glass, no halo; the kit draws every tile that takes no tap as sheet 28 does (kit 0.6.0): no hand cursor, and on glass the halo under its words, so an unavailable tile looks the same on both sheets' },
+  // Kit 0.8.0: the toast, the shell's and the entry screens' one part. Its glass cases draw it inside a sheet, as the
+  // pack's comparison does; in the game the toast lies over the sheet, never inside it, so the halo there is only the comparison's.
+  // Kit 0.8.2: words too long for one line wrap inside the phone instead of being cut (0.8.0 to 0.8.1 cut them with an ellipsis).
+  { cases: /^toast/, partMatch: /^toast( icon| words)?$/, keys: ['white-space'],
+    why: 'The kit\'s toast wraps words too long for one line inside the phone (its max-width, the phone less 16 px a side), so every word shows; the pack\'s words run on past the edge. Words that fit keep one line and are drawn the same, which the boxes show' },
+  { cases: /^toast/, part: 'toast', keys: ['border-top-left-radius', 'border-top-right-radius', 'border-bottom-right-radius', 'border-bottom-left-radius'],
+    why: 'The kit\'s corners are as round as a one-line toast\'s ends (half its line, the icon\'s 20 px or the words\' 1.2 em, and the 9 px padding: 19 px at 100 %, 27 px at 200 %) instead of the pack\'s 999 px, so a wrapped toast\'s paper still holds its words. On one line both draw the same pill, which the boxes show' },
   // Kit 0.5.1: the device choice (sheet 12), with its chosen option's icon filled.
   { texts: [200], sections: ['plain'], cases: /^segmented icons$/, partMatch: /^option \d icon$/, keys: ['w'],
     why: 'At 200 % text the pack\'s two long options squeeze their icons below the 18 px they are drawn at (to 12.8 and 11.4 px); the kit\'s icons keep their 18 px, as at 100 %' },

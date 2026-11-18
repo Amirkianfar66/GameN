@@ -1,27 +1,32 @@
 // The phone shell: the match's frame on a phone, as the phone pack draws it (sheets 07 and 08 the bars,
-// 25 the private talk's two buttons, 27–29 the tabs, the docked sheets and the target bar, 45
-// reconnecting, 56 at large text). Runtime source, Designer's (the owner, 14 and 15 November 2026:
-// Designer builds each visual component once, in design/; the game and the preview use it as it is).
+// 25 the private talk's two buttons, 27–29 the tabs, the docked sheets and the target bar, 44 an
+// eliminated player's phone, 45 reconnecting, 56 at large text). Runtime source, Designer's (the owner,
+// 14 and 15 November 2026: Designer builds each visual component once, in design/; the game and the
+// preview use it as it is).
 // Frontend mounts it once for the match screen, gives it this phone's view, mounts the room scene (or the
 // board) in its stage, mounts each sheet's content in the sheet's body, and connects its intents.
 //
 // What it draws: the top bar (a turn, your turn, a phase, a private talk, the Blackout's dark) with
 // Promises, ⋮, the round and the clock; the tabs with the raised Pass, Vote or Voted button, or the
 // private talk's Promises and My card; over the stage, the target bar with its Cancel, the floating chip,
-// the reconnecting banner and a toast; the docked glass sheet's frame. It takes its looks from the pack
-// (design/phone-ui/prototype/ui.mjs and kit.css, which the frozen Food release pins, so they stay as
-// they are; the shell's test checks that the two agree).
+// a banner (reconnecting, or an eliminated player's) and a toast; the docked glass sheet's frame. It
+// takes its looks from the pack (design/phone-ui/prototype/ui.mjs and kit.css, which the frozen Food
+// release pins, so they stay as they are; the shell's test checks that the two agree).
 //
 // What it never does: decide what is offered, send a command, open a sheet, count a clock down or
 // invent an outcome. Each callback reports a tap; Frontend checks the current offer and acts. The bar is
-// the public match status; the Promises count, the tabs, the target bar, the chip, the sheet and the
-// toast are this viewer's own, and the shell drops them when it is concealed or its viewer changes.
+// the public match status; the Promises count, the tabs, the target bar, the chip, the sheet, the
+// toast and an eliminated player's banner are this viewer's own, and the shell drops them when it is
+// concealed or its viewer changes.
+//
+// The words of a phase bar are not the shell's to choose: phase-bars.mjs (0.2.10) holds the pack's for
+// each game step, and returns this file's `bar` input from the facts Frontend gives.
 
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
-import { createControlPolicy, createKit } from '../kit/kit.mjs';
+import { createControlPolicy, createKit, followTextSize } from '../kit/kit.mjs';
 
-export const PHONE_SHELL_VERSION = 'phone-shell-0.2.7';
+export const PHONE_SHELL_VERSION = 'phone-shell-0.2.12';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const KINDS = Object.freeze(['turn', 'phase', 'pair']);
 const HERO_MODES = Object.freeze(['pass', 'vote', 'voted']);
@@ -30,13 +35,18 @@ const HERO_MODES = Object.freeze(['pass', 'vote', 'voted']);
 export const GAME_TABS = Object.freeze(['switch', 'actions', 'hero', 'card', 'panels']);
 export const TALK_BUTTONS = Object.freeze(['promises', 'my-card']);
 
-/** The pack's words: the hero's accessible names (ui.mjs tabs()) and the reconnecting banner (sheet 45). */
+/** The pack's words: the hero's accessible names (ui.mjs tabs()), the reconnecting banner (sheet 45) and an
+    eliminated player's (sheet 44's Eliminated frame, 0.2.8). */
 export const HERO_WORDS = Object.freeze({
   pass: Object.freeze({ label: 'Pass', aria: 'Pass your turn', icon: 'pass' }),
   vote: Object.freeze({ label: 'Vote', aria: 'Open the ballot', icon: 'vote' }),
   voted: Object.freeze({ label: 'Voted', aria: 'Ballot registered', icon: 'vote' }),
 });
 export const RECONNECTING = Object.freeze({ title: 'Connection lost', sub: 'Controls return when the match is current', action: 'Retry' });
+export const OUT = Object.freeze({ title: 'You’re out', sub: 'You can watch. Your role stays private.' });
+/** The banner's kinds and how each is drawn: its icon, filled as the pack's, and its words. Only reconnecting has an action. */
+export const BANNER_KINDS = Object.freeze(['reconnecting', 'out']);
+const BANNERS = Object.freeze({ reconnecting: { icon: 'offline', ...RECONNECTING }, out: { icon: 'eliminated', ...OUT, action: null } });
 /** How long a toast shows before it fades, in milliseconds: a local confirmation, never game time. */
 export const TOAST_MS = 2400;
 
@@ -174,15 +184,19 @@ export function nextPhoneShellInput(previous, input) {
   // The tab bar's shape (game, talk or none) is not this viewer's: it stays while concealed, so the
   // stage between the bars keeps its size and nothing on the phone moves.
   next.shape = 'tabs' in input ? (next.tabs ? next.tabs.variant : 'none') : (previous.shape ?? 'none');
-  if (next.target) next.target = { icon: next.target.icon ?? 'actions', title: String(next.target.title ?? ''), sub: optionalText(next.target.sub, 'target.sub') };
-  else next.target = null;
+  if (next.target) {
+    if (next.target.cancel !== undefined && typeof next.target.cancel !== 'boolean') throw new TypeError('target.cancel is true or false');
+    // `cancel: false` (0.2.12): a choice made and final (the Disabler's fixed position): the bar keeps its words, with no Cancel.
+    next.target = { icon: next.target.icon ?? 'actions', title: String(next.target.title ?? ''), sub: optionalText(next.target.sub, 'target.sub'), cancel: next.target.cancel !== false };
+  } else next.target = null;
   if (next.chip) {
     if (!isText(next.chip.label)) throw new TypeError('A chip needs a label');
     next.chip = { id: String(next.chip.id ?? ''), label: next.chip.label, icon: next.chip.icon ?? 'chevronRight', tone: next.chip.tone === 'steel' ? 'steel' : 'paper', enabled: next.chip.enabled !== false };
   } else next.chip = null;
   if (next.banner) {
-    if (next.banner.kind !== 'reconnecting') throw new TypeError('The banner is { kind: \'reconnecting\' }, or null');
-    next.banner = { kind: 'reconnecting', busy: !!next.banner.busy };
+    const kind = next.banner.kind;
+    if (!BANNER_KINDS.includes(kind)) throw new TypeError('The banner is { kind: \'reconnecting\', busy } or { kind: \'out\' }, or null');
+    next.banner = kind === 'reconnecting' ? { kind, busy: !!next.banner.busy } : { kind };
   } else next.banner = null;
   if (next.toast) {
     if (!isText(next.toast.text)) throw new TypeError('A toast needs its text');
@@ -198,11 +212,16 @@ export function nextPhoneShellInput(previous, input) {
     if (new Set(ids).size !== ids.length) throw new TypeError('A sheet\'s head and footer actions each need their own id');
   } else next.sheet = null;
   const viewerChanged = 'viewer' in input && previous.viewer !== input.viewer;
+  // The reconnecting banner is the phone's; an eliminated player's banner (out) is this viewer's own, so it
+  // goes with the viewer's other inputs.
+  const viewerBanner = next.banner?.kind === 'out';
   if (next.status === 'concealed') {
     for (const key of VIEWER_KEYS) next[key] = null;
+    if (viewerBanner) next.banner = null;
     if (next.bar) next.bar = { ...next.bar, promises: null };
   } else if (viewerChanged) {
     for (const key of VIEWER_KEYS) if (!(key in input)) next[key] = null;
+    if (viewerBanner && !('banner' in input)) next.banner = null;
     if (!('bar' in input) && next.bar) next.bar = { ...next.bar, promises: null };
   }
   return next;
@@ -255,6 +274,9 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
   root.append(stage, cover, bar, over, guide);
   host.append(root);
   const kit = createKit(doc);
+  // The text size (0.2.11): a part opened after it changes takes the new size's rules, as one open through the change
+  // does (the kit's followTextSize; before, at 200 % a target bar opened afterwards stood side by side).
+  const textSize = followTextSize(root);
 
   let state = nextPhoneShellInput(PHONE_SHELL_DEFAULTS, input);
   let disposed = false, suspended = false, seq = 0, lastLayout = null, toastShown = null, toastTimer = null, press = null;
@@ -524,7 +546,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       const node = el('div', 'ms-ps-target', { role: 'status' });
       const glyph = el('span', 'ms-ps-target-icon'), words = el('div', 'ms-ps-text');
       words.append(el('b'), el('span'));
-      node.append(glyph, words, kit.button({ label: 'Cancel', kind: 'secondary', small: true, intent: 'cancel-target' }));
+      node.append(glyph, words);
       return node;
     });
     if (target) {
@@ -532,25 +554,39 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       text(target.children[1].firstChild, state.target.title);
       text(target.children[1].lastChild, state.target.sub ?? '');
       target.children[1].lastChild.hidden = !state.target.sub;
-      control(target.lastChild, { intent: 'cancel-target' });
+      // Cancel only while the choice can still be left (0.2.12). A final one (`cancel: false`) keeps its words and
+      // drops Cancel, so nothing on the bar reads as undo; if Cancel had the focus, the policy hands it back.
+      let cancel = target.children[2] ?? null;
+      if (state.target.cancel && !cancel) target.append(cancel = kit.button({ label: 'Cancel', kind: 'secondary', small: true, intent: 'cancel-target' }));
+      else if (!state.target.cancel && cancel) { remove(cancel); cancel = null; }
+      if (cancel) control(cancel, { intent: 'cancel-target' });
+      target.toggleAttribute('data-final', !state.target.cancel);
     }
+    // A banner is drawn for its kind (BANNERS: its icon, its words, and Retry for reconnecting only), so one of
+    // another kind is drawn afresh; the policy returns the focus if Retry had it.
+    if (parts.banner && parts.banner.dataset.kind !== state.banner?.kind) { remove(parts.banner); parts.banner = null; }
     const banner = keep('banner', !concealed && !!state.banner, () => {
-      const node = el('div', 'ms-ps-banner', { role: 'status' });
+      const look = BANNERS[state.banner.kind];
+      const node = el('div', 'ms-ps-banner', { role: 'status', 'data-kind': state.banner.kind });
       const glyph = el('span', 'ms-ps-banner-icon');
-      glyph.append(icon('offline', true));
+      glyph.append(icon(look.icon, true));
       const words = el('div', 'ms-ps-text');
       const b = el('b'), s = el('span');
-      b.textContent = RECONNECTING.title; s.textContent = RECONNECTING.sub;
+      b.textContent = look.title; s.textContent = look.sub;
       words.append(b, s);
-      node.append(glyph, words, kit.button({ label: RECONNECTING.action, kind: 'secondary', small: true, intent: 'retry' }));
+      node.append(glyph, words);
+      if (look.action) node.append(kit.button({ label: look.action, kind: 'secondary', small: true, intent: 'retry' }));
       return node;
     });
-    if (banner) control(banner.lastChild, { intent: 'retry', busy: state.banner.busy });
-    // While the banner shows, a docked sheet stays below it (phone-shell.css [data-banner]), so Retry and the
-    // sheet's Close are both in sight: the banner is in the over layer, under the sheet, as the pack's.
+    if (banner && state.banner.kind === 'reconnecting') control(banner.lastChild, { intent: 'retry', busy: state.banner.busy });
+    // While a banner shows, a docked sheet stays below it (phone-shell.css [data-banner]), so the banner (and
+    // Retry) and the sheet's Close are all in sight: the banner is in the over layer, under the sheet, as the pack's.
     attr(root, 'data-banner', banner ? '' : null);
-    if (banner && banner !== observedBanner) { observedBanner = banner; observer?.observe(banner); }
-    if (!banner) observedBanner = null;
+    if (banner !== observedBanner) {
+      if (observedBanner) observer?.unobserve(observedBanner);
+      observedBanner = banner;
+      if (banner) observer?.observe(banner);
+    }
     if (!observer) placeBanner();
     const chip = keep('chip', !concealed && !!state.chip, () => {
       const node = el('div', 'ms-ps-chip');
@@ -636,16 +672,13 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     if (toastShown === t.id) return;
     toastShown = t.id;
     if (parts.toast) parts.toast.remove();
-    const node = el('div', 'ms-ps-toast', { role: 'status' });
-    const glyph = el('span', 'ms-ps-toast-icon');
-    glyph.append(icon(t.icon, true));
-    const words = el('span');
-    words.textContent = t.text;
-    node.append(glyph, words);
+    // The kit's toast (0.8.0) draws it, drops it in and fades it out; its time and its place are the shell's.
+    const props = { text: t.text, icon: t.icon, extra: ['ms-ps-toast'] };
+    const node = kit.toast(props);
     root.append(node);
     parts.toast = node;
     if (toastTimer) win.clearTimeout(toastTimer);
-    toastTimer = win.setTimeout(() => { toastTimer = null; if (parts.toast === node) { node.dataset.leaving = ''; win.setTimeout(() => { if (parts.toast === node) { node.remove(); parts.toast = null; } }, 200); } }, TOAST_MS);
+    toastTimer = win.setTimeout(() => { toastTimer = null; if (parts.toast === node) { kit.setToast(node, { ...props, leaving: true }); win.setTimeout(() => { if (parts.toast === node) { node.remove(); parts.toast = null; } }, 200); } }, TOAST_MS);
   }
 
   // ── The large-content view: a tab's word, large, on a long press ────
@@ -774,6 +807,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     hideHud();
     if (toastTimer) win.clearTimeout(toastTimer);
     observer?.disconnect();
+    textSize.dispose();
     policy.dispose();
     root.removeEventListener('click', onClick);
     root.removeEventListener('pointerdown', onPointerDown);

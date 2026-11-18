@@ -12,14 +12,14 @@
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
 
-export const COMPONENT_KIT_VERSION = 'component-kit-0.6.1';
+export const COMPONENT_KIT_VERSION = 'component-kit-0.8.2';
 export const BUTTON_KINDS = Object.freeze(['primary', 'secondary', 'tinted', 'plain', 'outline', 'warn']);
 export const CELL_STATES = Object.freeze(['available', 'selected', 'confirmed', 'taken', 'ineligible', 'empty', 'winner', 'faded']);
 export const STAMP_TONES = Object.freeze([null, 'amber', 'pending', 'gold', 'steel']);
 export const PILL_TONES = Object.freeze([null, 'amber', 'paper', 'accent']);
 export const ROW_TINTS = Object.freeze([null, 'amber', 'paper', 'steel', 'teal', 'slate']);
 /** A tile's states (0.6.0, from play-parts): offered, being chosen, with the server, accepted and waiting, or not offered. */
-export const TILE_STATES = Object.freeze(['available', 'selected', 'sending', 'registered', 'unavailable']);
+export const TILE_STATES = Object.freeze(['available', 'selected', 'sending', 'registered', 'unavailable', 'spent']);
 /** The words a tile draws itself: only the registered mark. Everything else is the caller's. */
 export const TILE_WORDS = Object.freeze({ registered: 'REGISTERED', registeredSaid: 'registered' });
 
@@ -140,6 +140,20 @@ export function createKit(doc) {
   };
   const groupLabel = words => text(h('p', 'ms-k-group-label'), words);
   const groupNote = words => text(h('p', 'ms-k-group-note'), words);
+  /**
+   * The section head (screens.css .section-head; 0.7.0): { title, aside }, a title in capitals and a line at the
+   * right, as sheet 34 heads each window ("Room A ↔ Hospital", "Your station · A2") and sheet 28 its turn.
+   */
+  function setSectionHead(node, { title, aside = null }) {
+    node.classList.add('ms-k-section-head');
+    if (!node.querySelector(':scope > .ms-k-section-title')) node.append(h('h3', 'ms-k-section-title'), h('span', 'ms-k-section-aside'));
+    const [head, line] = node.children;
+    text(head, title);
+    text(line, aside ?? '');
+    line.hidden = aside === null || aside === undefined || aside === '';
+    return node;
+  }
+  const sectionHead = props => setSectionHead(h('div'), props);
 
   // ── Accents (ui.mjs pill, stamp, caption) ───────────────────────────
   function setPill(node, props) {
@@ -322,25 +336,56 @@ export function createKit(doc) {
    * unavailable tile's reason); `badge` the count on the icon's corner; `label` its accessible name, by default
    * the name, the note and "registered", as the pack writes it. `sending` is the pack's `submitting`.
    */
+  const tileArt = new WeakMap();
   function setTile(node, props) {
     if (!isText(props?.name)) throw new TypeError('A tile needs its name');
-    if (!isText(props.icon)) throw new TypeError('A tile needs its icon');
+    const art = isText(props.art) || isNode(props.art) ? props.art : null;
+    if (!isText(props.icon) && art === null) throw new TypeError('A tile needs its icon or its art');
     const state = props.state ?? 'available';
     if (!TILE_STATES.includes(state)) throw new TypeError(`A tile's state is ${TILE_STATES.join(', ')}, not ${JSON.stringify(state)}`);
     const note = optionalText(props.note, 'A tile\'s note');
     const badge = props.badge === null || props.badge === undefined ? null : String(props.badge);
     if (badge !== null && !/^\d+$/.test(badge)) throw new TypeError('A tile\'s badge is a whole number, or null');
     node.classList.add('ms-k-tile');
-    if (!node.querySelector(':scope > .ms-k-tile-icon')) {
+    if (!node.querySelector(':scope > .ms-k-tile-name')) {
       node.append(h('span', 'ms-k-tile-icon'), h('b', 'ms-k-tile-name'), h('small', 'ms-k-tile-note'),
         h('span', 'ms-k-tile-badge'), h('span', 'ms-k-tile-stamp', { 'aria-hidden': 'true' }));
     }
     const [glyph, name, small, count, mark] = node.children;
     node.dataset.state = state;
-    // The pack fills the icon, but not on an unavailable tile.
-    setIcon(glyph, props.icon, state !== 'unavailable');
+    if (art !== null) {
+      // A card's art in place of the icon (0.7.0; sheet 25's side cards, the pack's .hack-card): the game's own art
+      // markup (HACK_ART), never words or anything a player gave; or (0.7.1) a picture node the component draws, as
+      // the Captain console's plates (the film bundle's pictures). Kept while it is the same markup or node.
+      // The kit fades only the markup when the tile is unavailable, as sheet 25 fades its one picture; a node is drawn
+      // for its state by the component (the pack's unavailable Eject plate is a drawing of its own), so it is left
+      // as given (0.7.2).
+      if (glyph.className !== 'ms-k-tile-art') { glyph.className = 'ms-k-tile-art'; glyph.dataset.icon = ''; glyph.hidden = false; }
+      glyph.setAttribute('aria-hidden', 'true');
+      glyph.toggleAttribute('data-node', isNode(art));
+      if (tileArt.get(glyph) !== art) {
+        if (isNode(art)) glyph.replaceChildren(art);
+        else {
+          const t = doc.createElement('template');
+          t.innerHTML = art.trim();
+          glyph.replaceChildren(t.content);
+        }
+        tileArt.set(glyph, art);
+      }
+    } else {
+      if (glyph.className !== 'ms-k-tile-icon') { glyph.className = 'ms-k-tile-icon'; glyph.removeAttribute('aria-hidden'); glyph.removeAttribute('data-node'); tileArt.delete(glyph); glyph.replaceChildren(); glyph.dataset.icon = ''; }
+      // The pack fills the icon, but not on an unavailable or a spent tile.
+      setIcon(glyph, props.icon, state !== 'unavailable' && state !== 'spent');
+    }
     text(name, props.name);
-    text(small, note ?? '');
+    if (note !== null && isText(props.noteIcon)) {
+      // A note with its icon before it (0.7.0; the private talk's lock, the pack's .declare-sides .tile small).
+      small.replaceChildren(icon(props.noteIcon, true), doc.createTextNode(note));
+      small.dataset.hasIcon = '';
+    } else {
+      if ('hasIcon' in small.dataset) { small.replaceChildren(); delete small.dataset.hasIcon; }
+      text(small, note ?? '');
+    }
     small.hidden = note === null;
     text(count, badge ?? '');
     count.hidden = badge === null;
@@ -348,7 +393,8 @@ export function createKit(doc) {
     attr(count, 'aria-hidden', note !== null ? 'true' : null);
     text(mark, state === 'registered' ? TILE_WORDS.registered : '');
     mark.hidden = state !== 'registered';
-    attr(node, 'aria-label', props.label ?? `${props.name}${note ? `, ${note}` : ''}${state === 'registered' ? `, ${TILE_WORDS.registeredSaid}` : ''}`);
+    // label: false leaves the tile named by its own words (0.7.0), as the private talk's side cards are.
+    attr(node, 'aria-label', props.label === false ? null : props.label ?? `${props.name}${note ? `, ${note}` : ''}${state === 'registered' ? `, ${TILE_WORDS.registeredSaid}` : ''}`);
     if (props.intent) node.dataset.intent = props.intent;
     if (props.value !== undefined && props.value !== null) node.dataset.value = String(props.value);
     return node;
@@ -412,8 +458,68 @@ export function createKit(doc) {
     return node;
   }
   const facts = lines => setFacts(h('ul'), lines);
+
+  // ── The notice (screens.css .registered; 0.7.0) ────────────────────
+  /**
+   * { icon, filled, stamp: { text, tone }, lines: [text, …], extra, status }: an icon or a stamp centred over its
+   * lines, as sheet 45's "Outcome unknown", sheet 40's BLOCKED and sheet 42's MATCHED. Moved in from play-parts with
+   * the same props. The icon is drawn as the pack draws it there: the 76 px .big-icon tile applies only inside a
+   * waiting block. `extra` is a node after the lines, inside the notice, as the Scan result holds its row; the notice
+   * keeps it while the same node is given. `status` (default true) reads the notice as it opens.
+   */
+  const noticeExtras = new WeakMap();
+  function setNotice(node, props) {
+    const lines = props?.lines ?? [];
+    if (!Array.isArray(lines) || !lines.length || !lines.every(isText)) throw new TypeError('A notice needs its lines');
+    if (!isText(props.icon) && !isText(props.stamp?.text)) throw new TypeError('A notice has an icon or a stamp');
+    if (props.extra !== undefined && props.extra !== null && !isNode(props.extra)) throw new TypeError('A notice\'s extra is a node, or null');
+    node.classList.add('ms-k-notice');
+    attr(node, 'role', props.status === false ? null : 'status');
+    if (!node.firstChild) node.append(h('span', 'ms-k-notice-icon'));
+    let mark = node.firstChild;
+    if (isText(props.stamp?.text)) {
+      if (!mark.classList.contains('ms-k-stamp')) { const s = h('span'); mark.replaceWith(s); mark = s; }
+      setStamp(mark, { text: props.stamp.text, tone: props.stamp.tone ?? null });
+    } else {
+      if (!mark.classList.contains('ms-k-notice-icon')) { const s = h('span', 'ms-k-notice-icon'); mark.replaceWith(s); mark = s; }
+      setIcon(mark, props.icon, props.filled !== false);
+    }
+    const paras = [...node.querySelectorAll(':scope > p')];
+    while (paras.length > lines.length) paras.pop().remove();
+    while (paras.length < lines.length) { const p = h('p'); (paras[paras.length - 1] ?? mark).after(p); paras.push(p); }
+    lines.forEach((line, i) => text(paras[i], line));
+    const before = noticeExtras.get(node) ?? null, extra = props.extra ?? null;
+    if (before !== extra) before?.remove();
+    if (extra && node.lastChild !== extra) node.append(extra);
+    noticeExtras.set(node, extra);
+    return node;
+  }
+  const notice = props => setNotice(h('div'), props);
   /** The pack's paper card (kit.css .comic): paper, an ink border and the ink shadow. The caller fills it and pads it. */
   const comic = (...children) => { const card = h('article', 'ms-k-comic'); card.append(...children.flat().filter(Boolean)); return card; };
+
+  // ── The toast (ui.mjs toast; kit.css .toast; 0.8.0) ─────────────────
+  /**
+   * { text, icon, filled, leaving, extra }: a local confirmation ("Copied", "Turn passed"), read as it is drawn.
+   * The icon is filled, as the pack's (default `check`). Words too long for one line wrap inside the phone, so every
+   * word shows (0.8.2; they were cut with an ellipsis before).
+   * It takes no tap: a tap reaches what is under it. It drops in where it is added and fades out once `leaving`.
+   * How long it shows and when it goes are its owner's (the shell's TOAST_MS, once per id), and so is where it sits:
+   * 10 px under --ms-k-toast-top, which the owner sets to where its bar ends (the pack's --top). `extra` adds the
+   * owner's classes. Changed in place.
+   */
+  function setToast(node, props) {
+    if (!isText(props?.text)) throw new TypeError('A toast needs its text');
+    const cls = ['ms-k-toast', ...(props.extra ?? [])].join(' ');
+    if (node.className !== cls) node.className = cls;
+    attr(node, 'role', 'status');
+    if (!node.firstChild) node.append(h('span', 'ms-k-toast-icon'), h('span', 'ms-k-toast-text'));
+    setIcon(node.firstChild, isText(props.icon) ? props.icon : 'check', props.filled !== false);
+    text(node.lastChild, props.text);
+    attr(node, 'data-leaving', props.leaving ? '' : null);
+    return node;
+  }
+  const toast = props => setToast(h('div'), props);
 
   // ── The segmented control, the stepper, the switch ───────────────────
   /**
@@ -467,9 +573,9 @@ export function createKit(doc) {
   }
   const switchControl = props => setSwitch(h('button', null, { type: 'button' }), props);
 
-  return Object.freeze({ h, text, attr, icon, setIcon, button, setButton, iconButton, setIconButton, row, setRow, list, groupLabel, groupNote,
+  return Object.freeze({ h, text, attr, icon, setIcon, button, setButton, iconButton, setIconButton, row, setRow, list, groupLabel, groupNote, sectionHead, setSectionHead, notice, setNotice,
     pill, setPill, stamp, setStamp, caption, num, portrait, setPortrait, cell, setCell, grid9, field, setField, codeBoxes, setCodeBoxes, errorNote,
-    seg, setSeg, stepper, setStepper, switchControl, setSwitch, wait, setWait, tile, setTile, tiles, who, setWho, facts, setFacts, comic });
+    seg, setSeg, stepper, setStepper, switchControl, setSwitch, wait, setWait, tile, setTile, tiles, who, setWho, facts, setFacts, comic, toast, setToast });
 }
 
 /**
@@ -527,4 +633,43 @@ export function createControlPolicy({ root, accepts = () => true, defaultReason 
   }
   function dispose() { disposed = true; reasons.remove(); }
   return Object.freeze({ control, refused, remove, dispose });
+}
+
+/**
+ * Keeps a phone root's container (.ms-k-phone, kit.css) in step with the text size (0.8.1). A component whose root
+ * carries .ms-k-phone (the shell's; an entry screen's) calls it once, and dispose() when the root goes.
+ * Chromium (153) re-reads a container's em for its queries only while something inside it uses one of them. When the
+ * text size changed while nothing did, a part added afterwards took the old size's rules: at 200 % a target bar
+ * opened afterwards stood side by side, its chip's label was cut, a sheet's two footer actions stayed side by side
+ * and a row's value stayed beside its title (the Gameplay builder's finding, 17 November 2026; a part already open
+ * through the change was right). A hidden 1 em box among the root's children reports each change of the root's
+ * text size, and the root's container is set up again at once, before anything is drawn: every part, open or added
+ * later, then takes the new size's rules. It keeps the focus, the scroll positions and what is moving; it draws
+ * nothing. A root that replaces all its children gets its box back at the next change.
+ */
+export function followTextSize(root) {
+  if (!root?.ownerDocument) throw new TypeError('followTextSize needs the phone root');
+  const doc = root.ownerDocument, win = doc.defaultView;
+  const em = doc.createElement('span');
+  em.className = 'ms-k-em';
+  em.setAttribute('aria-hidden', 'true');
+  root.append(em);
+  let height = null, disposed = false;
+  /** The root's container once more: off for one layout, then as its style has it. Nothing is drawn between. */
+  function renew() {
+    const inline = root.style.getPropertyValue('container-type'), priority = root.style.getPropertyPriority('container-type');
+    root.style.setProperty('container-type', 'normal');
+    void root.offsetWidth;
+    if (inline) root.style.setProperty('container-type', inline, priority); else root.style.removeProperty('container-type');
+  }
+  const observer = typeof win?.ResizeObserver === 'function' ? new win.ResizeObserver(entries => {
+    if (disposed) return;
+    if (em.parentNode !== root) { root.append(em); return; }
+    const next = entries[entries.length - 1].contentRect.height;
+    if (height !== null && next !== height) renew();
+    height = next;
+  }) : null;
+  observer?.observe(em);
+  function dispose() { if (disposed) return; disposed = true; observer?.disconnect(); em.remove(); }
+  return Object.freeze({ dispose });
 }

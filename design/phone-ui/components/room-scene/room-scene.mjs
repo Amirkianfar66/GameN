@@ -8,6 +8,8 @@
 // (ambient.mjs), the people present as the game's own crew figures (crew-runtime.mjs, with their idle
 // motion and the match's art pins), their name tags, the turn mark, the offered targets and empty
 // positions, the room's name, its own control ("Windows · 2") and the stale veil or concealing cover.
+// The tags are whole and apart at every text size (#222 item 34): each pill grows with its words, and
+// tag-layout.mjs places them as the board's tags are placed, clear of the room's name and control.
 // How it frames: framing.mjs's phoneFrame, the owner's T1 decision of 11 November 2026 as corrected in
 // #229: the room fills the space, nobody present is cut off, and the frame is held through the Blackout.
 //
@@ -23,12 +25,13 @@ import { INJURED, skeletonOf } from '../../../../apps/game/hosted/scene-drawing/
 import { crewFigureSvg, crewPortraitVariable, disposeCrewMounts, outfitFor, paintCrewFigure, releaseCrewFigure,
   setCrewMountActivity, setCrewMountMotion } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
+import { layoutTags } from '../tag-layout.mjs';
 import { SKY_EPOCH, ambientLayer } from './ambient.mjs';
-import { clamp, phoneFrame, pressRects } from './framing.mjs';
+import { phoneFrame, pressRects } from './framing.mjs';
 import { roomLayers } from './room-art.mjs';
 import { REACH, extensionLayer, zoomFor } from './room-extension.mjs';
 
-export const ROOM_SCENE_VERSION = 'room-scene-0.3.0';
+export const ROOM_SCENE_VERSION = 'room-scene-0.5.1';
 export const ROOM_NAMES = Object.freeze({ 'command-room': 'Command Room', 'room-a': 'Room A', 'room-b': 'Room B', hospital: 'Hospital', jail: 'Jail' });
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const [bx, by, box] = FRAME.box;
@@ -49,11 +52,34 @@ export const ROOM_SCENE_DEFAULTS = Object.freeze({
   // The room-art release the match's bundles carry: room-drawing-1.0.0 frames a fifth wider, with the
   // room's extension (room-extension.mjs); anything else, or null, keeps the pack's framing (#229).
   roomArt: null,
+  // The game's films that draw a person themselves (a patient, a walk, a release): those people keep
+  // their tag, turn mark and press square here, and their figure is not drawn. Seats, as in `people`.
+  standIns: Object.freeze([]),
+  // A person's recoil ("ATTACK BLOCKED"): { seat, dx, dy } moves that figure by dx, dy CSS pixels; its
+  // tag and press square stay. null for none.
+  brace: null,
+  // A frame a Blackout window holds, from another scene of this room (hold(), 0.5.1): coordinates only. A scene
+  // mounted during that window keeps it, so no press square moves when the Room view comes back from the Board.
+  heldFrame: null,
 });
 
 const sameSeat = (a, b) => a !== null && a !== undefined && String(a) === String(b);
 /** The number on a person's tag: `number`, or the digits at the end of the seat's id ("seat-4" → 4). */
 export const seatNumber = person => person.number ?? (typeof person.seat === 'number' ? person.seat : Number(String(person.seat).match(/\d+$/)?.[0] ?? NaN));
+
+/** A held frame as hold() gives it, or null: anything else is refused, so no person or seat can ride along. */
+function checkHeldFrame(held) {
+  if (held === null) return null;
+  const numbers = held && ['k', 'tx', 'ty', 'zoom'].every(key => Number.isFinite(held[key]));
+  const panel = held?.panel && ['width', 'height', 'cap', 'pad'].every(key => Number.isFinite(held.panel[key]));
+  const window = held && (held.window === null || held.window === true || (typeof held.window === 'string' && held.window));
+  if (!numbers || !panel || !window || typeof held.context !== 'string' || typeof held.cold !== 'boolean'
+    || Object.keys(held).some(key => !HELD_KEYS.includes(key))) {
+    throw new TypeError('heldFrame is what hold() gives ({ context, window, k, tx, ty, zoom, panel, cold }), or null');
+  }
+  return held;
+}
+const HELD_KEYS = Object.freeze(['context', 'window', 'k', 'tx', 'ty', 'zoom', 'panel', 'cold']);
 
 /**
  * The next input from the previous one and an update. The offers and the room's control belong to this
@@ -71,11 +97,23 @@ export function nextRoomSceneInput(previous, input) {
   if (next.clock !== null && typeof next.clock?.now !== 'function') throw new TypeError('A clock is null or has now()');
   if (next.hold !== null && next.hold !== false && next.hold !== true && typeof next.hold !== 'string') throw new TypeError('hold is a Blackout window\'s id, true, or null');
   if (next.roomArt !== null && typeof next.roomArt !== 'string') throw new TypeError('roomArt is a room-art release, or null');
+  const standIns = next.standIns ?? [];
+  if (!Array.isArray(standIns)) throw new TypeError('standIns is a list of seats');
+  const brace = next.brace ?? null;
+  if (brace !== null && !(brace.seat !== null && brace.seat !== undefined && Number.isFinite(brace.dx) && Number.isFinite(brace.dy))) {
+    throw new TypeError('brace is { seat, dx, dy } in CSS pixels, or null');
+  }
+  next.standIns = [...standIns];
+  next.brace = brace === null ? null : { seat: brace.seat, dx: brace.dx, dy: brace.dy };
   next.size = { width, height };
   next.insets = { ...ROOM_SCENE_DEFAULTS.insets, ...(next.insets ?? {}) };
   next.people = [...(next.people ?? [])];
+  next.heldFrame = checkHeldFrame(next.heldFrame ?? null);
   const viewerChanged = 'self' in input && !(previous.self === input.self || sameSeat(previous.self, input.self));
-  if (next.status === 'concealed') { next.targets = null; next.control = null; }
+  // Concealed, nothing this viewer was shown is kept (0.5.1): the people, who is "you", whose turn it is, the
+  // films' stand-ins and recoil, the offers and the control. Only a fresh input brings them back; a wake that
+  // gives the status alone shows the room empty. The frame, which is geometry only, is kept.
+  if (next.status === 'concealed') Object.assign(next, { targets: null, control: null, people: [], self: null, active: null, standIns: [], brace: null });
   else if (viewerChanged) {
     if (!('targets' in input)) next.targets = null;
     if (!('control' in input)) next.control = null;
@@ -93,6 +131,8 @@ function placed(state) {
 const holdWindow = hold => (hold === true ? true : typeof hold === 'string' && hold ? hold : null);
 /** Two holds are different windows only when both are named and the names differ. */
 const sameWindow = (a, b) => a === null || b === null || a === true || b === true || a === b;
+/** Another scene's held frame, as this scene's previous one: it was holding, so roomSceneFrame keeps it in its window. */
+const heldFrom = held => (held ? { ...held, panel: { ...held.panel }, holding: true, held: true } : null);
 
 /**
  * The scene's frame: the room's picture scaled by k and moved by (tx, ty) in its panel, with that panel.
@@ -104,7 +144,9 @@ const sameWindow = (a, b) => a === null || b === null || a === true || b === tru
  * current size, when the window ends (`hold` cleared with the lights on) or a differently named window
  * begins; a different room or roster frames afresh. Entered in the dark with no frame to keep, it frames
  * the people given (Frontend's public pre-Blackout board) or, without them, every place as if occupied:
- * the opened-in-the-dark fallback, which depends only on the room and the phone.
+ * the opened-in-the-dark fallback, which depends only on the room and the phone. A scene mounted with a
+ * `heldFrame` (another scene's hold(), 0.5.1) starts from it: in the same window it keeps that frame, as the scene
+ * it came from would have; otherwise it frames afresh.
  */
 export function roomSceneFrame(state, previous = null) {
   const panel = { width: state.size.width, height: state.size.height, cap: state.insets.top, pad: state.insets.bottom };
@@ -114,14 +156,20 @@ export function roomSceneFrame(state, previous = null) {
   const window = holdWindow(state.hold);
   const dark = state.lighting === 'dark';
   const holding = window !== null || dark;
-  const prev = previous?.context === context ? previous : null;
+  // With no frame of its own yet, a scene starts from the held frame it was given (0.5.1).
+  const from = previous ?? heldFrom(state.heldFrame ?? null);
+  const prev = from?.context === context ? from : null;
   if (holding && prev && (prev.holding ? sameWindow(prev.window, window) : dark)) {
     return { ...prev, holding: true, held: true, window: typeof window === 'string' ? window : prev.window ?? window };
   }
+  // Concealed, the room keeps the frame it had (0.5.1): it is geometry only, and the people it was made for
+  // are no longer in the input.
+  const concealed = state.status === 'concealed';
+  if (concealed && prev) return prev;
   const scene = sceneOf(state.room, state.roster);
   const people = placed(state).map(({ person, slot }) => ({ ...slot, eliminated: person.health === 'Eliminated' }));
   const cold = dark && !people.length;
-  const shown = cold ? slotsOf(state.room, state.roster).map(slot => ({ ...slot, eliminated: false })) : people;
+  const shown = cold || (concealed && !people.length) ? slotsOf(state.room, state.roster).map(slot => ({ ...slot, eliminated: false })) : people;
   return { ...phoneFrame(scene, panel, shown, { zoom, reach: zoom < 1 ? REACH : 0 }), panel, context, zoom, holding, window, held: false, cold };
 }
 
@@ -143,7 +191,10 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
   const layers = el('div', 'ms-rs-layers', { 'aria-hidden': 'true' });
   const crowd = el('div', 'ms-rs-people');
   const over = el('div', 'ms-rs-over');
-  root.append(layers, crowd, over);
+  // The game's films (0.4.0): a container in the scene's own stacking context, like the others, so what
+  // the game puts in it interleaves with the pictures and the people by z-index. See films below.
+  const films = el('div', 'ms-rs-films', { 'aria-hidden': 'true' });
+  root.append(layers, films, crowd, over);
   host.append(root);
 
   let state = nextRoomSceneInput(ROOM_SCENE_DEFAULTS, input);
@@ -302,8 +353,20 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
     }
   }
 
+  /** Stand-ins and the recoil, on each drawn figure: cheap enough for every frame of a film. */
+  function figureMarks() {
+    for (const [seat, entry] of people) {
+      const standIn = state.standIns.some(s => sameSeat(s, seat));
+      const braced = state.brace && sameSeat(state.brace.seat, seat) ? state.brace : null;
+      for (const node of [entry.body, entry.front]) {
+        if (!node) continue;
+        node.toggleAttribute('data-stand-in', standIn);
+        node.style.translate = braced ? `${braced.dx}px ${braced.dy}px` : '';
+      }
+    }
+  }
+
   function tag(entry, person, rect, dim) {
-    const { width, height, pad } = frame.panel;
     let node = entry.tag;
     if (!node) { node = el('span', 'ms-rs-tag'); entry.group.append(node); entry.tag = node; }
     const self = sameSeat(state.self, person.seat);
@@ -329,9 +392,38 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
     node.toggleAttribute('data-self', self);
     node.toggleAttribute('data-active', sameSeat(state.active, person.seat));
     node.toggleAttribute('data-dim', dim);
-    // A tag stays whole on screen: its centre moves inward by half its own width (4 px clear).
-    const cx = rect.left + rect.side / 2, reach = node.offsetWidth ? node.offsetWidth / 2 + 4 : 36;
-    Object.assign(node.style, { left: `${clamp(cx, reach, width - reach)}px`, top: `${Math.min(height - pad - 26, rect.top + rect.side - 2)}px` });
+    // Where it goes is placeTags()'s, once every tag, the room's name and its control are drawn.
+    entry.at = { x: rect.left + rect.side / 2, bottom: rect.top + rect.side };
+    entry.self = self;
+  }
+
+  /**
+   * The tags whole on screen and apart (#222 item 34), by tag-layout.mjs's rules with the pack's room
+   * numbers: centred on the press square and 2 px above its foot, 4 px inside the scene and no lower
+   * than the bottom inset and a standard tag's height above its foot, clear of the room's name and its
+   * control; where two would meet, one moves up, or else down, no further than it needs ("You" first).
+   * At the standard text, where none meet, each is where the pack puts it. Offsets, not boxes on screen,
+   * so a transform around the scene (the board's zoom) never moves a tag.
+   */
+  function placeTags() {
+    const { width, height, pad: bottom } = frame.panel;
+    const shown = [...people.values()].filter(entry => entry.tag && entry.at);
+    if (!shown.length) return;
+    const measured = shown.map(entry => ({ seat: entry.group.dataset.seat, at: entry.at, self: entry.self,
+      width: entry.tag.offsetWidth || 72, height: entry.tag.offsetHeight || 26 }));
+    const keepClear = [];
+    const label = overlay.label;
+    if (label?.offsetWidth) keepClear.push({ left: label.offsetLeft, top: label.offsetTop, width: label.offsetWidth, height: label.offsetHeight });
+    const control = overlay.control;
+    // The control is centred by a translateX(-50%): its box starts half its width left of its offset.
+    if (control?.offsetWidth) keepClear.push({ left: control.offsetLeft - control.offsetWidth / 2, top: control.offsetTop, width: control.offsetWidth, height: control.offsetHeight });
+    const { places } = layoutTags({ panel: { width, height }, pad: 4, gap: 2, lift: 2, footClear: bottom + 26, keepClear, tags: measured });
+    const at = new Map(places.map(p => [String(p.seat), p]));
+    shown.forEach((entry, i) => {
+      const place = at.get(measured[i].seat);
+      // The tag is centred on its left by a translateX(-50%), as the pack's.
+      Object.assign(entry.tag.style, { left: `${place.left + measured[i].width / 2}px`, top: `${place.top}px` });
+    });
   }
 
   function marks(entry, person, slot, rect) {
@@ -505,6 +597,8 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
     root.setAttribute('aria-label', concealed ? 'Room hidden' : ROOM_NAMES[state.room]);
     root.toggleAttribute('data-unavailable', !state.artReady);
     crowd.toggleAttribute('inert', concealed);
+    // Concealed, the game's films are hidden with everything else of the room.
+    films.hidden = concealed;
     frame = roomSceneFrame(state, frame);
     if (concealed) {
       layers.replaceChildren();
@@ -517,13 +611,18 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
     const rects = new Map(roomScenePlaces(state, frame).map(r => [r.id, r]));
     const rebuilt = paintLayers();
     paintPeople(rects);
+    figureMarks();
     paintOver(rects);
+    placeTags();
     settle(rebuilt, standing);
   }
 
   function update(next = {}) {
     if (disposed) return;
     state = nextRoomSceneInput(state, next);
+    // A film's every frame changes only its stand-ins or recoil: nothing else is drawn again.
+    const keys = Object.keys(next);
+    if (keys.length && keys.every(key => key === 'brace' || key === 'standIns')) { figureMarks(); return; }
     render();
   }
   function suspend() { if (disposed) return; const standing = standingNow(); suspended = true; settle(false, standing); }
@@ -535,6 +634,18 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
     clearPeople();
     disposeCrewMounts(root);
     root.remove();
+  }
+  /**
+   * The frame a Blackout window holds, or null when nothing is held (lit, outside a window) or after dispose()
+   * (0.5.1). Coordinates only: no seat, no person, no target. When the Room view goes (the Board), the mount keeps
+   * it with the match, the viewer, the room and the art, and gives it to the next scene of this room as
+   * `heldFrame` while the same window lasts, so no press square moves.
+   */
+  function hold() {
+    if (disposed || !frame?.holding) return null;
+    const { width, height, cap, pad } = frame.panel;
+    return Object.freeze({ context: frame.context, window: frame.window ?? null, k: frame.k, tx: frame.tx, ty: frame.ty, zoom: frame.zoom,
+      panel: Object.freeze({ width, height, cap, pad }), cold: !!frame.cold });
   }
   /**
    * Where the scene is: its frame (and the size it was made for, which a hold keeps), each place's press
@@ -555,5 +666,16 @@ export function mountRoomScene(host, input = {}, handlers = {}) {
   }
 
   render();
-  return Object.freeze({ update, suspend, resume, dispose, layout, element: root });
+  return Object.freeze({
+    update, suspend, resume, dispose, layout, hold, element: root,
+    /**
+     * The container for the game's films (0.4.0), or null after dispose(). It is in the scene's stacking
+     * context and makes none of its own, so its children interleave with the scene by z-index, on the
+     * scene's scale: a picture at 2 x depth + 1, a person's body at 2 x depth and front parts at 1500 + depth,
+     * the turn mark 3001, positions 3050, press squares 3100, tags 3150, the room's name and control 3200.
+     * Coordinates are CSS pixels from the scene's top left, as in layout(). Hidden while concealed; the
+     * scene never touches what the game puts in it.
+     */
+    get films() { return disposed ? null : films; },
+  });
 }

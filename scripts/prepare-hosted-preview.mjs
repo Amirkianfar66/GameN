@@ -4,7 +4,7 @@ import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { build } from 'vite';
-import { createHostedPreviewCsp } from './hosted-preview-policy.mjs';
+import { createHostedPreviewHeaders } from './hosted-preview-policy.mjs';
 import { assertRuntimeArtOutput } from './runtime-art-release.mjs';
 import { readHostedArtReleases } from './hosted-art-releases.mjs';
 import { readHostedConfiguration } from '../apps/game/dist/browser/hosted-config.js';
@@ -48,7 +48,6 @@ const release = { kind: 'hosted-playtest-preview', sourceCommit, sourceDirty, pr
   planetRelease: artReleases.planetRelease,
   bundleSha256: digest, files };
 await writeFile(join(output, 'preview-release.json'), JSON.stringify(release, null, 2) + '\n');
-const csp = createHostedPreviewCsp(config.projectId);
 const hosting = { hosting: { site: config.projectId, public: 'hosted-preview',
   rewrites: [
     { source: '/planet{,/**}', destination: '/planet/index.html' },
@@ -56,12 +55,7 @@ const hosting = { hosting: { site: config.projectId, public: 'hosted-preview',
     { source: '/development/design-studio{,/**}', destination: '/development/design-studio/index.html' },
   ],
   ignore: ['firebase.json', '**/.*', '**/node_modules/**'],
-  headers: [{ source: '**', headers: [
-    { key: 'Cache-Control', value: 'no-store' }, { key: 'Content-Security-Policy', value: csp },
-    { key: 'X-Content-Type-Options', value: 'nosniff' }, { key: 'X-Frame-Options', value: 'DENY' },
-    { key: 'Referrer-Policy', value: 'no-referrer' }, { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
-    { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
-  ] }],
+  headers: [{ source: '**', headers: createHostedPreviewHeaders(config.projectId) }],
 } };
 await writeFile(join(root, 'dist/firebase-hosting.json'), JSON.stringify(hosting, null, 2) + '\n');
 console.log(JSON.stringify({ ...release, files: files.length, deployment: 'not performed', configFile: 'dist/firebase-hosting.json' }, null, 2));
