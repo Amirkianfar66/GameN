@@ -429,7 +429,9 @@ Listed, not omitted:
   | `packages/design-tokens/test/phone-shell.test.mjs` | 8 of 8: the runtime-safe graph (the kit's files in it), every style scoped (a kit control styled only inside the shell's own parts, and of the kit's properties only the toast's top), the pinned pack unchanged, the pack's words (both banners'), the clock, the inputs' refusals, the privacy rules (an eliminated player's banner this viewer's, the reconnecting one the phone's) and the check's record, with the phase bars' states, their agreement cases and the lit Blackout's steadiness (0.2.10). From 0.3.0: Card last in the order while the pinned pack keeps Card before Panels; `tabs.me` checked as the bar's `who`; and, in the record, every capture's order and Card tab (its portrait at the top bar's 32 px, a ring only while Card is open and only in amber, its word and name) and the probe's `card` check, with the top bar's box and fit and the bar's height (0.3.1) |
 | `packages/design-tokens/test/phase-bars.test.mjs` | 11 of 11 (0.2.10): the runtime-safe graph, which adds no file to the shell's; every word found in the pack's own screens; each row of the words table, and the shell taking every bar; the round, the clock, Promises and ⋮ as given; the amber rule; the ring; a missing fact drawing the title alone; every phase of the contract drawn or refused by name; no offer, role or rule read; the toast; and each agreement case's pack input held to the pack's source |
   | `packages/design-tokens/test/kit.test.mjs` | 8 of 8, with the kit's own check: every builder agrees with the pinned pack's, the toast included, and `followTextSize` (0.8.1) ([the kit's page](kit.md)) |
-  | `npm run test:design` | 399 of 399, after `npm run build`, with Node 22.21.1 and npm 10.9.4 (on 0.3.0's record) |
+  | `packages/design-tokens/test/icon-paint.test.mjs` | 5 of 5 (0.3.2, icons 1.1.0): the family's version and its unchanged icons; the tile's frame is the crew portrait's own (the path the crew drawing builds, and the frame, rim and shadow three shipped portraits carry); every icon paints, decorative, with its own ids and nothing a strict page refuses; one fixed ground and the two paints; the painted shapes in the one source |
+  | `packages/design-tokens/test/icons.test.mjs` | 6 of 6 (from #313): the copies, the guard against an icon drawn outside the source, and the icons' page |
+  | `npm run test:design` | 410 of 410 on 0.3.2's record, with Node 22.21.1 and npm 10.9.4: the 399 of 0.3.1, the icons' six and the painted form's five |
   | `npm run test:tooling` | 356 of 356 |
   | `npm run test:frontend` | Pass, with the production exclusion: no fixture, test or development module reachable |
   | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck`, `check:browser-dependencies` | Pass |
@@ -444,7 +446,7 @@ Listed, not omitted:
       - Under every one the bar is as tall as a turn's, 99 px at a 47 px safe area.
       - **The lit Blackout a second apart** (`lit`, "Lights out in 0:03" at 0:13; `lit-next`, "0:02" at 0:12): the bar, Promises, the round, the clock and ⋮ are at the same place and size in both, to a hundredth of a pixel, at both sizes. The check compares them and writes the result as `steady`.
       - `phase-large`, at 200 % text on 320 × 568: "Appoint Officer" whole on two lines, the bar inside the phone, the round out of the bar by the shell's rule.
-    - `dark` (0.2.10) draws the pack's specimen: "Dark · positions fixed" at 0:08, amber, on the dark bar.
+    - `dark` (0.2.10) draws the pack's specimen: "Dark · positions fixed" at 0:08, amber, on the dark bar. From 0.3.2 its tabs are given no person, as the game gives none in the dark: no portrait, and the Card tab draws the card's tile.
     - `target-stale` (0.2.9): the target bar 8 px under the reconnecting banner, with its Cancel the topmost thing at its centre.
     - `target-large` (0.2.9): at 200 % text, Cancel under the bar's words, the bar inside the phone, and the chip's label whole.
     - `out` (0.2.8) draws an eliminated player's phone: "You're out" without Retry, 107 px from the top at a 47 px safe area, the phone live, Actions not offered, and the viewer's figure down in its place.
@@ -454,17 +456,33 @@ Listed, not omitted:
     - `card` draws the Card sheet's "Hide card" in the head, before Close.
     - **The Card tab (0.3.0, 0.3.1):** every capture with tabs draws the order Board/Room · Actions · Pass/Vote · Panels · Card, and the Card tab's portrait at 32 × 32 px, with its word "Card" level with the other labels.
       - `card`, with the Card sheet open, draws the amber ring round the portrait. Every other state draws no ring.
-      - `card-icon`, a player with no character, draws the pack's card icon in the last place.
+      - `card-icon`, a player with no character, draws the card's own icon in the last place: the pack's line icon until 0.3.1, its painted tile from 0.3.2.
       - `large`, at 200 % text on 320 × 568, draws the portrait in the same box.
-  - **The lifecycle probe** (`preview/probe.mjs`): 30 of 30 checks pass.
-    - **As the page comes (29):** focus, refused taps, reconnecting, an eliminated player's banner, privacy, the clock, layout, the layers, larger text, the text size changing, no bar, edge to edge, the cover's reach, the backdrop, head actions, the footer's actions, the private talk's buttons, the toast (three times), a phase bar's words, the large-content view, the Card tab, dispose and motion.
+    - **The painted tiles (0.3.2):** the check records each tab's picture and the round button's icon in every capture.
+      - Every capture with the game's tabs draws Board or Room, Actions and Panels as painted tiles, each 32 × 32 px, and the Card tab as the portrait or the card's tile: never both, never neither.
+      - The amber ring lies over the open tab's tile and over no other: Actions' in `actions`, none in a state with no sheet open.
+      - The round button's icon is painted in every capture, `pass` or `vote`, and grey exactly where the button is unavailable.
+      - `out` draws the Actions tile faded with its tab, and Panels' whole.
+      - `dark` and `card-icon` draw four tiles; `concealed`, none.
+  - **The lifecycle probe** (`preview/probe.mjs`): 31 of 31 checks pass.
+    - **As the page comes (30):** focus, refused taps, reconnecting, an eliminated player's banner, privacy, the clock, layout, the layers, larger text, the text size changing, no bar, edge to edge, the cover's reach, the backdrop, head actions, the footer's actions, the private talk's buttons, the toast (three times), a phase bar's words, the large-content view, the Card tab, the tiles, dispose and motion.
+      - **The tiles (0.3.2),** one check, `tiles`:
+        - Board, Actions and Panels each draw a tile: the family's drawing in the crew portrait's own frame path, in the portrait's box (`-64 -64 128 128`), 32 × 32 px, at the Card tab's portrait's level, `aria-hidden`, with no line icon beside it.
+        - Each tile's ground is the one orange, `#F19E5A` to `#EE8B3A` to `#82522F`.
+        - Every drawing in the bar carries its own ids: ten of them, none shared.
+        - At rest no tile has a ring. With Actions open, its tile has the ring in the accent, `rgb(241, 184, 75)`, and its label is the accent; Board's and Panels' have none. With Panels open, the ring and the amber label are Panels'. The tile's drawing is the same open or not.
+        - Unavailable, the Actions tab is at 0.38, its tile with it.
+        - On the Board, the first tab says "Room" and draws the room's tile.
+        - The round button's icon is painted, 29 × 29 px: `pass` with no filter when ready, `grayscale(1)` when unavailable, and `vote` as Vote.
+        - **For another viewer with another character, and with no person given** (the Blackout's dark): the three tiles are the same drawings, to the letter. With no person the bar draws no portrait, and the Card tab the card's tile.
+        - Concealed, no tile is drawn. The private talk's two buttons draw none, and keep their two line icons.
       - **The Card tab (0.3.0, 0.3.1),** one check, `card`:
         - Card is the last tab. Its portrait is the top bar's for that person: the same picture, fitted the same way (`contain`), in the same 32 × 32 px box, and `aria-hidden`.
         - At rest it has no ring. Open, the ring is the accent, `rgb(241, 184, 75)`, the tab says `aria-expanded="true"`, and the focused tab keeps its element and the focus. A tap reports `onTab('card')`.
         - Unavailable, the tab is at 0.38 with its reason, and keeps the portrait.
-        - A person with no character, no person, and a character with no portrait (`c0`) each draw the card icon, filled while open.
-        - At 390 × 844, 430 × 932 and 320 × 568, each at the Standard and the Largest text: the box stays 32 × 32, the portrait's foot is the Panels icon's, the Card label's top is the Panels label's, the label is whole and inside the phone, and the portrait is inside the bar.
-        - The bar is as tall with the portrait as with the card icon in its place, at all six: 92 px at the Standard text and 94.19 px at the Largest, with a 34 px safe area.
+        - A person with no character, no person, and a character with no portrait (`c0`) each draw the card's icon and no portrait: its painted tile from 0.3.2, open or not (the line icon, filled while open, until 0.3.1).
+        - At 390 × 844, 430 × 932 and 320 × 568, each at the Standard and the Largest text: the box stays 32 × 32, the portrait's foot is the Panels tile's (0.3.2; the Panels icon's before), the Card label's top is the Panels label's, the label is whole and inside the phone, and the portrait is inside the bar.
+        - The bar is as tall with the portrait as with the card's own icon in its place (its tile, from 0.3.2), at all six: 92 px at the Standard text and 94.19 px at the Largest, with a 34 px safe area.
         - A long press at the Largest text shows "Card" with the card icon.
         - Concealed, shown again with no new input, and for a new viewer, no portrait is drawn. Given again, one is. The private talk's two buttons draw none, and My card keeps the card icon.
       - **A final target bar (0.2.12):** it is made final while Cancel has the focus.
