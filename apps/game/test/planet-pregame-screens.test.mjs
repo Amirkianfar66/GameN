@@ -257,12 +257,29 @@ test('a pending Ready keeps the card down and locks repeat input until the sessi
  assert.equal(roleInput({...reading,busy:false},state,prefs,shown).interactive,true);
 });
 
-test('boarding: the server\'s interval, holding while it runs, then waiting; no Skip, as the film is today\'s',()=>{
+test('boarding uses the authoritative playback sample and offers Skip only to a seated phone',()=>{
  const boarding=model({status:'boarding',selfSeatId:'seat-6',setup:{id:'b1',startedAt:1000,endsAt:11000},setupClock:{status:'synced',serverNowMs:4000,uncertaintyMs:40}});
  const input=boardingInput(boarding,prefs,shown);
  assert.deepEqual({clock:input.clock,view:input.view,skip:input.skip},{clock:{elapsedMs:3000,endsAtMs:10000},view:'holding',skip:null});
  nextBoardingStageInput(BOARDING_STAGE_DEFAULTS,input);
- assert.equal(boardingInput({...boarding,setupClock:{status:'synced',serverNowMs:12000,uncertaintyMs:40}},prefs,shown).view,'waiting');
+ const playing={...shown,playing:true};
+ const phone=nextBoardingStageInput(BOARDING_STAGE_DEFAULTS,boardingInput(boarding,prefs,playing));
+ assert.equal(phone.view,'film');
+ assert.equal(phone.skip.enabled,true);
+ const display=boardingInput({...boarding,selfSeatId:null},prefs,playing);
+ assert.equal(display.view,'film');
+ assert.equal(display.skip,null);
+ for(const fallback of [
+  boardingInput(boarding,prefs,{visible:false,playing:true}),
+  boardingInput({...boarding,connection:'stale'},prefs,playing),
+  boardingInput({...boarding,setupClock:{status:'unsynced'}},prefs,playing),
+ ]){
+  assert.equal(fallback.view,'holding');
+  assert.equal(fallback.skip,null);
+ }
+ const expired=boardingInput({...boarding,setupClock:{status:'synced',serverNowMs:12000,uncertaintyMs:40}},prefs,playing);
+ assert.equal(expired.view,'waiting');
+ assert.equal(expired.skip,null);
  assert.equal(stageClock({...boarding,setup:null}),null);
 });
 

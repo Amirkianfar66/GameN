@@ -39,7 +39,6 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  let recoveringEntry=true;
  try{recoveringEntry=!!matchId||stores.resume.load()!==null||stores.requests.load()!==null||ports.unresolved.load()!==null;}catch{}
  const preferences=createPlanetPreferences(document),pregame=createPlanetPregame(ports.clock,store('mothership:planet:films-seen'),{skipEntry:recoveringEntry,skipRoleOnEntry:recoveringEntry});
- const presentation=mountPregamePresentation(root,pregame,{preferences:preferences.get});
  const libraryAssets=createPlanetLibraryAssets(document);
  // Uniform art loading never holds admission, recovery, Ready eligibility or the server clock.
  const commonArt=loadArt('player',document).catch(()=>{});
@@ -54,8 +53,23 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  // BEGIN pre-game connection: the menu, Display settings, host, join, recover, characters, the role stage and boarding.
  const screens=createPregameScreens(root,{session,preferences,draft:entryDraft,hooks:{
   rerender:()=>{sessionKey=null;if(model)render(session.getModel());},
+  boardingPlaying:()=>pregame.sample()?.kind==='boarding',
+  skipBoarding:()=>presentation.skipBoarding(),
   // As today's recovery form did: no role film replays for a recovered seat.
   beforeRecover:()=>{pregame.suppressRolePlayback();presentation.clear();}}});
+ const presentation=mountPregamePresentation(root,pregame,{
+  preferences:preferences.get,
+  boardingFilm:()=>screens.boardingFilm,
+  boardingWindow:()=>{
+   const {connection:state,status,uncertain,matchId,selfSeatId,setup,setupClock}=session.getModel();
+   if(state!=='live'||status!=='boarding'||uncertain||!setup||setupClock.status!=='synced')return null;
+   if(setupClock.serverNowMs+setupClock.uncertaintyMs>=setup.endsAt)return null;
+   return JSON.stringify([matchId,selfSeatId,setup.id,setup.startedAt,setup.endsAt]);
+  },
+  onBoardingEnd:holder=>{if(holder===screens.boardingFilm)screens.sync(session.getModel(),{boardingEnded:true});},
+  // The seatless host keeps the existing setup screen (G15).
+  legacyBoarding:()=>model?.isHost===true&&model.selfSeatId===null,
+ });
  // END pre-game connection
  const el=(tag,text=null)=>{const n=document.createElement(tag);if(text!==null)n.textContent=text;return n;};
  const button=(label,run)=>{const b=el('button',label);b.type='button';b.addEventListener('click',run);return b;};
@@ -119,11 +133,13 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
   // pre-game connection: while the same match's data is withheld (reconnecting, or back before the first fresh read), its art stays on the last versions seen for it, so a screen kept as last seen keeps its pictures; another match, or none, sets them as before.
   const art=keptArt(model,artSeen);artSeen=art.seen;setCrewPictureSurface(root,art.versions);libraryAssets.setVersions(art.versions);
   if(!model.ownRole)roleOpen=false;
-  pregame.update(model,{visible:document.visibilityState==='visible',focused:document.hasFocus(),uid:connection.currentUid()});presentation.sync();
+  pregame.update(model,{visible:document.visibilityState==='visible',focused:document.hasFocus(),uid:connection.currentUid()});
   if(terminalReturn)terminalReturn.hidden=!canReturnToLobby();
   const running=['running','finished'].includes(model.status),surface=model.selfSeatId?'player':'display';
   // BEGIN pre-game connection: a pre-game screen, when the model asks for one, takes the root.
-  if(screens.sync(model)){if(key&&!running){disposeGame();key=null;}lastStatus=model.status;sessionKey=null;return;}
+  const screenMounted=screens.sync(model);
+  presentation.sync();
+  if(screenMounted){if(key&&!running){disposeGame();key=null;}lastStatus=model.status;sessionKey=null;return;}
   // END pre-game connection
   if(running){
    const nextKey=`${model.matchId}:${surface}:${model.selfSeatId}${planetHasFood(model.versions)?`:${connection.currentUid()}`:''}`;

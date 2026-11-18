@@ -122,6 +122,107 @@ const roundOne = ago => `(async () => { const h = ${H}, now = h.now(), next = h.
 /** The next round's Before turns, as the server moves on. */
 const roundTwo = serve$("const p=v.playerView;p.round=2;p.board.finalizedRound=1;p.navigation.lastMovedRound=1;if(p.board.checkpoint!==undefined)p.board.checkpoint='ROUND_FINALIZED';p.phase={id:'planet-phase-round-2',kind:'PRE_TURN',startedAt:now-150,endsAt:now-150+15000};p.viewRevision+=1;v.publicView=h.publicPlanet(p)");
 const SCREEN = name => `document.querySelector('.planet-pregame-host')?.dataset.screen===${JSON.stringify(name)}`;
+const BOARDING_SETUP = "v.status='boarding';v.privateRole=v.playerView=v.publicView=null;v.members=v.members.map(m=>({...m,ready:true}));v.setup={id:'phone-boarding',startedAt:now-1000,endsAt:now+9000}";
+const BOARDING_ENTRY = 'scenario=reading&flow=3&elapsed=31000';
+const BOARDING_VIEW = name => `document.querySelector('.ms-boarding-stage')?.dataset.view===${JSON.stringify(name)}`;
+const BOARDING_PLAYING = BOARDING_VIEW('film') + "&&!!document.querySelector('.ms-bst-picture svg')";
+const PHONE_HIDDEN = "Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>'hidden'});document.dispatchEvent(new Event('visibilitychange'))";
+const PHONE_SHOWN = "delete document.visibilityState;document.dispatchEvent(new Event('visibilitychange'))";
+const BOARDING = `(() => {
+  const stage = document.querySelector('.ms-boarding-stage'), session = ${SESSION}.getModel();
+  const skip = stage?.querySelector('[data-intent=skip]');
+  const picture = stage?.querySelector('.ms-bst-picture');
+  const svg = picture?.querySelectorAll(':scope > svg, :scope > .pregame-picture > svg');
+  return {
+    view: stage?.dataset.view, status: stage?.dataset.status, motion: stage?.dataset.motion,
+    svg: svg?.length ?? 0, heldPicture: !!picture?.querySelector(':scope > .pregame-picture > svg'),
+    pictureHiddenFromReaders: picture?.getAttribute('aria-hidden') === 'true',
+    overlay: !!document.querySelector('.pregame-overlay'), inert: document.querySelector('#planet-root').inert,
+    offeredSkip: !!skip && !skip.hidden && skip.getAttribute('aria-disabled') !== 'true', focused: document.activeElement === stage,
+    skipVisible: !!skip?.getClientRects().length,
+    display: ${H}.value.admission?.kind === 'display' && ${H}.value.admission.status === 'admitted'
+      && !session.selfSeatId && !session.pendingAdmission && session.status === 'boarding',
+    elapsed: session.setup && session.setupClock.status === 'synced' ? session.setupClock.serverNowMs - session.setup.startedAt : null,
+    endsAt: session.setup?.endsAt ?? null, clockStatus: session.setupClock.status,
+    game: !!${H}.app.game, privateRole: !!session.ownRole,
+    dismissed: sessionStorage.getItem('mothership:planet:films-seen'),
+  };
+})()`;
+
+async function enterBoarding(page) {
+  await page.evaluate(serve$(BOARDING_SETUP));
+  await page.waitFor(BOARDING_PLAYING, 'the released boarding SVG in the stage');
+}
+
+/** Observe the real CSS fade from the first holding update, including the lifetime of the original picture. */
+async function tapBoardingSkip(page, interruption = null) {
+  await page.waitFor(`(() => {
+    const stage = document.querySelector('.ms-boarding-stage'), layer = stage?.querySelector('.ms-bst-film');
+    return layer && !stage.hasAttribute('data-instant') && Number(getComputedStyle(layer).opacity) === 1;
+  })()`, 'the boarding film fully shown');
+  const point = await page.evaluate(`(() => {
+    const stage = document.querySelector('.ms-boarding-stage'), slot = stage.querySelector('.ms-bst-picture');
+    const layer = slot.parentElement, still = slot.firstElementChild, stats = ${H}.app.presentationStats;
+    const skip = stage.querySelector('[data-intent=skip]');
+    skip.focus();
+    const r = skip.getBoundingClientRect(), x = r.x + r.width / 2, y = r.y + r.height / 2;
+    if (!still || !skip.contains(document.elementFromPoint(x, y))) throw Error('The boarding picture or Skip is missing');
+    const endsAt = ${SESSION}.getModel().setup.endsAt;
+    const commandCount = ${H}.requests.filter(request => request.operation !== 'read').length;
+    window.__boardingExit = new Promise(resolve => {
+      const timeout = setTimeout(() => { observer.disconnect(); resolve({ error: 'The boarding fade did not settle' }); }, 2000);
+      const observer = new MutationObserver(() => {
+        if (stage.dataset.view !== 'holding') return;
+        observer.disconnect();
+        const start = performance.now();
+        const duration = layer.getAnimations().find(animation => animation.transitionProperty === 'opacity')?.effect.getTiming().duration ?? null;
+        const frames = [];
+        const readFrame = () => ({
+          elapsedMs: Math.round(performance.now() - start), opacity: Number(getComputedStyle(layer).opacity),
+          picture: slot.hasChildNodes(), samePicture: slot.firstElementChild === still, samples: stats.samples,
+          released: ${H}.app.presentationStats === null,
+        });
+        const finish = () => { clearTimeout(timeout); resolve({ duration, frames, localOnly, skipRetired, endsAt }); };
+        const skipRetired = skip.hidden && layer.inert && document.activeElement === stage;
+        const localOnly = ${SESSION}.getModel().setup?.endsAt === endsAt
+          && ${H}.requests.filter(request => request.operation !== 'read').length === commandCount;
+        frames.push(readFrame());
+        const readAfterLoss = () => { frames.push(readFrame()); finish(); };
+        ${interruption === 'conceal' ? `${PHONE_HIDDEN}; readAfterLoss(); return;` : ''}
+        ${interruption === 'identity' ? `${H}.setUid('other-board-viewer'); requestAnimationFrame(readAfterLoss); return;` : ''}
+        const measure = () => {
+          const frame = readFrame();
+          frames.push(frame);
+          if (frame.opacity === 0 && !frame.picture) finish();
+          else if (frame.elapsedMs < 1000) requestAnimationFrame(measure);
+        };
+        requestAnimationFrame(measure);
+      });
+      observer.observe(stage, { attributes: true, attributeFilter: ['data-view'] });
+    });
+    return { x, y };
+  })()`);
+  await page.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [point] });
+  await page.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  const result = await page.evaluate('window.__boardingExit');
+  if (result.error) throw Error(result.error);
+  return result;
+}
+
+const boardingWithFade = page => page.evaluate(`(async () => ({ ...${BOARDING}, fade: await window.__boardingExit }))()`);
+
+function boardingFadeFacts(fade, duration) {
+  const { frames } = fade, first = frames[0], last = frames.at(-1);
+  return {
+    skipRetired: fade.skipRetired && fade.localOnly,
+    duration: fade.duration === duration,
+    firstHoldingFrame: first.opacity > 0 && first.samePicture,
+    outgoingPicture: frames.some(frame => frame.opacity > 0 && frame.opacity < 1)
+      && frames.every(frame => frame.opacity === 0 || frame.samePicture),
+    stoppedPainting: frames.every(frame => frame.samples === first.samples),
+    releasedAtEnd: last.opacity === 0 && !last.picture && last.released,
+  };
+}
 
 /** What the phone shows now: the pre-game screen, its words and controls, what is left of the old view, and the session. */
 const LOOK = `(() => {
@@ -199,6 +300,11 @@ const redraw = serve$("v.playerView.viewRevision+=1;v.publicView=h.publicPlanet(
 
 const labels = s => s.buttons.map(b => b.label);
 const button = (s, label) => s.buttons.find(b => b.label === label || b.label?.startsWith(label));
+const boardingReconnecting = (s, looks, x) => ({
+  retryOffered: x.status === 'stale' && !!button(s, 'Retry') && !button(s, 'Retry').disabled,
+  noStaleCountdown: x.clockStatus === 'unsynced' && s.words.startsWith('Boarding') && !s.words.includes('Round 1 in'),
+  noStaleFilm: x.view === 'holding' && x.svg === 0 && !x.skipVisible && !x.overlay,
+});
 
 /**
  * Each state: the address it starts from (or `from`, the state it continues), the steps that reach it before the
@@ -346,16 +452,23 @@ const STATES = {
     facts: s => ({ stage: /ms-role-stage/.test(s.component), card: /Hacker/.test(s.words) && /Red team/.test(s.words) && s.shell?.status === 'live', film: /Your film starts in 0:1\d/.test(s.words),
       readyOff: s.buttons.some(b => /^Ready/.test(b.label ?? '') && b.disabled), noKnowledge: !/Unmapped trio|Undercover:/.test(s.words) }) },
   concealed: { from: 'role', steps: async page => {
-      await page.evaluate("Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>'hidden'});document.dispatchEvent(new Event('visibilitychange'))");
+      await page.evaluate(PHONE_HIDDEN);
       // The role stage's concealed state (sheet 18): the card's back with Show role; the public clock runs on.
       await page.waitFor("/Role hidden/.test(document.querySelector('.planet-pregame-host').textContent)&&!/Hacker/.test(document.querySelector('.planet-pregame-host').textContent)", 'concealed');
     },
     facts: s => ({ concealed: /Role hidden/.test(s.words) && !/Hacker|Red team/.test(s.words), clockRuns: /0:\d\d/.test(s.words), noRole: s.model?.role === null }),
     after: async page => {
       // Back on the phone, the session shows the role again by itself (today's), and the card turns face up.
-      await page.evaluate("Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>'visible'});document.dispatchEvent(new Event('visibilitychange'))");
+      await page.evaluate(PHONE_SHOWN);
       await page.waitFor(`${SESSION}.getModel().ownRole&&/Hacker/.test(document.querySelector('.planet-pregame-host').textContent)`, 'the card face up again');
-      return { cardBack: true };
+      await page.evaluate(`${H}.advanceClock(16000)`);
+      await page.waitFor("!!document.querySelector('.pregame-overlay[data-pregame=role] svg')", 'the private role film');
+      const roleFilmRemoved = await page.evaluate(`(() => {
+        const film = document.querySelector('.pregame-overlay[data-pregame=role]');
+        ${PHONE_HIDDEN};
+        return !film.isConnected && !film.hasChildNodes() && ${H}.app.presentationStats === null && !${SESSION}.getModel().ownRole;
+      })()`);
+      return { cardBack: true, roleFilmRemoved };
     } },
   'role-ready': { url: 'scenario=reading&flow=3&elapsed=31000', steps: async page => {
       await page.waitFor(SCREEN('role'), 'the role stage');
@@ -369,21 +482,140 @@ const STATES = {
       const now = await page.evaluate(LOOK);
       return { readySent: true, count: /9 of 9 ready/.test(now.words) };
     } },
-  boarding: { url: 'scenario=reading&flow=3&elapsed=31000', steps: async page => {
-      // The contract's boarding: every seat ready, and its exact ten-second interval.
-      await page.evaluate(serve$("v.status='boarding';v.privateRole=null;v.members=v.members.map(m=>({...m,ready:true}));v.setup={id:'phone-boarding',startedAt:now-1000,endsAt:now+9000}"));
-      await page.waitFor(SCREEN('boarding'), 'the boarding stage');
-      // Today's boarding film plays over it; a local skip shows the holding screen with the server's countdown (sheet 19).
-      await page.waitFor("document.querySelector('.pregame-overlay .pregame-skip')", 'today\'s boarding film');
-      await page.evaluate(tap('.pregame-overlay .pregame-skip'));
-      await page.waitFor("!document.querySelector('.pregame-overlay')", 'the film skipped');
+  boarding: { url: BOARDING_ENTRY, steps: enterBoarding,
+    extra: page => page.evaluate(BOARDING),
+    facts: (s, looks, x) => ({ stage: x.status === 'live' && x.view === 'film' && x.svg === 1 && x.pictureHiddenFromReaders,
+      oneSkip: x.offeredSkip && s.buttons.filter(b => b.intent === 'skip').length === 1, singleSurface: !x.overlay && !x.inert, publicFilm: !x.privateRole }),
+    after: async page => {
+      const retainedSkip = await page.evaluate(`(() => {
+        const skip = document.querySelector('.ms-boarding-stage [data-intent=skip]');
+        skip.focus(); return document.activeElement === skip;
+      })()`);
+      return { keyboardCanFocusSkip: retainedSkip };
+    } },
+  'boarding-skipped': { from: 'boarding', steps: async page => {
+      await tapBoardingSkip(page);
+      await page.evaluate(`${SESSION}.refresh()`);
     },
-    facts: s => ({ stage: /ms-boarding-stage/.test(s.component) && s.shell?.status === 'live', holding: /Round 1 in 0:0\d/.test(s.words), noSkip: !button(s, 'Skip') }) },
-  'boarding-waiting': { from: 'boarding', steps: async page => {
-      await page.evaluate(`${H}.advanceClock(9000)`);
+    extra: boardingWithFade,
+    facts: (s, looks, x) => ({ holding: /Round 1 in 0:0\d/.test(s.words), noSkip: !x.skipVisible,
+      localOnly: s.model?.status === 'boarding' && s.sent.length === 0 && !x.game && !!x.dismissed,
+      focusReturned: x.focused && !x.overlay, ...boardingFadeFacts(x.fade, 220) }) },
+  'boarding-waiting': { from: 'boarding-skipped', steps: async page => {
+      await page.evaluate(`${H}.advanceClock(11000)`);
       await page.waitFor("/Waiting for the ship/.test(document.querySelector('.planet-pregame-host').textContent)", 'the interval over');
     },
-    facts: s => ({ waiting: /Starting Round 1/.test(s.words) && /Waiting for the ship/.test(s.words) }) },
+    extra: page => page.evaluate(BOARDING),
+    facts: (s, looks, x) => ({ waiting: x.view === 'waiting' && /Starting Round 1/.test(s.words) && /Waiting for the ship/.test(s.words), serverStillBoarding: !x.game }),
+    after: async page => {
+      await page.evaluate(roundOne(150));
+      await page.waitFor(`!document.querySelector('.ms-boarding-stage')&&${H}.app.game?.getModel().surface==='player'&&${H}.app.game?.getModel().connection==='live'`, 'the player shell after the server starts');
+      return { disposedOnStart: true };
+    } },
+  'boarding-fade-concealed': { url: BOARDING_ENTRY, steps: async page => {
+      await enterBoarding(page);
+      await tapBoardingSkip(page, 'conceal');
+    },
+    extra: boardingWithFade,
+    facts: (s, looks, x) => ({
+      concealedImmediately: x.status === 'concealed' && x.fade.frames[0].samePicture
+        && !x.fade.frames.at(-1).picture && x.fade.frames.at(-1).released,
+      noSkip: !x.skipVisible,
+    }) },
+  'boarding-player-reconnecting': { from: 'boarding-fade-concealed', steps: async page => {
+      await page.evaluate(`${H}.setReadFailure(true); ${H}.advanceClock(1500)`);
+      await page.evaluate(PHONE_SHOWN);
+      await page.waitFor(`${SESSION}.getModel().connection==='stale'&&document.querySelector('.ms-boarding-stage')?.dataset.status==='stale'`, 'the player waiting for a trusted read');
+    },
+    extra: page => page.evaluate(BOARDING),
+    facts: boardingReconnecting,
+    after: async (page, seen) => {
+      const fade = await page.evaluate('window.__boardingExit');
+      await page.evaluate(`${H}.setReadFailure(false)`);
+      await page.evaluate(tap('.ms-boarding-stage [data-intent=retry]'));
+      await page.waitFor(BOARDING_VIEW('holding') + "&&document.querySelector('.ms-boarding-stage')?.dataset.status==='live'", 'fresh holding after Retry');
+      const resumed = await page.evaluate(BOARDING);
+      const now = await page.evaluate(LOOK);
+      return { reread: now.reads > seen.reads, skipKept: !!resumed.dismissed && resumed.svg === 0 && !resumed.offeredSkip,
+        countdownRestored: resumed.clockStatus === 'synced' && resumed.endsAt === fade.endsAt && /Round 1 in/.test(now.words) };
+    } },
+  'boarding-fade-identity': { url: BOARDING_ENTRY, steps: enterBoarding,
+    after: async page => {
+      const fade = await tapBoardingSkip(page, 'identity');
+      const last = fade.frames.at(-1);
+      return { identityCleared: fade.frames[0].samePicture && !last.picture && last.released, infoFade: fade };
+    } },
+  'boarding-display': { url: 'scenario=join&flow=3', steps: async page => {
+      await page.waitFor(SCREEN('menu') + "&&!document.querySelector('.pregame-overlay')", 'the menu after intro');
+      await page.evaluate(tap('.planet-pregame-host [data-intent="join"]'));
+      await page.waitFor(SCREEN('join'), 'the Join form');
+      await page.evaluate(type('.planet-pregame-host input:not([autocomplete="nickname"])', 'PLANET'));
+      await page.evaluate(type('.planet-pregame-host input[autocomplete="nickname"]', 'Table view'));
+      await page.evaluate(tap('.planet-pregame-host [data-intent=device][data-value=display]'));
+      await page.evaluate(tap('.planet-pregame-host [data-intent=ask]'));
+      await page.waitFor(`${SESSION}.getModel().pendingAdmission?.kind==='display'`, 'a real display admission intent');
+      await page.evaluate(serve$("v.admission={...v.admission,status:'admitted'};v.members=h.fixture('display').members;" + BOARDING_SETUP));
+      await page.waitFor(BOARDING_PLAYING, 'the admitted display plays in the canonical slot');
+    },
+    extra: page => page.evaluate(BOARDING),
+    facts: (s, looks, x) => ({ admittedDisplay: x.display, singleSurface: x.svg === 1 && !x.overlay && !x.inert,
+      noSkip: !x.offeredSkip && !x.skipVisible, publicFilm: !x.privateRole && !x.game }),
+    after: async page => {
+      const before = await page.evaluate(BOARDING);
+      await page.evaluate(tap('.ms-boarding-stage [data-intent=skip]'));
+      const afterTap = await page.evaluate(BOARDING);
+      return { hiddenSkipRefused: afterTap.view === 'film' && afterTap.dismissed === before.dismissed };
+    } },
+  'boarding-display-reconnecting': { from: 'boarding-display', steps: async page => {
+      await page.evaluate(`(() => {
+        window.__boardingDisplayBefore = ${BOARDING};
+        ${PHONE_HIDDEN};
+        window.__boardingDisplayConcealed = ${BOARDING};
+      })()`);
+      await page.evaluate(`${H}.setReadFailure(true);${H}.advanceClock(1500)`);
+      await page.evaluate(PHONE_SHOWN);
+      await page.waitFor(`${SESSION}.getModel().connection==='stale'&&document.querySelector('.ms-phone-shell')?.dataset.status==='stale'&&!document.querySelector('.ms-bst-picture svg')`, 'reconnecting with no stale picture');
+    },
+    extra: page => page.evaluate(BOARDING),
+    facts: boardingReconnecting,
+    after: async (page, seen) => {
+      const before = await page.evaluate('window.__boardingDisplayBefore');
+      const concealed = await page.evaluate('window.__boardingDisplayConcealed');
+      await page.evaluate(`${H}.setReadFailure(false)`);
+      await page.evaluate(tap('.ms-boarding-stage [data-intent=retry]'));
+      await page.waitFor(BOARDING_PLAYING, 'the fresh display resumes boarding');
+      const resumed = await page.evaluate(BOARDING);
+      const after = await page.evaluate(LOOK);
+      return { concealedCleared: concealed.status === 'concealed' && concealed.svg === 0, retryRead: after.reads > seen.reads,
+        sameServerWindow: resumed.endsAt === before.endsAt && resumed.elapsed > before.elapsed + 1200, stillPublic: resumed.display && !resumed.offeredSkip && !resumed.overlay };
+    } },
+  'boarding-display-waiting': { from: 'boarding-display-reconnecting', steps: async page => {
+      await page.evaluate(`${H}.advanceClock(11000)`);
+      await page.waitFor(BOARDING_VIEW('waiting') + "&&!document.querySelector('.ms-bst-picture svg')", 'display waits for the server');
+    },
+    extra: page => page.evaluate(BOARDING),
+    facts: (s, looks, x) => ({ waited: x.display && !x.game && !x.skipVisible && /Waiting for the ship/.test(s.words) }),
+    after: async page => {
+      await page.evaluate(`(async()=>{const h=${H},next=h.fixture('display');next.admission=h.value.admission;await h.replace(next)})()`);
+      await page.waitFor(`!document.querySelector('.ms-boarding-stage')&&${H}.app.game?.getModel().surface==='display'&&${H}.app.game?.getModel().connection==='live'`, 'the shared display after the server starts');
+      return { disposedOnStart: await page.evaluate(`${H}.app.game.getModel().privateArea===null`) };
+    } },
+  'boarding-reduced': { url: 'scenario=reading&flow=2', prefs: { reduced: true, textScale: 1 }, steps: async page => {
+      await page.evaluate(serve$(BOARDING_SETUP));
+      await page.waitFor(BOARDING_PLAYING, 'the saved flow plays its released reduced still');
+    },
+    extra: page => page.evaluate(BOARDING),
+    facts: (s, looks, x) => ({ savedFlow: x.view === 'film' && x.motion === 'reduced' && x.svg === 1 && x.heldPicture && !x.overlay,
+      playerSkip: x.offeredSkip }) },
+  'boarding-reduced-skipped': { from: 'boarding-reduced', steps: async page => { await tapBoardingSkip(page); },
+    extra: boardingWithFade,
+    facts: (s, looks, x) => ({ holding: x.view === 'holding' && !x.skipVisible && !!x.dismissed, ...boardingFadeFacts(x.fade, 80) }) },
+  'boarding-film-unavailable': { url: 'scenario=reading&flow=2&tuple=current', steps: async page => {
+      await page.evaluate(serve$(BOARDING_SETUP));
+      await page.waitFor(SCREEN('boarding') + '&&' + BOARDING_VIEW('holding'), 'saved artwork without boarding film');
+    },
+    extra: page => page.evaluate(BOARDING),
+    facts: (s, looks, x) => ({ holding: x.view === 'holding' && /Round 1 in 0:0\d/.test(s.words), gated: x.svg === 0 && !x.overlay && !x.skipVisible }) },
   // Part 9: the round stamp (#288) on the shell's cover as Round 1's Before turns begins, by the shell connection's
   // moment and server clock (G18). From the role stage, the match starts at Round 1 begun 150 ms ago; the stamp is
   // caught running on the server's window, then held at 600 ms (standing) for the capture, as its own check holds it.

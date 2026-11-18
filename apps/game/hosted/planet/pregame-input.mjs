@@ -239,11 +239,13 @@ export function roleInput(model,ui,prefs,{visible}){
   roster:model.playerCount?{ready:model.members.filter(member=>member.ready).length,total:model.playerCount}:null,reducedMotion:prefs.reduced};
 }
 
-/** Boarding: the server's interval; the holding screen while it runs, then waiting for the round. No Skip: the film is today's. */
-export function boardingInput(model,prefs,{visible}){
- const clock=stageClock(model);
- return {status:stageStatus(model,{visible}),viewer:model.selfSeatId,clock:clock?{elapsedMs:clock.elapsedMs,endsAtMs:clock.endsAtMs}:null,
-  view:clock&&clock.elapsedMs>=clock.endsAtMs?'waiting':'holding',skip:null,reducedMotion:prefs.reduced};
+/** The stage presents the player's sample and the server clock. Skip is local to a seated phone. */
+export function boardingInput(model,prefs,{visible,playing=false}){
+ const clock=stageClock(model),status=stageStatus(model,{visible});
+ const film=playing&&status==='live'&&!!clock&&clock.elapsedMs<clock.endsAtMs;
+ const view=film?'film':clock&&clock.elapsedMs>=clock.endsAtMs?'waiting':'holding';
+ return {status,viewer:model.selfSeatId,clock:clock?{elapsedMs:clock.elapsedMs,endsAtMs:clock.endsAtMs}:null,
+  view,skip:film&&model.selfSeatId?{enabled:true}:null,reducedMotion:prefs.reduced};
 }
 
 // ── The round stamp (part 9) ─────────────────────────────────────────────────────────────────────────────
