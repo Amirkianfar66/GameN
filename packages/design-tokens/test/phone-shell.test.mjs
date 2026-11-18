@@ -35,7 +35,7 @@ function graph(entry) {
 const SELF = 4;
 const turn = (extra = {}) => ({ kind: 'turn', who: { seat: SELF, name: 'Dev', character: 'c1' }, self: true, round: 3, timer: { remainingMs: 42000 }, promises: { count: 1 }, menu: {}, ...extra });
 const live = (extra = {}) => nextPhoneShellInput(PHONE_SHELL_DEFAULTS, {
-  viewer: SELF, bar: turn(), tabs: { variant: 'game', hero: { mode: 'pass' } }, target: { title: 'Rescue' }, chip: { id: 'other', label: 'Other rooms · 1' },
+  viewer: SELF, bar: turn(), tabs: { variant: 'game', me: { seat: SELF, name: 'Dev', character: 'c1' }, hero: { mode: 'pass' } }, target: { title: 'Rescue' }, chip: { id: 'other', label: 'Other rooms · 1' },
   sheet: { id: 'pass', title: 'Pass your turn?', actions: [{ id: 'pass', label: 'Pass', kind: 'primary' }] }, toast: { id: 't', text: 'Turn passed' }, ...extra,
 });
 
@@ -135,9 +135,12 @@ test('its words are the pack\'s: the hero, the tabs, the bar and the two banners
   assert.ok(read('design/phone-ui/prototype/screens-more.mjs').includes(`banner({ icon: 'eliminated', title: '${OUT.title}', sub: '${OUT.sub}' })`), 'sheet 44: the eliminated player\'s banner');
   assert.deepEqual(BANNER_KINDS, ['reconnecting', 'out']);
   assert.ok(read('design/phone-ui/prototype/screens-more.mjs').includes("'My card'"), 'sheet 25: My card');
-  assert.deepEqual(GAME_TABS, ['switch', 'actions', 'hero', 'card', 'panels'], 'the pack\'s tab order');
+  // 0.3.0, the owner's 18 November 2026 decision: Card is the last tab, after Panels. The pack's sheet 08 draws it
+  // before Panels, and the pinned pack stays as it is.
+  assert.deepEqual(GAME_TABS, ['switch', 'actions', 'hero', 'panels', 'card'], 'the owner\'s tab order: Card last');
+  assert.match(read('design/phone-ui/prototype/ui.mjs'), /tab\('card', 'card', 'Card'\),\s*tab\('panels', 'panels', 'Panels'\)/, 'the pack draws Card before Panels');
   assert.deepEqual(TALK_BUTTONS, ['promises', 'my-card']);
-  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.2.12');
+  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.3.1');
   assert.ok(TOAST_MS > 0);
 });
 
@@ -167,7 +170,10 @@ test('inputs are checked, and refused with a reason', () => {
   refuses({ bar: { kind: 'phase', title: 'Jail vote', timer: { remainingMs: 3000, ring: 2 } } }, /ring is 0…1/);
   refuses({ bar: { kind: 'phase', title: 'x', round: 2.5 } }, /round is a whole number/);
   refuses({ tabs: { variant: 'menu' } }, /variant is game or talk/);
-  refuses({ tabs: { variant: 'game', open: 'promises' } }, /An open tab is one of switch, actions, card, panels/);
+  refuses({ tabs: { variant: 'game', open: 'promises' } }, /An open tab is one of switch, actions, panels, card/);
+  // 0.3.0: the viewer's own person, as the bar's who.
+  refuses({ tabs: { variant: 'game', me: { seat: 4 } } }, /tabs\.me needs a name/);
+  refuses({ tabs: { variant: 'game', me: { name: 'Dev' } } }, /tabs\.me needs a seat/);
   refuses({ tabs: { variant: 'talk', open: 'panels' } }, /An open tab is one of promises, my-card/);
   refuses({ tabs: { hero: { mode: 'cancel' } } }, /hero's mode is pass, vote, voted/);
   refuses({ banner: { kind: 'error' } }, /kind: 'reconnecting'/);
@@ -189,6 +195,12 @@ test('inputs are checked, and refused with a reason', () => {
   assert.equal(d.shape, 'none');
   assert.equal(d.edge, false, 'the stage between the bars unless edge is asked for');
   assert.equal(d.backdrop, 'scene', 'the room view\'s space behind the bars unless the canvas is asked for');
+  // 0.3.0: the viewer's own person for the Card tab, checked as the bar's who. None is the card icon; the private
+  // talk's two buttons take none.
+  assert.deepEqual(checkTabs({ variant: 'game', me: { seat: 4, name: 'Dev', character: 'c1' } }).me, { seat: 4, number: null, name: 'Dev', character: 'c1' });
+  assert.equal(checkTabs({ variant: 'game' }).me, null, 'no person: the card icon');
+  assert.equal(checkTabs({ variant: 'game', me: { seat: 4, name: 'Player 4' } }).me.character, null, 'a person with no character: the card icon');
+  assert.equal(checkTabs({ variant: 'talk', me: { seat: 4, name: 'Dev', character: 'c1' } }).me, null, 'the private talk\'s My card keeps its icon');
   // The checked forms are stable: checking them again changes nothing.
   const once = live();
   assert.deepEqual(nextPhoneShellInput(once, {}), once);
@@ -241,13 +253,30 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   assert.match(csp, /img-src 'self' data:/);
   assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
   const captures = Object.entries(record.captures);
-  assert.equal(captures.length, 64, 'thirty states at two sizes, the target bar at the Largest text on both, and the Largest text at 320 × 568 for a turn and for a phase');
+  assert.equal(captures.length, 66, 'thirty-one states at two sizes, the target bar at the Largest text on both, and the Largest text at 320 × 568 for a turn and for a phase');
   for (const [key, c] of captures) {
     assert.ok(c.ok && c.drawn, `${key} passed and drew what its state asks`);
     assert.deepEqual(c.problems, [], `${key}: no page error or failed request`);
     assert.ok(c.violations.every(v => v.kind.startsWith('known:')), `${key}: no unexpected policy report`);
     assert.ok(existsSync(join(REPO, c.file)), `${key}: ${c.file}`);
   }
+  // 0.3.0, the owner's 18 November 2026 decision: Card is the last tab and draws this viewer's own crew portrait; with
+  // no character, the pack's card icon. The tab keeps its word and takes no other name. 0.3.1, the owner the same
+  // day: the portrait as the top bar draws it, at its 32 px, with a ring only while its sheet is open, in amber.
+  for (const [key, c] of captures) {
+    if (!c.order?.length) continue;
+    assert.deepEqual(c.order, ['switch', 'actions', 'hero', 'panels', 'card'], `${key}: Card is the last tab`);
+    assert.ok(c.card.words === 'Card' && c.card.name === null && c.card.icon === 'card' && c.card.level, `${key}: the Card tab's word, and its label level with the others`);
+    if (c.card.picture) assert.ok(c.card.drawn && c.card.box[0] === 32 && c.card.box[1] === 32, `${key}: the portrait drawn at the top bar's 32 px`);
+    assert.equal(c.card.picture ? c.card.amber : false, c.open === 'card' && c.card.picture, `${key}: an amber ring only while Card is open`);
+    if (c.card.picture) assert.equal(c.card.ring, c.card.amber, `${key}: no ring of another colour, and none at rest`);
+  }
+  for (const size of ['390x844', '430x932']) {
+    assert.ok(record.captures[`${size}/own`].card.picture && record.captures[`${size}/card`].card.amber, `${size}: the portrait, and its amber ring with Card open`);
+    assert.ok(!record.captures[`${size}/card-icon`].card.picture, `${size}: no character, the card icon`);
+    assert.equal(record.captures[`${size}/concealed`].order.length, 0, `${size}: concealed, no tab and no portrait`);
+  }
+  assert.ok(record.captures['320x568/large'].card.picture, 'the portrait at the Largest text on the small phone');
   // 0.2.9: while reconnecting, the target bar 8 px under the banner with its Cancel in reach; at 200 %, Cancel under
   // the bar's words, the bar inside the phone and the chip's label whole.
   for (const size of ['390x844', '430x932']) {
@@ -308,7 +337,18 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
   }
   const groups = record.probe.full.checks.map(c => c.id.split(':')[0]);
-  for (const group of ['focus', 'refused', 'stale', 'out', 'private', 'time', 'layout', 'layers', 'large', 'textsize', 'nobar', 'edge', 'reach', 'backdrop', 'head', 'footer', 'talk', 'toast', 'words', 'hud', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
+  for (const group of ['focus', 'refused', 'stale', 'out', 'private', 'time', 'layout', 'layers', 'large', 'textsize', 'nobar', 'edge', 'reach', 'backdrop', 'head', 'footer', 'talk', 'toast', 'words', 'hud', 'card', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
+  // 0.3.0: the Card tab's own check, with what it saw: the portrait is the top bar's, and at every size keeps its box.
+  const cardTab = record.probe.full.checks.find(c => c.id.startsWith('card:')).detail;
+  assert.equal(cardTab.rest.image, cardTab.rest.barImage, 'the Card tab\'s portrait is the plain one the top bar draws');
+  // 0.3.1: the top bar's shape and size too: the same box, fitted the same way, with no ring at rest.
+  assert.deepEqual([cardTab.rest.box, cardTab.rest.fit, cardTab.rest.ring], [cardTab.rest.barBox, cardTab.rest.barFit, null], 'the top bar\'s box and fit, and no ring at rest');
+  assert.equal(cardTab.open.ring, cardTab.open.accent, 'open, the ring is the accent');
+  assert.deepEqual(Object.keys(cardTab.sized), ['390 standard', '390 largest', '430 standard', '430 largest', '320 standard', '320 largest']);
+  for (const [key, f] of Object.entries(cardTab.sized)) {
+    assert.deepEqual(f.box, [32, 32], `${key}: the portrait's box`);
+    assert.equal(f.barHeight, f.barHeightWithIcon, `${key}: the bar as tall as with the card icon`);
+  }
   // 0.2.10: the lit Blackout counting down in one mounted shell, then dark: its words and clock change and nothing moves.
   const words = record.probe.full.checks.find(c => c.id.startsWith('words:')).detail;
   assert.deepEqual(words.subs, ['Lights out in 0:03', 'Lights out in 0:02', 'Lights out in 0:01', 'Dark · positions fixed']);

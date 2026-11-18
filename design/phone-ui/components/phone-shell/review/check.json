@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/phone-shell-check.mjs",
   "component": "design/phone-ui/components/phone-shell",
-  "sourceCommit": "ad5a01598a5ccabf255731b58a7a56c5bc4d9b7d",
+  "sourceCommit": "f0d52240c77c4bafd235264db5dc0bc6e4816bea",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -39,16 +39,16 @@
   "captures": {
     "390x844/turn": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-turn.jpg",
-      "sha256": "bc66a1c2575058687607185a13cacaf6a8c28f40b5fecfdef22b96af59c4f06d",
+      "sha256": "ed186021d2d6764680d1d5f33dc876601d748ab122d787b83c76f33fd550e55d",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -65,6 +65,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -147,6 +168,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/portrait-c9-BC_Dw7-k.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
@@ -156,16 +178,16 @@
     },
     "430x932/turn": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-turn.jpg",
-      "sha256": "89819f77e5f9825828d206f0547092a99e769591305a4acab360575484095acd",
+      "sha256": "f5ef1757b753aac7759118b75f168d2bdfe9f15af37638d712568035f5e811da",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -182,6 +204,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -264,6 +307,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/portrait-c9-BC_Dw7-k.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
@@ -273,16 +317,16 @@
     },
     "390x844/own": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-own.jpg",
-      "sha256": "b2bb3ded97a291cd3b17f1da3751b127fe2b324a8bcbba220baefaced6593551",
+      "sha256": "f762463cc3f8d8713c6c952aa69e236b031d955b2a395359d5aaf8c53ade70d9",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -299,6 +343,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -390,16 +455,16 @@
     },
     "430x932/own": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-own.jpg",
-      "sha256": "c4b47fd73b991580f284f9fba6f6c8ead80006d4d503ae5d045006501226ec10",
+      "sha256": "e74d4ca60935f4d72f464483e1c5343f2a03288e90c4e316c742e077ec11fb0b",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -416,6 +481,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -507,16 +593,16 @@
     },
     "390x844/urgent": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-urgent.jpg",
-      "sha256": "77c6e18407d76dc34737ef1f26422ff0cb99db28719a914ba6d1bd6c8d120cf8",
+      "sha256": "8a761d08aa67254cb76cea43309071e4e3ac142477b81c34d1fe053f1c8f4f58",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -533,6 +619,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -624,16 +731,16 @@
     },
     "430x932/urgent": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-urgent.jpg",
-      "sha256": "b97695451ab65b72425b27ceabe1cdc3f2c35b1d56d72dff99d16ef414b759dc",
+      "sha256": "44bf0166aa0a82cd5ee9aaeeb0499f53d283c8b4aed3bc6f57db0a3330dd9948",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -650,6 +757,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -741,16 +869,16 @@
     },
     "390x844/vote": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-vote.jpg",
-      "sha256": "6858ae5d88f3c5005e5c2105752f45ea14698a4a9774365518587579246a8c11",
+      "sha256": "e090049527b9e383f6a60d28a970adf35625155acc518681cbbc235ccae84af5",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -767,6 +895,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "vote",
       "heroOff": false,
       "talk": 0,
@@ -849,6 +998,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -857,16 +1007,16 @@
     },
     "430x932/vote": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-vote.jpg",
-      "sha256": "a464d325821a615288192a475d0d5799f7143ac986825ad097c648d5b0b24e0d",
+      "sha256": "0891c1e995b3a914594152a1361070299888172066bf74fd79cb124f1116ff10",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -883,6 +1033,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "vote",
       "heroOff": false,
       "talk": 0,
@@ -965,6 +1136,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -973,16 +1145,16 @@
     },
     "390x844/voted": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-voted.jpg",
-      "sha256": "d717a47aa1ebcee0b92125117d5e77b9be71a1cbad84f4a05eee1328dd86544e",
+      "sha256": "7340e8a18e824be2530048bffae8c6a2a6adc9ba7e630d66a84c117a457921df",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -999,6 +1171,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "voted",
       "heroOff": false,
       "talk": 0,
@@ -1081,6 +1274,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -1089,16 +1283,16 @@
     },
     "430x932/voted": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-voted.jpg",
-      "sha256": "b05cdfef11a1d4a042d3884737f0becdc598c63eb75f8a2308ffbe6a82c70e31",
+      "sha256": "b070385ec62607792a82ef1b4b2753a08470f4fa8f80835c6ad687af45944acf",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1115,6 +1309,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "voted",
       "heroOff": false,
       "talk": 0,
@@ -1197,6 +1412,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -1205,16 +1421,16 @@
     },
     "390x844/result": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-result.jpg",
-      "sha256": "24a81d461f544c13ce959d0c9419ed4dcc41855eb2c0ac5d47dc36a074a66e57",
+      "sha256": "9f4eb5a9fd96c555e31de1970e47f6cce366087dae46b6aac066a2083c98c0a9",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1231,6 +1447,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "vote",
       "heroOff": true,
       "talk": 0,
@@ -1308,6 +1545,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -1316,16 +1554,16 @@
     },
     "430x932/result": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-result.jpg",
-      "sha256": "3f107478956349a6cf44aad54836d03393595251b44df8eb1191598d315cd9f4",
+      "sha256": "5aa8604e6d33c7f110655de823374a24a697648f070643dbea9efe36d2877476",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1342,6 +1580,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "vote",
       "heroOff": true,
       "talk": 0,
@@ -1419,6 +1678,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -1427,16 +1687,16 @@
     },
     "390x844/dark": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-dark.jpg",
-      "sha256": "be637bf92208b22d093499ec04d4d8bd51ac77edab65c8ae41bcc0d6dfdb951b",
+      "sha256": "818f9d9e68133d9fbed4d798efd79af65d306185a73ee0dcb640122ff601b0e5",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1453,6 +1713,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -1535,6 +1816,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg",
@@ -1545,16 +1827,16 @@
     },
     "430x932/dark": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-dark.jpg",
-      "sha256": "e23109cbf7cca16cfb43ff86fc9dfe95d9a8e6a509476b2adda33095eb453e09",
+      "sha256": "0b089e4ebb21aa790b35fc9a13423023fe5d90a05ca23535061c6f8fdba98cd2",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1571,6 +1853,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -1653,6 +1956,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg",
@@ -1663,16 +1967,16 @@
     },
     "390x844/target": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-target.jpg",
-      "sha256": "f9fee7840538e95b9a5fcefbd1d5e75752ed999ba752834f651bfb6beaeb5df6",
+      "sha256": "b0f35bb1107f9045e733e8a102fd2e5cacb906e16f3417b147c3e53640672ccf",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1689,6 +1993,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -1780,16 +2105,16 @@
     },
     "430x932/target": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-target.jpg",
-      "sha256": "ae210c85424093de05d0a0197b64b7eb19218b6118f9b4b24f50140a3012a9b6",
+      "sha256": "278c5496f9c7608851e30063d7054d8f534be065237f4d28aff420505fc2db79",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1806,6 +2131,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -1897,16 +2243,16 @@
     },
     "390x844/pass": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-pass.jpg",
-      "sha256": "240dde486b40b283c1997a75326b4aef7ff558d88763ec6d48e5af8ec0ce584e",
+      "sha256": "a88003ddc2479d48a393f45dc60cad9cc35cfaf53c6cc3d7347be326156c6efb",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1923,6 +2269,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -2014,16 +2381,16 @@
     },
     "430x932/pass": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-pass.jpg",
-      "sha256": "02cffbc9cf518a2f02d0e9e2d9067997239ad07e49910fb39979366906164493",
+      "sha256": "73a9e6ea465858b0e620e82130acaefe6c2294938e880e2b2792bd99e49c89a7",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -2040,6 +2407,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -2131,16 +2519,16 @@
     },
     "390x844/actions": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-actions.jpg",
-      "sha256": "c1f42ef1a2cd47ba1d5670eed7f92918b6f54f69969cef967421194169a189e5",
+      "sha256": "367b2deeac24f6610104be67e9b9624af411a0aff05b7e39ecd3ec2545bcd1b4",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -2157,6 +2545,27 @@
       "menu": true,
       "tabs": 4,
       "open": "actions",
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -2248,16 +2657,16 @@
     },
     "430x932/actions": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-actions.jpg",
-      "sha256": "5797b660cfab0c2e878728f59e67038116617a134a1c34efdfa0087b5c0b06b7",
+      "sha256": "82e8a87efeb69f8eac91b3ea3630dd23207b57068bc54c7d0cfe6d88228f9f66",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -2274,6 +2683,27 @@
       "menu": true,
       "tabs": 4,
       "open": "actions",
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -2365,16 +2795,16 @@
     },
     "390x844/card": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-card.jpg",
-      "sha256": "46a9e0f8ef54941df61c8f5258811a50bba644989c5722971321b2fcb058321b",
+      "sha256": "eb5407801e125893bda22f02c6f087b383491404d94921f59235df0ad70c6ea1",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -2391,6 +2821,27 @@
       "menu": true,
       "tabs": 4,
       "open": "card",
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": true,
+        "ring": true,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -2482,16 +2933,16 @@
     },
     "430x932/card": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-card.jpg",
-      "sha256": "a48ecf6dd303316a0a41c7432a183eef3411a2cabe3a9149d9600ccecb47b293",
+      "sha256": "c0491696ebd71048709e706532fd46b50c5c15fd0626bab498cc2106afc4c78e",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -2508,6 +2959,27 @@
       "menu": true,
       "tabs": 4,
       "open": "card",
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": true,
+        "ring": true,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -2597,6 +3069,276 @@
       ],
       "problems": []
     },
+    "390x844/card-icon": {
+      "file": "design/phone-ui/components/phone-shell/review/390x844-card-icon.jpg",
+      "sha256": "9a4f3837cbe62307050f234a6105d8b3b30a74bfc7c85a41b27aa81e2d3ce883",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Ca_1J1_0.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "turn",
+      "tone": null,
+      "name": "Your turn",
+      "sub": "Player 4 · Dev",
+      "round": "R3",
+      "timer": "0:42",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises, 1 new",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": false,
+        "drawn": null,
+        "box": null,
+        "amber": null,
+        "ring": null,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
+      "hero": "pass",
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "bannerKind": null,
+      "toast": null,
+      "bar": {
+        "box": [
+          0,
+          0,
+          390,
+          99
+        ],
+        "promises": [
+          148.27,
+          50.5,
+          92.3,
+          44
+        ],
+        "round": [
+          251.56,
+          66,
+          18.72,
+          13
+        ],
+        "timer": [
+          275.28,
+          56.5,
+          70.72,
+          32
+        ],
+        "menu": [
+          346,
+          50.5,
+          44,
+          44
+        ],
+        "right": 390,
+        "nameLines": 1,
+        "nameWhole": true
+      },
+      "bannerButtons": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "head": null,
+      "buttons": 7,
+      "figures": 5,
+      "cover": 0,
+      "bannerTop": null,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 390,
+          "height": 653
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "over": {
+        "targetTop": null,
+        "targetRight": null,
+        "bannerBottom": null,
+        "wordsBottom": null,
+        "cancelTop": null,
+        "cancelReach": false,
+        "chipWhole": null
+      },
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "430x932/card-icon": {
+      "file": "design/phone-ui/components/phone-shell/review/430x932-card-icon.jpg",
+      "sha256": "2b483446ddaea1a9fae082273a8079cdd9cc99c2d108686b74dbee2b87eeb056",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Ca_1J1_0.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "turn",
+      "tone": null,
+      "name": "Your turn",
+      "sub": "Player 4 · Dev",
+      "round": "R3",
+      "timer": "0:42",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises, 1 new",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": false,
+        "drawn": null,
+        "box": null,
+        "amber": null,
+        "ring": null,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
+      "hero": "pass",
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "bannerKind": null,
+      "toast": null,
+      "bar": {
+        "box": [
+          0,
+          0,
+          430,
+          99
+        ],
+        "promises": [
+          188.27,
+          50.5,
+          92.3,
+          44
+        ],
+        "round": [
+          291.56,
+          66,
+          18.72,
+          13
+        ],
+        "timer": [
+          315.28,
+          56.5,
+          70.72,
+          32
+        ],
+        "menu": [
+          386,
+          50.5,
+          44,
+          44
+        ],
+        "right": 430,
+        "nameLines": 1,
+        "nameWhole": true
+      },
+      "bannerButtons": null,
+      "sheet": null,
+      "sheetActions": 0,
+      "head": null,
+      "buttons": 7,
+      "figures": 5,
+      "cover": 0,
+      "bannerTop": null,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 430,
+          "height": 741
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "over": {
+        "targetTop": null,
+        "targetRight": null,
+        "bannerBottom": null,
+        "wordsBottom": null,
+        "cancelTop": null,
+        "cancelReach": false,
+        "chipWhole": null
+      },
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
     "390x844/talk": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-talk.jpg",
       "sha256": "ede9e439378d089d10b568967ab6e1023349fd0848ddaeee4455ae8fc818fd99",
@@ -2606,9 +3348,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -2625,6 +3367,8 @@
       "menu": true,
       "tabs": 0,
       "open": null,
+      "order": [],
+      "card": null,
       "hero": null,
       "heroOff": false,
       "talk": 2,
@@ -2721,9 +3465,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -2740,6 +3484,8 @@
       "menu": true,
       "tabs": 0,
       "open": null,
+      "order": [],
+      "card": null,
       "hero": null,
       "heroOff": false,
       "talk": 2,
@@ -2829,16 +3575,16 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-stale.jpg",
-      "sha256": "1b3555a4e871f64095fd70ad42c169de072d88560771068a75474cdde3a3a027",
+      "sha256": "a7a1010c3e42f5bd2c3b2005e52e95c8e4fd7cca9782b4ee73305ef448c98e12",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -2855,6 +3601,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -2932,6 +3699,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -2940,16 +3708,16 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-stale.jpg",
-      "sha256": "9c12e3bd1a1261581d1c951fe6b7cfbf09e045ae41599a18d287165f5ccec15f",
+      "sha256": "53e099d358cf92ebdfc154e67cc189004de8d260d5603d9b78aa1bbf57cb36b2",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -2966,6 +3734,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -3043,6 +3832,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -3051,16 +3841,16 @@
     },
     "390x844/out": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-out.jpg",
-      "sha256": "6dca5fb8816588bbaa5ca1e904ed13ad1b30aeee048ccf74fb7728a0bda086bf",
+      "sha256": "216b56e3b73fe19416c3a2c153cca8fe1f7e3308b23e0fc6598ff1be33b54171",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -3077,6 +3867,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -3159,6 +3970,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/portrait-c9-BC_Dw7-k.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
@@ -3168,16 +3980,16 @@
     },
     "430x932/out": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-out.jpg",
-      "sha256": "69c277e99831b98ea6776cae0f456def67e0872a036d24e5f5ee7219ec8bc828",
+      "sha256": "f8dea49c5bdc2748c04f3fa786a01c8121836fbce1817b4bb8574d5ac9e70a93",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -3194,6 +4006,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -3276,6 +4109,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/portrait-c9-BC_Dw7-k.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
@@ -3292,9 +4126,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -3311,6 +4145,8 @@
       "menu": false,
       "tabs": 0,
       "open": null,
+      "order": [],
+      "card": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -3384,9 +4220,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -3403,6 +4239,8 @@
       "menu": false,
       "tabs": 0,
       "open": null,
+      "order": [],
+      "card": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -3476,9 +4314,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -3495,6 +4333,8 @@
       "menu": false,
       "tabs": 0,
       "open": null,
+      "order": [],
+      "card": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -3563,9 +4403,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -3582,6 +4422,8 @@
       "menu": false,
       "tabs": 0,
       "open": null,
+      "order": [],
+      "card": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -3650,9 +4492,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -3669,6 +4511,8 @@
       "menu": true,
       "tabs": 0,
       "open": null,
+      "order": [],
+      "card": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -3762,9 +4606,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -3781,6 +4625,8 @@
       "menu": true,
       "tabs": 0,
       "open": null,
+      "order": [],
+      "card": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -3867,16 +4713,16 @@
     },
     "320x568/large": {
       "file": "design/phone-ui/components/phone-shell/review/320x568-large.jpg",
-      "sha256": "4fb29525f612b926a1d1ab63f7bfd61531973ec6d4827c8bacca0cb807161f12",
+      "sha256": "68b92eba74d0dba3281d72ddfe66865c4f089b0b3c311dd50b699a51dc016477",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -3893,6 +4739,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -3979,16 +4846,16 @@
     },
     "390x844/target-stale": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-target-stale.jpg",
-      "sha256": "4942929b0f08b4b33f10de45009295953349aba0f19bd49b94ab18d4f138055d",
+      "sha256": "1fb1890b5e098383ad4ab8145af5420fc78e0fdb359f8aca8cb48e091ee8df73",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -4005,6 +4872,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -4082,6 +4970,7 @@
         "chipWhole": true
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -4090,16 +4979,16 @@
     },
     "430x932/target-stale": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-target-stale.jpg",
-      "sha256": "fba44986fa89ab03394a2b3195d0eacf2d2a40651df2c257b0fb2f1228c754f1",
+      "sha256": "7f7bb660a268de238fc65fde9badf53c3615cb04a39c7d6baccc24c1b01cda89",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -4116,6 +5005,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -4193,6 +5103,7 @@
         "chipWhole": true
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -4201,16 +5112,16 @@
     },
     "390x844/target-large": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-target-large.jpg",
-      "sha256": "6c71b7fbc61f9127ac633db56474171a5e74bf55e97ce5abdfa4d270ee10d737",
+      "sha256": "20441bcd1b0b17e9628ba5ba4c3240baa1ee3d972c7232e153a6b265340d2b3d",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -4227,6 +5138,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -4313,16 +5245,16 @@
     },
     "430x932/target-large": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-target-large.jpg",
-      "sha256": "239a58c78bec8fc7be8ad6bad557c5a2c93fdec27eb8039c136c6cd3c6c46c93",
+      "sha256": "d002e43d3fe4562e3e9f15d5cbd5f92ebde1160c206478250a9e6aad6068d598",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -4339,6 +5271,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -4425,16 +5378,16 @@
     },
     "390x844/before": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-before.jpg",
-      "sha256": "a49ea2e4776e4bf3abead8bd20c0e3b07d0757040827cb8bb3b5749b528a3b4a",
+      "sha256": "fa7eed83a5f6f26a08a1b654289ce8b799b945c78f72cc53d431d415eb57da66",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -4451,6 +5404,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -4533,6 +5507,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -4541,16 +5516,16 @@
     },
     "430x932/before": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-before.jpg",
-      "sha256": "f4223ffe413097bc48eedd1bd119713228731eb6e3cd0bc809376a9ba0f36967",
+      "sha256": "71b08a95a1aef181ea8b653419ef06e51a4d1e94314b1dcd2c0419bd99c88596",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -4567,6 +5542,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -4649,6 +5645,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -4657,16 +5654,16 @@
     },
     "390x844/before-start": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-before-start.jpg",
-      "sha256": "6c0215d0984d64f9f11d4baab88f1b0c3532c8a00b399b817b45651ec01f0df3",
+      "sha256": "ad35517064a40829fc9da820466b8d83911c80cfb3031a065287f79bf876a5f2",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -4683,6 +5680,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -4765,6 +5783,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -4773,16 +5792,16 @@
     },
     "430x932/before-start": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-before-start.jpg",
-      "sha256": "c8d7a6edb4d0836a91fd8385331b8efca5a4a1d90e061af37a2621f24a7cc57b",
+      "sha256": "1af61ca6e562296f9a11d47325aa9d23ab7640f7cc0dce5e3257624225661fb3",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -4799,6 +5818,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -4881,6 +5921,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -4889,16 +5930,16 @@
     },
     "390x844/block": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-block.jpg",
-      "sha256": "2535998bc9b5bf8d035f792f65d9f2d1fb4f32ccc088cc71390becd9494d1445",
+      "sha256": "4bfe06dc0bb08b87912a770aa10e0f76c3684fbafc14135a923f3237e826991e",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -4915,6 +5956,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -4997,6 +6059,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -5005,16 +6068,16 @@
     },
     "430x932/block": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-block.jpg",
-      "sha256": "eeec001809f30060791d08b32667681e0cc758f32ede5ff9f97b41c09a1df5e6",
+      "sha256": "e2e6eff743840adc0adbd2d82f72b0d15b10303fec98ef25ced004e424892239",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -5031,6 +6094,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -5113,6 +6197,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -5121,16 +6206,16 @@
     },
     "390x844/appointment": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-appointment.jpg",
-      "sha256": "afc633fdf78834293a4463454241c89b03b114cd6a0ac369a56f660e5bf85bb0",
+      "sha256": "0ac6673dbc99bb45360c5f5b45ab8c2da14433bb8831b2cc56520cf836dacb72",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -5147,6 +6232,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -5229,6 +6335,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -5237,16 +6344,16 @@
     },
     "430x932/appointment": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-appointment.jpg",
-      "sha256": "56c75ffe7de24bc553a1796f59fed197d7b385720eebf3b9364dc5b36e12ee19",
+      "sha256": "a456728dc3d562f3cfa7134e1f80b7a9f608d5f1cc8092e6d21d172034669c64",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -5263,6 +6370,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -5345,6 +6473,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -5353,16 +6482,16 @@
     },
     "390x844/appoint": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-appoint.jpg",
-      "sha256": "f01397810344d69743b00dc0f6d0b79c4f416aae56b04b079af7c01f5ae9968a",
+      "sha256": "55c399ed3d43167f7e84ad8f1be2b2908e3a98639fa9950dffb793650f768c06",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -5379,6 +6508,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -5461,6 +6611,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -5469,16 +6620,16 @@
     },
     "430x932/appoint": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-appoint.jpg",
-      "sha256": "4f185e426051520431ff14fa5304c651b797dd1a4886566d636aa58951cfd537",
+      "sha256": "a676d29c1387072eb793a7fa04268ca12a54bd6c6bff883f7fa0017890cd5823",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -5495,6 +6646,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -5577,6 +6749,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -5585,16 +6758,16 @@
     },
     "390x844/lit": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-lit.jpg",
-      "sha256": "8664ea067639b0cbc33d7b75eb72b8886b21f88668fca2a2479ee06849869538",
+      "sha256": "e09ee1baecc7144c03ad1bc8750484486ecb99c9d0be036bbbb0c317d479fba5",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -5611,6 +6784,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -5693,6 +6887,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -5701,16 +6896,16 @@
     },
     "430x932/lit": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-lit.jpg",
-      "sha256": "9941ea3897c8cb9a8136439a532df3299a6500a0d6e950e7c0d824b262bc2c94",
+      "sha256": "59d977ce841abafe595d25b252a8f16abff5e4a62126a04d96c264449c79b17a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -5727,6 +6922,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -5809,6 +7025,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -5817,16 +7034,16 @@
     },
     "390x844/lit-next": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-lit-next.jpg",
-      "sha256": "ab50e8a25220ef2ccaa691b870246f4214159c1ec5dc2fba8d5accdd42e938ed",
+      "sha256": "0c5d653c0cfb77d773ede4be98ca66ecd2716d3e5d7bac7f6367b856210370b0",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -5843,6 +7060,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -5925,6 +7163,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -5933,16 +7172,16 @@
     },
     "430x932/lit-next": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-lit-next.jpg",
-      "sha256": "6df54a1d0218c381d9507542013dde1cb30529995a9e045795bde1fec78bd4cc",
+      "sha256": "c40e32465f30c6784a182c076d12ad807a82c798671636d61f106a3438ee42c4",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -5959,6 +7198,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -6041,6 +7301,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -6056,9 +7317,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -6075,6 +7336,8 @@
       "menu": true,
       "tabs": 0,
       "open": null,
+      "order": [],
+      "card": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -6163,9 +7426,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -6182,6 +7445,8 @@
       "menu": true,
       "tabs": 0,
       "open": null,
+      "order": [],
+      "card": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -6263,16 +7528,16 @@
     },
     "390x844/course-own": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-course-own.jpg",
-      "sha256": "f7b3493ae0e1a9f8ca71a34bd2142884f01589c1990463fedbf0eb08f237a306",
+      "sha256": "80a5646276e58249e699769374cce6a50a4a6497583831c527cac5fda0ac2204",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -6289,6 +7554,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -6371,6 +7657,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -6379,16 +7666,16 @@
     },
     "430x932/course-own": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-course-own.jpg",
-      "sha256": "79f592b4ebd01c0c5e09632924bc270ef6d45cbb5e3a67ed7f615d58ebf015af",
+      "sha256": "5cb39846c268a85dbeb90ae796da2f4d6cae928e13ef8f610cc684d7a01cd821",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -6405,6 +7692,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -6487,6 +7795,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -6502,9 +7811,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -6521,6 +7830,8 @@
       "menu": true,
       "tabs": 0,
       "open": null,
+      "order": [],
+      "card": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -6609,9 +7920,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -6628,6 +7939,8 @@
       "menu": true,
       "tabs": 0,
       "open": null,
+      "order": [],
+      "card": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -6716,9 +8029,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -6735,6 +8048,8 @@
       "menu": false,
       "tabs": 0,
       "open": null,
+      "order": [],
+      "card": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -6808,9 +8123,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -6827,6 +8142,8 @@
       "menu": false,
       "tabs": 0,
       "open": null,
+      "order": [],
+      "card": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -6893,16 +8210,16 @@
     },
     "390x844/closed": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-closed.jpg",
-      "sha256": "632367f07528afe5cf96cdc38f9af444378666aa2e188af0859e13bbb5913340",
+      "sha256": "99608aa10a629d9083b4afed2f8b9396fe157276f2eac4bd8894714f6419acbb",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -6919,6 +8236,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -7010,16 +8348,16 @@
     },
     "430x932/closed": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-closed.jpg",
-      "sha256": "3efabd474eee19595df079a86b26a62c250cf7f61e7c2cc54ec792d503cf2868",
+      "sha256": "1c6a01bd011967d23e458b7774126127f76e1b2b92c7d40a38488f7c5b2ffe1f",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -7036,6 +8374,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -7127,16 +8486,16 @@
     },
     "320x568/phase-large": {
       "file": "design/phone-ui/components/phone-shell/review/320x568-phase-large.jpg",
-      "sha256": "db5e8b0a48c23db385363162e82e070c46c804f4b7610b65bfe890c192b02cd0",
+      "sha256": "fa853ea49eb6781e4b4157f9af5bf4845efbbede2f0141ae3c6e7310fb340349",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -7153,6 +8512,27 @@
       "menu": true,
       "tabs": 4,
       "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -7230,6 +8610,7 @@
         "chipWhole": null
       },
       "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
         "assets/room-b.back-DyyX5mRn.svg",
         "assets/room-b.bench-CXPEIkTR.svg",
         "assets/room-b.extend-BVwX8Ezm.svg"
@@ -8835,6 +10216,311 @@
           }
         },
         {
+          "id": "card: Card is the last tab and draws this viewer's own crew portrait as the top bar draws it, the same picture, shape and 32 px size; no character keeps the card icon; named Card, open announced, an amber ring only while open; the label keeps its level and the bar its height at every text size; concealed, a new viewer and the private talk draw none",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "order": [
+              "switch",
+              "actions",
+              "hero",
+              "panels",
+              "card"
+            ],
+            "rest": {
+              "picture": true,
+              "image": "url(\"http://127.0.0.1:43445/assets/portrait-c1-VMeNAzm6.svg\")",
+              "box": [
+                32,
+                32
+              ],
+              "fit": "contain",
+              "ring": null,
+              "hidden": "true",
+              "icon": "card",
+              "drawnIcon": false,
+              "labelLevel": 0,
+              "pictureLevel": 0,
+              "insideBar": true,
+              "barHeight": 92,
+              "inside": true,
+              "whole": true,
+              "name": null,
+              "words": "Card",
+              "expanded": "false",
+              "barImage": "url(\"http://127.0.0.1:43445/assets/portrait-c1-VMeNAzm6.svg\")",
+              "barFit": "contain",
+              "barBox": [
+                32,
+                32
+              ]
+            },
+            "open": {
+              "picture": true,
+              "image": "url(\"http://127.0.0.1:43445/assets/portrait-c1-VMeNAzm6.svg\")",
+              "box": [
+                32,
+                32
+              ],
+              "fit": "contain",
+              "ring": "rgb(241, 184, 75)",
+              "hidden": "true",
+              "icon": "card",
+              "drawnIcon": false,
+              "labelLevel": 0,
+              "pictureLevel": 0,
+              "insideBar": true,
+              "barHeight": 92,
+              "inside": true,
+              "whole": true,
+              "name": null,
+              "words": "Card",
+              "expanded": "true",
+              "same": true,
+              "focused": true,
+              "accent": "rgb(241, 184, 75)"
+            },
+            "tapped": [
+              "card"
+            ],
+            "off": {
+              "opacity": "0.38",
+              "picture": true,
+              "reason": "Not available now"
+            },
+            "none": {
+              "picture": false,
+              "image": null,
+              "box": null,
+              "fit": null,
+              "ring": null,
+              "hidden": null,
+              "icon": "card",
+              "drawnIcon": true,
+              "labelLevel": 0,
+              "pictureLevel": null,
+              "insideBar": null,
+              "barHeight": 92,
+              "inside": true,
+              "whole": true,
+              "name": null,
+              "words": "Card",
+              "expanded": "false"
+            },
+            "absent": {
+              "picture": false,
+              "image": null,
+              "box": null,
+              "fit": null,
+              "ring": null,
+              "hidden": null,
+              "icon": "card",
+              "drawnIcon": true,
+              "labelLevel": 0,
+              "pictureLevel": null,
+              "insideBar": null,
+              "barHeight": 92,
+              "inside": true,
+              "whole": true,
+              "name": null,
+              "words": "Card",
+              "expanded": "false"
+            },
+            "unknown": {
+              "picture": false,
+              "image": null,
+              "box": null,
+              "fit": null,
+              "ring": null,
+              "hidden": null,
+              "icon": "card",
+              "drawnIcon": true,
+              "labelLevel": 0,
+              "pictureLevel": null,
+              "insideBar": null,
+              "barHeight": 92,
+              "inside": true,
+              "whole": true,
+              "name": null,
+              "words": "Card",
+              "expanded": "false"
+            },
+            "noneOpen": {
+              "picture": false,
+              "image": null,
+              "box": null,
+              "fit": null,
+              "ring": null,
+              "hidden": null,
+              "icon": "card",
+              "drawnIcon": true,
+              "labelLevel": 0,
+              "pictureLevel": null,
+              "insideBar": null,
+              "barHeight": 92,
+              "inside": true,
+              "whole": true,
+              "name": null,
+              "words": "Card",
+              "expanded": "true",
+              "filled": "card:filled"
+            },
+            "sized": {
+              "390 standard": {
+                "picture": true,
+                "image": "url(\"http://127.0.0.1:43445/assets/portrait-c1-VMeNAzm6.svg\")",
+                "box": [
+                  32,
+                  32
+                ],
+                "fit": "contain",
+                "ring": null,
+                "hidden": "true",
+                "icon": "card",
+                "drawnIcon": false,
+                "labelLevel": 0,
+                "pictureLevel": 0,
+                "insideBar": true,
+                "barHeight": 92,
+                "inside": true,
+                "whole": true,
+                "name": null,
+                "words": "Card",
+                "expanded": "false",
+                "barHeightWithIcon": 92
+              },
+              "390 largest": {
+                "picture": true,
+                "image": "url(\"http://127.0.0.1:43445/assets/portrait-c1-VMeNAzm6.svg\")",
+                "box": [
+                  32,
+                  32
+                ],
+                "fit": "contain",
+                "ring": null,
+                "hidden": "true",
+                "icon": "card",
+                "drawnIcon": false,
+                "labelLevel": 0,
+                "pictureLevel": 0,
+                "insideBar": true,
+                "barHeight": 94.1875,
+                "inside": true,
+                "whole": true,
+                "name": null,
+                "words": "Card",
+                "expanded": "false",
+                "barHeightWithIcon": 94.1875
+              },
+              "430 standard": {
+                "picture": true,
+                "image": "url(\"http://127.0.0.1:43445/assets/portrait-c1-VMeNAzm6.svg\")",
+                "box": [
+                  32,
+                  32
+                ],
+                "fit": "contain",
+                "ring": null,
+                "hidden": "true",
+                "icon": "card",
+                "drawnIcon": false,
+                "labelLevel": 0,
+                "pictureLevel": 0,
+                "insideBar": true,
+                "barHeight": 92,
+                "inside": true,
+                "whole": true,
+                "name": null,
+                "words": "Card",
+                "expanded": "false",
+                "barHeightWithIcon": 92
+              },
+              "430 largest": {
+                "picture": true,
+                "image": "url(\"http://127.0.0.1:43445/assets/portrait-c1-VMeNAzm6.svg\")",
+                "box": [
+                  32,
+                  32
+                ],
+                "fit": "contain",
+                "ring": null,
+                "hidden": "true",
+                "icon": "card",
+                "drawnIcon": false,
+                "labelLevel": 0,
+                "pictureLevel": 0,
+                "insideBar": true,
+                "barHeight": 94.1875,
+                "inside": true,
+                "whole": true,
+                "name": null,
+                "words": "Card",
+                "expanded": "false",
+                "barHeightWithIcon": 94.1875
+              },
+              "320 standard": {
+                "picture": true,
+                "image": "url(\"http://127.0.0.1:43445/assets/portrait-c1-VMeNAzm6.svg\")",
+                "box": [
+                  32,
+                  32
+                ],
+                "fit": "contain",
+                "ring": null,
+                "hidden": "true",
+                "icon": "card",
+                "drawnIcon": false,
+                "labelLevel": 0,
+                "pictureLevel": 0,
+                "insideBar": true,
+                "barHeight": 92,
+                "inside": true,
+                "whole": true,
+                "name": null,
+                "words": "Card",
+                "expanded": "false",
+                "barHeightWithIcon": 92
+              },
+              "320 largest": {
+                "picture": true,
+                "image": "url(\"http://127.0.0.1:43445/assets/portrait-c1-VMeNAzm6.svg\")",
+                "box": [
+                  32,
+                  32
+                ],
+                "fit": "contain",
+                "ring": null,
+                "hidden": "true",
+                "icon": "card",
+                "drawnIcon": false,
+                "labelLevel": 0,
+                "pictureLevel": 0,
+                "insideBar": true,
+                "barHeight": 94.1875,
+                "inside": true,
+                "whole": true,
+                "name": null,
+                "words": "Card",
+                "expanded": "false",
+                "barHeightWithIcon": 94.1875
+              }
+            },
+            "hud": {
+              "words": "Card",
+              "icon": "card:filled"
+            },
+            "concealed": 0,
+            "shownAgain": 0,
+            "givenAgain": 1,
+            "newViewer": 0,
+            "talk": {
+              "pictures": 0,
+              "buttons": 2,
+              "icon": "card"
+            }
+          }
+        },
+        {
           "id": "dispose: twice is safe; layout(), slot() and sheetBody are null; nothing is left and nothing fires",
           "ok": true,
           "detail": {
@@ -8870,9 +10556,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -8913,9 +10599,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BGpR3GBQ.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -9145,13 +10831,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -9160,13 +10846,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -9459,13 +11145,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -9474,13 +11160,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -9763,13 +11449,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -9778,13 +11464,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -10077,13 +11763,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -10092,13 +11778,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -10107,14 +11793,14 @@
             },
             "panels-badge": {
               "pack": {
-                "x": 359,
-                "y": 758,
+                "x": 47,
+                "y": 5,
                 "w": 20.9375,
                 "h": 18
               },
               "shell": {
-                "x": 359,
-                "y": 758,
+                "x": 47,
+                "y": 5,
                 "w": 20.9375,
                 "h": 18
               },
@@ -10401,13 +12087,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 192,
+                "x": 256,
                 "y": 508.8125,
                 "w": 64,
                 "h": 59.1875
               },
               "shell": {
-                "x": 192,
+                "x": 256,
                 "y": 508.8125,
                 "w": 64,
                 "h": 59.1875
@@ -10416,13 +12102,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 256,
+                "x": 192,
                 "y": 508.8125,
                 "w": 64,
                 "h": 59.1875
               },
               "shell": {
-                "x": 256,
+                "x": 192,
                 "y": 508.8125,
                 "w": 64,
                 "h": 59.1875
@@ -10675,13 +12361,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 192,
+                "x": 256,
                 "y": 508.8125,
                 "w": 64,
                 "h": 59.1875
               },
               "shell": {
-                "x": 192,
+                "x": 256,
                 "y": 508.8125,
                 "w": 64,
                 "h": 59.1875
@@ -10690,13 +12376,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 256,
+                "x": 192,
                 "y": 508.8125,
                 "w": 64,
                 "h": 59.1875
               },
               "shell": {
-                "x": 256,
+                "x": 192,
                 "y": 508.8125,
                 "w": 64,
                 "h": 59.1875
@@ -10999,13 +12685,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -11014,13 +12700,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -11413,13 +13099,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -11428,13 +13114,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -11807,13 +13493,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 750.8125,
                 "w": 78,
                 "h": 59.1875
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 750.8125,
                 "w": 78,
                 "h": 59.1875
@@ -11822,13 +13508,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 750.8125,
                 "w": 78,
                 "h": 59.1875
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 750.8125,
                 "w": 78,
                 "h": 59.1875
@@ -12221,13 +13907,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -12236,13 +13922,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -12595,13 +14281,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -12610,13 +14296,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -12949,13 +14635,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 192,
+                "x": 256,
                 "y": 508.8125,
                 "w": 64,
                 "h": 59.1875
               },
               "shell": {
-                "x": 192,
+                "x": 256,
                 "y": 508.8125,
                 "w": 64,
                 "h": 59.1875
@@ -12964,13 +14650,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 256,
+                "x": 192,
                 "y": 508.8125,
                 "w": 64,
                 "h": 59.1875
               },
               "shell": {
-                "x": 256,
+                "x": 192,
                 "y": 508.8125,
                 "w": 64,
                 "h": 59.1875
@@ -13313,13 +14999,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -13328,13 +15014,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -13637,13 +15323,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -13652,13 +15338,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -13961,13 +15647,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -13976,13 +15662,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -14285,13 +15971,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -14300,13 +15986,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -14609,13 +16295,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -14624,13 +16310,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -14903,13 +16589,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 192,
+                "x": 256,
                 "y": 508.8125,
                 "w": 64,
                 "h": 59.1875
               },
               "shell": {
-                "x": 192,
+                "x": 256,
                 "y": 508.8125,
                 "w": 64,
                 "h": 59.1875
@@ -14918,13 +16604,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 256,
+                "x": 192,
                 "y": 508.8125,
                 "w": 64,
                 "h": 59.1875
               },
               "shell": {
-                "x": 256,
+                "x": 192,
                 "y": 508.8125,
                 "w": 64,
                 "h": 59.1875
@@ -15227,13 +16913,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -15242,13 +16928,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -15551,13 +17237,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -15566,13 +17252,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -15855,13 +17541,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -15870,13 +17556,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -16129,13 +17815,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 192,
+                "x": 256,
                 "y": 508.8125,
                 "w": 64,
                 "h": 59.1875
               },
               "shell": {
-                "x": 192,
+                "x": 256,
                 "y": 508.8125,
                 "w": 64,
                 "h": 59.1875
@@ -16144,13 +17830,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 256,
+                "x": 192,
                 "y": 508.8125,
                 "w": 64,
                 "h": 59.1875
               },
               "shell": {
-                "x": 256,
+                "x": 192,
                 "y": 508.8125,
                 "w": 64,
                 "h": 59.1875
@@ -16433,13 +18119,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -16448,13 +18134,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -16757,13 +18443,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -16772,13 +18458,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -17081,13 +18767,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -17096,13 +18782,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -17405,13 +19091,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -17420,13 +19106,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -17719,13 +19405,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -17734,13 +19420,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -18003,13 +19689,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -18018,13 +19704,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -18317,13 +20003,13 @@
             },
             "tab-card": {
               "pack": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 234,
+                "x": 312,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -18332,13 +20018,13 @@
             },
             "tab-panels": {
               "pack": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
               },
               "shell": {
-                "x": 312,
+                "x": 234,
                 "y": 753,
                 "w": 78,
                 "h": 57
@@ -18428,9 +20114,9 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-BGpR3GBQ.js",
+        "source": "assets/index-Ca_1J1_0.js",
         "line": 1,
-        "column": 6049,
+        "column": 6048,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
       }
     ],
