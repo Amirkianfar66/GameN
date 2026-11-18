@@ -465,6 +465,38 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - **Option B,** a shorter room with a strip for the buttons. It is not part of this test.
 - **Room A's ceiling.**
 
+**The glass ceiling kept, the next morning.**
+- PV5-A, Mira's view, was painted with the skylight in two attempts, the one allowed re-run included.
+  - Both pass colour-check v3: the glass and the window are flat black (p95 lightness 0.067).
+  - The room's shell, the skylight, its frame, the cross and the ring of lights match the guide.
+  - Both moved the near furniture:
+    - the near bench is drawn bigger and closer;
+    - the console is wider;
+    - Juno's stool is about 30 px left on the phone;
+    - an empty panel was added on the north wall.
+- The owner saw the second attempt (PV5-A-2) with still stars in the glass, beside the phone's view of it.
+- The Lead asked two things:
+  - whether to keep the glass ceiling;
+  - whether a masked edit of about $0.06 may fix the furniture in this picture and in each later view that needs it.
+- The owner answered, word for word:
+
+> Yes keep the glass ceiling, go ahead with the fix you can spend it
+
+**What it decides:**
+- **Room B keeps the partly glass ceiling:** the round skylight over the open centre, as in PV5-A.
+- **The furniture fix is approved:** a masked edit that puts the furniture back where the guide has it, about $0.06 each, for PV5-A and for each later view that needs it.
+- **The other four views go ahead:** PV5-B to PV5-E, with one re-run each only if a check fails, and a masked edit where the furniture drifts.
+
+**What it means for the work:**
+1. The Lead makes the mask for PV5-A-2 (the near bench, the console, the stool and the extra wall panel) and gives the image session the go for one edit.
+2. When the fixed picture checks out, the go for PV5-B to PV5-E.
+3. The test page takes the fixed picture, and later all five views.
+
+**What it does not settle:**
+- **Room A's ceiling.**
+- **The 18 new crew angles.** They go to the owner before anyone draws them.
+- **The observation rule** ([#222](https://github.com/Amirkianfar66/GameN/issues/222)).
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
