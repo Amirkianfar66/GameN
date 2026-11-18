@@ -1,0 +1,317 @@
+{
+  "tool": "design/tools/pregame-screen-pack-check.mjs",
+  "toolSha256": "b5dd01a37cdbe23dc93244fdb91ad73e438be6380b39b4a395bb631951c76dba",
+  "createdAt": "2026-11-18T13:57:58.377Z",
+  "sourceCommit": "9347a9c61faa483f9eda275270cffdff2b160c3d",
+  "sourceClean": true,
+  "sourceTrees": {
+    "design/phone-ui/prototype": "3761981f2794b66f25fdb889e838fa36e2295a81",
+    "design/crew-drawing/assets": "3a03eff9560354bffb9ce1127c14d7d1990b1df0",
+    "design/room-drawing/assets": "66948cc7c76fe00c3c4b9849c146dcf9ee14a30b"
+  },
+  "browser": "Google Chrome 157.0.8103.80",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "responseHeaders": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "captures": {
+    "390x844/recover": {
+      "query": "s=recover&state=success",
+      "sheet": "14",
+      "note": "Seat recovered, the pack fixture seat.",
+      "url": "http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=recover&state=success&safe=47%2C34",
+      "file": "390x844-recover-pack.jpg",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "15a90dc86b429e2e1a5aaee349e457a74cfccd2b53919440311de0a853025a59",
+      "ok": true,
+      "violations": [],
+      "problems": [],
+      "seen": {
+        "screen": "recover",
+        "words": "MenuRecoverSeat 4 is yours againBack to the match where it is nowContinue9:41",
+        "horizontalOverflow": false
+      }
+    },
+    "390x844/characters": {
+      "query": "s=choose&state=open",
+      "sheet": "16",
+      "note": "Open grid. The pack has no server-refusal fixture; the integrated toast is additional receipt feedback.",
+      "url": "http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=choose&state=open&safe=47%2C34",
+      "file": "390x844-characters-pack.jpg",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "b014446fd5e2673f9c859149bd4b85c75b8d53d3887147958f50054e01fa43a6",
+      "ok": true,
+      "violations": [],
+      "problems": [],
+      "seen": {
+        "screen": "choose",
+        "words": "Choose a characterAssigned for you if time runs out0:21VegaRigelLyraAtlasTaken · 2OrionNovaJunoMiraTaken · 1EchoNo character yetTap one to choose9:41",
+        "horizontalOverflow": false
+      }
+    },
+    "390x844/role-ready": {
+      "query": "s=role&t=30000&state=concealed",
+      "sheet": "17, 18",
+      "note": "Existing concealed card after the interval. The pack has no Ready-pending fixture; the integrated busy button is additional request feedback.",
+      "url": "http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=role&t=30000&state=concealed&safe=47%2C34",
+      "file": "390x844-role-ready-pack.jpg",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "4de29a6c220a0b6df8df054ab391cd3c12959a6975b411bac4bcf53a5804cc06",
+      "ok": true,
+      "violations": [],
+      "problems": [],
+      "seen": {
+        "screen": "role",
+        "words": "Your roleOnly on this phoneRole hiddenShow roleHide your phone, then tap ReadyReady9:41",
+        "horizontalOverflow": false
+      }
+    },
+    "390x844/settings": {
+      "query": "s=settings&host=1",
+      "sheet": "32",
+      "note": "Settings with the host-only row.",
+      "url": "http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=settings&host=1&safe=47%2C34",
+      "file": "390x844-settings-pack.jpg",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "fce33fb44e896faa55d4909b9ed85c2c1984951bbe61ace2d40ff589beac822b",
+      "ok": true,
+      "violations": [],
+      "problems": [],
+      "seen": {
+        "screen": "settings",
+        "words": "\n      \n      \n      \n      \n      \n      \n        \n        \n    @keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } }\n  .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } }\n    .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } }\n    .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } }\n    .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } }\n    .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } }\n    .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } }\n    .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } }\n    .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } }\n    .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } }\n    .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; }\n    \n    \n    \n    \n    \n    \n  \n    \n    \n    \n  \n    \n    \n    \n    \n    \n    \n    \n    \n    \n      \n      \n      \n      \n      \n    \n    \n    \n    \n      \n      \n    \n    \n    \n      \n        \n        \n        \n      \n      \n      \n    \n    \n  \n    \n    \n    \n      \n      \n      \n      \n    \n    \n    \n    \n    \n      \n      \n      \n      \n      \n      \n      \n    \n    \n    \n      \n      \n      \n      \n    \n    \n      \n      \n    \n      \n    \n    \n    \n    \n    \n    \n      \n      \n    \n    \n  \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n    \n  \n  \n  \n    \n    \n    \n      \n      \n      \n      \n      \n      \n    \n  \n    \n    \n      \n      \n      \n      \n      \n      \n    \n  \n    \n  \n    \n    \n    \n    \n    \n  \n  \n    \n    \n    \n    \n    \n    \n    \n  \n    \n    \n  \n    \n    \n  \n    \n    \n  \n    \n    \n  \n    \n    \n  1Ava4You7Gus9IkeRoom AGusPlayer 7 · TurnPromisesR30:42SettingsDisplayReduce motionFilms become stills; no shake or travelText sizeStandardLargeLargestThese stay on this phone. They never change the match.HostHost controlsBots, deadlines, recovery, abortBoardActionsPassPassCardPanels9:41",
+        "horizontalOverflow": false
+      }
+    },
+    "390x844/host-controls": {
+      "query": "s=host-controls&state=code",
+      "sheet": "15",
+      "note": "Code hidden. The accepted 0.1.2 group wrapping and G4 absent expiry differ from this historical pack.",
+      "url": "http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=host-controls&state=code&safe=47%2C34",
+      "file": "390x844-host-controls-pack.jpg",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "2eb95ee37428f229355face27b1d0dfef46e7aabe056f97f966f508be543f774",
+      "ok": true,
+      "violations": [],
+      "problems": [],
+      "seen": {
+        "screen": "host-controls",
+        "words": "\n      \n      \n      \n      \n      \n      \n        \n        \n    @keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } }\n  .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } }\n    .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } }\n    .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } }\n    .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } }\n    .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } }\n    .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } }\n    .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } }\n    .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } }\n    .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } }\n    .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; }\n    \n    \n    \n    \n    \n    \n  \n    \n    \n    \n  \n    \n    \n    \n    \n    \n    \n    \n    \n    \n      \n      \n      \n      \n      \n    \n    \n    \n    \n      \n      \n    \n    \n    \n      \n        \n        \n        \n      \n      \n      \n    \n    \n  \n    \n    \n    \n      \n      \n      \n      \n    \n    \n    \n    \n    \n      \n      \n      \n      \n      \n      \n      \n    \n    \n    \n      \n      \n      \n      \n    \n    \n      \n      \n    \n      \n    \n    \n    \n    \n    \n    \n      \n      \n    \n    \n  \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n    \n  \n  \n  \n    \n    \n    \n      \n      \n      \n      \n      \n      \n    \n  \n    \n    \n      \n      \n      \n      \n      \n      \n    \n  \n    \n  \n    \n    \n    \n    \n    \n  \n  \n    \n    \n    \n    \n    \n    \n    \n  \n    \n    \n  \n    \n    \n  \n    \n    \n  \n    \n    \n  \n    \n    \n  1Ava4You7Gus9IkeRoom AGusPlayer 7 · TurnPromisesR30:42Recovery codePrivate to this phoneRecovery for Player 4 · DevMatch IDmtch-8f2c4eCode•••••• •••••• •••••• •••••• ••••••Works once · 15 minutesShow it only to Player 4. It never appears on the shared display.RevealCopyBoardActionsPassPassCardPanels9:41",
+        "horizontalOverflow": false
+      }
+    },
+    "430x932/recover": {
+      "query": "s=recover&state=success",
+      "sheet": "14",
+      "note": "Seat recovered, the pack fixture seat.",
+      "url": "http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=recover&state=success&safe=47%2C34",
+      "file": "430x932-recover-pack.jpg",
+      "viewport": {
+        "width": 430,
+        "height": 932
+      },
+      "pixels": [
+        430,
+        932
+      ],
+      "sha256": "b204d8f5f9cd12a0b02308efe060b67febbf0c190bbb4c6b6d4ce43a86cf6fd3",
+      "ok": true,
+      "violations": [],
+      "problems": [],
+      "seen": {
+        "screen": "recover",
+        "words": "MenuRecoverSeat 4 is yours againBack to the match where it is nowContinue9:41",
+        "horizontalOverflow": false
+      }
+    },
+    "430x932/characters": {
+      "query": "s=choose&state=open",
+      "sheet": "16",
+      "note": "Open grid. The pack has no server-refusal fixture; the integrated toast is additional receipt feedback.",
+      "url": "http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=choose&state=open&safe=47%2C34",
+      "file": "430x932-characters-pack.jpg",
+      "viewport": {
+        "width": 430,
+        "height": 932
+      },
+      "pixels": [
+        430,
+        932
+      ],
+      "sha256": "764d982ab327e3047b0b69869fdc28b0033b5ea468255d9c648186a52f94a35d",
+      "ok": true,
+      "violations": [],
+      "problems": [],
+      "seen": {
+        "screen": "choose",
+        "words": "Choose a characterAssigned for you if time runs out0:21VegaRigelLyraAtlasTaken · 2OrionNovaJunoMiraTaken · 1EchoNo character yetTap one to choose9:41",
+        "horizontalOverflow": false
+      }
+    },
+    "430x932/role-ready": {
+      "query": "s=role&t=30000&state=concealed",
+      "sheet": "17, 18",
+      "note": "Existing concealed card after the interval. The pack has no Ready-pending fixture; the integrated busy button is additional request feedback.",
+      "url": "http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=role&t=30000&state=concealed&safe=47%2C34",
+      "file": "430x932-role-ready-pack.jpg",
+      "viewport": {
+        "width": 430,
+        "height": 932
+      },
+      "pixels": [
+        430,
+        932
+      ],
+      "sha256": "6a9499e2d2ae21fffc606f912ee1cdaf78a80f248ac98bb9fa9961e6f14ff037",
+      "ok": true,
+      "violations": [],
+      "problems": [],
+      "seen": {
+        "screen": "role",
+        "words": "Your roleOnly on this phoneRole hiddenShow roleHide your phone, then tap ReadyReady9:41",
+        "horizontalOverflow": false
+      }
+    },
+    "430x932/settings": {
+      "query": "s=settings&host=1",
+      "sheet": "32",
+      "note": "Settings with the host-only row.",
+      "url": "http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=settings&host=1&safe=47%2C34",
+      "file": "430x932-settings-pack.jpg",
+      "viewport": {
+        "width": 430,
+        "height": 932
+      },
+      "pixels": [
+        430,
+        932
+      ],
+      "sha256": "a96e8785860fcd595b5b7329e539321f9bf69d6c15cccbbb982ddb537a5a7fab",
+      "ok": true,
+      "violations": [],
+      "problems": [],
+      "seen": {
+        "screen": "settings",
+        "words": "\n      \n      \n      \n      \n      \n      \n        \n        \n    @keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } }\n  .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } }\n    .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } }\n    .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } }\n    .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } }\n    .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } }\n    .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } }\n    .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } }\n    .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } }\n    .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } }\n    .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; }\n    \n    \n    \n    \n    \n    \n  \n    \n    \n    \n  \n    \n    \n    \n    \n    \n    \n    \n    \n    \n      \n      \n      \n      \n      \n    \n    \n    \n    \n      \n      \n    \n    \n    \n      \n        \n        \n        \n      \n      \n      \n    \n    \n  \n    \n    \n    \n      \n      \n      \n      \n    \n    \n    \n    \n    \n      \n      \n      \n      \n      \n      \n      \n    \n    \n    \n      \n      \n      \n      \n    \n    \n      \n      \n    \n      \n    \n    \n    \n    \n    \n    \n      \n      \n    \n    \n  \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n    \n  \n  \n  \n    \n    \n    \n      \n      \n      \n      \n      \n      \n    \n  \n    \n    \n      \n      \n      \n      \n      \n      \n    \n  \n    \n  \n    \n    \n    \n    \n    \n  \n  \n    \n    \n    \n    \n    \n    \n    \n  \n    \n    \n  \n    \n    \n  \n    \n    \n  \n    \n    \n  \n    \n    \n  1Ava4You7Gus9IkeRoom AGusPlayer 7 · TurnPromisesR30:42SettingsDisplayReduce motionFilms become stills; no shake or travelText sizeStandardLargeLargestThese stay on this phone. They never change the match.HostHost controlsBots, deadlines, recovery, abortBoardActionsPassPassCardPanels9:41",
+        "horizontalOverflow": false
+      }
+    },
+    "430x932/host-controls": {
+      "query": "s=host-controls&state=code",
+      "sheet": "15",
+      "note": "Code hidden. The accepted 0.1.2 group wrapping and G4 absent expiry differ from this historical pack.",
+      "url": "http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=host-controls&state=code&safe=47%2C34",
+      "file": "430x932-host-controls-pack.jpg",
+      "viewport": {
+        "width": 430,
+        "height": 932
+      },
+      "pixels": [
+        430,
+        932
+      ],
+      "sha256": "1622f92f1d6d168f8933bc73ab467756063e528f8e448b69a7b883c8ca39f74a",
+      "ok": true,
+      "violations": [],
+      "problems": [],
+      "seen": {
+        "screen": "host-controls",
+        "words": "\n      \n      \n      \n      \n      \n      \n        \n        \n    @keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } }\n  .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } }\n    .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } }\n    .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } }\n    .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } }\n    .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } }\n    .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } }\n    .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } }\n    .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } }\n    .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } }\n    .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; }\n    \n    \n    \n    \n    \n    \n  \n    \n    \n    \n  \n    \n    \n    \n    \n    \n    \n    \n    \n    \n      \n      \n      \n      \n      \n    \n    \n    \n    \n      \n      \n    \n    \n    \n      \n        \n        \n        \n      \n      \n      \n    \n    \n  \n    \n    \n    \n      \n      \n      \n      \n    \n    \n    \n    \n    \n      \n      \n      \n      \n      \n      \n      \n    \n    \n    \n      \n      \n      \n      \n    \n    \n      \n      \n    \n      \n    \n    \n    \n    \n    \n    \n      \n      \n    \n    \n  \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n      \n      \n      \n    \n    \n  \n  \n  \n    \n    \n    \n      \n      \n      \n      \n      \n      \n    \n  \n    \n    \n      \n      \n      \n      \n      \n      \n    \n  \n    \n  \n    \n    \n    \n    \n    \n  \n  \n    \n    \n    \n    \n    \n    \n    \n  \n    \n    \n  \n    \n    \n  \n    \n    \n  \n    \n    \n  \n    \n    \n  1Ava4You7Gus9IkeRoom AGusPlayer 7 · TurnPromisesR30:42Recovery codePrivate to this phoneRecovery for Player 4 · DevMatch IDmtch-8f2c4eCode•••••• •••••• •••••• •••••• ••••••Works once · 15 minutesShow it only to Player 4. It never appears on the shared display.RevealCopyBoardActionsPassPassCardPanels9:41",
+        "horizontalOverflow": false
+      }
+    }
+  },
+  "scope": "Frozen pack references only, desktop Chromium at 1x pixels, safe areas 47px/34px. No synthetic pending/refusal state was added to the pack. See each state note; these are not runtime screenshots or Lead acceptance."
+}

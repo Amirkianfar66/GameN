@@ -17,18 +17,25 @@
 // size, and check.json (the headers and their SHA-256, the source commit, what each capture drew and its
 // SHA-256, and each probe and agreement check with what it saw).
 //   node design/tools/boarding-stage-check.mjs
+//   node design/tools/boarding-stage-check.mjs --out /private/tmp/boarding-stage-review
+// --out writes supplemental evidence outside the checkout, preserving the historical review folder.
 // Needs a Chromium-based browser (CHROME_PATH). Desktop Chromium at each phone's CSS size: not a phone,
 // not Safari, not a performance measure.
 
-import { mkdir, rm, writeFile } from 'node:fs/promises';
-import { join, resolve } from 'node:path';
+import { execFileSync } from 'node:child_process';
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { basename, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { connect, launchBrowser, openPage, sleep } from './lib/chrome.mjs';
 import { POLICY_LISTENER, bundlePreview, classify, recordedHeaders, serve, sha256, sourceState } from './lib/component-check.mjs';
 
 const REPO = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const COMPONENT = join(REPO, 'design/phone-ui/components/boarding-stage');
-const REVIEW = join(COMPONENT, 'review');
+const outputAt = process.argv.indexOf('--out');
+if (outputAt >= 0 && (!process.argv[outputAt + 1] || process.argv[outputAt + 1].startsWith('--'))) throw new Error('--out needs a directory outside the checkout');
+const REVIEW = outputAt >= 0 ? resolve(process.argv[outputAt + 1]) : join(COMPONENT, 'review');
+const git = (...args) => execFileSync('git', args, { cwd: REPO, encoding: 'utf8' }).trim();
+if (outputAt >= 0 && (REVIEW === REPO || REVIEW.startsWith(REPO + sep) || git('status', '--porcelain'))) throw new Error('Supplemental capture needs a clean checkout and an output directory outside it');
 const SIZES = { '390x844': [390, 844], '430x932': [430, 932] };
 /** Each state at the two development sizes (preview.mjs PREVIEW_STATES). */
 const STATES = ['film15', 'film6', 'holding', 'waiting', 'display', 'reduced', 'noclock', 'stale', 'concealed', 'large'];
@@ -39,6 +46,7 @@ const bundle = () => bundlePreview({ repo: REPO, root: join(COMPONENT, 'preview'
 // The source the captures show, read before anything is written: the components' files and the films and crew
 // the preview draws, without the review folders.
 const { sourceCommit, sourceClean } = sourceState(REPO, ['design/phone-ui/components', 'design/crew-drawing', 'design/pregame-films']);
+const sourceTrees = Object.fromEntries(['design/phone-ui/components', 'design/phone-ui/prototype', 'design/crew-drawing', 'design/pregame-films', 'design/tools/lib'].map(path => [path, git('rev-parse', `${sourceCommit}:${path}`)]));
 const out = await bundle();
 const { server, origin } = await serve(out);
 const chrome = await launchBrowser();
@@ -47,6 +55,8 @@ const results = {};
 const probes = {};
 let agreement = null;
 let failed = 0;
+const expectedHeaders = recordedHeaders();
+let responseHeaders = null;
 /** What a state must show, from the stage's own DOM. */
 const EXPECT = {
   film15: s => s.view === 'film' && s.filmShown && s.skip === 'Skip' && s.film > 0 && s.skipBottom === 48,
@@ -61,6 +71,9 @@ const EXPECT = {
   large: s => s.view === 'waiting' && s.title === 'Starting Round 1',
 };
 try {
+  const response = await fetch(`${origin}/index.html`);
+  responseHeaders = expectedHeaders.headers.map(({ key }) => ({ key, value: response.headers.get(key) }));
+  if (!response.ok || JSON.stringify(responseHeaders) !== JSON.stringify(expectedHeaders.headers)) throw new Error('The served response headers differ from production');
   await mkdir(REVIEW, { recursive: true });
   for (const state of STATES) {
     for (const sizeKey of ['390x844', '430x932']) {
@@ -68,7 +81,8 @@ try {
       const query = `size=${sizeKey}&state=${state}`;
       const page = await openPage(browser, { width, height, scale: 2 });
       await page.send('Page.addScriptToEvaluateOnNewDocument', { source: POLICY_LISTENER });
-      await page.goto(`${origin}/index.html?single=1&${query}`, 'window.__boardingStage !== undefined');
+      const url = `${origin}/index.html?single=1&${query}`;
+      await page.goto(url, 'window.__boardingStage !== undefined');
       await page.evaluate('window.__boardingStage.ready');
       await sleep(500);
       const seen = await page.evaluate(`(() => {
@@ -98,7 +112,7 @@ try {
       const drawn = EXPECT[state](seen);
       const ok = seen.violations.every(v => v.kind !== 'unexpected') && problems.length === 0 && drawn && seen.backdrop === 'rgb(16, 20, 28)';
       if (!ok) failed += 1;
-      results[`${sizeKey}/${state}`] = { file: file.slice(REPO.length + 1), sha256: sha256(bytes), ok, drawn, ...seen, requests, problems };
+      results[`${sizeKey}/${state}`] = { file: outputAt >= 0 ? basename(file) : file.slice(REPO.length + 1), url, sha256: sha256(bytes), ok, drawn, ...seen, requests, problems };
       await page.close();
       console.log(`${ok ? 'ok  ' : 'FAIL'} ${sizeKey} ${state}: view ${seen.view}, "${seen.title ?? seen.skip ?? seen.name}", line "${seen.line}", unexpected violations ${seen.violations.filter(v => v.kind === 'unexpected').length}, problems ${problems.length}${drawn ? '' : ', NOT AS EXPECTED'}`);
     }
@@ -116,7 +130,7 @@ try {
     const ok = outcome.ok && outcome.mode === mode && outcome.checks.length > 0 && problems.length === 0 && violations.every(v => v.kind !== 'unexpected');
     if (!ok) failed += 1;
     // The run's own verdict last, so the page's (outcome.ok) never stands in for it.
-    const entry = { emulated: media ?? {}, ...outcome, ok, violations, problems };
+    const entry = { url: `${origin}/index.html?single=1&${query}`, emulated: media ?? {}, ...outcome, ok, violations, problems };
     if (mode === 'agree') agreement = entry; else probes[mode] = entry;
     await page.close();
     for (const c of outcome.checks) console.log(`${c.ok ? 'ok  ' : 'FAIL'} ${mode === 'agree' ? '' : `probe ${mode} · `}${c.id}${c.ok ? '' : ` ${JSON.stringify(c.detail).slice(0, 1500)}`}`);
@@ -128,12 +142,15 @@ try {
   server.close();
   if (process.argv.includes('--keep')) console.log(`kept the bundle in ${out}`); else await rm(out, { recursive: true, force: true });
 }
+if (outputAt >= 0 && (git('rev-parse', 'HEAD') !== sourceCommit || git('status', '--porcelain'))) throw new Error('The checkout changed during supplemental capture');
 const record = {
   tool: 'design/tools/boarding-stage-check.mjs',
+  toolSha256: sha256(await readFile(fileURLToPath(import.meta.url))),
+  createdAt: new Date().toISOString(),
   component: 'design/phone-ui/components/boarding-stage',
-  sourceCommit, sourceClean,
+  sourceCommit, sourceClean, sourceTrees, browser: chrome.version,
   environment: 'Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.',
-  ...recordedHeaders(),
+  ...expectedHeaders, responseHeaders,
   captures: results,
   probe: probes,
   agree: agreement,
@@ -142,5 +159,5 @@ await writeFile(join(REVIEW, 'check.json'), `${JSON.stringify(record, null, 2)}\
 const passedCaptures = Object.values(results).filter(r => r.ok).length;
 const probeChecks = Object.values(probes).flatMap(p => p.checks ?? []);
 const agreeChecks = agreement?.checks ?? [];
-console.log(`${passedCaptures} of ${Object.keys(results).length} captures passed; probe ${probeChecks.filter(c => c.ok).length} of ${probeChecks.length} checks; agreement ${agreeChecks.filter(c => c.ok).length} of ${agreeChecks.length}; wrote ${REVIEW.slice(REPO.length + 1)}/check.json`);
+console.log(`${passedCaptures} of ${Object.keys(results).length} captures passed; probe ${probeChecks.filter(c => c.ok).length} of ${probeChecks.length} checks; agreement ${agreeChecks.filter(c => c.ok).length} of ${agreeChecks.length}; wrote ${outputAt >= 0 ? REVIEW : REVIEW.slice(REPO.length + 1)}/check.json`);
 if (failed) process.exitCode = 1;

@@ -1,0 +1,49 @@
+{
+  "tool": "design/tools/phone-ui-native-compare.mjs",
+  "createdAt": "2026-11-18T14:31:43.184Z",
+  "browser": "Google Chrome 157.0.8103.80",
+  "view": "Drawn at each part's phone size, 1.5× pixels",
+  "pack": {
+    "commit": "149cf77e3675430f49d86cc8215fdb532012cb11",
+    "dirty": false
+  },
+  "build": {
+    "folder": "/private/var/folders/0j/rqfrwf_d5lz2rkkbzz03p_380000gn/T/pregame-connection-check-LNCxpO",
+    "head": "533be55945de82536596f2043a1093c1c73f08c1",
+    "dirty": false,
+    "artwork": "64e55516d2f0026842c5c2a675f2eccda20e0a9e"
+  },
+  "findingsDate": null,
+  "count": 9,
+  "parts": [
+    {
+      "id": "boarding",
+      "stage": "pregame",
+      "title": "Boarding film",
+      "sheet": "19",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=boarding&t=6000&safe=47%2C34",
+        "image": "img/boarding-pack.jpg",
+        "width": 585,
+        "height": 1266,
+        "problems": []
+      },
+      "build": {
+        "address": null,
+        "image": null,
+        "reason": "The harness has no such state. Attach a capture from the build to the pull request.",
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "same",
+        "note": "The approved boarding film, with Skip, at two different moments."
+      },
+      "now": null
+    }
+  ]
+}

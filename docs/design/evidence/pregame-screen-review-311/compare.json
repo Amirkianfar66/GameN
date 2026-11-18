@@ -1,0 +1,389 @@
+{
+  "tool": "Supplemental assembly using phone-ui-native-compare.mjs pageHtml; existing integrated images reused",
+  "date": "2026-11-18",
+  "view": "390 × 844 and 430 × 932; pack at 1× pixels, reused app captures at their recorded scale. Pack safe areas 47/34 px, app harness none",
+  "pack": {
+    "commit": "9347a9c61faa483f9eda275270cffdff2b160c3d",
+    "dirty": false
+  },
+  "build": {
+    "head": "39961a807d811aa2efb177f888302da17f0c2431",
+    "dirty": false,
+    "artwork": "64e55516d2f0026842c5c2a675f2eccda20e0a9e"
+  },
+  "findingsDate": "2026-11-18",
+  "reviewer": "Screen Designer",
+  "leadAcceptance": "Pending in PR #314",
+  "parts": [
+    {
+      "id": "recover-390x844",
+      "comparisonPartId": "recover",
+      "stage": "start",
+      "title": "Recover a seat · 390x844",
+      "sheet": "14",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=recover&state=success&safe=47%2C34",
+        "image": "pack/390x844-recover-pack.jpg",
+        "width": 390,
+        "height": 844,
+        "sha256": "15a90dc86b429e2e1a5aaee349e457a74cfccd2b53919440311de0a853025a59",
+        "problems": []
+      },
+      "build": {
+        "address": "Original local origin not retained. Reproduction route: /?test=recover-retry",
+        "image": "../../../frontend/evidence/pregame-connection-311/guarded/390x844-recovered.jpg",
+        "width": 390,
+        "height": 844,
+        "sha256": "4fab326d03a2731e044453e0bfaa3d54aa2b48c9bfc4187422342540054a1c45",
+        "problems": [],
+        "reused": true
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "close",
+        "note": "The same two fields. The line saying the host makes the code, and that it never appears on the shared display, is missing."
+      },
+      "now": {
+        "verdict": "close",
+        "note": "The recovered-seat confirmation, check tile, words and Continue match the pack composition at both sizes. Seat 6 is fixture data. The known absent code-length hint is G4; the server and Frontend retain recovery authority. Pack reference: Seat recovered, the pack fixture seat."
+      }
+    },
+    {
+      "id": "characters-390x844",
+      "comparisonPartId": "characters",
+      "stage": "pregame",
+      "title": "Character selection · 390x844",
+      "sheet": "16",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=choose&state=open&safe=47%2C34",
+        "image": "pack/390x844-characters-pack.jpg",
+        "width": 390,
+        "height": 844,
+        "sha256": "b014446fd5e2673f9c859149bd4b85c75b8d53d3887147958f50054e01fa43a6",
+        "problems": []
+      },
+      "build": {
+        "address": "Original local origin not retained. Reproduction route: /?test=refused-choice",
+        "image": "../../../frontend/evidence/pregame-connection-311/guarded/390x844-character-refusal.jpg",
+        "width": 390,
+        "height": 844,
+        "sha256": "8ad2921e2d1cc5e85bd7a0d9b9ca91f204f877a50709074ada81f03a350fb2ab",
+        "problems": [],
+        "reused": true
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "close",
+        "note": "The 3 × 3 grid, taken characters greyed, the 30-second rule. The timer is small text under the grid instead of in the header."
+      },
+      "now": {
+        "verdict": "close",
+        "note": "The timer is in the header, the grid and footer retain the pack composition, and the server refusal uses the existing shell toast. Taken seats differ with the fixture. The 430 capture catches the toast during its fade; this is still evidence, not a motion-readability measurement. Pack reference: Open grid. The pack has no server-refusal fixture; the integrated toast is additional receipt feedback."
+      }
+    },
+    {
+      "id": "role-ready-390x844",
+      "comparisonPartId": "role-ready",
+      "stage": "pregame",
+      "title": "Ready, at 30 s · 390x844",
+      "sheet": "17",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=role&t=30000&state=concealed&safe=47%2C34",
+        "image": "pack/390x844-role-ready-pack.jpg",
+        "width": 390,
+        "height": 844,
+        "sha256": "4de29a6c220a0b6df8df054ab391cd3c12959a6975b411bac4bcf53a5804cc06",
+        "problems": []
+      },
+      "build": {
+        "address": "Original local origin not retained. Reproduction route: /?test=films",
+        "image": "../../../frontend/evidence/pregame-connection-311/guarded/390x844-ready-pending.jpg",
+        "width": 390,
+        "height": 844,
+        "sha256": "d813d0bdfb6ba65c6a9e08bfaf55c8293205bbb914b7988f1fba1e02de1f63a4",
+        "problems": [],
+        "reused": true
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "Ready works, under the text box. The design shows the card with “Hide your phone, then tap Ready”."
+      },
+      "now": {
+        "verdict": "close",
+        "note": "The pending Ready state uses the existing card back and busy control at both sizes; the privacy cue and footer remain visible. The kit intentionally refuses non-interactive controls without dimming, so Show role's appearance alone does not mean it is offered. Ready settlement remains Frontend/server-owned; G7 facts stay null. Pack reference: Existing concealed card after the interval. The pack has no Ready-pending fixture; the integrated busy button is additional request feedback."
+      }
+    },
+    {
+      "id": "settings-390x844",
+      "comparisonPartId": "settings",
+      "stage": "panels",
+      "title": "Settings (⋮) · 390x844",
+      "sheet": "32",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=settings&host=1&safe=47%2C34",
+        "image": "pack/390x844-settings-pack.jpg",
+        "width": 390,
+        "height": 844,
+        "sha256": "fce33fb44e896faa55d4909b9ed85c2c1984951bbe61ace2d40ff589beac822b",
+        "problems": []
+      },
+      "build": {
+        "address": "Original local origin not retained. Reproduction route: /?scenario=board&count=9&tuple=phone",
+        "image": "settings/390x844-settings.jpg",
+        "width": 780,
+        "height": 1688,
+        "sha256": "40363648bdeb31b49993ffcd11c4dae89c1cbb6973f0a496542fc86b342cda4b",
+        "problems": [],
+        "reused": true
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "A checkbox and a drop-down under a folded line. The design has a switch with its explanation and Standard / Large / Largest."
+      },
+      "now": {
+        "verdict": "close",
+        "note": "The integrated host Settings sheet shows the released switch, size selector, local-only note and Host controls row at both sizes. Existing clean-runtime captures are reused with their exact hashes. The non-host 390 comparison and the host captures show different audience inputs, not an omitted row. Pack reference: Settings with the host-only row."
+      }
+    },
+    {
+      "id": "host-controls-390x844",
+      "comparisonPartId": "host-controls",
+      "stage": "system",
+      "title": "Host controls in a match · 390x844",
+      "sheet": "15",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=host-controls&state=code&safe=47%2C34",
+        "image": "pack/390x844-host-controls-pack.jpg",
+        "width": 390,
+        "height": 844,
+        "sha256": "2eb95ee37428f229355face27b1d0dfef46e7aabe056f97f966f508be543f774",
+        "problems": []
+      },
+      "build": {
+        "address": "Original local origin not retained. Reproduction route: /?scenario=board&count=9&tuple=phone",
+        "image": "../../../frontend/evidence/pregame-connection-311/guarded/390x844-host-code.jpg",
+        "width": 780,
+        "height": 1688,
+        "sha256": "10f5c14e4db73d0abc8342d3cc96d8a77c0d3cb664fc67c0c96422651af3cd21",
+        "problems": [],
+        "reused": true
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "Inside Settings, as “Check server deadline”, “Run eligible bots” and “Issue recovery for Player 6”. The design has its own sheet in plain words with a code for each seat."
+      },
+      "now": {
+        "verdict": "close",
+        "note": "The sheet title, privacy cue, code card, note and Reveal/Copy footer follow the released component at both sizes. Whole mask groups wrap to two lines at 390 and one at 430. No expiry is shown under G4. The repeated shared refusal is a separate non-blocking proposal; supplemental real-largest scrolled captures show the complete code with intact groups. Pack reference: Code hidden. The accepted 0.1.2 group wrapping and G4 absent expiry differ from this historical pack."
+      }
+    },
+    {
+      "id": "recover-430x932",
+      "comparisonPartId": "recover",
+      "stage": "start",
+      "title": "Recover a seat · 430x932",
+      "sheet": "14",
+      "view": {
+        "size": "430x932",
+        "text": 1
+      },
+      "pack": {
+        "address": "http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=recover&state=success&safe=47%2C34",
+        "image": "pack/430x932-recover-pack.jpg",
+        "width": 430,
+        "height": 932,
+        "sha256": "b204d8f5f9cd12a0b02308efe060b67febbf0c190bbb4c6b6d4ce43a86cf6fd3",
+        "problems": []
+      },
+      "build": {
+        "address": "Original local origin not retained. Reproduction route: /?test=recover-retry",
+        "image": "../../../frontend/evidence/pregame-connection-311/guarded/430x932-recovered.jpg",
+        "width": 430,
+        "height": 932,
+        "sha256": "35de4780baefd319b09c07e7cffe1b5194837ca8aab1ac57a53fea8347060cd7",
+        "problems": [],
+        "reused": true
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "close",
+        "note": "The same two fields. The line saying the host makes the code, and that it never appears on the shared display, is missing."
+      },
+      "now": {
+        "verdict": "close",
+        "note": "The recovered-seat confirmation, check tile, words and Continue match the pack composition at both sizes. Seat 6 is fixture data. The known absent code-length hint is G4; the server and Frontend retain recovery authority. Pack reference: Seat recovered, the pack fixture seat."
+      }
+    },
+    {
+      "id": "characters-430x932",
+      "comparisonPartId": "characters",
+      "stage": "pregame",
+      "title": "Character selection · 430x932",
+      "sheet": "16",
+      "view": {
+        "size": "430x932",
+        "text": 1
+      },
+      "pack": {
+        "address": "http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=choose&state=open&safe=47%2C34",
+        "image": "pack/430x932-characters-pack.jpg",
+        "width": 430,
+        "height": 932,
+        "sha256": "764d982ab327e3047b0b69869fdc28b0033b5ea468255d9c648186a52f94a35d",
+        "problems": []
+      },
+      "build": {
+        "address": "Original local origin not retained. Reproduction route: /?test=refused-choice",
+        "image": "../../../frontend/evidence/pregame-connection-311/guarded/430x932-character-refusal.jpg",
+        "width": 430,
+        "height": 932,
+        "sha256": "2d9066f36edd75d2f273b8efa00faddabff1f21667a69d89876ccb4c9e625019",
+        "problems": [],
+        "reused": true
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "close",
+        "note": "The 3 × 3 grid, taken characters greyed, the 30-second rule. The timer is small text under the grid instead of in the header."
+      },
+      "now": {
+        "verdict": "close",
+        "note": "The timer is in the header, the grid and footer retain the pack composition, and the server refusal uses the existing shell toast. Taken seats differ with the fixture. The 430 capture catches the toast during its fade; this is still evidence, not a motion-readability measurement. Pack reference: Open grid. The pack has no server-refusal fixture; the integrated toast is additional receipt feedback."
+      }
+    },
+    {
+      "id": "role-ready-430x932",
+      "comparisonPartId": "role-ready",
+      "stage": "pregame",
+      "title": "Ready, at 30 s · 430x932",
+      "sheet": "17",
+      "view": {
+        "size": "430x932",
+        "text": 1
+      },
+      "pack": {
+        "address": "http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=role&t=30000&state=concealed&safe=47%2C34",
+        "image": "pack/430x932-role-ready-pack.jpg",
+        "width": 430,
+        "height": 932,
+        "sha256": "6a9499e2d2ae21fffc606f912ee1cdaf78a80f248ac98bb9fa9961e6f14ff037",
+        "problems": []
+      },
+      "build": {
+        "address": "Original local origin not retained. Reproduction route: /?test=films",
+        "image": "../../../frontend/evidence/pregame-connection-311/guarded/430x932-ready-pending.jpg",
+        "width": 430,
+        "height": 932,
+        "sha256": "f54d8f560edf6368d17a42c15db0dc9522ea19dcdfbf91aae5b03eadc3203769",
+        "problems": [],
+        "reused": true
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "Ready works, under the text box. The design shows the card with “Hide your phone, then tap Ready”."
+      },
+      "now": {
+        "verdict": "close",
+        "note": "The pending Ready state uses the existing card back and busy control at both sizes; the privacy cue and footer remain visible. The kit intentionally refuses non-interactive controls without dimming, so Show role's appearance alone does not mean it is offered. Ready settlement remains Frontend/server-owned; G7 facts stay null. Pack reference: Existing concealed card after the interval. The pack has no Ready-pending fixture; the integrated busy button is additional request feedback."
+      }
+    },
+    {
+      "id": "settings-430x932",
+      "comparisonPartId": "settings",
+      "stage": "panels",
+      "title": "Settings (⋮) · 430x932",
+      "sheet": "32",
+      "view": {
+        "size": "430x932",
+        "text": 1
+      },
+      "pack": {
+        "address": "http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=settings&host=1&safe=47%2C34",
+        "image": "pack/430x932-settings-pack.jpg",
+        "width": 430,
+        "height": 932,
+        "sha256": "a96e8785860fcd595b5b7329e539321f9bf69d6c15cccbbb982ddb537a5a7fab",
+        "problems": []
+      },
+      "build": {
+        "address": "Original local origin not retained. Reproduction route: /?scenario=board&count=9&tuple=phone",
+        "image": "settings/430x932-settings.jpg",
+        "width": 860,
+        "height": 1864,
+        "sha256": "4282e7872d689b3c38fde70ff3d33c1dc12feb8b903e516613bfd37d38b9ecc6",
+        "problems": [],
+        "reused": true
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "A checkbox and a drop-down under a folded line. The design has a switch with its explanation and Standard / Large / Largest."
+      },
+      "now": {
+        "verdict": "close",
+        "note": "The integrated host Settings sheet shows the released switch, size selector, local-only note and Host controls row at both sizes. Existing clean-runtime captures are reused with their exact hashes. The non-host 390 comparison and the host captures show different audience inputs, not an omitted row. Pack reference: Settings with the host-only row."
+      }
+    },
+    {
+      "id": "host-controls-430x932",
+      "comparisonPartId": "host-controls",
+      "stage": "system",
+      "title": "Host controls in a match · 430x932",
+      "sheet": "15",
+      "view": {
+        "size": "430x932",
+        "text": 1
+      },
+      "pack": {
+        "address": "http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=host-controls&state=code&safe=47%2C34",
+        "image": "pack/430x932-host-controls-pack.jpg",
+        "width": 430,
+        "height": 932,
+        "sha256": "1622f92f1d6d168f8933bc73ab467756063e528f8e448b69a7b883c8ca39f74a",
+        "problems": []
+      },
+      "build": {
+        "address": "Original local origin not retained. Reproduction route: /?scenario=board&count=9&tuple=phone",
+        "image": "../../../frontend/evidence/pregame-connection-311/guarded/430x932-host-code.jpg",
+        "width": 860,
+        "height": 1864,
+        "sha256": "c4e1b8892da21d396ed7f545c65c1ac77d4b74508a926c464af952e7231dc895",
+        "problems": [],
+        "reused": true
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "Inside Settings, as “Check server deadline”, “Run eligible bots” and “Issue recovery for Player 6”. The design has its own sheet in plain words with a code for each seat."
+      },
+      "now": {
+        "verdict": "close",
+        "note": "The sheet title, privacy cue, code card, note and Reveal/Copy footer follow the released component at both sizes. Whole mask groups wrap to two lines at 390 and one at 430. No expiry is shown under G4. The repeated shared refusal is a separate non-blocking proposal; supplemental real-largest scrolled captures show the complete code with intact groups. Pack reference: Code hidden. The accepted 0.1.2 group wrapping and G4 absent expiry differ from this historical pack."
+      }
+    }
+  ]
+}

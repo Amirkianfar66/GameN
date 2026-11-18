@@ -1,0 +1,341 @@
+{
+  "tool": "design/tools/pregame-connection-check.mjs",
+  "what": "The Planet app's screens before the match drawn by Designer's pre-game components, in Frontend's phone harness (apps/game/dev/phone) built from the candidate below",
+  "candidate": {
+    "commit": "39961a807d811aa2efb177f888302da17f0c2431",
+    "clean": true,
+    "dirty": []
+  },
+  "art": {
+    "base": "64e55516d2f0026842c5c2a675f2eccda20e0a9e",
+    "originMain": "7574bfe5ce3d7acd12ed66eb8202187045817a24",
+    "note": "The harness's art plugins over a clean worktree of origin/main; the harness and its asset tooling are byte for byte that commit's"
+  },
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels, focus emulated, no safe areas; the harness bundled by Vite and served with the production headers below. Not a phone, not Safari, not a live match.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "reuse": {
+    "note": "Existing Frontend captures; not rerun by Screen Designer. Selected from the original clean-runtime phone-checker record.",
+    "originalRecordSha256": "bb3428de5ab718c03150fe3dbd824ff94437896abff03f8d0d3fdd3ac75a1165",
+    "originalRecordPath": "design/phone-ui/review/pregame-connection/check.json",
+    "localSource": "/private/tmp/gamen-pregame-311-proof-20261118",
+    "reviewDate": "2026-11-18"
+  },
+  "captures": {
+    "390x844/settings": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "title": true,
+        "sheet": true,
+        "display": true,
+        "sizes": true,
+        "note": true,
+        "hostRow": true,
+        "noOldControls": true,
+        "nothingSent": true,
+        "largest": true,
+        "stored": true,
+        "oneInstance": true,
+        "focusKept": true
+      },
+      "file": "settings/390x844-settings.jpg",
+      "sha256": "40363648bdeb31b49993ffcd11c4dae89c1cbb6973f0a496542fc86b342cda4b",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board navigation library hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-YiwJElaZ.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Settings",
+        "sub": null,
+        "words": "DisplayReduce motionFilms become stills; no shake or travelText sizeStandardLargeLargestThese stay on this phone. They never change the match.HostHost controlsBots, deadlines, recovery, abort",
+        "controls": [
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Reduce motion",
+            "intent": "reduce-motion",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Standard",
+            "intent": "text-size",
+            "value": "1",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Large",
+            "intent": "text-size",
+            "value": "1.5",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Largest",
+            "intent": "text-size",
+            "value": "2",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Host controlsBots, deadlines, recovery, abort",
+            "intent": "host-controls",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": true,
+        "host": false,
+        "card": null,
+        "matchId": null,
+        "code": null,
+        "revealed": null,
+        "toast": null,
+        "focus": null,
+        "focusValue": null,
+        "secretInPage": false,
+        "wrap": {
+          "code": null,
+          "matchId": null
+        },
+        "old": 0,
+        "sent": [],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
+      },
+      "problems": [],
+      "originalFile": "design/phone-ui/review/pregame-connection/390x844-settings.jpg"
+    },
+    "430x932/settings": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "title": true,
+        "sheet": true,
+        "display": true,
+        "sizes": true,
+        "note": true,
+        "hostRow": true,
+        "noOldControls": true,
+        "nothingSent": true,
+        "largest": true,
+        "stored": true,
+        "oneInstance": true,
+        "focusKept": true
+      },
+      "file": "settings/430x932-settings.jpg",
+      "sha256": "4282e7872d689b3c38fde70ff3d33c1dc12feb8b903e516613bfd37d38b9ecc6",
+      "seen": {
+        "screen": null,
+        "component": null,
+        "box": null,
+        "rootClass": "planet-container",
+        "title": null,
+        "words": "",
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "running",
+          "isHost": true,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-YiwJElaZ.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "open": true,
+        "title": "Settings",
+        "sub": null,
+        "words": "DisplayReduce motionFilms become stills; no shake or travelText sizeStandardLargeLargestThese stay on this phone. They never change the match.HostHost controlsBots, deadlines, recovery, abort",
+        "controls": [
+          {
+            "label": "Close",
+            "intent": "sheet-close",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Reduce motion",
+            "intent": "reduce-motion",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Standard",
+            "intent": "text-size",
+            "value": "1",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Large",
+            "intent": "text-size",
+            "value": "1.5",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Largest",
+            "intent": "text-size",
+            "value": "2",
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          },
+          {
+            "label": "Host controlsBots, deadlines, recovery, abort",
+            "intent": "host-controls",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "reason": null
+          }
+        ],
+        "settings": true,
+        "host": false,
+        "card": null,
+        "matchId": null,
+        "code": null,
+        "revealed": null,
+        "toast": null,
+        "focus": null,
+        "focusValue": null,
+        "secretInPage": false,
+        "wrap": {
+          "code": null,
+          "matchId": null
+        },
+        "old": 0,
+        "sent": [],
+        "fontSize": "16px",
+        "matchIdOfSession": "planet-local"
+      },
+      "problems": [],
+      "originalFile": "design/phone-ui/review/pregame-connection/430x932-settings.jpg"
+    }
+  }
+}
