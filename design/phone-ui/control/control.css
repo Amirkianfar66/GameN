@@ -1,0 +1,243 @@
+/* mothership:dev-only · The bars and icons control's own page (control.mjs): everything here is the page's,
+   prefixed bc-, in px so the game's text-size switch (the root's font size) never moves the page's own words.
+   The phones on the page are the runtime components, styled by their own files.
+   Layout: a spec binder. A sticky row of views, with a row of sub-parts under it; full-width, true-size strips of
+   the phone, each with its name, its size, its sheet number, a readout of its parts and the owner's mark; the
+   test view is the whole phone with a control drawer. */
+:root {
+  --bc-bg: #ECEFF4;
+  --bc-panel: #FFFFFF;
+  --bc-panel-2: #E1E6EE;
+  --bc-ink: #151923;
+  --bc-ink-2: #46526A;
+  --bc-ink-3: #6A7890;
+  --bc-line: #C9D1DD;
+  --bc-accent-text: #8A5A00;
+  --bc-amber: #F1B84B;
+  --bc-on-amber: #151923;
+  --bc-ok: #1D7A4C;
+  --bc-ok-fill: #2FA36B;
+  --bc-change: #B23A12;
+  --bc-change-fill: #E0633A;
+  /* The game's own surfaces, the same in both themes: a phone is drawn as the game draws it. */
+  --bc-device: #07090F;
+  --bc-glass: #171D29;
+  --bc-glass-ink: #F4EBDD;
+  --bc-paper: #F4EBDD;
+  --bc-paper-ink: #151923;
+  --bc-float: rgba(11, 14, 20, 0.78);
+  --bc-float-ink: #F1EEE6;
+  --bc-display: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --bc-body: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, sans-serif;
+  --bc-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bc-bg: #0B0E14; --bc-panel: #141A26; --bc-panel-2: #1D2534; --bc-ink: #F1EEE6; --bc-ink-2: #B9C4D3; --bc-ink-3: #8696AE;
+    --bc-line: #2A3346; --bc-accent-text: #F1B84B; --bc-ok: #5CCB90; --bc-change: #FF9470; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bc-bg: #0B0E14; --bc-panel: #141A26; --bc-panel-2: #1D2534; --bc-ink: #F1EEE6; --bc-ink-2: #B9C4D3; --bc-ink-3: #8696AE;
+  --bc-line: #2A3346; --bc-accent-text: #F1B84B; --bc-ok: #5CCB90; --bc-change: #FF9470; color-scheme: dark;
+}
+
+body { background: var(--bc-bg); color: var(--bc-ink); font: 400 14px/1.45 var(--bc-body); }
+body[data-test] { overflow: hidden; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bc-bg); }
+/* The page's own resets weigh nothing and stop at a phone: inside .ms-phone-shell every rule is the component's. */
+:where(#bc-app, .bc-test, .bc-dialog) :where(h1, h2, h3, p, ul, dl, dd, figure):where(:not(.ms-phone-shell *)) { margin: 0; }
+:where(#bc-app, .bc-test, .bc-dialog) :where(button, select, input):where(:not(.ms-phone-shell *)) { font: inherit; color: inherit; }
+:where(#bc-app, .bc-test, .bc-dialog) :where(button, select, input, a, [role="button"]):where(:not(.ms-phone-shell *)):focus-visible { outline: 2px solid var(--bc-accent-text); outline-offset: 2px; }
+.bc-notice { margin-top: 14px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--bc-line); background: var(--bc-panel); color: var(--bc-ink-2); font-size: 13px; }
+.bc-wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.bc-ic { display: block; flex: none; }
+
+/* ── Head and views ── */
+.bc-head { padding-block: 22px 12px; }
+.bc-eyebrow { font: 600 12px/1.2 var(--bc-display); letter-spacing: 0.16em; text-transform: uppercase; color: var(--bc-accent-text); }
+.bc-head h1 { font: 700 38px/1 var(--bc-display); letter-spacing: 0.01em; text-transform: uppercase; margin-top: 6px; text-wrap: balance; }
+.bc-lede { margin-top: 10px; max-width: 62ch; color: var(--bc-ink-2); font-size: 15px; }
+.bc-nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--bc-bg); border-bottom: 1px solid var(--bc-line); }
+.bc-nav-row { display: flex; gap: 4px; }
+.bc-nav-link { flex: none; padding: 12px 14px 10px; font: 600 18px/1 var(--bc-display); letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; color: var(--bc-ink-3); border-bottom: 3px solid transparent; }
+.bc-nav-link[aria-current="page"] { color: var(--bc-ink); border-bottom-color: var(--bc-amber); }
+.bc-view { padding-block: 18px 56px; }
+.bc-tools { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px 18px; }
+.bc-facts-card dt, .bc-facts dt { white-space: nowrap; }
+.bc-hint { flex: 1 1 100%; max-width: 68ch; color: var(--bc-ink-2); font-size: 13px; }
+.bc-primary { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 20px 0 16px; border: 0; border-radius: 12px; background: var(--bc-amber); color: var(--bc-on-amber); font: 700 19px/1 var(--bc-display); letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; --ic-knock: var(--bc-amber); }
+.bc-ghost { display: inline-flex; align-items: center; gap: 4px; min-height: 40px; padding: 0 12px; border: 1px solid var(--bc-line); border-radius: 10px; background: transparent; color: var(--bc-ink); cursor: pointer; font-weight: 600; }
+.bc-seg { display: grid; gap: 5px; }
+.bc-seg-label, .bc-fieldset legend, .bc-row label { font: 600 12px/1.2 var(--bc-display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--bc-ink-3); }
+.bc-seg-row { display: inline-flex; padding: 3px; border-radius: 12px; background: var(--bc-panel-2); }
+.bc-seg-btn { min-height: 40px; padding: 0 14px; border: 0; border-radius: 9px; background: transparent; color: var(--bc-ink-2); font-weight: 600; cursor: pointer; }
+.bc-seg-btn[aria-pressed="true"] { background: var(--bc-panel); color: var(--bc-ink); box-shadow: 0 1px 2px rgba(10, 14, 22, 0.18); }
+.bc-count { display: inline-block; margin-left: 8px; padding: 2px 7px; border-radius: 999px; background: var(--bc-panel-2); color: var(--bc-ink-2); font: 600 12px/1.3 var(--bc-body); letter-spacing: 0; vertical-align: middle; font-variant-numeric: tabular-nums; }
+.bc-tag { flex: none; padding: 2px 8px; border-radius: 6px; border: 1px solid var(--bc-line); color: var(--bc-ink-2); font: 500 11px/1.5 var(--bc-mono); white-space: nowrap; }
+
+/* ── Bars: groups and strips ── */
+/* The sub-parts of a view: a row of chips that scrolls sideways inside itself. */
+.bc-subnav { border-top: 1px solid var(--bc-line); }
+.bc-subnav-row { display: flex; gap: 6px; overflow-x: auto; padding-block: 7px; scrollbar-width: none; }
+.bc-subnav-row::-webkit-scrollbar { display: none; }
+.bc-chip { flex: none; display: inline-flex; align-items: center; min-height: 34px; padding: 0 5px 0 12px; border-radius: 999px; border: 1px solid var(--bc-line); color: var(--bc-ink-2); text-decoration: none; font-weight: 600; font-size: 13px; white-space: nowrap; }
+.bc-chip[aria-current="page"] { background: var(--bc-ink); border-color: var(--bc-ink); color: var(--bc-bg); }
+.bc-chip[aria-current="page"] .bc-count { background: var(--bc-bg); color: var(--bc-ink); }
+.bc-group-head { margin-bottom: 14px; }
+.bc-group-head h2, .bc-section h2, .bc-icon-group h2 { font: 700 26px/1.05 var(--bc-display); letter-spacing: 0.03em; text-transform: uppercase; }
+.bc-group-head p { margin-top: 4px; color: var(--bc-ink-2); max-width: 68ch; }
+.bc-strips { max-width: 1180px; margin: 16px auto 0; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; grid-template-columns: repeat(auto-fill, 390px); justify-content: start; gap: 26px 24px; align-items: start; }
+.bc-strip { display: grid; gap: 8px; min-width: 0; }
+.bc-strip-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.bc-strip-title { font: 600 15px/1.3 var(--bc-body); min-width: 0; }
+.bc-tags { flex: none; display: inline-flex; gap: 6px; }
+.bc-tag-size { border-color: transparent; background: var(--bc-panel-2); color: var(--bc-ink); font-weight: 600; }
+/* A bar's parts, read from the live component: each with its size, and what it is drawn with. */
+.bc-specs-box { border: 1px solid var(--bc-line); border-radius: 12px; background: var(--bc-panel); min-width: 0; }
+.bc-specs-box > summary { cursor: pointer; padding: 10px 12px; font-weight: 600; font-size: 13px; }
+.bc-specs { padding: 0 12px 4px; }
+.bc-spec { display: grid; gap: 4px; padding: 9px 0; border-top: 1px solid var(--bc-line); }
+.bc-spec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.bc-spec-head b { font-weight: 600; min-width: 0; }
+.bc-spec-size { flex: none; font: 600 12px/1.4 var(--bc-mono); font-variant-numeric: tabular-nums; }
+.bc-spec dl { margin: 0; display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 2px 10px; font-size: 13px; }
+.bc-spec dt { color: var(--bc-ink-3); }
+.bc-spec dd { margin: 0; color: var(--bc-ink-2); overflow-wrap: anywhere; }
+.bc-sw { display: inline-block; width: 12px; height: 12px; margin-right: 5px; border-radius: 3px; vertical-align: -1px; box-shadow: 0 0 0 1px var(--bc-line); }
+.bc-window { position: relative; overflow: hidden; min-height: 96px; border-radius: 14px; background: var(--bc-device); cursor: pointer; box-shadow: 0 0 0 1px var(--bc-line); }
+.bc-scaler { position: absolute; top: 0; left: 50%; transform: translateX(-50%); transform-origin: top center; overflow: hidden; }
+.bc-phone { position: absolute; left: 0; top: 0; overflow: hidden; }
+/* The whole phone, small: on the page's own ground, with a phone's corners, so it reads as a phone and not as a gap. */
+.bc-window[data-crop="whole"] { background: var(--bc-panel-2); }
+.bc-window[data-crop="whole"] .bc-scaler { border-radius: 30px; box-shadow: 0 0 0 3px #2A3346; }
+.bc-window[data-crop="whole"] .bc-standin { color: #B9C4D3; font-size: 19px; }
+.bc-strip-note { margin: 0; color: var(--bc-ink-2); font-size: 13px; }
+.bc-standin { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; color: #55657E; font: 600 13px/1.35 var(--bc-body); letter-spacing: 0.04em; text-transform: uppercase; background: repeating-linear-gradient(135deg, #0C1018 0 14px, #0E131C 14px 28px); }
+.bc-standin-sheet { margin: 4px 0 0; min-height: 96px; border-radius: 14px; display: grid; place-items: center; padding: 16px; text-align: center; color: #B9C4D3; font: 600 13px/1.35 var(--bc-body); letter-spacing: 0.04em; text-transform: uppercase; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.16); background: rgba(8, 11, 18, 0.24); }
+@media (max-width: 460px) {
+  /* On a phone a strip runs edge to edge, so the bar is exactly as wide as on this phone. */
+  .bc-strips { padding-left: 0; padding-right: 0; grid-template-columns: minmax(0, 1fr); }
+  .bc-strip > .bc-specs-box { margin-left: max(16px, env(safe-area-inset-left, 0px)); margin-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .bc-strip-head, .bc-strip-foot, .bc-strip-note { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .bc-window { border-radius: 0; box-shadow: none; }
+  .bc-head h1 { font-size: 33px; }
+}
+
+/* ── The owner's marks ── */
+.bc-mark { display: grid; gap: 8px; }
+.bc-mark-row { display: flex; align-items: center; gap: 8px; }
+.bc-mark-btn { min-height: 40px; min-width: 72px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--bc-line); background: var(--bc-panel); color: var(--bc-ink); font-weight: 700; cursor: pointer; }
+.bc-mark-btn:disabled { opacity: 0.45; cursor: default; }
+.bc-mark-btn[data-status="ok"][aria-pressed="true"] { background: var(--bc-ok-fill); border-color: var(--bc-ok-fill); color: #06140D; }
+.bc-mark-btn[data-status="change"][aria-pressed="true"] { background: var(--bc-change-fill); border-color: var(--bc-change-fill); color: #1B0A04; }
+.bc-mark-said { color: var(--bc-ink-3); font-size: 12px; }
+.bc-mark-note { width: 100%; min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1.5px solid var(--bc-line); background: var(--bc-panel); color: var(--bc-ink); font-size: 16px; }
+
+/* ── The test view ── */
+.bc-test { position: fixed; inset: 0; z-index: 1000; background: var(--bc-device); color: var(--bc-ink); font: 400 14px/1.45 var(--bc-body); }
+.bc-test-room, .bc-device-box, .bc-device { position: absolute; inset: 0; }
+.bc-device { overflow: hidden; isolation: isolate; }
+.bc-float { position: absolute; z-index: 5; right: max(8px, env(safe-area-inset-right, 0px)); top: 50%; transform: translateY(-50%); display: grid; gap: 4px; padding: 5px; border-radius: 27px; background: var(--bc-float); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.16), 0 8px 24px rgba(0, 0, 0, 0.5); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.bc-float-btn { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%; background: transparent; color: var(--bc-float-ink); cursor: pointer; }
+.bc-float-main { background: var(--bc-amber); color: var(--bc-on-amber); --ic-knock: var(--bc-amber); }
+/* Folded: one button, half off the screen's edge, clear of the room. */
+.bc-float { transition: transform 200ms cubic-bezier(0.2, 0, 0, 1); }
+.bc-float[data-folded] { transform: translate(34px, -50%); opacity: 0.9; }
+.bc-float[data-folded] .bc-float-btn:not(.bc-float-main) { display: none; }
+.bc-caption { position: absolute; z-index: 5; right: calc(max(8px, env(safe-area-inset-right, 0px)) + 62px); top: 50%; transform: translateY(-50%); max-width: 62%; padding: 8px 12px; border-radius: 10px; background: var(--bc-float); color: var(--bc-float-ink); font-weight: 600; font-size: 13px; opacity: 0; transition: opacity 180ms; pointer-events: none; }
+.bc-caption[data-show] { opacity: 1; }
+.bc-drawer { position: absolute; z-index: 6; left: 0; right: 0; bottom: 0; height: min(66%, 600px); display: flex; flex-direction: column; background: var(--bc-panel); border-radius: 18px 18px 0 0; box-shadow: 0 -14px 44px rgba(0, 0, 0, 0.5); transform: translateY(103%); transition: transform 220ms cubic-bezier(0.2, 0, 0, 1); }
+.bc-test[data-drawer="open"] .bc-drawer { transform: none; }
+.bc-test[data-drawer="open"] :is(.bc-float, .bc-caption) { display: none; }
+.bc-drawer-head { flex: none; display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--bc-line); }
+.bc-drawer-head h2 { flex: 1; margin: 0; font: 700 22px/1 var(--bc-display); letter-spacing: 0.06em; text-transform: uppercase; }
+.bc-drawer-body { flex: 1; min-height: 0; overflow-y: auto; display: grid; align-content: start; gap: 16px; padding: 14px max(16px, env(safe-area-inset-right, 0px)) calc(18px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.bc-fieldset { margin: 0; padding: 0; border: 0; display: grid; gap: 8px; min-width: 0; }
+.bc-fieldset legend { padding: 0 0 6px; color: var(--bc-accent-text); }
+.bc-row { display: grid; grid-template-columns: 104px minmax(0, 1fr); align-items: center; gap: 10px; }
+.bc-row-preset { grid-template-columns: 104px minmax(0, 1fr); }
+.bc-step { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.bc-step .bc-ghost { justify-content: center; }
+.bc-select { width: 100%; min-height: 44px; padding: 0 10px; border-radius: 10px; border: 1.5px solid var(--bc-line); background: var(--bc-panel); color: var(--bc-ink); font-size: 16px; }
+.bc-drawer-note { margin: 0 0 6px; color: var(--bc-ink-2); font-size: 13px; }
+.bc-drawer-mark { padding: 12px; border-radius: 12px; background: var(--bc-panel-2); }
+.bc-wide-only { display: none; }
+@media (min-width: 860px) {
+  .bc-wide-only { display: revert; }
+  .bc-row.bc-wide-only { display: grid; }
+  .bc-narrow-only, .bc-float { display: none; }
+  .bc-test-room { right: 400px; display: grid; place-items: center; }
+  .bc-device-box { position: relative; inset: auto; }
+  .bc-device { inset: auto; left: 0; top: 0; transform-origin: top left; border-radius: 34px; box-shadow: 0 0 0 2px #2A3346, 0 30px 80px rgba(0, 0, 0, 0.55); }
+  .bc-drawer { left: auto; top: 0; width: 400px; height: auto; border-radius: 0; transform: none; box-shadow: none; border-left: 1px solid var(--bc-line); }
+  .bc-caption { right: 424px; top: 20px; transform: none; }
+  .bc-test[data-drawer="open"] .bc-caption { display: block; }
+}
+
+/* ── Icons ── */
+[data-ground="glass"] { --bc-tile: var(--bc-glass); --bc-tile-ink: var(--bc-glass-ink); --ic-knock: var(--bc-glass); }
+[data-ground="paper"] { --bc-tile: var(--bc-paper); --bc-tile-ink: var(--bc-paper-ink); --ic-knock: var(--bc-paper); }
+.bc-icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(68px, 1fr)); gap: 8px; margin-top: 16px; max-width: 760px; }
+.bc-icon { position: relative; display: grid; justify-items: center; align-content: start; gap: 7px; min-height: 72px; padding: 13px 3px 8px; border: 0; border-radius: 12px; background: var(--bc-tile); color: var(--bc-tile-ink); cursor: pointer; }
+.bc-icon-name { max-width: 100%; font: 500 10px/1.2 var(--bc-mono); opacity: 0.72; overflow-wrap: anywhere; text-align: center; }
+.bc-icon-dot { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; border-radius: 50%; display: none; }
+.bc-icon[data-mark="ok"] .bc-icon-dot { display: block; background: var(--bc-ok-fill); }
+.bc-icon[data-mark="change"] .bc-icon-dot { display: block; background: var(--bc-change-fill); }
+.bc-section { margin-top: 30px; display: grid; gap: 10px; }
+.bc-sub { font: 600 16px/1.3 var(--bc-body); }
+.bc-facts-card { margin: 0; padding: 12px 14px; max-width: 560px; border-radius: 12px; border: 1px solid var(--bc-line); background: var(--bc-panel); }
+/* One use of an icon, drawn as the bar draws it: its own size, colour and ground. */
+.bc-uses li { align-items: flex-start; }
+.bc-use-art { flex: none; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 10px; background: var(--bc-glass); color: var(--bc-glass-ink); --ic-knock: var(--bc-glass); box-shadow: 0 0 0 1px var(--bc-line); }
+.bc-uses li > span:last-child { min-width: 0; color: var(--bc-ink-2); font-size: 13px; overflow-wrap: anywhere; }
+.bc-uses strong { color: var(--bc-ink); }
+.bc-dialog-sub { margin: 4px 0 8px; font: 600 14px/1.3 var(--bc-body); }
+/* Where the bars are measured off screen: mounted, read and removed. */
+.bc-probe { position: fixed; left: -10000px; top: 0; visibility: hidden; pointer-events: none; }
+.bc-probe-phone { position: relative; width: 390px; height: 844px; overflow: hidden; }
+.bc-section > h2:not(:first-child) { margin-top: 24px; }
+.bc-twice-head, .bc-twice-row { display: grid; grid-template-columns: minmax(0, 1fr) 76px 76px; align-items: center; gap: 8px; max-width: 460px; }
+.bc-twice-head { font: 600 12px/1.2 var(--bc-display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--bc-ink-3); text-align: center; }
+.bc-twice { display: grid; gap: 4px; }
+.bc-twice-row { min-height: 48px; border-bottom: 1px solid var(--bc-line); }
+.bc-twice-name { font-weight: 600; }
+.bc-twice-art, .bc-list-art { display: grid; place-items: center; width: 44px; height: 44px; margin: 0 auto; border-radius: 10px; background: var(--bc-tile); color: var(--bc-tile-ink); }
+.bc-twice-old { opacity: 0.9; box-shadow: inset 0 0 0 1.5px var(--bc-change-fill); }
+.bc-twice-art .planet-icon { width: 24px; height: 24px; }
+.bc-list { list-style: none; padding: 0; display: grid; gap: 10px; max-width: 68ch; }
+.bc-list li { display: flex; align-items: center; gap: 12px; }
+.bc-list .bc-list-art { flex: none; margin: 0; }
+.bc-list .bc-tag { margin-left: 8px; }
+.bc-dialog { width: min(440px, calc(100vw - 32px)); max-height: calc(100vh - 48px); padding: 18px; border: 0; border-radius: 18px; background: var(--bc-panel); color: var(--bc-ink); font: 400 14px/1.45 var(--bc-body); }
+.bc-dialog::backdrop { background: rgba(5, 7, 11, 0.62); }
+.bc-dialog-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.bc-dialog-head h2 { margin: 2px 0 0; font: 700 28px/1.05 var(--bc-display); letter-spacing: 0.03em; text-transform: uppercase; }
+.bc-dialog-head p { margin: 0; }
+.bc-big-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 16px 0; }
+.bc-big { margin: 0; display: grid; gap: 6px; text-align: center; color: var(--bc-ink-2); font-size: 12px; }
+.bc-big-art { aspect-ratio: 1; display: grid; place-items: center; border-radius: 14px; background: var(--bc-tile); color: var(--bc-tile-ink); }
+.bc-big-art > svg { width: 66%; height: auto; }
+.bc-big-true { grid-auto-flow: column; gap: 12px; }
+.bc-big-true > svg { width: 24px; height: 24px; }
+.bc-facts { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 14px; margin: 0 0 16px; }
+.bc-facts dt { color: var(--bc-ink-3); }
+.bc-facts dd { margin: 0; overflow-wrap: anywhere; }
+:where(#bc-app, .bc-dialog) code { font: 500 12px/1.4 var(--bc-mono); }
+
+/* ── Status ── */
+.bc-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; max-width: 560px; }
+.bc-tile { display: grid; gap: 2px; padding: 14px; border-radius: 14px; background: var(--bc-panel); border: 1px solid var(--bc-line); }
+.bc-tile b { font: 700 34px/1 var(--bc-display); font-variant-numeric: tabular-nums; }
+.bc-tile span { color: var(--bc-ink-2); font-size: 12px; }
+.bc-tile[data-tone="change"] b { color: var(--bc-change); }
+.bc-changes { display: grid; gap: 8px; }
+.bc-changes h3 { font: 600 15px/1.3 var(--bc-body); }
+.bc-parts { list-style: none; padding: 0; display: grid; max-width: 760px; }
+.bc-parts li { display: grid; gap: 3px; padding: 11px 0; border-bottom: 1px solid var(--bc-line); }
+.bc-parts strong { font-weight: 600; }
+.bc-parts span { color: var(--bc-ink-2); font-size: 13px; }
+.bc-plain { padding-left: 18px; display: grid; gap: 6px; max-width: 68ch; color: var(--bc-ink-2); }
+.bc-built { color: var(--bc-ink-3); font: 500 12px/1.4 var(--bc-mono); margin-top: 18px; }
+
+@media (prefers-reduced-motion: reduce) { .bc-drawer, .bc-caption, .bc-float { transition: none; } }
