@@ -188,7 +188,15 @@ test('Promises: the count of promises offered to this viewer, open with its shee
 
 test('the tabs: the view, the open tab and the round button\'s modes, usable only as the model offers',()=>{
  const tabs=shellTabs(model(),{view:'room'});
- assert.deepEqual(tabs,{variant:'game',view:'room',open:null,hero:{mode:'pass',enabled:false,busy:false}});
+ // Shell 0.3.0: the viewer's own public person, for the Card tab's portrait, as the bar's who is built.
+ assert.deepEqual(tabs,{variant:'game',view:'room',open:null,hero:{mode:'pass',enabled:false,busy:false},me:{seat:'seat-4',name:'Crew 4',character:'c4'}});
+ assert.deepEqual(checkTabs(tabs).me,{seat:'seat-4',number:null,name:'Crew 4',character:'c4'});
+ // Before a character is chosen the person has none, and the shell keeps the card icon; with no seat, no person.
+ assert.deepEqual(shellTabs(model({identities:identities.map(i=>i.seatId==='seat-4'?{...i,characterId:null}:i)})).me,{seat:'seat-4',name:'Crew 4',character:null});
+ assert.deepEqual(shellTabs(model({identities:[]})).me,{seat:'seat-4',name:'Player 4',character:null});
+ assert.equal(shellTabs(model({ownSeatId:null})).me,null);
+ // It is the viewer's own, never the active player's: here seat 5 has the turn.
+ assert.equal(shellTabs(model({activeSeatId:'seat-5'})).me.seat,'seat-4');
  // No availability or reason is given beside the offers, so every tab keeps the shell's default.
  const checked=checkTabs(tabs);
  assert.deepEqual(checked.enabled,{switch:true,actions:true,card:true,panels:true});assert.deepEqual(checked.reasons,{switch:null,actions:null,card:null,panels:null});

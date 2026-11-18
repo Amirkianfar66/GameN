@@ -213,11 +213,13 @@ export function shellHero(model){
  * A player's tabs (none on a shared display): the view, the open tab and the round button; the talk's two buttons
  * in the 60 s talk. An eliminated player keeps the Board, Card and Panels; Actions is unavailable (sheet 44), as
  * the presentation offers them nothing to act on.
+ * `me` (shell 0.3.0, the owner's 18 November 2026 decision) is this viewer's own public person, as the bar's `who`:
+ * the Card tab, now the last, draws their crew portrait. With no character yet the shell keeps the card icon.
  */
 export function shellTabs(model,{view='room'}={}){
  if(model.surface!=='player')return null;
  if(talkButtons(model))return {variant:'talk',open:model.panel==='promises'?'promises':model.panel==='card'?'my-card':null};
- const tabs={variant:'game',view:view==='board'?'board':'room',open:PANEL_TAB[model.panel]??null,hero:shellHero(model)};
+ const tabs={variant:'game',view:view==='board'?'board':'room',open:PANEL_TAB[model.panel]??null,hero:shellHero(model),me:model.ownSeatId?person(model,model.ownSeatId):null};
  return ownOut(model)?{...tabs,enabled:{actions:false},reasons:{actions:OUT_ACTIONS_REASON}}:tabs;
 }
 
