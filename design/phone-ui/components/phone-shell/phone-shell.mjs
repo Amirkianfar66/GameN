@@ -697,17 +697,39 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
   // ── A toast: a local confirmation, shown once per id ────────────────
   function paintToast() {
     const t = state.status === 'concealed' ? null : state.toast;
-    if (!t) { if (toastTimer) win.clearTimeout(toastTimer); toastTimer = null; if (parts.toast) { parts.toast.remove(); parts.toast = null; } return; }
+    if (!t) { if (toastTimer) win.clearTimeout(toastTimer); toastTimer = null; if (parts.toast) { observer?.unobserve(parts.toast); parts.toast.remove(); parts.toast = null; } return; }
     if (toastShown === t.id) return;
     toastShown = t.id;
-    if (parts.toast) parts.toast.remove();
+    if (parts.toast) { observer?.unobserve(parts.toast); parts.toast.remove(); }
     // The kit's toast (0.8.0) draws it, drops it in and fades it out; its time and its place are the shell's.
     const props = { text: t.text, icon: t.icon, extra: ['ms-ps-toast'] };
     const node = kit.toast(props);
     root.append(node);
     parts.toast = node;
+    // Its height changes with the text size, and with it whether it would touch an open sheet's head (placeToast).
+    observer?.observe(node);
     if (toastTimer) win.clearTimeout(toastTimer);
-    toastTimer = win.setTimeout(() => { toastTimer = null; if (parts.toast === node) { kit.setToast(node, { ...props, leaving: true }); win.setTimeout(() => { if (parts.toast === node) { node.remove(); parts.toast = null; } }, 200); } }, TOAST_MS);
+    toastTimer = win.setTimeout(() => { toastTimer = null; if (parts.toast === node) { kit.setToast(node, { ...props, leaving: true }); win.setTimeout(() => { if (parts.toast === node) { observer?.unobserve(node); node.remove(); parts.toast = null; placeToast(); } }, 200); } }, TOAST_MS);
+  }
+  /**
+   * The toast's place over an open sheet (0.3.2). At its own place, 10 px under the bar, it lies across a tall
+   * sheet's head and cuts the title and Close through. When it would touch the head, it sits 8 px under the head
+   * instead, over the sheet's body: Back, the title and Close stay whole and in reach. With no sheet, or a sheet
+   * that starts lower down, it keeps its own place. Measured in layout, so a sheet still sliding in counts where
+   * it comes to rest.
+   */
+  function placeToast() {
+    const toast = parts.toast, sheet = parts.sheet;
+    delete root.dataset.toastUnder;
+    root.style.removeProperty('--ms-ps-toast-top');
+    const head = toast?.isConnected && sheet?.isConnected ? sheet.querySelector('.ms-ps-sheet-head') : null;
+    if (!head) return;
+    // Its own place and height, read with the override off; then the sheet's top and its head's foot, from the shell's top.
+    const top = toast.offsetTop, tall = toast.offsetHeight, sheetTop = sheet.offsetTop, headFoot = sheetTop + head.offsetTop + head.offsetHeight;
+    if (top + tall + 8 <= sheetTop || top >= headFoot + 8) return;
+    root.dataset.toastUnder = '';
+    // The kit draws a toast 10 px under --ms-k-toast-top.
+    root.style.setProperty('--ms-ps-toast-top', `${headFoot + 8 - 10}px`);
   }
 
   // ── The large-content view: a tab's word, large, on a long press ────
@@ -786,7 +808,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     else root.style.removeProperty('--ms-ps-talk-h');
   }
   let observedBanner = null;
-  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => { placeBanner(); placeTalk(); reportLayout(); }) : null;
+  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => { placeBanner(); placeTalk(); placeToast(); reportLayout(); }) : null;
   observer?.observe(root);
   observer?.observe(bar);
   observer?.observe(stage);
@@ -807,6 +829,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     paintOver();
     paintSheet();
     paintToast();
+    placeToast();
     if (suspended) root.dataset.suspended = ''; else delete root.dataset.suspended;
     // The ResizeObserver reports every change of the bars or the stage, without measuring on each update
     // (the model updates about four times a second); without one, each update measures.
