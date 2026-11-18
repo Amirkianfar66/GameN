@@ -1254,6 +1254,41 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       } finally { window.ResizeObserver = Real; }
     });
 
+    await check('title: a sheet\'s title takes the focus by script, is not in the tab order, draws no ring and moves nothing; a sheet that goes with the focus on its title hands it back', async () => {
+      const s = mount({ ...own(), sheet: offerSheet });
+      await frames();
+      const h2 = s.q('.ms-ps-sheet-title h2'), sheet = s.q('.ms-ps-sheet');
+      // Layout places, not painted ones: the sheet is still rising when it is looked at.
+      const box = node => [node.offsetLeft, node.offsetTop, node.offsetWidth, node.offsetHeight].join();
+      const before = { sheet: box(sheet), title: box(h2), head: box(s.q('.ms-ps-sheet-head')) };
+      h2.focus({ preventScroll: true });
+      await frames();
+      const style = getComputedStyle(h2);
+      const focused = { active: document.activeElement === h2, tabindex: h2.getAttribute('tabindex'), tabIndex: h2.tabIndex, outline: style.outlineStyle, shadow: style.boxShadow,
+        named: sheet.getAttribute('aria-labelledby') === h2.id, role: sheet.getAttribute('role'), words: h2.textContent };
+      const after = { sheet: box(sheet), title: box(h2), head: box(s.q('.ms-ps-sheet-head')) };
+      // Tab from the title goes on to a control of the sheet; nothing tabs to the title.
+      const tabbable = [...s.shell.element.querySelectorAll('button, [tabindex]')].filter(n => n.tabIndex >= 0 && !n.disabled && n.getClientRects().length);
+      const inOrder = tabbable.includes(h2);
+      // A new title in the same sheet keeps the focus where it is.
+      s.shell.update({ sheet: { ...offerSheet, title: 'Offer from Gus · Player 5' } });
+      await frames();
+      const kept = document.activeElement === s.q('.ms-ps-sheet-title h2') && s.q('.ms-ps-sheet-title h2') === h2;
+      // Another sheet in its place: the old one goes with the focus on its title, and the shell hands the focus back.
+      const calls = () => named(s.calls, 'onFocusReturn').length, was = calls();
+      s.shell.update({ sheet: passSheet });
+      await frames();
+      const next = s.q('.ms-ps-sheet-title h2');
+      const replaced = { onRoot: document.activeElement === s.shell.element, reported: calls() - was, report: named(s.calls, 'onFocusReturn').at(-1)?.[1] ?? null, nextTabindex: next.getAttribute('tabindex'), another: next !== h2 };
+      next.focus({ preventScroll: true });
+      const onNext = document.activeElement === next;
+      s.shell.dispose();
+      return { ok: focused.active && focused.tabindex === '-1' && focused.tabIndex === -1 && focused.outline === 'none' && focused.shadow === 'none' && focused.named && focused.role === 'dialog'
+          && JSON.stringify(before) === JSON.stringify(after) && !inOrder && tabbable.length > 0 && kept
+          && replaced.onRoot && replaced.reported === 1 && replaced.report === null && replaced.nextTabindex === '-1' && replaced.another && onNext,
+        focused, before, after, inOrder, tabbable: tabbable.length, kept, replaced, onNext };
+    });
+
     await check('dispose: twice is safe; layout(), slot() and sheetBody are null; nothing is left and nothing fires', async () => {
       const s = mount({ ...own(), sheet: passSheet });
       const hero = s.q('.ms-ps-hero');
