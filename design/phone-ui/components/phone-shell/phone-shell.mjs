@@ -746,15 +746,16 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
   let barKey = null;
   function fitBar() {
     const who = parts.who;
+    // The owner's alternative, for the draft's comparison only: an ancestor asks for the measured slim controls.
+    // The root says which, so the stylesheet's steady step holds for this shell and for no earlier one drawn beside it.
+    const measured = !!root.closest('[data-ms-draft-bar="measured"]'), slimBy = measured ? 'measured' : 'steady';
+    if (root.dataset.barFit !== slimBy) root.dataset.barFit = slimBy;
     if (!state.bar || state.status === 'concealed' || !who?.isConnected || bar.clientWidth <= 0) {
       barKey = null;
       if (bar.hasAttribute('data-fit')) bar.removeAttribute('data-fit');
       root.style.removeProperty('--ms-ps-bar-h');
       return;
     }
-    // The owner's alternative, for the draft's comparison only: an ancestor asks for the measured slim controls.
-    const measured = !!root.closest('[data-ms-draft-bar="measured"]');
-    if (measured !== (root.dataset.barSlim === 'measured')) { if (measured) root.dataset.barSlim = 'measured'; else delete root.dataset.barSlim; }
     const name = who.querySelector('.ms-ps-name'), cs = win.getComputedStyle(name);
     const key = [bar.clientWidth, cs.fontSize, doc.fonts?.status ?? '', parts.whoKey, measured, !!parts.promises, parts.promises?.textContent ?? '',
       (parts.right?.textContent ?? '').length, root.style.getPropertyValue('--ms-ps-safe-t')].join('\u0001');
