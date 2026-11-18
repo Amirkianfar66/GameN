@@ -1,0 +1,68 @@
+{
+  "candidate": "6c296544fc1f6010d2a0e762fceacd52d4048a64",
+  "url": "http://127.0.0.1:51431/?scenario=join",
+  "surface": "Native consumer with synthetic phone harness, desktop Chromium",
+  "motion": [
+    {
+      "size": "390x844",
+      "motion": "full",
+      "duration": 1996,
+      "starts": 1,
+      "mutations": 0,
+      "policy": [
+        {
+          "directive": "script-src",
+          "blocked": "eval"
+        }
+      ],
+      "artSha256": "00d803c762a816cc28720e62b4fb6ee955ebc6a60a9d30a995f91f4e9fae011b"
+    },
+    {
+      "size": "390x844",
+      "motion": "reduced",
+      "duration": 2001,
+      "starts": 1,
+      "mutations": 0,
+      "policy": [
+        {
+          "directive": "script-src",
+          "blocked": "eval"
+        }
+      ],
+      "artSha256": "00d803c762a816cc28720e62b4fb6ee955ebc6a60a9d30a995f91f4e9fae011b"
+    },
+    {
+      "size": "430x932",
+      "motion": "full",
+      "duration": 1997,
+      "starts": 1,
+      "mutations": 0,
+      "policy": [
+        {
+          "directive": "script-src",
+          "blocked": "eval"
+        }
+      ],
+      "artSha256": "2400b901e873c9c140727b2f717de34a8f8835dbf9de0dc7b4b512dfca8de707"
+    },
+    {
+      "size": "430x932",
+      "motion": "reduced",
+      "duration": 2000,
+      "starts": 1,
+      "mutations": 0,
+      "policy": [
+        {
+          "directive": "script-src",
+          "blocked": "eval"
+        }
+      ],
+      "artSha256": "2400b901e873c9c140727b2f717de34a8f8835dbf9de0dc7b4b512dfca8de707"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "harness": "20d6394916f03d96a64c308aa305afe2c8b42a5c",
+  "harnessDirty": false,
+  "art": "64e55516d2f0026842c5c2a675f2eccda20e0a9e",
+  "openExistingMatch": "direct to running game"
+}

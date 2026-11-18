@@ -1,0 +1,9 @@
+{
+  "head": "ccc350fd7aeac9a2baad681689cb19b0e6dc5304",
+  "events": [
+    {
+      "directive": "script-src",
+      "blocked": "eval"
+    }
+  ]
+}
