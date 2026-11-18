@@ -179,6 +179,8 @@ const LOOK = `(() => {
     food: { chrome: document.querySelector('.planet-app')?.dataset.foodChrome ?? null, bar: box([...document.querySelectorAll('.planet-food .tb')].find(n => n.getClientRects().length)), tabs: box([...document.querySelectorAll('.planet-food .tabs')].find(n => n.getClientRects().length)),
       screens: [...document.querySelectorAll('.planet-food .sheet, .planet-food .fs-card')].filter(n => n.getClientRects().length).length },
     model: model ? { connection: model.connection, concealed: model.concealed, surface: model.surface, phase: model.phase?.kind ?? null, panel: model.panel, activeSeatId: model.activeSeatId, ownSeatId: model.ownSeatId,
+      // How many public identities the model holds now: none in the dark and none without a current state (controller.ts).
+      identities: model.identities?.length ?? null,
       canPass: model.canPass, canVote: model.canVote, round: model.round, action: model.action ? { type: model.action.type, step: model.action.step } : null, food: !!model.food } : null,
     commands: (window.planetHarness?.requests ?? window.foodAppHarness?.sent ?? []).filter(r => r.operation === 'command').map(r => r.request.command.type),
     reads: (window.planetHarness?.requests ?? []).filter(r => r.operation === 'read').length,
@@ -204,8 +206,9 @@ const STATES = {
       promisesMenu: !!s.bar?.promises && s.bar.menu, tabs: values(s) === 'switch,actions,hero:pass,panels,card', passOff: s.hero?.mode === 'pass' && s.hero.disabled, live: s.shell?.status === 'live' }) },
   own: { page: 'phone', url: 'scenario=board',
     facts: s => ({ yourTurn: s.bar?.kind === 'turn' && s.bar.name === 'Your turn' && s.bar.sub === 'Player 6 · Crew 6', passOn: s.hero?.mode === 'pass' && !s.hero.disabled && s.model?.canPass === true,
-      // Shell 0.3.0: Card is the last tab and draws this viewer's own portrait (Player 6's) in the icon's 26 px box; the tab keeps its word.
-      cardTab: values(s) === 'switch,actions,hero:pass,panels,card' && s.tabs.card?.portrait === true && s.tabs.card.picture === true && /-c6$/.test(s.tabs.card.property ?? '') && s.tabs.card.size.join() === '26,26'
+      // Shell 0.3.0: Card is the last tab and draws this viewer's own portrait (Player 6's); the tab keeps its word.
+      // Shell 0.3.1: at the top bar's 32 px.
+      cardTab: values(s) === 'switch,actions,hero:pass,panels,card' && s.tabs.card?.portrait === true && s.tabs.card.picture === true && /-c6$/.test(s.tabs.card.property ?? '') && s.tabs.card.size.join() === '32,32'
         && !s.tabs.card.icon && s.tabs.card.words === 'Card' && s.tabs.card.name === null,
       roomScene: s.stage.scene === 'room-b' && s.stage.view === 'room' }) },
   pass: { from: 'own', steps: async page => {
@@ -259,8 +262,10 @@ const STATES = {
   // clears the choice at 0:00, and the shell's toast says why.
   closed: { page: 'phone', url: 'scenario=board', steps: async page => {
       await page.evaluate(tap(TAB('actions')));
-      await page.waitFor("document.querySelector('#planet-action-SCAN')", 'Scan offered in Actions');
-      await page.evaluate(tap('#planet-action-SCAN'));
+      // Both builds: the game's own Scan button; release 3's (#310), Actions' Scan tile.
+      const scan = '#planet-action-SCAN, .ms-ps-sheet-body > .ms-actions [data-intent="tile"][data-value="SCAN"]';
+      await page.waitFor(`document.querySelector(${JSON.stringify(scan)})`, 'Scan offered in Actions');
+      await page.evaluate(tap(scan));
       await page.waitFor(`${game}.getModel().action?.type==='SCAN'&&!!document.querySelector('.ms-ps-target')`, 'the Scan choice open');
       await page.evaluate(edit("const length=p.phase.endsAt-p.phase.startedAt;p.phase={...p.phase,startedAt:now+1200-length,endsAt:now+1200}"));
       await page.waitFor("document.querySelector('.ms-ps-toast')", 'the toast when the time is up', 8000);
@@ -282,7 +287,9 @@ const STATES = {
       await page.waitFor(`${game}.getModel().connection!=='live'&&document.querySelector('.ms-ps-banner')`, 'reconnecting');
     },
     facts: s => ({ banner: s.banner?.kind === 'reconnecting' && s.banner.title === 'Connection lost' && !!s.banner.retry, bar: s.bar?.name === 'Reconnecting…' && s.bar.sub === 'Showing Round 6 as last seen',
-      stale: s.shell?.status === 'stale', refused: s.tabs?.buttons.every(b => b.disabled) && s.hero?.disabled, noOldStatus: s.status === null }),
+      stale: s.shell?.status === 'stale', refused: s.tabs?.buttons.every(b => b.disabled) && s.hero?.disabled, noOldStatus: s.status === null,
+      // The Card tab keeps this viewer's own portrait as last seen (Player 6's), as the bar keeps the round: the model has no identities now.
+      ownAsLastSeen: s.tabs?.card?.portrait === true && /-c6$/.test(s.tabs.card.property ?? '') && s.model?.identities === 0 }),
     after: async (page, seen) => {
       await page.evaluate(tap('.ms-ps-banner [data-intent="retry"]'));
       await sleep(400);
@@ -347,7 +354,9 @@ const STATES = {
   blackout: { page: 'phone', url: 'scenario=blackout', steps: async page => {
       await page.waitFor(`${game}.getModel().dark&&document.querySelector('.ms-ps-tb')?.dataset.tone==='dark'`, 'the Blackout\'s dark');
     },
-    facts: s => ({ dark: s.bar?.tone === 'dark' && s.bar.name === 'Blackout' && s.bar.glyph === 'dark', clock: !!s.bar?.clock, words: s.bar?.sub === 'Dark · positions fixed' }) },
+    // In the dark the model gives no identities, the viewer's own among them: the Card tab keeps the card icon.
+    facts: s => ({ dark: s.bar?.tone === 'dark' && s.bar.name === 'Blackout' && s.bar.glyph === 'dark', clock: !!s.bar?.clock, words: s.bar?.sub === 'Dark · positions fixed',
+      cardIcon: s.tabs?.card?.portrait === false && s.tabs.card.icon === true && s.model?.identities === 0 }) },
   // The phase bars (shell 0.2.10): Designer's words for a phase with no active player, from phase-bars.mjs, on the
   // harness's own scenarios. Each deciding player's phone shows everyone's bar until their own choice is open.
   before: { page: 'phone', url: 'scenario=block', steps: async page => {

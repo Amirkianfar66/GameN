@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {connectShellLifecycle,createServerClock,ownOut,ownTalk,phaseClosed,roundStart,shellFocusOrder,shellBanner,shellBar,shellChip,shellHandlers,shellHostSheet,shellHero,shellInput,shellPhaseFacts,shellPicking,shellRuns,shellSheet,shellStatus,shellTabs,shellTarget,shellTimer,shellToast,talkButtons,
+import {connectShellLifecycle,createServerClock,ownOut,ownPersonSeen,ownTalk,phaseClosed,roundStart,shellFocusOrder,shellBanner,shellBar,shellChip,shellHandlers,shellHostSheet,shellHero,shellInput,shellPhaseFacts,shellPicking,shellRuns,shellSheet,shellStatus,shellTabs,shellTarget,shellTimer,shellToast,talkButtons,
  SHELL_CHOOSING,SHELL_CLOSES_ITSELF,SHELL_PHASE_ICONS,SHELL_PHASE_NAMES} from '../hosted/planet/shell-input.mjs';
 import {checkBar,checkTabs,clockText,nextPhoneShellInput,PHONE_SHELL_DEFAULTS} from '../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
 import {PHASE_BAR_PHASES,PHASE_BAR_REFUSED,PHASE_WORDS,loadingBar,phaseBar,phaseClosedToast,reconnectingBar} from '../../../design/phone-ui/components/phone-shell/phase-bars.mjs';
@@ -197,6 +197,28 @@ test('the tabs: the view, the open tab and the round button\'s modes, usable onl
  assert.equal(shellTabs(model({ownSeatId:null})).me,null);
  // It is the viewer's own, never the active player's: here seat 5 has the turn.
  assert.equal(shellTabs(model({activeSeatId:'seat-5'})).me.seat,'seat-4');
+ // While the connection isn't live the model has no identities (the controller gives none without a current state).
+ // The renderer keeps the viewer's own person as last given, and the tab draws it, as the bar keeps the round last seen.
+ const mine={seat:'seat-4',name:'Crew 4',character:'c4'},lost=over=>model({connection:'stale',identities:[],...over});
+ assert.deepEqual(ownPersonSeen(null,model()),mine,'live: what the model gives now');
+ for(const connection of ['stale','connecting','error']){
+  assert.deepEqual(ownPersonSeen(mine,lost({connection})),mine,`${connection}: the one kept`);
+  assert.deepEqual(shellTabs(lost({connection}),{seen:mine}).me,mine,`${connection}: the tab draws it`);
+ }
+ assert.deepEqual(shellTabs(lost()).me,{seat:'seat-4',name:'Player 4',character:null},'none kept: the card icon');
+ assert.equal(ownPersonSeen(null,lost()),null,'nothing seen before the connection was lost: nothing kept');
+ // Live again, the model's own person is drawn, never the kept one.
+ assert.deepEqual(shellTabs(model(),{seen:{seat:'seat-4',name:'Old name',character:'c9'}}).me,mine);
+ // In the dark the model gives no identities: that is what is kept, so no portrait from before the dark comes back.
+ assert.deepEqual(ownPersonSeen(mine,model({dark:true,identities:[]})),{seat:'seat-4',name:'Player 4',character:null});
+ // Another seat never takes the kept person, and a shared display keeps none.
+ assert.equal(ownPersonSeen(mine,lost({ownSeatId:'seat-5'})),null);
+ assert.deepEqual(shellTabs(lost({ownSeatId:'seat-5'}),{seen:mine}).me,{seat:'seat-5',name:'Player 5',character:null});
+ assert.equal(ownPersonSeen(mine,model({surface:'display',ownSeatId:null})),null);
+ assert.equal(ownPersonSeen(mine,model({ownSeatId:null})),null);
+ // shellInput hands it on to the tabs, and to nothing else.
+ assert.deepEqual(shellInput(lost(),{seen:mine}).tabs.me,mine);
+ assert.deepEqual({...shellInput(lost(),{seen:mine}),tabs:null},{...shellInput(lost()),tabs:null});
  // No availability or reason is given beside the offers, so every tab keeps the shell's default.
  const checked=checkTabs(tabs);
  assert.deepEqual(checked.enabled,{switch:true,actions:true,card:true,panels:true});assert.deepEqual(checked.reasons,{switch:null,actions:null,card:null,panels:null});
