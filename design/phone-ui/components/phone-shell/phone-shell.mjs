@@ -654,17 +654,22 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
 
   // Draft (18 November, the Lead Designer's proposal; not recorded): beside Back and Close a sheet's title has a
   // narrow column, and at the Largest text on a narrow phone it breaks into three lines or more. When it would,
-  // the head stacks: its buttons on a row of their own, then the title and its line on the full width. The measure
-  // is taken with the head as a row, whatever it is now, so the answer does not depend on the last one.
+  // and the head is shorter that way, the head stacks: its buttons on a row of their own, then the title and its
+  // line on the full width. Both arrangements are measured afresh, so the answer does not depend on the last one.
   function fitHead() {
     const sheet = parts.sheet?.isConnected ? parts.sheet : null;
     if (!sheet) return;
     const head = sheet.querySelector('.ms-ps-sheet-head'), h2 = head.querySelector('h2');
+    const was = sheet.hasAttribute('data-head-stacked');
     let stacked = false;
     if (head.children.length > 1) {
-      if (sheet.hasAttribute('data-head-stacked')) sheet.removeAttribute('data-head-stacked');
+      if (was) sheet.removeAttribute('data-head-stacked');
       const cs = win.getComputedStyle(h2), line = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.2;
-      stacked = line > 0 && h2.offsetHeight > line * 2.5;
+      if (line > 0 && h2.offsetHeight > line * 2.5) {
+        const asRow = head.offsetHeight;
+        sheet.setAttribute('data-head-stacked', '');
+        stacked = head.offsetHeight < asRow;
+      }
     }
     if (stacked !== sheet.hasAttribute('data-head-stacked')) sheet.toggleAttribute('data-head-stacked', stacked);
   }
