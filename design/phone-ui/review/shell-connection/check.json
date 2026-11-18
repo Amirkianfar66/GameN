@@ -2,7 +2,7 @@
   "tool": "design/tools/shell-connection-check.mjs",
   "what": "The Planet app's match frame drawn by the phone shell (design/phone-ui/components/phone-shell), in Frontend's phone and Food harnesses (apps/game/dev/phone) built from the candidate below",
   "candidate": {
-    "commit": "fab43d8d14fbe6f1209e9b24bcbfd36e359b25dd",
+    "commit": "c3016fa8528dcdfda056c16128e4918d6809e9f1",
     "clean": true,
     "dirty": []
   },
@@ -59,7 +59,7 @@
         "focusBack": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-actions.jpg",
-      "sha256": "2a31e0ab0a3db2c0695eb1ddbaaa604db5fa356f6b1c60eee16682a1de8180e3",
+      "sha256": "e0cb5d99fbe8d5ff38a4af649817905c44e1d1c3b9cf5248e7261bb1d6580ecf",
       "seen": {
         "shell": {
           "status": "live",
@@ -181,8 +181,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -262,6 +262,7 @@
           "panel": "actions",
           "activeSeatId": "seat-6",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": true,
           "canVote": false,
           "round": 6,
@@ -274,7 +275,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -295,7 +296,7 @@
         "ownBar": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-appointment.jpg",
-      "sha256": "ad42feee370611e6640c5fe5011b225fb17a01b4f3ea5e8c8309d7101ac182a0",
+      "sha256": "c0bde3a8997d526ce1f8996664ae4ea3b3e2948652282c4738cfaed692793521",
       "seen": {
         "shell": {
           "status": "live",
@@ -417,8 +418,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -475,6 +476,7 @@
           "panel": "board",
           "activeSeatId": "seat-6",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -487,7 +489,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -510,7 +512,7 @@
         "closed": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-ballot.jpg",
-      "sha256": "50d4887931a3463437a17a282c26f02c81a06a55d3f1338129353d7a33bc1580",
+      "sha256": "fd293019e8d2827db46cc4ef6b2a474e1510249ca88a7a05563f070534e6140d",
       "seen": {
         "shell": {
           "status": "live",
@@ -632,8 +634,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -726,6 +728,7 @@
           "panel": "board",
           "activeSeatId": null,
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": true,
           "round": 6,
@@ -741,7 +744,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -763,7 +766,7 @@
         "noTarget": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-before.jpg",
-      "sha256": "9fa7af6be84c48876b6fdd029fd2525d747b134d2a4ec049ff27f9f2110f907a",
+      "sha256": "38344bb3464ed88731a5a5223bb932f674e5d3d78798e078c2f87d4d37896e33",
       "seen": {
         "shell": {
           "status": "live",
@@ -885,8 +888,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -943,6 +946,7 @@
           "panel": "board",
           "activeSeatId": "seat-6",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -955,7 +959,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -973,10 +977,11 @@
         "problems": true,
         "dark": true,
         "clock": true,
-        "words": true
+        "words": true,
+        "cardIcon": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-blackout.jpg",
-      "sha256": "4c2482826ea00e6d4682685c05360d3448e67a08431c2de9eb3e9889b695dbbb",
+      "sha256": "10f9858e14383b305f0df3bd6b506620896c582b79acf53a1974f42556939742",
       "seen": {
         "shell": {
           "status": "live",
@@ -1153,6 +1158,7 @@
           "panel": "board",
           "activeSeatId": "seat-3",
           "ownSeatId": "seat-3",
+          "identities": 0,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -1165,7 +1171,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1192,7 +1198,7 @@
         "nextTurn": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-closed.jpg",
-      "sha256": "4e36fbca001baa4ca98f808118595b884f3fe77fce58b373883ad3f8723fc4c7",
+      "sha256": "836ecced710be015fb91aa8e51b8d51a33b0bfde24eef5c3b5f8a7a847299235",
       "seen": {
         "shell": {
           "status": "live",
@@ -1314,8 +1320,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -1372,6 +1378,7 @@
           "panel": "board",
           "activeSeatId": "seat-6",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -1384,7 +1391,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1488,6 +1495,7 @@
           "panel": "board",
           "activeSeatId": null,
           "ownSeatId": "seat-6",
+          "identities": 0,
           "canPass": false,
           "canVote": false,
           "round": null,
@@ -1500,7 +1508,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1521,7 +1529,7 @@
         "ownBar": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-course.jpg",
-      "sha256": "2e8e35945029377ef29b9dac249513865d6141d9137ea09950e1ca3ac4d4f880",
+      "sha256": "dead1bf4f89f3aeaaf6a9bd907b155671f1e16947324e7657b7407a0d84e6f4d",
       "seen": {
         "shell": {
           "status": "live",
@@ -1544,7 +1552,7 @@
           "glyph": "plain",
           "portrait": false,
           "round": "R6",
-          "clock": "0:14",
+          "clock": "0:13",
           "urgent": false,
           "ring": false,
           "promises": "Promises",
@@ -1643,8 +1651,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -1701,6 +1709,7 @@
           "panel": "board",
           "activeSeatId": "seat-6",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -1713,7 +1722,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1736,7 +1745,7 @@
         "settings": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-display.jpg",
-      "sha256": "93484f64ca41b72dcba92872ab6476321a57f184b9d3ad0d53ac40b6ff29a3bd",
+      "sha256": "95be105b8f0ee8f6d8bfe621fa6041599c8f41ad46378cee3bc4809b023533bb",
       "seen": {
         "shell": {
           "status": "live",
@@ -1810,6 +1819,7 @@
           "panel": "board",
           "activeSeatId": "seat-6",
           "ownSeatId": null,
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -1822,7 +1832,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1845,7 +1855,7 @@
         "othersOn": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-eliminated.jpg",
-      "sha256": "68f5cb936f8465256cdbb461248ce668a9a6cb5f170231c0eeaa29311efe8627",
+      "sha256": "af7f081406a6f26a80376dbf270630af46e66253fdab929c4491237749c8079a",
       "seen": {
         "shell": {
           "status": "live",
@@ -1967,8 +1977,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -2036,6 +2046,7 @@
           "panel": "board",
           "activeSeatId": "seat-1",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -2048,7 +2059,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2071,7 +2082,7 @@
         "foodMatch": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-food-gauge.jpg",
-      "sha256": "8e143943f0615c7324ef1b53d4dd8de9a1d2d0466da68b3b823e75a2a62aec7f",
+      "sha256": "d5e7efddb4171de97934d8887b194e1d83819ebb3a6b1928f0384fb85ea05900",
       "seen": {
         "shell": {
           "status": "live",
@@ -2193,8 +2204,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c1",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -2251,6 +2262,7 @@
           "panel": "board",
           "activeSeatId": "seat-7",
           "ownSeatId": "seat-4",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 3,
@@ -2263,7 +2275,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2287,7 +2299,7 @@
         "foodTakesTaps": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-food-surface.jpg",
-      "sha256": "21f11689baa1f8c540681837bd635cb552901d431562b4730f2fc02edbcb506f",
+      "sha256": "12b598b80f3c8d7b10ed061fea724af51f5788a8d047a4e793a55a1927892e53",
       "seen": {
         "shell": {
           "status": "concealed",
@@ -2381,6 +2393,7 @@
           "panel": "board",
           "activeSeatId": null,
           "ownSeatId": "seat-8",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 3,
@@ -2393,7 +2406,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2431,7 +2444,7 @@
         "roomScene": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-own.jpg",
-      "sha256": "a4a0dc97c8d72e12e9049a2bd6effaaed2619a340cbbbcd2b4bc7685e189e7ff",
+      "sha256": "eaaa32b1886a0e45084e29b33e7eba4e947d87d3d4e6f19c45ba525c06677631",
       "seen": {
         "shell": {
           "status": "live",
@@ -2553,8 +2566,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -2611,6 +2624,7 @@
           "panel": "board",
           "activeSeatId": "seat-6",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": true,
           "canVote": false,
           "round": 6,
@@ -2623,7 +2637,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2649,7 +2663,7 @@
         "infoToast": "Registered. Waiting for the authoritative view."
       },
       "file": "design/phone-ui/review/shell-connection/390x844-pass.jpg",
-      "sha256": "4aed3afef7251e75633ab576a7383619bc9abe8c08dee3777f65fa175ffdef5e",
+      "sha256": "5cf35708975f9e0e9a37d6420bf0bf396ea7a6d58c379a62eeba5b43ee121594",
       "seen": {
         "shell": {
           "status": "live",
@@ -2771,8 +2785,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -2878,6 +2892,7 @@
           "panel": "board",
           "activeSeatId": "seat-6",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": true,
           "canVote": false,
           "round": 6,
@@ -2893,7 +2908,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2914,10 +2929,11 @@
         "stale": true,
         "refused": true,
         "noOldStatus": true,
+        "ownAsLastSeen": true,
         "retryReads": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-reconnecting.jpg",
-      "sha256": "d10f2da2b235b16bfe6dd654fb195f9f253b2f01ee6e89cc734f6d67c5583291",
+      "sha256": "b633e59eee26bb51add826af38c41814a328e398ba567d05bd910a52821d5672",
       "seen": {
         "shell": {
           "status": "stale",
@@ -3035,11 +3051,14 @@
             "height": 58
           },
           "card": {
-            "portrait": false,
-            "picture": null,
-            "property": null,
-            "size": null,
-            "icon": true,
+            "portrait": true,
+            "picture": true,
+            "property": "--ms-asset-crew-portrait-c6",
+            "size": [
+              32,
+              32
+            ],
+            "icon": false,
             "words": "Card",
             "name": null
           }
@@ -3118,6 +3137,7 @@
           "panel": "board",
           "activeSeatId": null,
           "ownSeatId": "seat-6",
+          "identities": 0,
           "canPass": false,
           "canVote": false,
           "round": null,
@@ -3130,7 +3150,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3152,7 +3172,7 @@
         "sheetOverResult": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-result.jpg",
-      "sha256": "4a7739a54d6f1493c083c472e50565d56c6ee3f21846e0efb48afc5e316d4110",
+      "sha256": "071fe069a815297583d68ac9dcdbb9591d73114f6c1aac8b0b7fe76dd74995a8",
       "seen": {
         "shell": {
           "status": "live",
@@ -3274,8 +3294,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -3341,6 +3361,7 @@
           "panel": "board",
           "activeSeatId": null,
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -3353,7 +3374,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3374,7 +3395,7 @@
         "noGameTabs": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-talk.jpg",
-      "sha256": "4af82ecabc3153ee6d118077294f38653d66b9dce795f89775196ec9a0047d0f",
+      "sha256": "440d06be0692169f03e854aefbfffac76edefc426376f2d3cde44ff8256b3d7b",
       "seen": {
         "shell": {
           "status": "live",
@@ -3477,6 +3498,7 @@
           "panel": "board",
           "activeSeatId": "seat-6",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -3489,7 +3511,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3514,7 +3536,7 @@
         "everyonesBar": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-target.jpg",
-      "sha256": "137faca838f292dc9473258faeaaeee4882fd440e3808d9310437d22c3a998c4",
+      "sha256": "cc1534cd87f9d2d186bfce1dafb6baa6e3abb34a5c2c2c5c6c900d2e2efb9fef",
       "seen": {
         "shell": {
           "status": "live",
@@ -3636,8 +3658,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -3721,6 +3743,7 @@
           "panel": "actions",
           "activeSeatId": "seat-6",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -3736,7 +3759,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3761,7 +3784,7 @@
         "live": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-turn.jpg",
-      "sha256": "8fc1b0058b60d54cc127e58c6052c019f1accadfe1e4e19888cdc53c289925b8",
+      "sha256": "44d59f8b3a0a14356c37e3fa5bc272c9e0af83e5df2d59320e8cae4d7206b7e7",
       "seen": {
         "shell": {
           "status": "live",
@@ -3883,8 +3906,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -3941,6 +3964,7 @@
           "panel": "board",
           "activeSeatId": "seat-1",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -3953,7 +3977,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3973,7 +3997,7 @@
         "bar": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-vote.jpg",
-      "sha256": "bc939bade84cb8041d7715e80a024bde92dd74d82e0c7c47665f11e2a18acce8",
+      "sha256": "dfbad9cb7daeeea4bbb5247cf9dc5496cc67fe658cacb5828bcb06c8c30b8231",
       "seen": {
         "shell": {
           "status": "live",
@@ -4095,8 +4119,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -4153,6 +4177,7 @@
           "panel": "board",
           "activeSeatId": null,
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": true,
           "round": 6,
@@ -4165,7 +4190,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4184,7 +4209,7 @@
         "voted": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-voted.jpg",
-      "sha256": "542910904a0ed01e59c9d4c5998af671fa84f11493e07177f7cd1642d73a3ff8",
+      "sha256": "a1efa3581e4c6797e4b0b0b9d885ceb5ca2765ca25a5064c8dee8b5768ad895f",
       "seen": {
         "shell": {
           "status": "live",
@@ -4306,8 +4331,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -4364,6 +4389,7 @@
           "panel": "board",
           "activeSeatId": null,
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -4376,7 +4402,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4400,7 +4426,7 @@
         "focusBack": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-actions.jpg",
-      "sha256": "cca8112236050caa174d35b84753b767029584fa096ecf237c90bde21fe18622",
+      "sha256": "5d7ba3e03ade6414da10b63ea8f57f572470c50ab9948e05bc76ebb8a6a768cb",
       "seen": {
         "shell": {
           "status": "live",
@@ -4522,8 +4548,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -4603,6 +4629,7 @@
           "panel": "actions",
           "activeSeatId": "seat-6",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": true,
           "canVote": false,
           "round": 6,
@@ -4615,7 +4642,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4636,7 +4663,7 @@
         "ownBar": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-appointment.jpg",
-      "sha256": "381421c2b932bf2feb419ea7c9a9a760d9f86725b350c7d86caf7ce02f5ad1c7",
+      "sha256": "a3bb8ecc19adb2901b4efc1e02d7293874cdef805241bcf17cc678958fbb1a8f",
       "seen": {
         "shell": {
           "status": "live",
@@ -4659,7 +4686,7 @@
           "glyph": "plain",
           "portrait": false,
           "round": "R6",
-          "clock": "0:28",
+          "clock": "0:29",
           "urgent": false,
           "ring": false,
           "promises": "Promises",
@@ -4758,8 +4785,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -4816,6 +4843,7 @@
           "panel": "board",
           "activeSeatId": "seat-6",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -4828,7 +4856,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4851,7 +4879,7 @@
         "closed": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-ballot.jpg",
-      "sha256": "39a7c4e262be610c22dfb3762b8b8b341a43ef42fcbfe443d8521469529557ab",
+      "sha256": "2ab22fdb0dce964dc3121ef96adf144979ac66b15b4cad90256b09346efedab0",
       "seen": {
         "shell": {
           "status": "live",
@@ -4973,8 +5001,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -5067,6 +5095,7 @@
           "panel": "board",
           "activeSeatId": null,
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": true,
           "round": 6,
@@ -5082,7 +5111,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5104,7 +5133,7 @@
         "noTarget": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-before.jpg",
-      "sha256": "bc7d1baa76a74893d601d36bec5bf4ff173c7651a0187cdf6a38cb0556a71136",
+      "sha256": "36fee5a9c79f233f6eb03138ac7d8ee883f36e808258b33a0dc02b83ddc5a996",
       "seen": {
         "shell": {
           "status": "live",
@@ -5127,7 +5156,7 @@
           "glyph": "plain",
           "portrait": false,
           "round": "R6",
-          "clock": "0:13",
+          "clock": "0:14",
           "urgent": false,
           "ring": false,
           "promises": "Promises",
@@ -5226,8 +5255,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -5284,6 +5313,7 @@
           "panel": "board",
           "activeSeatId": "seat-6",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -5296,7 +5326,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5314,10 +5344,11 @@
         "problems": true,
         "dark": true,
         "clock": true,
-        "words": true
+        "words": true,
+        "cardIcon": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-blackout.jpg",
-      "sha256": "b8e772beeb02bf116e4dc8b4bafee19bcd7c8feed62f43a32c3a5188f636518b",
+      "sha256": "ccfb7ad0d32c65b049c70ee04ca49165d5f327655c7f03b16e1a1cd8d44ed3c8",
       "seen": {
         "shell": {
           "status": "live",
@@ -5494,6 +5525,7 @@
           "panel": "board",
           "activeSeatId": "seat-3",
           "ownSeatId": "seat-3",
+          "identities": 0,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -5506,7 +5538,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5533,7 +5565,7 @@
         "nextTurn": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-closed.jpg",
-      "sha256": "e974e017219ce0ac5651ba632253fcabcf236fc9e50248c9ea5bd43f2dce18b0",
+      "sha256": "bc3fa1068e549449273f4c0f55c9ef04846e778dffcf0d8fa5ee811623e5d985",
       "seen": {
         "shell": {
           "status": "live",
@@ -5655,8 +5687,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -5713,6 +5745,7 @@
           "panel": "board",
           "activeSeatId": "seat-6",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -5725,7 +5758,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5829,6 +5862,7 @@
           "panel": "board",
           "activeSeatId": null,
           "ownSeatId": "seat-6",
+          "identities": 0,
           "canPass": false,
           "canVote": false,
           "round": null,
@@ -5841,7 +5875,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5862,7 +5896,7 @@
         "ownBar": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-course.jpg",
-      "sha256": "c3fc8efd5de7c2b52b2658238f790371bc7baec08d0dac4ede9c96300f001090",
+      "sha256": "877b6f0539bf139b605ca188ab605d25ea21aa33994aea5ba977039a44080a77",
       "seen": {
         "shell": {
           "status": "live",
@@ -5984,8 +6018,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -6042,6 +6076,7 @@
           "panel": "board",
           "activeSeatId": "seat-6",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -6054,7 +6089,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6077,7 +6112,7 @@
         "settings": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-display.jpg",
-      "sha256": "80df6ace0a00d6ebcaf8aa5a92741ca1663b90b71ddd310e0ad307976d39ec9c",
+      "sha256": "582ff23f90cc58faa3b643cd40a3665c5491be5c40ecef36f83b240129f73c48",
       "seen": {
         "shell": {
           "status": "live",
@@ -6151,6 +6186,7 @@
           "panel": "board",
           "activeSeatId": "seat-6",
           "ownSeatId": null,
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -6163,7 +6199,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6186,7 +6222,7 @@
         "othersOn": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-eliminated.jpg",
-      "sha256": "051473aba4de1c4150b9fb5f3ee3f4c1d60b36500d35104b985b78a5f9ab4da6",
+      "sha256": "6719b0854a9861fa8428559d33bdaf43d06911457836b2bdd7022d18e2b12711",
       "seen": {
         "shell": {
           "status": "live",
@@ -6308,8 +6344,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -6377,6 +6413,7 @@
           "panel": "board",
           "activeSeatId": "seat-1",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -6389,7 +6426,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6412,7 +6449,7 @@
         "foodMatch": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-food-gauge.jpg",
-      "sha256": "188e1785a816fcb4382a9ca6a2256af647a456347c10c0f95a168cac8204263e",
+      "sha256": "946e976bfbdbd465c85165a84e09118e58dcb50d12e375e9bfba151fe3908644",
       "seen": {
         "shell": {
           "status": "live",
@@ -6534,8 +6571,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c1",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -6592,6 +6629,7 @@
           "panel": "board",
           "activeSeatId": "seat-7",
           "ownSeatId": "seat-4",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 3,
@@ -6604,7 +6642,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6628,7 +6666,7 @@
         "foodTakesTaps": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-food-surface.jpg",
-      "sha256": "aff41d2532fb02e5129808c83b4d72c1c30d4eeffd3190bb5cc02e3298fa982d",
+      "sha256": "091449176695e4fac1655cd6be76707b8b91d5a9ee68abcb09ff9c003d80fab9",
       "seen": {
         "shell": {
           "status": "concealed",
@@ -6722,6 +6760,7 @@
           "panel": "board",
           "activeSeatId": null,
           "ownSeatId": "seat-8",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 3,
@@ -6734,7 +6773,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6772,7 +6811,7 @@
         "roomScene": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-own.jpg",
-      "sha256": "0d3d0991691d917bd024163cb1e9b24b9f7708c2bc6736be51bd4597ad3a9a2c",
+      "sha256": "546d5e2cc8788ce9f2dd9335e99249a92521c0ab70c1f150a08e4dcf85ba41d8",
       "seen": {
         "shell": {
           "status": "live",
@@ -6894,8 +6933,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -6952,6 +6991,7 @@
           "panel": "board",
           "activeSeatId": "seat-6",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": true,
           "canVote": false,
           "round": 6,
@@ -6964,7 +7004,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6990,7 +7030,7 @@
         "infoToast": "Registered. Waiting for the authoritative view."
       },
       "file": "design/phone-ui/review/shell-connection/430x932-pass.jpg",
-      "sha256": "e8f4e6b11634c34953b126267d9801040b7959b356d7db529c5846e5d0a1c361",
+      "sha256": "7905ebae911362fcf4686bfe401f034d2af687e5e31fec9255d1b799b699859b",
       "seen": {
         "shell": {
           "status": "live",
@@ -7112,8 +7152,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -7219,6 +7259,7 @@
           "panel": "board",
           "activeSeatId": "seat-6",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": true,
           "canVote": false,
           "round": 6,
@@ -7234,7 +7275,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7255,10 +7296,11 @@
         "stale": true,
         "refused": true,
         "noOldStatus": true,
+        "ownAsLastSeen": true,
         "retryReads": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-reconnecting.jpg",
-      "sha256": "ec4674493abeaf12aa26a5847781dac67b8d42787e6202e8e6720822264196db",
+      "sha256": "6542f07547ed840b6eee585f20349bdb489744173abf4c09625ed1c176a2b62b",
       "seen": {
         "shell": {
           "status": "stale",
@@ -7376,11 +7418,14 @@
             "height": 58
           },
           "card": {
-            "portrait": false,
-            "picture": null,
-            "property": null,
-            "size": null,
-            "icon": true,
+            "portrait": true,
+            "picture": true,
+            "property": "--ms-asset-crew-portrait-c6",
+            "size": [
+              32,
+              32
+            ],
+            "icon": false,
             "words": "Card",
             "name": null
           }
@@ -7459,6 +7504,7 @@
           "panel": "board",
           "activeSeatId": null,
           "ownSeatId": "seat-6",
+          "identities": 0,
           "canPass": false,
           "canVote": false,
           "round": null,
@@ -7471,7 +7517,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7493,7 +7539,7 @@
         "sheetOverResult": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-result.jpg",
-      "sha256": "d2667425f2cdb7071fe63a8390bc585de06484c3067a0a224e5527ed1575a658",
+      "sha256": "0e3a43056b5a2c02f7e592629e84e055a6bd342346088bc037bf191b7b402838",
       "seen": {
         "shell": {
           "status": "live",
@@ -7615,8 +7661,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -7682,6 +7728,7 @@
           "panel": "board",
           "activeSeatId": null,
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -7694,7 +7741,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7715,7 +7762,7 @@
         "noGameTabs": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-talk.jpg",
-      "sha256": "198e53cabdb46b0bc05ef9218315cc3931413eaab3c5b2669fd230c8ed35ec9b",
+      "sha256": "c6dafa503541876d95236ac3cf68de803f8e3d0cde2e1f17ba29bcd8195786eb",
       "seen": {
         "shell": {
           "status": "live",
@@ -7818,6 +7865,7 @@
           "panel": "board",
           "activeSeatId": "seat-6",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -7830,7 +7878,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7855,7 +7903,7 @@
         "everyonesBar": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-target.jpg",
-      "sha256": "235ad37120bf31c5d9093adf85694462cd153b02bd34269c3203d793c37b6e74",
+      "sha256": "f3a492826988aaa2070e6c6ecaab9ab8d3b7f23ded1fcdd437970b50150123a5",
       "seen": {
         "shell": {
           "status": "live",
@@ -7977,8 +8025,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -8062,6 +8110,7 @@
           "panel": "actions",
           "activeSeatId": "seat-6",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -8077,7 +8126,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8102,7 +8151,7 @@
         "live": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-turn.jpg",
-      "sha256": "5f07900da31072a8b0507c23c319262f0a6f4d64c503909be54c69dc0fd49db9",
+      "sha256": "f7e3ee39c3ed3f9303ab0c4ebc731b1c3670c1dd1147e7670e15718ccf84f44d",
       "seen": {
         "shell": {
           "status": "live",
@@ -8125,7 +8174,7 @@
           "glyph": null,
           "portrait": true,
           "round": "R6",
-          "clock": "0:59",
+          "clock": "0:58",
           "urgent": false,
           "ring": false,
           "promises": "Promises",
@@ -8224,8 +8273,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -8282,6 +8331,7 @@
           "panel": "board",
           "activeSeatId": "seat-1",
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -8294,7 +8344,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8314,7 +8364,7 @@
         "bar": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-vote.jpg",
-      "sha256": "df7d23485b1382ac657fee4a0a789ca591dbe32f3279ce0e09a30e12535b5de6",
+      "sha256": "d46c7cfb14b436bc06cd6265bb5c5ce019caec809f97bcb87fe07e575fa121eb",
       "seen": {
         "shell": {
           "status": "live",
@@ -8436,8 +8486,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -8494,6 +8544,7 @@
           "panel": "board",
           "activeSeatId": null,
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": true,
           "round": 6,
@@ -8506,7 +8557,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8525,7 +8576,7 @@
         "voted": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-voted.jpg",
-      "sha256": "303e15ae2692e628a4af272af7513b139e6e5032e0ad8b0b6eeb35937d15f673",
+      "sha256": "2a26a6db2a82b41370c0b77134e984b1f79bc8f19c12f53776cabc26c7a8c939",
       "seen": {
         "shell": {
           "status": "live",
@@ -8647,8 +8698,8 @@
             "picture": true,
             "property": "--ms-asset-crew-portrait-c6",
             "size": [
-              26,
-              26
+              32,
+              32
             ],
             "icon": false,
             "words": "Card",
@@ -8705,6 +8756,7 @@
           "panel": "board",
           "activeSeatId": null,
           "ownSeatId": "seat-6",
+          "identities": 9,
           "canPass": false,
           "canVote": false,
           "round": 6,
@@ -8717,7 +8769,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-nC2DI5HJ.js",
+            "source": "assets/app-C2Moaz53.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"

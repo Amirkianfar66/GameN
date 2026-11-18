@@ -22,7 +22,7 @@ import {outfitFor} from '../scene-drawing/wardrobe.mjs';
 import {mountRoomScene,roomSceneFrame,roomScenePlaces,ROOM_SCENE_DEFAULTS} from '../../../../design/phone-ui/components/room-scene/room-scene.mjs';
 import {roomSceneArtReady,roomSceneHandlers,roomSceneInput,roomSceneInputKey,roomSceneKey,roomSceneLifecycle,roomScenePeople,roomSceneStatus} from './room-scene-input.mjs';
 import {mountPhoneShell} from '../../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
-import {connectShellLifecycle,createServerClock,phaseClosed,shellFocusOrder,shellHandlers,shellHostSheet,shellInput,shellRuns} from './shell-input.mjs';
+import {connectShellLifecycle,createServerClock,ownPersonSeen,phaseClosed,shellFocusOrder,shellHandlers,shellHostSheet,shellInput,shellRuns} from './shell-input.mjs';
 import {mountActionCheck,mountActions,mountAfterRegister,mountOutcomeUnknown,mountPassNote,mountTargetList} from '../../../../design/phone-ui/components/actions/actions.mjs';
 import {EVERY_ROLE_TILES,ROLE_TILES,actionsCancel,actionsFlow,actionsHandlers,actionsHeard,actionsPart,holdActionsPick} from './actions-input.mjs';
 import {mountPanels} from '../../../../design/phone-ui/components/panels/panels.mjs';
@@ -82,7 +82,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  // The shell's state here: its last input, the frame of its open sheet, the board's List, the round last seen
  // live (the reconnecting bar names it), a toast (kept, so it shows its whole time once), its layout, and the
  // model painted before this one (a phase that closed under an open choice is told from the two: phaseClosed()).
- let shellKey=null,shellFrame=null,listOpen=false,listKey=null,lastRound=null,toast=null,shellRunning=true,shellLayout=null,choosing=false,opener=null,before=null;
+ let shellKey=null,shellFrame=null,listOpen=false,listKey=null,lastRound=null,ownSeen=null,seenVersions=null,toast=null,shellRunning=true,shellLayout=null,choosing=false,opener=null,before=null;
  // The match's trusted server time (G18), observed on each model: the round stamp's clock, with shell-input.mjs roundStart().
  const serverClock=createServerClock({monotonic:()=>win.performance.now()});
  // Actions (release 3): this phone's own pick in its action (actions-input.mjs actionsFlow), and the part mounted
@@ -468,10 +468,17 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   if(absent.length){const memorial=el('div',null,'planet-offboard');memorial.append(el('span','Off board'));for(const choice of absent)memorial.append(button(choice.label,'choose',choice.value));targets.append(memorial);}
  }
  function render(next){
-  if(disposed)return;model=next;setCrewPictureSurface(root,model.versions);
+  if(disposed)return;model=next;
+  // The crew's pictures are drawn for the match's versions. Without a current state the model has none, so while the
+  // connection isn't live the surface keeps the versions last given: the viewer's own portrait on the Card tab, kept as
+  // last seen, stays the same picture, as the last room stays in the stage. Live, it is the model's own, as before.
+  if(model.connection==='live'&&model.versions)seenVersions=model.versions;
+  setCrewPictureSurface(root,model.versions??(model.connection!=='live'?seenVersions:null));
   root.dataset.planetPanel=model.panel;root.dataset.connection=model.connection;root.dataset.surface=model.surface;root.dataset.mode=model.mode;root.dataset.motion=reduced()?'reduced':'normal';root.dataset.blackout=model.dark?'dark':'none';root.dataset.phase=model.phase?.kind??'';
   root.dataset.ownTurn=String(!model.dark&&model.activeSeatId===model.ownSeatId);
   if(model.connection==='live'&&Number.isSafeInteger(model.round))lastRound=model.round;
+  // The viewer's own person as last given, for the Card tab while the connection isn't live (shell-input.mjs ownPersonSeen).
+  ownSeen=ownPersonSeen(ownSeen,model);
   serverClock.observe(model);
   const closed=phaseClosed(before,model);before=model;
   // Only the exact Food tuple supplies these sanitized public facts. Ordinary
@@ -518,7 +525,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   // Task over the whole screen) the shell is concealed under it: its bars keep their shape as empty material,
   // with no name, time or control, as today's header and nav were hidden and inert.
   flow=actionsFlow(flow,model);promises=promisesFlow(promises,model);
-  const input=shellInput(model,{view:sceneMode,room:currentRoom,food:foodSurface,reducedMotion:reduced(),lastRound,listOpen,closed,flow,promises});
+  const input=shellInput(model,{view:sceneMode,room:currentRoom,food:foodSurface,reducedMotion:reduced(),lastRound,listOpen,closed,flow,promises,seen:ownSeen,seenVersions});
   input.sheet=shellHostSheet(input.sheet,hostSheet?.frame()??null);
   // The host sheet's own toast (Copied, a receipt), once, when the game gives none.
   const nextToast=input.toast??hostSheet?.toast?.()??null;if(nextToast)toast=nextToast;

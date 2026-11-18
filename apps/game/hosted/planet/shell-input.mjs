@@ -213,16 +213,31 @@ export function shellHero(model){
 }
 
 /**
+ * This viewer's own person as last given, which the renderer keeps across a lost connection as it keeps the round
+ * last seen. While the connection is live it is what the model gives now: in the dark that has no character, so
+ * none is kept from before it. While it isn't live it is the one kept, for the same seat only: a new seat never
+ * takes another's, and a shared display has none.
+ */
+export function ownPersonSeen(seen,model){
+ if(model.surface!=='player'||!model.ownSeatId)return null;
+ if(model.connection==='live')return person(model,model.ownSeatId);
+ return seen&&seen.seat===model.ownSeatId?seen:null;
+}
+
+/**
  * A player's tabs (none on a shared display): the view, the open tab and the round button; the talk's two buttons
  * in the 60 s talk. An eliminated player keeps the Board, Card and Panels; Actions is unavailable (sheet 44), as
  * the presentation offers them nothing to act on.
  * `me` (shell 0.3.0, the owner's 18 November 2026 decision) is this viewer's own public person, as the bar's `who`:
  * the Card tab, now the last, draws their crew portrait. With no character yet the shell keeps the card icon.
+ * `seen` is that person as last given (ownPersonSeen): while the connection isn't live the model has no identities,
+ * so the tab keeps the one last seen for the same seat, as the bar keeps the round last seen.
  */
-export function shellTabs(model,{view='room'}={}){
+export function shellTabs(model,{view='room',seen=null}={}){
  if(model.surface!=='player')return null;
  if(talkButtons(model))return {variant:'talk',open:model.panel==='promises'?'promises':model.panel==='card'?'my-card':null};
- const tabs={variant:'game',view:view==='board'?'board':'room',open:PANEL_TAB[model.panel]??null,hero:shellHero(model),me:model.ownSeatId?person(model,model.ownSeatId):null};
+ const tabs={variant:'game',view:view==='board'?'board':'room',open:PANEL_TAB[model.panel]??null,hero:shellHero(model),
+  me:model.ownSeatId?(model.connection!=='live'&&seen&&seen.seat===model.ownSeatId?seen:person(model,model.ownSeatId)):null};
  return ownOut(model)?{...tabs,enabled:{actions:false},reasons:{actions:OUT_ACTIONS_REASON}}:tabs;
 }
 
@@ -332,11 +347,13 @@ export function shellSheet(model,{listOpen=false,flow=null,promises=null}={}){
  * bars keep their shape and the stage its size. A shared display takes taps: it has no tabs, Promises, target bar
  * or chip, so its only controls are ⋮, the Settings sheet's Close and Retry.
  */
-export function shellInput(model,{view='room',room=null,food=null,reducedMotion=false,lastRound=null,listOpen=false,closed=null,flow=null,promises=null}={}){
+export function shellInput(model,{view='room',room=null,food=null,reducedMotion=false,lastRound=null,listOpen=false,closed=null,flow=null,promises=null,seen=null,seenVersions=null}={}){
  const display=model.surface!=='player',status=shellStatus(model,{food}),hidden=status==='concealed';
  return {
-  status,interactive:true,reducedMotion:!!reducedMotion,viewer:display?null:model.ownSeatId??null,versions:model.versions??null,
-  bar:shellBar(model,{lastRound}),tabs:display?null:shellTabs(model,{view}),
+  // Without a current state the model has no versions either. The person kept as last seen is drawn with the versions
+  // last seen with them (`seenVersions`), so their portrait stays the same picture and never falls back to older art.
+  status,interactive:true,reducedMotion:!!reducedMotion,viewer:display?null:model.ownSeatId??null,versions:model.versions??(model.connection!=='live'?seenVersions:null)??null,
+  bar:shellBar(model,{lastRound}),tabs:display?null:shellTabs(model,{view,seen}),
   target:hidden?null:shellTarget(model,{view}),chip:hidden?null:shellChip(model,{view,room}),banner:hidden?null:shellBanner(model,{lastRound}),
   toast:hidden?null:shellToast(model,{closed,flow}),sheet:hidden?null:shellSheet(model,{listOpen,flow,promises}),
  };

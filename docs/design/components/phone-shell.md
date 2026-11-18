@@ -1,6 +1,6 @@
 # Phone shell: Designer's runtime component
 
-**Version:** `phone-shell-0.3.0`, with `component-kit-0.8.2`. **Status (18 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its three files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
+**Version:** `phone-shell-0.3.1`, with `component-kit-0.8.2`. **Status (18 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its three files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
 
 **What it is:** the match's frame on a phone, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
 
@@ -154,19 +154,28 @@ shell.dispose();             // removes the element and its listeners
 
 It is a departure from sheet 08, which draws Board/Room · Actions · Pass/Vote · Card · Panels with the card icon. The pinned pack stays as it is.
 
+**The portrait's shape and size, 0.3.1.** The owner saw 0.3.0's round portrait on the control page the same day, and said:
+
+> The shape of it should be similar to the top character icon not circular but cubic same size
+
+So the Card tab draws the top bar's portrait itself: the same picture, the same shape and the same size.
+
 | | The pack's sheet 08 | The shell from 0.3.0 |
 | --- | --- | --- |
 | The order | Board/Room · Actions · Pass/Vote · Card · Panels | Board/Room · Actions · Pass/Vote · Panels · Card |
-| The Card tab's icon | The `card` icon | The player's own crew portrait |
+| The Card tab's icon | The `card` icon | The player's own crew portrait, as the top bar draws it |
 
 - **The input:** `tabs.me`, this viewer's own person, `{ seat, name, character }`, as the bar's `who`.
-- **The portrait:** the plain crew portrait the top bar draws (`crewPortraitVariable`), round, in the icon's 26 px box. The portrait's tile is drawn larger than the box, so its own white frame falls outside the circle.
-- **The ring:** 2 px, inside the box, in the tab's own colour, as an icon's line is: the bar's soft text at rest, amber while the Card sheet is open. The label turns amber with it, as every tab's does. A portrait can't be filled the way an icon is, so the ring is what shows the open tab.
+- **The portrait (0.3.1):** the plain crew portrait the top bar draws (`crewPortraitVariable`), drawn the same way: the portrait's own rounded-square tile with its white frame, whole, at 32 × 32 px.
+  - It is 6 px taller than an icon. It rises into the tab's top padding, so its foot is where an icon's foot is, the label keeps the other labels' level, and the bar keeps its height.
+  - 0.3.0 drew it round, in the icon's 26 px box, with a ring in the tab's colour at rest.
+- **At rest it has no ring,** as in the top bar. The tile's own white frame gives it its edge on the dark bar.
+- **Open:** the label turns amber, as every tab's does, and a 2 px amber ring is drawn round the tile. The ring is inside the 32 px box, in the tile's own clear margin, so nothing moves. A portrait can't be filled the way an icon is, so the ring is what shows the open tab on the picture.
 - **Unavailable:** the whole tab at 38 %, as every tab.
 - **No character:** with no person, a person with no character, or a character the match's crew bundle has no portrait for, the tab keeps the pack's `card` icon, filled while open. Never an empty tile.
 - **Privacy:** the portrait is the player's own public character. It carries no team colour, no role tint and no ring in a team's colour. It is this viewer's input, dropped with the tabs while concealed and for a new viewer.
 - **Accessibility:** the tab is still named by its word, "Card". The portrait is decorative (`aria-hidden`). Open is announced as on every tab (`aria-expanded`). The long press at larger text shows "Card" with the card icon.
-- **Larger text:** the portrait keeps its 26 px box at every text size, and the label keeps the other labels' level.
+- **Larger text:** the portrait keeps its 32 px box at every text size, and the label keeps the other labels' level.
 - **The private talk's My card** (sheet 25) is unchanged: the owner spoke of the bottom bar.
 
 ## Inputs
@@ -247,7 +256,7 @@ Each reports a tap, and only that.
 | Blackout | Lit, the sun tile and "Lights out in 0:03"; dark, the dark bar and the moon tile (`phaseBar()`). The line counts down each second: the bar's left part is built again, and its height and its right side stay where they are |
 | Choosing a target | The target bar with Cancel; the round button stays (T2) |
 | A sheet | Docked between the bars, glass. Pass the room scene `control: null` while one is open: the pack hides the room's own control under a sheet |
-| The Card tab | Last, after Panels. With `tabs.me`, the player's own portrait, its ring amber while the Card sheet is open; with no character, the card icon (0.3.0) |
+| The Card tab | Last, after Panels. With `tabs.me`, the player's own portrait as the top bar draws it, with an amber ring while the Card sheet is open; with no character, the card icon (0.3.0, 0.3.1) |
 | Private talk | The pair bar; Promises and My card at the foot; the stage runs to the bottom, and `layout().covered.bottom` says how much the two buttons cover |
 | A full-screen film | `bar: null`, `tabs: null`, `edge: true` (the role stage, #268): the stage edge to edge; the toast and the banner at the bar's place |
 | A full-screen poster | A bar, `tabs: null`, `edge: true` (ship travel, #269): the stage edge to edge, the bar's glass over it |
@@ -379,7 +388,7 @@ Listed, not omitted:
 
   | Check | Result |
   | --- | --- |
-  | `packages/design-tokens/test/phone-shell.test.mjs` | 8 of 8: the runtime-safe graph (the kit's files in it), every style scoped (a kit control styled only inside the shell's own parts, and of the kit's properties only the toast's top), the pinned pack unchanged, the pack's words (both banners'), the clock, the inputs' refusals, the privacy rules (an eliminated player's banner this viewer's, the reconnecting one the phone's) and the check's record, with the phase bars' states, their agreement cases and the lit Blackout's steadiness (0.2.10). From 0.3.0: Card last in the order while the pinned pack keeps Card before Panels; `tabs.me` checked as the bar's `who`; and, in the record, every capture's order and Card tab (its portrait in the 26 px box, its ring amber only while Card is open, its word and name) and the probe's `card` check |
+  | `packages/design-tokens/test/phone-shell.test.mjs` | 8 of 8: the runtime-safe graph (the kit's files in it), every style scoped (a kit control styled only inside the shell's own parts, and of the kit's properties only the toast's top), the pinned pack unchanged, the pack's words (both banners'), the clock, the inputs' refusals, the privacy rules (an eliminated player's banner this viewer's, the reconnecting one the phone's) and the check's record, with the phase bars' states, their agreement cases and the lit Blackout's steadiness (0.2.10). From 0.3.0: Card last in the order while the pinned pack keeps Card before Panels; `tabs.me` checked as the bar's `who`; and, in the record, every capture's order and Card tab (its portrait at the top bar's 32 px, a ring only while Card is open and only in amber, its word and name) and the probe's `card` check, with the top bar's box and fit and the bar's height (0.3.1) |
 | `packages/design-tokens/test/phase-bars.test.mjs` | 11 of 11 (0.2.10): the runtime-safe graph, which adds no file to the shell's; every word found in the pack's own screens; each row of the words table, and the shell taking every bar; the round, the clock, Promises and ⋮ as given; the amber rule; the ring; a missing fact drawing the title alone; every phase of the contract drawn or refused by name; no offer, role or rule read; the toast; and each agreement case's pack input held to the pack's source |
   | `packages/design-tokens/test/kit.test.mjs` | 8 of 8, with the kit's own check: every builder agrees with the pinned pack's, the toast included, and `followTextSize` (0.8.1) ([the kit's page](kit.md)) |
   | `npm run test:design` | 399 of 399, after `npm run build`, with Node 22.21.1 and npm 10.9.4 (on 0.3.0's record) |
@@ -405,18 +414,19 @@ Listed, not omitted:
     - `film` draws no top bar and runs edge to edge, with the reconnecting banner at the bar's place (107 px at a 47 px safe area).
     - `poster` runs edge to edge under a phase bar, with no tabs.
     - `card` draws the Card sheet's "Hide card" in the head, before Close.
-    - **The Card tab (0.3.0):** every capture with tabs draws the order Board/Room · Actions · Pass/Vote · Panels · Card, and the Card tab's portrait in its 26 px box, with its word "Card" level with the other labels.
-      - `card`, with the Card sheet open, draws the portrait's ring amber. Every other state draws it in the tab's own colour.
+    - **The Card tab (0.3.0, 0.3.1):** every capture with tabs draws the order Board/Room · Actions · Pass/Vote · Panels · Card, and the Card tab's portrait at 32 × 32 px, with its word "Card" level with the other labels.
+      - `card`, with the Card sheet open, draws the amber ring round the portrait. Every other state draws no ring.
       - `card-icon`, a player with no character, draws the pack's card icon in the last place.
       - `large`, at 200 % text on 320 × 568, draws the portrait in the same box.
   - **The lifecycle probe** (`preview/probe.mjs`): 30 of 30 checks pass.
     - **As the page comes (29):** focus, refused taps, reconnecting, an eliminated player's banner, privacy, the clock, layout, the layers, larger text, the text size changing, no bar, edge to edge, the cover's reach, the backdrop, head actions, the footer's actions, the private talk's buttons, the toast (three times), a phase bar's words, the large-content view, the Card tab, dispose and motion.
-      - **The Card tab (0.3.0),** one check, `card`:
-        - Card is the last tab. Its portrait is the same picture the top bar draws for that person, round, `aria-hidden`, in a 26 × 26 px box.
-        - At rest its ring is the tab's colour, `rgb(185, 196, 211)`, the same as Panels'. Open, the ring is the accent, `rgb(241, 184, 75)`, the tab says `aria-expanded="true"`, and the focused tab keeps its element and the focus. A tap reports `onTab('card')`.
+      - **The Card tab (0.3.0, 0.3.1),** one check, `card`:
+        - Card is the last tab. Its portrait is the top bar's for that person: the same picture, fitted the same way (`contain`), in the same 32 × 32 px box, and `aria-hidden`.
+        - At rest it has no ring. Open, the ring is the accent, `rgb(241, 184, 75)`, the tab says `aria-expanded="true"`, and the focused tab keeps its element and the focus. A tap reports `onTab('card')`.
         - Unavailable, the tab is at 0.38 with its reason, and keeps the portrait.
         - A person with no character, no person, and a character with no portrait (`c0`) each draw the card icon, filled while open.
-        - At 390 × 844, 430 × 932 and 320 × 568, each at the Standard and the Largest text: the box stays 26 × 26, the portrait's top is the Panels icon's, the Card label's top is the Panels label's, and the label is whole and inside the phone.
+        - At 390 × 844, 430 × 932 and 320 × 568, each at the Standard and the Largest text: the box stays 32 × 32, the portrait's foot is the Panels icon's, the Card label's top is the Panels label's, the label is whole and inside the phone, and the portrait is inside the bar.
+        - The bar is as tall with the portrait as with the card icon in its place, at all six: 92 px at the Standard text and 94.19 px at the Largest, with a 34 px safe area.
         - A long press at the Largest text shows "Card" with the card icon.
         - Concealed, shown again with no new input, and for a new viewer, no portrait is drawn. Given again, one is. The private talk's two buttons draw none, and My card keeps the card icon.
       - **A final target bar (0.2.12):** it is made final while Cancel has the focus.
@@ -465,7 +475,13 @@ Listed, not omitted:
     - In each case 10 to 20 parts sit in the same place, with the same words and states.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
   - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
-    - Recorded on `60c6dcd0`, with kit 0.8.2 and shell 0.3.0, and the source clean. Against `ad5a0159`'s record (shell 0.2.12):
+    - **Beside 0.3.0, for the Lead's review:** `review/supplement/card-tab-0.3.1.jpg` puts the tab bar of 0.3.0's record beside 0.3.1's at 390 × 844 and 430 × 932: at rest, open, with no character and in the Blackout's dark, and at the Largest text on 320 × 568. It adds the Card tab unavailable, drawn from the same preview by giving it `enabled: { card: false }`, which no preview state does. It is a picture for the eye, not part of the record.
+    - Recorded on `f0d52240`, with kit 0.8.2 and shell 0.3.1, and the source clean. Against `60c6dcd0`'s record (shell 0.3.0):
+      - 14 captures are unchanged byte for byte: the seven states with no tabs, at both sizes.
+      - 50 changed in the Card tab's place only: the portrait's own 32 px box, from 335 to 367 px across at 390 wide and from 371 to 403 at 430, between 2,493 and 2,856 pixels each. The Card label, Panels and every other tab did not move.
+      - `card-icon`, with no portrait, has no difference in the tab bar at either size.
+      - Above the tab bar the captures differ in at most 80 pixels, all inside the room's picture (the figures' idle motion), between 311 and 558 px from the top.
+    - Before: `60c6dcd0`, with kit 0.8.2 and shell 0.3.0, and the source clean. Against `ad5a0159`'s record (shell 0.2.12):
       - 2 captures are new: `card-icon` at both sizes.
       - 14 are unchanged byte for byte: the seven states with no tabs (`talk`, `concealed`, `film`, `poster`, `synchronized`, `moved` and `loading`) at both sizes.
       - 50 changed in the tab bar, in its fourth and fifth places only: between 4,279 and 4,820 pixels each, between 254 and 370 px across at 390 wide, and 282 and 406 at 430. Board/Room, Actions and the round button did not move.

@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/phone-shell-check.mjs",
   "component": "design/phone-ui/components/phone-shell",
-  "sourceCommit": "60c6dcd0d5e521ce26c78c1c03185fc44f820486",
+  "sourceCommit": "f0d52240c77c4bafd235264db5dc0bc6e4816bea",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -39,14 +39,14 @@
   "captures": {
     "390x844/turn": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-turn.jpg",
-      "sha256": "6741a47f20c6b783462a08b521ae6057555014fad33107715407c95f23d803b5",
+      "sha256": "ed186021d2d6764680d1d5f33dc876601d748ab122d787b83c76f33fd550e55d",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -76,10 +76,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -177,14 +178,14 @@
     },
     "430x932/turn": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-turn.jpg",
-      "sha256": "5a5a9e53778e563e026f5151813b7c691f2c204a144046d72b8cca3fc4470c89",
+      "sha256": "f5ef1757b753aac7759118b75f168d2bdfe9f15af37638d712568035f5e811da",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -214,10 +215,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -315,14 +317,14 @@
     },
     "390x844/own": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-own.jpg",
-      "sha256": "836c0acc5bdf52ea9a8b152ff3e68804b3f0761e257c7d8f3e9ef2960c00f637",
+      "sha256": "f762463cc3f8d8713c6c952aa69e236b031d955b2a395359d5aaf8c53ade70d9",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -352,10 +354,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -452,14 +455,14 @@
     },
     "430x932/own": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-own.jpg",
-      "sha256": "11dd17fe970fd86e673b469dde32de5042e1aea9b69cd54a429180a76db1a958",
+      "sha256": "e74d4ca60935f4d72f464483e1c5343f2a03288e90c4e316c742e077ec11fb0b",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -489,10 +492,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -589,14 +593,14 @@
     },
     "390x844/urgent": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-urgent.jpg",
-      "sha256": "dfe573877e61383c854782142731685f709dd196d82c0915b2afa4937a3dceb9",
+      "sha256": "8a761d08aa67254cb76cea43309071e4e3ac142477b81c34d1fe053f1c8f4f58",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -626,10 +630,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -726,14 +731,14 @@
     },
     "430x932/urgent": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-urgent.jpg",
-      "sha256": "4b808f61ec4da278395f0f5a0fb06a8db38677a9286acf32081e1dc22493cee4",
+      "sha256": "44bf0166aa0a82cd5ee9aaeeb0499f53d283c8b4aed3bc6f57db0a3330dd9948",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -763,10 +768,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -863,14 +869,14 @@
     },
     "390x844/vote": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-vote.jpg",
-      "sha256": "ab69cf92b6634ba936a5ccfd9f0696325015ff2d997e7c29c7db73dbfbc1e862",
+      "sha256": "e090049527b9e383f6a60d28a970adf35625155acc518681cbbc235ccae84af5",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -900,10 +906,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -1000,14 +1007,14 @@
     },
     "430x932/vote": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-vote.jpg",
-      "sha256": "9a45efbebd1fe59ffddd6648c8151aae920614937a9d650139ba3918f9bd2f3d",
+      "sha256": "0891c1e995b3a914594152a1361070299888172066bf74fd79cb124f1116ff10",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1037,10 +1044,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -1137,14 +1145,14 @@
     },
     "390x844/voted": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-voted.jpg",
-      "sha256": "a740a5ba93fd23d661dfbe5a57998d09f8c077ecf5b8cda1f1f6c534e16d8660",
+      "sha256": "7340e8a18e824be2530048bffae8c6a2a6adc9ba7e630d66a84c117a457921df",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1174,10 +1182,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -1274,14 +1283,14 @@
     },
     "430x932/voted": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-voted.jpg",
-      "sha256": "047e572bab8bb775a7ec4f1c25bd77f6bd6446a17c0aa059abeecbbc240bd7ff",
+      "sha256": "b070385ec62607792a82ef1b4b2753a08470f4fa8f80835c6ad687af45944acf",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1311,10 +1320,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -1411,14 +1421,14 @@
     },
     "390x844/result": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-result.jpg",
-      "sha256": "c00d5d02e89ff5a0828541e1b71da2b2d5dffadfd05d88bd63cac5149a3f53bf",
+      "sha256": "9f4eb5a9fd96c555e31de1970e47f6cce366087dae46b6aac066a2083c98c0a9",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1448,10 +1458,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -1543,14 +1554,14 @@
     },
     "430x932/result": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-result.jpg",
-      "sha256": "0b0ad8d4493be5f62378e05133fbfebc720e7d58ed4b280282fc500ca0ca427c",
+      "sha256": "5aa8604e6d33c7f110655de823374a24a697648f070643dbea9efe36d2877476",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1580,10 +1591,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -1675,14 +1687,14 @@
     },
     "390x844/dark": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-dark.jpg",
-      "sha256": "9ca80bb19aed0113d0fd2de31160ba8dabbfd03bb35d5396afae2873e632e47b",
+      "sha256": "818f9d9e68133d9fbed4d798efd79af65d306185a73ee0dcb640122ff601b0e5",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1712,10 +1724,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -1814,14 +1827,14 @@
     },
     "430x932/dark": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-dark.jpg",
-      "sha256": "0e9026fd994b14978a114028b293ce4772f886d643aed407a63698bf554c0a65",
+      "sha256": "0b089e4ebb21aa790b35fc9a13423023fe5d90a05ca23535061c6f8fdba98cd2",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1851,10 +1864,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -1953,14 +1967,14 @@
     },
     "390x844/target": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-target.jpg",
-      "sha256": "40adcc18599f8b801aee7b08c068b6e0fa712e4e8c75dbf86ce79908fa7221f7",
+      "sha256": "b0f35bb1107f9045e733e8a102fd2e5cacb906e16f3417b147c3e53640672ccf",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1990,10 +2004,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -2090,14 +2105,14 @@
     },
     "430x932/target": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-target.jpg",
-      "sha256": "0a52abcf8d8c052e7291a5468796326edb5af8b3969fd29f6d68b565c3066cf2",
+      "sha256": "278c5496f9c7608851e30063d7054d8f534be065237f4d28aff420505fc2db79",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2127,10 +2142,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -2227,14 +2243,14 @@
     },
     "390x844/pass": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-pass.jpg",
-      "sha256": "3fa9c77e7483f1877d33184786566e08337c4b42adc1b3c64d94169ef7f37f65",
+      "sha256": "a88003ddc2479d48a393f45dc60cad9cc35cfaf53c6cc3d7347be326156c6efb",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2264,10 +2280,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -2364,14 +2381,14 @@
     },
     "430x932/pass": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-pass.jpg",
-      "sha256": "5ca394fce02c255da18109cfbd2c348c373047b19328593292a0d96a5650136c",
+      "sha256": "73a9e6ea465858b0e620e82130acaefe6c2294938e880e2b2792bd99e49c89a7",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2401,10 +2418,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -2501,14 +2519,14 @@
     },
     "390x844/actions": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-actions.jpg",
-      "sha256": "c303c147a1b4f19ed0c205323766a902f9a18b3873afde40d7e3e82a719c4449",
+      "sha256": "367b2deeac24f6610104be67e9b9624af411a0aff05b7e39ecd3ec2545bcd1b4",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2538,10 +2556,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -2638,14 +2657,14 @@
     },
     "430x932/actions": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-actions.jpg",
-      "sha256": "906072c450e3250417138f59e6d63fa715d9fd56169eee90518b93988effd3da",
+      "sha256": "82e8a87efeb69f8eac91b3ea3630dd23207b57068bc54c7d0cfe6d88228f9f66",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2675,10 +2694,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -2775,14 +2795,14 @@
     },
     "390x844/card": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-card.jpg",
-      "sha256": "1d9c86d5986689bfef2e763a896b2e83679b37e259ed16a1173f331faa10dd9b",
+      "sha256": "eb5407801e125893bda22f02c6f087b383491404d94921f59235df0ad70c6ea1",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2812,10 +2832,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": true,
+        "ring": true,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -2912,14 +2933,14 @@
     },
     "430x932/card": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-card.jpg",
-      "sha256": "30414dd630fbedf01a9997c5391055031baa23b9551b2661b56d6a6ba0c6db03",
+      "sha256": "c0491696ebd71048709e706532fd46b50c5c15fd0626bab498cc2106afc4c78e",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2949,10 +2970,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": true,
+        "ring": true,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -3049,14 +3071,14 @@
     },
     "390x844/card-icon": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-card-icon.jpg",
-      "sha256": "3f882d407b535a7e34ff7848c30b76a024f7ec98a1aeb624483fe1989273f0b5",
+      "sha256": "9a4f3837cbe62307050f234a6105d8b3b30a74bfc7c85a41b27aa81e2d3ce883",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3087,6 +3109,7 @@
         "drawn": null,
         "box": null,
         "amber": null,
+        "ring": null,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -3183,14 +3206,14 @@
     },
     "430x932/card-icon": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-card-icon.jpg",
-      "sha256": "51650841be35a5f648c3cc2f1be07861dea98118ad3ddc2c6e8f140ff8b49470",
+      "sha256": "2b483446ddaea1a9fae082273a8079cdd9cc99c2d108686b74dbee2b87eeb056",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3221,6 +3244,7 @@
         "drawn": null,
         "box": null,
         "amber": null,
+        "ring": null,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -3324,7 +3348,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3441,7 +3465,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3551,14 +3575,14 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-stale.jpg",
-      "sha256": "fa5fa59cb91a77dd5814e87cb309e9115739f30e5e20e755a059253854044258",
+      "sha256": "a7a1010c3e42f5bd2c3b2005e52e95c8e4fd7cca9782b4ee73305ef448c98e12",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3588,10 +3612,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -3683,14 +3708,14 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-stale.jpg",
-      "sha256": "649bd2835e19503a851ad7193271a062d4516b5b4adeaa3b60620eb40b1c31e7",
+      "sha256": "53e099d358cf92ebdfc154e67cc189004de8d260d5603d9b78aa1bbf57cb36b2",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3720,10 +3745,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -3815,14 +3841,14 @@
     },
     "390x844/out": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-out.jpg",
-      "sha256": "499404666728ed5c01207e54eb521e87fefd76501259a46e624c6de5cbc368db",
+      "sha256": "216b56e3b73fe19416c3a2c153cca8fe1f7e3308b23e0fc6598ff1be33b54171",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3852,10 +3878,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -3953,14 +3980,14 @@
     },
     "430x932/out": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-out.jpg",
-      "sha256": "8ed8d3f91fd3e8c0c290d93a74a4f5aff4ca0597e824d46f637fe8e97c46f649",
+      "sha256": "f8dea49c5bdc2748c04f3fa786a01c8121836fbce1817b4bb8574d5ac9e70a93",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3990,10 +4017,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -4098,7 +4126,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4192,7 +4220,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4286,7 +4314,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4375,7 +4403,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4464,7 +4492,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4578,7 +4606,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4685,14 +4713,14 @@
     },
     "320x568/large": {
       "file": "design/phone-ui/components/phone-shell/review/320x568-large.jpg",
-      "sha256": "08b9e6aec6aa2e656d347f23214a9f9d77f7ab2abb4bb7ee5d0ccda83acd8790",
+      "sha256": "68b92eba74d0dba3281d72ddfe66865c4f089b0b3c311dd50b699a51dc016477",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4722,10 +4750,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -4817,14 +4846,14 @@
     },
     "390x844/target-stale": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-target-stale.jpg",
-      "sha256": "7397df2378d54873f1d7f6158a1a5b3e539da273228024977088506f1e9cfe55",
+      "sha256": "1fb1890b5e098383ad4ab8145af5420fc78e0fdb359f8aca8cb48e091ee8df73",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4854,10 +4883,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -4949,14 +4979,14 @@
     },
     "430x932/target-stale": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-target-stale.jpg",
-      "sha256": "3a4dcae544c00393db97d48c48fbc01dca7c1870dc76253af81a5dd096a2f6bb",
+      "sha256": "7f7bb660a268de238fc65fde9badf53c3615cb04a39c7d6baccc24c1b01cda89",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4986,10 +5016,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -5081,14 +5112,14 @@
     },
     "390x844/target-large": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-target-large.jpg",
-      "sha256": "6c61214948ddfd56e31dc3489a4414eefb8427dccfc12a05cda48a40dc0dba19",
+      "sha256": "20441bcd1b0b17e9628ba5ba4c3240baa1ee3d972c7232e153a6b265340d2b3d",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5118,10 +5149,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -5213,14 +5245,14 @@
     },
     "430x932/target-large": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-target-large.jpg",
-      "sha256": "6058fb699808e405e5a01f8667104efabcc5eabe381595aa1572796a85f3353e",
+      "sha256": "d002e43d3fe4562e3e9f15d5cbd5f92ebde1160c206478250a9e6aad6068d598",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5250,10 +5282,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -5345,14 +5378,14 @@
     },
     "390x844/before": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-before.jpg",
-      "sha256": "532ee47168e4e3af106c787f76acd10092c7c341f1ab170363b5293695cd457e",
+      "sha256": "fa7eed83a5f6f26a08a1b654289ce8b799b945c78f72cc53d431d415eb57da66",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5382,10 +5415,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -5482,14 +5516,14 @@
     },
     "430x932/before": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-before.jpg",
-      "sha256": "8533cc08ad1abdd7bd5403d6e3a735f8973486fc6e5d8306e6d08257075ad4ae",
+      "sha256": "71b08a95a1aef181ea8b653419ef06e51a4d1e94314b1dcd2c0419bd99c88596",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5519,10 +5553,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -5619,14 +5654,14 @@
     },
     "390x844/before-start": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-before-start.jpg",
-      "sha256": "d7d3b68250bd7e4c34de97ab735499d94c215631646f9ff69ba8916dfbffa7e7",
+      "sha256": "ad35517064a40829fc9da820466b8d83911c80cfb3031a065287f79bf876a5f2",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5656,10 +5691,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -5756,14 +5792,14 @@
     },
     "430x932/before-start": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-before-start.jpg",
-      "sha256": "edd0ff3fd09990ceb0b5031b1efaa9755f058ef37c17fec0e3c0e44af6b71f2b",
+      "sha256": "1af61ca6e562296f9a11d47325aa9d23ab7640f7cc0dce5e3257624225661fb3",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5793,10 +5829,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -5893,14 +5930,14 @@
     },
     "390x844/block": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-block.jpg",
-      "sha256": "496994dfa33ece7003bf1bc38d4afd0aa221eb2d0c23899cd9aedd0ef57d3c5b",
+      "sha256": "4bfe06dc0bb08b87912a770aa10e0f76c3684fbafc14135a923f3237e826991e",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5930,10 +5967,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -6030,14 +6068,14 @@
     },
     "430x932/block": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-block.jpg",
-      "sha256": "b85c2e6adb95483a0101ab6be9eafc99390eb5fb3adf0a80ec6361d69d013620",
+      "sha256": "e2e6eff743840adc0adbd2d82f72b0d15b10303fec98ef25ced004e424892239",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6067,10 +6105,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -6167,14 +6206,14 @@
     },
     "390x844/appointment": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-appointment.jpg",
-      "sha256": "b3a21a0260d2881a57b361bc6ccf587abfede9647a8ad0fad3a52156f870165d",
+      "sha256": "0ac6673dbc99bb45360c5f5b45ab8c2da14433bb8831b2cc56520cf836dacb72",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6204,10 +6243,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -6304,14 +6344,14 @@
     },
     "430x932/appointment": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-appointment.jpg",
-      "sha256": "9efccb358ac202add153da3fe43a73961ccd16c12ea0f75c3651695822d820ba",
+      "sha256": "a456728dc3d562f3cfa7134e1f80b7a9f608d5f1cc8092e6d21d172034669c64",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6341,10 +6381,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -6441,14 +6482,14 @@
     },
     "390x844/appoint": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-appoint.jpg",
-      "sha256": "21b42a3b49e7e3ed9efcfa683082b9117e833b7fd327ccdd531416619ae620bf",
+      "sha256": "55c399ed3d43167f7e84ad8f1be2b2908e3a98639fa9950dffb793650f768c06",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6478,10 +6519,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -6578,14 +6620,14 @@
     },
     "430x932/appoint": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-appoint.jpg",
-      "sha256": "55c6479cf058fe0d79ec1e7bd059ef88438e9da23ac46fa4f8c835e368452191",
+      "sha256": "a676d29c1387072eb793a7fa04268ca12a54bd6c6bff883f7fa0017890cd5823",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6615,10 +6657,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -6715,14 +6758,14 @@
     },
     "390x844/lit": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-lit.jpg",
-      "sha256": "df8f1343f2a9092fb6a33d2973b24f1fc27db028dc2811b3de99028dca6fc13f",
+      "sha256": "e09ee1baecc7144c03ad1bc8750484486ecb99c9d0be036bbbb0c317d479fba5",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6752,10 +6795,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -6852,14 +6896,14 @@
     },
     "430x932/lit": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-lit.jpg",
-      "sha256": "a29805ac473ea7168e1ac2e60e85090e2694e75714df28f428867078ab6f17eb",
+      "sha256": "59d977ce841abafe595d25b252a8f16abff5e4a62126a04d96c264449c79b17a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6889,10 +6933,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -6989,14 +7034,14 @@
     },
     "390x844/lit-next": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-lit-next.jpg",
-      "sha256": "923b16b6df531c964b4bb5fa21c1b9079c418605b8d632a1dc0cbf458b9d97fc",
+      "sha256": "0c5d653c0cfb77d773ede4be98ca66ecd2716d3e5d7bac7f6367b856210370b0",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7026,10 +7071,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -7126,14 +7172,14 @@
     },
     "430x932/lit-next": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-lit-next.jpg",
-      "sha256": "2c8e8aed0d8a5a847087f6b1179a21f7483aa46f42e45e5ab4dfc290096bad65",
+      "sha256": "c40e32465f30c6784a182c076d12ad807a82c798671636d61f106a3438ee42c4",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7163,10 +7209,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -7270,7 +7317,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7379,7 +7426,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7481,14 +7528,14 @@
     },
     "390x844/course-own": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-course-own.jpg",
-      "sha256": "5ccd2436dad47c93a7870e95e1068bd91be5a632d92cb494f137bbe951a0a8d7",
+      "sha256": "80a5646276e58249e699769374cce6a50a4a6497583831c527cac5fda0ac2204",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7518,10 +7565,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -7618,14 +7666,14 @@
     },
     "430x932/course-own": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-course-own.jpg",
-      "sha256": "af5eebfef51d2116d1fcd62ed702c7a958c50300878b07664d6af92297f1fc88",
+      "sha256": "5cb39846c268a85dbeb90ae796da2f4d6cae928e13ef8f610cc684d7a01cd821",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7655,10 +7703,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -7762,7 +7811,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7871,7 +7920,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7980,7 +8029,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8074,7 +8123,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8161,14 +8210,14 @@
     },
     "390x844/closed": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-closed.jpg",
-      "sha256": "7d8ec686de09205ccef18002e4679b97ddad47eba764557ee03aed357bbb9f7c",
+      "sha256": "99608aa10a629d9083b4afed2f8b9396fe157276f2eac4bd8894714f6419acbb",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8198,10 +8247,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -8298,14 +8348,14 @@
     },
     "430x932/closed": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-closed.jpg",
-      "sha256": "2a81e12d4c6f2dd7b9ccb1190f789e3a496896392e7f58fcfeafe28131645ee2",
+      "sha256": "1c6a01bd011967d23e458b7774126127f76e1b2b92c7d40a38488f7c5b2ffe1f",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8335,10 +8385,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -8435,14 +8486,14 @@
     },
     "320x568/phase-large": {
       "file": "design/phone-ui/components/phone-shell/review/320x568-phase-large.jpg",
-      "sha256": "0f2695a549dc5b2783f30757077d6df145da51613814bfc7d749197d2abc5ca7",
+      "sha256": "fa853ea49eb6781e4b4157f9af5bf4845efbbede2f0141ae3c6e7310fb340349",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8472,10 +8523,11 @@
         "picture": true,
         "drawn": true,
         "box": [
-          26,
-          26
+          32,
+          32
         ],
         "amber": false,
+        "ring": false,
         "icon": "card",
         "words": "Card",
         "name": null,
@@ -10164,7 +10216,7 @@
           }
         },
         {
-          "id": "card: Card is the last tab and draws this viewer's own crew portrait, the top bar's, round in the icon's 26 px box; no character keeps the card icon; named Card, open announced, amber only while open; the label keeps its level at every text size; concealed, a new viewer and the private talk draw none",
+          "id": "card: Card is the last tab and draws this viewer's own crew portrait as the top bar draws it, the same picture, shape and 32 px size; no character keeps the card icon; named Card, open announced, an amber ring only while open; the label keeps its level and the bar its height at every text size; concealed, a new viewer and the private talk draw none",
           "ok": true,
           "detail": {
             "ok": true,
@@ -10177,40 +10229,48 @@
             ],
             "rest": {
               "picture": true,
-              "image": "url(\"http://127.0.0.1:45387/assets/portrait-c1-VMeNAzm6.svg\")",
+              "image": "url(\"http://127.0.0.1:43445/assets/portrait-c1-VMeNAzm6.svg\")",
               "box": [
-                26,
-                26
+                32,
+                32
               ],
-              "round": "50%",
-              "ring": "rgb(185, 196, 211)",
+              "fit": "contain",
+              "ring": null,
               "hidden": "true",
               "icon": "card",
               "drawnIcon": false,
               "labelLevel": 0,
               "pictureLevel": 0,
+              "insideBar": true,
+              "barHeight": 92,
               "inside": true,
               "whole": true,
               "name": null,
               "words": "Card",
               "expanded": "false",
-              "barImage": "url(\"http://127.0.0.1:45387/assets/portrait-c1-VMeNAzm6.svg\")",
-              "tabColour": "rgb(185, 196, 211)"
+              "barImage": "url(\"http://127.0.0.1:43445/assets/portrait-c1-VMeNAzm6.svg\")",
+              "barFit": "contain",
+              "barBox": [
+                32,
+                32
+              ]
             },
             "open": {
               "picture": true,
-              "image": "url(\"http://127.0.0.1:45387/assets/portrait-c1-VMeNAzm6.svg\")",
+              "image": "url(\"http://127.0.0.1:43445/assets/portrait-c1-VMeNAzm6.svg\")",
               "box": [
-                26,
-                26
+                32,
+                32
               ],
-              "round": "50%",
+              "fit": "contain",
               "ring": "rgb(241, 184, 75)",
               "hidden": "true",
               "icon": "card",
               "drawnIcon": false,
               "labelLevel": 0,
               "pictureLevel": 0,
+              "insideBar": true,
+              "barHeight": 92,
               "inside": true,
               "whole": true,
               "name": null,
@@ -10232,13 +10292,15 @@
               "picture": false,
               "image": null,
               "box": null,
-              "round": null,
+              "fit": null,
               "ring": null,
               "hidden": null,
               "icon": "card",
               "drawnIcon": true,
               "labelLevel": 0,
               "pictureLevel": null,
+              "insideBar": null,
+              "barHeight": 92,
               "inside": true,
               "whole": true,
               "name": null,
@@ -10249,13 +10311,15 @@
               "picture": false,
               "image": null,
               "box": null,
-              "round": null,
+              "fit": null,
               "ring": null,
               "hidden": null,
               "icon": "card",
               "drawnIcon": true,
               "labelLevel": 0,
               "pictureLevel": null,
+              "insideBar": null,
+              "barHeight": 92,
               "inside": true,
               "whole": true,
               "name": null,
@@ -10266,13 +10330,15 @@
               "picture": false,
               "image": null,
               "box": null,
-              "round": null,
+              "fit": null,
               "ring": null,
               "hidden": null,
               "icon": "card",
               "drawnIcon": true,
               "labelLevel": 0,
               "pictureLevel": null,
+              "insideBar": null,
+              "barHeight": 92,
               "inside": true,
               "whole": true,
               "name": null,
@@ -10283,13 +10349,15 @@
               "picture": false,
               "image": null,
               "box": null,
-              "round": null,
+              "fit": null,
               "ring": null,
               "hidden": null,
               "icon": "card",
               "drawnIcon": true,
               "labelLevel": 0,
               "pictureLevel": null,
+              "insideBar": null,
+              "barHeight": 92,
               "inside": true,
               "whole": true,
               "name": null,
@@ -10300,123 +10368,141 @@
             "sized": {
               "390 standard": {
                 "picture": true,
-                "image": "url(\"http://127.0.0.1:45387/assets/portrait-c1-VMeNAzm6.svg\")",
+                "image": "url(\"http://127.0.0.1:43445/assets/portrait-c1-VMeNAzm6.svg\")",
                 "box": [
-                  26,
-                  26
+                  32,
+                  32
                 ],
-                "round": "50%",
-                "ring": "rgb(185, 196, 211)",
+                "fit": "contain",
+                "ring": null,
                 "hidden": "true",
                 "icon": "card",
                 "drawnIcon": false,
                 "labelLevel": 0,
                 "pictureLevel": 0,
+                "insideBar": true,
+                "barHeight": 92,
                 "inside": true,
                 "whole": true,
                 "name": null,
                 "words": "Card",
-                "expanded": "false"
+                "expanded": "false",
+                "barHeightWithIcon": 92
               },
               "390 largest": {
                 "picture": true,
-                "image": "url(\"http://127.0.0.1:45387/assets/portrait-c1-VMeNAzm6.svg\")",
+                "image": "url(\"http://127.0.0.1:43445/assets/portrait-c1-VMeNAzm6.svg\")",
                 "box": [
-                  26,
-                  26
+                  32,
+                  32
                 ],
-                "round": "50%",
-                "ring": "rgb(185, 196, 211)",
+                "fit": "contain",
+                "ring": null,
                 "hidden": "true",
                 "icon": "card",
                 "drawnIcon": false,
                 "labelLevel": 0,
                 "pictureLevel": 0,
+                "insideBar": true,
+                "barHeight": 94.1875,
                 "inside": true,
                 "whole": true,
                 "name": null,
                 "words": "Card",
-                "expanded": "false"
+                "expanded": "false",
+                "barHeightWithIcon": 94.1875
               },
               "430 standard": {
                 "picture": true,
-                "image": "url(\"http://127.0.0.1:45387/assets/portrait-c1-VMeNAzm6.svg\")",
+                "image": "url(\"http://127.0.0.1:43445/assets/portrait-c1-VMeNAzm6.svg\")",
                 "box": [
-                  26,
-                  26
+                  32,
+                  32
                 ],
-                "round": "50%",
-                "ring": "rgb(185, 196, 211)",
+                "fit": "contain",
+                "ring": null,
                 "hidden": "true",
                 "icon": "card",
                 "drawnIcon": false,
                 "labelLevel": 0,
                 "pictureLevel": 0,
+                "insideBar": true,
+                "barHeight": 92,
                 "inside": true,
                 "whole": true,
                 "name": null,
                 "words": "Card",
-                "expanded": "false"
+                "expanded": "false",
+                "barHeightWithIcon": 92
               },
               "430 largest": {
                 "picture": true,
-                "image": "url(\"http://127.0.0.1:45387/assets/portrait-c1-VMeNAzm6.svg\")",
+                "image": "url(\"http://127.0.0.1:43445/assets/portrait-c1-VMeNAzm6.svg\")",
                 "box": [
-                  26,
-                  26
+                  32,
+                  32
                 ],
-                "round": "50%",
-                "ring": "rgb(185, 196, 211)",
+                "fit": "contain",
+                "ring": null,
                 "hidden": "true",
                 "icon": "card",
                 "drawnIcon": false,
                 "labelLevel": 0,
                 "pictureLevel": 0,
+                "insideBar": true,
+                "barHeight": 94.1875,
                 "inside": true,
                 "whole": true,
                 "name": null,
                 "words": "Card",
-                "expanded": "false"
+                "expanded": "false",
+                "barHeightWithIcon": 94.1875
               },
               "320 standard": {
                 "picture": true,
-                "image": "url(\"http://127.0.0.1:45387/assets/portrait-c1-VMeNAzm6.svg\")",
+                "image": "url(\"http://127.0.0.1:43445/assets/portrait-c1-VMeNAzm6.svg\")",
                 "box": [
-                  26,
-                  26
+                  32,
+                  32
                 ],
-                "round": "50%",
-                "ring": "rgb(185, 196, 211)",
+                "fit": "contain",
+                "ring": null,
                 "hidden": "true",
                 "icon": "card",
                 "drawnIcon": false,
                 "labelLevel": 0,
                 "pictureLevel": 0,
+                "insideBar": true,
+                "barHeight": 92,
                 "inside": true,
                 "whole": true,
                 "name": null,
                 "words": "Card",
-                "expanded": "false"
+                "expanded": "false",
+                "barHeightWithIcon": 92
               },
               "320 largest": {
                 "picture": true,
-                "image": "url(\"http://127.0.0.1:45387/assets/portrait-c1-VMeNAzm6.svg\")",
+                "image": "url(\"http://127.0.0.1:43445/assets/portrait-c1-VMeNAzm6.svg\")",
                 "box": [
-                  26,
-                  26
+                  32,
+                  32
                 ],
-                "round": "50%",
-                "ring": "rgb(185, 196, 211)",
+                "fit": "contain",
+                "ring": null,
                 "hidden": "true",
                 "icon": "card",
                 "drawnIcon": false,
                 "labelLevel": 0,
                 "pictureLevel": 0,
+                "insideBar": true,
+                "barHeight": 94.1875,
                 "inside": true,
                 "whole": true,
                 "name": null,
                 "words": "Card",
-                "expanded": "false"
+                "expanded": "false",
+                "barHeightWithIcon": 94.1875
               }
             },
             "hud": {
@@ -10470,7 +10556,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10513,7 +10599,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Bu17NIu9.js",
+          "source": "assets/index-Ca_1J1_0.js",
           "line": 1,
           "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -20028,7 +20114,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-Bu17NIu9.js",
+        "source": "assets/index-Ca_1J1_0.js",
         "line": 1,
         "column": 6048,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
