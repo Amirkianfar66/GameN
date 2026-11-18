@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/phone-shell-check.mjs",
   "component": "design/phone-ui/components/phone-shell",
-  "sourceCommit": "64b9c11d995d1acfd0c5c9b694938bc0136a53fd",
+  "sourceCommit": "7c93eabc7e3f836e7bba8bf8b713559210b8ec6a",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -39,14 +39,14 @@
   "captures": {
     "390x844/turn": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-turn.jpg",
-      "sha256": "fa206bd63e31a9e02c2d01023c9d0b804fa1fc87ee24f404bfc641ee6147f2de",
+      "sha256": "f24da98e90ce4a7a041a5e4bb46516d0fef88064db9ba3f30f53d9bfbb13744c",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -244,7 +244,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -435,14 +435,14 @@
     },
     "390x844/own": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-own.jpg",
-      "sha256": "f795fd165f1a705a23360aff1da5f524655a63483f99f7dd162092afb4ee60ec",
+      "sha256": "74bf9d8f9d53a94d993b9398964081ee0f662f76a37ad4f92df7c8c58c1f979b",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -632,14 +632,14 @@
     },
     "430x932/own": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-own.jpg",
-      "sha256": "512f19f3b43988ef380b8da258f38ef9a7f027343d28ac64a5d5ad808cc04a38",
+      "sha256": "3c2a583c4d29d30dc15c9d6327a563aaef2d96ba52ea3a62dca73efc27f8271b",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -829,14 +829,14 @@
     },
     "390x844/urgent": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-urgent.jpg",
-      "sha256": "5c83930e18ffb667937906f5037f6c66987cd6e7031ff228b42e9481125b0cf2",
+      "sha256": "880bf56cd30aaeb7aa80c7e47b7b564690f14a18a5a0d584f50d37c66944de56",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1033,7 +1033,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1223,14 +1223,14 @@
     },
     "390x844/vote": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-vote.jpg",
-      "sha256": "5679b906c201741033b0a25a08b4e5f18053509e5f9746574b50c39b64d991df",
+      "sha256": "3e08e8cdb3f085b8c8f858a564932aad3ecf108ae1a5195c7e940220a4148d3d",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1420,14 +1420,14 @@
     },
     "430x932/vote": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-vote.jpg",
-      "sha256": "31b40af734cde9c9b3538b5bee0821c1c10f1decf3c258e8480e188cb05817db",
+      "sha256": "1ca654ca81e7b1dd63bc262ca9495292184a68b2f08adfef31946d53e61723d4",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1617,14 +1617,14 @@
     },
     "390x844/voted": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-voted.jpg",
-      "sha256": "df6212e72b34ac6869f0b4c98e906d35773cd40646689026043939169fae7f67",
+      "sha256": "314b230668880a0a8e2231fd67a6fd3afcca497b2722c1496345058a45a5bf88",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1814,14 +1814,14 @@
     },
     "430x932/voted": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-voted.jpg",
-      "sha256": "c69ac21510903e4f5ed0e23a0dbed39acd3bb5eb624250eef312af78e1521f5a",
+      "sha256": "30cccc5d7311d4b1e9d406a4a4bb607bee4a4d37a60564386508ce9d9d83edbf",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2018,7 +2018,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2210,7 +2210,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2402,7 +2402,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2597,7 +2597,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2785,14 +2785,14 @@
     },
     "390x844/target": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-target.jpg",
-      "sha256": "b0133800c6e32d85f852c99c400fc70ff65eb9a7681ac4533cd69464cb1aa00c",
+      "sha256": "f830ac4ff34d694b21b9de6bb97602c2ee01c1433acb10709c4f4931f7f1fdae",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2982,14 +2982,14 @@
     },
     "430x932/target": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-target.jpg",
-      "sha256": "c3a63c0b382a4ebc674fdb6dadd105637e182f244b935f5d6e77331674a02a5a",
+      "sha256": "15c725b5efd8fc0c34fd7f5357485379cca5137dfdd31940ae5e17f8ce7df01d",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3179,14 +3179,14 @@
     },
     "390x844/pass": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-pass.jpg",
-      "sha256": "4c80927fbf7c2bd3763b36903ee46662d3893a83516fbf02ff7fb9c93ec3b51b",
+      "sha256": "a6f2bd13b3859222e4e7c840a306a1f4861eb1e2f06695ec6021dac058003eec",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3383,14 +3383,14 @@
     },
     "430x932/pass": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-pass.jpg",
-      "sha256": "e9ed189fb81758babac54d4f36134b52ac5acdbfd22e98d1b31fcc49ad5264dd",
+      "sha256": "3d212dd001943062bc994899f3db6801db7fbac4e9c082d9c8480f7285914e97",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3587,14 +3587,14 @@
     },
     "390x844/actions": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-actions.jpg",
-      "sha256": "2e502bddc882cfeef9e4d7da9052d4c6c96621447db3ed4591a8a679519fac1a",
+      "sha256": "a5706fd796aec46720419f39c3ed27d907fd4735491c857e95d5fb0ce362f145",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3791,14 +3791,14 @@
     },
     "430x932/actions": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-actions.jpg",
-      "sha256": "ff2462c3c242c7aaa6384fc7a1cf8b59d223f344b599bf8c1954d90d4aca4be5",
+      "sha256": "2b299ad46b874a3d3dab4a877f862acdd45f4cf31f5ffcef70c22b84e15a4bde",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3995,14 +3995,14 @@
     },
     "390x844/card": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-card.jpg",
-      "sha256": "dcbae96f88c7bd77406933f57fe9d0688595b939681001487fabfbad57cd4b7e",
+      "sha256": "506ab2737a1c3e2e4efab16366609a0d4a6b6f8309ff0850112638c03557ef10",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4199,14 +4199,14 @@
     },
     "430x932/card": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-card.jpg",
-      "sha256": "622a64cebf03e12ce8fad14b19ce594b78aba459c9c5882204457c46138d59dc",
+      "sha256": "dfd579aa6a4055dc54498126592e1dfd55a865cecce8c70f9d891a2d6e0b581a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4403,14 +4403,14 @@
     },
     "390x844/card-icon": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-card-icon.jpg",
-      "sha256": "b3bc13d9e9e4579368da326d8521a6b81f10a2d90eade730c87c68010abbdcdd",
+      "sha256": "6be59bc7a31fcd3ee236dc280b32cfb5b1516ce2e359a3e2b00c63ba64c0705d",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4597,14 +4597,14 @@
     },
     "430x932/card-icon": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-card-icon.jpg",
-      "sha256": "141d066b8c83adcdaa2a8f18f69fe5ebcfdd91b29dbbf347f3962372b19b5a0c",
+      "sha256": "243cc5b88d8ddaa10ab4a448cddaa50a8b9e70106c3bc8d0ab836707a72dc4e0",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4798,7 +4798,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4925,7 +4925,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5045,14 +5045,14 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-stale.jpg",
-      "sha256": "b078c36081835da8187598e6f88a2c4ccf1ab75c57c37a9c355acfca510fd198",
+      "sha256": "3198fec1ed8de7d925d713ffcf633319735197499f17e134ac55fe77ebfc8ef4",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5237,14 +5237,14 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-stale.jpg",
-      "sha256": "6d970fcef153939a9fbd6e309c9e6ca20e02436004aca3b81e58aff85d5d8a29",
+      "sha256": "af679c9edcd0b4971e9203280e72f145876f2d618c0ae8e494170d1cc08cce84",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5429,14 +5429,14 @@
     },
     "390x844/out": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-out.jpg",
-      "sha256": "ffed1c2201e40420aef26c422cb8a15adae59496217f56c4dc295c7ccfc36847",
+      "sha256": "57d64d768f09d210aecaf7a2e25e96ae81f31ca90ad26a384ce504c8828bc7f0",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5627,14 +5627,14 @@
     },
     "430x932/out": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-out.jpg",
-      "sha256": "c1d547c131cbddd14880b09695216892450b3f55a5057bca99874debc95d1867",
+      "sha256": "9b31b210483c5d702a8d84a6d649df20ddfa07ebf0a3adfa11bbeef06cc3dff2",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5832,7 +5832,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5936,7 +5936,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6040,7 +6040,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6139,7 +6139,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6238,7 +6238,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6362,7 +6362,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6479,14 +6479,14 @@
     },
     "320x568/large": {
       "file": "design/phone-ui/components/phone-shell/review/320x568-large.jpg",
-      "sha256": "02fc1a5dd06c7ba2e8b3d521316de1b8d1ee3475a39707048509ff1eb1e9dc5a",
+      "sha256": "4bc9bb9541e7b83b75a157558b61141200b1945dbe5c0f8edafcecf0357e83c8",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6671,14 +6671,14 @@
     },
     "390x844/target-stale": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-target-stale.jpg",
-      "sha256": "1c733a2282a090a0a9a9a829bb8f5a3116d219c93bd688047edb5ad32c9aa481",
+      "sha256": "c73216242c8ac07a1c21cb8f8ab14d03d617f71b06b4d12aa77fdb3c4d4607d3",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6863,14 +6863,14 @@
     },
     "430x932/target-stale": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-target-stale.jpg",
-      "sha256": "10def888ae5ac9e59a32724ce55de893562687745a65961fc4a21c404f9d0147",
+      "sha256": "aba28ca872ec587561a9e2346713d5135f5e2df73f1d3e3ccb29a74959cecf03",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7055,14 +7055,14 @@
     },
     "390x844/target-large": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-target-large.jpg",
-      "sha256": "0dc5c5f5a9e365f81cba038fa2ec494a13c8355db9122b4bd1cc02945f4728b3",
+      "sha256": "78566ee99927b481e0f48cc5aae8a70f3b12394b2bb987e1de86e977f1b1ae22",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7247,14 +7247,14 @@
     },
     "430x932/target-large": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-target-large.jpg",
-      "sha256": "b1af2f8d1194cd310741009af986ede40f06eafc1848359b0651fb64df5dae56",
+      "sha256": "da972a24a01061d0c23978f9e71630d4ce5e8ace0f81a5e3c7743c979eb415cf",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7439,14 +7439,14 @@
     },
     "390x844/before": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-before.jpg",
-      "sha256": "fa745f48e637835a6a866dbb2f4ac34900620f6707a6f0cd0b1bd261f2a2fbff",
+      "sha256": "970e681e392f5de1ebc231295891c8e507b1dffe9acd88b18fe0d2f37806f5f7",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7636,14 +7636,14 @@
     },
     "430x932/before": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-before.jpg",
-      "sha256": "de11b88c0738e46a711d604ac1567c76e411016ca53f3cafa259449cf70b8422",
+      "sha256": "9445897a97fef44d083a4bcaebdd0c0f32276845b2f2924ae7e93eb059f09c7e",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7833,14 +7833,14 @@
     },
     "390x844/before-start": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-before-start.jpg",
-      "sha256": "9cb40275ec606651d7e51e88e67e4a6dccf10e2e2d3485375b870c93d0fdebd0",
+      "sha256": "c0a30db206eaa38edd050ee8b024f666ff0de427f945e483cc5b2bb9df8e7ae0",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8030,14 +8030,14 @@
     },
     "430x932/before-start": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-before-start.jpg",
-      "sha256": "ec6c0c3014ce7f15337443784dcdf734536cb7d6603a74bcb87f77ca04d930f6",
+      "sha256": "9514cf470067e96e17a328a280b1696d8fa8717c7602570feba441649b3115ab",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8227,14 +8227,14 @@
     },
     "390x844/block": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-block.jpg",
-      "sha256": "aae22e536905c2e8121fd07f0d1558466c4ef39e51742b53020d28e97743d3e1",
+      "sha256": "8fc95f768e806e2f533cc70604b93edf8ae783cae26a15ecbe7ca9b72063ae88",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8431,14 +8431,14 @@
     },
     "430x932/block": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-block.jpg",
-      "sha256": "b8cc60dd93c2287f7a4c2a5308cdf5046a25ced26d329436e507d0469c7211a4",
+      "sha256": "837702b34a0494852b377b7b476f2025dfc35e3d2179be6d7782945c492aa29f",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8635,14 +8635,14 @@
     },
     "390x844/appointment": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-appointment.jpg",
-      "sha256": "f6cda42bcab555353aaf4521333f12c08679256a5f7269a3b83aae719f9725b5",
+      "sha256": "2599d736f12da8ecd3d946989605f664a069d35f35879499f9c912af9d38f7bc",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8832,14 +8832,14 @@
     },
     "430x932/appointment": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-appointment.jpg",
-      "sha256": "798f379c3eac02799119a826f4c6cd147d44e08efd173130f6fe3ba2245d8513",
+      "sha256": "0022e832d5452d2b1469c306034b5537191f8305125557aed2c886396cfc5860",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9029,14 +9029,14 @@
     },
     "390x844/appoint": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-appoint.jpg",
-      "sha256": "1d54d2a083444e3ee54ae5332b3f9a999b3fe89e6decd44717676faf88190705",
+      "sha256": "4f8d03d5659893c631bbc8f1d694b582c40ad57b18d8e368c48db21e7ebd61ef",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9233,14 +9233,14 @@
     },
     "430x932/appoint": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-appoint.jpg",
-      "sha256": "16b88ecacd05ddb779458cd075d756fad98b5fad374f309d2e48031d666d75ab",
+      "sha256": "8e5b00807a942d0988796cd8a5742eba2cdc22a3070ed0a0800746a7f9c2bc34",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9437,14 +9437,14 @@
     },
     "390x844/lit": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-lit.jpg",
-      "sha256": "fe3275657396a42ec54687a4894ea41e2ac630d925a8f6fc50ae1b692b28765e",
+      "sha256": "7e2596d30986e9fec5443b3d060177f6b5281b6cbc94ed8626aa28975ec81373",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9634,14 +9634,14 @@
     },
     "430x932/lit": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-lit.jpg",
-      "sha256": "8b9259eb46c36bb27c228306e1834fc6841e4d0d6dba460195be7360212d3d0f",
+      "sha256": "406c7ee98091d9bf76106de6f11abdd19f0323cd6c986c2efb31487e96fe3bf8",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9831,14 +9831,14 @@
     },
     "390x844/lit-next": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-lit-next.jpg",
-      "sha256": "e72b0c65dd8d115043bda6708337a3148828a591a52f9d4bad5e3f282dab1329",
+      "sha256": "639de0063e500291e470f148d2fe440278ec1299d196892472dab3b265e69cc0",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10028,14 +10028,14 @@
     },
     "430x932/lit-next": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-lit-next.jpg",
-      "sha256": "9f4f5ef0fca343912ae480278748eab87c4e1a50d4cb02f77a71afcd6e3d9a79",
+      "sha256": "6c8f7d951f4aacd43eb647096f25ed44f33f671dc396b9ac765d496f5ef75693",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10232,7 +10232,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10351,7 +10351,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10463,14 +10463,14 @@
     },
     "390x844/course-own": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-course-own.jpg",
-      "sha256": "e79084e6466028008a1a278459d2e18d5f1cd68f307da91d22b26cc51d7eaca4",
+      "sha256": "0115dbad72e6021eebf7a69d5c362f7c788a51e349eadd01f49a9e30c15c68fc",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10667,14 +10667,14 @@
     },
     "430x932/course-own": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-course-own.jpg",
-      "sha256": "e57051b0ba34202c0a5296ed5395ffb1848b720dd739a93b9c82ab45aab7eedd",
+      "sha256": "cbe48a9554efd285791346d1c8569f1a9ad381aa10966be39181414005d6a569",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10878,7 +10878,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10997,7 +10997,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -11116,7 +11116,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -11220,7 +11220,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -11317,14 +11317,14 @@
     },
     "390x844/closed": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-closed.jpg",
-      "sha256": "89403bf4adae11cdc56efce4b21fca512308652744eb76dde640e9e42640a9cb",
+      "sha256": "db831b2f35dd2b68a9d460f618b99c26795ab651b7750c52ae6cd1908966f335",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -11514,14 +11514,14 @@
     },
     "430x932/closed": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-closed.jpg",
-      "sha256": "6784cbc271af5ad4aeaa948cf43eb200dce99e6b9610e0cc75238ddcf40a45f9",
+      "sha256": "15124d55da97a781f629699b9164be99ec7d21f5b01c665a84790d07fa400c0b",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -11711,14 +11711,14 @@
     },
     "320x568/phase-large": {
       "file": "design/phone-ui/components/phone-shell/review/320x568-phase-large.jpg",
-      "sha256": "d4b00dbb22dabc7d4d93c4145a580cc89bb509eeb6905126962afec8cc54f28b",
+      "sha256": "cb761ae8f639af777971ab5398ab227e89b1faede9a1df9127d93065fc097641",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -11903,14 +11903,14 @@
     },
     "390x844/toast-sheet": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-toast-sheet.jpg",
-      "sha256": "16f460c3e9ba5d0c3d9139bffe3ec917559fc715ab4e434c71e3eb78d11069b6",
+      "sha256": "4de62c0b8d7abda97ea4360a9e942c8a93e3829eff50e750c2a766a69c12f5c4",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -12107,14 +12107,14 @@
     },
     "430x932/toast-sheet": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-toast-sheet.jpg",
-      "sha256": "45d50eb01ac8d944765d7b644e16a5bdcab5d9d9469b6ed7a353b1f74fc81abe",
+      "sha256": "aabd8a18271455fee631bb632a67f054ec78f6bce17a2808d06a4462eebd5c1b",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -12311,14 +12311,14 @@
     },
     "390x844/toast-banner": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-toast-banner.jpg",
-      "sha256": "881017ec2a01590fa5c24007ee733d565505c500e1f48dcd9e3713f6034f889e",
+      "sha256": "8689e5db1c222526c49d0ec33422c54fb6912c269349fed8728512da0e1c87c2",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -12503,14 +12503,14 @@
     },
     "430x932/toast-banner": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-toast-banner.jpg",
-      "sha256": "04c68834725f77d7de6c9c729edf24c141e6f9dab6a4e77ea5a0cadb38b550ee",
+      "sha256": "3811f0f9fe58bbab45f6400c399842b73cb2a5264ee19aa32afa52022c85da4d",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -12695,14 +12695,14 @@
     },
     "390x844/offer": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-offer.jpg",
-      "sha256": "95bb8c4f7ee50038c0525669863fdbc64adcaf3a7eea814b1901a813db504af4",
+      "sha256": "597a4af55febdb08494ea7e356dbda4b012a47583c07515911789123c92ba09a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -12899,14 +12899,14 @@
     },
     "430x932/offer": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-offer.jpg",
-      "sha256": "b81d7e7b59f798cf0cba184d8b67517f0bc1469d6c454500ebd32149a30d5f3a",
+      "sha256": "bf71047bab5c512accbe3314a261e7d7864ccfb097a99f884be63190387c8f21",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -13103,14 +13103,14 @@
     },
     "320x568/offer-large": {
       "file": "design/phone-ui/components/phone-shell/review/320x568-offer-large.jpg",
-      "sha256": "b719de110f9794e8ba89bad454c628e4a4cc62c573e565aa968e07107b312d36",
+      "sha256": "b1f2ed7b53431c0d91eb632e4af941d85b6531b13942648024fd357aac89d799",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -14914,7 +14914,7 @@
             ],
             "rest": {
               "picture": true,
-              "image": "url(\"http://127.0.0.1:37335/assets/portrait-c1-VMeNAzm6.svg\")",
+              "image": "url(\"http://127.0.0.1:36267/assets/portrait-c1-VMeNAzm6.svg\")",
               "box": [
                 32,
                 32
@@ -14934,7 +14934,7 @@
               "name": null,
               "words": "Card",
               "expanded": "false",
-              "barImage": "url(\"http://127.0.0.1:37335/assets/portrait-c1-VMeNAzm6.svg\")",
+              "barImage": "url(\"http://127.0.0.1:36267/assets/portrait-c1-VMeNAzm6.svg\")",
               "barFit": "contain",
               "barBox": [
                 32,
@@ -14943,7 +14943,7 @@
             },
             "open": {
               "picture": true,
-              "image": "url(\"http://127.0.0.1:37335/assets/portrait-c1-VMeNAzm6.svg\")",
+              "image": "url(\"http://127.0.0.1:36267/assets/portrait-c1-VMeNAzm6.svg\")",
               "box": [
                 32,
                 32
@@ -15059,7 +15059,7 @@
             "sized": {
               "390 standard": {
                 "picture": true,
-                "image": "url(\"http://127.0.0.1:37335/assets/portrait-c1-VMeNAzm6.svg\")",
+                "image": "url(\"http://127.0.0.1:36267/assets/portrait-c1-VMeNAzm6.svg\")",
                 "box": [
                   32,
                   32
@@ -15083,7 +15083,7 @@
               },
               "390 largest": {
                 "picture": true,
-                "image": "url(\"http://127.0.0.1:37335/assets/portrait-c1-VMeNAzm6.svg\")",
+                "image": "url(\"http://127.0.0.1:36267/assets/portrait-c1-VMeNAzm6.svg\")",
                 "box": [
                   32,
                   32
@@ -15107,7 +15107,7 @@
               },
               "430 standard": {
                 "picture": true,
-                "image": "url(\"http://127.0.0.1:37335/assets/portrait-c1-VMeNAzm6.svg\")",
+                "image": "url(\"http://127.0.0.1:36267/assets/portrait-c1-VMeNAzm6.svg\")",
                 "box": [
                   32,
                   32
@@ -15131,7 +15131,7 @@
               },
               "430 largest": {
                 "picture": true,
-                "image": "url(\"http://127.0.0.1:37335/assets/portrait-c1-VMeNAzm6.svg\")",
+                "image": "url(\"http://127.0.0.1:36267/assets/portrait-c1-VMeNAzm6.svg\")",
                 "box": [
                   32,
                   32
@@ -15155,7 +15155,7 @@
               },
               "320 standard": {
                 "picture": true,
-                "image": "url(\"http://127.0.0.1:37335/assets/portrait-c1-VMeNAzm6.svg\")",
+                "image": "url(\"http://127.0.0.1:36267/assets/portrait-c1-VMeNAzm6.svg\")",
                 "box": [
                   32,
                   32
@@ -15179,7 +15179,7 @@
               },
               "320 largest": {
                 "picture": true,
-                "image": "url(\"http://127.0.0.1:37335/assets/portrait-c1-VMeNAzm6.svg\")",
+                "image": "url(\"http://127.0.0.1:36267/assets/portrait-c1-VMeNAzm6.svg\")",
                 "box": [
                   32,
                   32
@@ -15987,6 +15987,44 @@
           }
         },
         {
+          "id": "title: a sheet's title takes the focus by script, is not in the tab order, draws no ring and moves nothing; a sheet that goes with the focus on its title hands it back",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "focused": {
+              "active": true,
+              "tabindex": "-1",
+              "tabIndex": -1,
+              "outline": "none",
+              "shadow": "none",
+              "named": true,
+              "role": "dialog",
+              "words": "Offer from Fay · Player 6"
+            },
+            "before": {
+              "sheet": "0,107,390,645",
+              "title": "72,21,250,24",
+              "head": "0,12,390,62"
+            },
+            "after": {
+              "sheet": "0,107,390,645",
+              "title": "72,21,250,24",
+              "head": "0,12,390,62"
+            },
+            "inOrder": false,
+            "tabbable": 11,
+            "kept": true,
+            "replaced": {
+              "onRoot": true,
+              "reported": 1,
+              "report": null,
+              "nextTabindex": "-1",
+              "another": true
+            },
+            "onNext": true
+          }
+        },
+        {
           "id": "dispose: twice is safe; layout(), slot() and sheetBody are null; nothing is left and nothing fires",
           "ok": true,
           "detail": {
@@ -16022,7 +16060,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -16065,7 +16103,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-DVtnn2Cq.js",
+          "source": "assets/index-CkuEfyVg.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -25580,7 +25618,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-DVtnn2Cq.js",
+        "source": "assets/index-CkuEfyVg.js",
         "line": 1,
         "column": 6047,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"

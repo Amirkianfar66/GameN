@@ -495,6 +495,10 @@ Listed, not omitted:
   | `node design/tools/check-assets.mjs` | 15 passed |
 
 - **`node design/tools/phone-shell-check.mjs`:**
+  - **0.3.4's record,** on `7c93eabc`, a clean source: **73 of 73 captures, the probe 36 of 36, the agreement 29 of 29.**
+    - **No change of look.** Against 0.3.3's 73 captures: 20 the same bytes, 20 with no pixel more than 32 of 255 apart, and 33 differing by 1 to 27 pixels each, all in the middle of the stage, where the crew moves (rows 627 to 1,006 of 1,688 at 390 wide, 672 to 1,116 of 1,864 at 430). No bar, tab or sheet frame moved.
+    - **One new probe check, `title`:** a sheet's title takes the focus by script, with `tabindex="-1"`; it is not among the controls Tab reaches; its outline and shadow are none; the sheet, its head and the title keep their places to the pixel; a new title in the same sheet keeps the focus; and a sheet that goes with the focus on its title hands it back once, with no control named.
+    - `npm run test:design` 410 of 410, `npm run test:tooling` 356 of 356, `check:sources` and `typecheck` pass, with Node 22.21.1 and npm 10.9.4.
   - **0.3.3's record,** on `64b9c11d`, a clean source: **73 of 73 captures, the probe 35 of 35, the agreement 29 of 29.**
     - **Seven new captures:** `toast-sheet`, `toast-banner` and `offer` at both sizes, and `offer-large` at 200 % text on 320 × 568.
       - `toast-sheet`: a tall sheet's head ends 181 px from the shell's top, and the toast starts at 189. Its own place, 109, would lie across the head (119 to 181).
