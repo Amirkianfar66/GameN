@@ -3,7 +3,7 @@
 **Status (18 November 2026):** a draft for the Lead Designer's review, then Frontend's. It is not in the game yet, and it is not a release.
 - Release 3 of the owner's plan of 16 November 2026. Its first step is Actions (#273), as the plan's order says; the other parts follow on this branch, each in its own commit.
 - The Lead's order of 18 November begins with the Panels tab (#296), connected here: [The Panels tab](#the-panels-tab).
-- It is stacked on the [shell connection](shell-connection.md): begun on #307's `8c64f77c`, with [Actions](actions.md) 0.2.2 (#273 at `80f6aa5a`) merged at `6c6b71d5`. #307's heads are merged: `03119bd7` at `9ba0858e`, `c19be75a` at `978a04a2`, `48e55eba` at `6ffcd610`, `aa46726c` at `e97df11a`, `aabb4417` at `5d3e4734` and `f81cd06a` at `6bcef045`: `phone-shell-0.2.12` with the phase bars and the final target bar, `component-kit-0.8.2`, `room-scene-0.5.1`, the phase-closed toast, the host sheet hook, and the game's sheet rules kept off Designer components in the sheet body. Actions 0.2.3 (#273 at `b1aac9d2`), with the Lead's changes and answers of 17 November, is merged at `1e723308`, and Actions 0.2.4 (#273 at `4b578961`), the Disabler's fixed bar without Cancel, at `a288f794`. #307's `99c20a18` is merged at `374e3b26`, and the panels component, `panels-0.1.0` (#296 at `61458f69`, recorded on shell 0.2.12 and kit 0.8.2), at `5fb2b94c`.
+- It is stacked on the [shell connection](shell-connection.md): begun on #307's `8c64f77c`, with [Actions](actions.md) 0.2.2 (#273 at `80f6aa5a`) merged at `6c6b71d5`. #307's heads are merged: `03119bd7` at `9ba0858e`, `c19be75a` at `978a04a2`, `48e55eba` at `6ffcd610`, `aa46726c` at `e97df11a`, `aabb4417` at `5d3e4734` and `f81cd06a` at `6bcef045`: `phone-shell-0.2.12` with the phase bars and the final target bar, `component-kit-0.8.2`, `room-scene-0.5.1`, the phase-closed toast, the host sheet hook, and the game's sheet rules kept off Designer components in the sheet body. Actions 0.2.3 (#273 at `b1aac9d2`), with the Lead's changes and answers of 17 November, is merged at `1e723308`, and Actions 0.2.4 (#273 at `4b578961`), the Disabler's fixed bar without Cancel, at `a288f794`. #307's `99c20a18` is merged at `374e3b26`, and the panels component, `panels-0.1.0` (#296 at `61458f69`, recorded on shell 0.2.12 and kit 0.8.2), at `5fb2b94c`. `panels-0.1.1` (#296 at `4cadbf79`: the Round order row's line follows the steps given, the Lead's fix of 18 November) is merged at `ba0a148e`.
 - Integration first approves the source fence's two new marked hunks. The changed files meet the pins the base already meets: `app.mjs` and `render.mjs`, and, through the drawing-port fence, `vite.config.mjs` (see [The gates](#the-gates)).
 
 **What it is:**
@@ -11,7 +11,7 @@
   - its parts in the shell's sheet body: the tiles, the List, the check, After Register, "Outcome unknown" and Pass's line;
   - its frames, target bars, chips and toasts in the shell.
 - It replaces the game's Actions sheet, the generic check of Actions' commands, the "Outcome unknown" body and its two buttons, the Pass sheet's frame, the target bar's words for Actions' commands, and the pass toast's words.
-- The Panels tab is Designer's panels component (`panels-0.1.0`, on `component-kit-0.8.2`), used as it is: its three views, Panels, Players and Round order, in the shell's one sheet. It replaces the tab's buttons, the Players lines and the Round order sentence.
+- The Panels tab is Designer's panels component (`panels-0.1.1`, on `component-kit-0.8.2`), used as it is: its three views, Panels, Players and Round order, in the shell's one sheet. It replaces the tab's buttons, the Players lines and the Round order sentence.
 - The look and the motion come from `design/`. The game keeps the data, the commands and the lifecycle.
 
 ## Files
@@ -126,7 +126,7 @@ Nothing here works out who may act. Every usable control comes from the model's 
 
 ## The Panels tab
 
-Step 1 of the Lead's order of 18 November. The Panels tab is Designer's panels component (#296, `panels-0.1.0`, on `component-kit-0.8.2`), used as it is, with the Lead's seven answers on #296.
+Step 1 of the Lead's order of 18 November. The Panels tab is Designer's panels component (#296, `panels-0.1.1`, on `component-kit-0.8.2`), used as it is, with the Lead's seven answers on #296. The Lead accepted the look of the three views on 18 November, with one fix in the component: the Round order row's line follows the steps given. The game gives no timings, so it reads "The phases, in order".
 
 | The game's panel | The component's view | The shell's sheet (`panelsSheet`) |
 | --- | --- | --- |
@@ -159,6 +159,17 @@ Each row reports `onOpen(destination)`, and the connection opens the game's own 
 
 - **Food's Tasks button,** after the list, in the frozen Food release (answer 7).
 - **Players while players are away** on the Food Supply Task: the game's own lines ("Away on the Food Supply Task"), which the component does not draw (answers 4 and 7). The list and Round order stay the component's then.
+  - Exactly one list shows, as the Lead asked before the push. `panelsPart` gives no part for Players then, so the component is not mounted, or is disposed if it was. The game's line for each seat is the only list.
+  - The check draws it (`players-away`): the Task's own tabs open Panels, as during the Task the shell's tabs are the Task's. Then Players has nine lines, one for each seat, with the two away players marked.
+
+### Focus
+
+Measured with the keyboard in the real app (on `9c0e15bf`, at 390 × 844, with real key events): the focus ends on the Panels tab every time.
+- **Enter on the Panels tab** opens the list; the focus stays on the tab.
+- **Enter on Players or Round order** opens the page. The row leaves with the view, so the component reports the focus return, and the focus goes to the Panels tab.
+- **Back** and **Escape** leave it there: Back's control leaves with the page, and Escape closes the sheet.
+
+This is the shell connection's contract (`shellFocusOrder`): the focus goes back to the control that opened what closed, as for Actions' steps. Back does not return the focus to the row that opened the page. That would change the contract, which is the Bars & Icons builder's to decide.
 
 ## The boundary
 
@@ -177,7 +188,7 @@ Each row reports `onOpen(destination)`, and the connection opens the game's own 
   - It was also run on throwaway copies of `4367f7e0` and of `9ba0858e` with `app.mjs`, `render.mjs`, `phone.css` and `planet.css` back at `origin/main`, the four files the base's pins name. There it passes.
   - So this change pins no new file: `check:sources` accepts the new hunk, `actions-input.mjs`, the changed mappers, the tests and the check.
 - **The other pins** the shell connection's page names fall on the same files: the hosted build's `reviewed-crew-drawing-release` on `app.mjs`, and the drawing-port fence on `vite.config.mjs`, which the room and shell connections' hunks already changed. They were not re-run here.
-- **These pass:** `typecheck`, `build`, `check:toolchain`, `check:workspace`, `node design/tools/check-assets.mjs` (15 of 15), and the game's tests, 881 of 881 on `9c0e15bf` (the shell connection's 864, Actions' 11 and the Panels tab's 6), with the production-exclusion scan. Before: 875 of 875 on `31430b8b` and on `e49cd1cd`, and 871 of 871 on `1e723308`.
+- **These pass:** `typecheck`, `build`, `check:toolchain`, `check:workspace`, `node design/tools/check-assets.mjs` (15 of 15), and the game's tests, 881 of 881 on `9c0e15bf` and again on `0911c440` (the shell connection's 864, Actions' 11 and the Panels tab's 6), with the production-exclusion scan. Before: 875 of 875 on `31430b8b` and on `e49cd1cd`, and 871 of 871 on `1e723308`.
 - `check:sources` was run again on `7cdf0917`, with the base's four pinned files back at `origin/main`: it passes, so the Panels tab pins no new file. The design and tooling suites fail only on the pin the base already meets: every failure, 25 of 423 and 68 of 356, is "Food consumer source: content differs: apps/game/hosted/planet/app.mjs", as on `31430b8b`. The panels component's own test passes in the design suite.
 
 ## Evidence
@@ -224,8 +235,13 @@ Each row reports `onOpen(destination)`, and the connection opens the game's own 
 - It serves it with the hosted game's production headers (`createHostedPreviewHeaders`, headers SHA-256 `424e5dec…`, the shell's and the room scene's).
 - It drives the real app at 390 × 844 and 430 × 932.
 
-**Result:** 42 of 42 captures pass: twenty-one states at both sizes, recorded on `9c0e15bf` (the Panels tab) with the source clean and the art from `64e55516`, in one run. Origin/main is now `7574bfe5`, which changes only `AGENTS.md` and the roster; the art base is in its history.
-- **Against the record on `31430b8b`:** every recorded field of the 36 earlier captures is the same, but for the bundle's file name in the known Zod report, the new `panels` field (null), and the clock in `390x844-blackout` and `390x844-moved` (0:08 and 0:55, where they read 0:09 and 0:56). `concealed` is byte for byte the same at both sizes. The other pictures differ in the room's ambient motion, which shows through the sheet's glass at its top edge, and in the clock.
+**Result:** 46 of 46 captures pass: twenty-three states at both sizes, recorded on `0911c440` (`panels-0.1.1`, and the Food Task's Panels and Players) with the source clean and the art from `64e55516`, in one run. Origin/main is `7574bfe5`, which changes only `AGENTS.md` and the roster; the art base is in its history.
+- **Against the record on `9c0e15bf`:** every recorded field of the 42 earlier captures is the same, with three exceptions:
+  - the new `food` field, null in all of them;
+  - the clock in `390x844-moved`, 0:56 where it read 0:55;
+  - `panels` at both sizes, where the Round order row's line is now the Lead's "The phases, in order".
+  - `concealed` is byte for byte the same at both sizes. The other pictures differ in the room's ambient motion and the clock, and `panels` also in that line.
+- **The record on `9c0e15bf`, against the one on `31430b8b`:** every recorded field of the 36 earlier captures is the same, but for the bundle's file name in the known Zod report, the new `panels` field (null), and the clock in `390x844-blackout` and `390x844-moved` (0:08 and 0:55, where they read 0:09 and 0:56). `concealed` is byte for byte the same at both sizes. The other pictures differ in the room's ambient motion, which shows through the sheet's glass at its top edge, and in the clock.
 - **The record on `31430b8b`, against the one on `e49cd1cd`:** every recorded field of the 36 captures is the same, but for the bundle's file name in the known Zod report, the clock in `430x932-blackout` and `430x932-moved` (0:08 and 0:55, where they read 0:09 and 0:56), and these:
   - `blackout-fixed`: no Cancel in the bar or on the page, and its new check (`noCancel`) passes;
   - `blackout`: its Cancel, now recorded (`cancel`);
@@ -260,9 +276,11 @@ Each row reports `onOpen(destination)`, and the connection opens the game's own 
 | `blackout-fixed` | Once the view has it: "Position A3 fixed · Resolves after the window · no effect shown now", with no Cancel, A3 marked |
 | `reconnecting` | Actions open, then the reading fails: the banner, the sheet closed, no tile left |
 | `concealed` | The page hidden at Rescue's check: no part, name or check words left, no target |
-| `panels` | The Hacker's Panels tab in Room B: "Panels" with ✕, the part alone in the body, its five rows with their lines, "Room A ↔ Room B · Room B ↔ Jail", "Captain and Officer only", "Patients only", "Seats, rooms and public status" and "Phases and timings", each with its icon and chevron, none dimmed; the tab open, nothing sent. Then Windows opens the game's Windows panel, and its Back returns to the list |
+| `panels` | The Hacker's Panels tab in Room B: "Panels" with ✕, the part alone in the body, its five rows with their lines, "Room A ↔ Room B · Room B ↔ Jail", "Captain and Officer only", "Patients only", "Seats, rooms and public status" and "The phases, in order" (the game gives no timings), each with its icon and chevron, none dimmed; the tab open, nothing sent. Then Windows opens the game's Windows panel, and its Back returns to the list |
 | `players` | With the Captain (Crew 1), the Officer (Crew 7), Crew 3 injured in the Hospital, Crew 8 in the Jail and Crew 9 eliminated: "Players" with Back and ✕, the nine seats in order with their portraits, "6 · Crew 6 (you)", the lines "Hospital · Injured", "In Jail" and "Eliminated", the two badges, and the note. No word of a role or faction, though this phone's is the Hacker, who knows the Undercover. Then Back returns to the list |
 | `round-order` | "Round order" with Back and ✕: the Blackout rules' nine steps in the game's words, from "Player turns" to "Navigation", with their kinds and icons, no timing and no note. Then ✕ closes the sheet |
+| `panels-food` | The frozen Food release, with Cleo and Hana away on its Task and this phone (Fay) aboard: the Task's own tabs open the game's Panels. The component's list comes first, with Round order's "The phases, in order", then the Food release's own Tasks button (answer 7) |
+| `players-away` | Players then: one list, the game's nine lines, one for each seat, with "Away on the Food Supply Task" for Cleo and Hana. The component is not mounted, and none of its words ("(you)", the note) is on the page. Then Back returns to the component's list and Tasks |
 
 Each capture also passes with:
 - the shell mounted and the stage in it;
@@ -275,9 +293,9 @@ The harness answers a command at once, so "Registering…" is not drawn here; th
 ### The merge gate's comparison
 
 `design/tools/phone-ui-native-compare.mjs --only pass,actions,targeting,target-check,registered,clone,blackout,reconnecting,panels,players,round-order`:
-- The build is the check's own bundle (`--keep`): it names `9c0e15bf`, clean, with art from `64e55516`. The pack is read at `278215bc`, the record's commit, clean.
+- The build is the check's own bundle (`--keep`): it names `0911c440`, clean, with art from `64e55516`. The pack is read at `a92fdd24`, the record's commit, clean.
 - **Panels, Players and Round order** (sheet 32) join the eight parts. The tool's steps reach the component's rows by their words ("Players", "Round order").
-- Against the comparison on `31430b8b`, every field of the eight earlier parts is the same; only the build's folder and commit, the pack's commit and the time differ. Before that, against the comparison on `e49cd1cd`, the same held. None of its parts shows the fixed bar: the check's `blackout-fixed` does.
+- Against the comparison on `9c0e15bf`, every part is field for field the same, except that Round order's step log names the row's new line ("The phases, in order"). Only the build's folder and commit, the pack's commit and the time differ otherwise. Against the comparisons on `31430b8b` and `e49cd1cd`, the eight earlier parts were the same. None of its parts shows the fixed bar: the check's `blackout-fixed` does.
 - Every part was drawn with no problem met, the steps reaching Actions' tiles, the scene's person, the footer's Register and the Panels tab's rows.
 - Its `compare.json` is in `design/phone-ui/review/match-connection/`; its pictures stay outside the repository.
 - **In the pairs:** the tiles, the bar, the check, After Register and "Pass your turn?" take the pack's form in the pack's places. After Register now has the pack's headline, detail and time line: "Rescue of Crew 3 registered.", then "Registered · Round 6 · your turn" and "End of Round 6 · Rescue is resolved, after the attacks". The differences are listed next.
@@ -297,7 +315,7 @@ The harness answers a command at once, so "Registering…" is not drawn here; th
 - **The Disabler** starts from the dark Actions sheet's "Choose fixed slot". In sheet 30 the positions are offered as the dark begins, with no tap; the controller offers them only after `begin('SELECT_BLACKOUT_SLOT')`.
 - **The Panels tab:**
   - Navigation and the Hospital panel are not dimmed for a passenger, where the pack dims them: every row opens, as today, until the model says who can open them (P1). The component dims a row whenever it is given `enabled: false` (answer 2).
-  - Round order: the game's step words for the tuple, not the pack's ("Player turns", where the pack says "Turns"), no timings (P2), and no note (answer 5).
+  - Round order: the game's step words for the tuple, not the pack's ("Player turns", where the pack says "Turns"), no timings (P2), and no note (answer 5). The row's line in the list is the Lead's "The phases, in order" until timings come.
 - The harness's sample names, rooms and rounds; the pack's 47 and 34 px safe areas.
 
 ## Gaps, for #222 through the Lead
@@ -321,8 +339,8 @@ The connection works around none of these by inventing data. Where it holds this
 | A14 | Done in `actions-0.2.3`: `canRetry`, `canCheck` and `canPass` | Designer |
 | A15 (new) | The Actions panel's private area carries no `abilities`: After Register has no Clone end, Protection start or capture | Frontend |
 | A16 | Done here (the Lead's option 1): at Actions' After Register the screen-reader step and checkpoint say the part's headline. The model's generic prompt itself stays Frontend's `planetRegistrationText`, on #222 | Frontend, for the prompt |
-| P1 (new) | The model says nothing of who can open Navigation and the Hospital panel outside those panels, so their rows are never dimmed (the Lead's answer 2 on #296: only Frontend's `enabled` decides). Every row opens, as today | Frontend |
-| P2 (new) | The round's steps are one sentence (`planetRoundOrderText`), with no timing. Given as steps with their timings, in the ruleset's order, Round order would show them (answer 5) | Frontend |
+| P1 (new) | The model says nothing of who can open Navigation and the Hospital panel outside those panels, so their rows are never dimmed (the Lead's answer 2 on #296: only Frontend's `enabled` decides). Every row opens, as today, and a passenger's tap is harmless. A #222 gap like B1, not a departure (the Lead, 18 November) | Frontend |
+| P2 (new) | The round's steps are one sentence (`planetRoundOrderText`), with no timing. Given as steps with their timings, in player words, in the ruleset's order, Round order would show them (answer 5). Until then the steps keep the game's words, and the list's line says "The phases, in order". A #222 gap (the Lead, 18 November) | Frontend |
 | P3 (new) | Frontend's earlier development captures (`apps/game/dev/phone/capture.mjs`, `round-order-capture.mjs`, `food-ordinary-compare.mjs`) look for the old navigation and Panels buttons, which the shell connection had already removed. None runs in CI; they are not changed here | Frontend |
 
 ## Behaviour changes, for Frontend's review
@@ -345,7 +363,7 @@ The connection works around none of these by inventing data. Where it holds this
 
 - **For the Lead:**
   - the gaps above, for #222;
-  - P1 and P2, for #222;
+  - P1 and P2 are #222 gaps, not departures (the Lead's answers of 18 November); the Lead takes them to #222;
   - the `closed` and `course` states of #307's check, which this branch doubles like `pass` and `actions` (for #307 to take: the Bars & Icons builder's since 18 November);
   - the empty "Outcome unknown" when this phone did not see the send (A4): a model change, or a type-less specimen ("Your action was sent, …"), which would be new words for the Lead and the owner;
 - **For Integration:**

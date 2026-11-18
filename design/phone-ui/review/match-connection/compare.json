@@ -1,15 +1,15 @@
 {
   "tool": "design/tools/phone-ui-native-compare.mjs",
-  "createdAt": "2026-11-18T14:00:50.467Z",
+  "createdAt": "2026-11-18T14:30:39.394Z",
   "browser": "Google Chrome for Testing 153.0.8010.12",
   "view": "Drawn at each part's phone size, 1.5× pixels",
   "pack": {
-    "commit": "278215bc5dc16951dc826a924fa4d7ba1aa61396",
+    "commit": "a92fdd24e39f66fef72852673c69dfb79d4949a1",
     "dirty": false
   },
   "build": {
-    "folder": "/dev/shm/match-connection-check-nvbPVN",
-    "head": "9c0e15bfcc2549b68195d1a614a5a5abeb54f1f0",
+    "folder": "/dev/shm/match-connection-check-tgunyR",
+    "head": "0911c440119b4bf3f3d116eeb2fa6af03b4ebff5",
     "dirty": false,
     "artwork": "64e55516d2f0026842c5c2a675f2eccda20e0a9e"
   },
@@ -470,7 +470,7 @@
         "height": 1266,
         "log": [
           "tap: Panels",
-          "tapText: Round orderPhases and timings"
+          "tapText: Round orderThe phases, in order"
         ],
         "problems": []
       },
