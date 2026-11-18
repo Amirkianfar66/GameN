@@ -8,6 +8,9 @@ by its depth ('far', 'mid', 'near'):
   4. comic tones: flattened into a few bands; halftone dots in the shadows; an ink line along strong edges;
   5. light and print: bloom on the accents, haze by depth, grain, specks, vignette.
 Run offline on the background plates (nothing on the phone); the code-drawn crew gets the same grade when drawn.
+
+The look test (look-test.html) ran it on the owner's painted Room A picture and three code-drawn plates. The owner's
+picture is not in the repository: it is referred to by name only (rooma-before.jpg), and no picture is stored here.
 """
 import sys
 import numpy as np

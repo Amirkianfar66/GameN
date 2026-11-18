@@ -1,0 +1,49 @@
+Given to the owner, 17 November 2026, 00:44 UTC
+The Doctor test: the briefing-room prompts, for the owner's own image tool, from the pre-game animation builder's session.
+Below the line is that message's text from its prompts heading to its end, word for word, in the message's own Markdown.
+Kept here for the pre-game films (#311). No picture made from these prompts reached that session.
+Open, and the owner's to choose: the ship through the window, generated with the far layer (a new Mothership design
+that the boarding film would then have to match) or today's ship, drawn in code.
+--------------------------------------------------------------------------------------------------------------------
+
+**The prompts: the briefing room in three layers**
+
+Make the room first. If your tool accepts a reference image, give it the room picture when you make the other two, so the style matches. Use the largest portrait size it offers.
+
+1 · The room (middle layer)
+```
+Hand-inked graphic-novel illustration, cyber comic noir. Bold black ink outlines that swell and thin, flat cel-shaded colour in two or three tones per surface, hatching and halftone dots in the shadows, worn and scratched materials. Hard noir lighting with deep, near-black shadows. Limited palette: cold steel grey-blues and muted grey-greens, with only two glowing accents, warm amber and teal-cyan. No text, letters, numbers, logos or signs anywhere. No people. No red, no bright blue, no purple.
+
+Vertical portrait image, 2:3. Eye-level camera at a standing person's chest height, one-point perspective, looking straight at the back wall.
+
+A small briefing room on the service deck of a starship dock, at night. The back wall is one large rectangular window in a heavy riveted steel frame, with half-closed slatted blinds across its top third. The window glass is solid flat black, with nothing visible through it. Cold white light rims the inner edge of the frame. Around the window: overlapping bolted bulkhead plates; exposed pipes along the ceiling and down the left wall, with a valve wheel, a pressure gauge and a rag tied round a leaking joint; cables sagging across the ceiling; a ribbed air duct with a round fan grille at top right. On the right wall, a wall terminal with two small screens, switched off and black.
+
+Across the bottom third, a worn metal workbench seen from just behind its front edge. On the right of the bench, a gooseneck desk lamp, lit warm amber, bent over a small empty card holder. Left of centre on the bench, an empty round charging cradle. A few tools, a coil of wire and a spanner on the bench. Between the bench and the window, open empty floor in shadow, where a person will stand later; keep it clear.
+```
+
+2 · The view through the window (far layer)
+```
+Hand-inked graphic-novel illustration, cyber comic noir. Bold black ink outlines, flat cel-shaded colour, halftone dots in the shadows. Deep black space with saturated cosmic colour in teal, magenta and gold only. No text, letters, numbers or logos. No people. No red, no bright blue, no purple.
+
+Vertical portrait image, 2:3, filling the whole frame, with no window frame or room around it.
+
+Deep space at night, seen from a space dock. A very long, heavily plated starship lies moored side-on across the middle of the frame, held by gantry arms from above, lit by dock floodlights, with rows of small lit ports along its hull. Behind it, low in the frame, the curve of a huge ringed gas giant. Above, a slowly swirling nebula in teal, magenta and gold, with faint thin orbital lines and a few small moons.
+```
+This makes the Mothership a new design, and the boarding film would need to match it. To keep today's ship, delete the starship sentence and I'll draw the ship in code.
+
+3 · The foreground (near layer)
+```
+Hand-inked graphic-novel illustration, cyber comic noir. Bold black ink outlines, flat cel-shaded colour, hatching and halftone dots in the shadows, worn materials. Limited palette: cold steel grey-blues with a warm amber accent. No text, letters, numbers or logos. No people. No red, no bright blue, no purple.
+
+Transparent background. If your tool can't do transparency, use a flat pure green background (#00FF00) with nothing else on it.
+
+Extreme foreground objects for the same briefing room, very close to the camera and slightly out of focus: at the bottom left, a dented metal coffee mug on the near corner of the workbench, with no steam; hanging into the top left corner, a thick black cable; at the bottom right, the curved edge of a large pipe. Lit like the room: warm amber lamplight from the right, cold light from behind.
+```
+
+**Things to know**
+- **Positions:** they don't need to be exact. I'll fit the animation to wherever the bench, lamp, card holder and cradle land.
+- **Left empty on purpose:** the card holder and the cradle stay empty because the card's mark and the gadget change with each role. I draw them in code, so one room serves all eight role films and they stay identical.
+- **When to regenerate:** if a person, writing or a device appears. The filter can fix colours, not those.
+- **Rights:** check that your tool's terms allow commercial use. I'll record the tool, prompt and date for each image.
+
+Upload the three images here and I'll build the animated shot on them, with Mira's acting, the lights, steam, screens and the cosmic cut. Then I'll put it beside the current test. I've told the Lead about the new method.
