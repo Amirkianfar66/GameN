@@ -21,18 +21,26 @@
 //
 // The words of a phase bar are not the shell's to choose: phase-bars.mjs (0.2.10) holds the pack's for
 // each game step, and returns this file's `bar` input from the facts Frontend gives.
+//
+// One departure from the pack's sheet 08, the owner's of 18 November 2026 (docs/design/owner-decisions.md,
+// "The Card tab moves to the right and shows the player's own character"), 0.3.0: Card is the last tab,
+// after Panels, and its icon is this viewer's own crew portrait (`tabs.me`), the plain portrait the top
+// bar draws. With no character it keeps the pack's card icon.
 
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
 import { createControlPolicy, createKit, followTextSize } from '../kit/kit.mjs';
 
-export const PHONE_SHELL_VERSION = 'phone-shell-0.2.12';
+export const PHONE_SHELL_VERSION = 'phone-shell-0.3.0';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const KINDS = Object.freeze(['turn', 'phase', 'pair']);
 const HERO_MODES = Object.freeze(['pass', 'vote', 'voted']);
 
-/** The game's tabs, in order, and the private talk's two buttons (sheet 25). */
-export const GAME_TABS = Object.freeze(['switch', 'actions', 'hero', 'card', 'panels']);
+/**
+ * The game's tabs, in order, and the private talk's two buttons (sheet 25). Card is last (0.3.0, the owner's
+ * 18 November 2026 decision); the pack's sheet 08 draws it before Panels.
+ */
+export const GAME_TABS = Object.freeze(['switch', 'actions', 'hero', 'panels', 'card']);
 export const TALK_BUTTONS = Object.freeze(['promises', 'my-card']);
 
 /** The pack's words: the hero's accessible names (ui.mjs tabs()), the reconnecting banner (sheet 45) and an
@@ -125,7 +133,11 @@ function checkHero(hero) {
   return { mode: hero.mode, enabled: hero.enabled !== false, busy: !!hero.busy, reason: optionalText(hero.reason, 'hero.reason') };
 }
 
-/** The tabs' input, checked. `null` is no tab bar (a shared display). */
+/**
+ * The tabs' input, checked. `null` is no tab bar (a shared display).
+ * `me` (0.3.0) is this viewer's own person, { seat, name, character }, as the bar's `who`: the Card tab draws
+ * their crew portrait in place of the card icon. null, or a person with no character: the card icon.
+ */
 export function checkTabs(tabs) {
   if (tabs === null || tabs === undefined) return null;
   const variant = tabs.variant ?? 'game';
@@ -138,7 +150,8 @@ export function checkTabs(tabs) {
   const enabled = Object.fromEntries(keys.map(k => [k, tabs.enabled?.[k] !== false]));
   const reasons = Object.fromEntries(keys.map(k => [k, optionalText(tabs.reasons?.[k], `reasons.${k}`)]));
   const badges = Object.fromEntries(keys.map(k => [k, Math.max(0, Number(tabs.badges?.[k]) || 0)]));
-  return { variant, view, open, enabled, reasons, badges, hero: variant === 'game' ? checkHero(tabs.hero) : null };
+  const me = variant === 'game' && tabs.me ? checkPerson(tabs.me, 'tabs.me') : null;
+  return { variant, view, open, enabled, reasons, badges, me, hero: variant === 'game' ? checkHero(tabs.hero) : null };
 }
 
 /** A footer action's looks: the kit's buttons the pack's sheets use. 'warn' is the pack's Abort match (paper, outlined). */
@@ -252,6 +265,16 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     const key = `${name}:${filled ? 'filled' : ''}`;
     if (holder.dataset.icon === key) return;
     holder.replaceChildren(icon(name, filled));
+    holder.dataset.icon = key;
+  };
+  // A tab's picture in its icon's place (0.3.0, the Card tab's): `picture` is a CSS image. Decorative, as an icon is.
+  // The holder still names the tab's own icon first, which the large-content view draws.
+  const setPicture = (holder, name, picture) => {
+    const key = `${name}:picture:${picture}`;
+    if (holder.dataset.icon === key) return;
+    const node = el('span', 'ms-ps-tab-pt', { 'aria-hidden': 'true' });
+    node.style.backgroundImage = picture;
+    holder.replaceChildren(node);
     holder.dataset.icon = key;
   };
   const text = (node, value) => { if (node.textContent !== value) node.textContent = value; };
@@ -527,7 +550,12 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       }
       const w = key === 'switch' ? (tabs.view === 'room' ? { icon: 'board', label: 'Board', aria: 'Show the whole board' } : { icon: 'room', label: 'Room', aria: 'Show my room' }) : TAB_WORDS[key];
       const open = key !== 'switch' && tabs.open === key;
-      setIcon(node.firstChild, w.icon, open);
+      // The Card tab (0.3.0): this viewer's own crew portrait, the plain one the top bar draws. With no character,
+      // or no portrait in the match's crew bundle, the pack's card icon: never an empty tile.
+      const picture = key === 'card' && tabs.me?.character ? crewPortraitVariable(tabs.me.character, state.versions) : 'none';
+      if (picture !== 'none') setPicture(node.firstChild, w.icon, picture);
+      else setIcon(node.firstChild, w.icon, open);
+      attr(node, 'data-picture', picture !== 'none' ? '' : null);
       text(node.children[1], w.label);
       const badge = tabs.badges[key];
       text(node.lastChild, badge ? String(badge) : '');

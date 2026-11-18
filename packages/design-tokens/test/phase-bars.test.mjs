@@ -49,7 +49,7 @@ test('the phase bars are a runtime source of the shell: runtime-safe, under its 
   const shell = [...graph(join(REPO, COMPONENT, 'phone-shell.mjs')).keys()].map(f => relative(REPO, f));
   assert.deepEqual(local.filter(p => p !== `${COMPONENT}/phase-bars.mjs`).sort(), shell.sort(), 'it adds no file to the shell\'s graph');
   assert.ok(!shell.includes(`${COMPONENT}/phase-bars.mjs`), 'the shell does not import the words: it draws the bar it is given');
-  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.2.12', 'the phase bars share the shell\'s version');
+  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.3.0', 'the phase bars share the shell\'s version');
   // The functions are pure: no page, no clock, no timer, no chance, no network, no storage.
   const source = read(`${COMPONENT}/phase-bars.mjs`).replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
   assert.doesNotMatch(source, /\b(?:document|window|globalThis|navigator|localStorage|sessionStorage|fetch|setTimeout|setInterval|requestAnimationFrame|Date|performance|Math\.random|crypto|import\()/, 'pure functions of their input');
