@@ -29,6 +29,7 @@
 // portrait has the top bar's own shape and size: its rounded-square tile, whole, at 32 px.
 
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
+import { iconPaintedSvg, iconTileSvg } from '../icon-paint.mjs';
 import { iconSvg } from '../icons.mjs';
 import { createControlPolicy, createKit, followTextSize } from '../kit/kit.mjs';
 
@@ -276,6 +277,27 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     const node = el('span', 'ms-ps-tab-pt', { 'aria-hidden': 'true' });
     node.style.backgroundImage = picture;
     holder.replaceChildren(node);
+    holder.dataset.icon = key;
+  };
+  // Draft (18 November, the owner's bottom bar): a tab's icon as a painted tile, in the portrait's own box and
+  // frame, and the round button's icon painted. Decorative, as an icon is; the holder names the icon first.
+  const painted = svg => {
+    const t = doc.createElement('template');
+    t.innerHTML = svg.trim();
+    return t.content.firstChild;
+  };
+  const setTile = (holder, name) => {
+    const key = `${name}:tile`;
+    if (holder.dataset.icon === key) return;
+    const node = el('span', 'ms-ps-tab-pt', { 'aria-hidden': 'true', 'data-tile': '' });
+    node.append(painted(iconTileSvg(name, { className: 'ms-ps-tile' })));
+    holder.replaceChildren(node);
+    holder.dataset.icon = key;
+  };
+  const setPainted = (holder, name) => {
+    const key = `${name}:painted`;
+    if (holder.dataset.icon === key) return;
+    holder.replaceChildren(painted(iconPaintedSvg(name, { className: 'ms-ps-ic ms-ps-ic-paint' })));
     holder.dataset.icon = key;
   };
   const text = (node, value) => { if (node.textContent !== value) node.textContent = value; };
@@ -542,7 +564,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
         const h = tabs.hero, words = HERO_WORDS[h.mode], hero = node.firstChild;
         hero.dataset.mode = h.mode;
         hero.dataset.value = h.mode;
-        setIcon(hero.firstChild, words.icon, true);
+        setPainted(hero.firstChild, words.icon);
         text(hero.lastChild, words.label);
         text(node.lastChild, words.label);
         attr(hero, 'aria-label', words.aria);
@@ -555,7 +577,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       // or no portrait in the match's crew bundle, the pack's card icon: never an empty tile.
       const picture = key === 'card' && tabs.me?.character ? crewPortraitVariable(tabs.me.character, state.versions) : 'none';
       if (picture !== 'none') setPicture(node.firstChild, w.icon, picture);
-      else setIcon(node.firstChild, w.icon, open);
+      else setTile(node.firstChild, w.icon);
       attr(node, 'data-picture', picture !== 'none' ? '' : null);
       text(node.children[1], w.label);
       const badge = tabs.badges[key];
