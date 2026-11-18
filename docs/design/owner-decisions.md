@@ -1053,6 +1053,23 @@ The Lead then recommended one shared view for each fixed room. The owner:
 
 **Not answered yet,** on the same page: the toast's place, and the two drafts for a long title at the largest text.
 
+**The open drafts approved as the Lead recommended, minutes later.** The owner wrote to the Lead, in the Lead's session (about 17:50 UTC). Word for word:
+
+> I approve all as your recommendation, I just want to see 1 room all the views to see its the way to go or not
+
+**What it approves,** each as the Lead recommended:
+- **The toast's place** (the Lead's proposal on the Bars & Icons control page). The toast never covers the top bar, the "Connection lost" banner or an open sheet's title. It takes the first free place below them. With nothing in its way it stays where it is today.
+- **A long title at the largest text: both drafts together.**
+  - **A:** a squeezed sheet's buttons scroll with its content.
+  - **B:** when a title would take more than two lines beside Back and ✕, those two move to a row of their own and the title takes the full width, but only where that makes the head shorter.
+  - Measured at 320 × 568 with the Largest text, the content's room goes from 16 px to 162 px. At 390 and 430 with the Standard text nothing moves.
+- **The refused command's note** (R2 and A3, on the Promises page), accepted as drawn: a refused command's own words show in the open sheet, above its buttons.
+- **The no-break polish** (on the same page): "Player 6" and a name with its seat no longer break across lines in the Pass line and the Promises rows. Promises' "name · time" lines keep today's breaks, which would otherwise add a line at 320.
+
+**How they are built:** the bottom bar's tiles first, as shell 0.3.2. Then the toast, A and B as shell 0.3.3. Then Promises 0.1.1 and Actions 0.2.5 with the refused note and the joins. These change behaviour as well as look, so each keeps the usual order: checks, then the Lead's review, then the owner sees the checked build.
+
+**What the owner wants next:** one room with all its views, to judge whether this is the way to go. That is Room B's page with its five views, which the Lead sends when it is whole.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
