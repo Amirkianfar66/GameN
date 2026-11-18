@@ -875,6 +875,53 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - **View C:** its stool joins the capsule in its step 3, as a separate shape, at no extra cost.
 - **The rule for the sheets:** two pieces never share one masked shape. A small piece is painted in its own step.
 
+**Two branches pushed, early that afternoon.**
+- **The situation:** two pushes were waiting in the Rooms builder's session:
+  - the film test's source, approved by the owner above;
+  - the Room B sheet tools, which existed only in that session.
+  - That session's safety check refuses an approval passed on by another session. It takes only the owner's own words there.
+- **The owner wrote to the Lead:**
+
+> Approve them instead of me
+
+- **The Lead does not pass an approval into another session's check.** The Lead offered to push both branches from this session instead.
+- **The owner's word then reached the Rooms builder's session directly.**
+  - The builder reports the owner's message there: push both branches with no PR, with none of the owner's pictures, no generated pictures and no keys.
+  - Its check still refused the tools commit, which holds 56 pictures drawn by the kit's own code. It asked the owner in its question dialog, and the owner chose "Include them (Recommended)".
+
+**What it decides:**
+- **The film test's source:** `claude/designer-pregame-doctor-test` at `85100444`, with no PR, on top of #285's `104a285d`. It is handed to Codex on #311.
+- **The Room B sheet tools:** `claude/designer-room-b-sheets` at `c82dc861`, with no PR, one commit on `main`. Everything is under `design/room-b-sheets/`:
+  - the generators and the make and verify scripts;
+  - the guides, masks, split maps and plans;
+  - the camera reports, staging and visits.
+- **The 56 pictures in the tools are drawn by its own code.** None is generated and none is the owner's. That was checked by hash, and by the Lead on a contact sheet. To rebuild, the two generated reference pictures are placed from the records page and checked by their hashes.
+
+**The Card tab moves to the right and shows the player's own character, minutes later.**
+- **Where the Lead read it:** the owner's message in the Bars & Icons builder's session, in that session's own transcript (14:35 UTC). Word for word:
+
+> So I need to update the bottom bar I want on the card icon move to right and become the rightest icon of bar then instead of it its Icon card show the character icon
+
+**What it decides:**
+- **The order:** the bottom bar becomes Board/Room · Actions · Pass/Vote · Panels · Card. The round button stays in the middle, and Card is the rightmost tab.
+- **The Card tab's picture:** the player's own character, as the crew portrait the top bar already draws, in place of the card icon.
+  - Designer reads "the character icon" this way. The owner is asked to correct it if they meant a drawn icon.
+  - It is the viewer's own character, which every player can see, so nothing private shows.
+  - Before characters are dealt, or with no portrait, the tab keeps the card icon. It is never empty.
+- **It departs from** sheet 08 in all nine states, from 27 and 27.4–27.5, and from every sheet that draws the tab bar.
+
+**Designer's proposals, for what the owner's words leave open.** The owner sees them on the Bars & Icons control page before the build is accepted:
+- **Selected:** an amber ring round the portrait and the amber label, where the other tabs fill their icon.
+- **Unavailable:** 38 %, as every tab.
+- **Size:** the portrait round, in the icon's 26 px box.
+- **The label** stays "Card", and so does the tab's accessible name. The portrait is decoration.
+- **The private talk's "My card" button** (sheet 25) stays as it is. The owner spoke of the bottom bar.
+
+**How it is built:**
+- the Bars & Icons builder makes a new shell version on #265;
+- the game's connection on #307 passes the viewer's own person;
+- the Lead reviews it at 390 × 844 and 430 × 932.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
