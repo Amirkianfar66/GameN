@@ -197,6 +197,11 @@
    never a team's or a role's colour, and nothing around it moves. */
 .ms-phone-shell .ms-ps-tab-pt { display: block; width: 32px; height: 32px; margin-top: -6px; flex: none; border-radius: 11px; background: center / contain no-repeat; }
 .ms-phone-shell .ms-ps-tab[aria-expanded="true"] .ms-ps-tab-pt { box-shadow: inset 0 0 0 2px var(--ms-ps-accent); }
+/* 0.3.2 (the owner, 18 November 2026): every game tab's icon is a painted tile in the portrait's box, and the
+   round button's icon is painted. A tile is drawn inside its box, so the open tab's ring is laid over it. */
+.ms-phone-shell .ms-ps-tab-pt[data-tile] { position: relative; }
+.ms-phone-shell .ms-ps-tab-pt[data-tile] > svg { display: block; width: 100%; height: 100%; }
+.ms-phone-shell .ms-ps-tab[aria-expanded="true"] .ms-ps-tab-pt[data-tile]::after { content: ""; position: absolute; inset: 0; border-radius: 11px; box-shadow: inset 0 0 0 2px var(--ms-ps-accent); }
 /* Labels are capped at 14 px, as iOS caps tab labels; a long press shows the large-content view. */
 .ms-phone-shell .ms-ps-tab-label { font: 600 clamp(12px, 0.75rem, 14px)/1.15 var(--ms-ps-font); letter-spacing: 0.01em; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 .ms-phone-shell .ms-ps-tab[aria-expanded="true"] { color: var(--ms-ps-accent); --ic-knock: #0B0F16; }
@@ -211,6 +216,8 @@
   --ic-knock: var(--ms-ps-accent); -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;
 }
 .ms-phone-shell .ms-ps-hero .ms-ps-ic { width: 25px; height: 25px; }
+.ms-phone-shell .ms-ps-hero .ms-ps-ic-paint { width: 29px; height: 29px; }
+.ms-phone-shell .ms-ps-hero[data-off] .ms-ps-ic-paint { filter: grayscale(1); opacity: 0.55; }
 .ms-phone-shell .ms-ps-hero-label { font: 800 clamp(12px, 0.75rem, 13px)/1 var(--ms-ps-letter); letter-spacing: 0.08em; text-transform: uppercase; }
 .ms-phone-shell .ms-ps-hero-space { margin-top: auto; visibility: hidden; font: 600 clamp(12px, 0.75rem, 14px)/1.15 var(--ms-ps-font); }
 .ms-phone-shell .ms-ps-hero[data-off] { background: var(--ms-ps-surface-4); color: var(--ms-ps-text-2); border-color: #0A0D14; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45); --ic-knock: var(--ms-ps-surface-4); }
@@ -261,6 +268,10 @@
 
 /* ── A toast: the kit's (kit.css .ms-k-toast, 0.8.0), 10 px under the overlays' place ── */
 .ms-phone-shell .ms-ps-toast { --ms-k-toast-top: var(--ms-ps-over-top); }
+/* 0.3.3: the toast never covers the bar, a banner or an open sheet's head. When its own place would touch a banner
+   or a sheet's head, it takes the first free place below, 8 px clear (phone-shell.mjs placeToast sets the attribute
+   and the place). */
+.ms-phone-shell[data-toast-under] .ms-ps-toast { --ms-k-toast-top: var(--ms-ps-toast-top); }
 
 /* ── The docked sheet: clear glass over the room (kit.css .sheet) ──── */
 /* It always leaves the top bar and the tabs in view: docked between them, auto or large height. */
@@ -290,10 +301,27 @@
 .ms-phone-shell .ms-ps-sheet-title { flex: 1; min-width: 0; }
 .ms-phone-shell .ms-ps-sheet-title h2 { margin: 0; font: 700 1.25rem/1.2 var(--ms-ps-font); letter-spacing: -0.01em; }
 .ms-phone-shell .ms-ps-sheet-title p { margin: 2px 0 0; font: 500 0.8125rem/1.25 var(--ms-ps-font); color: var(--ms-ps-text-2); }
+/* 0.3.3 (the Lead Designer's proposal, the owner's approval of 18 November 2026): a head whose title would take more
+   than two lines beside its buttons stacks, where that makes it shorter. Its buttons take a row of their own, Back at
+   the left and the rest at the right, in the order they are read; then the title and its line take the full width.
+   The shell decides it from two hidden copies of the head (phone-shell.mjs fitHead), each button a stand-in of the
+   button's size, in a box that draws nothing. */
+.ms-phone-shell .ms-ps-sheet-head[data-stacked] { flex-wrap: wrap; justify-content: flex-end; row-gap: 6px; }
+.ms-phone-shell .ms-ps-sheet-head[data-stacked] .ms-ps-sheet-title { order: 1; flex: 0 0 100%; }
+.ms-phone-shell .ms-ps-sheet-head[data-stacked] > :is([data-intent="sheet-back"], [data-stand="back"]) { margin-right: auto; }
+.ms-phone-shell .ms-ps-measure { position: absolute; left: 0; top: 0; height: 0; overflow: hidden; visibility: hidden; pointer-events: none; }
+.ms-phone-shell .ms-ps-sheet-stand { flex: none; display: block; }
 .ms-phone-shell .ms-ps-sheet-body { flex: 1; min-height: 0; overflow: auto; padding: 0 16px 16px; overscroll-behavior: contain; }
 .ms-phone-shell .ms-ps-sheet:not(:has(.ms-ps-sheet-foot)) .ms-ps-sheet-body { padding-bottom: 30px; }
 .ms-phone-shell .ms-ps-sheet-foot { flex: none; display: flex; gap: 10px; padding: 10px 16px 28px; border-top: 1px solid var(--ms-ps-glass-line); }
 .ms-phone-shell .ms-ps-sheet-foot .ms-k-btn { flex: 1; }
+/* The body and the footer share a wrapper that is no box of its own: the sheet lays the two out as its own children.
+   0.3.3: when the body would be squeezed to under a third of the sheet (a small phone, a large text size, a
+   long title, stacked buttons; phone-shell.mjs fitSheet), the wrapper scrolls instead of the body, so the body takes
+   all the room under the head and the footer follows the content. */
+.ms-phone-shell .ms-ps-sheet-scroll { display: contents; }
+.ms-phone-shell .ms-ps-sheet[data-foot-scrolls] .ms-ps-sheet-scroll { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; }
+.ms-phone-shell .ms-ps-sheet[data-foot-scrolls] .ms-ps-sheet-body { flex: none; overflow: visible; }
 /* Larger text on a narrow phone (0.2.1, #228's .sheet-foot rule): under 19 em across, footer buttons that no
    longer fit side by side take a row each, in the same order, at full width, and a label that still doesn't
    fit wraps inside its button. Before, "Register Rescue" ran past the sheet's edge at 200 % (found on Actions).

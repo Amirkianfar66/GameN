@@ -14,7 +14,7 @@ const p = (d, extra = {}) => Object.freeze({ d, ...extra });
 const dot = (x, y, r = 1.25) => Object.freeze({ c: [x, y, r], dot: true });
 const ring = (x, y, r, extra = {}) => Object.freeze({ c: [x, y, r], ...extra });
 
-export const ICON_FAMILY_VERSION = 'phone-ui-icons-1.0.0';
+export const ICON_FAMILY_VERSION = 'phone-ui-icons-1.1.0';
 
 /** name → { label: the accessible name, group, parts } */
 export const ICONS = Object.freeze({
@@ -109,6 +109,24 @@ export const ICONS = Object.freeze({
   inbox: { label: 'Offers', group: 'utility', parts: [p('M3.6 13.4 6.2 5.6A1.6 1.6 0 0 1 7.7 4.6h8.6a1.6 1.6 0 0 1 1.5 1l2.6 7.8v5a1.6 1.6 0 0 1-1.6 1.6H5.2a1.6 1.6 0 0 1-1.6-1.6z', { fill: true }), p('M3.6 13.4h4.8l1.4 2.4h4.4l1.4-2.4h4.8', { knock: true })] },
   plus: { label: 'Add', group: 'utility', parts: [p('M12 5v14M5 12h14', { width: 2 })] },
   minus: { label: 'Remove', group: 'utility', parts: [p('M5 12h14', { width: 2 })] },
+});
+
+/**
+ * 1.1.0 (the owner, 18 November 2026): the family has a painted form, for the game's bottom bar. The 79 icons
+ * above are as they were, each on its own line as before; icon-paint.mjs paints them.
+ *
+ * An icon's painted form, where it is painted by hand rather than from its line drawing: the same silhouette as
+ * stacked shapes (`d`, and a tone: light, main or deep), drawn in order. Kept here, beside the family, so every
+ * icon's drawing is in this one file; design/phone-ui/components/icon-paint.mjs paints them. It is beside the
+ * entries and not on them because a copy of the family holds each entry exactly as it is here.
+ */
+export const ICON_PAINTED = Object.freeze({
+  // Panels: three sheets, the lowest the deepest.
+  panels: Object.freeze([
+    Object.freeze({ d: 'M12 11.2 20.6 15.8 12 20.4 3.4 15.8z', tone: 'deep' }),
+    Object.freeze({ d: 'M12 7.4 20.6 12 12 16.6 3.4 12z', tone: 'main' }),
+    Object.freeze({ d: 'M12 3.6 20.6 8.2 12 12.8 3.4 8.2z', tone: 'light' }),
+  ]),
 });
 
 /** Every name, in the family's order. */

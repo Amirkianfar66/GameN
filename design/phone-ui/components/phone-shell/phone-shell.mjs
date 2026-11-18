@@ -27,12 +27,28 @@
 // after Panels, and its icon is this viewer's own crew portrait (`tabs.me`), the plain portrait the top
 // bar draws. With no character it keeps the pack's card icon. From 0.3.1 (the owner, the same day) the
 // portrait has the top bar's own shape and size: its rounded-square tile, whole, at 32 px.
+//
+// A second departure from sheet 08, the owner's of the same day ("This is what i am thinking of bottom bar",
+// with a picture; "I am ok with this new bar" on the draft), 0.3.2: every game tab's icon is a painted tile
+// like the portrait (../icon-paint.mjs: the portrait's own frame, one warm ground that follows no player, the
+// icon's drawing in cream), in the portrait's 32 px box, and the round button's icon is painted. An open tab
+// has the Card tab's amber ring and amber label in place of the filled icon. The Card tab with no character
+// draws the card's tile. The private talk's two buttons, the large-content view and every icon outside the
+// game's tab bar keep the family's line drawings.
+//
+// 0.3.3 (the Lead Designer's proposals, approved by the owner on 18 November 2026: "I approve all as your
+// recommendation"), where the pack's sheets leave a state open:
+// - the toast never covers the bar, a banner or an open sheet's head: it takes the first free place below them;
+// - a squeezed sheet's footer scrolls with its body, when the body would get under a third of the sheet;
+// - a sheet's head stacks, its buttons above its title, when the title would take more than two lines beside them
+//   and the head is shorter that way.
 
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
+import { iconPaintedSvg, iconTileSvg } from '../icon-paint.mjs';
 import { iconSvg } from '../icons.mjs';
 import { createControlPolicy, createKit, followTextSize } from '../kit/kit.mjs';
 
-export const PHONE_SHELL_VERSION = 'phone-shell-0.3.1';
+export const PHONE_SHELL_VERSION = 'phone-shell-0.3.3';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const KINDS = Object.freeze(['turn', 'phase', 'pair']);
 const HERO_MODES = Object.freeze(['pass', 'vote', 'voted']);
@@ -276,6 +292,28 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     const node = el('span', 'ms-ps-tab-pt', { 'aria-hidden': 'true' });
     node.style.backgroundImage = picture;
     holder.replaceChildren(node);
+    holder.dataset.icon = key;
+  };
+  // 0.3.2 (the owner, 18 November 2026): a game tab's icon as a painted tile, in the portrait's own box and
+  // frame, and the round button's icon painted. Decorative, as an icon is. The holder names the icon first,
+  // which the large-content view draws as the family's line drawing.
+  const painted = svg => {
+    const t = doc.createElement('template');
+    t.innerHTML = svg.trim();
+    return t.content.firstChild;
+  };
+  const setTile = (holder, name) => {
+    const key = `${name}:tile`;
+    if (holder.dataset.icon === key) return;
+    const node = el('span', 'ms-ps-tab-pt', { 'aria-hidden': 'true', 'data-tile': '' });
+    node.append(painted(iconTileSvg(name, { className: 'ms-ps-tile' })));
+    holder.replaceChildren(node);
+    holder.dataset.icon = key;
+  };
+  const setPainted = (holder, name) => {
+    const key = `${name}:painted`;
+    if (holder.dataset.icon === key) return;
+    holder.replaceChildren(painted(iconPaintedSvg(name, { className: 'ms-ps-ic ms-ps-ic-paint' })));
     holder.dataset.icon = key;
   };
   const text = (node, value) => { if (node.textContent !== value) node.textContent = value; };
@@ -542,7 +580,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
         const h = tabs.hero, words = HERO_WORDS[h.mode], hero = node.firstChild;
         hero.dataset.mode = h.mode;
         hero.dataset.value = h.mode;
-        setIcon(hero.firstChild, words.icon, true);
+        setPainted(hero.firstChild, words.icon);
         text(hero.lastChild, words.label);
         text(node.lastChild, words.label);
         attr(hero, 'aria-label', words.aria);
@@ -552,10 +590,11 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       const w = key === 'switch' ? (tabs.view === 'room' ? { icon: 'board', label: 'Board', aria: 'Show the whole board' } : { icon: 'room', label: 'Room', aria: 'Show my room' }) : TAB_WORDS[key];
       const open = key !== 'switch' && tabs.open === key;
       // The Card tab (0.3.0): this viewer's own crew portrait, the plain one the top bar draws. With no character,
-      // or no portrait in the match's crew bundle, the pack's card icon: never an empty tile.
+      // or no portrait in the match's crew bundle, the card's own tile (0.3.2): never an empty one. Every other
+      // tab draws its icon's tile. A tile says nothing of the viewer: it is the same for every phone.
       const picture = key === 'card' && tabs.me?.character ? crewPortraitVariable(tabs.me.character, state.versions) : 'none';
       if (picture !== 'none') setPicture(node.firstChild, w.icon, picture);
-      else setIcon(node.firstChild, w.icon, open);
+      else setTile(node.firstChild, w.icon);
       attr(node, 'data-picture', picture !== 'none' ? '' : null);
       text(node.children[1], w.label);
       const badge = tabs.badges[key];
@@ -630,10 +669,67 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     }
   }
 
+  /**
+   * A sheet's head, stacked when its title needs the room (0.3.3; the Lead Designer's proposal, the owner's approval
+   * of 18 November 2026). Beside Back and Close a title has a narrow column, and at the Largest text on a narrow phone
+   * it breaks into three lines or more. When it would, and the head is shorter that way, the head stacks: its buttons
+   * on a row of their own (Back at the left, the rest at the right, in the order they are read), then the title and
+   * its line on the full width. The text keeps the size the player chose.
+   *
+   * The decision is made from two measured heights and nothing else: the head as a row and the head stacked, each
+   * laid out in a hidden copy that is taken away again at once. So the head the player sees is never rearranged to be
+   * measured, and the answer never depends on the arrangement now showing. It is measured again only when what it
+   * depends on changes: the head's width, the title's text size, its words, its line, or its buttons.
+   */
+  let headKey = null, headFor = null;
+  function fitHead() {
+    const sheet = parts.sheet?.isConnected ? parts.sheet : null;
+    if (!sheet) { headKey = null; headFor = null; return; }
+    const head = sheet.querySelector('.ms-ps-sheet-head'), title = head.querySelector('.ms-ps-sheet-title'), h2 = title.firstChild, sub = title.lastChild;
+    const buttons = [...head.children].filter(node => node !== title);
+    const cs = win.getComputedStyle(h2);
+    const key = [sheet.dataset.sheet, head.clientWidth, cs.fontSize, doc.fonts?.status ?? '', h2.textContent, sub.hidden ? '' : sub.textContent,
+      buttons.map(b => `${b.dataset.intent}:${b.offsetWidth}x${b.offsetHeight}`).join()].join('\u0001');
+    if (key === headKey && head === headFor) return;
+    headKey = key; headFor = head;
+    let stacked = false;
+    if (buttons.length && head.clientWidth > 0) {
+      // Two copies of the head, one a row and one stacked, in a box of the head's own width that draws nothing and
+      // holds no control: each button is a stand-in of the button's size.
+      const copy = isStacked => {
+        const node = el('div', 'ms-ps-sheet-head', { 'data-stacked': isStacked ? '' : null });
+        for (const child of head.children) {
+          if (child === title) {
+            const words = el('div', 'ms-ps-sheet-title'), line = el('p');
+            words.append(el('h2'), line);
+            words.firstChild.textContent = h2.textContent;
+            line.textContent = sub.textContent;
+            line.hidden = sub.hidden;
+            node.append(words);
+          } else {
+            const stand = el('span', 'ms-ps-sheet-stand', { 'data-stand': child.dataset.intent === 'sheet-back' ? 'back' : 'button' });
+            stand.style.width = `${child.offsetWidth}px`;
+            stand.style.height = `${child.offsetHeight}px`;
+            node.append(stand);
+          }
+        }
+        return node;
+      };
+      const box = el('div', 'ms-ps-measure', { 'aria-hidden': 'true', inert: '' }), asRow = copy(false), asStack = copy(true);
+      box.style.width = `${head.offsetWidth}px`;
+      box.append(asRow, asStack);
+      root.append(box);
+      const line = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.2;
+      stacked = line > 0 && asRow.querySelector('h2').offsetHeight > line * 2.5 && asStack.offsetHeight < asRow.offsetHeight;
+      box.remove();
+    }
+    if (stacked !== head.hasAttribute('data-stacked')) head.toggleAttribute('data-stacked', stacked);
+  }
+
   // ── The docked sheet's frame (ui.mjs sheet) ─────────────────────────
   function paintSheet() {
     const s = state.status === 'concealed' ? null : state.sheet;
-    if (parts.sheet && (!s || parts.sheet.dataset.sheet !== s.id)) { remove(parts.sheet); parts.sheet = null; }
+    if (parts.sheet && (!s || parts.sheet.dataset.sheet !== s.id)) { observer?.unobserve(parts.sheet.querySelector('.ms-ps-sheet-head')); observer?.unobserve(parts.sheet); remove(parts.sheet); parts.sheet = null; }
     root.toggleAttribute('data-sheet', !!s);
     if (!s) return;
     if (!parts.sheet) {
@@ -646,8 +742,18 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       title.append(h2, el('p'));
       head.append(title);
       node.setAttribute('aria-labelledby', h2.id);
-      node.append(el('div', 'ms-ps-sheet-grab', { 'aria-hidden': 'true' }), head, el('div', 'ms-ps-sheet-body'));
+      // The body and the footer share a wrapper that is no box of its own, so the sheet lays them out as before,
+      // until the body would be squeezed (fitSheet): then the wrapper scrolls, and the footer follows the body.
+      const scroll = el('div', 'ms-ps-sheet-scroll');
+      scroll.append(el('div', 'ms-ps-sheet-body'));
+      node.append(el('div', 'ms-ps-sheet-grab', { 'aria-hidden': 'true' }), head, scroll);
       parts.sheet = node;
+      // What the body holds is its content's own; only its size is watched, to fit the footer again when it changes.
+      observer?.observe(node);
+      sheetWatch?.disconnect();
+      sheetWatch?.observe(scroll, { childList: true, subtree: true, characterData: true });
+      // The head is watched for its size: its words grow with the text size, and fitHead() fits it again.
+      observer?.observe(head);
       const before = parts.tabs && parts.tabs.parentNode === root ? parts.tabs : null;
       root.insertBefore(node, before);
     }
@@ -677,8 +783,8 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       anchor = b;
     }
     // The footer's buttons, kept by id.
-    let foot = node.querySelector(':scope > .ms-ps-sheet-foot');
-    if (s.actions.length && !foot) { foot = el('div', 'ms-ps-sheet-foot'); node.append(foot); }
+    let foot = node.querySelector('.ms-ps-sheet-scroll > .ms-ps-sheet-foot');
+    if (s.actions.length && !foot) { foot = el('div', 'ms-ps-sheet-foot'); node.querySelector('.ms-ps-sheet-scroll').append(foot); }
     if (!s.actions.length && foot) { remove(foot); foot = null; }
     if (!foot) return;
     const ids = s.actions.map(a => a.id);
@@ -697,17 +803,60 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
   // ── A toast: a local confirmation, shown once per id ────────────────
   function paintToast() {
     const t = state.status === 'concealed' ? null : state.toast;
-    if (!t) { if (toastTimer) win.clearTimeout(toastTimer); toastTimer = null; if (parts.toast) { parts.toast.remove(); parts.toast = null; } return; }
+    if (!t) { if (toastTimer) win.clearTimeout(toastTimer); toastTimer = null; if (parts.toast) { observer?.unobserve(parts.toast); parts.toast.remove(); parts.toast = null; } return; }
     if (toastShown === t.id) return;
     toastShown = t.id;
-    if (parts.toast) parts.toast.remove();
+    if (parts.toast) { observer?.unobserve(parts.toast); parts.toast.remove(); }
     // The kit's toast (0.8.0) draws it, drops it in and fades it out; its time and its place are the shell's.
     const props = { text: t.text, icon: t.icon, extra: ['ms-ps-toast'] };
     const node = kit.toast(props);
     root.append(node);
     parts.toast = node;
+    // Its height changes with the text size, and with it whether it would touch an open sheet's head (placeToast).
+    observer?.observe(node);
     if (toastTimer) win.clearTimeout(toastTimer);
-    toastTimer = win.setTimeout(() => { toastTimer = null; if (parts.toast === node) { kit.setToast(node, { ...props, leaving: true }); win.setTimeout(() => { if (parts.toast === node) { node.remove(); parts.toast = null; } }, 200); } }, TOAST_MS);
+    toastTimer = win.setTimeout(() => { toastTimer = null; if (parts.toast === node) { kit.setToast(node, { ...props, leaving: true }); win.setTimeout(() => { if (parts.toast === node) { observer?.unobserve(node); node.remove(); parts.toast = null; placeToast(); } }, 200); } }, TOAST_MS);
+  }
+  /**
+   * The toast's place (0.3.3; the Lead Designer's proposal, the owner's approval of 18 November 2026): it never covers the bar, a banner or an open sheet's head. Its own place is
+   * 10 px under the bar. From there it takes the first free place going down: 8 px under the banner when it would
+   * touch the banner, so the banner's words and Retry stay whole; then 8 px under an open sheet's head when it would
+   * touch that, over the sheet's body, so Back, the title and Close stay whole and in reach. A sheet that starts
+   * lower down is not touched, and the toast keeps the place it has. Measured in layout, so a sheet still sliding in
+   * counts where it comes to rest.
+   */
+  function placeToast() {
+    const toast = parts.toast?.isConnected ? parts.toast : null;
+    delete root.dataset.toastUnder;
+    root.style.removeProperty('--ms-ps-toast-top');
+    if (!toast) return;
+    // Its own place and height, read with the override off. Every place is from the shell's top.
+    const own = toast.offsetTop, tall = toast.offsetHeight;
+    let top = own;
+    const clear = (from, to) => { if (top + tall + 8 > from && top < to + 8) top = to + 8; };
+    const banner = parts.banner?.isConnected ? parts.banner : null;
+    if (banner) clear(banner.offsetTop, banner.offsetTop + banner.offsetHeight);
+    const sheet = parts.sheet?.isConnected ? parts.sheet : null, head = sheet?.querySelector('.ms-ps-sheet-head') ?? null;
+    if (head) clear(sheet.offsetTop, sheet.offsetTop + head.offsetTop + head.offsetHeight);
+    if (top === own) return;
+    root.dataset.toastUnder = '';
+    // The kit draws a toast 10 px under --ms-k-toast-top.
+    root.style.setProperty('--ms-ps-toast-top', `${top - 10}px`);
+  }
+  /**
+   * The footer of a squeezed sheet (0.3.3; the Lead Designer's proposal, the owner's approval of 18 November 2026). A sheet's footer stays at its foot, and the body scrolls above
+   * it. On a small phone at a large text size, a long title and a footer of stacked buttons can leave the body a
+   * line or two. When the body would get less than a third of the sheet's height and its content needs more, the
+   * footer scrolls with the body instead: the body takes all the room under the head, and the actions follow the
+   * content. Everywhere else nothing changes. Measured in layout, from sizes that are the same in both forms.
+   */
+  function fitSheet() {
+    const sheet = parts.sheet?.isConnected ? parts.sheet : null;
+    if (!sheet) return;
+    const head = sheet.querySelector('.ms-ps-sheet-head'), body = sheet.querySelector('.ms-ps-sheet-body'), foot = sheet.querySelector('.ms-ps-sheet-scroll > .ms-ps-sheet-foot');
+    const whole = sheet.clientHeight, room = foot ? whole - (head.offsetTop + head.offsetHeight) - foot.offsetHeight : whole;
+    const squeezed = !!foot && whole > 0 && room < whole / 3 && body.scrollHeight > room + 1;
+    if (sheet.hasAttribute('data-foot-scrolls') !== squeezed) sheet.toggleAttribute('data-foot-scrolls', squeezed);
   }
 
   // ── The large-content view: a tab's word, large, on a long press ────
@@ -786,7 +935,14 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     else root.style.removeProperty('--ms-ps-talk-h');
   }
   let observedBanner = null;
-  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => { placeBanner(); placeTalk(); reportLayout(); }) : null;
+  // The head is fitted first: stacking it changes the room the footer's fit and the toast's place are measured in.
+  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => { placeBanner(); placeTalk(); fitHead(); fitSheet(); placeToast(); reportLayout(); }) : null;
+  // A sheet's content is mounted and changed by its owner, after the shell's own update: the footer is fitted again then.
+  let sheetFit = 0;
+  const sheetWatch = typeof win.MutationObserver === 'function' ? new win.MutationObserver(() => {
+    if (sheetFit) return;
+    sheetFit = win.requestAnimationFrame(() => { sheetFit = 0; if (!disposed) { fitSheet(); placeToast(); } });
+  }) : null;
   observer?.observe(root);
   observer?.observe(bar);
   observer?.observe(stage);
@@ -806,7 +962,10 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     if (!observer) placeTalk();
     paintOver();
     paintSheet();
+    fitHead();
     paintToast();
+    fitSheet();
+    placeToast();
     if (suspended) root.dataset.suspended = ''; else delete root.dataset.suspended;
     // The ResizeObserver reports every change of the bars or the stage, without measuring on each update
     // (the model updates about four times a second); without one, each update measures.
@@ -836,6 +995,8 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     hideHud();
     if (toastTimer) win.clearTimeout(toastTimer);
     observer?.disconnect();
+    sheetWatch?.disconnect();
+    if (sheetFit) win.cancelAnimationFrame(sheetFit);
     textSize.dispose();
     policy.dispose();
     root.removeEventListener('click', onClick);
