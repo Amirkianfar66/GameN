@@ -767,6 +767,7 @@ The Lead then recommended one shared view for each fixed room. The owner:
   - the Pre-game & Global UI builder hands over its open work and stops;
   - the Pre-game Animation builder hands over its paused film test and keeps working on the rooms.
 - **The integration owner (Codex Astra)** records the new split in AGENTS.md and the agent roster.
+- **The handover is issue #311,** posted the same day. It lists the PRs with their order and state, the splits the Lead decided, the agreements Codex must keep, Designer's acceptance state and the builder's warnings. A comment on it says how the pre-game films are made. The Pre-game & Global UI builder stopped once it was up.
 
 **What it does not settle:**
 - **Which Codex agent** takes the work, and when.
