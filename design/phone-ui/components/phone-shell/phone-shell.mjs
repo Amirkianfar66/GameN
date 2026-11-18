@@ -27,13 +27,21 @@
 // after Panels, and its icon is this viewer's own crew portrait (`tabs.me`), the plain portrait the top
 // bar draws. With no character it keeps the pack's card icon. From 0.3.1 (the owner, the same day) the
 // portrait has the top bar's own shape and size: its rounded-square tile, whole, at 32 px.
+//
+// A second departure from sheet 08, the owner's of the same day ("This is what i am thinking of bottom bar",
+// with a picture; "I am ok with this new bar" on the draft), 0.3.2: every game tab's icon is a painted tile
+// like the portrait (../icon-paint.mjs: the portrait's own frame, one warm ground that follows no player, the
+// icon's drawing in cream), in the portrait's 32 px box, and the round button's icon is painted. An open tab
+// has the Card tab's amber ring and amber label in place of the filled icon. The Card tab with no character
+// draws the card's tile. The private talk's two buttons, the large-content view and every icon outside the
+// game's tab bar keep the family's line drawings.
 
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconPaintedSvg, iconTileSvg } from '../icon-paint.mjs';
 import { iconSvg } from '../icons.mjs';
 import { createControlPolicy, createKit, followTextSize } from '../kit/kit.mjs';
 
-export const PHONE_SHELL_VERSION = 'phone-shell-0.3.1';
+export const PHONE_SHELL_VERSION = 'phone-shell-0.3.2';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const KINDS = Object.freeze(['turn', 'phase', 'pair']);
 const HERO_MODES = Object.freeze(['pass', 'vote', 'voted']);
@@ -279,8 +287,9 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     holder.replaceChildren(node);
     holder.dataset.icon = key;
   };
-  // Draft (18 November, the owner's bottom bar): a tab's icon as a painted tile, in the portrait's own box and
-  // frame, and the round button's icon painted. Decorative, as an icon is; the holder names the icon first.
+  // 0.3.2 (the owner, 18 November 2026): a game tab's icon as a painted tile, in the portrait's own box and
+  // frame, and the round button's icon painted. Decorative, as an icon is. The holder names the icon first,
+  // which the large-content view draws as the family's line drawing.
   const painted = svg => {
     const t = doc.createElement('template');
     t.innerHTML = svg.trim();
@@ -574,7 +583,8 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       const w = key === 'switch' ? (tabs.view === 'room' ? { icon: 'board', label: 'Board', aria: 'Show the whole board' } : { icon: 'room', label: 'Room', aria: 'Show my room' }) : TAB_WORDS[key];
       const open = key !== 'switch' && tabs.open === key;
       // The Card tab (0.3.0): this viewer's own crew portrait, the plain one the top bar draws. With no character,
-      // or no portrait in the match's crew bundle, the pack's card icon: never an empty tile.
+      // or no portrait in the match's crew bundle, the card's own tile (0.3.2): never an empty one. Every other
+      // tab draws its icon's tile. A tile says nothing of the viewer: it is the same for every phone.
       const picture = key === 'card' && tabs.me?.character ? crewPortraitVariable(tabs.me.character, state.versions) : 'none';
       if (picture !== 'none') setPicture(node.firstChild, w.icon, picture);
       else setTile(node.firstChild, w.icon);

@@ -1,14 +1,16 @@
-// The painted form of the phone interface's icons. A draft (18 November 2026): the owner's picture of
-// the bottom bar, where every tab's icon is a small painted tile like the character's portrait and the
-// round button's icon is painted too. Not recorded, not checked: the look only.
+// The painted form of the phone interface's icons (phone-ui-icons-1.1.0). The owner, 18 November 2026, with a
+// picture of the bottom bar: "This is what i am thinking of bottom bar"; and on its draft: "I am ok with this
+// new bar". Every tab's icon is a small painted tile like the character's portrait, and the round button's icon
+// is painted too. Runtime source, Designer's, beside the family it paints.
 //
 // Two shapes, both from the family's own drawings (icons.mjs), so an icon keeps one silhouette:
-// - iconTileSvg: the icon as a tile in the crew portrait's frame (the continuous-corner square, the
-//   white rim, the soft shadow, a warm ground under a vignette), its drawing in cream over a brown line;
+// - iconTileSvg: the icon as a tile in the crew portrait's frame (the continuous-corner square, the white rim,
+//   the soft shadow, a warm ground under a vignette), its drawing in cream over a brown line;
 // - iconPaintedSvg: the drawing alone, painted, for a coloured ground (the round button).
+// No icon is drawn in this file: the shapes are the family's parts, or its ICON_PAINTED.
 //
-// Like the icons they are drawn from, these say no role, team or faction and no hidden fact. The
-// tile's ground is one fixed colour: it does not follow a player, a seat or a character.
+// Like the icons they are drawn from, these say no role, team or faction and no hidden fact. The tile's
+// ground is one fixed colour: it does not follow a player, a seat or a character.
 
 import { ICONS, ICON_PAINTED } from './icons.mjs';
 

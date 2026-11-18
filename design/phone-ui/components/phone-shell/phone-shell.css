@@ -197,8 +197,8 @@
    never a team's or a role's colour, and nothing around it moves. */
 .ms-phone-shell .ms-ps-tab-pt { display: block; width: 32px; height: 32px; margin-top: -6px; flex: none; border-radius: 11px; background: center / contain no-repeat; }
 .ms-phone-shell .ms-ps-tab[aria-expanded="true"] .ms-ps-tab-pt { box-shadow: inset 0 0 0 2px var(--ms-ps-accent); }
-/* Draft (18 November, the owner's bottom bar): every tab's icon is a painted tile in the portrait's box, and
-   the round button's icon is painted. A tile is drawn inside its box, so the open tab's ring is laid over it. */
+/* 0.3.2 (the owner, 18 November 2026): every game tab's icon is a painted tile in the portrait's box, and the
+   round button's icon is painted. A tile is drawn inside its box, so the open tab's ring is laid over it. */
 .ms-phone-shell .ms-ps-tab-pt[data-tile] { position: relative; }
 .ms-phone-shell .ms-ps-tab-pt[data-tile] > svg { display: block; width: 100%; height: 100%; }
 .ms-phone-shell .ms-ps-tab[aria-expanded="true"] .ms-ps-tab-pt[data-tile]::after { content: ""; position: absolute; inset: 0; border-radius: 11px; box-shadow: inset 0 0 0 2px var(--ms-ps-accent); }
