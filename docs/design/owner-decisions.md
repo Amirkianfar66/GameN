@@ -824,6 +824,19 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - **B, C and E** take the same plan-alone first step once D passes, within the owner's earlier approval of about $0.12 a view, at most $0.18 with one re-run.
 - **The checks are unchanged.** Each picture is checked against PV6-A for being the same room, and the Lead reviews it before the owner sees it.
 
+**View B's capsule fixed, minutes later.**
+- **What happened:** view D's retry passed and was accepted. View B then passed every gate, but its food dispenser came out about twice the approved counter unit's size in each direction. The sheet's capsule shape was about twice the closed housing's outline, and the edit fills each shape. The Lead held view C and asked for corrected sheets.
+- **The Lead asked, in the question dialog:**
+
+> Fixing it means one more furniture pass for B, about $0.07. That brings B to about $0.20, about $0.02 over its $0.18 limit. View C will use the corrected plan from the start, within its limit. May we do B's extra pass?
+
+- **The owner chose:** "Yes, fix B", the Lead's recommendation.
+
+**What it decides:**
+- **B:** one more furniture pass (step 2) from B's accepted empty room, with the capsule's shape cut to the closed housing's own outline. That is about $0.07, about $0.20 for B in all.
+- **C:** made from the corrected sheet, within its earlier limit.
+- **The capsule** keeps its approved size, 0.24 × 0.40 × 0.22 m, so the light and hatch that code draws line up with it.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
