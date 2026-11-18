@@ -1,0 +1,2274 @@
+{
+  "tool": "design/tools/pregame-connection-check.mjs",
+  "what": "The Planet app's screens before the match drawn by Designer's pre-game components, in Frontend's phone harness (apps/game/dev/phone) built from the candidate below",
+  "candidate": {
+    "commit": "533be55945de82536596f2043a1093c1c73f08c1",
+    "clean": true,
+    "dirty": []
+  },
+  "art": {
+    "base": "64e55516d2f0026842c5c2a675f2eccda20e0a9e",
+    "originMain": "7574bfe5ce3d7acd12ed66eb8202187045817a24",
+    "note": "The harness's art plugins over a clean worktree of origin/main; the harness and its asset tooling are byte for byte that commit's"
+  },
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels, focus emulated, no safe areas; the harness bundled by Vite and served with the production headers below. Not a phone, not Safari, not a live match.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": {
+    "390x844/boarding": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "stage": true,
+        "oneSkip": true,
+        "singleSurface": true,
+        "publicFilm": true,
+        "keyboardCanFocusSkip": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-boarding.jpg",
+      "sha256": "802764724da8baf12ad335ebd1330df71496f8e7c29e1d69517076cbc4be59b5",
+      "seen": {
+        "screen": "boarding",
+        "component": "ms-boarding-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "BoardingRound 1 in 0:09Skip",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Skip",
+            "intent": "skip",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 291.23,
+              "y": 794,
+              "width": 84.77,
+              "height": 36
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "none",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "boarding",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "view": "film",
+        "status": "live",
+        "motion": "full",
+        "svg": 1,
+        "heldPicture": false,
+        "pictureHiddenFromReaders": true,
+        "overlay": false,
+        "inert": false,
+        "offeredSkip": true,
+        "focused": false,
+        "skipVisible": true,
+        "display": false,
+        "elapsed": 1837.949951171875,
+        "endsAt": 1795011513198,
+        "game": false,
+        "privateRole": false,
+        "dismissed": null
+      },
+      "problems": []
+    },
+    "390x844/boarding-display": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "admittedDisplay": true,
+        "singleSurface": true,
+        "noSkip": true,
+        "publicFilm": true,
+        "hiddenSkipRefused": true,
+        "concealedCleared": true,
+        "staleCleared": true,
+        "retryRead": true,
+        "sameServerWindow": true,
+        "stillPublic": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-boarding-display.jpg",
+      "sha256": "34f940cc3410d363d10cc07ffc12832ac4d05e49bf8da4368fb54fd0cf24efff",
+      "seen": {
+        "screen": "boarding",
+        "component": "ms-boarding-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "BoardingRound 1 in 0:09Skip",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board navigation library hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "none",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "boarding",
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "requestAdmission"
+        ],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "view": "film",
+        "status": "live",
+        "motion": "full",
+        "svg": 1,
+        "heldPicture": false,
+        "pictureHiddenFromReaders": true,
+        "overlay": false,
+        "inert": false,
+        "offeredSkip": false,
+        "focused": false,
+        "skipVisible": false,
+        "display": true,
+        "elapsed": 1856.75,
+        "endsAt": 1795011517913,
+        "game": false,
+        "privateRole": false,
+        "dismissed": null
+      },
+      "problems": []
+    },
+    "390x844/boarding-display-waiting": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "waited": true,
+        "disposedOnStart": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-boarding-display-waiting.jpg",
+      "sha256": "76182a706caea18f1486af54371aea3cd8a6e81e6513f5ff7e4cb3ce00ac00a2",
+      "seen": {
+        "screen": "boarding",
+        "component": "ms-boarding-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "Starting Round 1 Waiting for the shipSkip",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board navigation library hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "none",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "boarding",
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "requestAdmission"
+        ],
+        "reads": 5,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "view": "waiting",
+        "status": "live",
+        "motion": "full",
+        "svg": 0,
+        "heldPicture": false,
+        "pictureHiddenFromReaders": true,
+        "overlay": false,
+        "inert": false,
+        "offeredSkip": false,
+        "focused": false,
+        "skipVisible": false,
+        "display": true,
+        "elapsed": 15297,
+        "endsAt": 1795011517913,
+        "game": false,
+        "privateRole": false,
+        "dismissed": null
+      },
+      "problems": []
+    },
+    "390x844/boarding-film-unavailable": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "holding": true,
+        "gated": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-boarding-film-unavailable.jpg",
+      "sha256": "1cb706a1c4a57dd39a7d285e9e516c0aecf6031344e9134fe55d3401edd00fa2",
+      "seen": {
+        "screen": "boarding",
+        "component": "ms-boarding-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "BoardingRound 1 in 0:09Skip",
+        "art": "player-ui roles public-board abilities scene-art setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board navigation hospital-panel promises library windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "none",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "boarding",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "view": "holding",
+        "status": "live",
+        "motion": "full",
+        "svg": 0,
+        "heldPicture": false,
+        "pictureHiddenFromReaders": false,
+        "overlay": false,
+        "inert": false,
+        "offeredSkip": false,
+        "focused": false,
+        "skipVisible": false,
+        "display": false,
+        "elapsed": 1713.400146484375,
+        "endsAt": 1795011521048,
+        "game": false,
+        "privateRole": false,
+        "dismissed": null
+      },
+      "problems": []
+    },
+    "390x844/boarding-reduced": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "savedFlow": true,
+        "playerSkip": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-boarding-reduced.jpg",
+      "sha256": "4f43db28ef06e9232075c5af4fd28030a46350f38f65187cefb9db8ae7cfb167",
+      "seen": {
+        "screen": "boarding",
+        "component": "ms-boarding-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "BoardingRound 1 in 0:09Skip",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation windows offices promises hospital-panel end successor",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Skip",
+            "intent": "skip",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 291.23,
+              "y": 794,
+              "width": 84.77,
+              "height": 36
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "none",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "boarding",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "reduced"
+        },
+        "sent": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "view": "film",
+        "status": "live",
+        "motion": "reduced",
+        "svg": 1,
+        "heldPicture": true,
+        "pictureHiddenFromReaders": true,
+        "overlay": false,
+        "inert": false,
+        "offeredSkip": true,
+        "focused": false,
+        "skipVisible": true,
+        "display": false,
+        "elapsed": 1823.75,
+        "endsAt": 1795011520064,
+        "game": false,
+        "privateRole": false,
+        "dismissed": null
+      },
+      "problems": []
+    },
+    "390x844/boarding-skipped": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "holding": true,
+        "noSkip": true,
+        "localOnly": true,
+        "focusReturned": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-boarding-skipped.jpg",
+      "sha256": "c2d5d7d618e8204da6e017be77a35766840e14dfa32629af8dbd003de9a583d1",
+      "seen": {
+        "screen": "boarding",
+        "component": "ms-boarding-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "BoardingRound 1 in 0:08Skip",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "none",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "boarding",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "view": "holding",
+        "status": "live",
+        "motion": "full",
+        "svg": 0,
+        "heldPicture": false,
+        "pictureHiddenFromReaders": true,
+        "overlay": false,
+        "inert": false,
+        "offeredSkip": false,
+        "focused": true,
+        "skipVisible": false,
+        "display": false,
+        "elapsed": 2664.099853515625,
+        "endsAt": 1795011513198,
+        "game": false,
+        "privateRole": false,
+        "dismissed": "[\"[\\\"boarding\\\",\\\"planet-local\\\",\\\"phone-boarding\\\",1795011503198,1795011513198]\"]"
+      },
+      "problems": []
+    },
+    "390x844/boarding-waiting": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "waiting": true,
+        "serverStillBoarding": true,
+        "disposedOnStart": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-boarding-waiting.jpg",
+      "sha256": "d10f1329de2f777c3bda572a56d1c0d979d60e4d3e88b0d1975d22d50f27ae13",
+      "seen": {
+        "screen": "boarding",
+        "component": "ms-boarding-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "Starting Round 1 Waiting for the shipSkip",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "none",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "boarding",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 4,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "view": "waiting",
+        "status": "live",
+        "motion": "full",
+        "svg": 0,
+        "heldPicture": false,
+        "pictureHiddenFromReaders": true,
+        "overlay": false,
+        "inert": false,
+        "offeredSkip": false,
+        "focused": true,
+        "skipVisible": false,
+        "display": false,
+        "elapsed": 14425.60009765625,
+        "endsAt": 1795011513198,
+        "game": false,
+        "privateRole": false,
+        "dismissed": "[\"[\\\"boarding\\\",\\\"planet-local\\\",\\\"phone-boarding\\\",1795011503198,1795011513198]\"]"
+      },
+      "problems": []
+    },
+    "390x844/concealed": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "concealed": true,
+        "clockRuns": true,
+        "noRole": true,
+        "cardBack": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-concealed.jpg",
+      "sha256": "ffc4307efd6727781f792e7b9fdab86be406d02cbdaf820763f3b520f51eb6f8",
+      "seen": {
+        "screen": "role",
+        "component": "ms-role-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": "Your role",
+        "words": "Role hiddenShow roleYour film starts in 0:15Ready0:25Skip filmYour roleOnly on this phone0:25",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Show role",
+            "intent": "show-role",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 122.41,
+              "y": 417.59,
+              "width": 145.19,
+              "height": 44
+            }
+          },
+          {
+            "label": "Ready",
+            "intent": "ready",
+            "value": null,
+            "disabled": true,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 780,
+              "width": 358,
+              "height": 50
+            }
+          },
+          {
+            "label": "Skip film",
+            "intent": "skip-film",
+            "value": null,
+            "disabled": true,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 261.28,
+              "y": 794,
+              "width": 114.72,
+              "height": 36
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "top",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 1,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/menu": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "menu": true,
+        "choices": true,
+        "hero": true,
+        "noFilm": true,
+        "noNotice": true,
+        "nothingSent": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-menu.jpg",
+      "sha256": "4e910b658afceeb338ff0413fd195bf4d2e66f708b662b9bac8377eac9327917",
+      "seen": {
+        "screen": "menu",
+        "component": "ms-main-menu ms-kit ms-k-phone ms-entry-parts",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "JoinEnter a room codeHostOpen a room for 7–9 playersRecover my seat",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Display settings",
+            "intent": "settings",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 338,
+              "y": 4,
+              "width": 44,
+              "height": 44
+            }
+          },
+          {
+            "label": "JoinEnter a room code",
+            "intent": "join",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 606,
+              "width": 358,
+              "height": 76
+            }
+          },
+          {
+            "label": "HostOpen a room for 7–9 players",
+            "intent": "host",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 694,
+              "width": 358,
+              "height": 76
+            }
+          },
+          {
+            "label": "Recover my seat",
+            "intent": "recover",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 107.66,
+              "y": 782,
+              "width": 174.69,
+              "height": 44
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": {
+          "svg": true,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 489.52
+          }
+        },
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": null,
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 0,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/role": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "stage": true,
+        "card": true,
+        "film": true,
+        "readyOff": true,
+        "noKnowledge": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-role.jpg",
+      "sha256": "e88a977164463138168b9eb5d69aeb5582b40a7ce5646e0dda4117fbc083ecd7",
+      "seen": {
+        "screen": "role",
+        "component": "ms-role-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": "Your role",
+        "words": "HackerRed teamYour film starts in 0:15Ready0:25Skip filmYour roleOnly on this phone0:25",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Ready",
+            "intent": "ready",
+            "value": null,
+            "disabled": true,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 780,
+              "width": 358,
+              "height": 50
+            }
+          },
+          {
+            "label": "Skip film",
+            "intent": "skip-film",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 261.28,
+              "y": 794,
+              "width": 114.72,
+              "height": 36
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "top",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "reading",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": "Hacker",
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 1,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/role-ready": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "ready": true,
+        "readySent": true,
+        "count": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/390x844-role-ready.jpg",
+      "sha256": "8a9a79c463f2e8770db75c129446ef926704c8dcc31c8789abe1c804b3070271",
+      "seen": {
+        "screen": "role",
+        "component": "ms-role-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844
+        },
+        "rootClass": "planet-pregame",
+        "title": "Your role",
+        "words": "HackerRed teamHide your phone, then tap ReadyReady0:00Skip filmYour roleOnly on this phone",
+        "art": "player-ui roles scene-art public-board setup-art abilities board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board navigation hospital-panel library windows promises end offices successor",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Ready",
+            "intent": "ready",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 780,
+              "width": 358,
+              "height": 50
+            }
+          },
+          {
+            "label": "Skip film",
+            "intent": "skip-film",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 261.28,
+              "y": 794,
+              "width": 114.72,
+              "height": 36
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "top",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "reading",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": true,
+          "role": "Hacker",
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 1,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/boarding": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "stage": true,
+        "oneSkip": true,
+        "singleSurface": true,
+        "publicFilm": true,
+        "keyboardCanFocusSkip": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-boarding.jpg",
+      "sha256": "b7325ff4873d9a728e34a0dbd0b5e95134a6b3d566227981318b1674eb758ee7",
+      "seen": {
+        "screen": "boarding",
+        "component": "ms-boarding-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "BoardingRound 1 in 0:09Skip",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Skip",
+            "intent": "skip",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 331.23,
+              "y": 882,
+              "width": 84.77,
+              "height": 36
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "none",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "boarding",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "view": "film",
+        "status": "live",
+        "motion": "full",
+        "svg": 1,
+        "heldPicture": false,
+        "pictureHiddenFromReaders": true,
+        "overlay": false,
+        "inert": false,
+        "offeredSkip": true,
+        "focused": false,
+        "skipVisible": true,
+        "display": false,
+        "elapsed": 1832.550048828125,
+        "endsAt": 1795011527381,
+        "game": false,
+        "privateRole": false,
+        "dismissed": null
+      },
+      "problems": []
+    },
+    "430x932/boarding-display": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "admittedDisplay": true,
+        "singleSurface": true,
+        "noSkip": true,
+        "publicFilm": true,
+        "hiddenSkipRefused": true,
+        "concealedCleared": true,
+        "staleCleared": true,
+        "retryRead": true,
+        "sameServerWindow": true,
+        "stillPublic": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-boarding-display.jpg",
+      "sha256": "fc11b0cab01a68821940cb672f7045685107055da52ee06d645e235376197872",
+      "seen": {
+        "screen": "boarding",
+        "component": "ms-boarding-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "BoardingRound 1 in 0:09Skip",
+        "art": "player-ui roles public-board scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "none",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "boarding",
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "requestAdmission"
+        ],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "view": "film",
+        "status": "live",
+        "motion": "full",
+        "svg": 1,
+        "heldPicture": false,
+        "pictureHiddenFromReaders": true,
+        "overlay": false,
+        "inert": false,
+        "offeredSkip": false,
+        "focused": false,
+        "skipVisible": false,
+        "display": true,
+        "elapsed": 1846.5,
+        "endsAt": 1795011532089,
+        "game": false,
+        "privateRole": false,
+        "dismissed": null
+      },
+      "problems": []
+    },
+    "430x932/boarding-display-waiting": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "waited": true,
+        "disposedOnStart": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-boarding-display-waiting.jpg",
+      "sha256": "73f291582e134b688d084c42502de950f545942f389301afb5fe38857f771b3b",
+      "seen": {
+        "screen": "boarding",
+        "component": "ms-boarding-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "Starting Round 1 Waiting for the shipSkip",
+        "art": "player-ui roles public-board scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "none",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "boarding",
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [
+          "requestAdmission"
+        ],
+        "reads": 5,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "view": "waiting",
+        "status": "live",
+        "motion": "full",
+        "svg": 0,
+        "heldPicture": false,
+        "pictureHiddenFromReaders": true,
+        "overlay": false,
+        "inert": false,
+        "offeredSkip": false,
+        "focused": false,
+        "skipVisible": false,
+        "display": true,
+        "elapsed": 15293.949951171875,
+        "endsAt": 1795011532089,
+        "game": false,
+        "privateRole": false,
+        "dismissed": null
+      },
+      "problems": []
+    },
+    "430x932/boarding-film-unavailable": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "holding": true,
+        "gated": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-boarding-film-unavailable.jpg",
+      "sha256": "17a56c75d1bdfd368c069f81e004b0a0630de4c4b3bc122ed21cccaaef2f6244",
+      "seen": {
+        "screen": "boarding",
+        "component": "ms-boarding-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "BoardingRound 1 in 0:09Skip",
+        "art": "player-ui public-board roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "none",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "boarding",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "view": "holding",
+        "status": "live",
+        "motion": "full",
+        "svg": 0,
+        "heldPicture": false,
+        "pictureHiddenFromReaders": false,
+        "overlay": false,
+        "inert": false,
+        "offeredSkip": false,
+        "focused": false,
+        "skipVisible": false,
+        "display": false,
+        "elapsed": 1714.949951171875,
+        "endsAt": 1795011535248,
+        "game": false,
+        "privateRole": false,
+        "dismissed": null
+      },
+      "problems": []
+    },
+    "430x932/boarding-reduced": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "savedFlow": true,
+        "playerSkip": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-boarding-reduced.jpg",
+      "sha256": "1e5c8e9387b2d159ce24abedb3209d887437f41dd54f9eeef0ec000c2540aee6",
+      "seen": {
+        "screen": "boarding",
+        "component": "ms-boarding-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "BoardingRound 1 in 0:09Skip",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Skip",
+            "intent": "skip",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 331.23,
+              "y": 882,
+              "width": 84.77,
+              "height": 36
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "none",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "boarding",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "reduced"
+        },
+        "sent": [],
+        "reads": 2,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "view": "film",
+        "status": "live",
+        "motion": "reduced",
+        "svg": 1,
+        "heldPicture": true,
+        "pictureHiddenFromReaders": true,
+        "overlay": false,
+        "inert": false,
+        "offeredSkip": true,
+        "focused": false,
+        "skipVisible": true,
+        "display": false,
+        "elapsed": 1826.699951171875,
+        "endsAt": 1795011534231,
+        "game": false,
+        "privateRole": false,
+        "dismissed": null
+      },
+      "problems": []
+    },
+    "430x932/boarding-skipped": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "holding": true,
+        "noSkip": true,
+        "localOnly": true,
+        "focusReturned": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-boarding-skipped.jpg",
+      "sha256": "aa85531343a8ccd74f992d91be23e16cb1d4f3e7afcb8f16941ef137635f253d",
+      "seen": {
+        "screen": "boarding",
+        "component": "ms-boarding-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "BoardingRound 1 in 0:08Skip",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "none",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "boarding",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 3,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "view": "holding",
+        "status": "live",
+        "motion": "full",
+        "svg": 0,
+        "heldPicture": false,
+        "pictureHiddenFromReaders": true,
+        "overlay": false,
+        "inert": false,
+        "offeredSkip": false,
+        "focused": true,
+        "skipVisible": false,
+        "display": false,
+        "elapsed": 2665.699951171875,
+        "endsAt": 1795011527381,
+        "game": false,
+        "privateRole": false,
+        "dismissed": "[\"[\\\"boarding\\\",\\\"planet-local\\\",\\\"phone-boarding\\\",1795011517381,1795011527381]\"]"
+      },
+      "problems": []
+    },
+    "430x932/boarding-waiting": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "waiting": true,
+        "serverStillBoarding": true,
+        "disposedOnStart": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-boarding-waiting.jpg",
+      "sha256": "472c3d3e6c4fb7f86b8d6de243edc86b59a671251035782dedb70b6ba26880ce",
+      "seen": {
+        "screen": "boarding",
+        "component": "ms-boarding-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "Starting Round 1 Waiting for the shipSkip",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "none",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "boarding",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 4,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "extra": {
+        "view": "waiting",
+        "status": "live",
+        "motion": "full",
+        "svg": 0,
+        "heldPicture": false,
+        "pictureHiddenFromReaders": true,
+        "overlay": false,
+        "inert": false,
+        "offeredSkip": false,
+        "focused": true,
+        "skipVisible": false,
+        "display": false,
+        "elapsed": 14425,
+        "endsAt": 1795011527381,
+        "game": false,
+        "privateRole": false,
+        "dismissed": "[\"[\\\"boarding\\\",\\\"planet-local\\\",\\\"phone-boarding\\\",1795011517381,1795011527381]\"]"
+      },
+      "problems": []
+    },
+    "430x932/concealed": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "concealed": true,
+        "clockRuns": true,
+        "noRole": true,
+        "cardBack": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-concealed.jpg",
+      "sha256": "0f367c504e3d696e2e590e83d99c6376d78a45efdf385485cdc457f5046df0c0",
+      "seen": {
+        "screen": "role",
+        "component": "ms-role-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": "Your role",
+        "words": "Role hiddenShow roleYour film starts in 0:15Ready0:25Skip filmYour roleOnly on this phone0:25",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Show role",
+            "intent": "show-role",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 142.41,
+              "y": 461.59,
+              "width": 145.19,
+              "height": 44
+            }
+          },
+          {
+            "label": "Ready",
+            "intent": "ready",
+            "value": null,
+            "disabled": true,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 868,
+              "width": 398,
+              "height": 50
+            }
+          },
+          {
+            "label": "Skip film",
+            "intent": "skip-film",
+            "value": null,
+            "disabled": true,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 301.28,
+              "y": 882,
+              "width": 114.72,
+              "height": 36
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "top",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 1,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/menu": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "menu": true,
+        "choices": true,
+        "hero": true,
+        "noFilm": true,
+        "noNotice": true,
+        "nothingSent": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-menu.jpg",
+      "sha256": "3e04fdf32bdb478b67bc1078ca75cb265b9bcdd71cf4e6a07cc5a8f23f197112",
+      "seen": {
+        "screen": "menu",
+        "component": "ms-main-menu ms-kit ms-k-phone ms-entry-parts",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": null,
+        "words": "JoinEnter a room codeHostOpen a room for 7–9 playersRecover my seat",
+        "art": "player-ui public-board roles scene-art abilities setup-art board-v2-motion-art board-v2-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Display settings",
+            "intent": "settings",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 378,
+              "y": 4,
+              "width": 44,
+              "height": 44
+            }
+          },
+          {
+            "label": "JoinEnter a room code",
+            "intent": "join",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 694,
+              "width": 398,
+              "height": 76
+            }
+          },
+          {
+            "label": "HostOpen a room for 7–9 players",
+            "intent": "host",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 782,
+              "width": 398,
+              "height": 76
+            }
+          },
+          {
+            "label": "Recover my seat",
+            "intent": "recover",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 127.66,
+              "y": 870,
+              "width": 174.69,
+              "height": 44
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": null,
+        "toast": null,
+        "hero": {
+          "svg": true,
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 540.55
+          }
+        },
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": null,
+          "status": null,
+          "isHost": false,
+          "selfSeatId": null,
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": null,
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 0,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/role": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "stage": true,
+        "card": true,
+        "film": true,
+        "readyOff": true,
+        "noKnowledge": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-role.jpg",
+      "sha256": "f5ae45d39f0b9abd644c5628a339cdf8b92bcd1ad86c96c121a9cf28c3aad16d",
+      "seen": {
+        "screen": "role",
+        "component": "ms-role-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": "Your role",
+        "words": "HackerRed teamYour film starts in 0:15Ready0:25Skip filmYour roleOnly on this phone0:25",
+        "art": "public-board player-ui roles scene-art abilities setup-art board-v2-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises windows offices end successor",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Ready",
+            "intent": "ready",
+            "value": null,
+            "disabled": true,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 868,
+              "width": 398,
+              "height": 50
+            }
+          },
+          {
+            "label": "Skip film",
+            "intent": "skip-film",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 301.28,
+              "y": 882,
+              "width": 114.72,
+              "height": 36
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "top",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "reading",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": false,
+          "role": "Hacker",
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 1,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/role-ready": {
+      "ok": true,
+      "checks": {
+        "screen": true,
+        "noOldView": true,
+        "policy": true,
+        "problems": true,
+        "ready": true,
+        "readySent": true,
+        "count": true
+      },
+      "file": "design/phone-ui/review/pregame-connection/430x932-role-ready.jpg",
+      "sha256": "4c7b71ac713653be990c00ca260ff39c5c1865b6dc6cadc2cc37e9a3ea9b3c61",
+      "seen": {
+        "screen": "role",
+        "component": "ms-role-stage ms-kit",
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 430,
+          "height": 932
+        },
+        "rootClass": "planet-pregame",
+        "title": "Your role",
+        "words": "HackerRed teamHide your phone, then tap ReadyReady0:00Skip filmYour roleOnly on this phone",
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art crew-roles crew-board-v2-films-art board-v2-films-art crew-public-board library navigation hospital-panel promises offices windows end successor",
+        "portraits": [],
+        "buttons": [
+          {
+            "label": "Ready",
+            "intent": "ready",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 16,
+              "y": 868,
+              "width": 398,
+              "height": 50
+            }
+          },
+          {
+            "label": "Skip film",
+            "intent": "skip-film",
+            "value": null,
+            "disabled": false,
+            "busy": false,
+            "pressed": null,
+            "reason": null,
+            "box": {
+              "x": 301.28,
+              "y": 882,
+              "width": 114.72,
+              "height": 36
+            }
+          }
+        ],
+        "inputs": [],
+        "shell": {
+          "status": "live",
+          "bar": "top",
+          "banner": null,
+          "toast": null
+        },
+        "toast": null,
+        "hero": null,
+        "old": 0,
+        "film": null,
+        "model": {
+          "connection": "live",
+          "matchId": "planet-local",
+          "status": "reading",
+          "isHost": false,
+          "selfSeatId": "seat-6",
+          "busy": false,
+          "message": null,
+          "pending": null,
+          "canChoose": false,
+          "canReady": true,
+          "role": "Hacker",
+          "fontSize": "16px",
+          "motion": "normal"
+        },
+        "sent": [],
+        "reads": 1,
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/phone-B44exWa9.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    }
+  }
+}
