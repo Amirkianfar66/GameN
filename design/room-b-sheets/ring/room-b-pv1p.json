@@ -1,0 +1,452 @@
+{
+  "sheet": "Room B shared-view sheet",
+  "version": "pv1-shared-2",
+  "date": "2026-11-17",
+  "previous": {
+    "version": "pv1-shared",
+    "id": "1794920641-e611",
+    "files": [
+      "img/o1-guide.png",
+      "img/o1-annotated.png",
+      "room-b-pv1.json",
+      "room-b-pv1-prompts.txt"
+    ]
+  },
+  "status": "Prepared for the Lead's check. Nothing is generated: after the Lead's go, naming these hashes, the image session makes one picture, plus at most one re-run if it fails a check.",
+  "decision": {
+    "words": "ok so for now we can confirm Option 1 with image generation but I want each image generation integrated with the code one  keep the ambient color of it for example in Room B is feeling Purple so lets more integrate the image and code design to have something feel same, we can test 1 image together",
+    "recorded": "by the Lead on #280 at eb769d30"
+  },
+  "generated": "Every picture made from this sheet is AI-generated. Its record says so, with its tool, model, prompt, date and settings, and it is never presented as made by a person.",
+  "test": "One picture of Room B for the owner: Option 1, one shared view, in the code's own purple, so the painted room and the code's room feel the same. It becomes the back layer of an integrated test page with the game's own Room B ambient in its openings and the stand-in crew at Option 1's places.",
+  "unchanged": [
+    "the camera, \"Deep, raised back\", at standing eye height (1.43 m), level",
+    "the straight lens: 38 degrees across, horizon y 700, the vanishing point at x 512",
+    "the geometry: the room, the platform, the window, the screen and every station",
+    "the five places: the four drawn by code and Vega's left empty",
+    "the style, lens and keep-out blocks and the picture's own line, word for word",
+    "the size, 1024 x 1536, and one picture plus at most one re-run"
+  ],
+  "changed": [
+    "the palette: the code's Room B family and the game's accent lights",
+    "the guide: painted as a colour plan in the family, instead of greys",
+    "the Room B block: its colour lines rewritten",
+    "the room block: its colour words, and the things the code draws left plain",
+    "a colour check, measured, beside the line checks",
+    "the files: o1p-* and room-b-pv1p.*, so version 1's stay as they were"
+  ],
+  "palette": {
+    "family": {
+      "deep": "#2A1446",
+      "shadow": "#4B2079",
+      "mid": "#7A3CAD",
+      "light": "#AE6CD3",
+      "pale": "#DCB6EE"
+    },
+    "accents": {
+      "teal": "#57BBA8",
+      "gold": "#EFC62F",
+      "paper": "#F4EBDD"
+    },
+    "sources": {
+      "family": "tokens 0.5.0 color.room.roomB = FAMILIES['room-b'] in design/room-pilot/rooms.mjs",
+      "accents": "design/phone-ui/prototype/ambient.mjs, which re-exports design/phone-ui/components/room-scene/ambient.mjs (TEAL, GOLD, PAPER)"
+    },
+    "oklch": {
+      "deep": {
+        "L": 0.253,
+        "C": 0.09,
+        "h": 300.3
+      },
+      "shadow": {
+        "L": 0.357,
+        "C": 0.143,
+        "h": 301.5
+      },
+      "mid": {
+        "L": 0.491,
+        "C": 0.175,
+        "h": 306.2
+      },
+      "light": {
+        "L": 0.643,
+        "C": 0.162,
+        "h": 312.2
+      },
+      "pale": {
+        "L": 0.828,
+        "C": 0.087,
+        "h": 314.8
+      },
+      "teal": {
+        "L": 0.727,
+        "C": 0.098,
+        "h": 179.2
+      },
+      "gold": {
+        "L": 0.839,
+        "C": 0.16,
+        "h": 92.4
+      },
+      "paper": {
+        "L": 0.943,
+        "C": 0.021,
+        "h": 79.1
+      }
+    }
+  },
+  "colourPlan": {
+    "how": "The guide is the room's colour plan, painted in the family's five values only, with flat black for the openings: the walls and panels in shadow, with a mid glow where the lamps light the back wall; the side walls shadow to deep; the ceiling deep, with a shadow glow round the lamps; the deck from shadow at the back to deep at the front, with a soft mid pool in front of the platform; lit tops in light with pale on their brightest edges; fronts and sides in shadow and deep; the console's display deep; the tank's liquid light with a pale top; the lamps pale; the window and the screen flat black. Gradients run only between neighbouring values.",
+    "why": "The image tool takes colour from its input image more reliably than from words. Version 1's guide was grey and its prompt asked for grey-violet, and the picture came back taupe-grey: 0.1% of its walls and deck are in the family. Painting the guide in the family fixes which value goes where (dark walls, lit tops, the lamps' pools), and the prompt's words then only have to keep it violet and say what to avoid. With only the five values in the guide, the guide, the prompt and the colour check all point at one family.",
+    "risk": "The picture could copy the guide's flat fills and look like a poster. The prompt asks for full painted detail and texture over the plan, and the checks look at the result; a flat picture is a reason for the one re-run.",
+    "geometry": "Unchanged: the same drawer (opt1.mjs roomSvg) with a palette instead of the greys. Run with its grey paint, it still writes version 1's guide byte for byte (o1-guide.svg, sha256 af67f19c…)."
+  },
+  "leaveToCode": [
+    {
+      "what": "The window",
+      "theGameDraws": "the voyage, seen through its paned frame, and the two light cones across it",
+      "inThePicture": "the opening flat black and empty",
+      "promptWords": "its opening is flat black and empty, with no panes, bars or reflections across it"
+    },
+    {
+      "what": "The small screen",
+      "theGameDraws": "the atom display",
+      "inThePicture": "flat black and empty",
+      "promptWords": "a small flat black, empty screen in a metal housing"
+    },
+    {
+      "what": "The console's display",
+      "theGameDraws": "its bars and keys",
+      "inThePicture": "plain and dark (deep in the guide)",
+      "promptWords": "its display is plain and dark, with no readouts, bars or keys on it"
+    },
+    {
+      "what": "The tank's liquid",
+      "theGameDraws": "the bubbles, masked to the painted liquid",
+      "inThePicture": "calm, still pale violet",
+      "promptWords": "full of pale violet liquid, calm and still, with no bubbles"
+    },
+    {
+      "what": "The lamps",
+      "theGameDraws": "the two light cones",
+      "inThePicture": "lit, pale lavender-white, no beams in the air",
+      "promptWords": "lit, glowing pale lavender-white … with no visible beams, rays or shafts of light in the air"
+    },
+    {
+      "what": "The crew",
+      "theGameDraws": "the stand-ins at Option 1's places, with contact shadows and the family's shadow tone on their shaded side",
+      "inThePicture": "no people",
+      "promptWords": "No people (the keep-out block, unchanged)"
+    }
+  ],
+  "lens": {
+    "kind": "straight (rectilinear): verticals straight, straight lines straight",
+    "width": 1024,
+    "height": 1536,
+    "acrossDeg": 38,
+    "fPx": 1485.2,
+    "fullFrameMm": 52,
+    "horizonY": 700,
+    "vanishingPoint": [
+      512,
+      700
+    ],
+    "camera": "at standing eye height (1.43 m), level, in front of the room's open side, looking straight at the back wall",
+    "phone": "Each phone shows a crop of the picture, drawn on the annotated guide: 27.8 degrees across at 390 x 844 and 27.0 at 430 x 932, the room scene's own framing for the four present."
+  },
+  "plate": {
+    "roomRect": [
+      132.8,
+      -74.44,
+      758.4,
+      1137.6
+    ],
+    "pxPerRoomUnit": 1.35021
+  },
+  "places": [
+    {
+      "id": "B1",
+      "gesture": "tablet",
+      "present": true,
+      "X": 0.044,
+      "Z": 6,
+      "plateFeet": [
+        522.8,
+        1053.5
+      ],
+      "heightOnPlate": 426
+    },
+    {
+      "id": "B2",
+      "gesture": "laptopStool",
+      "present": true,
+      "X": -1.005,
+      "Z": 6.5,
+      "plateFeet": [
+        282.5,
+        1026.3
+      ],
+      "heightOnPlate": 393
+    },
+    {
+      "id": "B3",
+      "gesture": "tankBack",
+      "present": true,
+      "X": 1.05,
+      "Z": 7.6,
+      "plateFeet": [
+        717.2,
+        979.1
+      ],
+      "heightOnPlate": 336
+    },
+    {
+      "id": "B4",
+      "gesture": "leanBench",
+      "present": true,
+      "X": 0.792,
+      "Z": 9.9,
+      "plateFeet": [
+        630.8,
+        851.2
+      ],
+      "heightOnPlate": 258
+    },
+    {
+      "id": "B5",
+      "gesture": "microscope",
+      "present": false,
+      "X": -0.828,
+      "Z": 9.9,
+      "plateFeet": [
+        387.8,
+        851.2
+      ],
+      "heightOnPlate": 258
+    }
+  ],
+  "checks": [
+    "The horizon within 8 px of y 700.",
+    "The floor seams, the wall bases and the ceiling edges on the guide's straight lines, within about 16 px.",
+    "Every station, the window and the screen where the guide has them.",
+    "The window and screen openings flat black and empty.",
+    "No people, words, letters or logos.",
+    "The colour check passes: colour-check.py with the map o1p-regions.png, every gate (walls and deck in the family; each wall and the deck in the family; not brown; not grey; median lightness on the ramp; accents only teal, gold, paper; openings flat black).",
+    "Left to the code, by eye: no panes, bars or reflections in the window; no beams, rays or shafts of light in the air; the console's display plain and dark; the tank's liquid calm, with no bubbles; indicator lights only teal, gold and paper white."
+  ],
+  "colourCheck": {
+    "script": {
+      "file": "colour-check.py",
+      "sha256": "7d5b66a9da1cb992bf8ba9a87bd4340d977feb3fb56cdb30876331160ff50afc",
+      "run": "python3 colour-check.py PV1-P-lit-1.png o1p-regions.png --json PV1-P-colour.json"
+    },
+    "map": {
+      "file": "o1p-regions.png",
+      "published": "img/o1p-regions.png",
+      "sha256": "987f44f35120fbc8caf1ddfdc05db4b073b77a580371edc8779e3ada58f4875c",
+      "colours": {
+        "back": "#FF0000",
+        "left": "#00FF00",
+        "right": "#0000FF",
+        "deck": "#FFFF00",
+        "window": "#FF00FF",
+        "screen": "#00FFFF",
+        "display": "#FF8000",
+        "liquid": "#8000FF"
+      },
+      "erodePx": {
+        "wallsAndDeck": 16,
+        "window": 6,
+        "screen": 6,
+        "display": 3,
+        "liquid": 6
+      }
+    },
+    "space": "OKLCH (OKLab lightness L 0-1, chroma C, hue h in degrees): hue and lightness can be read apart.",
+    "hueBand": [
+      285,
+      330
+    ],
+    "family": {
+      "deep": {
+        "hex": "#2A1446",
+        "L": 0.253,
+        "C": 0.09,
+        "h": 300.3
+      },
+      "shadow": {
+        "hex": "#4B2079",
+        "L": 0.357,
+        "C": 0.143,
+        "h": 301.5
+      },
+      "mid": {
+        "hex": "#7A3CAD",
+        "L": 0.491,
+        "C": 0.175,
+        "h": 306.2
+      },
+      "light": {
+        "hex": "#AE6CD3",
+        "L": 0.643,
+        "C": 0.162,
+        "h": 312.2
+      },
+      "pale": {
+        "hex": "#DCB6EE",
+        "L": 0.828,
+        "C": 0.087,
+        "h": 314.8
+      }
+    },
+    "gates": {
+      "walls and deck in the family": "at least 70% of the wall and deck area: hue 285-330, chroma 0.035 or more, lightness 0.15 or more",
+      "each wall and the deck in the family": "at least 50% of each area on its own, so a purple deck cannot hide brown walls",
+      "not brown": "at most 5% of the wall and deck area in the brown band (hue 20-110, chroma 0.035 or more, lightness 0.15-0.75)",
+      "not grey": "at most 15% of the wall and deck area neutral grey (chroma under 0.035, lightness 0.15 or more)",
+      "median lightness on the ramp": "the median lightness of the wall and deck area between 0.22 (just under deep, 0.253) and 0.643 (light)",
+      "accents only teal, gold, paper": "at most 0.2% of the picture bright and saturated (lightness 0.55+, chroma 0.08+) outside the family band, teal 179 +-25 and gold 92 +-20",
+      "openings flat black": "the window and the screen: 95% of each opening under lightness 0.12"
+    },
+    "calibration": [
+      {
+        "what": "This guide (o1p-guide.png)",
+        "inFamily": 1,
+        "grey": 0,
+        "brown": 0,
+        "medianL": 0.275,
+        "onRamp": "between deep (0.253) and shadow (0.357)",
+        "pass": true
+      },
+      {
+        "what": "The code's own Room B: its walls and floor (no ceiling, shelf bay or wall console)",
+        "inFamily": 0.942,
+        "grey": 0.0579,
+        "brown": 0,
+        "medianL": 0.491,
+        "onRamp": "between shadow (0.357) and mid (0.491)",
+        "pass": true
+      },
+      {
+        "what": "The first Option 1 picture (PV1-B-lit-1, AI-generated, from version 1)",
+        "inFamily": 0.0009,
+        "grey": 0.9357,
+        "brown": 0.018,
+        "medianL": 0.376,
+        "onRamp": "between shadow (0.357) and mid (0.491)",
+        "pass": false
+      },
+      {
+        "what": "Version 1's grey guide (o1-guide.png)",
+        "inFamily": 0,
+        "grey": 1,
+        "brown": 0,
+        "medianL": 0.755,
+        "onRamp": "between light (0.643) and pale (0.828)",
+        "pass": false
+      }
+    ]
+  },
+  "run": [
+    "Send the prompt with the colour-plan guide (img/o1p-guide.png) as the input image, at 1024 x 1536; one picture.",
+    "Save the output untouched: no resizing, cropping or metadata stripping.",
+    "Write one record (template below): AI-generated, with the tool, model, prompt, date and settings.",
+    "Check it: the lines against the annotated guide, the colour with colour-check.py and the map, and what the code draws by eye. If it fails a check, at most one re-run, on the Lead's word."
+  ],
+  "blocks": {
+    "style": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with selective luminous accents, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: dark, cyber, noir, illustrated science fiction. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.",
+    "room": "Room B, the laboratory, in the same dark cyber-noir world: dark and moody, but clearly violet-purple. The whole room is one violet-purple family, the colours of the attached guide: deep aubergine violet in the shadows (#2A1446), dark royal purple (#4B2079) and purple (#7A3CAD) on the walls and panels, lilac (#AE6CD3) on lit tops and surfaces, and pale lavender (#DCB6EE) on the brightest edges. Walls, panels, pipes, cables, furniture and deck plates all take their colour from that family; nothing is brown, tan, rust, beige or olive, and nothing is neutral grey. The shadows are deep violet, never black-brown or grey. The lamps' light is pale lavender-white. Pale specimen glass; labels and paper are blank, in a warm paper white. The only other colours are small indicator lights in teal (#57BBA8), gold (#EFC62F) and paper white (#F4EBDD); no other coloured light, and no red, pink, magenta or blue. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.",
+    "shared": "The room: Room B's laboratory seen from its open side, a deep room about 6.8 m wide and 3.7 m high, running back about 8.6 m from the near edge to the back wall, with the left and right walls running back to it. The back wall holds a wide exterior window in a heavy riveted frame, in the middle; its opening is flat black and empty, with no panes, bars or reflections across it. To the window's right, a small flat black, empty screen in a metal housing. Across the back of the room the deck steps up onto a low platform, about 0.4 m high, and on it a long workbench runs across most of the room's width, with a microscope on its left part and a compact food dispenser on its right end (a rounded metal housing, a paper-white hatch, a small dark round window). In front of the platform on the right, a glass specimen tank on a metal base, about 1.3 m tall, full of pale violet liquid, calm and still, with no bubbles. A little right of the middle of the deck, a waist-high console with a slanted top; its display is plain and dark, with no readouts, bars or keys on it. On the left, a round stool, and beside it, toward the left wall, a low wheeled cart. The deck in front is open and clear. The walls carry dense detail: pipe runs, cables, panels, shelves of glass and sample jars (two long shelves at the left end of the back wall), wall consoles with blank keys. Two long light fixtures hang from the ceiling over the back half of the room, lit, glowing pale lavender-white; their light pools softly on the bench and the deck and falls off into deep violet shadow toward the walls and corners, with no visible beams, rays or shafts of light in the air. Small teal, gold and paper-white indicator lights glow at the stations. The deck is worn dark violet plates with seams.",
+    "lens": "View: a straight view at eye level, exactly as the attached guide shows, through a normal straight lens with no curve. Every vertical line stays perfectly straight and vertical, and every straight line stays straight. The picture is 38 degrees across. The horizon, at eye level, is a straight line 700 px from the top, and the floor seams and the side walls run toward one point on it, in the middle of the picture. Match the guide's layout, perspective, horizon and proportions exactly, line for line, as the guide's floor seams, wall bases and ceiling edges show. Do not bend the lines, change the perspective, tilt the view, zoom in or out, or move the horizon. Lighting: the room's normal working light only.",
+    "out": "No people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border."
+  },
+  "ownerStyle": {
+    "date": "2026-11-17",
+    "sha256": "f21ffeec2e282454b9370fbcaf78d517d50e7f648ae5ef74740b14d78bdc78d6",
+    "note": "The style, Room B and keep-out blocks are the four-view sheet's, word for word."
+  },
+  "recordTemplate": {
+    "piece": "PV1-P",
+    "pass": "first, lit",
+    "generated": true,
+    "label": "AI-generated image",
+    "runner": "the session or agent that ran it",
+    "tool": "the service and endpoint used",
+    "model": "the model name exactly as the service reports it",
+    "date": "UTC date and time of the request",
+    "prompt": "the full text sent, unchanged",
+    "sheet": {
+      "version": "the version id of this sheet, as published",
+      "title": "Room B shared-view sheet pv1-shared, version 2"
+    },
+    "inputs": [
+      {
+        "file": "o1p-guide.png",
+        "published": "img/o1p-guide.png",
+        "sha256": "e9e49005dd1384de3806ce0df6e19ef3e7ca010c3c146f6988da37bfc6c6d7f7"
+      }
+    ],
+    "settings": {
+      "size": "1024x1536",
+      "quality": "...",
+      "n": 1,
+      "seed": null,
+      "other": {}
+    },
+    "output": {
+      "file": "PV1-P-lit-1.png",
+      "sha256": "...",
+      "width": 1024,
+      "height": 1536,
+      "retouched": false
+    },
+    "check": {
+      "by": "Designer",
+      "horizonWithin8px": null,
+      "linesMatchGuide": null,
+      "stationsInPlace": null,
+      "openingsFlatBlack": null,
+      "noPeopleWordsLogos": null,
+      "colour": {
+        "script": "colour-check.py",
+        "sha256": "7d5b66a9da1cb992bf8ba9a87bd4340d977feb3fb56cdb30876331160ff50afc",
+        "pass": null,
+        "inFamily": null,
+        "medianL": null
+      },
+      "leftToTheCode": null,
+      "result": "accepted | rejected",
+      "reason": ""
+    }
+  },
+  "pieces": [
+    {
+      "id": "PV1-P",
+      "title": "The shared view in Room B's purple",
+      "size": "1024x1536",
+      "pass": "first, lit",
+      "guide": {
+        "file": "o1p-guide.png",
+        "published": "img/o1p-guide.png",
+        "sha256": "e9e49005dd1384de3806ce0df6e19ef3e7ca010c3c146f6988da37bfc6c6d7f7"
+      },
+      "annotated": {
+        "file": "o1p-annotated.png",
+        "published": "img/o1p-annotated.png",
+        "sha256": "b6be0bd53b535702e5f91ecf8448ad0077edac59736fe56e4176f69c0023a9bd"
+      },
+      "regions": {
+        "file": "o1p-regions.png",
+        "published": "img/o1p-regions.png",
+        "sha256": "987f44f35120fbc8caf1ddfdc05db4b073b77a580371edc8779e3ada58f4875c"
+      },
+      "regionsView": {
+        "file": "o1p-regions-view.png",
+        "published": "img/o1p-regions-view.png",
+        "sha256": "55c048dd154785a2e4bb1475f238dcbf8b66f5b3b1f7be1c21c9b08d6a0a107d"
+      },
+      "line": "This picture: the one shared view of Room B, from the room's open side at standing eye height, level, looking straight at the back wall. In view, from left to right: the cart and the stool on the left, the console a little right of the middle, and the tank on the right, in front of the platform. Behind them, across the back on the platform, the long workbench with the microscope on its left part and the food dispenser on its right end, partly behind the tank. Above, the window in the middle of the back wall and the small screen to its right. The ceiling with its two light fixtures is at the top, and the open deck fills the bottom.",
+      "prompt": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with selective luminous accents, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: dark, cyber, noir, illustrated science fiction. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same dark cyber-noir world: dark and moody, but clearly violet-purple. The whole room is one violet-purple family, the colours of the attached guide: deep aubergine violet in the shadows (#2A1446), dark royal purple (#4B2079) and purple (#7A3CAD) on the walls and panels, lilac (#AE6CD3) on lit tops and surfaces, and pale lavender (#DCB6EE) on the brightest edges. Walls, panels, pipes, cables, furniture and deck plates all take their colour from that family; nothing is brown, tan, rust, beige or olive, and nothing is neutral grey. The shadows are deep violet, never black-brown or grey. The lamps' light is pale lavender-white. Pale specimen glass; labels and paper are blank, in a warm paper white. The only other colours are small indicator lights in teal (#57BBA8), gold (#EFC62F) and paper white (#F4EBDD); no other coloured light, and no red, pink, magenta or blue. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThe room: Room B's laboratory seen from its open side, a deep room about 6.8 m wide and 3.7 m high, running back about 8.6 m from the near edge to the back wall, with the left and right walls running back to it. The back wall holds a wide exterior window in a heavy riveted frame, in the middle; its opening is flat black and empty, with no panes, bars or reflections across it. To the window's right, a small flat black, empty screen in a metal housing. Across the back of the room the deck steps up onto a low platform, about 0.4 m high, and on it a long workbench runs across most of the room's width, with a microscope on its left part and a compact food dispenser on its right end (a rounded metal housing, a paper-white hatch, a small dark round window). In front of the platform on the right, a glass specimen tank on a metal base, about 1.3 m tall, full of pale violet liquid, calm and still, with no bubbles. A little right of the middle of the deck, a waist-high console with a slanted top; its display is plain and dark, with no readouts, bars or keys on it. On the left, a round stool, and beside it, toward the left wall, a low wheeled cart. The deck in front is open and clear. The walls carry dense detail: pipe runs, cables, panels, shelves of glass and sample jars (two long shelves at the left end of the back wall), wall consoles with blank keys. Two long light fixtures hang from the ceiling over the back half of the room, lit, glowing pale lavender-white; their light pools softly on the bench and the deck and falls off into deep violet shadow toward the walls and corners, with no visible beams, rays or shafts of light in the air. Small teal, gold and paper-white indicator lights glow at the stations. The deck is worn dark violet plates with seams.\n\nView: a straight view at eye level, exactly as the attached guide shows, through a normal straight lens with no curve. Every vertical line stays perfectly straight and vertical, and every straight line stays straight. The picture is 38 degrees across. The horizon, at eye level, is a straight line 700 px from the top, and the floor seams and the side walls run toward one point on it, in the middle of the picture. Match the guide's layout, perspective, horizon and proportions exactly, line for line, as the guide's floor seams, wall bases and ceiling edges show. Do not bend the lines, change the perspective, tilt the view, zoom in or out, or move the horizon. Lighting: the room's normal working light only.\n\nThis picture: the one shared view of Room B, from the room's open side at standing eye height, level, looking straight at the back wall. In view, from left to right: the cart and the stool on the left, the console a little right of the middle, and the tank on the right, in front of the platform. Behind them, across the back on the platform, the long workbench with the microscope on its left part and the food dispenser on its right end, partly behind the tank. Above, the window in the middle of the back wall and the small screen to its right. The ceiling with its two light fixtures is at the top, and the open deck fills the bottom.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border."
+    }
+  ]
+}

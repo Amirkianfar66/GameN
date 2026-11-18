@@ -1,0 +1,28 @@
+# Written again by pv8/make8.sh on every run: not kept in git.
+__pycache__/
+pv8/pv6-*-*.svg
+pv8/pv6-*-*.png
+pv8/_pv6-*-*.html
+pv8/camera-report-*.json
+pv8/kit8-*.json
+pv8/pieces8-*.json
+pv8/prompts8-*.json
+pv8/visits-*.json
+pv8/pub-*/_dry/
+
+# The published-copy check's model-name word list (see the README): no committed file names a model.
+pv8/_scan-words.txt
+
+# Pictures the image tool made, put here only for a run (see the README). Never commit them.
+pv6b/PV6-*.png
+pv8/pub-*/img/PV6-*.png
+
+# The same-room check's figure: PV6-A-2 cast onto the room's planes, so it holds that picture.
+pv8/pub-*/img/pv6-*-cast.png
+
+# View D's people data: its depth bands and page are written by its scripts from the image tool's PV6-D pictures.
+pv8/people-D/PV6-*.png
+pv8/people-D/band-*.png
+pv8/people-D/B*.png
+pv8/people-D/*.html
+pv8/people-D/*.log

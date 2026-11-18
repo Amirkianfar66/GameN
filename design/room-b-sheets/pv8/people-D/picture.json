@@ -1,0 +1,54 @@
+{
+ "note": "The pictures of Room B's view D (Atlas's) for the people and D's page: the plate is PV6-D-3, the empty room; the three pieces are the layers lifted from PV6-D-4 inside its PLACE mask, drawn by depth; PV6-D-4 itself is used only to check that the room and its layers rebuild it. All are AI-generated pictures from the records page, checked by hash.",
+ "view": "D",
+ "records": {
+  "page": "https://claude.ai/artifact/DktwvLiaiYHRKTMpQLR97h",
+  "version": "1795006342-c960",
+  "passed": "the image builder, 18 November 2026: view D passes"
+ },
+ "plate": {
+  "label": "PV6-D-3",
+  "file": "PV6-D-3.png",
+  "records": "img/PV6-D-3.png",
+  "sha256": "bdee3fbc45da6dcbfa47f79089fc1b2b408d4fda6b1b6edf9e940028177137a2",
+  "what": "the empty room, step 1 (made with s1-one from the empty-room guide alone)"
+ },
+ "placed": {
+  "label": "PV6-D-4",
+  "file": "PV6-D-4.png",
+  "records": "img/PV6-D-4.png",
+  "sha256": "674f050b6ddb935032c719f1059c903090eec5c958ed7b0f4b6e32078c3c5213",
+  "what": "the furnished room, step 2: one masked edit of PV6-D-3, kept inside the PLACE mask in code; for reference and the rebuild check only"
+ },
+ "layers": {
+  "record": {
+   "file": "_in/PV6-D-4-lift.json",
+   "sha256": "5d4ceda500e89d94174e72c249b257f9f4635308e6981451753c73a0bfcd7827"
+  },
+  "recipe": "the Lead's, 18 November: d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November)",
+  "pieces": {
+   "A tablet console": {
+    "file": "PV6-D-4-A-tablet-console.png",
+    "sha256": "b1f38542f291e4e63c1e6aa13613846434032823d6d45b16e0c143d635ba7a4a"
+   },
+   "E bench": {
+    "file": "PV6-D-4-E-bench.png",
+    "sha256": "b344fb22950c67f952bed7e781d35a80471b908e1465cae15a27fffe5b6ed523"
+   },
+   "C console": {
+    "file": "PV6-D-4-C-console.png",
+    "sha256": "16b3ff2e9c141432ed90d168b022ed9201176b315450d776c352aa389a9259c9"
+   }
+  }
+ },
+ "sheet": {
+  "page": "https://claude.ai/artifact/JRaXm2xwPNLyYesZE3N2WA",
+  "version": "1795006672-1dbd",
+  "pictureMadeFrom": "1795003926-70e5 (the kit is the same in both)"
+ },
+ "camera": {
+  "report": "../camera-report-D.json",
+  "version": 2,
+  "sha256": "2e594b4a1c9811efe7fabb28ab8d465eb2b879844d51b82aa421df19ba1a975a"
+ }
+}
