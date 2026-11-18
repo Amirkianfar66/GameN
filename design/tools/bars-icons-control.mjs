@@ -41,6 +41,9 @@ const QUERY = '?before', QUERY_TOAST = '?before-toast';
 /** The shell before 0.3.3's toast and sheet changes: #325's head, shell 0.3.2 (the painted tiles), as the Lead accepted it. */
 const BEFORE_SHEET = '39f35b95c4fd62e07b24e9d73aa84d5cf2c3f51a';
 const QUERY_SHEET = '?before-sheet';
+/** The shell before the bar's fit (a draft): #323's head, shell 0.3.3, as the Lead accepted it. */
+const BEFORE_FIT = '241e5aa8a3c3768a223e6718dd6ab51fff63a572';
+const QUERY_FIT = '?before-fit';
 /** The shell's source at a commit, and whether today's stylesheet still draws it: every line of the old one is in the new. */
 async function shellBefore(BEFORE = '5616928e891babfe35b78dc0a19e1fa552f6d7a3', branch = 'claude/designer-phone-shell') {
   let source, styles;
@@ -78,6 +81,8 @@ const beforeToast = await shellBefore(BEFORE_TOAST, 'claude/designer-card-tab');
 const befores = new Map([[QUERY, before], [QUERY_TOAST, beforeToast]]);
 const beforeSheet = await shellBefore(BEFORE_SHEET, 'claude/designer-tab-tiles');
 befores.set(QUERY_SHEET, beforeSheet);
+const beforeFit = await shellBefore(BEFORE_FIT, 'claude/designer-toast-under-sheet-head');
+befores.set(QUERY_FIT, beforeFit);
 const dir = await mkdtemp(join(tmpdir(), 'bars-icons-control-'));
 try {
   await build({
@@ -104,7 +109,8 @@ try {
   const facts = { commit: git('rev-parse', 'HEAD'), branch: git('rev-parse', '--abbrev-ref', 'HEAD'), clean: git('status', '--porcelain', '--', 'design', 'apps/game/hosted', 'docs/design/components/icons.md') === '',
     built: new Date().toISOString().replace(/\.\d+Z$/, 'Z'), icons: await iconFacts(), before: { commit: BEFORE, version: before.version },
     toastBefore: { commit: git('rev-parse', BEFORE_TOAST), version: beforeToast.version },
-    sheetBefore: { commit: BEFORE_SHEET, version: beforeSheet.version } };
+    sheetBefore: { commit: BEFORE_SHEET, version: beforeSheet.version },
+    fitBefore: { commit: BEFORE_FIT, version: beforeFit.version } };
   const page = [
     '<title>Bars &amp; Icons Control</title>',
     '<meta name="claude:viewport-fit-sides" content="cover">',

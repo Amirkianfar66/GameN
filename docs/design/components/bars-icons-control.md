@@ -88,7 +88,14 @@ So a change of look is shown here first, as a draft:
 
 A change that is more than a look (behaviour, data, privacy, the connection's inputs) keeps the usual order: checks, the Lead's review, then the owner.
 
-**No draft is on the page now.** The three that were, all the Lead Designer's proposals, were approved by the owner on 18 November 2026, in the Lead's session ("I approve all as your recommendation"), and are shell 0.3.3 with its record ([the shell's page](phone-shell.md#the-toasts-place-a-squeezed-sheet-and-a-long-title-033)). Their views stay, as before and after.
+**One draft is on the page: names cut in the top bar** (route `bar-fit-draft`, shell 0.3.4 as a draft, not checked). With the names the game gives when none is chosen, the top bar cut its words: "Crew 6 + Cre…" in a private talk, "Player 6 · Cr…" on a turn at 390 px with the Standard text. The Lead Designer's rule for the draft: the bar's words are never cut.
+
+- **Six bars,** each drawn three times: today (shell 0.3.3 at `241e5aa8`, read from git by the build as `?before-fit`), the draft, and the alternative. The Phone width and Text size switches choose where: 320, 390 and 430 px, at the Standard, the Large and the Largest text.
+- **The draft and the alternative differ in one thing.** In the draft every bar whose inside is up to 25 rem wide always has the slim controls (Promises the handshake with its count, the clock without its icon). In the alternative they slim only where a line would be cut; the page asks the shell for it with `data-ms-draft-bar="measured"` on the strip. The last bar, a short name, shows the difference at 390.
+- **Two marks:** `draft-top-bar-steady` and `draft-top-bar-measured`. The owner marks OK on the one they choose.
+- **The `names` switch** (the test view, Top bar): the cast's names, or the game's own longer ones.
+
+The three earlier drafts are approved, below. **Before this one, no draft was on the page:** The three that were, all the Lead Designer's proposals, were approved by the owner on 18 November 2026, in the Lead's session ("I approve all as your recommendation"), and are shell 0.3.3 with its record ([the shell's page](phone-shell.md#the-toasts-place-a-squeezed-sheet-and-a-long-title-033)). Their views stay, as before and after.
 
 *The toast over a sheet or a banner* (`#toast-draft`).
 - **Before:** the toast dropped in 10 px under the top bar, across a tall sheet's head or on the reconnecting banner.

@@ -29,12 +29,14 @@ import { PHONE_SHELL_VERSION as BEFORE_VERSION, mountPhoneShell as mountShellBef
 import { mountPhoneShell as mountShellBeforeToast } from '../components/phone-shell/phone-shell.mjs?before-toast';
 // And the shell as it was before 0.3.3's toast and sheet changes: shell 0.3.2, at the commit the build names for it.
 import { mountPhoneShell as mountShellBeforeSheet } from '../components/phone-shell/phone-shell.mjs?before-sheet';
+// And the shell as it is before the bar's fit, a draft: shell 0.3.3, at the commit the build names for it.
+import { mountPhoneShell as mountShellBeforeFit } from '../components/phone-shell/phone-shell.mjs?before-fit';
 import { COMPONENT_KIT_VERSION } from '../components/kit/kit.mjs';
 import { ICONS, ICON_FAMILY_VERSION, ICON_NAMES, iconSvg } from '../components/icons.mjs';
 import { iconPaintedSvg, iconTileSvg } from '../components/icon-paint.mjs';
 import { ROOM_SCENE_VERSION, mountRoomScene } from '../components/room-scene/room-scene.mjs';
 import { phoneIcon } from '../../../apps/game/hosted/planet/phone-controls.mjs';
-import { BASE, GROUPS, PRESETS, SHEET_08, SHEET_DRAFT, SWITCHES, TILES_DRAFT, TOAST_DRAFT, clockSeconds, matchPreset, presetOf, sceneInput, sheetContent, sheetNote, shellInput } from './states.mjs';
+import { BAR_FIT_DRAFT, BASE, GROUPS, PRESETS, SHEET_08, SHEET_DRAFT, SWITCHES, TILES_DRAFT, TOAST_DRAFT, clockSeconds, matchPreset, presetOf, sceneInput, sheetContent, sheetNote, shellInput } from './states.mjs';
 import { mainSize, readIcons, readParts } from './specs.mjs';
 
 const doc = document, root = doc.documentElement;
@@ -312,6 +314,54 @@ function textSizeChoice() {
   const choice = segmented('Text size', TEXT_SIZES.map(([value, text]) => [value, text]), page.text, setTextSize);
   textListeners.add(percent => choice.choose(percent));
   return choice;
+}
+
+// ── Bars: the top bar's words, never cut (a draft) ───────────────────
+// A draft of a look, shown before any check (the owner, 18 November 2026: "Before you run tests let me see the design
+// first"). Before is the shell at the commit the build names (0.3.3); the draft and the alternative are today's.
+const FIT = Object.freeze({ route: 'bar-fit-draft', title: 'Names cut in the top bar · draft', note: 'Draft: the look only, not checked yet. It may still change.' });
+function buildBarFitDraftPart(view) {
+  startStrips();
+  const hasBefore = !!DATA.fitBefore, own = { width: cardTabWidth, opens: null, mark: false, specs: false, route: FIT.route };
+  const trio = state => {
+    const sides = [];
+    if (hasBefore) sides.push(makeStrip({ ...state, key: `fit-before-${state.key}` }, false, { ...own, mount: mountShellBeforeFit, title: 'Today', tags: ['Sheet 07'] }));
+    sides.push(makeStrip({ ...state, key: `fit-draft-${state.key}` }, false, { ...own, title: 'Draft', tags: ['New'] }));
+    const other = makeStrip({ ...state, key: `fit-other-${state.key}` }, false, { ...own, title: 'The alternative', tags: ['New'] });
+    // The shell reads this from an ancestor: the slim controls only where a line would be cut.
+    other.card.setAttribute('data-ms-draft-bar', 'measured');
+    sides.push(other);
+    for (const strip of sides) lazyStrips.observe(strip.card);
+    return h('section', { class: 'bc-pair', 'aria-label': state.label }, h('h3', { class: 'bc-pair-title' }, state.label), sides.map(strip => strip.card));
+  };
+  const pairs = h('div', { class: 'bc-pairs' });
+  const fit = () => pairs.style.setProperty('--bc-pair-w', `${cardTabWidth()}px`);
+  const widths = segmented('Phone width', [['auto', 'This screen'], ['320', '320'], ['390', '390'], ['430', '430']], cardTab.width, setWidth);
+  widthSyncs.add(value => { widths.choose(value); fit(); });
+  fit();
+  window.addEventListener('resize', fit);
+  view.append(
+    h('div', { class: 'bc-wrap bc-group-head' },
+      h('h2', {}, 'Names cut in the top bar', h('span', { class: 'bc-count bc-count-draft' }, 'Draft')),
+      h('p', { class: 'bc-draft-line' }, FIT.note),
+      h('p', {}, 'With the names the game gives when a player has chosen none, the top bar cuts its words. In a private talk “Crew 6 + Crew 1” shows as “Crew 6 + Cre…”. On your turn “Player 6 · Crew 6” shows as “Player 6 · Cr…”, on a 390 px phone at the Standard text. The Lead Designer’s rule for this draft: the bar’s words are never cut.'),
+      h('ul', { class: 'bc-change' },
+        h('li', {}, h('b', {}, 'Today. '), 'A line that does not fit ends in “…”. The partner’s name, or your own, can’t be read.'),
+        h('li', {}, h('b', {}, 'Draft, in this order, stopping at the first that fits. '),
+          'First the controls slim: Promises is the handshake alone with its count, and the clock loses its small icon. Then the name takes two lines in place of the line under it (“Private talk” is still read out by a screen reader), or the line under it wraps to a second line. Last, Promises, the clock and ⋮ move to a row of their own and the words get the full width. The text keeps the size the player chose, and a line breaks at its “·” or “+”, never inside a name.'),
+        h('li', {}, h('b', {}, 'Draft and alternative differ in one thing. '),
+          'In the draft every phone up to about 424 px wide always has the slim controls, so two phones of one size look the same whatever the names. The Lead Designer recommends this. In the alternative the controls slim only on a phone where a line would otherwise be cut, so Promises keeps its word wherever there is room. Look at the last bar, a short name, at 390: that is where the two differ.'),
+        h('li', {}, h('b', {}, 'What it costs. '), 'A taller top bar in a few cases, most on a 320 px phone at the Large and the Largest text. And where the name takes two lines, the line under it is not drawn.'))),
+    h('div', { class: 'bc-wrap bc-tools' }, textSizeChoice(), widths,
+      h('p', { class: 'bc-hint' }, hasBefore
+        ? 'Each row is the real bar three times: as it is today, the draft, and the alternative. Choose a phone width and a text size: the trouble is at 320 and 390, and at the Large and Largest text.'
+        : 'This build has no copy of the bar as it is today, so only the draft and the alternative are shown.')),
+    h('div', { class: 'bc-wrap' }, h('div', { class: 'bc-verdict' },
+      h('p', {}, h('b', {}, 'Your answer. '), 'Mark OK on the one you choose, or Change with a note. Nothing is checked or built further until you answer.'),
+      markControl('draft-top-bar-steady', { label: 'The draft: the words never cut, the slim controls on every phone up to about 424 px wide', group: 'Top bar · draft' }),
+      markControl('draft-top-bar-measured', { label: 'The alternative: the words never cut, the slim controls only where a line would be cut', group: 'Top bar · draft' }))),
+    pairs);
+  pairs.append(...BAR_FIT_DRAFT.map(trio));
 }
 
 // ── Bars: the toast over a sheet or a banner, before and after ──────
@@ -1017,7 +1067,8 @@ function build() {
   const app = doc.getElementById('bc-app') ?? doc.body.appendChild(h('div', { id: 'bc-app' }));
   // Three sections; Bars and Icons are divided into sub-parts, each its own view with its own address.
   const sections = [
-    { id: 'bars', title: 'Bars', parts: [{ route: TILES.route, title: TILES.title, count: TILES_DRAFT.length, build: buildTilesDraftPart },
+    { id: 'bars', title: 'Bars', parts: [{ route: FIT.route, title: FIT.title, count: BAR_FIT_DRAFT.length, build: buildBarFitDraftPart },
+      { route: TILES.route, title: TILES.title, count: TILES_DRAFT.length, build: buildTilesDraftPart },
       { route: CARD_TAB.route, title: CARD_TAB.title, count: SHEET_08.length, build: buildCardTabPart },
       { route: TOAST.route, title: TOAST.title, count: TOAST_DRAFT.length, build: buildToastDraftPart },
       { route: SQUEEZE.route, title: SQUEEZE.title, count: 1, build: buildSheetDraftPart },
@@ -1039,11 +1090,13 @@ function build() {
       h('p', { class: 'bc-eyebrow' }, 'Game N · phone'),
       h('h1', {}, 'Bars & Icons Control'),
       h('p', { class: 'bc-lede' }, 'Every bar and every icon, drawn by the game’s own files and sorted into parts. Each one shows its size, its background and its colours. Look, try, then mark it OK or Change.'))),
-    // What changed lately, at the top: the owner's approvals of 18 November 2026, each checked. No draft is on the page now.
+    // What is new, at the top: one draft, then the owner's approvals of 18 November 2026, each checked.
+    h('div', { class: 'bc-wrap' }, h('p', { class: 'bc-draft', role: 'note' }, h('b', {}, 'One draft on this page. '), 'The look only, not checked yet. It may still change: ',
+      h('a', { href: `#${FIT.route}` }, 'names cut in the top bar'), '. It waits for your answer.')),
     h('div', { class: 'bc-wrap' }, h('p', { class: 'bc-approved', role: 'note' }, h('b', {}, 'Approved by you on 18 November: '),
       h('a', { href: `#${TILES.route}` }, 'the bottom bar with painted icons'), ', ',
       h('a', { href: `#${TOAST.route}` }, 'the toast over a sheet or a banner'), ' and ', h('a', { href: `#${SQUEEZE.route}` }, 'a long title at the largest text'),
-      '. All three are checked and accepted by the Lead Designer. No drafts are on this page now.')),
+      '. All three are checked and accepted by the Lead Designer.')),
     nav,
     h('div', { class: 'bc-wrap' }, notice),
     main, iconDialog);
