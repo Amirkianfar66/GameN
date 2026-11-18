@@ -83,7 +83,7 @@ As the handoff's "Frontend's connection" maps them, with what it leaves open.
 | `onChip` | "Other rooms": the board view. "List": the List |
 | `onRetry` | The session's `refresh()`, at once |
 | `onLayout` | The room scene's size and the board's layout |
-| `onFocusReturn` | While the sheet the ended control was in is still open, the focus stays in that sheet: its first available footer action, then its Close, then its Back (`shellSheetKept()`, the Lead Designer, 18 November 2026). Otherwise it goes back to Cancel while choosing on the scene; else to the shell control that opened what closed; else to the first tab, where today's Escape put it |
+| `onFocusReturn` | When one of a sheet's own controls ended and a sheet is open after the change, the same sheet or the one that took its place, the focus goes into that sheet: its first available footer action, then its Close, then its Back (`shellSheetKept()`, the Lead Designer, 18 November 2026). Otherwise it goes back to Cancel while choosing on the scene; else to the shell control that opened what closed; else to the first tab, where today's Escape put it |
 
 Nothing in the connection works out who may act: every enabled state comes from the model, from its offers and, for an eliminated player's Actions, from the public board.
 
@@ -225,7 +225,7 @@ These refuse the changed files until Integration approves. Each was found by rev
 - privacy: concealed and under Food's surface, the shell drops this viewer's inputs and keeps its shape; a display gets no tabs and no viewer, only ⋮ and Settings, and nothing private;
 - the host sheet (the pre-game connection's Host controls): in Settings' place only, its footer, Back and Close routed to it, and its Close dismissing Settings too;
 - each intent's call, and none after dispose;
-- where the focus goes back, and that it stays in a sheet that is still open: only for one of the sheet's own controls, only while the same sheet is open before and after the shell's change, and never when the sheet closed or another took its place;
+- where the focus goes back, and that it goes into an open sheet: only for one of a sheet's own controls, only while a sheet is open after the shell's change (the same one, or the one that took its place), and never when the sheet closed with nothing in its place;
 - the lifecycle: the listeners added and removed together, and the shell running only while shown and focused.
 
 ### The check
@@ -316,7 +316,7 @@ Against `00e679e9`'s record (for `883473be`):
 | `blackout` | The Blackout's dark bar and the moon, "Dark · positions fixed", the clock amber. The Card tab shows no portrait, and the card's own icon in its place (its painted tile from shell 0.3.2, so the bar has four tiles): in the dark the game gives no one's identity, the viewer's own among them, and the portrait returns with the lights |
 | `before` | Before turns, on the Officer's phone with nothing open: "Before turns · Officer block · Blackhole", the hourglass, the clock, Promises and ⋮ |
 | `appointment` | The Officer's appointment, on the Captain's phone with nothing open: "New Officer · Crew 6 chooses". Then the appointment from Actions: "Appoint Officer · Random if time runs out" |
-| `course` | Setting course, on the Officer's phone with nothing open: "Setting course · The offices are setting it". Then Navigation from Panels: "Setting course · Officer · private" |
+| `course` | Setting course, on the Officer's phone with nothing open: "Setting course · The offices are setting it". Then Navigation from Panels: "Setting course · Officer · private". Then Back: Panels opens in its place, and the focus is on the Panels sheet's Close, not on the Panels tab behind it |
 | `display` | A shared display: no tabs, no Promises, ⋮ the only control, the whole board. Then ⋮ opens Settings with the display's preferences |
 | `concealed` | The page hidden: the bars' empty material only, the tab bar's shape kept |
 | `largest-pass` | At 320 × 568 only, the Largest text chosen in the game's Settings: "Pass your turn?" with Cancel and Pass. The head a row, the footer at the sheet's foot, nothing cut |
@@ -382,7 +382,9 @@ Each capture also passes with: the shell mounted and the stage in it; none of th
   - Actions is unavailable to an eliminated player;
   - the 5 s result's round button is Vote, unavailable;
   - closing a sheet hands the focus back to the control that opened it (today's Escape went to the Board button);
-  - **a control that leaves a sheet that stays open keeps the focus in that sheet** (18 November 2026): a footer action that gives way to another, as a drawing's Show to Done in release 3, or one that goes while its choice registers, as Vote. Before, the focus went to the control behind the sheet. A keyboard or screen-reader player was thrown out of the sheet they were still in;
+  - **when a sheet's own control ends and a sheet is open, the focus goes into that sheet** (18 November 2026): a footer action that gives way to another, as a drawing's Show to Done in release 3; one that goes while its choice registers, as Vote; and Back from a panel's page, which opens Panels in its place. Before, the focus went to the control behind the sheet. A keyboard or screen-reader player was put behind a sheet they were looking at.
+    - **Open:** the better landing after Back is the row that opened the page (the Lead Designer's note from Panels). Not done here.
+    - **To watch: a held Enter.** The focus now lands on an action the moment another is pressed, so a key held past its repeat delay presses the new one too. Today that is Done after Show, which is harmless. If a sheet ever puts a weightier action in the place of the one just pressed, that sheet's action is guarded against key repeat then;
   - the old target bar's "Target list" is the board's List chip, and in the room view "Other rooms · n" opens the board;
   - under Food's surface the shell is concealed, and the board keeps the shell's bars (Food's measured the same at both sizes);
   - the result window and the status line lie under the shell's sheet, banners and toast; the status line hides while concealed and while the reconnecting banner shows;
