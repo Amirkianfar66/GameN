@@ -326,6 +326,9 @@ function buildCardTabPart(view) {
   window.addEventListener('resize', fit);
   const noCharacter = makeStrip(presetOf('card-icon'), false, { width: cardTabWidth, title: 'After', tags: ['New'], mark: false });
   lazyStrips.observe(noCharacter.card);
+  // The Blackout's dark: the game gives no one's identity then, so the tab draws the card icon until the lights are back.
+  const dark = makeStrip({ ...presetOf('dark'), key: 'card-tab-dark', crop: 'bottom', group: 'bottom' }, false, { width: cardTabWidth, opens: 'dark', title: 'After', tags: ['New'], mark: false });
+  lazyStrips.observe(dark.card);
   // The whole phone on your own turn: the top bar and the Card tab draw the same picture, in the same shape and size.
   const both = makeStrip({ ...presetOf('pass'), key: 'card-tab-whole', crop: 'whole', group: 'whole' }, false,
     { width: cardTabWidth, opens: 'pass', title: 'After · the whole phone, small', tags: ['New'], mark: false, specs: false });
@@ -340,7 +343,8 @@ function buildCardTabPart(view) {
       h('ul', { class: 'bc-change' },
         h('li', {}, h('b', {}, 'The order. '), 'Before: Board · Actions · Pass · Card · Panels. After: Board · Actions · Pass · Panels · Card.'),
         h('li', {}, h('b', {}, 'The picture. '), 'The Card tab shows your own character in place of the card icon: the same picture as in the top bar, in the same rounded-square shape, at the same size, 32 px.'),
-        h('li', {}, h('b', {}, 'Open. '), 'A picture can’t be filled in as an icon is, so an amber outline round it and the amber word show that Card is open. At rest it has no outline, as in the top bar.'))),
+        h('li', {}, h('b', {}, 'Open. '), 'A picture can’t be filled in as an icon is, so an amber outline round it and the amber word show that Card is open. At rest it has no outline, as in the top bar.'),
+        h('li', {}, h('b', {}, 'No picture to show. '), 'Before you have a character, and while the lights are out in the Blackout, the tab shows the card icon.'))),
     h('div', { class: 'bc-wrap bc-tools' },
       h('button', { type: 'button', class: 'bc-primary', onclick: () => openTest('pass') }, icon('phone', { filled: true }), 'Try the new bar on the whole phone'),
       textSizeChoice(), widths,
@@ -354,7 +358,9 @@ function buildCardTabPart(view) {
   pairs.append(
     h('section', { class: 'bc-pair', 'aria-label': 'The top bar and the Card tab' }, h('h3', { class: 'bc-pair-title' }, 'Your turn · the same picture in the top bar and on the Card tab'), both.card),
     ...SHEET_08.map(pair),
-    h('section', { class: 'bc-pair', 'aria-label': 'No character yet' }, h('h3', { class: 'bc-pair-title' }, 'No character yet · the Card tab keeps the card icon'), noCharacter.card));
+    h('section', { class: 'bc-pair', 'aria-label': 'No character yet' }, h('h3', { class: 'bc-pair-title' }, 'No character yet · the Card tab keeps the card icon'), noCharacter.card),
+    h('section', { class: 'bc-pair', 'aria-label': 'Blackout, dark' }, h('h3', { class: 'bc-pair-title' }, 'Blackout · lights out · the card icon until the lights are back'), dark.card,
+      h('p', { class: 'bc-strip-note' }, 'While the lights are out the game shows no one’s picture, yours included. So the Card tab shows the card icon, and your picture returns with the lights.')));
 }
 
 function buildBarsPart(view, group) {

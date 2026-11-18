@@ -222,8 +222,9 @@ function tabsInput(c) {
   if (c.tabs === 'talk') return { variant: 'talk', open: c.talkOpen === 'none' ? null : c.talkOpen };
   return {
     variant: 'game', view: c.view, open: c.open === 'none' ? null : c.open, hero: HEROES[c.hero],
-    // The viewer's own person: the Card tab draws their portrait (shell 0.3.0). None: the card icon.
-    me: c.me === 'portrait' ? person(SELF) : null,
+    // The viewer's own person: the Card tab draws their portrait (shell 0.3.0). None: the card icon. In the Blackout's
+    // dark the game gives no one's identity, the viewer's own among them, so the tab shows the card icon there too.
+    me: c.me === 'portrait' && c.bar !== 'dark' ? person(SELF) : null,
     ...(c.actionsTab === 'off' ? { enabled: { actions: false }, reasons: { actions: 'You’re out' } } : {}),
     ...(c.badge === 'actions' ? { badges: { actions: 1 } } : c.badge === 'panels' ? { badges: { panels: 2 } } : {}),
   };

@@ -45,7 +45,7 @@ The page has three sections. Bars and Icons are divided into sub-parts, each wit
 The first sub-part of Bars, where the page opens. It shows the owner's 18 November change to sheet 08: Card is the last tab and shows the player's own character.
 
 - **The whole phone first,** small, on the player's own turn: the top bar and the Card tab draw the same picture, in the same shape, at the same size.
-- **The pairs:** sheet 08's nine states, in the sheet's order. Each is the bottom bar twice, "Before" above "After", at the same width and text size. A last card shows the new bar with no character yet, where the Card tab keeps the card icon.
+- **The pairs:** sheet 08's nine states, in the sheet's order. Each is the bottom bar twice, "Before" above "After", at the same width and text size. Two last cards show where the Card tab keeps the card icon: with no character yet, and in the Blackout's dark, when the game gives no one's identity (the Lead's condition for the fourth version: the page shows what the game shows).
 - **Both are the component.** "After" is today's shell. "Before" is the shell's own file at `5616928e` (shell 0.2.12, #265's head before the change), which the build tool reads from git and bundles beside today's. Nothing is redrawn and no copy is kept in the repository.
   - Today's stylesheet draws both. The build first checks that every line of the stylesheet at `5616928e` is still in today's, and stops if one is gone.
   - Built without the tool, the page has no "before" and says so, rather than show the new bar twice.
@@ -136,7 +136,7 @@ On `d0139b11`, in desktop Chromium, the built page inside the host's document sk
 
 **The fourth version** (the portrait's shape, 18 November), built with shell 0.3.1:
 - **The before and after,** at 390 × 844, 430 × 932 and 320 × 568, each at the Standard and the Largest text, and at 1440 × 900 in the dark theme:
-  - all 20 strips draw: the whole phone, nine pairs and the card with no character;
+  - all 21 strips draw: the whole phone, nine pairs, the card with no character and the Blackout's dark, where the tab draws the card icon;
   - every portrait on a Card tab is 32 × 32 px, the top bar's size, at every width and text size;
   - the bar is the same size before and after: 58 px tall at the Standard text and 60.2 px at the Largest;
   - no page error, no console error and no sideways scroll.
