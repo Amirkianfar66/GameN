@@ -1,0 +1,51 @@
+<!doctype html>
+<!-- mothership:dev-only. Ship life's framing sheets (design/ship-life/framings.mjs): ?room=<id>, or ?view=board. A design sheet, not the game. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Room framings</title>
+<style>
+  :root { --ink: #151923; --paper: #F4EBDD; --muted: #5B6170; --line: #CBBBA2; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  #root { padding: 22px 28px 26px; }
+  h1 { margin: 0 0 6px; font-size: 25px; }
+  .lede { margin: 0 0 16px; max-width: 1180px; color: var(--muted); }
+  h2 { margin: 16px 0 8px; font-size: 16px; }
+  .cells { display: flex; gap: 22px; align-items: flex-start; }
+  .cell { margin: 0; }
+  .what { font-weight: 650; margin: 0 0 6px; }
+  .facts { margin: 6px 0 0; padding: 0 0 0 18px; color: var(--muted); font-size: 13px; max-width: 430px; }
+  .foot { color: var(--muted); font-size: 13px; margin-top: 18px; }
+  .phone { position: relative; overflow: hidden; border-radius: 26px; background: #0D1017; box-shadow: 0 0 0 3px var(--ink), 0 8px 22px #0003; }
+  .bar { position: absolute; left: 0; right: 0; z-index: 5000; display: grid; place-items: center; color: #8E99AB; font: 600 12px/1 system-ui; letter-spacing: 0.06em; text-transform: uppercase; background: repeating-linear-gradient(135deg, #1A2030 0 10px, #161B28 10px 20px); box-shadow: inset 0 0 0 1px #2A3245; }
+  .bar.top { top: 0; } .bar.tabs { bottom: 0; }
+  .view { position: absolute; left: 0; overflow: hidden; background: #0D1017; }
+  .stage { position: absolute; inset: 0; }
+  .scene { position: absolute; left: 0; top: 0; width: 1024px; height: 768px; transform-origin: 0 0; }
+  .scene > img { position: absolute; left: 0; top: 0; width: 1024px; height: 768px; display: block; }
+  .scene > img.extend { height: auto; }
+  .scene > .amb { position: absolute; left: 0; top: 0; }
+  .capsule { position: absolute; }
+  .capsule svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .piece { position: absolute; }
+  .piece .layer, .piece .layer > svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .piece[data-mirror="true"] { transform: scaleX(-1); }
+  .press { position: absolute; z-index: 3100; border-radius: 50%; border: 1.5px dashed rgba(244, 235, 221, 0.85); background: rgba(244, 235, 221, 0.06); }
+  .tag { position: absolute; z-index: 3150; display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 9px 0 3px; border-radius: 13px; background: rgba(12, 15, 22, 0.86); box-shadow: inset 0 0 0 1.5px rgba(244, 235, 221, 0.28); font: 600 13px/1 system-ui; white-space: nowrap; transform: translateX(-50%); color: var(--paper); }
+  .tag .num { display: inline-grid; place-items: center; min-width: 26px; height: 20px; padding: 0 4px; border-radius: 10px; background: var(--paper); color: var(--ink); font-size: 11px; }
+  .device { position: absolute; z-index: 3120; border: 2px dashed #F7DFA3; border-radius: 4px; }
+  .spot { position: absolute; z-index: 3120; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: #F7DFA3; box-shadow: 0 0 0 2px var(--ink); }
+  .room-name { position: absolute; z-index: 3200; left: 12px; top: 10px; padding: 3px 9px; border-radius: 11px; background: rgba(12, 15, 22, 0.8); color: var(--paper); font: 700 12px/1.3 system-ui; }
+  .room-name.small { left: 6px; top: 5px; font-size: 10px; padding: 2px 6px; }
+  .board-panel { position: absolute; overflow: hidden; border-radius: 8px; background: #0D1017; box-shadow: inset 0 0 0 1px #2A3245; }
+  .board-panel.talk { display: grid; place-items: center; color: #8E99AB; font: 600 11px/1 system-ui; text-transform: uppercase; letter-spacing: 0.06em; }
+</style>
+<link rel="stylesheet" href="../phone-ui/prototype/ambient.css">
+</head>
+<body>
+<div id="root"></div>
+<script type="module" src="./framings.mjs"></script>
+</body>
+</html>
