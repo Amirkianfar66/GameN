@@ -197,6 +197,12 @@ export const ACTIONS_STATES = Object.freeze({
   'check-shiphack': checkState('Hack Ship · the check (L7)', '27.2+', 'ACTIVATE_SHIP_HACK', []),
   'check-error': checkState('Not accepted · Register again while offered (L6)', '29+', 'RESCUE', [who(5)],
     { error: { text: 'The server did not accept Rescue.', detail: 'Check the target, then register again.' } }),
+  // R2 (the Lead, 18 November): a refused command holds the check with the controller's own words, verbatim, and
+  // Register off, since the controller has dropped the draft; Cancel goes back to the tiles. It partly reverses L6.
+  'check-refused': checkState('Refused · the controller\'s words, Register off (R2)', '29+', 'RESCUE', [who(5)],
+    { error: { text: 'The server did not allow that command.' }, canRegister: false }),
+  'largest-check-refused': { ...checkState('Largest text · refused, Register off (R2)', '29+', 'RESCUE', [who(5)],
+    { error: { text: 'The server did not allow that command.' }, canRegister: false }), sizes: ['320x568'], text: 200 },
   'after-reload': afterState('Accepted, after a reload (L6)', '29+', 'RESCUE', null,
     { input: { type: 'RESCUE', kind: 'registered', title: 'The server accepted your action.', detail: 'This is not a result. Registered actions are resolved at the end of the round.', people: null, steps: [] } }),
   'unknown-blackout': state('Outcome unknown · no person', '45+', {

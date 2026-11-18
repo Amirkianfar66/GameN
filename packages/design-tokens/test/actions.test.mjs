@@ -68,7 +68,7 @@ test('the component is a runtime source: its whole graph is runtime-safe and in 
     assert.match(read(`${COMPONENT}/${path}`), /mothership:dev-only/, `${path} is marked development-only`);
   }
   assert.match(read('design/tools/actions-check.mjs'), /^\/\/ mothership:dev-only/);
-  assert.equal(ACTIONS_VERSION, 'actions-0.2.4');
+  assert.equal(ACTIONS_VERSION, 'actions-0.2.5');
 });
 
 test('its styles reach nothing outside the component: every rule is under its root, weighs two classes, and places the kit\'s and the parts\' only inside its own', () => {
@@ -237,7 +237,7 @@ test('every preview state is a valid input of its part, and every compared pack 
     assert.doesNotThrow(() => CHECKS[state.part.kind]({ viewer: 'seat-4', ...state.part.input }), key);
   }
   assert.deepEqual([...kinds].sort(), Object.keys(CHECKS).sort(), 'every part has a preview state');
-  assert.equal(Object.keys(ACTIONS_STATES).length, 61);
+  assert.equal(Object.keys(ACTIONS_STATES).length, 63, '61, and the refusal at both sizes and at the Largest text (0.2.5, R2)');
   for (const key of Object.keys(PACK_FRAMES)) assert.ok(ACTIONS_STATES[key], `${key} is a preview state`);
   assert.equal(Object.keys(PACK_FRAMES).length, 31, 'the 31 frames compared with the pack');
   // Sheet 30: the Disabler choosing a position in the dark, and the position fixed.
@@ -262,7 +262,8 @@ test('the frames and the shell\'s words, from the type alone', () => {
   assert.throws(() => afterSheet({ type: 'MOVE' }), /A move has no After Register/);
   assert.deepEqual(afterSheet({ type: 'ENGINEER_SUPPRESS' }), { id: 'action-after', title: 'Suppress navigation', close: false, actions: [{ id: 'done', label: 'Done', kind: 'secondary', local: true }] });
   assert.deepEqual(unknownSheet({ type: 'RESCUE', busy: 'check' }).actions.map(a => [a.id, a.label, a.busy, a.enabled, a.local ?? false]), [['retry', 'Retry the same', false, false, false], ['check', 'Check receipt', true, true, false]]);
-  assert.equal(passSheet({ next: { seat: 'seat-5', name: 'Eli' } }).sub, 'The turn goes to Eli · Player 5');
+  // The name keeps its "·" and "Player" its number, with no-break spaces (the Lead's polish, approved by the owner on 18 November).
+  assert.equal(passSheet({ next: { seat: 'seat-5', name: 'Eli' } }).sub, 'The turn goes to Eli\u00a0· Player\u00a05');
   assert.equal(passSheet({}).sub, null, 'without the next player (B5), no sub');
   assert.deepEqual(passSheet({ busy: true }).actions.map(a => [a.id, a.busy ?? false, a.enabled ?? true, a.local ?? false]), [['cancel', false, false, true], ['pass', true, true, false]]);
   // The projection's own allowance (0.2.3, A14): a button it does not allow now keeps its place, unusable; while a
@@ -333,10 +334,10 @@ test('the frames and the shell\'s words, from the type alone', () => {
 
 test('the words of a check and of "Outcome unknown": the person, yourself, both people, or the action alone; a tile\'s line (T3)', () => {
   const eli = { seat: 5, name: 'Eli', room: 'Hospital' }, dev = { seat: 4, name: 'Dev', room: 'Room A' };
-  assert.deepEqual(actionWords({ type: 'RESCUE', targets: [eli], viewer: 4 }), { title: 'Rescue Eli', sub: 'Player 5 · Hospital', what: 'Rescue Eli' });
+  assert.deepEqual(actionWords({ type: 'RESCUE', targets: [eli], viewer: 4 }), { title: 'Rescue Eli', sub: 'Player\u00a05\u00a0· Hospital', what: 'Rescue Eli' }, '"Player" keeps its number, and the seat its "·" (0.2.5)');
   assert.equal(actionWords({ type: 'RESCUE', targets: [dev], viewer: 4 }).title, 'Rescue yourself');
-  assert.equal(actionWords({ type: 'RESCUE', targets: [{ seat: 5, name: 'Eli', room: null }], viewer: 4 }).sub, 'Player 5', 'no room given, none said');
-  assert.deepEqual(actionWords({ type: 'SUPPLY', targets: [{ seat: 1, name: 'Ava' }, { seat: 7, name: 'Gus' }], viewer: 4 }), { title: 'Supply Ava and Gus', sub: 'Players 1 and 7', what: 'Supply Ava and Gus' });
+  assert.equal(actionWords({ type: 'RESCUE', targets: [{ seat: 5, name: 'Eli', room: null }], viewer: 4 }).sub, 'Player\u00a05', 'no room given, none said');
+  assert.deepEqual(actionWords({ type: 'SUPPLY', targets: [{ seat: 1, name: 'Ava' }, { seat: 7, name: 'Gus' }], viewer: 4 }), { title: 'Supply Ava and Gus', sub: 'Players\u00a01 and\u00a07', what: 'Supply Ava and Gus' });
   assert.equal(actionWords({ type: 'REQUEST_HACK', targets: [{ seat: 1, name: 'Ava', room: 'Room A' }], viewer: 4 }).title, 'Talk with Ava');
   assert.deepEqual(actionWords({ type: 'ACTIVATE_SHIP_HACK', targets: [], viewer: 4 }), { title: 'Hack Spaceship', sub: 'Only you see this', what: 'Hack Spaceship' });
   // The Hospital panel's request: "Panel request was sent, but no answer came back." (the Lead's Q3), never a number.
@@ -407,7 +408,7 @@ test('the check\'s record: every capture, the probe and the agreement passed, on
   assert.match(csp, /default-src 'none'/);
   assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
   const captures = Object.entries(record.captures);
-  assert.equal(captures.length, 114, 'every state at both phone sizes, the small phone\'s and the text sizes\' at their own');
+  assert.equal(captures.length, 117, 'every state at both phone sizes, the small phone\'s and the text sizes\' at their own');
   for (const [key, c] of captures) {
     assert.ok(c.ok && c.drawn, `${key} passed and drew what its state asks`);
     assert.deepEqual(c.mismatched, [], `${key}: nothing differs from what its state asks`);
@@ -434,6 +435,14 @@ test('the check\'s record: every capture, the probe and the agreement passed, on
   assert.deepEqual([at('move-room').target, at('move-room').chip, at('move-room').slots], ['Move within Room A|Choose an empty position · or another room on the Board', 'Other rooms on the Board', 'A5']);
   assert.deepEqual([at('move-check').who, at('move-check').slots, at('move-check').footer], ['Move to A5|Room A', 'A5*', 'Cancel|Register move']);
   assert.deepEqual([at('move-moved').toast, at('passed').toast], ['Moved to A5', 'Turn passed']);
+  // A refusal (0.2.5, R2): Frontend's words, the check kept open with Register off, the words last and in view; at
+  // 320 × 568 with the Largest text they start in view (the owner accepted the note as drawn there, 18 November).
+  for (const c of [at('check-refused'), record.captures['430x932/check-refused'], record.captures['320x568/largest-check-refused']]) {
+    assert.ok(c.error === 'The server did not allow that command.' && c.registerOff && c.errorLast && c.errorStarts && c.footer === 'Cancel|Register Rescue', `${c.file}: the refusal, Register off`);
+  }
+  assert.ok(at('check-refused').errorWhole && record.captures['430x932/check-refused'].errorWhole, 'whole in view at both development sizes');
+  // The joins as drawn: "Player" with its number and the seat with its "·" in the check, and the Pass line.
+  assert.ok(['check', 'check-ava', 'sending', 'check-supply', 'check-refused'].every(k => at(k).whoJoined) && at('pass').subJoined, 'the joins as drawn');
   // The Disabler during a Blackout (sheet 30): the dark room, every position offered, then A3 fixed.
   assert.deepEqual([at('blackout-pick').target, at('blackout-pick').slots, at('blackout-pick').lighting], ['Choose a position|Room A · any position, even empty', 'A1,A2,A3,A4,A5', 'dark']);
   assert.deepEqual([at('blackout-fixed').target, at('blackout-fixed').slots], ['Position A3 fixed|Resolves after the window · no effect shown now', 'A1,A2,A3*,A4,A5']);

@@ -2,7 +2,7 @@
   "tool": "design/tools/actions-check.mjs",
   "component": "design/phone-ui/components/actions",
   "parts": "design/phone-ui/components/play-parts",
-  "sourceCommit": "da655d1aae9fb5762b4639a6a9fac1f93ab3ec29",
+  "sourceCommit": "38f2677b1614687d67ba2cedf7343d72f8097af8",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -40,7 +40,7 @@
   "captures": {
     "390x844/tiles-doctor": {
       "file": "design/phone-ui/components/actions/review/390x844-tiles-doctor.jpg",
-      "sha256": "ad197b2d98fefd83ac1d90ca91c756071d62c1d87dbab9587135aa85b0d7a5a5",
+      "sha256": "ae9deccceda43ec11b062768a865169028110032d2313a8e4c52cf9680a8bc56",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -48,7 +48,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -77,6 +77,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -103,7 +106,7 @@
     },
     "430x932/tiles-doctor": {
       "file": "design/phone-ui/components/actions/review/430x932-tiles-doctor.jpg",
-      "sha256": "941a3c6d758cdcc3e20e9482c4beab1d2842c2e13d2f565ceb92fbd00bd4fb42",
+      "sha256": "c8c1696951aa10a190bbdc8195f73c7584bb0af782d711f6c4ba45e141d1731f",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -111,7 +114,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -140,6 +143,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -166,7 +172,7 @@
     },
     "390x844/tiles-hacker": {
       "file": "design/phone-ui/components/actions/review/390x844-tiles-hacker.jpg",
-      "sha256": "a86c32aad4a7b06f9c477f0f5ca940bf716f236b7778c16339bac9322250ba0d",
+      "sha256": "2647e2fda563dcd56490cedf118209120037e458222033d830ab9b04bcc795fb",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -174,7 +180,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -203,6 +209,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -226,7 +235,7 @@
     },
     "430x932/tiles-hacker": {
       "file": "design/phone-ui/components/actions/review/430x932-tiles-hacker.jpg",
-      "sha256": "fcd856ed79d4aafc518eb73f1da1bba9e4ce58a0316906e8c4a562616e67f7ba",
+      "sha256": "be304f4365756fb5137eb47b448f8dd53d13f16f4f6cbab556d16f880c6e4e61",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -234,7 +243,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -263,6 +272,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -286,7 +298,7 @@
     },
     "390x844/tiles-undercover-other": {
       "file": "design/phone-ui/components/actions/review/390x844-tiles-undercover-other.jpg",
-      "sha256": "735de3e3dbdbae0cd38249b2b4e085c5ce4034803370a8d35e08b5de20f9dc82",
+      "sha256": "136be0fbe1406ba57fa90e3a4bf696cfff8e40c0cdaceebff75147c8e24bb7e2",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -294,7 +306,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -323,6 +335,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -345,7 +360,7 @@
     },
     "430x932/tiles-undercover-other": {
       "file": "design/phone-ui/components/actions/review/430x932-tiles-undercover-other.jpg",
-      "sha256": "b69a05b0747c5928644232b987e99bde309602204f4fed60a764a5811cecb5cf",
+      "sha256": "540310a4fe146be227938439c6f1df76b32b5c74d0434fbe1faa639ff4892735",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -353,7 +368,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -382,6 +397,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -404,7 +422,7 @@
     },
     "390x844/tiles-spent": {
       "file": "design/phone-ui/components/actions/review/390x844-tiles-spent.jpg",
-      "sha256": "3e35463311e0b1efdba4ad4c9bdcd417b27d337bec5bd4681dc3459c5af8ae36",
+      "sha256": "0ecb606d3d270e05f3ebcd95256791e691880b1d3810c5f7fb51b8216234daec",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -412,7 +430,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -441,6 +459,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -466,7 +487,7 @@
     },
     "430x932/tiles-spent": {
       "file": "design/phone-ui/components/actions/review/430x932-tiles-spent.jpg",
-      "sha256": "ac09d82a2be1ea3000ce3955dfc51f6287434917b10271d5423deaea4cbc3306",
+      "sha256": "4e8629a80c6c572ad17077cf968de63564072ec67d3bb87bf290557b093f7658",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -474,7 +495,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -503,6 +524,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -528,7 +552,7 @@
     },
     "390x844/tiles-doctor-other": {
       "file": "design/phone-ui/components/actions/review/390x844-tiles-doctor-other.jpg",
-      "sha256": "eea45a97b2ecfec833cea86cd0afc8ca8e944076a146e874eee73f0264796ea9",
+      "sha256": "73bbcf75b8308f7e76f27464836d3bc96cb953da51e276a42a8c915020e9b343",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -536,7 +560,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -565,6 +589,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -589,7 +616,7 @@
     },
     "430x932/tiles-doctor-other": {
       "file": "design/phone-ui/components/actions/review/430x932-tiles-doctor-other.jpg",
-      "sha256": "75184fa2eb668e661d2d9ca4e045cb1353a55d9fe12744e0957ed4ef10cb28ce",
+      "sha256": "a5a475be09a3c26a5ed6026992f81e6b0ba7e0d3569c45ae3689e737ffe1d383",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -597,7 +624,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -626,6 +653,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -650,7 +680,7 @@
     },
     "390x844/tiles-t3": {
       "file": "design/phone-ui/components/actions/review/390x844-tiles-t3.jpg",
-      "sha256": "9d2bbab9fd4eba71ca4deaf50ac832152fd3765563efeb1077fc85adcd44119c",
+      "sha256": "793b14f22d1640cdf1905870d461f8be743f21db85c2e0eeeee6d07bf7c770fe",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -658,7 +688,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -687,6 +717,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -713,7 +746,7 @@
     },
     "430x932/tiles-t3": {
       "file": "design/phone-ui/components/actions/review/430x932-tiles-t3.jpg",
-      "sha256": "c17357a8a311fd92112256ac08bcda20d90d0cf682b31cb814cc0a866b39a073",
+      "sha256": "bbb659377f4954b1733e2a504b20bf52cd0f4bb115d759eeba3f9a0900f0cf0d",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -721,7 +754,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -750,6 +783,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -776,7 +812,7 @@
     },
     "390x844/tiles-sending": {
       "file": "design/phone-ui/components/actions/review/390x844-tiles-sending.jpg",
-      "sha256": "7f6c4d77aa2bf982a625ec28ba327a3231665412053792f61f7d9dacd5993804",
+      "sha256": "b6d1ec95ea7c03a27106cfb66b243bb55ae09c7bc0913c3488b8e972d1875a7f",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -784,7 +820,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -813,6 +849,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -839,7 +878,7 @@
     },
     "430x932/tiles-sending": {
       "file": "design/phone-ui/components/actions/review/430x932-tiles-sending.jpg",
-      "sha256": "6273be284664490abd8b80d9ee2f76b8e53f7bc72509b0228d14ca4968d744c5",
+      "sha256": "b9b8eab1e677db7007438e276cb6987ead659780834d00f5f70b959597288135",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -847,7 +886,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -876,6 +915,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -902,7 +944,7 @@
     },
     "390x844/targeting": {
       "file": "design/phone-ui/components/actions/review/390x844-targeting.jpg",
-      "sha256": "86c029339b965768fad89f4b035bbeee7fc8bd964dab249cb2c18e35e61f5ceb",
+      "sha256": "b67ef00848d2341cc7f25f1e33833dd97530eb28b6553bc3bc2336ea6976e42e",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -910,7 +952,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -939,6 +981,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -962,7 +1007,7 @@
     },
     "430x932/targeting": {
       "file": "design/phone-ui/components/actions/review/430x932-targeting.jpg",
-      "sha256": "b11d81c9804cc642c1b345b99067250ab1f7a0a66c6636f91bc703ae188d5b76",
+      "sha256": "da718d5645856e1979da3fcc196c9a8fc3493a65d006aa4acec5c842b817f864",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -970,7 +1015,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -999,6 +1044,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -1022,7 +1070,7 @@
     },
     "390x844/targeting-supply": {
       "file": "design/phone-ui/components/actions/review/390x844-targeting-supply.jpg",
-      "sha256": "16c23935d4f1cef6ef2ce7ce9feb10244efb056e01aaa92721172df41a4c3616",
+      "sha256": "9e2c8339cff68ccdcff2f999e906a46b8d172d11af6a84dbc7cc9477532bedbd",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1030,7 +1078,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1059,6 +1107,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -1081,7 +1132,7 @@
     },
     "430x932/targeting-supply": {
       "file": "design/phone-ui/components/actions/review/430x932-targeting-supply.jpg",
-      "sha256": "1510dbe48c7e278022435f925447874019196ef1ad4771b3fa50ab1f4114ed0d",
+      "sha256": "2512c5e3afad5c4e46d4272fb334c842f40fbd23002ddb71fbd75d46410909ad",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1089,7 +1140,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1118,6 +1169,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -1140,7 +1194,7 @@
     },
     "390x844/list": {
       "file": "design/phone-ui/components/actions/review/390x844-list.jpg",
-      "sha256": "09ada3ea43665104c411d3c53be5a63abbde45ce769ec8f82c9659898427a905",
+      "sha256": "6d4641f8f77eba3c761a40254d73dd5d2b1972ad63f68dcd42697558fb687812",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1148,7 +1202,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1177,6 +1231,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -1204,7 +1261,7 @@
     },
     "430x932/list": {
       "file": "design/phone-ui/components/actions/review/430x932-list.jpg",
-      "sha256": "05df3f42ada89596fe81627c95a13040e67960f0ff2773358377eb0eba1f8436",
+      "sha256": "7116e9e2720ba04358b3cad5e1fb73d14d9bba768990c7632236ae57d3e43454",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1212,7 +1269,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1241,6 +1298,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -1268,7 +1328,7 @@
     },
     "390x844/list-supply": {
       "file": "design/phone-ui/components/actions/review/390x844-list-supply.jpg",
-      "sha256": "97457bda342875e92784898cba4714df15301b07ba89168d49251b28806b823d",
+      "sha256": "65c7c3daeec654fc8bee7e73e01ba3d1ac56a824d5568d542259c90e262616e0",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1276,7 +1336,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1305,6 +1365,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -1331,7 +1394,7 @@
     },
     "430x932/list-supply": {
       "file": "design/phone-ui/components/actions/review/430x932-list-supply.jpg",
-      "sha256": "6e19c0eb91f31af1dc62f085cf82d932767dc012272ca6017a41935f67c65356",
+      "sha256": "65e04eabed2a818fa6df650d796cb4a0cd9804681b9bdfecd82b8a34c5e8f2d9",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1339,7 +1402,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1368,6 +1431,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -1394,7 +1460,7 @@
     },
     "390x844/check": {
       "file": "design/phone-ui/components/actions/review/390x844-check.jpg",
-      "sha256": "05f8ebbbef35ac0bb29d51d91a6488f98f2932683a75046a32c17ee045892a61",
+      "sha256": "884442b12c945d9f6fbf1fd56820d9851d2b7f7f802aedb64aa9589996d8e7f1",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1402,7 +1468,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1431,6 +1497,9 @@
       "portraits": 1,
       "facts": 3,
       "error": null,
+      "whoJoined": true,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -1456,7 +1525,7 @@
     },
     "430x932/check": {
       "file": "design/phone-ui/components/actions/review/430x932-check.jpg",
-      "sha256": "a5a6fb4b2a821910aee0d5e1e40e58f98563c123525e2dc40a24646a3616d332",
+      "sha256": "c6dc54bc2f598abf7777ec28af19f633dc2deb111e3b61c8cf0642cb1a04eae8",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1464,7 +1533,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1493,6 +1562,9 @@
       "portraits": 1,
       "facts": 3,
       "error": null,
+      "whoJoined": true,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -1518,7 +1590,7 @@
     },
     "390x844/check-ava": {
       "file": "design/phone-ui/components/actions/review/390x844-check-ava.jpg",
-      "sha256": "4ff96848547e55e26ca37ba3c744fe9b57c00be64cf53f167d7343894ef6c20b",
+      "sha256": "300e2bfd20fd77691c8d20bc4b8fe2a9c67a467a362ad0a616d55b401eadf059",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1526,7 +1598,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1555,6 +1627,9 @@
       "portraits": 1,
       "facts": 3,
       "error": null,
+      "whoJoined": true,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -1580,7 +1655,7 @@
     },
     "430x932/check-ava": {
       "file": "design/phone-ui/components/actions/review/430x932-check-ava.jpg",
-      "sha256": "ad7ae616cd95b1de7669e99298d8611095caddf077de9076660aa18ce841530a",
+      "sha256": "12d2ff791df27b118ac007c6f9eb32d7d69f32ef5e9600c141cacb922972c6c4",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1588,7 +1663,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1617,6 +1692,9 @@
       "portraits": 1,
       "facts": 3,
       "error": null,
+      "whoJoined": true,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -1642,7 +1720,7 @@
     },
     "390x844/sending": {
       "file": "design/phone-ui/components/actions/review/390x844-sending.jpg",
-      "sha256": "865b82ba38d2caae71fad2273a9c234fb3d5bbdc5519e36d9779afb8acd6b800",
+      "sha256": "db06c5fda0adf1f56d072fb8a71665d994dace136dd413c36d05da51decff69d",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1650,7 +1728,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1679,6 +1757,9 @@
       "portraits": 1,
       "facts": 3,
       "error": null,
+      "whoJoined": true,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -1704,7 +1785,7 @@
     },
     "430x932/sending": {
       "file": "design/phone-ui/components/actions/review/430x932-sending.jpg",
-      "sha256": "4fc26cb19ec5d6405a9b2baeadca47fa603fbbd19989391c8a49ac33fede1d44",
+      "sha256": "56490d0cf348a31af5ff237fd3692ed78e8f4b2476767012c1c4d41ae54df60b",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1712,7 +1793,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1741,6 +1822,9 @@
       "portraits": 1,
       "facts": 3,
       "error": null,
+      "whoJoined": true,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -1766,7 +1850,7 @@
     },
     "390x844/check-blackout": {
       "file": "design/phone-ui/components/actions/review/390x844-check-blackout.jpg",
-      "sha256": "70b6780dd50a02b6c9b4b917da81d8073de623fbc9b9e5c38d4c9b5ba8adf710",
+      "sha256": "e22f34ec82fd74f9a13c655e08b7b4540245615abd029201a0e8ae8183696a84",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1774,7 +1858,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1803,6 +1887,9 @@
       "portraits": 0,
       "facts": 3,
       "error": null,
+      "whoJoined": false,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -1825,7 +1912,7 @@
     },
     "430x932/check-blackout": {
       "file": "design/phone-ui/components/actions/review/430x932-check-blackout.jpg",
-      "sha256": "cd9d9e931eafaf5b066e2ce496f35a274875048607d5af1b1a21b5c210955118",
+      "sha256": "da64ebb776cebf286cccc068efe3e41c5952ced9c4c55ff65faf68bab7a17ec7",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1833,7 +1920,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1862,6 +1949,9 @@
       "portraits": 0,
       "facts": 3,
       "error": null,
+      "whoJoined": false,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -1884,7 +1974,7 @@
     },
     "390x844/check-clone": {
       "file": "design/phone-ui/components/actions/review/390x844-check-clone.jpg",
-      "sha256": "3b8f7d9c603b57baa0d8985054278952f173cafe11b54b396535f333e69a2c80",
+      "sha256": "5bd71ae00f24941d0ca915e92a969b9bcb75abf6d19b21fe7659be73fb81ae92",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1892,7 +1982,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1921,6 +2011,9 @@
       "portraits": 0,
       "facts": 3,
       "error": null,
+      "whoJoined": false,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -1943,7 +2036,7 @@
     },
     "430x932/check-clone": {
       "file": "design/phone-ui/components/actions/review/430x932-check-clone.jpg",
-      "sha256": "81cb64a1ee7bd247d94c3d6f5f46313c513fe7fb98bff4a86dba5c4ce033898c",
+      "sha256": "9062600b43c0d9109829cd0253389f0371f2af7b4cf7423ef1a3e3b02214f65e",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -1951,7 +2044,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1980,6 +2073,9 @@
       "portraits": 0,
       "facts": 3,
       "error": null,
+      "whoJoined": false,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -2002,7 +2098,7 @@
     },
     "390x844/check-suppress": {
       "file": "design/phone-ui/components/actions/review/390x844-check-suppress.jpg",
-      "sha256": "3607cf7f71db287b91b4093696354d09ea7f22fd20dccf8c047ceb6db5f6b47d",
+      "sha256": "755c40d299af52bb598e6b89288a6baa8a8607da45e01b2f565e1b602a188736",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2010,7 +2106,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2039,6 +2135,9 @@
       "portraits": 0,
       "facts": 3,
       "error": null,
+      "whoJoined": false,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -2061,7 +2160,7 @@
     },
     "430x932/check-suppress": {
       "file": "design/phone-ui/components/actions/review/430x932-check-suppress.jpg",
-      "sha256": "7f3e7918ba8f0f89960916681d7bfc26f2127dd6e6ea6c92682710b821e412dd",
+      "sha256": "dbac522e37ddea743dac5deab932adb51bb3447166146e7fa126010efd84f3c6",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2069,7 +2168,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2098,6 +2197,9 @@
       "portraits": 0,
       "facts": 3,
       "error": null,
+      "whoJoined": false,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -2120,7 +2222,7 @@
     },
     "390x844/check-supply": {
       "file": "design/phone-ui/components/actions/review/390x844-check-supply.jpg",
-      "sha256": "893d1b1c75ee335756b9c07969108eaab954b5a80f4d349587af19a55c2d59ab",
+      "sha256": "73f1c25a00d2882ccfe94cd9ef2a5a9d3c98cf357e8548f503b88364392d4870",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2128,7 +2230,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2157,6 +2259,9 @@
       "portraits": 2,
       "facts": 2,
       "error": null,
+      "whoJoined": true,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -2181,7 +2286,7 @@
     },
     "430x932/check-supply": {
       "file": "design/phone-ui/components/actions/review/430x932-check-supply.jpg",
-      "sha256": "ec3144d7b5dcd415b598f4d7b4835151ad8c506e3338950f85e2444e38c474d6",
+      "sha256": "e0884e57cf0c3734e7e12ce99ba7c5f845ef5fe7242c39a0189768f91c93bc75",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2189,7 +2294,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2218,6 +2323,9 @@
       "portraits": 2,
       "facts": 2,
       "error": null,
+      "whoJoined": true,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -2242,7 +2350,7 @@
     },
     "390x844/check-shiphack": {
       "file": "design/phone-ui/components/actions/review/390x844-check-shiphack.jpg",
-      "sha256": "38d644fcf4af5ef0fbbac50b9c32a7aa7e15ae3e655585ae6a5c400174a6ffc2",
+      "sha256": "f78098ea4742ef24d8b9062034b34ac756551554abd36f80d307c1b80b894136",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2250,7 +2358,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2279,6 +2387,9 @@
       "portraits": 0,
       "facts": 2,
       "error": null,
+      "whoJoined": false,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -2301,7 +2412,7 @@
     },
     "430x932/check-shiphack": {
       "file": "design/phone-ui/components/actions/review/430x932-check-shiphack.jpg",
-      "sha256": "56eaec858b5bf229553adeabe613da0c071bdaaad78bc118b0f3b3e71f082e77",
+      "sha256": "6f9df6acd3569ea5eed44374f99cd774ab513156b4e495b531eec963cd3da2e2",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2309,7 +2420,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2338,6 +2449,9 @@
       "portraits": 0,
       "facts": 2,
       "error": null,
+      "whoJoined": false,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -2368,7 +2482,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2397,6 +2511,23 @@
       "portraits": 1,
       "facts": 3,
       "error": "The server did not accept Rescue. Check the target, then register again.",
+      "whoJoined": true,
+      "subJoined": false,
+      "registerOff": false,
+      "errorLast": true,
+      "errorAfter": [
+        "ms-k-vh"
+      ],
+      "errorStarts": true,
+      "errorWhole": true,
+      "errorWordsWhole": true,
+      "errorBox": {
+        "top": 587,
+        "bottom": 647,
+        "wordsBottom": 637,
+        "bodyTop": 392,
+        "bodyBottom": 663
+      },
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -2422,7 +2553,7 @@
     },
     "430x932/check-error": {
       "file": "design/phone-ui/components/actions/review/430x932-check-error.jpg",
-      "sha256": "04f381244af1dc88a09086f8a4e5e9e09a84afc6b6bffbe7f4a27ae08a296c14",
+      "sha256": "56db145407a980686419fc2e56796aeeab37a87e7839278f0d8b8c4d9b4ba42e",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2430,7 +2561,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2459,6 +2590,260 @@
       "portraits": 1,
       "facts": 3,
       "error": "The server did not accept Rescue. Check the target, then register again.",
+      "whoJoined": true,
+      "subJoined": false,
+      "registerOff": false,
+      "errorLast": true,
+      "errorAfter": [
+        "ms-k-vh"
+      ],
+      "errorStarts": true,
+      "errorWhole": true,
+      "errorWordsWhole": true,
+      "errorBox": {
+        "top": 675,
+        "bottom": 735,
+        "wordsBottom": 725,
+        "bodyTop": 500,
+        "bodyBottom": 751
+      },
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": null,
+      "lighting": "lit",
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "injections",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "390x844/check-refused": {
+      "file": "design/phone-ui/components/actions/review/390x844-check-refused.jpg",
+      "sha256": "2f6d5bdfedefe074f7e47cddd8b04977dda824a16ad0876fd536ac97fa3b10e5",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CMybayuc.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Register Rescue",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "targetCancel": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Rescue Eli|Player 5 · Hospital",
+      "portraits": 1,
+      "facts": 3,
+      "error": "The server did not allow that command.",
+      "whoJoined": true,
+      "subJoined": false,
+      "registerOff": true,
+      "errorLast": true,
+      "errorAfter": [
+        "ms-k-vh"
+      ],
+      "errorStarts": true,
+      "errorWhole": true,
+      "errorWordsWhole": true,
+      "errorBox": {
+        "top": 607,
+        "bottom": 647,
+        "wordsBottom": 637,
+        "bodyTop": 412,
+        "bodyBottom": 663
+      },
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": null,
+      "lighting": "lit",
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "injections",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "430x932/check-refused": {
+      "file": "design/phone-ui/components/actions/review/430x932-check-refused.jpg",
+      "sha256": "8817984703c4ae8cb0f5bdd3bf46e881420d014daffdb5304d60ac450f346497",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CMybayuc.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Register Rescue",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "targetCancel": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Rescue Eli|Player 5 · Hospital",
+      "portraits": 1,
+      "facts": 3,
+      "error": "The server did not allow that command.",
+      "whoJoined": true,
+      "subJoined": false,
+      "registerOff": true,
+      "errorLast": true,
+      "errorAfter": [
+        "ms-k-vh"
+      ],
+      "errorStarts": true,
+      "errorWhole": true,
+      "errorWordsWhole": true,
+      "errorBox": {
+        "top": 695,
+        "bottom": 735,
+        "wordsBottom": 725,
+        "bodyTop": 520,
+        "bodyBottom": 751
+      },
+      "stamp": null,
+      "headline": null,
+      "steps": 0,
+      "people": 0,
+      "notice": null,
+      "banner": null,
+      "toast": null,
+      "slots": null,
+      "lighting": "lit",
+      "figures": 4,
+      "leaked": [
+        "Rescue",
+        "injections",
+        "Your turn"
+      ],
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c3-DRib2vvg.svg"
+      ],
+      "problems": []
+    },
+    "320x568/largest-check-refused": {
+      "file": "design/phone-ui/components/actions/review/320x568-largest-check-refused.jpg",
+      "sha256": "bc0a42d1f9f52e67272497c869d617f2f01566ed3546a407c34aa8753e18039a",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CMybayuc.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "check",
+      "status": "live",
+      "sheet": "Check and register",
+      "sub": null,
+      "footer": "Cancel|Register Rescue",
+      "head": null,
+      "tiles": null,
+      "lines": null,
+      "mark": null,
+      "perRow": null,
+      "refused": null,
+      "note": null,
+      "target": null,
+      "targetCancel": null,
+      "chip": null,
+      "offered": 0,
+      "rows": null,
+      "groups": null,
+      "picked": null,
+      "who": "Rescue Eli|Player 5 · Hospital",
+      "portraits": 1,
+      "facts": 3,
+      "error": "The server did not allow that command.",
+      "whoJoined": true,
+      "subJoined": false,
+      "registerOff": true,
+      "errorLast": true,
+      "errorAfter": [
+        "ms-k-vh"
+      ],
+      "errorStarts": true,
+      "errorWhole": false,
+      "errorWordsWhole": false,
+      "errorBox": {
+        "top": 249,
+        "bottom": 390,
+        "wordsBottom": 380,
+        "bodyTop": 249,
+        "bodyBottom": 327
+      },
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -2484,7 +2869,7 @@
     },
     "390x844/after-rescue": {
       "file": "design/phone-ui/components/actions/review/390x844-after-rescue.jpg",
-      "sha256": "328e90e430ab43c3d5422a95c09cb23936a08a3060cc1378c6a813a887e8e064",
+      "sha256": "7922781f9498dfe8f9837d3e0d842a256e9dd2acbd08fd0a646ef83fabba4d88",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2492,7 +2877,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2521,6 +2906,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "REGISTERED",
       "headline": "Rescue of Eli registered.",
       "steps": 2,
@@ -2544,7 +2932,7 @@
     },
     "430x932/after-rescue": {
       "file": "design/phone-ui/components/actions/review/430x932-after-rescue.jpg",
-      "sha256": "7bffce1cd74328a5d15026205e073a8db4f4824bfba5206c7bd9fd506da25264",
+      "sha256": "f22052e4aad387a770ca522dae2514d5bd7a17571800ef77df5f88fc169845e1",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2552,7 +2940,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2581,6 +2969,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "REGISTERED",
       "headline": "Rescue of Eli registered.",
       "steps": 2,
@@ -2604,7 +2995,7 @@
     },
     "390x844/after-rescue-ava": {
       "file": "design/phone-ui/components/actions/review/390x844-after-rescue-ava.jpg",
-      "sha256": "cf70a1151d9c6091dc6a55807e7284874b3fd43e2b411dd1a57f55a9b0cf1a5c",
+      "sha256": "0d56078732813d3ffaab69ff0c3bdf1039bd505eed5f789a8876d2a56d617928",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2612,7 +3003,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2641,6 +3032,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "REGISTERED",
       "headline": "Rescue of Ava registered.",
       "steps": 2,
@@ -2664,7 +3058,7 @@
     },
     "430x932/after-rescue-ava": {
       "file": "design/phone-ui/components/actions/review/430x932-after-rescue-ava.jpg",
-      "sha256": "72d6902f84e52610e92321d29ab3237b14137c336bbf26114767e0b2e8241190",
+      "sha256": "86737f6553754e48543c1c477c51ba369959b588903dfc4de992a0e30c97a21e",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2672,7 +3066,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2701,6 +3095,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "REGISTERED",
       "headline": "Rescue of Ava registered.",
       "steps": 2,
@@ -2724,7 +3121,7 @@
     },
     "390x844/after-protect": {
       "file": "design/phone-ui/components/actions/review/390x844-after-protect.jpg",
-      "sha256": "326fa1e9d8e7e9ca82000d618c6260b206f66b666406d82ad5bfecef739c72f4",
+      "sha256": "b75b6746daf2e12ecbcfd5a2007b4ce2ead811cea6c91a14b200cf00691b11c1",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2732,7 +3129,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2761,6 +3158,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "REGISTERED",
       "headline": "Protection for Gus registered.",
       "steps": 3,
@@ -2783,7 +3183,7 @@
     },
     "430x932/after-protect": {
       "file": "design/phone-ui/components/actions/review/430x932-after-protect.jpg",
-      "sha256": "4c7e37972c6f8c79a5b7bc18a160e012b18157d825afac18acce095d513c7cf9",
+      "sha256": "fcf1ced81a9e20588177e9f583037c801f430711644cad644a5a83e3c6c479fc",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2791,7 +3191,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2820,6 +3220,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "REGISTERED",
       "headline": "Protection for Gus registered.",
       "steps": 3,
@@ -2842,7 +3245,7 @@
     },
     "390x844/after-supply": {
       "file": "design/phone-ui/components/actions/review/390x844-after-supply.jpg",
-      "sha256": "704f550806f70a9e96ef354fd6037e8224ad411371e6987112afc595f85d5be4",
+      "sha256": "b473ef49859d1a286f6177e3e68b253fbeba97c0722754b9072bd178acd45666",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2850,7 +3253,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2879,6 +3282,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "REGISTERED",
       "headline": "Supply for Ava and Gus registered.",
       "steps": 2,
@@ -2901,7 +3307,7 @@
     },
     "430x932/after-supply": {
       "file": "design/phone-ui/components/actions/review/430x932-after-supply.jpg",
-      "sha256": "2a765525690282a37c84b2b057b04395139d8b6ac64ee63db4454a492e7de4e1",
+      "sha256": "d465b6dd7655b32a87af28f958e5b885099093d940ba6902a88dcb71a7fe5ecc",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2909,7 +3315,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2938,6 +3344,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "REGISTERED",
       "headline": "Supply for Ava and Gus registered.",
       "steps": 2,
@@ -2960,7 +3369,7 @@
     },
     "390x844/after-shot": {
       "file": "design/phone-ui/components/actions/review/390x844-after-shot.jpg",
-      "sha256": "1ac967f816bf1cc950ca03f7c00c8d60d017e22cafdce14a9e0e7e30d4079abb",
+      "sha256": "49e211226eab9a582d1735210e1ca4689b34717ebb24f15e1833f40eb2d0243b",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -2968,7 +3377,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2997,6 +3406,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "REGISTERED",
       "headline": "Shot at Gus registered.",
       "steps": 2,
@@ -3019,7 +3431,7 @@
     },
     "430x932/after-shot": {
       "file": "design/phone-ui/components/actions/review/430x932-after-shot.jpg",
-      "sha256": "3c72f5a23a792f8396bfe2d1a1c02d901555ebfb1d9265f088b71d2bc37e9bdc",
+      "sha256": "05ad5ed2e626be5df844c98c5c0123acdd4d370866e540473c5c3746c6122d35",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3027,7 +3439,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3056,6 +3468,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "REGISTERED",
       "headline": "Shot at Gus registered.",
       "steps": 2,
@@ -3078,7 +3493,7 @@
     },
     "390x844/after-blackout": {
       "file": "design/phone-ui/components/actions/review/390x844-after-blackout.jpg",
-      "sha256": "76468c88356ee0869c24b38ccd935e9f143f471733c280627706c39edc15fb45",
+      "sha256": "808247f1e3a909c149682e5aa09c326c80cc033d0cf13f2503a653b91e03ad1a",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3086,7 +3501,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3115,6 +3530,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "REGISTERED",
       "headline": "Blackout registered.",
       "steps": 3,
@@ -3137,7 +3555,7 @@
     },
     "430x932/after-blackout": {
       "file": "design/phone-ui/components/actions/review/430x932-after-blackout.jpg",
-      "sha256": "774ff9631c10e031de9ee6884eb296178b1d8a07cfd422299ac1d6c0e3b63e2b",
+      "sha256": "5b08b5150f3d73a40021a05027f0f7ee0f9ad346a62fd928089a71d36b5c6e3e",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3145,7 +3563,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3174,6 +3592,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "REGISTERED",
       "headline": "Blackout registered.",
       "steps": 3,
@@ -3196,7 +3617,7 @@
     },
     "390x844/after-talk": {
       "file": "design/phone-ui/components/actions/review/390x844-after-talk.jpg",
-      "sha256": "323e67a7ed5e237d95b12950c4a479a42e16ce982ba4b6bb4bd98f817e766eb7",
+      "sha256": "144b520372995161ec8a311637972b6cbcc454b0c7bd04fdeafe90742dde6e66",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3204,7 +3625,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3233,6 +3654,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "ACCEPTED",
       "headline": "Private talk with Ava accepted.",
       "steps": 3,
@@ -3256,7 +3680,7 @@
     },
     "430x932/after-talk": {
       "file": "design/phone-ui/components/actions/review/430x932-after-talk.jpg",
-      "sha256": "a2371b7e60eb39941877568fd5eb33a0d023e4480ff395f37c8ef21ead3b8485",
+      "sha256": "13de94785aff3be5be85b04d0122066107d7f033ae545e1206f3d7e34fc1a00e",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3264,7 +3688,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3293,6 +3717,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "ACCEPTED",
       "headline": "Private talk with Ava accepted.",
       "steps": 3,
@@ -3316,7 +3743,7 @@
     },
     "390x844/after-clone": {
       "file": "design/phone-ui/components/actions/review/390x844-after-clone.jpg",
-      "sha256": "012c31e3bb4087528cc99bdf70521dde4644b2767a47dc39aa1d5e4a37aa08d5",
+      "sha256": "f621fffffef22a7847b32a25652e7fe9560c2a031dd9cdef539d84aea79b95f4",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3324,7 +3751,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3353,6 +3780,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "ACTIVE",
       "headline": "Clone active.",
       "steps": 2,
@@ -3375,7 +3805,7 @@
     },
     "430x932/after-clone": {
       "file": "design/phone-ui/components/actions/review/430x932-after-clone.jpg",
-      "sha256": "ea60d1e3b1d9cfdb6d30a45ca00dad5c8cebb3e62d3d6b9c2a3c7a316cfbe5d6",
+      "sha256": "29301206f7d73145080cb9fd2dd46a14cdf42ba35cdc1ea715a7f1f3ad26ec46",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3383,7 +3813,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3412,6 +3842,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "ACTIVE",
       "headline": "Clone active.",
       "steps": 2,
@@ -3434,7 +3867,7 @@
     },
     "390x844/after-suppress": {
       "file": "design/phone-ui/components/actions/review/390x844-after-suppress.jpg",
-      "sha256": "44f04b998ff58fb56aa8528e4a67523219d86a1403383a2329d7db4383418dc2",
+      "sha256": "b02d1a681bd7b003bafc03b51268cb4b02667d25c2be2ad1317495fab56cdc2d",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3442,7 +3875,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3471,6 +3904,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "CAPTURED",
       "headline": "Navigation suppressed.",
       "steps": 2,
@@ -3496,7 +3932,7 @@
     },
     "430x932/after-suppress": {
       "file": "design/phone-ui/components/actions/review/430x932-after-suppress.jpg",
-      "sha256": "c327e9cfd4d706e089ee14d8a115327db19fb0b28f031af1d8580aee12f34abd",
+      "sha256": "a53a9a96ffddbdce6f17390c142813fc2b058a635b75c20d7d9cdcf3558ddede",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3504,7 +3940,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3533,6 +3969,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "CAPTURED",
       "headline": "Navigation suppressed.",
       "steps": 2,
@@ -3558,7 +3997,7 @@
     },
     "390x844/after-reload": {
       "file": "design/phone-ui/components/actions/review/390x844-after-reload.jpg",
-      "sha256": "0057a1e8877a49e8285e62a3a89fd488f2ab8ef0492bf486f218e6869c73e51c",
+      "sha256": "105b6c2e504a252e4e78d81fdf9dd5f6621e8e941a3fabfd555c33a4145ed0dc",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3566,7 +4005,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3595,6 +4034,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "REGISTERED",
       "headline": "The server accepted your action.",
       "steps": 0,
@@ -3618,7 +4060,7 @@
     },
     "430x932/after-reload": {
       "file": "design/phone-ui/components/actions/review/430x932-after-reload.jpg",
-      "sha256": "e057da45205ac38811de583a33254705f0c05ed14513e3141baa7fb9e5a5947d",
+      "sha256": "8bacf91456b99a93fc950cbc0b19ad8929eb914f97d51da3665da2de32a348d6",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3626,7 +4068,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3655,6 +4097,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "REGISTERED",
       "headline": "The server accepted your action.",
       "steps": 0,
@@ -3678,7 +4123,7 @@
     },
     "390x844/unknown": {
       "file": "design/phone-ui/components/actions/review/390x844-unknown.jpg",
-      "sha256": "c930f5562329ef5dd19a2ccfd876061d2efe83e029a80d7169394dace78cf242",
+      "sha256": "2c11020a76394c08db0e7a4938aa3db222c2044312f97b2a479514d8bb853288",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3686,7 +4131,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3715,6 +4160,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -3738,7 +4186,7 @@
     },
     "430x932/unknown": {
       "file": "design/phone-ui/components/actions/review/430x932-unknown.jpg",
-      "sha256": "d9cc31942434d1c429da45ccf7d772df6e03256c5689cac2766d21680e7e7d0b",
+      "sha256": "2cfb990cfce812683227df06d9402f88549f4e8ac0f8bd01eda848571b7724f4",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3746,7 +4194,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3775,6 +4223,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -3798,7 +4249,7 @@
     },
     "390x844/unknown-blackout": {
       "file": "design/phone-ui/components/actions/review/390x844-unknown-blackout.jpg",
-      "sha256": "cc10c861f4f3d702900b65eea753dad1ac4a4cb548e282858e12cf59864ff2cd",
+      "sha256": "a125af2953bc58954b173f6018557e8f31ee36df327e76d2b0d5e4e08a706727",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3806,7 +4257,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3835,6 +4286,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -3857,7 +4311,7 @@
     },
     "430x932/unknown-blackout": {
       "file": "design/phone-ui/components/actions/review/430x932-unknown-blackout.jpg",
-      "sha256": "63e9b6afeab55c2a53dd6736436e1ef617b7554e1f2367a4f4a244e5df2e4dca",
+      "sha256": "edab23e2c619cc9f45569c6326885e6709508fc5ddc468a2dfab76f9aee52e62",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3865,7 +4319,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3894,6 +4348,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -3916,7 +4373,7 @@
     },
     "390x844/unknown-panel": {
       "file": "design/phone-ui/components/actions/review/390x844-unknown-panel.jpg",
-      "sha256": "2dcc37a983127e1c2ac139fced817cd9278b7c995ddbaf79234191d8bc0cfd5c",
+      "sha256": "d5f0e0af9d4f0b9d6f852343320048013cf369ba71b754c89595468b7321a9b8",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3924,7 +4381,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3953,6 +4410,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -3975,7 +4435,7 @@
     },
     "430x932/unknown-panel": {
       "file": "design/phone-ui/components/actions/review/430x932-unknown-panel.jpg",
-      "sha256": "1f8a31e80448e1a67173921b9d915a9b538cf421d19dc507a147ecc6dfa4c9c0",
+      "sha256": "1d450e5a982ace87035830ab52de581a6f7959902fa5db2c7920a71b05aca90f",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -3983,7 +4443,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4012,6 +4472,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -4034,7 +4497,7 @@
     },
     "390x844/unknown-pass": {
       "file": "design/phone-ui/components/actions/review/390x844-unknown-pass.jpg",
-      "sha256": "bb2fc6a3a3d78603565d7e061a6153a187b41c92933af24c0f1986fbe45cd639",
+      "sha256": "dc954a2c6ec670ca5ba6951c6f08df954e179524cc03149fdf0a617b2ceb8e1a",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -4042,7 +4505,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4071,6 +4534,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -4101,7 +4567,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4130,6 +4596,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -4160,7 +4629,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4189,6 +4658,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -4217,7 +4689,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4246,6 +4718,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -4266,7 +4741,7 @@
     },
     "390x844/pass": {
       "file": "design/phone-ui/components/actions/review/390x844-pass.jpg",
-      "sha256": "7cd75f6303be409c4cdb80ee9e13282d0a8f4182cdfcdaf60833ec94094ee5b1",
+      "sha256": "7381a1ddf9807beb2c2a28514467e32c864fb1967333158c2d325fda42c6a787",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -4274,7 +4749,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4303,6 +4778,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": true,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -4325,7 +4803,7 @@
     },
     "430x932/pass": {
       "file": "design/phone-ui/components/actions/review/430x932-pass.jpg",
-      "sha256": "b45a5572453501b13b1aaae91224e9549d91a6dc3d505c5e561ba36aa5d72fab",
+      "sha256": "2d720f06699d1d483bac01991f635976a2ea6cd841da40d4b8bfccebcd425ae5",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -4333,7 +4811,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4362,6 +4840,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": true,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -4384,7 +4865,7 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/actions/review/390x844-stale.jpg",
-      "sha256": "5374cf43a5ad25c96c5bc7020aa9869490ed46e230efc3be87a0364ed0f965ae",
+      "sha256": "0569162e087fee06312a8a1c4a78189f2e6169d784fa0ef8468d2345d666f377",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -4392,7 +4873,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4421,6 +4902,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -4445,7 +4929,7 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/actions/review/430x932-stale.jpg",
-      "sha256": "f2fdde9ab39084e67899692f9cf5cb1fa435846df096496cf3d85d7e47e25b43",
+      "sha256": "8414816e2666e4f66dd1de3ee6f6badb3e5152f479b0413728583ce3d83cf9d5",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -4453,7 +4937,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4482,6 +4966,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -4514,7 +5001,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4543,6 +5030,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -4567,7 +5057,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4596,6 +5086,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -4612,7 +5105,7 @@
     },
     "320x568/small-tiles": {
       "file": "design/phone-ui/components/actions/review/320x568-small-tiles.jpg",
-      "sha256": "0760e376b2a3b574f0c98b0a7c9a563e894a365d22bc50477d5b4821fbe095ee",
+      "sha256": "a7a1aa8a06c6800bfb60d7dac051e13ed1f547a26f36b12c26e03384e7d55b14",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -4620,7 +5113,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4649,6 +5142,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -4675,7 +5171,7 @@
     },
     "390x844/large-tiles": {
       "file": "design/phone-ui/components/actions/review/390x844-large-tiles.jpg",
-      "sha256": "a50f5ab580f56e25084b58ae98bda8f59c790dca76abcf1f92246a172bab4a6e",
+      "sha256": "78d91ed180e420231006b4acd8ae0b3876200de99a4459ea90d0e453f5bd7095",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -4683,7 +5179,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4712,6 +5208,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -4738,7 +5237,7 @@
     },
     "320x568/largest-tiles": {
       "file": "design/phone-ui/components/actions/review/320x568-largest-tiles.jpg",
-      "sha256": "d4727888b6f3dfe2ba79bc140dfabfe04a9199465c34d5e10d4f3b1cdaf2168a",
+      "sha256": "719de18b7000af63e6808c4b5d6462b8df0298e08e1e8a6a249927d0ed0352d3",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -4746,7 +5245,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4775,6 +5274,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -4800,7 +5302,7 @@
     },
     "320x568/largest-check": {
       "file": "design/phone-ui/components/actions/review/320x568-largest-check.jpg",
-      "sha256": "e256a0c55ff52381810bc2dbc4a26148179fca823cd8b3d93d730d7d1cfa1e95",
+      "sha256": "d256c5f1daca587a9d4de19f8024ecffd856dd61a2ba51e8ed75a1d30e56f4f7",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -4808,7 +5310,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4837,6 +5339,9 @@
       "portraits": 1,
       "facts": 3,
       "error": null,
+      "whoJoined": true,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -4862,7 +5367,7 @@
     },
     "320x568/largest-after": {
       "file": "design/phone-ui/components/actions/review/320x568-largest-after.jpg",
-      "sha256": "6e12ca090b3516cb2aa11680b3a73637026d7fe7e34c66ff86322644598246a4",
+      "sha256": "80cffe5dd01cfd9890dc261333a2242cfe643b30efded30a120173d03cfc2a25",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -4870,7 +5375,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4899,6 +5404,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": "REGISTERED",
       "headline": "Rescue of Eli registered.",
       "steps": 2,
@@ -4922,7 +5430,7 @@
     },
     "390x844/move-room": {
       "file": "design/phone-ui/components/actions/review/390x844-move-room.jpg",
-      "sha256": "f86c38ac6844e77d99e0e41e7f75c2e7d079178e32a74746085983e2e5829b7a",
+      "sha256": "88c4ac10cc65f5099e0d340d578b9c18d4b3bf99edd1aa33a274c9cad21d8633",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -4930,7 +5438,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4959,6 +5467,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -4981,7 +5492,7 @@
     },
     "430x932/move-room": {
       "file": "design/phone-ui/components/actions/review/430x932-move-room.jpg",
-      "sha256": "51e1ba9877debec09b103f9f2a2bbb5a2e6020195e7933809cfb411b8526f553",
+      "sha256": "f59a3da9158b91d7e2e374c3772a52cfc39790558c5c4fb147fc8126114bd4b2",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -4989,7 +5500,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5018,6 +5529,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -5048,7 +5562,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5077,6 +5591,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -5105,7 +5622,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5134,6 +5651,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -5154,7 +5674,7 @@
     },
     "390x844/move-room-only": {
       "file": "design/phone-ui/components/actions/review/390x844-move-room-only.jpg",
-      "sha256": "42b0c94022e23de1f1302d5aa14eeb9ff5355901b4031587eec962e2c0cfc3c8",
+      "sha256": "7dd5939d652f20810c9271555956fd2f1839b2ea9638a95c15f79376dca516fa",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -5162,7 +5682,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5191,6 +5711,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -5213,7 +5736,7 @@
     },
     "430x932/move-room-only": {
       "file": "design/phone-ui/components/actions/review/430x932-move-room-only.jpg",
-      "sha256": "a1d22480e0b2ad92cef3ec07f7cb294fe3222d1e4e4d480bde270ddcf0697724",
+      "sha256": "602bfcc651e6f3f1e8d0d032428914f30b86f339e676985111c75dc9bc103c8b",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -5221,7 +5744,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5250,6 +5773,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -5272,7 +5798,7 @@
     },
     "390x844/move-room-full": {
       "file": "design/phone-ui/components/actions/review/390x844-move-room-full.jpg",
-      "sha256": "ef32dd9d35e826a42cdf13adda80065614a7a0a013c21b4f7ed4bd8410981ac2",
+      "sha256": "b76e916e562f131f266ca21053e313b18ad36b88ba418ae4c33fbbc4977a06f0",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -5280,7 +5806,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5309,6 +5835,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -5331,7 +5860,7 @@
     },
     "430x932/move-room-full": {
       "file": "design/phone-ui/components/actions/review/430x932-move-room-full.jpg",
-      "sha256": "b84e5c18dafe508ba23cc6730dfd4d0c13ee2fbbdc6c26e9dad30abea6b0cd34",
+      "sha256": "37e3eb24fea8dcbc24245341e50ce269937a53b7939a91a09dfcd7437e4cde0f",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -5339,7 +5868,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5368,6 +5897,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -5390,7 +5922,7 @@
     },
     "390x844/tiles-move-none": {
       "file": "design/phone-ui/components/actions/review/390x844-tiles-move-none.jpg",
-      "sha256": "15fad075ba58319e60fdd1f5bf5675b4f7764ad05a02c040e39f0b0507f2051b",
+      "sha256": "19d6f4700f91023b5024465f6665dd0cdcb6777fb05cb7dbbadd3622f47633d9",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -5398,7 +5930,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5427,6 +5959,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -5453,7 +5988,7 @@
     },
     "430x932/tiles-move-none": {
       "file": "design/phone-ui/components/actions/review/430x932-tiles-move-none.jpg",
-      "sha256": "2ae0a0dedc0425a11cec7f2b66165367313d8682c83398d703043807a4340da1",
+      "sha256": "ec203d8c87364a4113c1c0250bee956049ebb711c1607b9e7288812b28b37d76",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -5461,7 +5996,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5490,6 +6025,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -5516,7 +6054,7 @@
     },
     "390x844/move-check": {
       "file": "design/phone-ui/components/actions/review/390x844-move-check.jpg",
-      "sha256": "3e1172e99937bcdc6d5346bb80b7e26f300accac3674ff3788e9828dacd7676c",
+      "sha256": "0df67cccfc4877cdca8cb50f9370e41483591153b67cc74cf7e59c1d188e8bdc",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -5524,7 +6062,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5553,6 +6091,9 @@
       "portraits": 0,
       "facts": 1,
       "error": null,
+      "whoJoined": false,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -5575,7 +6116,7 @@
     },
     "430x932/move-check": {
       "file": "design/phone-ui/components/actions/review/430x932-move-check.jpg",
-      "sha256": "07c32783615beb8e1cfab7618588bf856fbafc8ff8d6961bda4f22cfc7770761",
+      "sha256": "0678c20dcd10e902230cbfad9aca4cdf34297daa37b7f6a7bdf9b542b96d3c9e",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -5583,7 +6124,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5612,6 +6153,9 @@
       "portraits": 0,
       "facts": 1,
       "error": null,
+      "whoJoined": false,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -5642,7 +6186,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5671,6 +6215,9 @@
       "portraits": 0,
       "facts": 1,
       "error": null,
+      "whoJoined": false,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -5699,7 +6246,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5728,6 +6275,9 @@
       "portraits": 0,
       "facts": 1,
       "error": null,
+      "whoJoined": false,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -5748,7 +6298,7 @@
     },
     "390x844/move-sending": {
       "file": "design/phone-ui/components/actions/review/390x844-move-sending.jpg",
-      "sha256": "a70f0cd7f154f3544e26aa80e9a27581cdd5d1a89ad5f583b4171e6df892a8c8",
+      "sha256": "df80c0fbdcb0d819815df4f6ddd176a95724803206ee6f69c29444b306f3607b",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -5756,7 +6306,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5785,6 +6335,9 @@
       "portraits": 0,
       "facts": 1,
       "error": null,
+      "whoJoined": false,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -5807,7 +6360,7 @@
     },
     "430x932/move-sending": {
       "file": "design/phone-ui/components/actions/review/430x932-move-sending.jpg",
-      "sha256": "6b406eee5d027f0844c64dd3a25653bc7e3f3f2ea7ac94dd0a61b07167382b86",
+      "sha256": "f23e3f13f6dbfa85bf7f53ee4d808cf389a9a203722b16100434075684a2c2f0",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -5815,7 +6368,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5844,6 +6397,9 @@
       "portraits": 0,
       "facts": 1,
       "error": null,
+      "whoJoined": false,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -5866,7 +6422,7 @@
     },
     "390x844/move-error": {
       "file": "design/phone-ui/components/actions/review/390x844-move-error.jpg",
-      "sha256": "848de50c8b7b3ef4e8f9e3f1af7c5b0c50681d6326f6a1a0df75eea006d3d499",
+      "sha256": "d2567a5e67324737b0d68bd4ccffb9c5b63d1e4d0e677d0d8a8d01aa209cdd0c",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -5874,7 +6430,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5903,6 +6459,23 @@
       "portraits": 0,
       "facts": 1,
       "error": "The server did not accept the move. Choose a position again.",
+      "whoJoined": false,
+      "subJoined": false,
+      "registerOff": false,
+      "errorLast": true,
+      "errorAfter": [
+        "ms-k-vh"
+      ],
+      "errorStarts": true,
+      "errorWhole": true,
+      "errorWordsWhole": true,
+      "errorBox": {
+        "top": 587,
+        "bottom": 647,
+        "wordsBottom": 637,
+        "bodyTop": 466,
+        "bodyBottom": 663
+      },
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -5925,7 +6498,7 @@
     },
     "430x932/move-error": {
       "file": "design/phone-ui/components/actions/review/430x932-move-error.jpg",
-      "sha256": "69bf8846126ab891ae18f32eeca69cb778d0b0ecb7906922d1283bb84a8522a8",
+      "sha256": "fe694b0b0a2825e44b678b81bc81b9a858aa374e746e788f796126a4c7fea1cb",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -5933,7 +6506,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5962,6 +6535,23 @@
       "portraits": 0,
       "facts": 1,
       "error": "The server did not accept the move. Choose a position again.",
+      "whoJoined": false,
+      "subJoined": false,
+      "registerOff": false,
+      "errorLast": true,
+      "errorAfter": [
+        "ms-k-vh"
+      ],
+      "errorStarts": true,
+      "errorWhole": true,
+      "errorWordsWhole": true,
+      "errorBox": {
+        "top": 675,
+        "bottom": 735,
+        "wordsBottom": 725,
+        "bodyTop": 554,
+        "bodyBottom": 751
+      },
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -5984,7 +6574,7 @@
     },
     "390x844/move-unknown": {
       "file": "design/phone-ui/components/actions/review/390x844-move-unknown.jpg",
-      "sha256": "a8312eacddd54a37e26676c8906247d15f32682397a2e08c7ca20e2301f02d58",
+      "sha256": "50df7ee5e7d084c4c5544b905c3b34223fa9c3e9be371dcdc6d5850f09cf42ee",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -5992,7 +6582,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6021,6 +6611,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -6043,7 +6636,7 @@
     },
     "430x932/move-unknown": {
       "file": "design/phone-ui/components/actions/review/430x932-move-unknown.jpg",
-      "sha256": "90ea6ff82b1b6873e009de361b836c5e1cdf27da4ae5336c47ec23cfcae95f9d",
+      "sha256": "bb9ef7c2022ea01bc29729e0608440120c5d8cd0446e2d7519540f91ec36d41a",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -6051,7 +6644,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6080,6 +6673,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": false,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -6102,7 +6698,7 @@
     },
     "390x844/move-moved": {
       "file": "design/phone-ui/components/actions/review/390x844-move-moved.jpg",
-      "sha256": "5659e71d8283b9f83ee0aa6b4c8b68bf599477a31d628d03b4c35e11a5c8cbd4",
+      "sha256": "ae75ce0540ba4ef14ed4b6e6b40f764ebaeb4773b39392315b27d27f6b681038",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -6110,7 +6706,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6139,6 +6735,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -6161,7 +6760,7 @@
     },
     "430x932/move-moved": {
       "file": "design/phone-ui/components/actions/review/430x932-move-moved.jpg",
-      "sha256": "16da2d16b8173e21ba56fd4659016e824af2c9889c9ea1f55967e57461c2fce1",
+      "sha256": "ab8055fe4c0522de2877a2f0577b426a6e16a3c7f511765993739ac52873e255",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -6169,7 +6768,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6198,6 +6797,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -6228,7 +6830,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6257,6 +6859,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -6285,7 +6890,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6314,6 +6919,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -6342,7 +6950,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6371,6 +6979,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -6399,7 +7010,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6428,6 +7039,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -6448,7 +7062,7 @@
     },
     "390x844/passed": {
       "file": "design/phone-ui/components/actions/review/390x844-passed.jpg",
-      "sha256": "8e4bc27cbb9fa337b3b23f7e0b5817bfec8f81bb21672a9cbe221ac283d06941",
+      "sha256": "31bac584cb085c1b2dd66b4fe9567075c73998309c3a9585270f8426f09cbcd3",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -6456,7 +7070,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6485,6 +7099,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -6505,7 +7122,7 @@
     },
     "430x932/passed": {
       "file": "design/phone-ui/components/actions/review/430x932-passed.jpg",
-      "sha256": "30b2b79e86607b2679cc437c5c946b00f8f94f498479dad6bd0c4dd891ac74aa",
+      "sha256": "a0f42118945efde38eeaa0f4f3dd1d8264449e717df84dc44df240dfebd737b6",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -6513,7 +7130,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6542,6 +7159,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -6562,7 +7182,7 @@
     },
     "390x844/move-stale": {
       "file": "design/phone-ui/components/actions/review/390x844-move-stale.jpg",
-      "sha256": "21e9e76f78d8960488454ca26a089a71e86c49f75cff20b56447f2d14a11fbba",
+      "sha256": "86cb00b7c5eae13f44dde63c7853d31139abb8431414d68b94167a7ab0ed3b9d",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -6570,7 +7190,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6599,6 +7219,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -6618,7 +7241,7 @@
     },
     "430x932/move-stale": {
       "file": "design/phone-ui/components/actions/review/430x932-move-stale.jpg",
-      "sha256": "80f0dc93b5b534f869ab0387cc777b73fdc312adc531be6c0acee5fb35111de3",
+      "sha256": "a8f14e3b8ded9c37c5a8fa4928256850c826123c44dc79a10d50922e971c3031",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -6626,7 +7249,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6655,6 +7278,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -6674,7 +7300,7 @@
     },
     "320x568/largest-move": {
       "file": "design/phone-ui/components/actions/review/320x568-largest-move.jpg",
-      "sha256": "939a3040623cf19628595f0fe68deaf9bb73614a61a268df242025dcd4617fb1",
+      "sha256": "b1e5dedcb1004e7b8e15e17414fdf08481d171e7be32f2c0edc0d2b183e0e0e7",
       "ok": true,
       "drawn": true,
       "mismatched": [],
@@ -6682,7 +7308,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6711,6 +7337,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -6741,7 +7370,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6770,6 +7399,9 @@
       "portraits": 0,
       "facts": 0,
       "error": null,
+      "whoJoined": null,
+      "subJoined": null,
+      "registerOff": null,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -6798,7 +7430,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6827,6 +7459,9 @@
       "portraits": 0,
       "facts": 1,
       "error": null,
+      "whoJoined": false,
+      "subJoined": false,
+      "registerOff": false,
       "stamp": null,
       "headline": null,
       "steps": 0,
@@ -6976,6 +7611,7 @@
             "one": {
               "title": "Rescue Eli",
               "sub": "Player 5 · Hospital",
+              "subRaw": "Player~5~· Hospital",
               "form": "person",
               "portraits": 1,
               "facts": [
@@ -6989,6 +7625,7 @@
             "self": {
               "title": "Rescue yourself",
               "sub": "Player 4 · Room A",
+              "subRaw": "Player 4 · Room A",
               "form": "person",
               "portraits": 1,
               "facts": [
@@ -7002,6 +7639,7 @@
             "two": {
               "title": "Supply Ava and Gus",
               "sub": "Players 1 and 7",
+              "subRaw": "Players~1 and~7",
               "form": "pair",
               "portraits": 2,
               "facts": [
@@ -7013,6 +7651,7 @@
             "none": {
               "title": "Request Blackout",
               "sub": "Only you see this",
+              "subRaw": "Only you see this",
               "form": "icon",
               "portraits": 0,
               "facts": [],
@@ -7022,6 +7661,7 @@
             "error": {
               "title": "Rescue Eli",
               "sub": "Player 5 · Hospital",
+              "subRaw": "Player 5 · Hospital",
               "form": "person",
               "portraits": 1,
               "facts": [],
@@ -7031,11 +7671,27 @@
             "cleared": {
               "title": "Rescue Eli",
               "sub": "Player 5 · Hospital",
+              "subRaw": "Player 5 · Hospital",
               "form": "person",
               "portraits": 1,
               "facts": [],
               "error": null,
               "alert": null
+            },
+            "joins": {
+              "one": true,
+              "two": true
+            },
+            "held": {
+              "words": "The server did not allow that command.",
+              "alert": "alert",
+              "last": true,
+              "following": [
+                "ms-k-vh"
+              ],
+              "registerOff": true,
+              "cancel": true,
+              "inView": true
             }
           }
         },
@@ -7166,7 +7822,12 @@
             "refusals": [
               "The bar names the room the Disabler chooses in",
               "fixed is the position the server has, such as \"A3\", or null"
-            ]
+            ],
+            "joined": {
+              "pass": true,
+              "player": true,
+              "players": true
+            }
           }
         },
         {
@@ -7549,7 +8210,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7580,7 +8241,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Du-xlI3v.js",
+          "source": "assets/index-CMybayuc.js",
           "line": 1,
           "column": 6050,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7822,7 +8483,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-Du-xlI3v.js",
+        "source": "assets/index-CMybayuc.js",
         "line": 1,
         "column": 6050,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
