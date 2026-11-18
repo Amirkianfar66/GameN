@@ -163,6 +163,34 @@
   .ms-phone-shell .ms-ps-tb[data-kind="phase"] .ms-ps-glyph { display: none; }
   .ms-phone-shell .ms-ps-pair .ms-ps-pt + .ms-ps-pt { margin-left: -20px; }
 }
+/* DRAFT, the look only, not checked yet (shell 0.3.4): the bar's words are never cut (phone-shell.mjs fitBar()).
+   b, steady: every bar whose inside is up to 25 rem wide (a 390 px phone's is 22.9 rem at the Standard text, a
+   430 px phone's 25.4 rem) has the slim controls
+   always: Promises the handshake alone with its count, the clock without its icon. The owner's alternative
+   (data-bar-slim="measured") keeps them for the bar that would otherwise cut a line (data-fit~="slim"). */
+@container ms-ps-bar (max-width: 25rem) {
+  .ms-phone-shell:not([data-bar-slim="measured"]) .ms-ps-pill { padding: 0; width: 36px; }
+  .ms-phone-shell:not([data-bar-slim="measured"]) :is(.ms-ps-pill-label, .ms-ps-div, .ms-ps-timer-mark:not(.ms-ps-ring)) { display: none; }
+}
+.ms-phone-shell .ms-ps-tb[data-fit~="slim"] .ms-ps-pill { padding: 0; width: 36px; }
+.ms-phone-shell .ms-ps-tb[data-fit~="slim"] :is(.ms-ps-pill-label, .ms-ps-div, .ms-ps-timer-mark:not(.ms-ps-ring)) { display: none; }
+/* c: the name on two lines in its second line's place, which screen readers still read; or the second line on two. */
+.ms-phone-shell .ms-ps-tb[data-fit~="name2"] .ms-ps-name { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-height: 1.1; }
+.ms-phone-shell .ms-ps-tb[data-fit~="name2"] .ms-ps-sub { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.ms-phone-shell .ms-ps-tb[data-fit~="sub2"] .ms-ps-sub { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+/* d: the controls on a row of their own, Promises at its left end and the clock and the menu at its right. */
+.ms-phone-shell .ms-ps-tb[data-fit~="stack"] { flex-wrap: wrap; align-content: center; row-gap: 0; }
+.ms-phone-shell .ms-ps-tb[data-fit~="stack"] .ms-ps-who { flex: 0 0 100%; }
+.ms-phone-shell .ms-ps-tb[data-fit~="stack"] .ms-ps-div { display: none; }
+.ms-phone-shell .ms-ps-tb[data-fit~="stack"] .ms-ps-promises { margin-right: auto; }
+.ms-phone-shell .ms-ps-tb[data-fit~="stack"] .ms-ps-right { margin-left: auto; }
+/* A wrapped line breaks between its parts ("Player 6", a person's name), at its "·" or "+", never inside one. */
+.ms-phone-shell .ms-ps-part { white-space: nowrap; }
+/* A bar that grew keeps a little air above and below its words. */
+.ms-phone-shell .ms-ps-tb:is([data-fit~="stack"], [data-fit~="sub2"]) { padding-top: calc(var(--ms-ps-safe-t) + 4px); padding-bottom: 4px; }
+/* The hidden copy the fit is decided from: the bar at its own least height, growing with what it holds. */
+.ms-phone-shell .ms-ps-measure { --ms-ps-bar-h: max(52px, calc(1.0625rem * 1.25 + 1.6rem)); --ms-ps-top: calc(var(--ms-ps-safe-t) + var(--ms-ps-bar-h)); }
+.ms-phone-shell .ms-ps-measure > .ms-ps-tb { position: relative; inset: auto; height: auto; min-height: var(--ms-ps-top); }
 /* Larger text (the bar under 16 rem: 150% text below 384 px, 200% below 512 px): the round leaves the bar
    and a phase with a short title shows it, the full title kept for screen readers. */
 @container ms-ps-bar (max-width: 16rem) {

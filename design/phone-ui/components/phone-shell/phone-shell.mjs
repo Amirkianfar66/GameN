@@ -410,17 +410,20 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     const who = el('div', 'ms-ps-who');
     const lines = el('div', 'ms-ps-lines');
     const name = el('span', 'ms-ps-name'), sub = el('span', 'ms-ps-sub');
+    // DRAFT (0.3.4): a part of a line that stays together when the line wraps ("Player 6", a person's name), so a
+    // line breaks at its "·" or "+" and never inside a name. The line's words are the same.
+    const part = text => { const node = el('span', 'ms-ps-part'); node.textContent = text; return node; };
     if (b.kind === 'turn') {
       const n = seatNumber(b.who), face = portrait(b.who);
       if (face) who.append(face);
       name.textContent = b.self ? 'Your turn' : b.who.name;
-      if (b.self) { const strong = el('b'); strong.textContent = `Player ${n} · ${b.who.name}`; sub.append(strong); }
-      else sub.textContent = `Player ${n} · Turn`;
+      if (b.self) { const strong = el('b'); strong.append(part(`Player ${n}`), ' · ', part(b.who.name)); sub.append(strong); }
+      else sub.append(part(`Player ${n}`), ' · ', part('Turn'));
       lines.append(name, sub);
     } else if (b.kind === 'pair') {
       const faces = b.pair.map(portrait).filter(Boolean);
       if (faces.length) { const pair = el('span', 'ms-ps-pair'); pair.append(...faces); who.append(pair); }
-      name.textContent = b.pair.map(p => p.name).join(' + ');
+      b.pair.forEach((p, i) => name.append(...(i ? [' + '] : []), part(p.name)));
       sub.textContent = b.sub ?? 'Private talk';
       lines.append(name, sub);
     } else {
@@ -726,6 +729,74 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     if (stacked !== head.hasAttribute('data-stacked')) head.toggleAttribute('data-stacked', stacked);
   }
 
+  /**
+   * DRAFT, the look only, not checked yet (shell 0.3.4): the bar's words are never cut. In a private talk the pair's
+   * name was cut ("Crew 6 + Cre…"), and on a turn the second line ("Player 6 · Cr…"), on the commonest phones.
+   * The Lead Designer's rule, 18 November 2026, for every kind of bar. The first step that makes the words whole:
+   *   a. as it is;
+   *   b. the slim controls: Promises the handshake alone with its count, the clock without its icon. Steady: every
+   *      bar up to 25 rem wide has them always (the stylesheet), so two phones of one size look the same whatever
+   *      the names. The owner's alternative, measured: only where a line would be cut (`slim`);
+   *   c. the name takes its second line's place, on two lines, the second line kept for screen readers (`name2`);
+   *      or, when the second line is the one cut, that line wraps to a line of its own (`sub2`);
+   *   d. the controls take a row of their own and the words the full width (`stack`), then c again there.
+   * The text keeps the size the player chose. Decided from a hidden copy of the bar, taken away at once, and only
+   * when what it depends on changes: the bar's width, the text size, the words, or what stands beside them.
+   */
+  let barKey = null;
+  function fitBar() {
+    const who = parts.who;
+    if (!state.bar || state.status === 'concealed' || !who?.isConnected || bar.clientWidth <= 0) {
+      barKey = null;
+      if (bar.hasAttribute('data-fit')) bar.removeAttribute('data-fit');
+      root.style.removeProperty('--ms-ps-bar-h');
+      return;
+    }
+    // The owner's alternative, for the draft's comparison only: an ancestor asks for the measured slim controls.
+    const measured = !!root.closest('[data-ms-draft-bar="measured"]');
+    if (measured !== (root.dataset.barSlim === 'measured')) { if (measured) root.dataset.barSlim = 'measured'; else delete root.dataset.barSlim; }
+    const name = who.querySelector('.ms-ps-name'), cs = win.getComputedStyle(name);
+    const key = [bar.clientWidth, cs.fontSize, doc.fonts?.status ?? '', parts.whoKey, measured, !!parts.promises, parts.promises?.textContent ?? '',
+      (parts.right?.textContent ?? '').length, root.style.getPropertyValue('--ms-ps-safe-t')].join('\u0001');
+    if (key === barKey) return;
+    barKey = key;
+    const box = el('div', 'ms-ps-measure', { 'aria-hidden': 'true', inert: '' }), copy = bar.cloneNode(true);
+    box.style.width = `${bar.offsetWidth}px`;
+    copy.removeAttribute('data-fit');
+    for (const node of copy.querySelectorAll('[id]')) node.removeAttribute('id');
+    box.append(copy);
+    root.append(box);
+    const words = [copy.querySelector('.ms-ps-name'), copy.querySelector('.ms-ps-sub')];
+    // Cut: drawn, and wider than its box or with a line more than it shows (half a line, since tall letters alone
+    // reach past a line's box). A line kept only for screen readers (a 1 px box) is not drawn.
+    const cut = node => {
+      if (!node || node.offsetWidth <= 1) return false;
+      const line = parseFloat(win.getComputedStyle(node).lineHeight) || node.clientHeight;
+      return node.scrollWidth > node.clientWidth + 1 || node.scrollHeight > node.clientHeight + line / 2;
+    };
+    const set = tokens => { if (tokens.length) copy.setAttribute('data-fit', tokens.join(' ')); else copy.removeAttribute('data-fit'); };
+    const whole = tokens => { set(tokens); return !words.some(cut); };
+    const lines = tokens => { set(tokens); const more = cut(words[0]) ? 'name2' : cut(words[1]) ? 'sub2' : null; return more ? [...tokens, more] : null; };
+    let fit = [];
+    const settle = () => {
+      if (whole(fit)) return;
+      if (measured) { fit = ['slim']; if (whole(fit)) return; }
+      const c = lines(fit);
+      if (c && whole(c)) { fit = c; return; }
+      const d = [...fit, 'stack'];
+      if (whole(d)) { fit = d; return; }
+      fit = lines(d) ?? d;
+    };
+    settle();
+    set(fit);
+    const style = win.getComputedStyle(copy), least = parseFloat(style.minHeight) || 0, tall = copy.offsetHeight;
+    box.remove();
+    const value = fit.join(' ');
+    if ((bar.getAttribute('data-fit') ?? '') !== value) { if (value) bar.setAttribute('data-fit', value); else bar.removeAttribute('data-fit'); }
+    if (tall > least + 0.5) root.style.setProperty('--ms-ps-bar-h', `calc(${tall}px - var(--ms-ps-safe-t))`);
+    else root.style.removeProperty('--ms-ps-bar-h');
+  }
+
   // ── The docked sheet's frame (ui.mjs sheet) ─────────────────────────
   function paintSheet() {
     const s = state.status === 'concealed' ? null : state.sheet;
@@ -936,7 +1007,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
   }
   let observedBanner = null;
   // The head is fitted first: stacking it changes the room the footer's fit and the toast's place are measured in.
-  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => { placeBanner(); placeTalk(); fitHead(); fitSheet(); placeToast(); reportLayout(); }) : null;
+  const observer = typeof win.ResizeObserver === 'function' ? new win.ResizeObserver(() => { placeBanner(); placeTalk(); fitBar(); fitHead(); fitSheet(); placeToast(); reportLayout(); }) : null;
   // A sheet's content is mounted and changed by its owner, after the shell's own update: the footer is fitted again then.
   let sheetFit = 0;
   const sheetWatch = typeof win.MutationObserver === 'function' ? new win.MutationObserver(() => {
@@ -957,6 +1028,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     root.dataset.backdrop = state.backdrop;
     applyInsets();
     paintBar();
+    fitBar();
     paintTabs();
     if (parts.tabs) observer?.observe(parts.tabs);
     if (!observer) placeTalk();
