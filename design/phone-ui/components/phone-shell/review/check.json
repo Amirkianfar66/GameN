@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/phone-shell-check.mjs",
   "component": "design/phone-ui/components/phone-shell",
-  "sourceCommit": "dee3754a80f40e2299ea63c1a7a5d27cfc57f92a",
+  "sourceCommit": "64b9c11d995d1acfd0c5c9b694938bc0136a53fd",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -39,14 +39,14 @@
   "captures": {
     "390x844/turn": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-turn.jpg",
-      "sha256": "ecef26a680331514cfe0e5b48d549225ed6330f95cd8351bbeb2ad66340c602d",
+      "sha256": "fa206bd63e31a9e02c2d01023c9d0b804fa1fc87ee24f404bfc641ee6147f2de",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -138,6 +138,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -237,7 +244,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -329,6 +336,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -421,14 +435,14 @@
     },
     "390x844/own": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-own.jpg",
-      "sha256": "1f00f1a36dba9e1a6f201f8f26378f2d4b7cec4a8a72a42ec92b9be3b5f98967",
+      "sha256": "f795fd165f1a705a23360aff1da5f524655a63483f99f7dd162092afb4ee60ec",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -520,6 +534,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -611,14 +632,14 @@
     },
     "430x932/own": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-own.jpg",
-      "sha256": "97a26d1e576131a401a0bd6a97b497ac8cb5cf795d646f67726f8482872de997",
+      "sha256": "512f19f3b43988ef380b8da258f38ef9a7f027343d28ac64a5d5ad808cc04a38",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -710,6 +731,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -801,14 +829,14 @@
     },
     "390x844/urgent": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-urgent.jpg",
-      "sha256": "0a27d0e7007db7d5871247532838a947acbe94277543cff095add06ede81763a",
+      "sha256": "5c83930e18ffb667937906f5037f6c66987cd6e7031ff228b42e9481125b0cf2",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -900,6 +928,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -991,14 +1026,14 @@
     },
     "430x932/urgent": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-urgent.jpg",
-      "sha256": "79f477f11354f90379297f839cb70f21df0b1900b6102acd9193c513113503b3",
+      "sha256": "10982768138643d36050ebfe747e7ea5f78c73b41aecc05467bd3694bb36b8b3",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1090,6 +1125,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -1181,14 +1223,14 @@
     },
     "390x844/vote": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-vote.jpg",
-      "sha256": "ff0e9c72bee0f2717d538539ecaf578e3ee21a51365f68c66c694f5df683d5a9",
+      "sha256": "5679b906c201741033b0a25a08b4e5f18053509e5f9746574b50c39b64d991df",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1280,6 +1322,13 @@
       ],
       "heroIcon": "vote:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "vote",
       "heroOff": false,
       "talk": 0,
@@ -1371,14 +1420,14 @@
     },
     "430x932/vote": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-vote.jpg",
-      "sha256": "4b2c3cc489a886a93f42a5b3bea4e573cd0c7ab8732b5469f8ff82221d574062",
+      "sha256": "31b40af734cde9c9b3538b5bee0821c1c10f1decf3c258e8480e188cb05817db",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1470,6 +1519,13 @@
       ],
       "heroIcon": "vote:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "vote",
       "heroOff": false,
       "talk": 0,
@@ -1568,7 +1624,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1660,6 +1716,13 @@
       ],
       "heroIcon": "vote:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "voted",
       "heroOff": false,
       "talk": 0,
@@ -1751,14 +1814,14 @@
     },
     "430x932/voted": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-voted.jpg",
-      "sha256": "1dac67ebe1ba8766eeb23efec84d43b6addfc92fd76cc14cb95d0af4eda7d388",
+      "sha256": "c69ac21510903e4f5ed0e23a0dbed39acd3bb5eb624250eef312af78e1521f5a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1850,6 +1913,13 @@
       ],
       "heroIcon": "vote:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "voted",
       "heroOff": false,
       "talk": 0,
@@ -1948,7 +2018,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2040,6 +2110,13 @@
       ],
       "heroIcon": "vote:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "vote",
       "heroOff": true,
       "talk": 0,
@@ -2133,7 +2210,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2225,6 +2302,13 @@
       ],
       "heroIcon": "vote:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "vote",
       "heroOff": true,
       "talk": 0,
@@ -2318,7 +2402,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2407,6 +2491,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -2506,7 +2597,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2595,6 +2686,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -2687,14 +2785,14 @@
     },
     "390x844/target": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-target.jpg",
-      "sha256": "f9c6d5dc29d12173c624f297f767556e379e905296c9a8606c0414452342ae71",
+      "sha256": "b0133800c6e32d85f852c99c400fc70ff65eb9a7681ac4533cd69464cb1aa00c",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2786,6 +2884,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -2877,14 +2982,14 @@
     },
     "430x932/target": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-target.jpg",
-      "sha256": "be9f58b71f0f8c85deed0419459fd58b062ef5d0b5dedc93f7d9ca49c2b25881",
+      "sha256": "c3a63c0b382a4ebc674fdb6dadd105637e182f244b935f5d6e77331674a02a5a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2976,6 +3081,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -3067,14 +3179,14 @@
     },
     "390x844/pass": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-pass.jpg",
-      "sha256": "6a9b49c27581f461ef93893b23179a33bb15c698d6f861583486b07f44c4e286",
+      "sha256": "4c80927fbf7c2bd3763b36903ee46662d3893a83516fbf02ff7fb9c93ec3b51b",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3166,6 +3278,20 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": 600,
+        "bannerBottom": null
+      },
+      "sheetFit": {
+        "follows": false,
+        "stacked": false,
+        "height": 223,
+        "head": 60,
+        "room": 62,
+        "cut": 0
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -3257,14 +3383,14 @@
     },
     "430x932/pass": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-pass.jpg",
-      "sha256": "94479fc639574521f1aec73192d0095c4d2e4072895d71e8bf4298771963c650",
+      "sha256": "e9ed189fb81758babac54d4f36134b52ac5acdbfd22e98d1b31fcc49ad5264dd",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3356,6 +3482,20 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": 709,
+        "bannerBottom": null
+      },
+      "sheetFit": {
+        "follows": false,
+        "stacked": false,
+        "height": 202,
+        "head": 60,
+        "room": 41,
+        "cut": 0
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -3447,14 +3587,14 @@
     },
     "390x844/actions": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-actions.jpg",
-      "sha256": "7b05e28d717fb27d0eff01e6132a391fa6322ceeec4b3d4c56bf50431897ac7f",
+      "sha256": "2e502bddc882cfeef9e4d7da9052d4c6c96621447db3ed4591a8a679519fac1a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3546,6 +3686,20 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": 589,
+        "bannerBottom": null
+      },
+      "sheetFit": {
+        "follows": false,
+        "stacked": false,
+        "height": 236,
+        "head": 62,
+        "room": 162,
+        "cut": 0
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -3637,14 +3791,14 @@
     },
     "430x932/actions": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-actions.jpg",
-      "sha256": "2d94b797b83cb358da39a05bd69a71c948188f05c926aa0aff158c5abfae4f1b",
+      "sha256": "ff2462c3c242c7aaa6384fc7a1cf8b59d223f344b599bf8c1954d90d4aca4be5",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3736,6 +3890,20 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": 677,
+        "bannerBottom": null
+      },
+      "sheetFit": {
+        "follows": false,
+        "stacked": false,
+        "height": 236,
+        "head": 62,
+        "room": 162,
+        "cut": 0
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -3827,14 +3995,14 @@
     },
     "390x844/card": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-card.jpg",
-      "sha256": "cd89ff2ba609b43c520589a018453b34bb7d0461c553ca7926c847d21ae68d13",
+      "sha256": "dcbae96f88c7bd77406933f57fe9d0688595b939681001487fabfbad57cd4b7e",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3926,6 +4094,20 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": 181,
+        "bannerBottom": null
+      },
+      "sheetFit": {
+        "follows": false,
+        "stacked": false,
+        "height": 644,
+        "head": 62,
+        "room": 570,
+        "cut": 0
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -4017,14 +4199,14 @@
     },
     "430x932/card": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-card.jpg",
-      "sha256": "9dae6cbcdbb9f1b19cb38dab86cf90cefcab2757d371f9ced1ec0f8f3fb65e8a",
+      "sha256": "622a64cebf03e12ce8fad14b19ce594b78aba459c9c5882204457c46138d59dc",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4116,6 +4298,20 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": 181,
+        "bannerBottom": null
+      },
+      "sheetFit": {
+        "follows": false,
+        "stacked": false,
+        "height": 732,
+        "head": 62,
+        "room": 658,
+        "cut": 0
+      },
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -4207,14 +4403,14 @@
     },
     "390x844/card-icon": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-card-icon.jpg",
-      "sha256": "f005fda52c8cdec469687f4f45416aef927a0f47d8886cdf2ef423a21c25fcd7",
+      "sha256": "b3bc13d9e9e4579368da326d8521a6b81f10a2d90eade730c87c68010abbdcdd",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4303,6 +4499,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -4394,14 +4597,14 @@
     },
     "430x932/card-icon": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-card-icon.jpg",
-      "sha256": "0c53de256c14bf628678e246fb8c93d91fdeb574f156be1dd7a9545ccdf2f312",
+      "sha256": "141d066b8c83adcdaa2a8f18f69fe5ebcfdd91b29dbbf347f3962372b19b5a0c",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4490,6 +4693,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -4588,7 +4798,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4612,6 +4822,13 @@
       "tiles": [],
       "heroIcon": null,
       "heroGrey": null,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": null,
       "heroOff": false,
       "talk": 2,
@@ -4708,7 +4925,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4732,6 +4949,13 @@
       "tiles": [],
       "heroIcon": null,
       "heroGrey": null,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": null,
       "heroOff": false,
       "talk": 2,
@@ -4821,14 +5045,14 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-stale.jpg",
-      "sha256": "13a80127f96a8616682ed759a13f75d6279bc1db7d60dd0554ec4a4379beb305",
+      "sha256": "b078c36081835da8187598e6f88a2c4ccf1ab75c57c37a9c355acfca510fd198",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4920,6 +5144,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": 175
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -5006,14 +5237,14 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-stale.jpg",
-      "sha256": "b9fa72e7c2189d5f339c4df2681043e0aec5326a477827eec9646325b4f4d7cd",
+      "sha256": "6d970fcef153939a9fbd6e309c9e6ca20e02436004aca3b81e58aff85d5d8a29",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5105,6 +5336,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": 161
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -5191,14 +5429,14 @@
     },
     "390x844/out": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-out.jpg",
-      "sha256": "cc39831c2b4900ec13117d951bb8058ee2ac4d31556d22b19d888b806d6164e8",
+      "sha256": "ffed1c2201e40420aef26c422cb8a15adae59496217f56c4dc295c7ccfc36847",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5290,6 +5528,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": 158
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -5382,14 +5627,14 @@
     },
     "430x932/out": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-out.jpg",
-      "sha256": "66913a72b41143e6c242bca74a9b77d65d0b7d81fe453f6f6923b38d40ca5001",
+      "sha256": "c1d547c131cbddd14880b09695216892450b3f55a5057bca99874debc95d1867",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5481,6 +5726,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": 158
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -5580,7 +5832,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5604,6 +5856,13 @@
       "tiles": [],
       "heroIcon": null,
       "heroGrey": null,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -5677,7 +5936,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5701,6 +5960,13 @@
       "tiles": [],
       "heroIcon": null,
       "heroGrey": null,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -5774,7 +6040,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5798,6 +6064,13 @@
       "tiles": [],
       "heroIcon": null,
       "heroGrey": null,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": 175
+      },
+      "sheetFit": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -5866,7 +6139,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5890,6 +6163,13 @@
       "tiles": [],
       "heroIcon": null,
       "heroGrey": null,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": 161
+      },
+      "sheetFit": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -5958,7 +6238,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5982,6 +6262,13 @@
       "tiles": [],
       "heroIcon": null,
       "heroGrey": null,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -6075,7 +6362,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6099,6 +6386,13 @@
       "tiles": [],
       "heroIcon": null,
       "heroGrey": null,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -6185,14 +6479,14 @@
     },
     "320x568/large": {
       "file": "design/phone-ui/components/phone-shell/review/320x568-large.jpg",
-      "sha256": "d9b5d8e50761465d1a54fe3cfeeaf16245ae5ccc8d3b8837f3fc6cfd17b848c2",
+      "sha256": "02fc1a5dd06c7ba2e8b3d521316de1b8d1ee3475a39707048509ff1eb1e9dc5a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6284,6 +6578,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -6370,14 +6671,14 @@
     },
     "390x844/target-stale": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-target-stale.jpg",
-      "sha256": "da7c74f3c111641ddd547a27ceaf79b699f64eb55698124bce1e5770ef06f9c4",
+      "sha256": "1c733a2282a090a0a9a9a829bb8f5a3116d219c93bd688047edb5ad32c9aa481",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6469,6 +6770,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": 175
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -6555,14 +6863,14 @@
     },
     "430x932/target-stale": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-target-stale.jpg",
-      "sha256": "5f0d1a365dfa789a9c3f878f64de36960c5ab9ca2db9d9370178ecc201ef647f",
+      "sha256": "10def888ae5ac9e59a32724ce55de893562687745a65961fc4a21c404f9d0147",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6654,6 +6962,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": 161
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -6740,14 +7055,14 @@
     },
     "390x844/target-large": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-target-large.jpg",
-      "sha256": "907ad5b4abeead0764a827be7931aa2245de75bc54499ea5238b867cb3f49c33",
+      "sha256": "0dc5c5f5a9e365f81cba038fa2ec494a13c8355db9122b4bd1cc02945f4728b3",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6839,6 +7154,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -6925,14 +7247,14 @@
     },
     "430x932/target-large": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-target-large.jpg",
-      "sha256": "23b12e4a45673e868e5d03d0af5d0f58abbe78f48d06d82a4607d93fda3bf3ff",
+      "sha256": "b1af2f8d1194cd310741009af986ede40f06eafc1848359b0651fb64df5dae56",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7024,6 +7346,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -7110,14 +7439,14 @@
     },
     "390x844/before": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-before.jpg",
-      "sha256": "c0191cf033b059ea7c862d3d595ab9e775717f8f86d2978ebba1acb625bda026",
+      "sha256": "fa745f48e637835a6a866dbb2f4ac34900620f6707a6f0cd0b1bd261f2a2fbff",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7209,6 +7538,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -7300,14 +7636,14 @@
     },
     "430x932/before": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-before.jpg",
-      "sha256": "04f78416b8862cad1a85ada72a02e86590d2142cdef22d842de71d07f1066f9c",
+      "sha256": "de11b88c0738e46a711d604ac1567c76e411016ca53f3cafa259449cf70b8422",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7399,6 +7735,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -7490,14 +7833,14 @@
     },
     "390x844/before-start": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-before-start.jpg",
-      "sha256": "6caef658d90a22d857327518279e744578945614ffb07ed40c5f59f044f12544",
+      "sha256": "9cb40275ec606651d7e51e88e67e4a6dccf10e2e2d3485375b870c93d0fdebd0",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7589,6 +7932,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -7680,14 +8030,14 @@
     },
     "430x932/before-start": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-before-start.jpg",
-      "sha256": "edbd97a17e4d276cead0863831ca504fca8cf23b148eea8b0965c0b50b87fa93",
+      "sha256": "ec6c0c3014ce7f15337443784dcdf734536cb7d6603a74bcb87f77ca04d930f6",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7779,6 +8129,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -7870,14 +8227,14 @@
     },
     "390x844/block": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-block.jpg",
-      "sha256": "a9d8d313e35cb36ffffa9259ae62ff87ad631d640acab88d452e9c50276a5246",
+      "sha256": "aae22e536905c2e8121fd07f0d1558466c4ef39e51742b53020d28e97743d3e1",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7969,6 +8326,20 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": 179,
+        "bannerBottom": null
+      },
+      "sheetFit": {
+        "follows": false,
+        "stacked": false,
+        "height": 644,
+        "head": 60,
+        "room": 483,
+        "cut": 0
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -8060,14 +8431,14 @@
     },
     "430x932/block": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-block.jpg",
-      "sha256": "032488e53b15f12eda0865227e831408bd3993d465fca0f14bea6fe97912f908",
+      "sha256": "b8cc60dd93c2287f7a4c2a5308cdf5046a25ced26d329436e507d0469c7211a4",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8159,6 +8530,20 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": 179,
+        "bannerBottom": null
+      },
+      "sheetFit": {
+        "follows": false,
+        "stacked": false,
+        "height": 732,
+        "head": 60,
+        "room": 571,
+        "cut": 0
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -8250,14 +8635,14 @@
     },
     "390x844/appointment": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-appointment.jpg",
-      "sha256": "f9783554e673d7dd6a42287c454e685d1e5626417398f7bef84a4bb65dd60434",
+      "sha256": "f6cda42bcab555353aaf4521333f12c08679256a5f7269a3b83aae719f9725b5",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8349,6 +8734,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -8440,14 +8832,14 @@
     },
     "430x932/appointment": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-appointment.jpg",
-      "sha256": "5115c50bb4ea2ef44c6458f89079d091fc1fe9b2dcf2707b80d63f32e2aebe29",
+      "sha256": "798f379c3eac02799119a826f4c6cd147d44e08efd173130f6fe3ba2245d8513",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8539,6 +8931,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -8630,14 +9029,14 @@
     },
     "390x844/appoint": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-appoint.jpg",
-      "sha256": "dbbc14f432479317406be3f329d36fafd662dff787c433cdff850fe5f134928a",
+      "sha256": "1d54d2a083444e3ee54ae5332b3f9a999b3fe89e6decd44717676faf88190705",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8729,6 +9128,20 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": 171,
+        "bannerBottom": null
+      },
+      "sheetFit": {
+        "follows": false,
+        "stacked": false,
+        "height": 644,
+        "head": 52,
+        "room": 491,
+        "cut": 0
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -8820,14 +9233,14 @@
     },
     "430x932/appoint": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-appoint.jpg",
-      "sha256": "106dfe1a7e282de0872c1a29cce62604611d88f0cb6daabb39c4ffc95c185a23",
+      "sha256": "16b88ecacd05ddb779458cd075d756fad98b5fad374f309d2e48031d666d75ab",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8919,6 +9332,20 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": 171,
+        "bannerBottom": null
+      },
+      "sheetFit": {
+        "follows": false,
+        "stacked": false,
+        "height": 732,
+        "head": 52,
+        "room": 579,
+        "cut": 0
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -9010,14 +9437,14 @@
     },
     "390x844/lit": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-lit.jpg",
-      "sha256": "a74fb20ace68d8c99a73b6e24a7aa61e459899560ec1c78c31cb5f96bc37280d",
+      "sha256": "fe3275657396a42ec54687a4894ea41e2ac630d925a8f6fc50ae1b692b28765e",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9109,6 +9536,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -9200,14 +9634,14 @@
     },
     "430x932/lit": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-lit.jpg",
-      "sha256": "6edc9ea19ec72f629da09846166197adfccd5ae86d195523abfd4a0cbf9f3e3c",
+      "sha256": "8b9259eb46c36bb27c228306e1834fc6841e4d0d6dba460195be7360212d3d0f",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9299,6 +9733,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -9390,14 +9831,14 @@
     },
     "390x844/lit-next": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-lit-next.jpg",
-      "sha256": "45c58e2571342ed2a25cdaa6067368d85e19eae98bd0a12611794ad5f1173a88",
+      "sha256": "e72b0c65dd8d115043bda6708337a3148828a591a52f9d4bad5e3f282dab1329",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9489,6 +9930,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -9580,14 +10028,14 @@
     },
     "430x932/lit-next": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-lit-next.jpg",
-      "sha256": "05870f185bb7f11fb1ef121e04163161e069c908b19bcea83a30202b2fef8b2f",
+      "sha256": "9f4f5ef0fca343912ae480278748eab87c4e1a50d4cb02f77a71afcd6e3d9a79",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9679,6 +10127,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -9777,7 +10232,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9801,6 +10256,13 @@
       "tiles": [],
       "heroIcon": null,
       "heroGrey": null,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -9889,7 +10351,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9913,6 +10375,13 @@
       "tiles": [],
       "heroIcon": null,
       "heroGrey": null,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -9994,14 +10463,14 @@
     },
     "390x844/course-own": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-course-own.jpg",
-      "sha256": "d8cf7f78a90e957e6d527f070ba7b350679214e9ba6ee21f124445c744694252",
+      "sha256": "e79084e6466028008a1a278459d2e18d5f1cd68f307da91d22b26cc51d7eaca4",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10093,6 +10562,20 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": 179,
+        "bannerBottom": null
+      },
+      "sheetFit": {
+        "follows": false,
+        "stacked": false,
+        "height": 644,
+        "head": 60,
+        "room": 572,
+        "cut": 0
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -10184,14 +10667,14 @@
     },
     "430x932/course-own": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-course-own.jpg",
-      "sha256": "75edc0899ac020fe1639afbc80d7003d3e9dca8489027e8c514ab125c17a3ac2",
+      "sha256": "e57051b0ba34202c0a5296ed5395ffb1848b720dd739a93b9c82ab45aab7eedd",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10283,6 +10766,20 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": 179,
+        "bannerBottom": null
+      },
+      "sheetFit": {
+        "follows": false,
+        "stacked": false,
+        "height": 732,
+        "head": 60,
+        "room": 660,
+        "cut": 0
+      },
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -10381,7 +10878,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10405,6 +10902,13 @@
       "tiles": [],
       "heroIcon": null,
       "heroGrey": null,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -10493,7 +10997,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10517,6 +11021,13 @@
       "tiles": [],
       "heroIcon": null,
       "heroGrey": null,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -10605,7 +11116,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10629,6 +11140,13 @@
       "tiles": [],
       "heroIcon": null,
       "heroGrey": null,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -10702,7 +11220,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10726,6 +11244,13 @@
       "tiles": [],
       "heroIcon": null,
       "heroGrey": null,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": null,
       "heroOff": false,
       "talk": 0,
@@ -10792,14 +11317,14 @@
     },
     "390x844/closed": {
       "file": "design/phone-ui/components/phone-shell/review/390x844-closed.jpg",
-      "sha256": "f6e813df9157f7dc4e8d2747a8ef3cee199b21e33339a3a3bcfcb7c0bcf57e6f",
+      "sha256": "89403bf4adae11cdc56efce4b21fca512308652744eb76dde640e9e42640a9cb",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10891,6 +11416,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": 109,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -10982,14 +11514,14 @@
     },
     "430x932/closed": {
       "file": "design/phone-ui/components/phone-shell/review/430x932-closed.jpg",
-      "sha256": "e2da34314dd225ce9e4a17826dc4246987baa527927e114fc02c176798f29ffd",
+      "sha256": "6784cbc271af5ad4aeaa948cf43eb200dce99e6b9610e0cc75238ddcf40a45f9",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -11081,6 +11613,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": 109,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": false,
       "talk": 0,
@@ -11172,14 +11711,14 @@
     },
     "320x568/phase-large": {
       "file": "design/phone-ui/components/phone-shell/review/320x568-phase-large.jpg",
-      "sha256": "e3146ee8caa05b42a4bf35904648eaa12dd76419ca6bc2cb1befe2d9efc2c91d",
+      "sha256": "d4b00dbb22dabc7d4d93c4145a580cc89bb509eeb6905126962afec8cc54f28b",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -11271,6 +11810,13 @@
       ],
       "heroIcon": "pass:painted",
       "heroGrey": true,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": null,
+        "bannerBottom": null
+      },
+      "sheetFit": null,
       "hero": "pass",
       "heroOff": true,
       "talk": 0,
@@ -11314,6 +11860,1405 @@
       "sheetActions": 0,
       "head": null,
       "buttons": 7,
+      "figures": 5,
+      "cover": 0,
+      "bannerTop": null,
+      "layout": {
+        "size": {
+          "width": 320,
+          "height": 568
+        },
+        "bars": {
+          "top": 113.69,
+          "bottom": 60.19
+        },
+        "stage": {
+          "width": 320,
+          "height": 394.13
+        },
+        "safe": {
+          "top": 20,
+          "bottom": 0
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "over": {
+        "targetTop": null,
+        "targetRight": null,
+        "bannerBottom": null,
+        "wordsBottom": null,
+        "cancelTop": null,
+        "cancelReach": false,
+        "chipWhole": null
+      },
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "390x844/toast-sheet": {
+      "file": "design/phone-ui/components/phone-shell/review/390x844-toast-sheet.jpg",
+      "sha256": "16f460c3e9ba5d0c3d9139bffe3ec917559fc715ab4e434c71e3eb78d11069b6",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DVtnn2Cq.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "turn",
+      "tone": null,
+      "name": "Your turn",
+      "sub": "Player 4 · Dev",
+      "round": "R3",
+      "timer": "0:42",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises, 1 new",
+      "menu": true,
+      "tabs": 4,
+      "open": "card",
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": true,
+        "ring": true,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
+      "tiles": [
+        {
+          "tab": "switch",
+          "form": "board:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "actions",
+          "form": "actions:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "panels",
+          "form": "panels:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "card",
+          "form": "card:picture",
+          "tile": false,
+          "drawn": null,
+          "box": [
+            32,
+            32
+          ],
+          "ring": null,
+          "faded": false
+        }
+      ],
+      "heroIcon": "pass:painted",
+      "heroGrey": false,
+      "toastPlace": {
+        "under": true,
+        "toast": 189,
+        "headBottom": 181,
+        "bannerBottom": null
+      },
+      "sheetFit": {
+        "follows": false,
+        "stacked": false,
+        "height": 644,
+        "head": 62,
+        "room": 570,
+        "cut": 0
+      },
+      "hero": "pass",
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "bannerKind": null,
+      "toast": "Registered. Waiting for the authoritative view.",
+      "bar": {
+        "box": [
+          0,
+          0,
+          390,
+          99
+        ],
+        "promises": [
+          148.27,
+          50.5,
+          92.3,
+          44
+        ],
+        "round": [
+          251.56,
+          66,
+          18.72,
+          13
+        ],
+        "timer": [
+          275.28,
+          56.5,
+          70.72,
+          32
+        ],
+        "menu": [
+          346,
+          50.5,
+          44,
+          44
+        ],
+        "right": 390,
+        "nameLines": 1,
+        "nameWhole": true
+      },
+      "bannerButtons": null,
+      "sheet": "Your role",
+      "sheetActions": 0,
+      "head": "Hide card",
+      "buttons": 9,
+      "figures": 5,
+      "cover": 0,
+      "bannerTop": null,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 390,
+          "height": 653
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "over": {
+        "targetTop": null,
+        "targetRight": null,
+        "bannerBottom": null,
+        "wordsBottom": null,
+        "cancelTop": null,
+        "cancelReach": false,
+        "chipWhole": null
+      },
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "430x932/toast-sheet": {
+      "file": "design/phone-ui/components/phone-shell/review/430x932-toast-sheet.jpg",
+      "sha256": "45d50eb01ac8d944765d7b644e16a5bdcab5d9d9469b6ed7a353b1f74fc81abe",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DVtnn2Cq.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "turn",
+      "tone": null,
+      "name": "Your turn",
+      "sub": "Player 4 · Dev",
+      "round": "R3",
+      "timer": "0:42",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises, 1 new",
+      "menu": true,
+      "tabs": 4,
+      "open": "card",
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": true,
+        "ring": true,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
+      "tiles": [
+        {
+          "tab": "switch",
+          "form": "board:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "actions",
+          "form": "actions:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "panels",
+          "form": "panels:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "card",
+          "form": "card:picture",
+          "tile": false,
+          "drawn": null,
+          "box": [
+            32,
+            32
+          ],
+          "ring": null,
+          "faded": false
+        }
+      ],
+      "heroIcon": "pass:painted",
+      "heroGrey": false,
+      "toastPlace": {
+        "under": true,
+        "toast": 189,
+        "headBottom": 181,
+        "bannerBottom": null
+      },
+      "sheetFit": {
+        "follows": false,
+        "stacked": false,
+        "height": 732,
+        "head": 62,
+        "room": 658,
+        "cut": 0
+      },
+      "hero": "pass",
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "bannerKind": null,
+      "toast": "Registered. Waiting for the authoritative view.",
+      "bar": {
+        "box": [
+          0,
+          0,
+          430,
+          99
+        ],
+        "promises": [
+          188.27,
+          50.5,
+          92.3,
+          44
+        ],
+        "round": [
+          291.56,
+          66,
+          18.72,
+          13
+        ],
+        "timer": [
+          315.28,
+          56.5,
+          70.72,
+          32
+        ],
+        "menu": [
+          386,
+          50.5,
+          44,
+          44
+        ],
+        "right": 430,
+        "nameLines": 1,
+        "nameWhole": true
+      },
+      "bannerButtons": null,
+      "sheet": "Your role",
+      "sheetActions": 0,
+      "head": "Hide card",
+      "buttons": 9,
+      "figures": 5,
+      "cover": 0,
+      "bannerTop": null,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 430,
+          "height": 741
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "over": {
+        "targetTop": null,
+        "targetRight": null,
+        "bannerBottom": null,
+        "wordsBottom": null,
+        "cancelTop": null,
+        "cancelReach": false,
+        "chipWhole": null
+      },
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "390x844/toast-banner": {
+      "file": "design/phone-ui/components/phone-shell/review/390x844-toast-banner.jpg",
+      "sha256": "881017ec2a01590fa5c24007ee733d565505c500e1f48dcd9e3713f6034f889e",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DVtnn2Cq.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "stale",
+      "kind": "phase",
+      "tone": null,
+      "name": "Reconnecting…",
+      "sub": "Showing Round 3 as last seen",
+      "round": "R3",
+      "timer": null,
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
+      "tiles": [
+        {
+          "tab": "switch",
+          "form": "board:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "actions",
+          "form": "actions:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "panels",
+          "form": "panels:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "card",
+          "form": "card:picture",
+          "tile": false,
+          "drawn": null,
+          "box": [
+            32,
+            32
+          ],
+          "ring": null,
+          "faded": false
+        }
+      ],
+      "heroIcon": "pass:painted",
+      "heroGrey": true,
+      "toastPlace": {
+        "under": true,
+        "toast": 183,
+        "headBottom": null,
+        "bannerBottom": 175
+      },
+      "sheetFit": null,
+      "hero": "pass",
+      "heroOff": true,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": "Connection lost",
+      "bannerKind": "reconnecting",
+      "toast": "Copied",
+      "bar": {
+        "box": [
+          0,
+          0,
+          390,
+          99
+        ],
+        "promises": [
+          278.28,
+          50.5,
+          44,
+          44
+        ],
+        "round": [
+          327.28,
+          66,
+          18.72,
+          13
+        ],
+        "timer": null,
+        "menu": [
+          346,
+          50.5,
+          44,
+          44
+        ],
+        "right": 390,
+        "nameLines": 1,
+        "nameWhole": true
+      },
+      "bannerButtons": 1,
+      "sheet": null,
+      "sheetActions": 0,
+      "head": null,
+      "buttons": 8,
+      "figures": 5,
+      "cover": 0,
+      "bannerTop": 107,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 390,
+          "height": 653
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "over": {
+        "targetTop": null,
+        "targetRight": null,
+        "bannerBottom": 175,
+        "wordsBottom": null,
+        "cancelTop": null,
+        "cancelReach": false,
+        "chipWhole": null
+      },
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "430x932/toast-banner": {
+      "file": "design/phone-ui/components/phone-shell/review/430x932-toast-banner.jpg",
+      "sha256": "04c68834725f77d7de6c9c729edf24c141e6f9dab6a4e77ea5a0cadb38b550ee",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DVtnn2Cq.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "stale",
+      "kind": "phase",
+      "tone": null,
+      "name": "Reconnecting…",
+      "sub": "Showing Round 3 as last seen",
+      "round": "R3",
+      "timer": null,
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
+      "tiles": [
+        {
+          "tab": "switch",
+          "form": "board:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "actions",
+          "form": "actions:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "panels",
+          "form": "panels:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "card",
+          "form": "card:picture",
+          "tile": false,
+          "drawn": null,
+          "box": [
+            32,
+            32
+          ],
+          "ring": null,
+          "faded": false
+        }
+      ],
+      "heroIcon": "pass:painted",
+      "heroGrey": true,
+      "toastPlace": {
+        "under": true,
+        "toast": 169,
+        "headBottom": null,
+        "bannerBottom": 161
+      },
+      "sheetFit": null,
+      "hero": "pass",
+      "heroOff": true,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": "Connection lost",
+      "bannerKind": "reconnecting",
+      "toast": "Copied",
+      "bar": {
+        "box": [
+          0,
+          0,
+          430,
+          99
+        ],
+        "promises": [
+          318.28,
+          50.5,
+          44,
+          44
+        ],
+        "round": [
+          367.28,
+          66,
+          18.72,
+          13
+        ],
+        "timer": null,
+        "menu": [
+          386,
+          50.5,
+          44,
+          44
+        ],
+        "right": 430,
+        "nameLines": 1,
+        "nameWhole": true
+      },
+      "bannerButtons": 1,
+      "sheet": null,
+      "sheetActions": 0,
+      "head": null,
+      "buttons": 8,
+      "figures": 5,
+      "cover": 0,
+      "bannerTop": 107,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 430,
+          "height": 741
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "over": {
+        "targetTop": null,
+        "targetRight": null,
+        "bannerBottom": 161,
+        "wordsBottom": null,
+        "cancelTop": null,
+        "cancelReach": false,
+        "chipWhole": null
+      },
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "390x844/offer": {
+      "file": "design/phone-ui/components/phone-shell/review/390x844-offer.jpg",
+      "sha256": "95bb8c4f7ee50038c0525669863fdbc64adcaf3a7eea814b1901a813db504af4",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DVtnn2Cq.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "turn",
+      "tone": null,
+      "name": "Your turn",
+      "sub": "Player 4 · Dev",
+      "round": "R3",
+      "timer": "0:42",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises, 1 new",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
+      "tiles": [
+        {
+          "tab": "switch",
+          "form": "board:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "actions",
+          "form": "actions:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "panels",
+          "form": "panels:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "card",
+          "form": "card:picture",
+          "tile": false,
+          "drawn": null,
+          "box": [
+            32,
+            32
+          ],
+          "ring": null,
+          "faded": false
+        }
+      ],
+      "heroIcon": "pass:painted",
+      "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": 181,
+        "bannerBottom": null
+      },
+      "sheetFit": {
+        "follows": false,
+        "stacked": false,
+        "height": 644,
+        "head": 62,
+        "room": 481,
+        "cut": 0
+      },
+      "hero": "pass",
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "bannerKind": null,
+      "toast": null,
+      "bar": {
+        "box": [
+          0,
+          0,
+          390,
+          99
+        ],
+        "promises": [
+          148.27,
+          50.5,
+          92.3,
+          44
+        ],
+        "round": [
+          251.56,
+          66,
+          18.72,
+          13
+        ],
+        "timer": [
+          275.28,
+          56.5,
+          70.72,
+          32
+        ],
+        "menu": [
+          346,
+          50.5,
+          44,
+          44
+        ],
+        "right": 390,
+        "nameLines": 1,
+        "nameWhole": true
+      },
+      "bannerButtons": null,
+      "sheet": "Offer from Fay · Player 6",
+      "sheetActions": 2,
+      "head": null,
+      "buttons": 11,
+      "figures": 5,
+      "cover": 0,
+      "bannerTop": null,
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 390,
+          "height": 653
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "over": {
+        "targetTop": null,
+        "targetRight": null,
+        "bannerBottom": null,
+        "wordsBottom": null,
+        "cancelTop": null,
+        "cancelReach": false,
+        "chipWhole": null
+      },
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "430x932/offer": {
+      "file": "design/phone-ui/components/phone-shell/review/430x932-offer.jpg",
+      "sha256": "b81d7e7b59f798cf0cba184d8b67517f0bc1469d6c454500ebd32149a30d5f3a",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DVtnn2Cq.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "turn",
+      "tone": null,
+      "name": "Your turn",
+      "sub": "Player 4 · Dev",
+      "round": "R3",
+      "timer": "0:42",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises, 1 new",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
+      "tiles": [
+        {
+          "tab": "switch",
+          "form": "board:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "actions",
+          "form": "actions:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "panels",
+          "form": "panels:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "card",
+          "form": "card:picture",
+          "tile": false,
+          "drawn": null,
+          "box": [
+            32,
+            32
+          ],
+          "ring": null,
+          "faded": false
+        }
+      ],
+      "heroIcon": "pass:painted",
+      "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": 181,
+        "bannerBottom": null
+      },
+      "sheetFit": {
+        "follows": false,
+        "stacked": false,
+        "height": 732,
+        "head": 62,
+        "room": 569,
+        "cut": 0
+      },
+      "hero": "pass",
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "bannerKind": null,
+      "toast": null,
+      "bar": {
+        "box": [
+          0,
+          0,
+          430,
+          99
+        ],
+        "promises": [
+          188.27,
+          50.5,
+          92.3,
+          44
+        ],
+        "round": [
+          291.56,
+          66,
+          18.72,
+          13
+        ],
+        "timer": [
+          315.28,
+          56.5,
+          70.72,
+          32
+        ],
+        "menu": [
+          386,
+          50.5,
+          44,
+          44
+        ],
+        "right": 430,
+        "nameLines": 1,
+        "nameWhole": true
+      },
+      "bannerButtons": null,
+      "sheet": "Offer from Fay · Player 6",
+      "sheetActions": 2,
+      "head": null,
+      "buttons": 11,
+      "figures": 5,
+      "cover": 0,
+      "bannerTop": null,
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "bars": {
+          "top": 99,
+          "bottom": 92
+        },
+        "stage": {
+          "width": 430,
+          "height": 741
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "covered": {
+          "bottom": 0
+        }
+      },
+      "over": {
+        "targetTop": null,
+        "targetRight": null,
+        "bannerBottom": null,
+        "wordsBottom": null,
+        "cancelTop": null,
+        "cancelReach": false,
+        "chipWhole": null
+      },
+      "art": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-b.back-DyyX5mRn.svg",
+        "assets/room-b.bench-CXPEIkTR.svg",
+        "assets/room-b.extend-BVwX8Ezm.svg"
+      ],
+      "problems": []
+    },
+    "320x568/offer-large": {
+      "file": "design/phone-ui/components/phone-shell/review/320x568-offer-large.jpg",
+      "sha256": "b719de110f9794e8ba89bad454c628e4a4cc62c573e565aa968e07107b312d36",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-DVtnn2Cq.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "kind": "turn",
+      "tone": null,
+      "name": "Your turn",
+      "sub": "Player 4 · Dev",
+      "round": "R3",
+      "timer": "0:42",
+      "urgent": false,
+      "ring": false,
+      "promises": "Promises, 1 new",
+      "menu": true,
+      "tabs": 4,
+      "open": null,
+      "order": [
+        "switch",
+        "actions",
+        "hero",
+        "panels",
+        "card"
+      ],
+      "card": {
+        "picture": true,
+        "drawn": true,
+        "box": [
+          32,
+          32
+        ],
+        "amber": false,
+        "ring": false,
+        "icon": "card",
+        "words": "Card",
+        "name": null,
+        "level": true
+      },
+      "tiles": [
+        {
+          "tab": "switch",
+          "form": "board:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "actions",
+          "form": "actions:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "panels",
+          "form": "panels:tile",
+          "tile": true,
+          "drawn": true,
+          "box": [
+            32,
+            32
+          ],
+          "ring": false,
+          "faded": false
+        },
+        {
+          "tab": "card",
+          "form": "card:picture",
+          "tile": false,
+          "drawn": null,
+          "box": [
+            32,
+            32
+          ],
+          "ring": null,
+          "faded": false
+        }
+      ],
+      "heroIcon": "pass:painted",
+      "heroGrey": false,
+      "toastPlace": {
+        "under": false,
+        "toast": null,
+        "headBottom": 365,
+        "bannerBottom": null
+      },
+      "sheetFit": {
+        "follows": true,
+        "stacked": true,
+        "height": 385,
+        "head": 231,
+        "room": 142,
+        "cut": 0
+      },
+      "hero": "pass",
+      "heroOff": false,
+      "talk": 0,
+      "target": null,
+      "chip": null,
+      "banner": null,
+      "bannerKind": null,
+      "toast": null,
+      "bar": {
+        "box": [
+          0,
+          0,
+          320,
+          113.69
+        ],
+        "promises": [
+          163.27,
+          44.34,
+          44,
+          44
+        ],
+        "round": null,
+        "timer": [
+          212.27,
+          50.34,
+          63.73,
+          32
+        ],
+        "menu": [
+          276,
+          44.34,
+          44,
+          44
+        ],
+        "right": 320,
+        "nameLines": 2,
+        "nameWhole": true
+      },
+      "bannerButtons": null,
+      "sheet": "Offer from Fay · Player 6",
+      "sheetActions": 2,
+      "head": null,
+      "buttons": 11,
       "figures": 5,
       "cover": 0,
       "bannerTop": null,
@@ -12089,7 +14034,8 @@
             },
             "cover": 0,
             "banner": 107,
-            "toast": 109,
+            "bannerBottom": 174.69,
+            "toast": 183,
             "place": 99,
             "hidden": true,
             "concealed": true,
@@ -12142,7 +14088,8 @@
             },
             "overBar": true,
             "banner": 107,
-            "toast": 109,
+            "bannerBottom": 174.69,
+            "toast": 183,
             "nobar": {
               "top": 0,
               "bottom": 0
@@ -12967,7 +14914,7 @@
             ],
             "rest": {
               "picture": true,
-              "image": "url(\"http://127.0.0.1:37547/assets/portrait-c1-VMeNAzm6.svg\")",
+              "image": "url(\"http://127.0.0.1:37335/assets/portrait-c1-VMeNAzm6.svg\")",
               "box": [
                 32,
                 32
@@ -12987,7 +14934,7 @@
               "name": null,
               "words": "Card",
               "expanded": "false",
-              "barImage": "url(\"http://127.0.0.1:37547/assets/portrait-c1-VMeNAzm6.svg\")",
+              "barImage": "url(\"http://127.0.0.1:37335/assets/portrait-c1-VMeNAzm6.svg\")",
               "barFit": "contain",
               "barBox": [
                 32,
@@ -12996,7 +14943,7 @@
             },
             "open": {
               "picture": true,
-              "image": "url(\"http://127.0.0.1:37547/assets/portrait-c1-VMeNAzm6.svg\")",
+              "image": "url(\"http://127.0.0.1:37335/assets/portrait-c1-VMeNAzm6.svg\")",
               "box": [
                 32,
                 32
@@ -13112,7 +15059,7 @@
             "sized": {
               "390 standard": {
                 "picture": true,
-                "image": "url(\"http://127.0.0.1:37547/assets/portrait-c1-VMeNAzm6.svg\")",
+                "image": "url(\"http://127.0.0.1:37335/assets/portrait-c1-VMeNAzm6.svg\")",
                 "box": [
                   32,
                   32
@@ -13136,7 +15083,7 @@
               },
               "390 largest": {
                 "picture": true,
-                "image": "url(\"http://127.0.0.1:37547/assets/portrait-c1-VMeNAzm6.svg\")",
+                "image": "url(\"http://127.0.0.1:37335/assets/portrait-c1-VMeNAzm6.svg\")",
                 "box": [
                   32,
                   32
@@ -13160,7 +15107,7 @@
               },
               "430 standard": {
                 "picture": true,
-                "image": "url(\"http://127.0.0.1:37547/assets/portrait-c1-VMeNAzm6.svg\")",
+                "image": "url(\"http://127.0.0.1:37335/assets/portrait-c1-VMeNAzm6.svg\")",
                 "box": [
                   32,
                   32
@@ -13184,7 +15131,7 @@
               },
               "430 largest": {
                 "picture": true,
-                "image": "url(\"http://127.0.0.1:37547/assets/portrait-c1-VMeNAzm6.svg\")",
+                "image": "url(\"http://127.0.0.1:37335/assets/portrait-c1-VMeNAzm6.svg\")",
                 "box": [
                   32,
                   32
@@ -13208,7 +15155,7 @@
               },
               "320 standard": {
                 "picture": true,
-                "image": "url(\"http://127.0.0.1:37547/assets/portrait-c1-VMeNAzm6.svg\")",
+                "image": "url(\"http://127.0.0.1:37335/assets/portrait-c1-VMeNAzm6.svg\")",
                 "box": [
                   32,
                   32
@@ -13232,7 +15179,7 @@
               },
               "320 largest": {
                 "picture": true,
-                "image": "url(\"http://127.0.0.1:37547/assets/portrait-c1-VMeNAzm6.svg\")",
+                "image": "url(\"http://127.0.0.1:37335/assets/portrait-c1-VMeNAzm6.svg\")",
                 "box": [
                   32,
                   32
@@ -13472,6 +15419,574 @@
           }
         },
         {
+          "id": "place: the toast never covers the bar, a banner or an open sheet's head: it takes the first free place below, 8 px clear, and keeps its own place when nothing is in its way, on 390, 430 and 320 px phones",
+          "ok": true,
+          "detail": {
+            "320": {
+              "alone": {
+                "toast": {
+                  "top": 109,
+                  "bottom": 163
+                },
+                "head": null,
+                "banner": null,
+                "bar": {
+                  "top": 0,
+                  "bottom": 99
+                },
+                "under": false
+              },
+              "overTall": {
+                "toast": {
+                  "top": 189,
+                  "bottom": 243
+                },
+                "head": {
+                  "top": 119,
+                  "bottom": 181
+                },
+                "banner": null,
+                "bar": {
+                  "top": 0,
+                  "bottom": 99
+                },
+                "under": true
+              },
+              "overLow": {
+                "toast": {
+                  "top": 109,
+                  "bottom": 163
+                },
+                "head": {
+                  "top": 294,
+                  "bottom": 371
+                },
+                "banner": null,
+                "bar": {
+                  "top": 0,
+                  "bottom": 99
+                },
+                "under": false
+              },
+              "underBanner": {
+                "toast": {
+                  "top": 183,
+                  "bottom": 237
+                },
+                "head": null,
+                "banner": {
+                  "top": 107,
+                  "bottom": 175
+                },
+                "bar": {
+                  "top": 0,
+                  "bottom": 99
+                },
+                "under": true
+              },
+              "both": {
+                "toast": {
+                  "top": 265,
+                  "bottom": 319
+                },
+                "head": {
+                  "top": 195,
+                  "bottom": 257
+                },
+                "banner": {
+                  "top": 107,
+                  "bottom": 175
+                },
+                "bar": {
+                  "top": 0,
+                  "bottom": 99
+                },
+                "under": true
+              },
+              "gone": {
+                "under": false,
+                "toast": null
+              },
+              "back": {
+                "toast": {
+                  "top": 109,
+                  "bottom": 163
+                },
+                "head": null,
+                "banner": null,
+                "bar": {
+                  "top": 0,
+                  "bottom": 99
+                },
+                "under": false
+              }
+            },
+            "390": {
+              "alone": {
+                "toast": {
+                  "top": 109,
+                  "bottom": 163
+                },
+                "head": null,
+                "banner": null,
+                "bar": {
+                  "top": 0,
+                  "bottom": 99
+                },
+                "under": false
+              },
+              "overTall": {
+                "toast": {
+                  "top": 189,
+                  "bottom": 243
+                },
+                "head": {
+                  "top": 119,
+                  "bottom": 181
+                },
+                "banner": null,
+                "bar": {
+                  "top": 0,
+                  "bottom": 99
+                },
+                "under": true
+              },
+              "overLow": {
+                "toast": {
+                  "top": 109,
+                  "bottom": 163
+                },
+                "head": {
+                  "top": 584,
+                  "bottom": 646
+                },
+                "banner": null,
+                "bar": {
+                  "top": 0,
+                  "bottom": 99
+                },
+                "under": false
+              },
+              "underBanner": {
+                "toast": {
+                  "top": 183,
+                  "bottom": 237
+                },
+                "head": null,
+                "banner": {
+                  "top": 107,
+                  "bottom": 175
+                },
+                "bar": {
+                  "top": 0,
+                  "bottom": 99
+                },
+                "under": true
+              },
+              "both": {
+                "toast": {
+                  "top": 265,
+                  "bottom": 319
+                },
+                "head": {
+                  "top": 195,
+                  "bottom": 257
+                },
+                "banner": {
+                  "top": 107,
+                  "bottom": 175
+                },
+                "bar": {
+                  "top": 0,
+                  "bottom": 99
+                },
+                "under": true
+              },
+              "gone": {
+                "under": false,
+                "toast": null
+              },
+              "back": {
+                "toast": {
+                  "top": 109,
+                  "bottom": 163
+                },
+                "head": null,
+                "banner": null,
+                "bar": {
+                  "top": 0,
+                  "bottom": 99
+                },
+                "under": false
+              }
+            },
+            "430": {
+              "alone": {
+                "toast": {
+                  "top": 109,
+                  "bottom": 147
+                },
+                "head": null,
+                "banner": null,
+                "bar": {
+                  "top": 0,
+                  "bottom": 99
+                },
+                "under": false
+              },
+              "overTall": {
+                "toast": {
+                  "top": 189,
+                  "bottom": 227
+                },
+                "head": {
+                  "top": 119,
+                  "bottom": 181
+                },
+                "banner": null,
+                "bar": {
+                  "top": 0,
+                  "bottom": 99
+                },
+                "under": true
+              },
+              "overLow": {
+                "toast": {
+                  "top": 109,
+                  "bottom": 147
+                },
+                "head": {
+                  "top": 672,
+                  "bottom": 734
+                },
+                "banner": null,
+                "bar": {
+                  "top": 0,
+                  "bottom": 99
+                },
+                "under": false
+              },
+              "underBanner": {
+                "toast": {
+                  "top": 169,
+                  "bottom": 207
+                },
+                "head": null,
+                "banner": {
+                  "top": 107,
+                  "bottom": 161
+                },
+                "bar": {
+                  "top": 0,
+                  "bottom": 99
+                },
+                "under": true
+              },
+              "both": {
+                "toast": {
+                  "top": 251,
+                  "bottom": 289
+                },
+                "head": {
+                  "top": 181,
+                  "bottom": 243
+                },
+                "banner": {
+                  "top": 107,
+                  "bottom": 161
+                },
+                "bar": {
+                  "top": 0,
+                  "bottom": 99
+                },
+                "under": true
+              },
+              "gone": {
+                "under": false,
+                "toast": null
+              },
+              "back": {
+                "toast": {
+                  "top": 109,
+                  "bottom": 147
+                },
+                "head": null,
+                "banner": null,
+                "bar": {
+                  "top": 0,
+                  "bottom": 99
+                },
+                "under": false
+              }
+            },
+            "ok": true
+          }
+        },
+        {
+          "id": "squeeze: when a sheet's body would get under a third of the sheet, its footer scrolls with it: the wrapper is the scroller, the footer follows the body, the last button is reached by scrolling, a part inside the body scrolls into view and sheetBody is the same element; with room for the body nothing changes, on 320, 390 and 430 px phones",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "squeezed": {
+              "follows": true,
+              "wrapDisplay": "flex",
+              "wrapOverflow": "auto",
+              "bodyOverflow": "visible",
+              "wrapScrolls": true,
+              "sheet": 324,
+              "head": 231,
+              "foot": 149,
+              "room": 81,
+              "footInWrap": true,
+              "sameBody": true,
+              "cut": 0,
+              "footAtFoot": false
+            },
+            "end": {
+              "lastButton": "Accept",
+              "inside": true
+            },
+            "intoView": {
+              "hiddenBefore": true,
+              "wrapScrolled": true,
+              "bodyScrolled": 0,
+              "seen": true
+            },
+            "tapped": [
+              "accept"
+            ],
+            "relaxed": {
+              "follows": false,
+              "wrapDisplay": "contents",
+              "wrapOverflow": "visible",
+              "bodyOverflow": "auto",
+              "wrapScrolls": false,
+              "sheet": 368,
+              "head": 101,
+              "foot": 89,
+              "room": 167,
+              "footInWrap": true,
+              "sameBody": true,
+              "cut": 0,
+              "footAtFoot": true
+            },
+            "roomy": {
+              "390": {
+                "follows": false,
+                "wrapDisplay": "contents",
+                "wrapOverflow": "visible",
+                "bodyOverflow": "auto",
+                "wrapScrolls": false,
+                "sheet": 644,
+                "head": 62,
+                "foot": 89,
+                "room": 481,
+                "footInWrap": true,
+                "sameBody": true,
+                "cut": 0,
+                "footAtFoot": true
+              },
+              "430": {
+                "follows": false,
+                "wrapDisplay": "contents",
+                "wrapOverflow": "visible",
+                "bodyOverflow": "auto",
+                "wrapScrolls": false,
+                "sheet": 732,
+                "head": 62,
+                "foot": 89,
+                "room": 569,
+                "footInWrap": true,
+                "sameBody": true,
+                "cut": 0,
+                "footAtFoot": true
+              }
+            }
+          }
+        },
+        {
+          "id": "stack: a head whose title would take more than two lines beside its buttons stacks where that makes it shorter: its buttons on a row, Back at the left and Close at the right, then the title and its line on the full width; decided from hidden copies that leave nothing behind, and measured again only when the width, the text size, the title or the buttons change; the focus stays",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "stacked": {
+              "stacked": true,
+              "height": 231,
+              "lines": 2,
+              "order": [
+                "sheet-back",
+                "title",
+                "sheet-close"
+              ],
+              "backLeft": true,
+              "sameRow": true,
+              "closeRight": true,
+              "titleUnder": true,
+              "titleFull": true,
+              "copies": 0,
+              "stands": 0,
+              "headings": 1,
+              "labelled": true
+            },
+            "quiet": {
+              "measures": 0,
+              "flips": 0,
+              "stacked": true,
+              "focused": true
+            },
+            "short": {
+              "stacked": false,
+              "height": 166,
+              "lines": 1,
+              "order": [
+                "sheet-back",
+                "title",
+                "sheet-close"
+              ],
+              "backLeft": true,
+              "sameRow": true,
+              "closeRight": true,
+              "titleUnder": false,
+              "titleFull": false,
+              "copies": 0,
+              "stands": 0,
+              "headings": 1,
+              "labelled": true,
+              "measures": 1,
+              "flips": 1
+            },
+            "again": {
+              "stacked": true,
+              "height": 231,
+              "lines": 2,
+              "order": [
+                "sheet-back",
+                "title",
+                "sheet-close"
+              ],
+              "backLeft": true,
+              "sameRow": true,
+              "closeRight": true,
+              "titleUnder": true,
+              "titleFull": true,
+              "copies": 0,
+              "stands": 0,
+              "headings": 1,
+              "labelled": true,
+              "measures": 1,
+              "flips": 1,
+              "focused": true,
+              "sameClose": true
+            },
+            "wide": {
+              "stacked": false,
+              "height": 229,
+              "lines": 3,
+              "order": [
+                "sheet-back",
+                "title",
+                "sheet-close"
+              ],
+              "backLeft": true,
+              "sameRow": true,
+              "closeRight": true,
+              "titleUnder": false,
+              "titleFull": false,
+              "copies": 0,
+              "stands": 0,
+              "headings": 1,
+              "labelled": true,
+              "measures": 1
+            },
+            "standard390": {
+              "stacked": false,
+              "height": 62,
+              "lines": 1,
+              "order": [
+                "sheet-back",
+                "title",
+                "sheet-close"
+              ],
+              "backLeft": true,
+              "sameRow": true,
+              "closeRight": true,
+              "titleUnder": false,
+              "titleFull": false,
+              "copies": 0,
+              "stands": 0,
+              "headings": 1,
+              "labelled": true,
+              "measures": 1
+            },
+            "standard430": {
+              "stacked": false,
+              "height": 62,
+              "lines": 1,
+              "order": [
+                "sheet-back",
+                "title",
+                "sheet-close"
+              ],
+              "backLeft": true,
+              "sameRow": true,
+              "closeRight": true,
+              "titleUnder": false,
+              "titleFull": false,
+              "copies": 0,
+              "stands": 0,
+              "headings": 1,
+              "labelled": true
+            },
+            "standard320": {
+              "stacked": false,
+              "height": 101,
+              "lines": 2,
+              "order": [
+                "sheet-back",
+                "title",
+                "sheet-close"
+              ],
+              "backLeft": true,
+              "sameRow": true,
+              "closeRight": true,
+              "titleUnder": false,
+              "titleFull": false,
+              "copies": 0,
+              "stands": 0,
+              "headings": 1,
+              "labelled": true
+            },
+            "bare": {
+              "stacked": false,
+              "buttons": 0
+            }
+          }
+        },
+        {
+          "id": "observers: a sheet that goes, and its head, are no longer watched for their size, and a toast that goes is not either; after dispose nothing is watched",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "open": {
+              "sheet": true,
+              "head": true,
+              "toast": true
+            },
+            "closed": {
+              "sheet": false,
+              "head": false,
+              "toast": false,
+              "stray": 0
+            },
+            "replaced": {
+              "old": false,
+              "now": true,
+              "stray": 0
+            },
+            "after": 0
+          }
+        },
+        {
           "id": "dispose: twice is safe; layout(), slot() and sheetBody are null; nothing is left and nothing fires",
           "ok": true,
           "detail": {
@@ -13507,7 +16022,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -13550,7 +16065,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-rEZhhTkC.js",
+          "source": "assets/index-DVtnn2Cq.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -23065,7 +25580,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-rEZhhTkC.js",
+        "source": "assets/index-DVtnn2Cq.js",
         "line": 1,
         "column": 6047,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
