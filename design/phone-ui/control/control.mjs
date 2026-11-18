@@ -302,7 +302,9 @@ function textSizeChoice() {
 // The owner's 18 November 2026 change to sheet 08: Card is the last tab and shows the player's own character.
 // Before is the shell at the commit the build names (shell 0.2.12), after is today's; both are the component.
 const CARD_TAB = Object.freeze({ route: 'card-tab', title: 'Card tab · before and after',
-  words: 'So I need to update the bottom bar I want on the card icon move to right and become the rightest icon of bar then instead of it its Icon card show the character icon' });
+  words: 'So I need to update the bottom bar I want on the card icon move to right and become the rightest icon of bar then instead of it its Icon card show the character icon',
+  // The owner's second word, on seeing the first drawing (a round picture in the icon's box): shell 0.3.1.
+  shape: 'The shape of it should be similar to the top character icon not circular but cubic same size' });
 const cardTab = { width: 'auto' };
 const cardTabWidth = () => (cardTab.width === 'auto' ? stripWidth() : Number(cardTab.width));
 function buildCardTabPart(view) {
@@ -324,15 +326,21 @@ function buildCardTabPart(view) {
   window.addEventListener('resize', fit);
   const noCharacter = makeStrip(presetOf('card-icon'), false, { width: cardTabWidth, title: 'After', tags: ['New'], mark: false });
   lazyStrips.observe(noCharacter.card);
+  // The whole phone on your own turn: the top bar and the Card tab draw the same picture, in the same shape and size.
+  const both = makeStrip({ ...presetOf('pass'), key: 'card-tab-whole', crop: 'whole', group: 'whole' }, false,
+    { width: cardTabWidth, opens: 'pass', title: 'After · the whole phone, small', tags: ['New'], mark: false, specs: false });
+  lazyStrips.observe(both.card);
   view.append(
     h('div', { class: 'bc-wrap bc-group-head' },
       h('h2', {}, 'The Card tab, before and after', h('span', { class: 'bc-count' }, `${SHEET_08.length} states`)),
       h('p', {}, 'You asked for this on 18 November:'),
       h('blockquote', { class: 'bc-quote' }, `“${CARD_TAB.words}”`),
+      h('p', {}, 'And, after seeing the first drawing, which was round:'),
+      h('blockquote', { class: 'bc-quote' }, `“${CARD_TAB.shape}”`),
       h('ul', { class: 'bc-change' },
         h('li', {}, h('b', {}, 'The order. '), 'Before: Board · Actions · Pass · Card · Panels. After: Board · Actions · Pass · Panels · Card.'),
-        h('li', {}, h('b', {}, 'The icon. '), 'The Card tab shows your own character in place of the card icon.'),
-        h('li', {}, h('b', {}, 'Open. '), 'A picture can’t be filled in as an icon is, so an amber ring and the amber word show that Card is open.'))),
+        h('li', {}, h('b', {}, 'The picture. '), 'The Card tab shows your own character in place of the card icon: the same picture as in the top bar, in the same rounded-square shape, at the same size, 32 px.'),
+        h('li', {}, h('b', {}, 'Open. '), 'A picture can’t be filled in as an icon is, so an amber outline round it and the amber word show that Card is open. At rest it has no outline, as in the top bar.'))),
     h('div', { class: 'bc-wrap bc-tools' },
       h('button', { type: 'button', class: 'bc-primary', onclick: () => openTest('pass') }, icon('phone', { filled: true }), 'Try the new bar on the whole phone'),
       textSizeChoice(), widths,
@@ -343,7 +351,9 @@ function buildCardTabPart(view) {
       h('p', {}, h('b', {}, 'Is the new Card tab right?'), ' Mark it here. A Change comes back to the Designer team with your note.'),
       markControl('change-card-tab', { label: 'The Card tab: last, with the player’s own character', group: 'Bottom bar · change' }))),
     pairs);
-  pairs.append(...SHEET_08.map(pair),
+  pairs.append(
+    h('section', { class: 'bc-pair', 'aria-label': 'The top bar and the Card tab' }, h('h3', { class: 'bc-pair-title' }, 'Your turn · the same picture in the top bar and on the Card tab'), both.card),
+    ...SHEET_08.map(pair),
     h('section', { class: 'bc-pair', 'aria-label': 'No character yet' }, h('h3', { class: 'bc-pair-title' }, 'No character yet · the Card tab keeps the card icon'), noCharacter.card));
 }
 
