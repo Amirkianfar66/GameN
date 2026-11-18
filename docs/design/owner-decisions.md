@@ -837,6 +837,18 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - **C:** made from the corrected sheet, within its earlier limit.
 - **The capsule** keeps its approved size, 0.24 × 0.40 × 0.22 m, so the light and hatch that code draws line up with it.
 
+**One complete room to review, minutes later.**
+- **The owner asked:** "When the First room test finish?"
+- **The Lead answered:** the four new pictures in about an hour; the five views with the crew at their places in the afternoon; the walks and eating in the evening.
+- **The owner wrote, word for word:**
+
+> I would like to see 1 complete room with all possible views to review it
+
+**What it decides:**
+- **One page:** the owner reviews Room B as one page with all five of its views (A to E, each from one person's place), each complete. That means the painted room, the crew at their places with tags at their feet and their shadows, the food capsule with its light in the views that show it, and the walks to the capsule and the eating visits.
+- **No in-between page** goes to the owner.
+- **The Lead reviews every view** at 390 × 844 and 430 × 932 before the owner sees the page.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
