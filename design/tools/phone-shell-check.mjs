@@ -85,8 +85,8 @@ const EXPECT = {
   film: s => s.kind === 'none' && s.layout.bars.top === 0 && s.layout.bars.bottom === 0 && s.layout.stage.height === s.layout.size.height && s.tabs === 0
     && s.banner === 'Connection lost' && s.bannerTop === s.layout.safe.top + 52 + 8,
   poster: s => s.kind === 'phase' && s.name === 'Setting course' && s.sub === 'The offices are setting it' && s.layout.bars.top === 0 && s.layout.bars.bottom === 0 && s.layout.stage.height === s.layout.size.height && s.tabs === 0,
-  // 0.3.0: at 200 % on the small phone the portrait keeps its 26 px box, and the Card label the other labels' level.
-  large: s => s.name === 'Your turn' && s.tabs === 4 && s.card.picture && s.card.box.join() === '26,26' && s.card.level,
+  // 0.3.0: at 200 % on the small phone the portrait keeps its box (the top bar's 32 px, 0.3.1), and the Card label the other labels' level.
+  large: s => s.name === 'Your turn' && s.tabs === 4 && s.card.picture && s.card.box.join() === '32,32' && s.card.level,
   // 0.2.9: the target bar 8 px under the banner while reconnecting, so its Cancel is in reach; the banner keeps its place.
   'target-stale': s => s.banner === 'Connection lost' && s.target === 'Rescue' && s.over.targetTop >= s.over.bannerBottom + 8 && s.over.cancelReach,
   // 0.2.9: at 200 % on the two phones, Cancel under the words, the bar inside the phone, and the chip's label whole.
@@ -129,7 +129,9 @@ try {
           order: [...root.querySelectorAll('.ms-ps-tabs > *')].map(n => n.dataset.value ?? 'hero'),
           card: (() => { const tab = q('.ms-ps-tab[data-value="card"]'); if (!tab) return null; const pt = tab.querySelector('.ms-ps-tab-pt'), label = tab.querySelector('.ms-ps-tab-label'), other = q('.ms-ps-tab[data-value="panels"] .ms-ps-tab-label');
             const probe = document.createElement('i'); probe.style.color = 'var(--ms-ps-accent)'; root.append(probe); const accent = getComputedStyle(probe).color; probe.remove();
-            return { picture: !!pt, drawn: pt ? getComputedStyle(pt).backgroundImage !== 'none' : null, box: pt ? [pt.getBoundingClientRect().width, pt.getBoundingClientRect().height] : null, amber: pt ? getComputedStyle(pt).color === accent : null,
+            return { picture: !!pt, drawn: pt ? getComputedStyle(pt).backgroundImage !== 'none' : null, box: pt ? [pt.getBoundingClientRect().width, pt.getBoundingClientRect().height] : null,
+              // 0.3.1: no ring at rest; open, a ring in the accent (an inset shadow). `amber` is whether that ring is drawn.
+              amber: pt ? getComputedStyle(pt).boxShadow.includes(accent) : null, ring: pt ? getComputedStyle(pt).boxShadow !== 'none' : null,
               icon: tab.querySelector('.ms-ps-tab-icon').dataset.icon.split(':')[0], words: label.textContent, name: tab.getAttribute('aria-label'), level: other ? Math.abs(label.getBoundingClientRect().top - other.getBoundingClientRect().top) < 0.5 : null }; })(),
           hero: q('.ms-ps-hero')?.dataset.mode ?? null, heroOff: !!q('.ms-ps-hero[data-off]'), talk: root.querySelectorAll('.ms-ps-talk button').length,
           target: t('.ms-ps-target b'), chip: t('.ms-ps-chip .ms-k-btn-label'), banner: t('.ms-ps-banner b'), bannerKind: q('.ms-ps-banner')?.dataset.kind ?? null, toast: t('.ms-ps-toast'),
