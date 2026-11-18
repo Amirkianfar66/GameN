@@ -40,36 +40,70 @@ Designer's, runtime-safe, in `design/phone-ui/components/boarding-film/`:
 
 ## How to connect it
 
-It is a drop-in for the boarding kind of the pre-game player's scene (`createPregameScene(picture, { kind: 'boarding', options })` in `apps/game/hosted/planet/pregame-scene.mjs`): the same `paint`, `dispose` and `stats`. It mounts in the boarding stage's film element ([#272](https://github.com/Amirkianfar66/GameN/pull/272), `stage.film`) unchanged.
+Frontend's placement change moves the currently admitted `pregame-boarding-1.0.0` SVG into the canonical boarding stage's `stage.film` slot. The stage provides local Skip on player phones and uses `skip: null` on the shared display. The server owns the Round 1 start. [Integration handoff](https://github.com/Amirkianfar66/GameN/issues/311#issuecomment-6980975772) · [Stage placement contract](https://github.com/Amirkianfar66/GameN/issues/311#issuecomment-6980876366)
+
+The independently versioned `pregame-boarding-2.0.0` canvas candidate targets that same slot in a later adoption. Its scene interface shares `paint`, `dispose` and `stats` with the released player. Integration admits the canvas runtime graph and selects it through the match's approved asset release. Existing pins continue to select the SVG.
 
 ```js
 import { createBoardingScene, prepareBoardingScene } from '…/boarding-film/boarding-film.mjs';
 // and link …/boarding-film/boarding-film.css
 
-const scene = createBoardingScene(holder, { options: { roster } });
-scene.paint(t, { width, height, variant });   // each time the player paints, as today
-scene.dispose();                              // on every exit, as today
+const scene = createBoardingScene(stage.film, { options: { roster, prepared } });
+const size = stage.layout()?.film;
+if (size?.width > 0 && size.height > 0) {
+  scene.paint(elapsedMs, { ...size, variant });
+}
 ```
 
 | Part | What it is |
 | --- | --- |
-| `holder` | The element the film fills. The film appends one element, `.ms-boarding-film` (`aria-hidden="true"`, `pointer-events: none`), sized by `paint`'s `width` and `height` |
+| `holder` | Pass `stage.film` in the playable stage. The film appends one noninteractive element, `.ms-boarding-film` (`aria-hidden="true"`, `pointer-events: none`), sized by the slot's measured CSS width and height. Frontend uses `stage.layout().film` and its `onLayout` updates |
 | `options.roster` | The public roster: 7, 8 or 9 members, each `{ seat, character }` (`c1`–`c9`). It goes through the hosted game's own `publicRoster()`; nothing else of a member is read, and nothing private can reach a picture |
 | `paint(t, { width, height, variant })` | Draws the film at `t` ms after the boarding interval's `startsAt` (server now − `startsAt`), clamped to 0–10,000. `variant` is `'full'` or `'reduced'`. The device's Reduce motion gives the held pictures whatever is asked |
 | Between paints | The scene keeps the picture moving from the last time it was given, at the screen's rate: the player may go on painting 30 times a second. It stops by itself 500 ms after the last paint (`COAST_MS`) and at the film's end |
 | `suspend()`, `resume()` | `suspend()` stops the scene's own frames (the page is hidden, the stage is covered); a paint still draws its frame. After `resume()` the next paint restarts them. A page that stops painting needs neither: the scene stops by itself |
-| `dispose()` | Removes the film and gives back every picture's memory |
+| `dispose()` | Idempotent. Removes the film, cancels its animation frame and stops its adopted picture queue. An unadopted preparation remains the caller's to dispose |
 | `stats` | `version`, `paints`, `frames`, `ownFrames`, `drawMs`, `worstMs`, `pictures`, `bytes`, `peakBytes`, `planned`, `bakeMs`, `longestBakeMs`, `scale`, `quality`, `sharp`, `lateSteps` |
 | `ready()` | Resolves when every picture asked for so far is drawn. A recording waits for it; the film does not |
 | `createBoardingScene(holder, { options, live: false })` | Draws only when painted (a recording, a test): the scene then never asks for a frame |
 
 **The film never advances the game.** It takes no callback, listens for nothing and tells no one; its end means nothing. Skip stays the stage's and the player's, local.
 
-**Its words stay the player's.** The picture is hidden from a screen reader. The player keeps the dialog's name ("The crew boards the ship") and the status line ("The crew boards the ship."); `BOARDING_TEXT` is the same text.
+**The stage owns accessible text and controls.** Its film group is named “The crew boards the ship.” The canvas is decorative for assistive technology. `BOARDING_TEXT` is available to other hosts that supply their own status line.
 
-**Preparing early (recommended).** `prepareBoardingScene(document, { roster, width, height })` draws the film's pictures ahead of it and returns what `createBoardingScene` takes as `options.prepared` (the same roster and size), with `ready` and `dispose()`. Call it once the roster is public and the page is quiet, for example when the player's own role film has ended. Drawing took 3.8 s on this desktop and 16.7 s with its CPU slowed 4x, in short pieces that leave the page its turns; a phone's time is not known. Without it the film draws its pictures as it opens: it comes up from the night as version 1's held pictures do, each shot's place and one pose of each figure come first, and a figure whose picture is not ready yet holds its nearest pose. If that makes it late, it steps its sharpness down and draws the pictures still to come smaller (below).
+**Preparing early (recommended).** `prepareBoardingScene(document, { roster, width, height })` draws the film's pictures ahead of it and returns what `createBoardingScene` takes as `options.prepared` (the same roster and size), with `ready` and `dispose()`. The historical desktop preparation took 3.8 s at normal speed and 16.7 s with the CPU slowed 4x. Device preparation time remains unmeasured. When the scene prepares its own pictures, each shot's setting and one pose of each figure come first. A figure whose picture is pending holds its nearest pose. If preparation runs late, the scene lowers sharpness and draws the remaining pictures smaller.
 
 **What Frontend and Integration decide:** admitting the film's files to the hosted build; linking its stylesheet; when to prepare; and that a match pinned to `1.0.0` keeps `1.0.0`.
+
+### Pre-game Animator connection checkpoint — 18 November 2026
+
+The Pre-game Animator owns the film source, full and reduced motion, and the scene's disposal. Frontend owns authorized playback, mounting and calling disposal. Screen Designer owns placement. Integration admits the version. [Shared adoption handoff](https://github.com/Amirkianfar66/GameN/issues/311#issuecomment-6980975772)
+
+The canvas playback fix in #318 was based on #285 at `104a285d8250322e4f6f32552828586b44702401` and verified at runtime commit `602ac9693976e2b03a3b64121aa9b3d276aae729`. The released source was inspected on `origin/main` at `7574bfe5ce3d7acd12ed66eb8202187045817a24`. In the earlier #308 (`5f36e3f5`) and #314 (`a5a6cdff`) snapshots, the released SVG was in the `mountPregamePresentation()` overlay. Those snapshots predate the agreed placement change. [Playback fix](https://github.com/Amirkianfar66/GameN/issues/316)
+
+From `apps/game/hosted/planet/pregame-scene.mjs`, the exact canonical imports for an admitted canvas boarding version are:
+
+```js
+import { createBoardingScene, prepareBoardingScene }
+  from '../../../../design/phone-ui/components/boarding-film/boarding-film.mjs';
+import '../../../../design/phone-ui/components/boarding-film/boarding-film.css';
+```
+
+The runtime graph has seven JavaScript modules and one stylesheet in this component. It imports the existing hosted crew, rig, film kit and public-roster validator. Never admit `preview/` or `review/`, and never copy the component into Frontend. The released `design/pregame-films/films.mjs` is a development catalog with review defaults, not the runtime factory.
+
+**Preparation ownership:** `prepareBoardingScene(document, {roster, width, height})` returns a single-use handle. `ready` is a promise, whereas the scene's `ready()` is a method. The scene adopts a non-disposed handle on its **first matching paint**, not at creation; the sorted roster and physical pixel dimensions must match. Until then the caller owns it. A disposed, previously adopted or mismatched handle is ignored and the scene prepares fresh pictures. After adoption the scene owns the queue; calling the preparation handle's `dispose()` is harmless. On every exit call both `scene?.dispose()` and `prepared?.dispose()` and drop both references. This also covers a cancelled mount before its first paint, resizing, or a roster change. Do not reuse a handle for a second scene.
+
+Preparing after the role film can be too late when everyone becomes Ready immediately. A candidate prewarm point is the initial twenty-second card interval once the final public roster is available, uniformly for every player and independent of their role. Frontend chooses this after measuring interference with the screen and device memory. Never delay or extend a server boundary to await preparation. `ready()` is for a check or recording, not a new game gate.
+
+**Visibility and recovery:** `suspend()` cancels only the scene's own animation frame; it neither conceals its DOM nor stops picture preparation, and an explicit `paint()` still draws. For a hidden, blurred, stale or replaced surface, the existing player can dispose it immediately. On return, sample the authorized controller again and create a fresh scene at that elapsed time if the interval is still valid. Do not resume an old local clock or restart at zero. If retaining a scene is intentional, Frontend hides it, stops calling `paint`, calls `suspend()`, and resumes only with a fresh valid `paint(t, ...)`. The 500 ms coast is a fallback, not a privacy boundary. At the exact end, after local Skip, or after server exit, dispose. No scene callback advances the match.
+
+**Timing and disclosure remain the existing contract:** the two-second brand intro is local; saved setup flow 3 uses the private role card for 0–20 seconds and that player's role film for 20–30 seconds; human Ready starts a separate public ten-second boarding interval only once everyone is ready. See [Backend's contract](../../backend/planet-phone-interface-contract.md#reading-and-manual-ready). The controller supplies elapsed server time and valid audiences. All nine roles remain available through uniform static imports (the Disablers share a film); no dealt-role file request, public role film, or role-dependent preparation is introduced. #305 remains parked, the Doctor study remains private, and the menu's brand still at 1,650 ms is unchanged.
+
+**First test of the later canvas adoption.** Once Frontend has connected the SVG to `stage.film`, use that stage and controller in an isolated harness with the version selection above. On both 390 × 844 and 430 × 932, mount the canvas with eight public seats and check full and reduced motion, phone Skip, and playback on the shared display. For late entry and return from concealment, verify that an authorized elapsed time of 7,400 ms draws that moment. Verify cleanup on Skip, expiry, a changed roster or size, and unmount before preparation finishes. Extend to seven and nine seats and confirm a previously pinned match still selects the SVG. The later adoption requires the integrated sheet 19 comparison and Claude Lead Designer acceptance. The #318 browser record covers the film component by itself.
+
+**Reproduced source faults and fix:** a controlled 30 Hz scheduler reduced a prepared scene to quality `0.5` even with zero simulated drawing cost. Prepared adaptive quality now uses the scene's own drawing duration rather than the gap between callbacks; sustained work over 22 ms still reduces quality. Unprepared lateness retains the 50 ms gap rule and does not poison the remembered prepared quality. This conservative measurement cannot diagnose GPU/compositor delay or establish a device's refresh rate. The same browser check reproduced adoption of a cancelled queue (`0` held pictures) and deletion of a mounted scene's pictures through its old preparation handle; explicit ownership now prevents both.
+
+The focused check is `node design/tools/boarding-playback-check.mjs`. It writes a separate `review/playback-2026-11-18/` record and captures, preserving #285's historical measurements below. It uses actual canvas scenes with synthetic public rosters, controlled scheduler/drawing-cost regressions, and browser captures under the production response policy. Controlled cadence is not measured phone performance. Physical phones, Safari, VoiceOver, GPU pressure and the actual Frontend canvas mount remain unverified.
 
 ## Who is where: from the public roster alone
 
@@ -91,7 +125,7 @@ The film is given the public roster and nothing else: each member's seat and lob
 - **A frame places pictures.** The sky, the giant, the ranges, the ground, the ramp and the corridor are laid on the canvas from shapes; pictures are placed on planes of depth. Soft light (glows, beams, the glare) is drawn on a second canvas a quarter of the size each way and stretched over the first, added to it (`mix-blend-mode: screen`). The vignette, the grade and the grain are CSS layers. No SVG is written, parsed or filtered while the film runs, and no canvas filter is used.
 - **The crew moves on twos:** twelve drawings a second, as drawn animation does. The camera, the light and the air move at the screen's rate.
 - **A slow phone gets a softer frame, not a slower one.** When frames run long, the frame is drawn a step less sharp (`QUALITY`: 1, 0.8, 0.64, 0.5 of the screen's pixels).
-  - **With its pictures drawn,** a frame slower than 22 ms counts (`SLOW_FRAME_MS`), eight in a run. The page remembers the step for the next film.
+  - **With its pictures drawn,** the film's own drawing work slower than 22 ms counts (`SLOW_FRAME_MS`), eight samples with cheap samples reducing the count. Callback spacing alone is not drawing cost. The page remembers the step for the next film.
   - **While it is still drawing its pictures** (it was not prepared, or not in time), each gap between two frames holds a picture's drawing as well, so only a frame slower than 50 ms counts (`LATE_FRAME_MS`): the film as a whole is late. Its step down also re-plans the pictures it has not begun at the frame's own sharpness. A picture the frame cannot show in full is not worth its drawing time, and the smaller ones come sooner. The page does not remember such a step.
   - A film that draws its own pictures begins them at the step the page remembers.
 - **A frame is a function of the time it is given.** The same time gives the same picture; seeking back gives what a film just begun draws there; a phone that joins late draws only what is left.
@@ -99,7 +133,7 @@ The film is given the public roster and nothing else: each member's seat and lob
 
 ## Measured
 
-From [`review/check.json`](../../../design/phone-ui/components/boarding-film/review/check.json), made against `7470d62e`. Desktop Chromium, headless, drawing in software; 390 × 844 at 2 pixels a point. The slowdown is Chromium's throttle of the page's main thread, a rough stand-in for a slower phone. **No phone was measured: not its frame rate, and not its memory.**
+Historical measurements from [`review/check.json`](../../../design/phone-ui/components/boarding-film/review/check.json), made against `7470d62e`, before the 18 November playback fix. These numbers have not been remeasured for the changed adaptive-quality policy. Desktop Chromium, headless, drawing in software; 390 × 844 at 2 pixels a point. The slowdown is Chromium's throttle of the page's main thread, a rough stand-in for a slower phone. **No phone was measured: not its frame rate, and not its memory.**
 
 Both films were played in real time and driven as the live player drives a film (a paint at most thirty times a second):
 

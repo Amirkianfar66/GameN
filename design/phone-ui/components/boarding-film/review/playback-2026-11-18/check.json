@@ -1,0 +1,1975 @@
+{
+  "tool": "design/tools/boarding-playback-check.mjs",
+  "sourceCommit": "602ac9693976e2b03a3b64121aa9b3d276aae729",
+  "sourceClean": true,
+  "browser": "Google Chrome 157.0.8103.80",
+  "environment": "Desktop headless Chrome, phone CSS sizes at 2x. Synthetic scheduling/cost checks are not performance measurements. No physical phone, Safari or screen-reader test.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "actualHeaders": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "actualHeadersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "runs": [
+    {
+      "width": 390,
+      "height": 844,
+      "reduced": false,
+      "url": "http://127.0.0.1:59681/playback.html",
+      "deviceReduced": false,
+      "checks": [
+        {
+          "name": "cancelled preparation falls back to fresh late-mount pictures",
+          "ok": true,
+          "detail": {
+            "held": 49,
+            "adopted": false
+          }
+        },
+        {
+          "name": "disposing a transferred preparation does not erase the mounted scene",
+          "ok": true,
+          "detail": {
+            "held": 119,
+            "pixelDifference": 0.002716846955128205
+          }
+        },
+        {
+          "name": "scene disposal frees the transferred pictures",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "late mount uses only public seats and characters for 7 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "seeking back then recovering returns to the same picture for 7 crew",
+          "ok": true,
+          "detail": {
+            "pixelDifference": 0.005896935096153846,
+            "heldBefore": 43,
+            "heldAfter": 43
+          }
+        },
+        {
+          "name": "cleanup is idempotent for 7 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "late mount uses only public seats and characters for 8 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "seeking back then recovering returns to the same picture for 8 crew",
+          "ok": true,
+          "detail": {
+            "pixelDifference": 0.005909455128205128,
+            "heldBefore": 49,
+            "heldAfter": 49
+          }
+        },
+        {
+          "name": "cleanup is idempotent for 8 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "late mount uses only public seats and characters for 9 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "seeking back then recovering returns to the same picture for 9 crew",
+          "ok": true,
+          "detail": {
+            "pixelDifference": 0.005759214743589744,
+            "heldBefore": 55,
+            "heldAfter": 55
+          }
+        },
+        {
+          "name": "cleanup is idempotent for 9 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "cheap prepared frames at 60 Hz retain full sharpness",
+          "ok": true,
+          "detail": {
+            "quality": 1,
+            "drawMs": 0
+          }
+        },
+        {
+          "name": "cheap prepared frames at 30 Hz retain full sharpness",
+          "ok": true,
+          "detail": {
+            "quality": 1,
+            "drawMs": 0
+          }
+        },
+        {
+          "name": "cheap prepared frames at 120 Hz retain full sharpness",
+          "ok": true,
+          "detail": {
+            "quality": 1,
+            "drawMs": 0
+          }
+        },
+        {
+          "name": "sustained expensive prepared drawing still reduces sharpness",
+          "ok": true,
+          "detail": {
+            "quality": 0.8,
+            "drawMs": 30
+          }
+        },
+        {
+          "name": "reduced motion cancels the outstanding animation frame",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "suspend stops own frames even when explicit paints continue",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "resume needs a fresh paint and uses its new elapsed time",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "the film stops after the last authoritative paint becomes stale",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "the exact end queues no animation frame",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "dispose removes the canvas and all scheduled frames",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "late unprepared playback still reduces pending artwork cost",
+          "ok": true,
+          "detail": {
+            "initial": 0.8,
+            "quality": 0.64,
+            "lateSteps": 1,
+            "plannedBefore": 35854584,
+            "plannedAfter": 23082010
+          }
+        },
+        {
+          "name": "unprepared lateness is not remembered by the next scene",
+          "ok": true,
+          "detail": {
+            "initial": 0.8,
+            "next": 0.8
+          }
+        }
+      ],
+      "violations": [],
+      "problems": [],
+      "ok": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "reduced": true,
+      "url": "http://127.0.0.1:59681/playback.html",
+      "deviceReduced": true,
+      "checks": [
+        {
+          "name": "cancelled preparation falls back to fresh late-mount pictures",
+          "ok": true,
+          "detail": {
+            "held": 49,
+            "adopted": false
+          }
+        },
+        {
+          "name": "disposing a transferred preparation does not erase the mounted scene",
+          "ok": true,
+          "detail": {
+            "held": 119,
+            "pixelDifference": 0.0023036858974358975
+          }
+        },
+        {
+          "name": "scene disposal frees the transferred pictures",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "late mount uses only public seats and characters for 7 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "seeking back then recovering returns to the same picture for 7 crew",
+          "ok": true,
+          "detail": {
+            "pixelDifference": 0.00021284054487179487,
+            "heldBefore": 43,
+            "heldAfter": 43
+          }
+        },
+        {
+          "name": "cleanup is idempotent for 7 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "late mount uses only public seats and characters for 8 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "seeking back then recovering returns to the same picture for 8 crew",
+          "ok": true,
+          "detail": {
+            "pixelDifference": 0.00020032051282051281,
+            "heldBefore": 49,
+            "heldAfter": 49
+          }
+        },
+        {
+          "name": "cleanup is idempotent for 8 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "late mount uses only public seats and characters for 9 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "seeking back then recovering returns to the same picture for 9 crew",
+          "ok": true,
+          "detail": {
+            "pixelDifference": 0.00017528044871794872,
+            "heldBefore": 55,
+            "heldAfter": 55
+          }
+        },
+        {
+          "name": "cleanup is idempotent for 9 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "cheap prepared frames at 60 Hz retain full sharpness",
+          "ok": true,
+          "detail": {
+            "quality": 1,
+            "drawMs": 0
+          }
+        },
+        {
+          "name": "cheap prepared frames at 30 Hz retain full sharpness",
+          "ok": true,
+          "detail": {
+            "quality": 1,
+            "drawMs": 0
+          }
+        },
+        {
+          "name": "cheap prepared frames at 120 Hz retain full sharpness",
+          "ok": true,
+          "detail": {
+            "quality": 1,
+            "drawMs": 0
+          }
+        },
+        {
+          "name": "reduced motion cancels the outstanding animation frame",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "suspend stops own frames even when explicit paints continue",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "resume needs a fresh paint and uses its new elapsed time",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "the film stops after the last authoritative paint becomes stale",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "the exact end queues no animation frame",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "dispose removes the canvas and all scheduled frames",
+          "ok": true,
+          "detail": {}
+        }
+      ],
+      "violations": [],
+      "problems": [],
+      "ok": true
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "reduced": false,
+      "url": "http://127.0.0.1:59681/playback.html",
+      "deviceReduced": false,
+      "checks": [
+        {
+          "name": "cancelled preparation falls back to fresh late-mount pictures",
+          "ok": true,
+          "detail": {
+            "held": 49,
+            "adopted": false
+          }
+        },
+        {
+          "name": "disposing a transferred preparation does not erase the mounted scene",
+          "ok": true,
+          "detail": {
+            "held": 119,
+            "pixelDifference": 0.001702724358974359
+          }
+        },
+        {
+          "name": "scene disposal frees the transferred pictures",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "late mount uses only public seats and characters for 7 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "seeking back then recovering returns to the same picture for 7 crew",
+          "ok": true,
+          "detail": {
+            "pixelDifference": 0,
+            "heldBefore": 43,
+            "heldAfter": 43
+          }
+        },
+        {
+          "name": "cleanup is idempotent for 7 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "late mount uses only public seats and characters for 8 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "seeking back then recovering returns to the same picture for 8 crew",
+          "ok": true,
+          "detail": {
+            "pixelDifference": 0.00006260016025641025,
+            "heldBefore": 49,
+            "heldAfter": 49
+          }
+        },
+        {
+          "name": "cleanup is idempotent for 8 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "late mount uses only public seats and characters for 9 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "seeking back then recovering returns to the same picture for 9 crew",
+          "ok": true,
+          "detail": {
+            "pixelDifference": 0.0001252003205128205,
+            "heldBefore": 55,
+            "heldAfter": 55
+          }
+        },
+        {
+          "name": "cleanup is idempotent for 9 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "cheap prepared frames at 60 Hz retain full sharpness",
+          "ok": true,
+          "detail": {
+            "quality": 1,
+            "drawMs": 0
+          }
+        },
+        {
+          "name": "cheap prepared frames at 30 Hz retain full sharpness",
+          "ok": true,
+          "detail": {
+            "quality": 1,
+            "drawMs": 0
+          }
+        },
+        {
+          "name": "cheap prepared frames at 120 Hz retain full sharpness",
+          "ok": true,
+          "detail": {
+            "quality": 1,
+            "drawMs": 0
+          }
+        },
+        {
+          "name": "sustained expensive prepared drawing still reduces sharpness",
+          "ok": true,
+          "detail": {
+            "quality": 0.8,
+            "drawMs": 30
+          }
+        },
+        {
+          "name": "reduced motion cancels the outstanding animation frame",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "suspend stops own frames even when explicit paints continue",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "resume needs a fresh paint and uses its new elapsed time",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "the film stops after the last authoritative paint becomes stale",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "the exact end queues no animation frame",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "dispose removes the canvas and all scheduled frames",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "late unprepared playback still reduces pending artwork cost",
+          "ok": true,
+          "detail": {
+            "initial": 0.8,
+            "quality": 0.64,
+            "lateSteps": 1,
+            "plannedBefore": 43498833.6,
+            "plannedAfter": 27812095.5
+          }
+        },
+        {
+          "name": "unprepared lateness is not remembered by the next scene",
+          "ok": true,
+          "detail": {
+            "initial": 0.8,
+            "next": 0.8
+          }
+        }
+      ],
+      "violations": [],
+      "problems": [],
+      "ok": true
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "reduced": true,
+      "url": "http://127.0.0.1:59681/playback.html",
+      "deviceReduced": true,
+      "checks": [
+        {
+          "name": "cancelled preparation falls back to fresh late-mount pictures",
+          "ok": true,
+          "detail": {
+            "held": 49,
+            "adopted": false
+          }
+        },
+        {
+          "name": "disposing a transferred preparation does not erase the mounted scene",
+          "ok": true,
+          "detail": {
+            "held": 119,
+            "pixelDifference": 0.00026292067307692306
+          }
+        },
+        {
+          "name": "scene disposal frees the transferred pictures",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "late mount uses only public seats and characters for 7 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "seeking back then recovering returns to the same picture for 7 crew",
+          "ok": true,
+          "detail": {
+            "pixelDifference": 0.00011268028846153847,
+            "heldBefore": 43,
+            "heldAfter": 43
+          }
+        },
+        {
+          "name": "cleanup is idempotent for 7 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "late mount uses only public seats and characters for 8 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "seeking back then recovering returns to the same picture for 8 crew",
+          "ok": true,
+          "detail": {
+            "pixelDifference": 0.00013772035256410256,
+            "heldBefore": 49,
+            "heldAfter": 49
+          }
+        },
+        {
+          "name": "cleanup is idempotent for 8 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "late mount uses only public seats and characters for 9 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "seeking back then recovering returns to the same picture for 9 crew",
+          "ok": true,
+          "detail": {
+            "pixelDifference": 0.00021284054487179487,
+            "heldBefore": 55,
+            "heldAfter": 55
+          }
+        },
+        {
+          "name": "cleanup is idempotent for 9 crew",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "cheap prepared frames at 60 Hz retain full sharpness",
+          "ok": true,
+          "detail": {
+            "quality": 1,
+            "drawMs": 0
+          }
+        },
+        {
+          "name": "cheap prepared frames at 30 Hz retain full sharpness",
+          "ok": true,
+          "detail": {
+            "quality": 1,
+            "drawMs": 0
+          }
+        },
+        {
+          "name": "cheap prepared frames at 120 Hz retain full sharpness",
+          "ok": true,
+          "detail": {
+            "quality": 1,
+            "drawMs": 0
+          }
+        },
+        {
+          "name": "reduced motion cancels the outstanding animation frame",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "suspend stops own frames even when explicit paints continue",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "resume needs a fresh paint and uses its new elapsed time",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "the film stops after the last authoritative paint becomes stale",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "the exact end queues no animation frame",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "name": "dispose removes the canvas and all scheduled frames",
+          "ok": true,
+          "detail": {}
+        }
+      ],
+      "violations": [],
+      "problems": [],
+      "ok": true
+    }
+  ],
+  "captures": [
+    {
+      "file": "390x844-7-full.jpg",
+      "sha256": "1ed93804f0b55c503334654178c2ff3b5b19912324eaf90bad1e995a7436af9c",
+      "url": "http://127.0.0.1:59681/index.html?size=390x844&t=8600&n=7&bar=0",
+      "count": 7,
+      "width": 390,
+      "height": 844,
+      "reduced": false,
+      "seen": {
+        "frame": {
+          "t": 8600,
+          "at": 8600,
+          "reduced": false,
+          "still": null,
+          "fade": 1,
+          "shot": "inside",
+          "night": false
+        },
+        "stats": {
+          "version": "pregame-boarding-2.0.0",
+          "paints": 2,
+          "frames": 2,
+          "ownFrames": 0,
+          "drawMs": 1.4000000059604645,
+          "worstMs": 7.600000008940697,
+          "pictures": 37,
+          "bytes": 10547140,
+          "peakBytes": 10547140,
+          "bakeMs": 282.4999999552965,
+          "longestBakeMs": 63.29999999701977,
+          "scale": 2,
+          "quality": 1,
+          "sharp": 1,
+          "planned": 50839140,
+          "lateSteps": 0
+        },
+        "held": {
+          "variant": "full",
+          "keys": [
+            "in:0:dark",
+            "inhead:0:down:dark",
+            "in:0:lit",
+            "inhead:0:down:lit",
+            "inhead:0:open:lit",
+            "in:1:dark",
+            "inhead:1:down:dark",
+            "in:1:lit",
+            "inhead:1:down:lit",
+            "inhead:1:open:lit",
+            "in:2:dark",
+            "inhead:2:down:dark",
+            "in:2:lit",
+            "inhead:2:down:lit",
+            "inhead:2:open:lit",
+            "in:3:dark",
+            "inhead:3:down:dark",
+            "in:3:lit",
+            "inhead:3:down:lit",
+            "inhead:3:open:lit",
+            "in:4:dark",
+            "inhead:4:down:dark",
+            "in:4:lit",
+            "inhead:4:down:lit",
+            "inhead:4:open:lit",
+            "in:5:dark",
+            "inhead:5:down:dark",
+            "in:5:lit",
+            "inhead:5:down:lit",
+            "inhead:5:open:lit",
+            "in:6:dark",
+            "inhead:6:down:dark",
+            "in:6:lit",
+            "inhead:6:down:lit",
+            "inhead:6:open:lit",
+            "mark"
+          ]
+        },
+        "roster": 7,
+        "root": {
+          "hidden": "true",
+          "width": 390,
+          "height": 844,
+          "pointer": "none"
+        },
+        "layers": [
+          "canvas",
+          "canvas.ms-bf-light",
+          "div.ms-bf-shade",
+          "div.ms-bf-grain"
+        ],
+        "canvas": {
+          "width": 780,
+          "height": 1688
+        },
+        "tappable": 0,
+        "brightness": 60.2
+      },
+      "violations": [],
+      "problems": [],
+      "ok": true
+    },
+    {
+      "file": "390x844-8-full.jpg",
+      "sha256": "0bb6a573abc25eb0f004b5b43d2a0f5ebe42e491a80767b71ba248e39b434401",
+      "url": "http://127.0.0.1:59681/index.html?size=390x844&t=8600&n=8&bar=0",
+      "count": 8,
+      "width": 390,
+      "height": 844,
+      "reduced": false,
+      "seen": {
+        "frame": {
+          "t": 8600,
+          "at": 8600,
+          "reduced": false,
+          "still": null,
+          "fade": 1,
+          "shot": "inside",
+          "night": false
+        },
+        "stats": {
+          "version": "pregame-boarding-2.0.0",
+          "paints": 2,
+          "frames": 2,
+          "ownFrames": 0,
+          "drawMs": 2.5999999940395355,
+          "worstMs": 6.5,
+          "pictures": 42,
+          "bytes": 12545392,
+          "peakBytes": 12545392,
+          "bakeMs": 364.50000001490116,
+          "longestBakeMs": 85.59999999403954,
+          "scale": 2,
+          "quality": 1,
+          "sharp": 1,
+          "planned": 53996028,
+          "lateSteps": 0
+        },
+        "held": {
+          "variant": "full",
+          "keys": [
+            "in:0:dark",
+            "inhead:0:down:dark",
+            "in:0:lit",
+            "inhead:0:down:lit",
+            "inhead:0:open:lit",
+            "in:1:dark",
+            "inhead:1:down:dark",
+            "in:1:lit",
+            "inhead:1:down:lit",
+            "inhead:1:open:lit",
+            "in:2:dark",
+            "inhead:2:down:dark",
+            "in:2:lit",
+            "inhead:2:down:lit",
+            "inhead:2:open:lit",
+            "in:3:dark",
+            "inhead:3:down:dark",
+            "in:3:lit",
+            "inhead:3:down:lit",
+            "inhead:3:open:lit",
+            "in:4:dark",
+            "inhead:4:down:dark",
+            "in:4:lit",
+            "inhead:4:down:lit",
+            "inhead:4:open:lit",
+            "in:5:dark",
+            "inhead:5:down:dark",
+            "in:5:lit",
+            "inhead:5:down:lit",
+            "inhead:5:open:lit",
+            "in:6:dark",
+            "inhead:6:down:dark",
+            "in:6:lit",
+            "inhead:6:down:lit",
+            "inhead:6:open:lit",
+            "in:7:dark",
+            "inhead:7:down:dark",
+            "in:7:lit",
+            "inhead:7:down:lit",
+            "inhead:7:open:lit",
+            "mark"
+          ]
+        },
+        "roster": 8,
+        "root": {
+          "hidden": "true",
+          "width": 390,
+          "height": 844,
+          "pointer": "none"
+        },
+        "layers": [
+          "canvas",
+          "canvas.ms-bf-light",
+          "div.ms-bf-shade",
+          "div.ms-bf-grain"
+        ],
+        "canvas": {
+          "width": 780,
+          "height": 1688
+        },
+        "tappable": 0,
+        "brightness": 67.5
+      },
+      "violations": [],
+      "problems": [],
+      "ok": true
+    },
+    {
+      "file": "390x844-9-full.jpg",
+      "sha256": "3aaecb6495ddb56332fd31cd8fba0bb9558fff0a784bc72c5a1c0f9e6b7342ea",
+      "url": "http://127.0.0.1:59681/index.html?size=390x844&t=8600&n=9&bar=0",
+      "count": 9,
+      "width": 390,
+      "height": 844,
+      "reduced": false,
+      "seen": {
+        "frame": {
+          "t": 8600,
+          "at": 8600,
+          "reduced": false,
+          "still": null,
+          "fade": 1,
+          "shot": "inside",
+          "night": false
+        },
+        "stats": {
+          "version": "pregame-boarding-2.0.0",
+          "paints": 2,
+          "frames": 2,
+          "ownFrames": 0,
+          "drawMs": 1.7999999970197678,
+          "worstMs": 3.199999988079071,
+          "pictures": 47,
+          "bytes": 12076732,
+          "peakBytes": 12076732,
+          "bakeMs": 462.4999999552965,
+          "longestBakeMs": 38.19999998807907,
+          "scale": 2,
+          "quality": 1,
+          "sharp": 1,
+          "planned": 53748620,
+          "lateSteps": 0
+        },
+        "held": {
+          "variant": "full",
+          "keys": [
+            "in:0:dark",
+            "inhead:0:down:dark",
+            "in:0:lit",
+            "inhead:0:down:lit",
+            "inhead:0:open:lit",
+            "in:1:dark",
+            "inhead:1:down:dark",
+            "in:1:lit",
+            "inhead:1:down:lit",
+            "inhead:1:open:lit",
+            "in:2:dark",
+            "inhead:2:down:dark",
+            "in:2:lit",
+            "inhead:2:down:lit",
+            "inhead:2:open:lit",
+            "in:3:dark",
+            "inhead:3:down:dark",
+            "in:3:lit",
+            "inhead:3:down:lit",
+            "inhead:3:open:lit",
+            "in:4:dark",
+            "inhead:4:down:dark",
+            "in:4:lit",
+            "inhead:4:down:lit",
+            "inhead:4:open:lit",
+            "in:5:dark",
+            "inhead:5:down:dark",
+            "in:5:lit",
+            "inhead:5:down:lit",
+            "inhead:5:open:lit",
+            "in:6:dark",
+            "inhead:6:down:dark",
+            "in:6:lit",
+            "inhead:6:down:lit",
+            "inhead:6:open:lit",
+            "in:7:dark",
+            "inhead:7:down:dark",
+            "in:7:lit",
+            "inhead:7:down:lit",
+            "inhead:7:open:lit",
+            "in:8:dark",
+            "inhead:8:down:dark",
+            "in:8:lit",
+            "inhead:8:down:lit",
+            "inhead:8:open:lit",
+            "mark"
+          ]
+        },
+        "roster": 9,
+        "root": {
+          "hidden": "true",
+          "width": 390,
+          "height": 844,
+          "pointer": "none"
+        },
+        "layers": [
+          "canvas",
+          "canvas.ms-bf-light",
+          "div.ms-bf-shade",
+          "div.ms-bf-grain"
+        ],
+        "canvas": {
+          "width": 780,
+          "height": 1688
+        },
+        "tappable": 0,
+        "brightness": 61.7
+      },
+      "violations": [],
+      "problems": [],
+      "ok": true
+    },
+    {
+      "file": "390x844-7-reduced.jpg",
+      "sha256": "75d640228f8ae02be07eb258f2a6caef7b69fb8c180858e7dbf6d0934cd40ab1",
+      "url": "http://127.0.0.1:59681/index.html?size=390x844&t=8600&n=7&bar=0",
+      "count": 7,
+      "width": 390,
+      "height": 844,
+      "reduced": true,
+      "seen": {
+        "frame": {
+          "t": 8600,
+          "at": 8800,
+          "reduced": true,
+          "still": 3,
+          "fade": 1,
+          "shot": "inside",
+          "night": false
+        },
+        "stats": {
+          "version": "pregame-boarding-2.0.0",
+          "paints": 2,
+          "frames": 2,
+          "ownFrames": 0,
+          "drawMs": 1.5,
+          "worstMs": 3,
+          "pictures": 37,
+          "bytes": 10547140,
+          "peakBytes": 10547140,
+          "bakeMs": 243.60000002384186,
+          "longestBakeMs": 20.700000002980232,
+          "scale": 2,
+          "quality": 1,
+          "sharp": 1,
+          "planned": 50839140,
+          "lateSteps": 0
+        },
+        "held": {
+          "variant": "reduced",
+          "keys": [
+            "in:0:dark",
+            "inhead:0:down:dark",
+            "in:0:lit",
+            "inhead:0:down:lit",
+            "inhead:0:open:lit",
+            "in:1:dark",
+            "inhead:1:down:dark",
+            "in:1:lit",
+            "inhead:1:down:lit",
+            "inhead:1:open:lit",
+            "in:2:dark",
+            "inhead:2:down:dark",
+            "in:2:lit",
+            "inhead:2:down:lit",
+            "inhead:2:open:lit",
+            "in:3:dark",
+            "inhead:3:down:dark",
+            "in:3:lit",
+            "inhead:3:down:lit",
+            "inhead:3:open:lit",
+            "in:4:dark",
+            "inhead:4:down:dark",
+            "in:4:lit",
+            "inhead:4:down:lit",
+            "inhead:4:open:lit",
+            "in:5:dark",
+            "inhead:5:down:dark",
+            "in:5:lit",
+            "inhead:5:down:lit",
+            "inhead:5:open:lit",
+            "in:6:dark",
+            "inhead:6:down:dark",
+            "in:6:lit",
+            "inhead:6:down:lit",
+            "inhead:6:open:lit",
+            "mark"
+          ]
+        },
+        "roster": 7,
+        "root": {
+          "hidden": "true",
+          "width": 390,
+          "height": 844,
+          "pointer": "none"
+        },
+        "layers": [
+          "canvas",
+          "canvas.ms-bf-light",
+          "div.ms-bf-shade",
+          "div.ms-bf-grain"
+        ],
+        "canvas": {
+          "width": 780,
+          "height": 1688
+        },
+        "tappable": 0,
+        "brightness": 63.2
+      },
+      "violations": [],
+      "problems": [],
+      "ok": true
+    },
+    {
+      "file": "390x844-8-reduced.jpg",
+      "sha256": "f2d0e0b974be2916f09e9ebe0e8bce4569b0d5039a319fde015d316157e08133",
+      "url": "http://127.0.0.1:59681/index.html?size=390x844&t=8600&n=8&bar=0",
+      "count": 8,
+      "width": 390,
+      "height": 844,
+      "reduced": true,
+      "seen": {
+        "frame": {
+          "t": 8600,
+          "at": 8800,
+          "reduced": true,
+          "still": 3,
+          "fade": 1,
+          "shot": "inside",
+          "night": false
+        },
+        "stats": {
+          "version": "pregame-boarding-2.0.0",
+          "paints": 2,
+          "frames": 2,
+          "ownFrames": 0,
+          "drawMs": 1.5,
+          "worstMs": 2.5,
+          "pictures": 42,
+          "bytes": 12545392,
+          "peakBytes": 12545392,
+          "bakeMs": 274.19999998807907,
+          "longestBakeMs": 20,
+          "scale": 2,
+          "quality": 1,
+          "sharp": 1,
+          "planned": 53996028,
+          "lateSteps": 0
+        },
+        "held": {
+          "variant": "reduced",
+          "keys": [
+            "in:0:dark",
+            "inhead:0:down:dark",
+            "in:0:lit",
+            "inhead:0:down:lit",
+            "inhead:0:open:lit",
+            "in:1:dark",
+            "inhead:1:down:dark",
+            "in:1:lit",
+            "inhead:1:down:lit",
+            "inhead:1:open:lit",
+            "in:2:dark",
+            "inhead:2:down:dark",
+            "in:2:lit",
+            "inhead:2:down:lit",
+            "inhead:2:open:lit",
+            "in:3:dark",
+            "inhead:3:down:dark",
+            "in:3:lit",
+            "inhead:3:down:lit",
+            "inhead:3:open:lit",
+            "in:4:dark",
+            "inhead:4:down:dark",
+            "in:4:lit",
+            "inhead:4:down:lit",
+            "inhead:4:open:lit",
+            "in:5:dark",
+            "inhead:5:down:dark",
+            "in:5:lit",
+            "inhead:5:down:lit",
+            "inhead:5:open:lit",
+            "in:6:dark",
+            "inhead:6:down:dark",
+            "in:6:lit",
+            "inhead:6:down:lit",
+            "inhead:6:open:lit",
+            "in:7:dark",
+            "inhead:7:down:dark",
+            "in:7:lit",
+            "inhead:7:down:lit",
+            "inhead:7:open:lit",
+            "mark"
+          ]
+        },
+        "roster": 8,
+        "root": {
+          "hidden": "true",
+          "width": 390,
+          "height": 844,
+          "pointer": "none"
+        },
+        "layers": [
+          "canvas",
+          "canvas.ms-bf-light",
+          "div.ms-bf-shade",
+          "div.ms-bf-grain"
+        ],
+        "canvas": {
+          "width": 780,
+          "height": 1688
+        },
+        "tappable": 0,
+        "brightness": 70.5
+      },
+      "violations": [],
+      "problems": [],
+      "ok": true
+    },
+    {
+      "file": "390x844-9-reduced.jpg",
+      "sha256": "c1abe2f76626f43abda64f3752f417a457a6a3fd503bd288e0fe4527baa89632",
+      "url": "http://127.0.0.1:59681/index.html?size=390x844&t=8600&n=9&bar=0",
+      "count": 9,
+      "width": 390,
+      "height": 844,
+      "reduced": true,
+      "seen": {
+        "frame": {
+          "t": 8600,
+          "at": 8800,
+          "reduced": true,
+          "still": 3,
+          "fade": 1,
+          "shot": "inside",
+          "night": false
+        },
+        "stats": {
+          "version": "pregame-boarding-2.0.0",
+          "paints": 2,
+          "frames": 2,
+          "ownFrames": 0,
+          "drawMs": 1.5,
+          "worstMs": 3.1000000089406967,
+          "pictures": 47,
+          "bytes": 12076732,
+          "peakBytes": 12076732,
+          "bakeMs": 405.600000038743,
+          "longestBakeMs": 29.899999991059303,
+          "scale": 2,
+          "quality": 1,
+          "sharp": 1,
+          "planned": 53748620,
+          "lateSteps": 0
+        },
+        "held": {
+          "variant": "reduced",
+          "keys": [
+            "in:0:dark",
+            "inhead:0:down:dark",
+            "in:0:lit",
+            "inhead:0:down:lit",
+            "inhead:0:open:lit",
+            "in:1:dark",
+            "inhead:1:down:dark",
+            "in:1:lit",
+            "inhead:1:down:lit",
+            "inhead:1:open:lit",
+            "in:2:dark",
+            "inhead:2:down:dark",
+            "in:2:lit",
+            "inhead:2:down:lit",
+            "inhead:2:open:lit",
+            "in:3:dark",
+            "inhead:3:down:dark",
+            "in:3:lit",
+            "inhead:3:down:lit",
+            "inhead:3:open:lit",
+            "in:4:dark",
+            "inhead:4:down:dark",
+            "in:4:lit",
+            "inhead:4:down:lit",
+            "inhead:4:open:lit",
+            "in:5:dark",
+            "inhead:5:down:dark",
+            "in:5:lit",
+            "inhead:5:down:lit",
+            "inhead:5:open:lit",
+            "in:6:dark",
+            "inhead:6:down:dark",
+            "in:6:lit",
+            "inhead:6:down:lit",
+            "inhead:6:open:lit",
+            "in:7:dark",
+            "inhead:7:down:dark",
+            "in:7:lit",
+            "inhead:7:down:lit",
+            "inhead:7:open:lit",
+            "in:8:dark",
+            "inhead:8:down:dark",
+            "in:8:lit",
+            "inhead:8:down:lit",
+            "inhead:8:open:lit",
+            "mark"
+          ]
+        },
+        "roster": 9,
+        "root": {
+          "hidden": "true",
+          "width": 390,
+          "height": 844,
+          "pointer": "none"
+        },
+        "layers": [
+          "canvas",
+          "canvas.ms-bf-light",
+          "div.ms-bf-shade",
+          "div.ms-bf-grain"
+        ],
+        "canvas": {
+          "width": 780,
+          "height": 1688
+        },
+        "tappable": 0,
+        "brightness": 64.3
+      },
+      "violations": [],
+      "problems": [],
+      "ok": true
+    },
+    {
+      "file": "430x932-7-full.jpg",
+      "sha256": "4a17367c53d361aee8d0d72dffc7287d0bd05cbe6b84fcf296ab28aaac5aad44",
+      "url": "http://127.0.0.1:59681/index.html?size=430x932&t=8600&n=7&bar=0",
+      "count": 7,
+      "width": 430,
+      "height": 932,
+      "reduced": false,
+      "seen": {
+        "frame": {
+          "t": 8600,
+          "at": 8600,
+          "reduced": false,
+          "still": null,
+          "fade": 1,
+          "shot": "inside",
+          "night": false
+        },
+        "stats": {
+          "version": "pregame-boarding-2.0.0",
+          "paints": 2,
+          "frames": 2,
+          "ownFrames": 0,
+          "drawMs": 1.5999999940395355,
+          "worstMs": 3.1000000089406967,
+          "pictures": 37,
+          "bytes": 12829304,
+          "peakBytes": 12829304,
+          "bakeMs": 397.29999999701977,
+          "longestBakeMs": 40.400000005960464,
+          "scale": 2,
+          "quality": 1,
+          "sharp": 1,
+          "planned": 58974936,
+          "lateSteps": 0
+        },
+        "held": {
+          "variant": "full",
+          "keys": [
+            "in:0:dark",
+            "inhead:0:down:dark",
+            "in:0:lit",
+            "inhead:0:down:lit",
+            "inhead:0:open:lit",
+            "in:1:dark",
+            "inhead:1:down:dark",
+            "in:1:lit",
+            "inhead:1:down:lit",
+            "inhead:1:open:lit",
+            "in:2:dark",
+            "inhead:2:down:dark",
+            "in:2:lit",
+            "inhead:2:down:lit",
+            "inhead:2:open:lit",
+            "in:3:dark",
+            "inhead:3:down:dark",
+            "in:3:lit",
+            "inhead:3:down:lit",
+            "inhead:3:open:lit",
+            "in:4:dark",
+            "inhead:4:down:dark",
+            "in:4:lit",
+            "inhead:4:down:lit",
+            "inhead:4:open:lit",
+            "in:5:dark",
+            "inhead:5:down:dark",
+            "in:5:lit",
+            "inhead:5:down:lit",
+            "inhead:5:open:lit",
+            "in:6:dark",
+            "inhead:6:down:dark",
+            "in:6:lit",
+            "inhead:6:down:lit",
+            "inhead:6:open:lit",
+            "mark"
+          ]
+        },
+        "roster": 7,
+        "root": {
+          "hidden": "true",
+          "width": 430,
+          "height": 932,
+          "pointer": "none"
+        },
+        "layers": [
+          "canvas",
+          "canvas.ms-bf-light",
+          "div.ms-bf-shade",
+          "div.ms-bf-grain"
+        ],
+        "canvas": {
+          "width": 860,
+          "height": 1864
+        },
+        "tappable": 0,
+        "brightness": 60.4
+      },
+      "violations": [],
+      "problems": [],
+      "ok": true
+    },
+    {
+      "file": "430x932-8-full.jpg",
+      "sha256": "e2ffe574519f3475ae3a826d4ee0b64cb4407df9412ef2de6d2467e8d604ee58",
+      "url": "http://127.0.0.1:59681/index.html?size=430x932&t=8600&n=8&bar=0",
+      "count": 8,
+      "width": 430,
+      "height": 932,
+      "reduced": false,
+      "seen": {
+        "frame": {
+          "t": 8600,
+          "at": 8600,
+          "reduced": false,
+          "still": null,
+          "fade": 1,
+          "shot": "inside",
+          "night": false
+        },
+        "stats": {
+          "version": "pregame-boarding-2.0.0",
+          "paints": 2,
+          "frames": 2,
+          "ownFrames": 0,
+          "drawMs": 1.6000000089406967,
+          "worstMs": 2.5999999940395355,
+          "pictures": 42,
+          "bytes": 15257144,
+          "peakBytes": 15257144,
+          "bakeMs": 317.1999999731779,
+          "longestBakeMs": 19.399999991059303,
+          "scale": 2,
+          "quality": 1,
+          "sharp": 1,
+          "planned": 62814476,
+          "lateSteps": 0
+        },
+        "held": {
+          "variant": "full",
+          "keys": [
+            "in:0:dark",
+            "inhead:0:down:dark",
+            "in:0:lit",
+            "inhead:0:down:lit",
+            "inhead:0:open:lit",
+            "in:1:dark",
+            "inhead:1:down:dark",
+            "in:1:lit",
+            "inhead:1:down:lit",
+            "inhead:1:open:lit",
+            "in:2:dark",
+            "inhead:2:down:dark",
+            "in:2:lit",
+            "inhead:2:down:lit",
+            "inhead:2:open:lit",
+            "in:3:dark",
+            "inhead:3:down:dark",
+            "in:3:lit",
+            "inhead:3:down:lit",
+            "inhead:3:open:lit",
+            "in:4:dark",
+            "inhead:4:down:dark",
+            "in:4:lit",
+            "inhead:4:down:lit",
+            "inhead:4:open:lit",
+            "in:5:dark",
+            "inhead:5:down:dark",
+            "in:5:lit",
+            "inhead:5:down:lit",
+            "inhead:5:open:lit",
+            "in:6:dark",
+            "inhead:6:down:dark",
+            "in:6:lit",
+            "inhead:6:down:lit",
+            "inhead:6:open:lit",
+            "in:7:dark",
+            "inhead:7:down:dark",
+            "in:7:lit",
+            "inhead:7:down:lit",
+            "inhead:7:open:lit",
+            "mark"
+          ]
+        },
+        "roster": 8,
+        "root": {
+          "hidden": "true",
+          "width": 430,
+          "height": 932,
+          "pointer": "none"
+        },
+        "layers": [
+          "canvas",
+          "canvas.ms-bf-light",
+          "div.ms-bf-shade",
+          "div.ms-bf-grain"
+        ],
+        "canvas": {
+          "width": 860,
+          "height": 1864
+        },
+        "tappable": 0,
+        "brightness": 67.6
+      },
+      "violations": [],
+      "problems": [],
+      "ok": true
+    },
+    {
+      "file": "430x932-9-full.jpg",
+      "sha256": "c945fc8eb5277b8983df880f399a9f1255a89feb33e61f6d6ec1cf319fb2295a",
+      "url": "http://127.0.0.1:59681/index.html?size=430x932&t=8600&n=9&bar=0",
+      "count": 9,
+      "width": 430,
+      "height": 932,
+      "reduced": false,
+      "seen": {
+        "frame": {
+          "t": 8600,
+          "at": 8600,
+          "reduced": false,
+          "still": null,
+          "fade": 1,
+          "shot": "inside",
+          "night": false
+        },
+        "stats": {
+          "version": "pregame-boarding-2.0.0",
+          "paints": 2,
+          "frames": 2,
+          "ownFrames": 0,
+          "drawMs": 2.5,
+          "worstMs": 2.9000000059604645,
+          "pictures": 47,
+          "bytes": 14688840,
+          "peakBytes": 14688840,
+          "bakeMs": 350.29999996721745,
+          "longestBakeMs": 19.399999991059303,
+          "scale": 2,
+          "quality": 1,
+          "sharp": 1,
+          "planned": 62515496,
+          "lateSteps": 0
+        },
+        "held": {
+          "variant": "full",
+          "keys": [
+            "in:0:dark",
+            "inhead:0:down:dark",
+            "in:0:lit",
+            "inhead:0:down:lit",
+            "inhead:0:open:lit",
+            "in:1:dark",
+            "inhead:1:down:dark",
+            "in:1:lit",
+            "inhead:1:down:lit",
+            "inhead:1:open:lit",
+            "in:2:dark",
+            "inhead:2:down:dark",
+            "in:2:lit",
+            "inhead:2:down:lit",
+            "inhead:2:open:lit",
+            "in:3:dark",
+            "inhead:3:down:dark",
+            "in:3:lit",
+            "inhead:3:down:lit",
+            "inhead:3:open:lit",
+            "in:4:dark",
+            "inhead:4:down:dark",
+            "in:4:lit",
+            "inhead:4:down:lit",
+            "inhead:4:open:lit",
+            "in:5:dark",
+            "inhead:5:down:dark",
+            "in:5:lit",
+            "inhead:5:down:lit",
+            "inhead:5:open:lit",
+            "in:6:dark",
+            "inhead:6:down:dark",
+            "in:6:lit",
+            "inhead:6:down:lit",
+            "inhead:6:open:lit",
+            "in:7:dark",
+            "inhead:7:down:dark",
+            "in:7:lit",
+            "inhead:7:down:lit",
+            "inhead:7:open:lit",
+            "in:8:dark",
+            "inhead:8:down:dark",
+            "in:8:lit",
+            "inhead:8:down:lit",
+            "inhead:8:open:lit",
+            "mark"
+          ]
+        },
+        "roster": 9,
+        "root": {
+          "hidden": "true",
+          "width": 430,
+          "height": 932,
+          "pointer": "none"
+        },
+        "layers": [
+          "canvas",
+          "canvas.ms-bf-light",
+          "div.ms-bf-shade",
+          "div.ms-bf-grain"
+        ],
+        "canvas": {
+          "width": 860,
+          "height": 1864
+        },
+        "tappable": 0,
+        "brightness": 61.7
+      },
+      "violations": [],
+      "problems": [],
+      "ok": true
+    },
+    {
+      "file": "430x932-7-reduced.jpg",
+      "sha256": "522a2a4733b55a36da98c1790a0763d8a938b581009f8826f8df87a909585224",
+      "url": "http://127.0.0.1:59681/index.html?size=430x932&t=8600&n=7&bar=0",
+      "count": 7,
+      "width": 430,
+      "height": 932,
+      "reduced": true,
+      "seen": {
+        "frame": {
+          "t": 8600,
+          "at": 8800,
+          "reduced": true,
+          "still": 3,
+          "fade": 1,
+          "shot": "inside",
+          "night": false
+        },
+        "stats": {
+          "version": "pregame-boarding-2.0.0",
+          "paints": 2,
+          "frames": 2,
+          "ownFrames": 0,
+          "drawMs": 2.2999999970197678,
+          "worstMs": 3.2999999970197678,
+          "pictures": 37,
+          "bytes": 12829304,
+          "peakBytes": 12829304,
+          "bakeMs": 196.59999997913837,
+          "longestBakeMs": 20.599999994039536,
+          "scale": 2,
+          "quality": 1,
+          "sharp": 1,
+          "planned": 58974936,
+          "lateSteps": 0
+        },
+        "held": {
+          "variant": "reduced",
+          "keys": [
+            "in:0:dark",
+            "inhead:0:down:dark",
+            "in:0:lit",
+            "inhead:0:down:lit",
+            "inhead:0:open:lit",
+            "in:1:dark",
+            "inhead:1:down:dark",
+            "in:1:lit",
+            "inhead:1:down:lit",
+            "inhead:1:open:lit",
+            "in:2:dark",
+            "inhead:2:down:dark",
+            "in:2:lit",
+            "inhead:2:down:lit",
+            "inhead:2:open:lit",
+            "in:3:dark",
+            "inhead:3:down:dark",
+            "in:3:lit",
+            "inhead:3:down:lit",
+            "inhead:3:open:lit",
+            "in:4:dark",
+            "inhead:4:down:dark",
+            "in:4:lit",
+            "inhead:4:down:lit",
+            "inhead:4:open:lit",
+            "in:5:dark",
+            "inhead:5:down:dark",
+            "in:5:lit",
+            "inhead:5:down:lit",
+            "inhead:5:open:lit",
+            "in:6:dark",
+            "inhead:6:down:dark",
+            "in:6:lit",
+            "inhead:6:down:lit",
+            "inhead:6:open:lit",
+            "mark"
+          ]
+        },
+        "roster": 7,
+        "root": {
+          "hidden": "true",
+          "width": 430,
+          "height": 932,
+          "pointer": "none"
+        },
+        "layers": [
+          "canvas",
+          "canvas.ms-bf-light",
+          "div.ms-bf-shade",
+          "div.ms-bf-grain"
+        ],
+        "canvas": {
+          "width": 860,
+          "height": 1864
+        },
+        "tappable": 0,
+        "brightness": 63.2
+      },
+      "violations": [],
+      "problems": [],
+      "ok": true
+    },
+    {
+      "file": "430x932-8-reduced.jpg",
+      "sha256": "25a03675f41e1724689b51e095699eee780c46637780f07fb9784b4c8fa3784e",
+      "url": "http://127.0.0.1:59681/index.html?size=430x932&t=8600&n=8&bar=0",
+      "count": 8,
+      "width": 430,
+      "height": 932,
+      "reduced": true,
+      "seen": {
+        "frame": {
+          "t": 8600,
+          "at": 8800,
+          "reduced": true,
+          "still": 3,
+          "fade": 1,
+          "shot": "inside",
+          "night": false
+        },
+        "stats": {
+          "version": "pregame-boarding-2.0.0",
+          "paints": 2,
+          "frames": 2,
+          "ownFrames": 0,
+          "drawMs": 1.4000000059604645,
+          "worstMs": 2.5999999940395355,
+          "pictures": 42,
+          "bytes": 15257144,
+          "peakBytes": 15257144,
+          "bakeMs": 229.09999994933605,
+          "longestBakeMs": 18.700000002980232,
+          "scale": 2,
+          "quality": 1,
+          "sharp": 1,
+          "planned": 62814476,
+          "lateSteps": 0
+        },
+        "held": {
+          "variant": "reduced",
+          "keys": [
+            "in:0:dark",
+            "inhead:0:down:dark",
+            "in:0:lit",
+            "inhead:0:down:lit",
+            "inhead:0:open:lit",
+            "in:1:dark",
+            "inhead:1:down:dark",
+            "in:1:lit",
+            "inhead:1:down:lit",
+            "inhead:1:open:lit",
+            "in:2:dark",
+            "inhead:2:down:dark",
+            "in:2:lit",
+            "inhead:2:down:lit",
+            "inhead:2:open:lit",
+            "in:3:dark",
+            "inhead:3:down:dark",
+            "in:3:lit",
+            "inhead:3:down:lit",
+            "inhead:3:open:lit",
+            "in:4:dark",
+            "inhead:4:down:dark",
+            "in:4:lit",
+            "inhead:4:down:lit",
+            "inhead:4:open:lit",
+            "in:5:dark",
+            "inhead:5:down:dark",
+            "in:5:lit",
+            "inhead:5:down:lit",
+            "inhead:5:open:lit",
+            "in:6:dark",
+            "inhead:6:down:dark",
+            "in:6:lit",
+            "inhead:6:down:lit",
+            "inhead:6:open:lit",
+            "in:7:dark",
+            "inhead:7:down:dark",
+            "in:7:lit",
+            "inhead:7:down:lit",
+            "inhead:7:open:lit",
+            "mark"
+          ]
+        },
+        "roster": 8,
+        "root": {
+          "hidden": "true",
+          "width": 430,
+          "height": 932,
+          "pointer": "none"
+        },
+        "layers": [
+          "canvas",
+          "canvas.ms-bf-light",
+          "div.ms-bf-shade",
+          "div.ms-bf-grain"
+        ],
+        "canvas": {
+          "width": 860,
+          "height": 1864
+        },
+        "tappable": 0,
+        "brightness": 70.4
+      },
+      "violations": [],
+      "problems": [],
+      "ok": true
+    },
+    {
+      "file": "430x932-9-reduced.jpg",
+      "sha256": "380bbf74c8b7b60851c7b004bf7bdbdddd8e735d4d1ec726a51e5d857d5fe5eb",
+      "url": "http://127.0.0.1:59681/index.html?size=430x932&t=8600&n=9&bar=0",
+      "count": 9,
+      "width": 430,
+      "height": 932,
+      "reduced": true,
+      "seen": {
+        "frame": {
+          "t": 8600,
+          "at": 8800,
+          "reduced": true,
+          "still": 3,
+          "fade": 1,
+          "shot": "inside",
+          "night": false
+        },
+        "stats": {
+          "version": "pregame-boarding-2.0.0",
+          "paints": 2,
+          "frames": 2,
+          "ownFrames": 0,
+          "drawMs": 1.3999999910593033,
+          "worstMs": 2.5,
+          "pictures": 47,
+          "bytes": 14688840,
+          "peakBytes": 14688840,
+          "bakeMs": 260.9000000357628,
+          "longestBakeMs": 19,
+          "scale": 2,
+          "quality": 1,
+          "sharp": 1,
+          "planned": 62515496,
+          "lateSteps": 0
+        },
+        "held": {
+          "variant": "reduced",
+          "keys": [
+            "in:0:dark",
+            "inhead:0:down:dark",
+            "in:0:lit",
+            "inhead:0:down:lit",
+            "inhead:0:open:lit",
+            "in:1:dark",
+            "inhead:1:down:dark",
+            "in:1:lit",
+            "inhead:1:down:lit",
+            "inhead:1:open:lit",
+            "in:2:dark",
+            "inhead:2:down:dark",
+            "in:2:lit",
+            "inhead:2:down:lit",
+            "inhead:2:open:lit",
+            "in:3:dark",
+            "inhead:3:down:dark",
+            "in:3:lit",
+            "inhead:3:down:lit",
+            "inhead:3:open:lit",
+            "in:4:dark",
+            "inhead:4:down:dark",
+            "in:4:lit",
+            "inhead:4:down:lit",
+            "inhead:4:open:lit",
+            "in:5:dark",
+            "inhead:5:down:dark",
+            "in:5:lit",
+            "inhead:5:down:lit",
+            "inhead:5:open:lit",
+            "in:6:dark",
+            "inhead:6:down:dark",
+            "in:6:lit",
+            "inhead:6:down:lit",
+            "inhead:6:open:lit",
+            "in:7:dark",
+            "inhead:7:down:dark",
+            "in:7:lit",
+            "inhead:7:down:lit",
+            "inhead:7:open:lit",
+            "in:8:dark",
+            "inhead:8:down:dark",
+            "in:8:lit",
+            "inhead:8:down:lit",
+            "inhead:8:open:lit",
+            "mark"
+          ]
+        },
+        "roster": 9,
+        "root": {
+          "hidden": "true",
+          "width": 430,
+          "height": 932,
+          "pointer": "none"
+        },
+        "layers": [
+          "canvas",
+          "canvas.ms-bf-light",
+          "div.ms-bf-shade",
+          "div.ms-bf-grain"
+        ],
+        "canvas": {
+          "width": 860,
+          "height": 1864
+        },
+        "tappable": 0,
+        "brightness": 64.2
+      },
+      "violations": [],
+      "problems": [],
+      "ok": true
+    }
+  ]
+}
