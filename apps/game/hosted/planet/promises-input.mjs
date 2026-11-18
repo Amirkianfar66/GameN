@@ -13,6 +13,7 @@
 // component's `view` and `draft` (promises.md, answer 2). Next and Back are local; Offer, Accept and Decline send.
 import {planetPromiseTerms} from '@mothership/presentation';
 import {PROMISES_SHEET_ID,PROMISE_KINDS,promisesSheet} from '../../../../design/phone-ui/components/promises/promises.mjs';
+import {refusalHeld,refusalWords} from './refusal-words.mjs';
 
 /** The sheet's id, the same for every view (the component's): the shell connection routes its footer and Back by it. */
 export {PROMISES_SHEET_ID};
@@ -32,7 +33,8 @@ const offerOf=(model,type)=>model.privateArea?.offers?.find(offer=>offer.type===
 /** A seat as the component names it: its number, and the name and character the identities give. */
 function person(model,id){
  const n=seatNumber(id),who=model.identities?.find(identity=>identity.seatId===id);
- return {seat:n,name:who?.displayName||`Player ${n}`,character:who?.characterId??null};
+ // "Player" keeps its number on one line, with a no-break space (the Lead's polish, the owner's approval of 18 November).
+ return {seat:n,name:who?.displayName||`Player\u00a0${n}`,character:who?.characterId??null};
 }
 
 /**
@@ -84,12 +86,24 @@ function command(model,type){
  * This phone's view and draft, kept to what the model still allows: the list after a command's receipt (the next view
  * shows the Promise as the server has it), when the talk ends, or when the offer to answer has gone; Jail Vote's player
  * only for Jail Vote, and only while the offer still names them. Null while the sheet isn't Promises'.
+ *
+ * A refused command (R2 with A3): `sent` is this phone's own Offer, Accept or Decline, from the open sheet, while the
+ * model has it under way. Once the model no longer has it, its message, verbatim, is `error`, unless it is one of
+ * Frontend's own words (refusal-words.mjs). The words go at the next model change (the controller's message changes
+ * or clears, at the next view), at the next tap (promisesHandlers), with the sheet, and while concealed; and they are
+ * drawn only in the terms and the partner's offer, where the player keeps the choice and can go Back.
  */
 export function promisesFlow(flow,model){
  if(!promisesOpen(model))return null;
  const action=model.action;
  if(action&&COMMANDS.has(action.type)&&action.step==='accepted')return {...PROMISES_START};
- let {view,kind,target}={...PROMISES_START,...(flow??{})};
+ let {view,kind,target,sent=null,error=null,errorAt=null}={...PROMISES_START,...(flow??{})};
+ if(sent&&action?.type!==sent){
+  const words=action?null:refusalWords(model,sent);
+  if(words){error=words;errorAt=model.revision??null;}
+  sent=null;
+ }
+ if(error&&(action||!refusalHeld(model,error,errorAt)))error=errorAt=null;
  if(TALKING.has(view)&&!promisesPartner(model)||view==='incoming'&&!promisesIncoming(model))return {...PROMISES_START};
  if(!Object.hasOwn(PROMISE_KINDS,kind??''))kind=null;
  const offer=offerOf(model,'OFFER_PROMISE');
@@ -97,8 +111,14 @@ export function promisesFlow(flow,model){
  else if(target!==null&&offer&&!offer.promiseTargetSeatIds.includes(seatId(target)))target=null;
  if(view==='target'&&kind!=='JAIL_VOTE')view='kinds';
  if(view==='confirm'&&(!kind||kind==='JAIL_VOTE'&&target===null))view=kind?'target':'kinds';
- return {view,kind,target};
+ if(error&&view!=='confirm'&&view!=='incoming')error=errorAt=null;
+ // The refusal's fields only while they hold something: the flow is otherwise the view and the draft alone.
+ return {view,kind,target,...(sent?{sent}:{}),...(error?{error,errorAt}:{})};
 }
+/** The refusal's words the open Promises sheet shows (R2), or null: the game's status line hides while they show. */
+export const promisesRefusal=flow=>flow?.error??null;
+/** The flow without a refusal's words: the player's next intent clears them (R2). */
+export function withoutRefusal(flow){if(!flow)return flow;const {error,errorAt,...rest}=flow;return rest;}
 
 /** The component's whole input for the open view, with the shell's status ('live', 'stale' or 'concealed') and the device's Reduce motion. */
 export function promisesInput(model,{flow=null,status='live',reducedMotion=false}={}){
@@ -116,6 +136,8 @@ export function promisesInput(model,{flow=null,status='live',reducedMotion=false
   draft:{kind:f.kind,target:targets.some(t=>t.seat===chosen)?chosen:null,terms},targets,
   given:promiseInput(model,promisesGiven(model)),received:promiseInput(model,promisesReceived(model)),
   answer:{accept:command(model,'ACCEPT_PROMISE'),decline:command(model,'DECLINE_PROMISE')},
+  // A refused command's words, the model's own (R2): only in the terms and the partner's offer (promisesFlow).
+  error:f.error??null,
  };
 }
 
@@ -148,12 +170,16 @@ export function promisesToast(model){
 export function promisesHandlers({model,flow,setFlow,begin,choose,confirm,focusReturn=null,live=()=>true}){
  const when=run=>(...args)=>{if(live())run(...args);};
  const current=()=>({...PROMISES_START,...(flow()??{})});
- const go=patch=>setFlow({...current(),...patch});
+ // Every tap here is the player's next intent: a refusal's words go (R2).
+ const go=patch=>setFlow(withoutRefusal({...current(),...patch}));
+ // This phone's own command, under way in the model: a refusal it then gives is this command's (R2).
+ const sending=type=>setFlow({...withoutRefusal(current()),sent:type});
  const ready=type=>{const action=model().action;return action?.type===type&&action.step==='confirm'&&action.canConfirm===true;};
  function offer(){
   const f=current(),partner=promisesPartner(model());
   if(f.view!=='confirm'||!partner||!f.kind||f.kind==='JAIL_VOTE'&&f.target===null)return;
   begin('OFFER_PROMISE');if(model().action?.type!=='OFFER_PROMISE')return;
+  sending('OFFER_PROMISE');
   choose(partner);choose(f.kind);if(f.kind==='JAIL_VOTE')choose(seatId(f.target));
   if(ready('OFFER_PROMISE'))void confirm();
  }
@@ -161,6 +187,7 @@ export function promisesHandlers({model,flow,setFlow,begin,choose,confirm,focusR
   const incoming=promisesIncoming(model());
   if(current().view!=='incoming'||!incoming)return;
   begin(type);if(model().action?.type!==type)return;
+  sending(type);
   choose(incoming.id);
   if(ready(type))void confirm();
  }

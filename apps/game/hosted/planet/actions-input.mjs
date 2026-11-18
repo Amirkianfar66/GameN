@@ -8,6 +8,7 @@
 import {en} from '@mothership/presentation';
 import {ACTION_LOOKS,actionsSheet,afterSheet,afterWords,blackoutBar,checkSheet,moveBar,moveChip,movedToast,passSheet,passedToast,registeredToast,targetBar,targetChip,targetListSheet,unknownSheet} from '../../../../design/phone-ui/components/actions/actions.mjs';
 import {BOARD_ROOMS,LOCATION_OF,slotsOf} from '../board-v2-drawing/slots-four.mjs';
+import {refusalHeld,refusalWords} from './refusal-words.mjs';
 
 /**
  * The commands whose steps are Actions': every tile's but the Hacker's Scan and final Code (the Hacker
@@ -50,7 +51,8 @@ const movedThere=(model,flow)=>{const seat=model.board?.seats?.find(s=>s.seatId=
 /** A person as the parts take them: the seat, the display name (or "Player n"), the crew character and where the public board has them. */
 function person(model,seatId){
  const who=model.identities?.find(identity=>identity.seatId===seatId),seat=model.board?.seats?.find(s=>s.seatId===seatId);
- return {seat:seatId,name:who?.displayName||`Player ${String(seatId).slice(5)}`,character:who?.characterId??null,room:seat?.location??null};
+ // "Player" keeps its number on one line, with a no-break space (the Lead's polish, the owner's approval of 18 November).
+ return {seat:seatId,name:who?.displayName||`Player\u00a0${String(seatId).slice(5)}`,character:who?.characterId??null,room:seat?.location??null};
 }
 /** live, stale (reconnecting, or the phase has run out) or concealed, as the room scene's. */
 export function actionsStatus(model){
@@ -74,7 +76,9 @@ const withKind=(frame,kind)=>({sub:null,back:false,close:true,detent:'auto',acti
  * waits for the view that shows the turn has moved past the viewer. A pass ends its turn's phase, and the controller
  * clears an in-flight send at a phase change, so that view can come after the accepted step, or instead of it.
  *   stage: choosing (targets, slots), checking (confirm), sent (sending), accepted, unknown, retry (sending again),
- *   moved (a move the board now shows), passed (a pass the view now shows; `seen`, the phase it was first shown in)
+ *   moved (a move the board now shows), passed (a pass the view now shows; `seen`, the phase it was first shown in),
+ *   refused (R2 with A3: this phone's own Register, refused; `refusal`, the model's words, and `refusedAt`, the view's
+ *   revision: held while those last, in the action's phase and before it runs out)
  */
 export function actionsFlow(flow,model){
  if(!player(model)||!model.ownSeatId)return null;
@@ -92,6 +96,15 @@ export function actionsFlow(flow,model){
    if(flow.stage==='passed')return flow.seen===phase?flow:null;
    if(['sent','accepted'].includes(flow.stage)&&turnPassed(model,flow))return {...flow,stage:'passed',seen:phase};
    if(flow.stage==='accepted'&&flow.phase===phase)return flow;
+  }
+  // This phone's own Register, refused (R2 with A3, the Lead's approval of 18 November): the check is held open with
+  // the model's words, verbatim, and Register off, as the controller has dropped the choice. The words hold for the
+  // view they came in (refusalHeld: a re-read of it clears the controller's message, and keeps them); they go with
+  // the next view, other words, a connection not live, the next tap and the phase.
+  if(mine&&FLOWS.has(flow.type)&&flow.phase===phase&&!model.phase?.expired){
+   if(flow.stage==='refused'&&refusalHeld(model,flow.refusal,flow.refusedAt))return flow;
+   const words=flow.stage==='sent'?refusalWords(model,flow.type):null;
+   if(words)return {...flow,stage:'refused',refusal:words,refusedAt:model.revision??null};
   }
   return null;
  }
@@ -177,6 +190,8 @@ export function actionsFrame(model,{listOpen=false,flow=null}={}){
   }
   return undefined;
  }
+ // This phone's own Register, refused (R2 with A3): its check, held open with Register off.
+ if(flow?.stage==='refused'&&FLOWS.has(flow.type))return withKind(checkSheet({type:flow.type,phase:'ready',canRegister:false}),'action-check');
  // Once the server has the Disabler's position: the bar says it over the dark room, with no sheet (sheet 30).
  if(model.dark&&model.panel==='actions'&&model.privateArea?.blackoutTargeting?.selectedSlotId)return null;
  if(model.panel==='actions'&&!model.dark&&!model.phase?.expired)return tilesFrame(model);
@@ -318,7 +333,8 @@ export function actionsPart(model,{frame=null,flow=null,reducedMotion=false}={})
   case 'actions':return {name:'tiles',key:'tiles',input:{...common,turn:!model.dark&&!!model.ownSeatId&&model.activeSeatId===model.ownSeatId?'own':'other',round:Number.isSafeInteger(model.round)?model.round:null,tiles:actionsTiles(model),note:null}};
   case 'action-list':return action?{name:'list',key:`list:${action.type}`,input:{...common,type:action.type,groups:actionsListGroups(model),picked:action.selected.filter(isSeat)}}:null;
   case 'action-check':{
-   if(!action)return null;
+   // A refused Register (R2 with A3): the check as it showed, kept by its key as while it sent, with the model's words.
+   if(!action)return flow?.stage==='refused'&&FLOWS.has(flow.type)?{name:'check',key:`check:${flow.type}`,input:{...common,error:{text:flow.refusal}}}:null;
    if(action.step==='sending')return {name:'check',key:`check:${action.type}`,input:common};
    const position=flowPosition(flow,action.type);
    // A move's check names its position; without this phone's own tap there is none to name, and it draws nothing.
@@ -334,6 +350,9 @@ export function actionsPart(model,{frame=null,flow=null,reducedMotion=false}={})
   default:return null;
  }
 }
+
+/** The refusal's words Actions' held check shows (R2), or null: the game's status line hides while they show. */
+export const actionsRefusal=flow=>flow?.stage==='refused'?flow.refusal:null;
 
 /**
  * What the screen-reader facts' current step and checkpoint say at Actions' After Register (A16; the Lead's option 1,
@@ -384,17 +403,15 @@ export function actionsHandlers({model,begin,choose,confirm,dismiss,openPanel,ho
 }
 
 /**
- * What Cancel does. On the target bar: back to the tiles, or, once the Disabler's position is fixed, only hide
- * the bar on this phone (T2). In the check: a move returns to choosing with nothing picked (Q1); anything else to
- * the tiles. While the command sends, Cancel only closes the check (L5): it recalls nothing.
- *   'tiles': openPanel('actions'); 'restart': the move's tile again; 'dismiss': close; null: not Actions'.
+ * What Cancel does. On the target bar: back to the tiles. The Disabler's fixed bar has no Cancel (actions-0.2.4, the
+ * owner's approval). In the check: a move returns to choosing with nothing picked (Q1); anything else, and a refused
+ * Register's held check (R2), to the tiles. While the command sends, Cancel only closes the check (L5): it recalls
+ * nothing.
+ *   'tiles': openPanel('actions'); 'restart': the move's tile again; null: not Actions' (the caller closes).
  */
-export function actionsCancel(model,{where='target'}={}){
+export function actionsCancel(model,{where='target',flow=null}={}){
  const action=model.action;
- if(!action){
-  if(where==='target'&&model.dark&&model.privateArea?.blackoutTargeting?.selectedSlotId)return 'dismiss';
-  return null;
- }
+ if(!action)return where==='check'&&flow?.stage==='refused'?'tiles':null;
  if(!HELD.has(action.type)||action.type==='PASS_TURN')return null;
  if(where==='check'&&action.type==='MOVE'&&action.step==='confirm')return 'restart';
  return 'tiles';

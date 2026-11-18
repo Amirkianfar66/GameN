@@ -102,8 +102,10 @@ test('the input: the quota, the talk\'s partner only during the 60 s talk, the c
  assert.deepEqual(promisesInput(model({},{promiseQuota:{given:true,received:true}})).quota,{given:true,received:true});
  assert.deepEqual(input.talk,{seat:1,name:'Crew 1',character:'c1'});
  assert.deepEqual(input.offer,ON);assert.deepEqual(input.answer,{accept:ON,decline:ON});
- // Exactly the offer's promiseTargetSeatIds, in its order; a seat with no identity is "Player n".
- assert.deepEqual(input.targets,[{seat:1,name:'Crew 1',character:'c1'},{seat:3,name:'Crew 3',character:'c3'},{seat:9,name:'Player 9',character:null}]);
+ // Exactly the offer's promiseTargetSeatIds, in its order; a seat with no identity is "Player n", the number kept with
+ // its word by a no-break space (the Lead's polish, the owner's approval of 18 November).
+ assert.deepEqual(input.targets,[{seat:1,name:'Crew 1',character:'c1'},{seat:3,name:'Crew 3',character:'c3'},{seat:9,name:'Player\u00a09',character:null}]);
+ assert.equal(input.error,null,'no refusal until this phone\'s own command is refused (R2)');
  // The talk's other player, whichever side this phone is on; nobody's when this phone isn't in the talk.
  assert.equal(promisesPartner(model({talk:{id:'t',actorSeatId:'seat-2',targetSeatId:'seat-4'}})),'seat-2');
  assert.equal(promisesPartner(model({talk:{id:'t',actorSeatId:'seat-2',targetSeatId:'seat-3'}})),null);
@@ -230,10 +232,11 @@ test('the taps: the view and draft are local; Offer makes the controller\'s own 
  t.h.action('back');assert.equal(t.flow().view,'kinds');
  assert.ok(t.calls.every(([what])=>what==='flow'),'only local until Offer');
  // Offer: the controller's own steps, the partner, the kind (and Jail Vote's player), then its confirm.
+ // Once the controller has the Offer, the flow notes it as this phone's own (`sent`, R2): a refusal then is its.
  t=run({flow:{view:'confirm',kind:'MEET_B',target:null}});t.h.action('offer');
- assert.deepEqual(t.calls,[['begin','OFFER_PROMISE'],['choose','seat-1'],['choose','MEET_B'],['confirm']]);
+ assert.deepEqual(t.calls,[['begin','OFFER_PROMISE'],['flow',{view:'confirm',kind:'MEET_B',target:null,sent:'OFFER_PROMISE'}],['choose','seat-1'],['choose','MEET_B'],['confirm']]);
  t=run({flow:{view:'confirm',kind:'JAIL_VOTE',target:3},steps:3});t.h.action('offer');
- assert.deepEqual(t.calls,[['begin','OFFER_PROMISE'],['choose','seat-1'],['choose','JAIL_VOTE'],['choose','seat-3'],['confirm']]);
+ assert.deepEqual(t.calls,[['begin','OFFER_PROMISE'],['flow',{view:'confirm',kind:'JAIL_VOTE',target:3,sent:'OFFER_PROMISE'}],['choose','seat-1'],['choose','JAIL_VOTE'],['choose','seat-3'],['confirm']]);
  // The controller's refusal stops it: nothing chosen or confirmed after a refused begin; no confirm unless it is ready.
  t=run({flow:{view:'confirm',kind:'MEET_B',target:null},refuse:true});t.h.action('offer');assert.deepEqual(t.calls,[['begin','OFFER_PROMISE']]);
  t=run({flow:{view:'confirm',kind:'MEET_B',target:null},steps:5});t.h.action('offer');assert.ok(!t.calls.some(([what])=>what==='confirm'));
@@ -244,7 +247,7 @@ test('the taps: the view and draft are local; Offer makes the controller\'s own 
  // Accept and Decline: the incoming offer's id, then confirm.
  for(const [id,type]of [['accept','ACCEPT_PROMISE'],['decline','DECLINE_PROMISE']]){
   t=run({flow:{view:'incoming',kind:null,target:null},steps:1});t.h.action(id);
-  assert.deepEqual(t.calls,[['begin',type],['choose','in-1'],['confirm']],id);
+  assert.deepEqual(t.calls,[['begin',type],['flow',{view:'incoming',kind:null,target:null,sent:type}],['choose','in-1'],['confirm']],id);
   t=run({flow:{view:'list',kind:null,target:null},steps:1});t.h.action(id);assert.deepEqual(t.calls,[],`${id} from the list`);
   t=run({at:model({},{promises:[]}),flow:{view:'incoming',kind:null,target:null},steps:1});t.h.action(id);assert.deepEqual(t.calls,[],`${id} with nothing to answer`);
  }

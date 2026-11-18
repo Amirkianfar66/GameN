@@ -57,7 +57,8 @@ export function panelsPlayers(model){
  const offices=model.offices??{};
  return (model.board?.seats??[]).map(seat=>{
   const n=seatNumber(seat.seatId),identity=who.get(seat.seatId);
-  return {seat:n,name:identity?.displayName||`Player ${n}`,character:identity?.characterId??null,location:seat.location??null,health:seat.health,
+  // "Player" keeps its number on one line, with a no-break space (the Lead's polish, the owner's approval of 18 November).
+  return {seat:n,name:identity?.displayName||`Player\u00a0${n}`,character:identity?.characterId??null,location:seat.location??null,health:seat.health,
    jailed:seat.jailed===true,captain:!!offices.captainSeatId&&offices.captainSeatId===seat.seatId,officer:!!offices.officerSeatId&&offices.officerSeatId===seat.seatId};
  }).filter(p=>p.seat!==null).sort((a,b)=>a.seat-b.seat);
 }

@@ -25,6 +25,16 @@
 //   round-order                 Round order: the game's steps for the tuple, in its order and words, each with its icon
 //   panels-food, players-away   the frozen Food release while players are away on its Task: the Panels tab from the Task's
 //                               own tabs, with its Tasks button after the list; Players, the game's own lines alone
+//   promises … promise-confirm  Promises (#297) in the 60 s talk: the list, the six kinds, Jail Vote's player, the terms
+//   promise-refused             the controller's own check refuses the offer: its words in the sheet's inline error (R2)
+//   promise-refused-back        Back clears them; they come back neither in the status line nor with the terms
+//   promise-sent, -waiting      Meet in Room B: one OFFER_PROMISE, its receipt's toast; the next view has it waiting
+//   promise-incoming, -accepted the partner's offer, accepted: one ACCEPT_PROMISE, and Received shows it
+//   refused-next-view           a refusal's words go with the next view; the terms stay
+//   refused-elsewhere           and with a tap out of the sheet (the top bar's Promises)
+//   refused-concealed           and with a hidden page: nothing of them stays, nor when the page shows again
+//   refused-phase-closed        and with the talk: the sheet closes with its phase, and no words are left
+//   promise-results             after the talk: Received and Given with their status
 // A capture passes with no unexpected policy report, no failed request and no page error; the shell mounted with
 // the stage in it and none of the old chrome; and the state's own facts. It writes
 // design/phone-ui/review/match-connection/: one JPEG per state and size, and check.json (the headers and their
@@ -163,6 +173,11 @@ const PICK = seat => `${PROMISES} [data-intent="target"][data-value="${seat}"]`;
 const PRESSED = selector => `document.querySelector(${JSON.stringify(selector)})?.getAttribute('aria-pressed')==='true'`;
 const TOP_PROMISES = '.ms-ps-tb [data-intent="promises"]';
 const SHEET_BACK = '.ms-ps-sheet [data-intent="sheet-back"]';
+/** How many times the session has read the view: it reads it every 2 s, changed or not (session.ts). */
+const READS = "window.planetHarness.requests.filter(r=>r.operation==='read').length";
+/** A refused command's words in Promises' part (R2): the kit's inline error. */
+const NOTE = `document.querySelector(${JSON.stringify('.ms-ps-sheet .ms-ps-sheet-body > .ms-promises .ms-k-error')})`;
+const REFUSED_WORDS = 'That choice is no longer offered.';
 const SHEET_CLOSE = '.ms-ps-sheet [data-intent="sheet-close"]';
 /** The phone's own turn, in a board scenario: the offers of a scenario, as its view has them, with more. */
 const offers = list => edit(`p.offers=${JSON.stringify(list)}`);
@@ -220,7 +235,15 @@ const LOOK = `(() => {
       notes: [...p.querySelectorAll('.ms-k-group-note')].filter(n => !n.hidden && !n.closest('[hidden]')).map(text),
       tiles: [...p.querySelectorAll('.ms-k-tile')].map(n => ({ value: n.dataset.value, state: n.dataset.state, pressed: n.getAttribute('aria-pressed'), name: text(n.querySelector('.ms-k-tile-name')) })),
       card: (c => c && !c.hidden ? { name: text(c.querySelector('.ms-pr-card-name')), terms: c.querySelector('.ms-pr-card-terms')?.hidden ? null : text(c.querySelector('.ms-pr-card-terms')), portrait: !!c.querySelector('.ms-k-pt') } : null)(p.querySelector('.ms-pr-card')),
-      facts: [...p.querySelectorAll('.ms-k-facts li')].map(text), text: text(p) } : null)(document.querySelector(${JSON.stringify(PROMISES)})),
+      facts: [...p.querySelectorAll('.ms-k-facts li')].map(text),
+      // A refused command's words (R2): the kit's inline error, its role, whether it is the body's last part (only the
+      // component's screen-reader text may follow it) and whether it is whole in the sheet's body as it shows.
+      error: (e => e ? { text: text(e.querySelector('.ms-k-error-text')), role: e.getAttribute('role'),
+        last: (() => { let n = e.nextElementSibling; while (n?.classList.contains('ms-k-vh')) n = n.nextElementSibling; return n === null; })(),
+        whole: (() => { const r = e.getBoundingClientRect(), b = body?.getBoundingClientRect(); return !!b && r.top >= b.top - 0.5 && r.bottom <= b.bottom + 0.5; })() } : null)(p.querySelector('.ms-k-error')),
+      text: text(p) } : null)(document.querySelector(${JSON.stringify(PROMISES)})),
+    // Every inline error on the phone: a refusal's words show in one place at most.
+    notes: all('.ms-k-error').length,
     stage: { inShell: !!document.querySelector('.ms-ps-stage > .planet-stage'), scene: document.querySelector('.planet-stage .ms-room-scene')?.dataset.room ?? null, view: document.querySelector('.planet-stage')?.dataset.view ?? null,
       lighting: document.querySelector('.planet-stage .ms-room-scene')?.dataset.lighting ?? null,
       presses: [...document.querySelectorAll('.planet-stage .ms-rs-press')].map(p => p.dataset.value + (p.hasAttribute('data-picked') ? '*' : '')),
@@ -236,7 +259,7 @@ const LOOK = `(() => {
     hiddenCheckpoint: document.querySelector('.planet-shared-checkpoint')?.textContent ?? null,
     // What a state's steps noted on the way (the moved state: before the view that moves the viewer).
     before: window.__matchBefore ?? null,
-    model: model ? { connection: model.connection, concealed: model.concealed, phase: model.phase?.kind ?? null, panel: model.panel, ownSeatId: model.ownSeatId, round: model.round,
+    model: model ? { connection: model.connection, concealed: model.concealed, phase: model.phase?.kind ?? null, panel: model.panel, ownSeatId: model.ownSeatId, round: model.round, message: model.message, revision: model.revision ?? null,
       own: (seat => seat ? seat.location + ' ' + seat.slotId : null)(model.board?.seats?.find(x => x.seatId === model.ownSeatId)),
       action: model.action ? { type: model.action.type, step: model.action.step, selected: model.action.selected } : null, recovery: model.recovery,
       food: model.food?.step ? { step: model.food.step.kind, away: model.food.step.awaySeatIds ?? null } : null } : null,
@@ -271,6 +294,22 @@ const STEPS = {
   promises: async page => {
     await page.evaluate(tap(TOP_PROMISES));
     await page.waitFor(`${SHEET('promises')}&&${PVIEW('list')}`, 'Promises');
+  },
+  /** Jail Vote with Crew 3, offered: the controller's own check refuses it, and its words show in the sheet. */
+  refused: async page => {
+    await STEPS.promises(page);
+    await page.evaluate(tap(PROW('offer')));
+    await page.waitFor(PVIEW('kinds'), 'the six kinds');
+    await page.evaluate(tap(KIND('JAIL_VOTE')));
+    await page.waitFor(PRESSED(KIND('JAIL_VOTE')), 'Jail Vote chosen');
+    await page.evaluate(tap(FOOT('next')));
+    await page.waitFor(PVIEW('target'), 'Jail Vote\'s player');
+    await page.evaluate(tap(PICK(3)));
+    await page.waitFor(PRESSED(PICK(3)), 'Crew 3 chosen');
+    await page.evaluate(tap(FOOT('next')));
+    await page.waitFor(PVIEW('confirm'), 'the terms');
+    await page.evaluate(tap(FOOT('offer')));
+    await page.waitFor(NOTE, 'the refusal\'s words in the sheet');
   },
   move: async page => {
     await page.evaluate(offers([offer('PASS_TURN'), offer('MOVE', [], ['B5', 'C1']), offer('SCAN', ['seat-1', 'seat-2']), offer('SUBMIT_CODE', ['seat-1', 'seat-2'])]));
@@ -699,15 +738,62 @@ const STATES = {
   // Offer, with Jail Vote and Crew 3: the controller makes its own draft (the partner, the kind, the player) and
   // its own check refuses it ("That choice is no longer offered."): it looks for the Jail Vote's player among the
   // offer's recipients (apps/game/src/planet/controller.ts commandAllowed), so nothing is sent. Frontend's, recorded
-  // as a gap; the sheet keeps the terms, and no draft or target bar is left behind.
+  // as a gap; the sheet keeps the terms, and no draft or target bar is left behind. R2 with A3 (the Lead's approval
+  // of 18 November): the model's words, verbatim, in the kit's inline error, the body's last part, whole above Back
+  // and Offer; the game's status line hides while they show, so they are said once. They hold for the view they came
+  // in: the session reads it again within 2 s (session.ts), where the controller clears its message, and they stay.
   'promise-refused': { from: 'promise-confirm', steps: async page => {
       await page.evaluate(tap(FOOT('offer')));
-      await page.waitFor(`${game}.getModel().message!==null&&${game}.getModel().action===null`, 'the controller\'s answer');
+      await page.waitFor(`${game}.getModel().message!==null&&${game}.getModel().action===null&&${NOTE}`, 'the controller\'s answer, in the sheet');
+      await page.evaluate(`window.__matchBefore={message:${game}.getModel().message,revision:${game}.getModel().revision}`);
     },
     facts: (s, looks) => ({ terms: s.promises?.view === 'confirm' && s.sheet?.title === 'Check the terms' && foot(s) === 'back:Back|offer:Offer',
+      words: s.promises?.error?.text === REFUSED_WORDS && s.before?.message === REFUSED_WORDS, alert: s.promises?.error?.role === 'alert',
+      last: s.promises?.error?.last === true, whole: s.promises?.error?.whole === true, oneNote: s.notes === 1, statusHidden: s.status === null,
       noCommand: s.commands.length === 0, noDraft: s.model?.action === null, noTarget: s.target === null && s.chip === null,
-      sameRoom: s.stage.scene === looks.promises?.stage.scene, infoStatus: s.status }) },
-  'promise-sent': { from: 'promise-refused', steps: async page => {
+      sameRoom: s.stage.scene === looks.promises?.stage.scene }),
+    after: async (page, seen) => {
+      const reads = await page.evaluate(READS);
+      await page.waitFor(`${READS}>${reads}&&${game}.getModel().message===null`, 'the next read of the same view', 6000);
+      await sleep(300);
+      const again = await page.evaluate(LOOK);
+      return { rereadKeeps: again.promises?.error?.text === REFUSED_WORDS && again.notes === 1 && again.model?.message === null && again.model?.revision === seen.before?.revision,
+        rereadStatusHidden: again.status === null };
+    } },
+  // The player's next tap clears the words. Offer again is refused again, with the same words; the footer's Back at
+  // once, before the session's next read clears the controller's message, takes them, and they are not said again:
+  // the status line keeps still while the model's message is the one the sheet showed. Next back to the terms
+  // shows them without the words.
+  'promise-refused-back': { from: 'promise-refused', steps: async page => {
+      await page.evaluate(`(async () => {
+        const frame = () => new Promise(done => requestAnimationFrame(() => done())), view = () => document.querySelector(${JSON.stringify(PROMISES)})?.dataset.view;
+        for (let attempt = 1; attempt <= 3; attempt++) {
+          document.querySelector(${JSON.stringify(FOOT('offer'))}).click();
+          for (let i = 0; i < 60 && !${NOTE}; i++) await frame();
+          const words = ${NOTE}?.querySelector('.ms-k-error-text')?.textContent ?? null;
+          document.querySelector(${JSON.stringify(FOOT('back'))}).click();
+          await frame(); await frame();
+          const status = document.querySelector('.planet-status');
+          const seen = { words, messageAtBack: ${game}.getModel().message, statusAtBack: status && !status.hidden ? status.textContent.trim() : null, notesAtBack: document.querySelectorAll('.ms-phone-shell .ms-k-error').length, attempt };
+          // A read of the view between the two taps clears the message first: then once more, from the terms.
+          if (seen.messageAtBack === seen.words || attempt === 3) { window.__matchBefore = seen; return; }
+          document.querySelector(${JSON.stringify(FOOT('next'))}).click();
+          for (let i = 0; i < 60 && view() !== 'confirm'; i++) await frame();
+        }
+      })()`);
+      await page.waitFor(`${PVIEW('target')}&&${PRESSED(PICK(3))}`, 'back to Crew 3, chosen');
+    },
+    facts: s => ({ target: s.sheet?.title === 'Who will you vote to jail?' && foot(s) === 'next:Next', refusedAgain: s.before?.words === REFUSED_WORDS && s.commands.length === 0,
+      quiet: s.before?.messageAtBack === REFUSED_WORDS && s.before.statusAtBack === null && s.before.notesAtBack === 0,
+      noNote: s.notes === 0 && !s.page.includes(REFUSED_WORDS), statusHidden: s.status === null, infoAttempt: s.before?.attempt }),
+    after: async page => {
+      await page.evaluate(tap(FOOT('next')));
+      await page.waitFor(PVIEW('confirm'), 'the terms again');
+      const seen = await page.evaluate(LOOK);
+      return { termsAgain: seen.promises?.card?.terms?.includes('Player 3') && foot(seen) === 'back:Back|offer:Offer', termsNoNote: seen.notes === 0 && !seen.page.includes(REFUSED_WORDS),
+        termsStatusHidden: seen.status === null };
+    } },
+  'promise-sent': { from: 'promise-refused-back', steps: async page => {
       // Back to the kinds (the footer's Back, then the head's), Meet in Room B, Next, Offer.
       await page.evaluate(tap(FOOT('back')));
       await page.waitFor(PVIEW('target'), 'Jail Vote\'s player');
@@ -755,6 +841,47 @@ const STATES = {
       toast: s.before?.toast === 'Registered. Waiting for the authoritative view.', labels: s.promises?.labels.join('|') === 'With Crew 1 · talking now|Received',
       rows: promiseRows(s) === 'Your quota / Given 0/1 · Received 1/1|Offer a Promise / Six kinds · exact terms|Meet in Room A / From Crew 1 / Pending',
       note: s.promises?.notes.at(-1) === '“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.' }) },
+  // A refusal's words go at the next model change: the next view clears the controller's message (R2).
+  'refused-next-view': { page: 'phone', url: 'scenario=promises', steps: async page => {
+      await STEPS.refused(page);
+      await page.evaluate(edit(''));
+      await page.waitFor(`${game}.getModel().message===null&&!${NOTE}`, 'the next view');
+    },
+    facts: s => ({ terms: s.promises?.view === 'confirm' && s.promises.card?.terms?.includes('Player 3') && foot(s) === 'back:Back|offer:Offer',
+      noNote: s.notes === 0 && !s.page.includes(REFUSED_WORDS), statusClear: s.status === null, noCommand: s.commands.length === 0 }) },
+  // A tap out of the sheet takes them too: the top bar's Promises (render.mjs's calm()).
+  'refused-elsewhere': { page: 'phone', url: 'scenario=promises', steps: async page => {
+      await STEPS.refused(page);
+      await page.evaluate(tap(TOP_PROMISES));
+      await page.waitFor(`!${NOTE}`, 'the words gone');
+    },
+    facts: s => ({ noNote: s.notes === 0 && !s.page.includes(REFUSED_WORDS), statusHidden: s.status === null, noCommand: s.commands.length === 0,
+      infoSheet: s.sheet?.id ?? null, infoView: s.promises?.view ?? null }) },
+  // A hidden page keeps nothing of them, and they do not come back when the page shows again.
+  'refused-concealed': { page: 'phone', url: 'scenario=promises', steps: async page => {
+      await STEPS.refused(page);
+      await page.evaluate("Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>'hidden'});document.dispatchEvent(new Event('visibilitychange'))");
+      await page.waitFor(`${game}.getModel().concealed&&document.querySelector('.ms-phone-shell')?.dataset.status==='concealed'`, 'concealed');
+    },
+    facts: s => ({ nothingLeft: s.notes === 0 && !s.page.includes(REFUSED_WORDS) && s.promises === null, noCommand: s.commands.length === 0 }),
+    after: async page => {
+      await page.evaluate("Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>'visible'});document.dispatchEvent(new Event('visibilitychange'))");
+      await page.waitFor(`!${game}.getModel().concealed&&${game}.getModel().connection==='live'&&document.querySelector('.ms-phone-shell')?.dataset.status==='live'`, 'shown again');
+      const seen = await page.evaluate(LOOK);
+      return { shownNoNote: seen.notes === 0 && !seen.page.includes(REFUSED_WORDS), shownStatusClear: seen.status === null, infoShownSheet: seen.sheet?.id ?? null };
+    } },
+  // The talk's phase ends under the words: the sheet closes with it (the controller clears the panel at a new phase),
+  // and nothing of them is left. The harness answers every command, so the server's own "The server closed that
+  // phase." cannot be drawn here: the connection never shows those words in a sheet (refusal-words.mjs, and
+  // apps/game/test/planet-refusals.test.mjs on the real controller). No phase-closed toast here: the shell's
+  // phaseClosed() looks for a choice the controller holds, and the refused offer left none.
+  'refused-phase-closed': { page: 'phone', url: 'scenario=promises', steps: async page => {
+      await STEPS.refused(page);
+      await page.evaluate(edit("p.phase={id:'after-talk',kind:'ORDINARY_TURN',startedAt:now,endsAt:now+60000};p.hackSession=null;p.activeSeatId='seat-2'"));
+      await page.waitFor(`${game}.getModel().phase?.kind==='ORDINARY_TURN'&&!${NOTE}`, 'the turn after the talk');
+    },
+    facts: s => ({ sheetClosed: s.sheet === null && s.promises === null, noNote: s.notes === 0 && !s.page.includes(REFUSED_WORDS), statusClear: s.status === null,
+      noCommand: s.commands.length === 0, infoToast: s.toast }) },
   // The results (sheet 33.1), after the talk: Received and Given with their status, names and portraits.
   'promise-results': { page: 'phone', url: 'scenario=promise-results', steps: async page => {
       await page.evaluate(edit("p.phase={id:'after-talk',kind:'ORDINARY_TURN',startedAt:now,endsAt:now+60000};p.hackSession=null;p.activeSeatId='seat-2'"));

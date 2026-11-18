@@ -24,11 +24,12 @@ import {roomSceneArtReady,roomSceneHandlers,roomSceneInput,roomSceneInputKey,roo
 import {mountPhoneShell} from '../../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
 import {connectShellLifecycle,createServerClock,ownPersonSeen,phaseClosed,shellFocusOrder,shellHandlers,shellHostSheet,shellInput,shellRuns} from './shell-input.mjs';
 import {mountActionCheck,mountActions,mountAfterRegister,mountOutcomeUnknown,mountPassNote,mountTargetList} from '../../../../design/phone-ui/components/actions/actions.mjs';
-import {EVERY_ROLE_TILES,ROLE_TILES,actionsCancel,actionsFlow,actionsHandlers,actionsHeard,actionsPart,holdActionsPick} from './actions-input.mjs';
+import {EVERY_ROLE_TILES,ROLE_TILES,actionsCancel,actionsFlow,actionsHandlers,actionsHeard,actionsPart,actionsRefusal,holdActionsPick} from './actions-input.mjs';
 import {mountPanels} from '../../../../design/phone-ui/components/panels/panels.mjs';
 import {panelsHandlers,panelsPart,panelsView} from './panels-input.mjs';
 import {mountPromises} from '../../../../design/phone-ui/components/promises/promises.mjs';
-import {PROMISE_COMMANDS,promisesFlow,promisesHandlers,promisesPart} from './promises-input.mjs';
+import {PROMISE_COMMANDS,promisesFlow,promisesHandlers,promisesPart,promisesRefusal,withoutRefusal} from './promises-input.mjs';
+import {refusalStatus} from './refusal-words.mjs';
 
 const windowNames={A_B:'Room A ↔ Room B',A_HOSPITAL:'Room A ↔ Hospital',B_JAIL:'Room B ↔ Jail'};
 const number=id=>id?`Player ${id.slice(5)}`:'—';
@@ -90,13 +91,18 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  let flow=null,part=null;
  // Promises (release 3): this phone's own view and draft in the promises component's sheet (promises-input.mjs promisesFlow).
  let promises=null;
+ // A refused command's words in the open sheet (R2 with A3): they go at the player's next intent, any tap in the sheet
+ // or out of it (`calm`); `said` is the last words shown there, which the status line then doesn't repeat
+ // (refusal-words.mjs refusalStatus).
+ let said=null;
+ const calm=()=>{if(actionsRefusal(flow))flow=null;promises=withoutRefusal(promises);};
  // The shell's own element (its mount's `element`) holds its controls: the sheet's footer actions and the controls
  // the focus returns to are found there by their intents.
  const focusConfirm=()=>shell.element?.querySelector('[data-intent="sheet-action"]:is([data-value="register"],[data-value="confirm"])')?.focus({preventScroll:true});
  const focusBack=()=>{const pick=shellFocusOrder(opener,{choosing}).map(css=>shell.element?.querySelector(css)).find(Boolean);pick?.focus({preventScroll:true});};
- const openPanel=panel=>{more=false;controller.openPanel(panel);};
- const begin=type=>{more=false;controller.begin(type);};
- const dismiss=()=>{more=false;listOpen=false;controller.dismiss();};
+ const openPanel=panel=>{more=false;calm();controller.openPanel(panel);};
+ const begin=type=>{more=false;calm();controller.begin(type);};
+ const dismiss=()=>{more=false;listOpen=false;calm();controller.dismiss();};
  // Every tap that chooses goes through Actions' handlers: they keep this phone's pick (the model has none at the
  // check, A2) and replay a move's room and position (actions-input.mjs actionsHandlers).
  const actions=actionsHandlers({model:()=>controller.getModel(),begin,choose:value=>controller.choose(value),confirm:()=>controller.confirm(),dismiss,openPanel,
@@ -108,8 +114,9 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  const promiseTaps=promisesHandlers({model:()=>controller.getModel(),flow:()=>promises,setFlow:next=>{promises=next;render(controller.getModel());},
   begin,choose:value=>controller.choose(value),confirm:()=>controller.confirm(),focusReturn:()=>focusBack(),live:()=>!disposed&&!!model});
  const choose=value=>actions.choose(value);
- // Cancel: back to the tiles, a move back to choosing, or only closed (actionsCancel); the rest as before.
- const cancel=where=>{const next=actionsCancel(controller.getModel(),{where});if(next==='tiles')openPanel('actions');else if(next==='restart')actions.onTile('MOVE');else dismiss();};
+ // Cancel: back to the tiles (a refused Register's held check too, R2), a move back to choosing, or only closed
+ // (actionsCancel); the rest as before.
+ const cancel=where=>{const next=actionsCancel(controller.getModel(),{where,flow});if(next==='tiles'){flow=null;openPanel('actions');}else if(next==='restart')actions.onTile('MOVE');else dismiss();};
  const shell=mountPhoneShell(shellHost,{},shellHandlers({
   live:()=>!disposed&&!!model,
   openPanel,begin,
@@ -119,10 +126,10 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   checkReceipt:()=>void controller.checkReceipt(),
   cancelTarget:()=>cancel('target'),
   cancelCheck:()=>cancel('check'),
-  toggleView:()=>switchView(),
-  showBoard:()=>{sceneMode='board';uiKey=null;render(controller.getModel());},
-  openList:()=>{listOpen=true;render(controller.getModel());},
-  closeList:()=>{listOpen=false;render(controller.getModel());},
+  toggleView:()=>{calm();switchView();},
+  showBoard:()=>{calm();sceneMode='board';uiKey=null;render(controller.getModel());},
+  openList:()=>{calm();listOpen=true;render(controller.getModel());},
+  closeList:()=>{calm();listOpen=false;render(controller.getModel());},
   reconnect:()=>reconnect?.(),
   layout:next=>{shellLayout=next;render(controller.getModel());},
   opened:detail=>{opener=detail;},
@@ -533,8 +540,11 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   shellFrame=input.sheet;choosing=!!input.target;
   // The shared display's status line and a message stay the game's; while the reconnecting banner shows, it says it.
   // Concealed, it hides itself, as everything of this viewer's in the shell does. While Actions' "Outcome unknown"
-  // is open, its notice says it, with the command named: one message, not two (the Lead, 17 November).
-  status.textContent=model.dark?'':model.message??'';status.hidden=!status.textContent||model.action?.prompt===model.message||input.banner?.kind==='reconnecting'||input.status==='concealed'||input.sheet?.kind==='action-unknown';
+  // is open, its notice says it, with the command named: one message, not two (the Lead, 17 November). A refused
+  // command's words in the open sheet (R2) say it there, and once they go, the line doesn't say them again (`said`).
+  const noted=input.sheet?.kind==='action-check'?actionsRefusal(flow):input.sheet?.kind==='promises'?promisesRefusal(promises):null;
+  const quieted=refusalStatus(said,model,noted);said=quieted.said;
+  status.textContent=model.dark?'':model.message??'';status.hidden=!status.textContent||model.action?.prompt===model.message||input.banner?.kind==='reconnecting'||input.status==='concealed'||input.sheet?.kind==='action-unknown'||quieted.quiet;
   const nextShellKey=JSON.stringify(input);if(nextShellKey!==shellKey){shellKey=nextShellKey;shell.update(input);}
   syncShellActivity();syncSheetPart(input.status);mountSheetBody();
   // At Actions' After Register the unseen step and checkpoint say its headline, as drawn (A16, the Lead, 17 November).

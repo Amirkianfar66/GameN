@@ -32,7 +32,8 @@ test('the bar: another player\'s turn, your turn, a phase, the pair, the Blackou
  const own=shellBar(model({activeSeatId:'seat-4',canPass:true}));
  assert.equal(own.kind,'turn');assert.equal(own.self,true);assert.deepEqual(own.who,{seat:'seat-4',name:'Crew 4',character:'c4'});
  // A seat without a display name keeps the bar's "Player n", as the header did; no character, no portrait.
- assert.deepEqual(shellBar(model({identities:[]})).who,{seat:'seat-5',name:'Player 5',character:null});
+ // A seat the identities don't name is "Player 5", the number kept with its word by a no-break space (the owner's approval, 18 November).
+ assert.deepEqual(shellBar(model({identities:[]})).who,{seat:'seat-5',name:'Player\u00a05',character:null});
  // The game's own phase bars (the votes, Food Supply, the talk for those not in it): today's names, the pack's
  // icons, the board's label as the line under the name.
  const vote=shellBar(model({phase:phase('JAIL_VOTE'),activeSeatId:null,boardLabel:'After Blackout · Round 3'}));
@@ -88,7 +89,7 @@ test('a phase with no active player: Designer\'s words (phase-bars.mjs), from fa
  // appointment open, keeps the amber.
  const others=bar({phase:phase('OFFICER_APPOINTMENT',{endsAt:30000,remainingMs:9000})});
  assert.deepEqual(others,{kind:'phase',icon:'officer',title:'New Officer',sub:'Crew 5 chooses',round:3,timer:{remainingMs:9000,urgentAtMs:-1},...player});
- assert.equal(bar({phase:phase('OFFICER_APPOINTMENT'),identities:[]}).sub,'Player 5 chooses');
+ assert.equal(bar({phase:phase('OFFICER_APPOINTMENT'),identities:[]}).sub,'Player\u00a05 chooses');
  assert.equal(bar({phase:phase('OFFICER_APPOINTMENT'),offices:{captainSeatId:null,officerSeatId:null,blockedSeatId:null}}).sub,undefined,'no Captain named, the title alone');
  const appoint=action('APPOINT_OFFICER','targets',['seat-1','seat-2'],{label:'Appoint Officer'});
  const captain=bar({phase:phase('OFFICER_APPOINTMENT',{endsAt:30000,remainingMs:9000}),ownSeatId:'seat-5',action:appoint});
@@ -193,7 +194,7 @@ test('the tabs: the view, the open tab and the round button\'s modes, usable onl
  assert.deepEqual(checkTabs(tabs).me,{seat:'seat-4',number:null,name:'Crew 4',character:'c4'});
  // Before a character is chosen the person has none, and the shell keeps the card icon; with no seat, no person.
  assert.deepEqual(shellTabs(model({identities:identities.map(i=>i.seatId==='seat-4'?{...i,characterId:null}:i)})).me,{seat:'seat-4',name:'Crew 4',character:null});
- assert.deepEqual(shellTabs(model({identities:[]})).me,{seat:'seat-4',name:'Player 4',character:null});
+ assert.deepEqual(shellTabs(model({identities:[]})).me,{seat:'seat-4',name:'Player\u00a04',character:null});
  assert.equal(shellTabs(model({ownSeatId:null})).me,null);
  // It is the viewer's own, never the active player's: here seat 5 has the turn.
  assert.equal(shellTabs(model({activeSeatId:'seat-5'})).me.seat,'seat-4');
@@ -205,15 +206,15 @@ test('the tabs: the view, the open tab and the round button\'s modes, usable onl
   assert.deepEqual(ownPersonSeen(mine,lost({connection})),mine,`${connection}: the one kept`);
   assert.deepEqual(shellTabs(lost({connection}),{seen:mine}).me,mine,`${connection}: the tab draws it`);
  }
- assert.deepEqual(shellTabs(lost()).me,{seat:'seat-4',name:'Player 4',character:null},'none kept: the card icon');
+ assert.deepEqual(shellTabs(lost()).me,{seat:'seat-4',name:'Player\u00a04',character:null},'none kept: the card icon');
  assert.equal(ownPersonSeen(null,lost()),null,'nothing seen before the connection was lost: nothing kept');
  // Live again, the model's own person is drawn, never the kept one.
  assert.deepEqual(shellTabs(model(),{seen:{seat:'seat-4',name:'Old name',character:'c9'}}).me,mine);
  // In the dark the model gives no identities: that is what is kept, so no portrait from before the dark comes back.
- assert.deepEqual(ownPersonSeen(mine,model({dark:true,identities:[]})),{seat:'seat-4',name:'Player 4',character:null});
+ assert.deepEqual(ownPersonSeen(mine,model({dark:true,identities:[]})),{seat:'seat-4',name:'Player\u00a04',character:null});
  // Another seat never takes the kept person, and a shared display keeps none.
  assert.equal(ownPersonSeen(mine,lost({ownSeatId:'seat-5'})),null);
- assert.deepEqual(shellTabs(lost({ownSeatId:'seat-5'}),{seen:mine}).me,{seat:'seat-5',name:'Player 5',character:null});
+ assert.deepEqual(shellTabs(lost({ownSeatId:'seat-5'}),{seen:mine}).me,{seat:'seat-5',name:'Player\u00a05',character:null});
  assert.equal(ownPersonSeen(mine,model({surface:'display',ownSeatId:null})),null);
  assert.equal(ownPersonSeen(mine,model({ownSeatId:null})),null);
  // shellInput hands it on to the tabs, and to nothing else.

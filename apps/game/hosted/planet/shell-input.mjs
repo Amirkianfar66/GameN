@@ -34,7 +34,8 @@ const isSeat=value=>/^seat-[1-9]$/.test(value);
 /** A public person for the bar: the seat, the display name (or "Player n") and the crew character. */
 function person(model,seatId){
  const who=model.identities?.find(identity=>identity.seatId===seatId);
- return {seat:seatId,name:who?.displayName||`Player ${String(seatId).slice(5)}`,character:who?.characterId??null};
+ // "Player" keeps its number on one line, with a no-break space (the Lead's polish, the owner's approval of 18 November).
+ return {seat:seatId,name:who?.displayName||`Player\u00a0${String(seatId).slice(5)}`,character:who?.characterId??null};
 }
 
 /** live, stale (connecting, reconnecting or an error) or concealed. The Food surface over the chrome conceals the shell. */

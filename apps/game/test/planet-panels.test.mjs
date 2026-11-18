@@ -72,8 +72,9 @@ test('Players: every seat\'s public facts, in seat order, and nothing else; the 
  for(const p of players)assert.deepEqual(Object.keys(p),['seat','name','character','location','health','jailed','captain','officer']);
  assert.deepEqual(players[0],{seat:1,name:'Crew 1',character:'c1',location:'Room A',health:'Healthy',jailed:false,captain:true,officer:false});
  assert.deepEqual(players[4],{seat:5,name:'Crew 5',character:'c5',location:'Room B',health:'Healthy',jailed:false,captain:false,officer:true});
- // A seat the identities do not name is "Player 9", with no portrait; the board's jail and health stay as given.
- assert.deepEqual(players[8],{seat:9,name:'Player 9',character:null,location:'Room B',health:'Healthy',jailed:false,captain:false,officer:false});
+ // A seat the identities do not name is "Player 9", with no portrait, "Player" kept with its number by a no-break space
+ // (the Lead's polish, the owner's approval of 18 November); the board's jail and health stay as given.
+ assert.deepEqual(players[8],{seat:9,name:'Player\u00a09',character:null,location:'Room B',health:'Healthy',jailed:false,captain:false,officer:false});
  assert.deepEqual(accepted({players}).players.map(playerLine),['Room A','Room A','Hospital · Injured','Room B','Room B','Command Room','In Jail · Injured','Eliminated','Room B']);
  // No offices, no badges.
  assert.ok(panelsPlayers(model({offices:{captainSeatId:null,officerSeatId:null,blockedSeatId:null}})).every(p=>!p.captain&&!p.officer));

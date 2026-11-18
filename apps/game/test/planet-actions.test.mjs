@@ -377,7 +377,7 @@ test('the taps: a tile begins its action; a move opens on the viewer\'s room; on
  alive=false;calls=[];handlers.onTile('RESCUE');handlers.onPick('seat-3');handlers.choose('B4');assert.deepEqual(calls,[]);
 });
 
-test('Cancel: on the bar back to the tiles, a move\'s check back to choosing (Q1), a fixed position only hidden (T2); the shell routes it',()=>{
+test('Cancel: on the bar back to the tiles, a move\'s check back to choosing (Q1), a refused Register\'s held check back to the tiles (R2); the shell routes it',()=>{
  assert.equal(actionsCancel(model({action:action('RESCUE','targets',['seat-3'])})),'tiles');
  assert.equal(actionsCancel(model({action:action('RESCUE','confirm')}),{where:'check'}),'tiles');
  assert.equal(actionsCancel(model({action:action('MOVE','confirm')}),{where:'check'}),'restart');
@@ -385,8 +385,14 @@ test('Cancel: on the bar back to the tiles, a move\'s check back to choosing (Q1
  // While it sends, Cancel only closes the check (L5): back to the tiles, recalling nothing.
  assert.equal(actionsCancel(model({action:action('MOVE','sending')}),{where:'check'}),'tiles');
  assert.equal(actionsCancel(model({dark:true,action:action('SELECT_BLACKOUT_SLOT','slots',['A1'])})),'tiles');
- assert.equal(actionsCancel(model({dark:true,panel:'actions',privateArea:{blackoutTargeting:{windowId:'w',boundRoom:'Room A',selectable:false,selectedSlotId:'A1',slotIds:['A1']}}})),'dismiss');
+ // The fixed Disabler bar has no Cancel since actions-0.2.4 (the owner's approval), so it asks nothing here: not Actions'.
+ assert.equal(actionsCancel(model({dark:true,panel:'actions',privateArea:{blackoutTargeting:{windowId:'w',boundRoom:'Room A',selectable:false,selectedSlotId:'A1',slotIds:['A1']}}})),null);
  for(const over of [{},{action:action('PASS_TURN','confirm')},{action:action('BLOCK_MOVE','targets',['seat-1'])}])assert.equal(actionsCancel(model(over)),null);
+ // A refused Register's held check (R2): Cancel goes back to the tiles; on a bar, or without the refusal, nothing is Actions'.
+ const refused={match:'match-1',viewer:'seat-4',type:'RESCUE',phase:'turn-1',seats:['seat-3'],slot:null,room:null,stage:'refused',refusal:'The server did not allow that command.',refusedAt:3};
+ assert.equal(actionsCancel(model(),{where:'check',flow:refused}),'tiles');
+ assert.equal(actionsCancel(model(),{where:'target',flow:refused}),null);
+ assert.equal(actionsCancel(model(),{where:'check',flow:{...refused,stage:'sent'}}),null);
  // The shell's intents: Register and Pass confirm; Done closes; Retry and Check receipt are the controller's; Cancel as above.
  const calls=[];
  const on=shellHandlers({openPanel:p=>calls.push(['openPanel',p]),begin:t=>calls.push(['begin',t]),confirm:()=>calls.push(['confirm']),dismiss:()=>calls.push(['dismiss']),toggleView:()=>calls.push(['toggle']),

@@ -2,17 +2,17 @@
 
 **Status (18 November 2026):** a draft for the Lead Designer's review, then Frontend's. It is not in the game yet, and it is not a release.
 - Release 3 of the owner's plan of 16 November 2026. Its first step is Actions (#273), as the plan's order says; the other parts follow on this branch, each in its own commit.
-- The Lead's order of 18 November begins with the Panels tab (#296), connected here: [The Panels tab](#the-panels-tab). Its step 2, Promises (#297), follows: [Promises](#promises).
-- It is stacked on the [shell connection](shell-connection.md): begun on #307's `8c64f77c`, with [Actions](actions.md) 0.2.2 (#273 at `80f6aa5a`) merged at `6c6b71d5`. #307's heads are merged: `03119bd7` at `9ba0858e`, `c19be75a` at `978a04a2`, `48e55eba` at `6ffcd610`, `aa46726c` at `e97df11a`, `aabb4417` at `5d3e4734` and `f81cd06a` at `6bcef045`: `phone-shell-0.2.12` with the phase bars and the final target bar, `component-kit-0.8.2`, `room-scene-0.5.1`, the phase-closed toast, the host sheet hook, and the game's sheet rules kept off Designer components in the sheet body. Actions 0.2.3 (#273 at `b1aac9d2`), with the Lead's changes and answers of 17 November, is merged at `1e723308`, and Actions 0.2.4 (#273 at `4b578961`), the Disabler's fixed bar without Cancel, at `a288f794`. #307's `99c20a18` is merged at `374e3b26`, and the panels component, `panels-0.1.0` (#296 at `61458f69`, recorded on shell 0.2.12 and kit 0.8.2), at `5fb2b94c`. `panels-0.1.1` (#296 at `4cadbf79`: the Round order row's line follows the steps given, the Lead's fix of 18 November) is merged at `ba0a148e`. The promises component, `promises-0.1.0` (#297 at `d53c639e`, on shell 0.2.12 and kit 0.8.2), is merged at `45a54f07`, and #307's `2391468e` (shell 0.3.0: Card is the last tab and draws the player's own character) at `bfd458ea`. #307's `68c9a296`, which the Lead accepted, is merged at `755820d8`: shell 0.3.1, where the Card tab's portrait is the top bar's own square tile at 32 px, and the viewer's own person and the versions are kept while the connection isn't live. Its check now has release 3's `closed` selector too, so that file is again the same as #307's.
+- The Lead's order of 18 November begins with the Panels tab (#296), connected here: [The Panels tab](#the-panels-tab). Its step 2, Promises (#297), follows: [Promises](#promises). Then a refused command's words go into the open sheet (R2 with A3, the Lead's approval of 18 November): [A refused command](#a-refused-command).
+- It is stacked on the [shell connection](shell-connection.md): begun on #307's `8c64f77c`, with [Actions](actions.md) 0.2.2 (#273 at `80f6aa5a`) merged at `6c6b71d5`. #307's heads are merged: `03119bd7` at `9ba0858e`, `c19be75a` at `978a04a2`, `48e55eba` at `6ffcd610`, `aa46726c` at `e97df11a`, `aabb4417` at `5d3e4734` and `f81cd06a` at `6bcef045`: `phone-shell-0.2.12` with the phase bars and the final target bar, `component-kit-0.8.2`, `room-scene-0.5.1`, the phase-closed toast, the host sheet hook, and the game's sheet rules kept off Designer components in the sheet body. Actions 0.2.3 (#273 at `b1aac9d2`), with the Lead's changes and answers of 17 November, is merged at `1e723308`, and Actions 0.2.4 (#273 at `4b578961`), the Disabler's fixed bar without Cancel, at `a288f794`. #307's `99c20a18` is merged at `374e3b26`, and the panels component, `panels-0.1.0` (#296 at `61458f69`, recorded on shell 0.2.12 and kit 0.8.2), at `5fb2b94c`. `panels-0.1.1` (#296 at `4cadbf79`: the Round order row's line follows the steps given, the Lead's fix of 18 November) is merged at `ba0a148e`. The promises component, `promises-0.1.0` (#297 at `d53c639e`, on shell 0.2.12 and kit 0.8.2), is merged at `45a54f07`, and #307's `2391468e` (shell 0.3.0: Card is the last tab and draws the player's own character) at `bfd458ea`. #307's `68c9a296`, which the Lead accepted, is merged at `755820d8`: shell 0.3.1, where the Card tab's portrait is the top bar's own square tile at 32 px, and the viewer's own person and the versions are kept while the connection isn't live. Its check now has release 3's `closed` selector too, so that file is again the same as #307's. #307's `eed56569` is merged at `2c097c11`, and `b5d0a4dd` at `516bbfc1`: shell 0.3.3, with the toast's place, a squeezed sheet's footer and a long title's head. `promises-0.1.1` (#297 at `d7e4b3a3`: a refused command's words, and the seat's join) is merged at `1a2bcc71`, and `actions-0.2.5` (#273 at `05fab266`: the refused check, and the joins) at `a9cdce89`.
 - Integration first approves the source fence's three new marked hunks. The changed files meet the pins the base already meets: `app.mjs` and `render.mjs`, and, through the drawing-port fence, `vite.config.mjs` (see [The gates](#the-gates)).
 
 **What it is:**
-- On a player's phone, Actions is Designer's Actions component (`actions-0.2.4`, with `play-parts-0.1.2` on `component-kit-0.8.2`), used as it is:
+- On a player's phone, Actions is Designer's Actions component (`actions-0.2.5`, with `play-parts-0.1.2` on `component-kit-0.8.2`), used as it is:
   - its parts in the shell's sheet body: the tiles, the List, the check, After Register, "Outcome unknown" and Pass's line;
   - its frames, target bars, chips and toasts in the shell.
 - It replaces the game's Actions sheet, the generic check of Actions' commands, the "Outcome unknown" body and its two buttons, the Pass sheet's frame, the target bar's words for Actions' commands, and the pass toast's words.
 - The Panels tab is Designer's panels component (`panels-0.1.1`, on `component-kit-0.8.2`), used as it is: its three views, Panels, Players and Round order, in the shell's one sheet. It replaces the tab's buttons, the Players lines and the Round order sentence.
-- Promises are Designer's promises component (`promises-0.1.0`, on `component-kit-0.8.2`), used as it is: the list, the six kinds, Jail Vote's player, the terms and the partner's offer, in the shell's one sheet. It replaces the game's Promises sheet, its offer buttons and the partner step.
+- Promises are Designer's promises component (`promises-0.1.1`, on `component-kit-0.8.2`), used as it is: the list, the six kinds, Jail Vote's player, the terms and the partner's offer, in the shell's one sheet. It replaces the game's Promises sheet, its offer buttons and the partner step.
 - The look and the motion come from `design/`. The game keeps the data, the commands and the lifecycle.
 
 ## Files
@@ -22,6 +22,7 @@
 | `apps/game/hosted/planet/actions-input.mjs` | New, pure. It maps the presentation model to Actions' parts (`actionsPart`, `actionsTiles`, `actionsListGroups`), and to the shell's frames, bars, chips and toasts for Actions' steps (`actionsFrame`, `actionsTarget`, `actionsChip`, `actionsToast`), from the component's own helpers. It also holds this phone's own pick (`actionsFlow`, `holdActionsPick`), maps the taps to the controller's calls (`actionsHandlers`), decides what Cancel does (`actionsCancel`), and what the screen-reader step says at After Register (`actionsHeard`, A16) |
 | `apps/game/hosted/planet/panels-input.mjs` | New, pure. It maps the presentation model to the panels component's frame (`panelsFrame`) and input (`panelsInput`): the view, this room's windows, every seat's public facts and the round's steps. It gives the part for the Panels tab's sheet (`panelsPart`) and maps the rows' taps to the game's panels (`panelsHandlers`) |
 | `apps/game/hosted/planet/promises-input.mjs` | New, pure. It maps the presentation model to the promises component's frame (`promisesFrame`) and input (`promisesInput`): the quota, the talk's partner, the commands as offered, Jail Vote's players and the pair's Promises with Frontend's exact terms. It keeps this phone's view and draft (`promisesFlow`), gives the part (`promisesPart`) and the receipt's toast (`promisesToast`), and maps the taps to the controller's own draft (`promisesHandlers`) |
+| `apps/game/hosted/planet/refusal-words.mjs` | New, pure. A refused command's words (R2): the model's message, verbatim, unless they are Frontend's own for a command sending, registered, or a phase the server closed (`refusalWords`), how long they hold (`refusalHeld`), and the game's status line beside them (`refusalStatus`). Frontend's words are in this one place |
 | `apps/game/hosted/planet/shell-input.mjs` | `shellSheet` gives the Panels tab's three views the component's one sheet (`panelsFrame`), and Promises theirs (`promisesFrame`); `shellTarget` and `shellChip` give Promises' commands none; `shellToast` gives their receipt; `shellHandlers` hands the Promises sheet's footer and Back to its handlers. `shellSheet`, `shellTarget`, `shellChip` and `shellToast` hand Actions' steps to it. `shellHandlers` routes Actions' footer ids (Register, Pass, Done, Retry the same, Check receipt, Cancel), its chips and the List's Back. The bar is untouched: the phase bars are the in-game animation builder's, merged from #307. So are the phase-closed toast, which `shellToast` gives before Actions' toasts, and the host sheet, whose footer, Back and Close come first |
 | `apps/game/hosted/planet/render.mjs` | Mounts the sheet's Designer part, Actions' or the panels component, first in the shell's sheet body, with the game's remaining content after it (`syncSheetPart`). It updates the part on its input, and suspends, resumes and disposes it with the page and the sheet. Every choosing tap goes through Actions' handlers. At After Register the unseen step and checkpoint say the part's headline (A16). The Panels tab's buttons, the Players lines and the Round order sentence are gone |
 | `apps/game/hosted/planet/room-scene-input.mjs` | The scene's targets mark this phone's pick at the check and while it sends, and the Disabler's fixed position |
@@ -30,6 +31,7 @@
 | `apps/game/test/planet-actions.test.mjs` | New: the steps, the frames and bars, this phone's pick, the parts' inputs, the taps, Cancel, privacy and the scene's marks |
 | `apps/game/test/planet-panels.test.mjs` | New: the views and their sheet, this room's windows, every seat's public facts, the steps for each tuple, the part with the Food release's own words, and the taps |
 | `apps/game/test/planet-promises.test.mjs` | New: when the sheet is Promises', that the Promises panel never falls through to a bare title, the input, the pair's Promises, this phone's view and draft, the part and the toast, the taps, and the shell's routing of the sheet's footer and Back |
+| `apps/game/test/planet-refusals.test.mjs` | New: Frontend's words pinned against the real controller (the Lead's note 1); the server's refusal of a Register through Actions' flow, frame and part; Promises' refused Offer and Accept; when the words go; the status line beside them |
 | `apps/game/test/planet-phone-shell.test.mjs` | Follows the pass sheet, the check and the bars that are Actions' now, and the Panels tab's one sheet, `panels` |
 | `design/tools/match-connection-check.mjs` | Release 3's check: the real app, under the production headers, at both phone sizes |
 | `design/tools/shell-connection-check.mjs` | #307's check, as #307 has it, but for the `closed` state: like `pass`, `actions` and `course`, which #307 now doubles itself, it takes #307's selector first, then release 3's (Actions' Scan tile) |
@@ -48,6 +50,7 @@ What each step gives the shell and the sheet's body. Every frame, bar, chip and 
 | The List | the same, with the board's List open | `targetListSheet()`: "Choose from a list", with Back | `mountTargetList()`: by room, the viewer's room first |
 | The check | `confirm` | `checkSheet()`: Cancel and "Register Rescue", usable as `canConfirm` | `mountActionCheck()`: this phone's pick, with its room, and the facts |
 | Registering | `sending` | `checkSheet({ phase: 'sending' })`: Register busy, "Registering…" | the check keeps what it showed: it is given its status only |
+| Refused | no action, after this phone's own Register was seen sending, and the model's words ([A refused command](#a-refused-command)) | `checkSheet()` held, with Register off (`canRegister: false`) and Cancel | the check as it showed, with the words in its `error` (`actions-0.2.5`): the kit's inline error after the facts, above Cancel and Register |
 | Accepted | `accepted` (one revision) | `afterSheet()`: Done | `mountAfterRegister()`: REGISTERED, ACCEPTED (Private talk), ACTIVE (Clone) or CAPTURED (Suppress), and the handoff's words: Frontend's line where its copy has one, the component's `afterWords()` for the rest and for the time line, from the round, and the names from this phone's own pick ([After Register](#after-register)) |
 | Hack Ship and Blackhole accepted | `accepted` | the toast `registeredToast()`: "Blackhole registered"; the tiles, if Actions is open (L7) | the tiles, the tile REGISTERED |
 | No answer came | `recovery` | `unknownSheet()`: "Retry the same" and "Check receipt", usable as `canRetry` and `canCheck` (the component's own flags since 0.2.3), Check busy while it asks, Retry busy while it resends | `mountOutcomeUnknown()`: "Rescue Crew 3 was sent, but no answer came back." from this phone's own send; "Pass was sent, …" and "Position A3 was sent, …" too (0.2.3) |
@@ -95,6 +98,30 @@ The Lead's change of 17 November: the handoff's [After Register](../phone-ui-han
   - no Protection start: no "Round 7 · Protection for …: active" step;
   - no capture: "Captured now: the players in the other room. …", with no captured players.
 
+## A refused command
+
+R2 with A3: the Lead's approval of 18 November, and the owner's for its look (`promises-0.1.1` on #297, `actions-0.2.5` on #273). A command this phone sent from an open sheet, and refused, is said in that sheet, in the model's words.
+
+- **The words** are `model.message`, verbatim. The model gives no structured refusal: no code and no command (R6). The connection takes them only:
+  - after this phone's own Register (Actions), or Offer, Accept or Decline (Promises), seen under way;
+  - when the next model has no action of that command, no `recovery` and a live connection;
+  - and when the words aren't Frontend's own for a command sending ("Registering…"), registered (`planetRegistrationText`) or a phase the server closed ("The server closed that phase.").
+- **Frontend's words** are in one place, `refusal-words.mjs`: `planetRegistrationText` imported, and the other two pinned against the real controller by `planet-refusals.test.mjs`, which fails if Frontend changes them (the Lead's note 1).
+- **Where they show:** the kit's inline error (`role="alert"`), the body's last part, brought into view above the footer.
+  - **Actions:** the check, held with Register off, as the controller has dropped the choice; Cancel returns to the tiles (`actionsCancel`). This partly reverses L6: the connection holds a step the controller has dropped.
+  - **Promises:** the terms (`confirm`) and the partner's offer (`incoming`). The view and the draft stay, so Back and another choice work.
+- **The status line** hides while they show. After they go, it does not say them again while the model's message is still those words in the same view. Once the message or the view moves on (a new send says "Registering…"; a read clears the message), the same words again are new, and it says them: a Pass refused after them, for one (`refusalStatus`, which `render.mjs` keeps as `said`).
+- **They go with:**
+  - the player's next tap, in the sheet or out of it: Back, Next, a kind, a player, Offer again, Cancel, a tab or the top bar (`calm` in `render.mjs`);
+  - the next view (a new revision), other words, a connection that is not live, and "Outcome unknown";
+  - the sheet closing, the phase's change or end, and concealment, after which they do not come back.
+- **Not with a re-read of the same view.** The session reads the view every 2 s, changed or not (`apps/game/src/planet/session.ts`), and the controller clears its message at every read (`controller.ts` `receive()`). Taken from the message alone, the words would go within 2 s, as today's status line does. So they hold for the view they came in (`refusalHeld`).
+  - This waits for the Lead's answer of 18 November. The interface said the message clears "at the next view"; it clears at every read. Going back to the message alone is two conditions.
+- **A phase the server closed** is never a note. The status line says Frontend's "The server closed that phase." until the next read.
+  - The shell's phase-closed toast is for a choice still being made whose phase ends (`phaseClosed()`), not for a command already sent.
+  - Frontend's harness accepts every command, so the check cannot draw the server's refusals. `planet-refusals.test.mjs` drives them on the real controller.
+- **Not covered:** Pass (its note has no `error`) and the Disabler's position (a bar, with no sheet) keep the status line. The Hospital panel's words for a code with no injection belong to its own step.
+
 ## The taps
 
 | Tap | Call |
@@ -108,7 +135,7 @@ The Lead's change of 17 November: the handoff's [After Register](../phone-ui-han
 | Done | `dismiss()` |
 | Retry the same, Check receipt | `retry()`, `checkReceipt()` |
 | Cancel on the bar | back to the tiles: `openPanel('actions')`, the Disabler's choosing bar too (T2). The fixed bar has no Cancel: the engine offers no second position once one is fixed (`packages/engine/src/planet-game/offers.ts:22`, `commands.ts:73`), so Cancel could not go back to choosing. `actions-0.2.4` gives that bar `cancel: false`, which shell 0.2.12 draws without Cancel: the owner approved this departure from sheet 30 on 17 November ("remove the Cancel in Blackout", recorded on #280 at `f0066a7c`) |
-| Cancel in the check | back to the tiles; a move back to choosing, with nothing picked (Q1). While it sends, back to the tiles: it recalls nothing (L5) |
+| Cancel in the check | back to the tiles; a move back to choosing, with nothing picked (Q1). While it sends, back to the tiles: it recalls nothing (L5). A refused Register's held check: back to the tiles (R2) |
 | The chips | "Other rooms · n" and "Other rooms on the Board": the board view. "List": the List; its Back closes it. The List has no ✕ (`close: false`, sheet 29), so the shell never sends its Close; Escape, the shell connection's, dismisses whatever is open, as Close does |
 
 Nothing here works out who may act. Every usable control comes from the model's offers and its `canConfirm`, `canRetry` and `canCheck`.
@@ -124,7 +151,7 @@ Nothing here works out who may act. Every usable control comes from the model's 
 - **The Hacker's Scan and final Code:** their tiles are Actions'; their flows stay the game's until the Hacker's step.
 - **The other commands' flows:** the ballot, the declaration, the Promises, the windows, the Officer's and the Captain's.
 - **The dark Actions sheet:** "People and windows are hidden." and its "Choose fixed slot", from which the Disabler starts choosing.
-- **The status line in the cover:** a rejection's words and the game's messages. While Actions' "Outcome unknown" is open it hides, so the notice says it once (the Lead, 17 November).
+- **The status line in the cover:** a rejection's words and the game's messages. While Actions' "Outcome unknown" is open it hides, so the notice says it once (the Lead, 17 November). A refused command's words in an open sheet are said there instead ([A refused command](#a-refused-command)).
 - **The screen-reader facts** the shell connection keeps unseen: the offices, the shared checkpoint and the current step (`#ms-action-step`). At Actions' After Register the step and the checkpoint say the part's headline, as drawn, not the model's "Registered. Resolution is pending." (A16, the Lead's option 1, 17 November). Elsewhere they keep the game's words.
 
 ## The Panels tab
@@ -206,6 +233,7 @@ Everything comes from the model and Frontend's words; the connection works nothi
 | `received` | The accepted received Promise, else, in the talk, the partner's newest offer, which only that talk can answer |
 | | Each Promise with its pair by name and character, its state and status, and its exact terms (`planetPromiseTerms`). Declined and expired offers leave (answer 5). Frontend gives no condition, `when` or `why` (R3), so the rows say "From Crew 1" and "To Crew 1" |
 | `answer` | Accept and Decline: enabled while the model offers them, busy while one sends, else "Not available now" |
+| `error` | In the terms and the partner's offer, the words of this phone's own Offer, Accept or Decline, refused ([A refused command](#a-refused-command)). Otherwise none |
 | `status`, `reducedMotion` | The shell's status, and the device's Reduce motion |
 
 ### The taps
@@ -215,6 +243,7 @@ Everything comes from the model and Frontend's words; the connection works nothi
 - **Accept** and **Decline** do the same with the partner's offer's id: `ACCEPT_PROMISE` or `DECLINE_PROMISE { promiseId }`.
 - **Nothing chooses on the scene.** While the controller's draft passes its steps, Promises' commands take no target bar, no chip and no scene targeting, so the talk's room stays.
 - **The receipt** is the shell's toast in Frontend's words (the model's accepted step), once per command; the game's status line hides under it.
+- **A refusal** of Offer, Accept or Decline is said in the sheet, above its footer, and the view and draft stay ([A refused command](#a-refused-command)).
 - ✕ closes the sheet, as every sheet's.
 
 ### What goes
@@ -288,7 +317,23 @@ Today's Promises sheet: its quota line, its cards naming "Player 1", and the off
 - the taps: local views and draft; Offer's, Accept's and Decline's controller calls, stopped by a refused `begin` or an unready draft; nothing after the renderer has gone;
 - the shell connection's routing of the sheet's footer and Back, the host sheet first.
 
-**A mutation run** made 121 changes to the connection's source, each restored from its saved bytes. Every one is caught by the five connection test files (Actions', Panels', Promises', the shell's and the room scene's), on `df255e8a`, again on `bfd458ea`, and on `7a9112ff`.
+`apps/game/test/planet-refusals.test.mjs` passes 6 of 6 (R2 with A3). It drives the real controller (`createPlanetController` in the tests' rig) and covers:
+- Frontend's words the connection leaves out, pinned against the controller (the Lead's note 1): "Registering…", the message and the sending prompt while a command sends; `planetRegistrationText` once it is accepted; "The server closed that phase." for the server's `PHASE_CLOSED`. A change of any of them fails here;
+- the server's `NOT_ALLOWED` for this phone's Move to B5: the check held with the model's words, verbatim, Register off and Cancel back to the tiles, by the same key; nothing sent again; the words kept through a re-read of the same view and gone with the next view, and the tiles again;
+- the held check gone with another phase, the phase's end, a hidden phone, other words, the next view, a connection that is not live, and "Outcome unknown";
+- Promises: an Offer refused under way keeps its terms with the words, in the component's input; Frontend's own words, a lost connection, "Outcome unknown" and words without a send of this phone's are not a refusal; an accepted Offer goes back to the list;
+- the words gone with the next view, other words, a new choice, the player's next tap, a view with no footer for them, the talk's end, its time up and a hidden phone; kept through a re-read; and Accept refused in the partner's offer;
+- the status line: still while the sheet shows the words, and after while the message is still those words in that view; saying them again once the message or the view has moved on, as for a Pass refused with the same words.
+
+**A mutation run** made 152 changes to the connection's source, each restored from its saved bytes. Every one is caught by the six connection test files (the refusals', Actions', Panels', Promises', the shell's and the room scene's), on `516bbfc1` with this step's changes. The earlier 121 were caught by the other five on `df255e8a`, again on `bfd458ea`, and on `7a9112ff`.
+- It adds 31 for R2 with A3:
+  - Frontend's three words, and the refusal read only when the connection is live and out of recovery;
+  - how long the words hold: the view, a re-read, a connection not live, recovery;
+  - Actions: the hold itself, its phase and its end, the sent stage, Register off, the part's words, Cancel, the report and the revision;
+  - Promises: the hold, a new choice, other views, the revision, the reading, the report, the next tap, the input and the send's mark;
+  - the status line's five.
+- One earlier mutation, the panels fallback's "Player n", was run on its new text with the no-break space.
+- Three more, on `render.mjs`'s wiring, are each caught by the match check's refused states: the status line kept still, `calm()` on a tap out of the sheet, and the shown words kept.
 - It adds 48 on Promises: when the sheet is Promises' (the commands, the dark), the talk's phase and side, the given and received choices and their pair, the status and terms, a command's busy state and words, the flow's resets (the receipt, the talk over, the offer gone), Jail Vote's player (kept while sending, dropped for another kind), the confirm view's guard, the players, the terms' player, the draft's player, the offer row outside the talk, the frame's kind, the part's guard, the toast's step and id, Offer's partner, player and readiness, Accept's id and view, Back's and Next's views, the kind's guard, `live()`, Decline's command, and the shell connection's target bar, chip, toast, sheet, flow and both routes.
 - Two of the run's first 120 were redundant filters, which the code no longer has: their replacements are among the 48.
 - The earlier 73, on `7cdf0917` and again on `1ddbee45`, are below.
@@ -366,11 +411,15 @@ Today's Promises sheet: its quota line, its cards naming "Player 1", and the off
 | `promise-kinds` | "Offer to Crew 1" with Back and ✕, "Only during your private talk. It counts once Crew 1 accepts.", the six kinds, none chosen, Next off; no target bar. Then a kind is amber and pressed and Next on, nothing sent and no draft in the controller |
 | `promise-target` | Jail Vote, Next: "Who will you vote to jail?" with exactly the offer's players, here every seat with its portrait; Crew 3 chosen with the amber mark, Next on, nothing sent |
 | `promise-confirm` | Next: "Check the terms", the paper card "Jail Vote" with "Player 6 votes for Player 3 at the next Jail vote of Round 6; admission is not required." (Frontend's words), "Uses your one given Promise only if Crew 1 accepts" and "Only you and Crew 1 see it", Back and Offer. Then the footer's Back returns to Crew 3, still chosen |
-| `promise-refused` | Offer: the controller makes its own draft and its own check refuses it (R1, on #222): no command, no draft, no target bar, the terms kept; the game's status line says "That choice is no longer offered." behind the sheet (R2). The drawn state until Frontend's fix lands |
+| `promise-refused` | Offer: the controller makes its own draft and its own check refuses it (R1, on #222): no command, no draft, no target bar, the terms kept. Its words, the model's as they came, in the kit's inline error (R2): "That choice is no longer offered.", `role="alert"`, the body's last part and whole above Back and Offer; the one note on the phone, and no status line. Then the session's next read of the same view clears the controller's message, and the words stay. The drawn state until Frontend's fix lands |
+| `promise-refused-back` | Offer again is refused again, with the same words; Back at once, before the next read, takes them: no note, and no status line while the model's message is still those words. Jail Vote's player is still Crew 3. Then Next shows the terms without the words |
 | `promise-sent` | Back to the kinds, Meet in Room B, Next, Offer: one `OFFER_PROMISE { recipientSeatId: 'seat-1', kind: 'MEET_B', targetSeatId: null }`; the toast "Registered. Waiting for the authoritative view." with no status line under it; the list again; no target bar, and the room stays the talk's |
 | `promise-waiting` | The next view has the offer: "Waiting for Crew 1", "Meet in Room B · Offered to Crew 1 · not counted yet" with Crew 1's portrait and "Offered", then the talk's group |
 | `promise-incoming` | "Crew 1 offered you one": "Offer from Crew 1" with ✕, the paper card with Crew 1's portrait, "Meet in Room A" and "Player 1 will be in Room A when Round 6's voting begins, after Sync.", "Accepting uses your one received Promise", "A Promise is never forced: it is checked against real ballots", Decline and Accept |
 | `promise-accepted` | Accept: one `ACCEPT_PROMISE { promiseId: 'incoming-promise' }`, its receipt in the toast; then the view has it accepted: in the talk, "Received" with "Meet in Room A · From Crew 1" and "Pending", the note, and the quota "Received 1/1" |
+| `refused-next-view` | The refused terms, then the next view: the words go with it, and the terms stay, with no note and no status line |
+| `refused-concealed` | The refused terms, then the page hidden: no part, note or words left. Shown again, the words do not come back |
+| `refused-phase-closed` | The refused terms, then the talk's phase ends: the sheet closes with it, and no note, words or status line are left. No phase-closed toast: the refused offer left the controller no choice in progress |
 | `promise-results` | After the talk (sheet 33.1): "Received" with "Jail Vote · From Crew 3 · Not fulfilled" and "Given" with "Meet in Room B · To Crew 1 · Pending", each with the other player's portrait, "Given 1/1 · Received 1/1" and the note; no talk group |
 | `players-away` | Players then: one list, the game's nine lines, one for each seat, with "Away on the Food Supply Task" for Cleo and Hana. The component is not mounted, and none of its words ("(you)", the note) is on the page. Then Back returns to the component's list and Tasks |
 
@@ -429,7 +478,7 @@ The connection works around none of these by inventing data. Where it holds this
 | --- | --- | --- |
 | A1, B1 | No unavailable reasons in the offers: "Not available now" | Backend, Frontend |
 | A2 | The check's person, and a move's position, are not in the model once chosen. Held from this phone's tap here | Frontend |
-| A3 | No rejected step: the controller drops the draft, so the check cannot stay open with its error (L6). The status line says it. Its words go into the open sheet in the next step, with R2's | Frontend; Designer, the next step |
+| A3 | No rejected step: the controller drops the draft. Done here with R2 ([A refused command](#a-refused-command)): the connection holds the check open with the model's words and Register off, which partly reverses L6. Pass and the Disabler's position keep the status line | Frontend, for the step itself |
 | A4 | The recovery names no command, person, position or id. Named here from this phone's own send only; otherwise "Outcome unknown" has an empty body | Frontend |
 | A5 | Accepted lasts one revision, so After Register closes itself at the next view, and the controller gives it only when the receipt comes before the next view. Move's and Pass's toasts wait for the view instead: the board with the viewer there, the turn moved on. After Register's stamp, and Blackhole's and Hack Ship's toasts, cannot be read from the public view: they need the controller to keep the accepted step when a newer view arrives first. High priority for the human test: "a player who registers an action must see 'Registered', every time" (the Lead, 17 November) | Frontend |
 | A6, B5, B6 | Pass: no next player; `movementSpent` only under Card | Backend, Frontend |
@@ -445,10 +494,12 @@ The connection works around none of these by inventing data. Where it holds this
 | P1 (new) | The model says nothing of who can open Navigation and the Hospital panel outside those panels, so their rows are never dimmed (the Lead's answer 2 on #296: only Frontend's `enabled` decides). Every row opens, as today, and a passenger's tap is harmless. A #222 gap like B1, not a departure (the Lead, 18 November) | Frontend |
 | P2 (new) | The round's steps are one sentence (`planetRoundOrderText`), with no timing. Given as steps with their timings, in player words, in the ruleset's order, Round order would show them (answer 5). Until then the steps keep the game's words, and the list's line says "The phases, in order". A #222 gap (the Lead, 18 November) | Frontend |
 | R1 (new) | **A Jail Vote Promise is never sent.** The controller's own check (`commandAllowed`, `apps/game/src/planet/controller.ts`) first requires a command's `targetSeatId` to be among the offer's `targetSeatIds`. For `OFFER_PROMISE` those are the recipients (the engine's `offers.ts`), while a Jail Vote's `targetSeatId` is the player to jail, from `promiseTargetSeatIds`. So any player but the partner is refused ("That choice is no longer offered.") and nothing is sent. Today's sheet goes through the same check. The check draws it (`promise-refused`), which stays the drawn state until Frontend's fix lands. The Lead confirmed it on `origin/main` `7d18ac0f` and posted it on #222 for Frontend with the likely one-line fix ([comment 6983087697](https://github.com/Amirkianfar66/GameN/issues/222#issuecomment-6983087697)) | Frontend |
-| R2 (new) | A refused Promise command's words are the game's status line, which lies over the stage, behind the sheet's glass: the sheet itself says nothing. As A3 for Actions. Recorded here, not fixed (the Lead, 18 November): the fix is its own next step, one rule for Actions and Promises, the controller's own words in the open sheet, its interface to the Lead first | Designer, the next step |
+| R2 | Done here, with A3 ([A refused command](#a-refused-command)): a refused command's words are in the open sheet, not only the game's status line behind the sheet's glass | Designer |
 | R3 (new) | No condition, `when` or `why` for a Promise, and the terms name players by number ("Player 6"). The Lead raised `why` and the names on #222 | Frontend |
 | R4 (new) | The receipt's words are Frontend's generic `planetRegistrationText`, "Registered. Waiting for the authoritative view." | Frontend |
 | R5 (new) | The engine lets a player make another offer while one waits; the list shows the newest, as the component draws one | Frontend, the Lead |
+| R6 (new) | No structured refusal: the connection reads the model's words and tells Frontend's own apart. A `refusal: { type, code, text }` in the model would replace that | Frontend |
+| R7 (new) | The controller clears its message at every read of the view, which the session makes every 2 s whether or not the view changed. So the status line says a refusal for at most 2 s, and the connection holds the sheet's words for the view itself (waiting for the Lead's answer of 18 November) | Frontend |
 | P3 (new) | Frontend's earlier development captures (`apps/game/dev/phone/capture.mjs`, `round-order-capture.mjs`, `food-ordinary-compare.mjs`) look for the old navigation and Panels buttons, which the shell connection had already removed. None runs in CI; they are not changed here | Frontend |
 
 ## Behaviour changes, for Frontend's review
@@ -471,13 +522,15 @@ The connection works around none of these by inventing data. Where it holds this
   - "Offer a Promise" goes straight to the six kinds for the talk's partner, then, for Jail Vote, the player, then the terms on the paper card with Back and Offer; until now it first asked for the partner on the scene's target bar, then for the kind in a list, then Register;
   - the partner's offer is the paper card with its exact terms, then Decline and Accept; until now Accept and Decline each opened a list of the offers to answer, then Register;
   - a command's receipt is the shell's toast, and the sheet goes back to the list.
+- **A refused command** (R2 with A3) is said in the open sheet, in the model's words: Actions' check stays open with Register off, and Cancel returns to the tiles; Promises' terms and the partner's offer say it above their footer. The status line hides while the words show. Until now the check closed, the Promises sheet said nothing, and the status line said it until the next read of the view.
+- **A seat with no name** reads "Player 5" with a no-break space, so the number never starts a line (the Lead's polish, approved by the owner on 18 November).
 
 ## Open
 
 - **For the Lead:**
   - the gaps above, for #222;
   - P1 and P2 are #222 gaps, not departures (the Lead's answers of 18 November); the Lead takes them to #222;
-  - R1 to R5, Promises' gaps. R1 means no Jail Vote Promise can be sent until Frontend's check is fixed: the Lead posted it on #222. R2's fix, with A3's, is the next step, its interface to the Lead first;
+  - R1 to R7, Promises' gaps. R1 means no Jail Vote Promise can be sent until Frontend's check is fixed: the Lead posted it on #222. R2's fix, with A3's, is this step; how long its words hold waits for the Lead's answer (R7), and R6 and R7 are new for #222;
   - the `closed` state of #307's check, which this branch doubles as #307 now does `pass`, `actions` and `course` (for #307 to take: the Bars & Icons builder's since 18 November);
   - the empty "Outcome unknown" when this phone did not see the send (A4): a model change, or a type-less specimen ("Your action was sent, …"), which would be new words for the Lead and the owner;
 - **For Integration:**
