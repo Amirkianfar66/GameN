@@ -1,0 +1,250 @@
+# The private talk: Designer's runtime component
+
+**Version:** `private-talk-0.1.0`, with its parts module at `play-parts-0.1.2`, a pass-through: kit 0.7.0 took the tile's art, note icon and `label: false` from play-parts 0.2.0 (D8). **Status (16 November 2026):** built to the interface the Lead Designer approved on #293 at `7e068512` with the decisions D1–D8 below, and posted on #4 with Q1–Q3 for Backend and Integration. Built without waiting for Frontend, as the owner decided on 16 November (Designer builds each part once the Lead approves its interface; recorded on #280). Frontend has not connected it: it is not in the game yet, and Integration first admits its files to the hosted build. It is not a release. Accepted by the Lead at `0b4da23f`, with three follow-ups now applied: the words with no side declared, the shell 0.2.6 merge and the capsule's `covered` input. It is stacked on Actions (#273) at `9f88c154`, merged in as `c75362a2`, on the phone shell at `b3e5823e` (`phone-shell-0.2.7`, `component-kit-0.7.1`); earlier at `3c452e80`, merged in as `133b8b67`. What changed from the approved interface while building is under [As built](#as-built-what-changed-from-the-interface).
+
+**What it is:** sheet 25, the private talk on the two talking phones. The game's name for it is the Standard Hack (`REQUEST_HACK`, `DECLARE_HACK_SIDE`); the pack's word is "Private talk", and the pack is the specification for words (11 November). It is #222 item 20. The game imports it as it is, and the preview mounts the same files ([ownership](../../architecture/visual-component-ownership.md)).
+
+**The three steps** (the confirmed overlay `rules/overlays/declared-hack-owner-decision-2026-10-12.json`, HACK-DECLARE-01 to 07):
+
+| Step | Phase | Time | The target's phone (the declarer) | The initiator's phone (the partner) |
+| --- | --- | --- | --- | --- |
+| Declare | `HACK_DECLARE` | up to 15 s | "Declare your side" (frames 1 and 2) | "Dev is choosing a side", only while its view says it waits (D1) |
+| The claim | `HACK_RESULT` | 5 s | "Ava sees your claim" (frame 3) | "Dev’s claim" (D2) |
+| Talk | `HACK` | 60 s | The capsule, both seated (frame 4) | The same |
+
+Every other phone and the shared display see only who is talking: the shell's pair bar (HACK-DECLARE-04).
+
+**Covers:**
+- **Declare** (the declarer's phone):
+  - who asked: the partner's portrait, "Ava asked to talk", "Declare a side. It is a claim, not a check.";
+  - three side cards, the same for every role, as one radio group: Blue, Red and Alien, each the side card's art and its word;
+  - the sides the offer leaves out locked, with a lock and "Not for your role", on this phone only (HACK-DECLARE-02);
+  - the line under them: "Your role declares its own side: Blue. Only you see this." or "Your role may claim any side. Only you see this.";
+  - "Declare Blue" in the shell's footer ("Declare a side", off, before a choice), busy while it sends.
+- **The wait** (the partner's phone, D1): the declarer's portrait and "Dev is choosing a side", in the kit's waiting block, only while the view says it waits (Q1). Without that, no sheet: the bar's "Private talk · declare" carries it.
+- **The claim** (5 s, both phones): the declarer's portrait, "Dev claims Blue", "Unverified · only Ava sees this" on the declarer's phone or "Unverified · only you see this" on the partner's (D2), and the side card. With no declaration, "No side declared", "Only Ava sees this" or "Only you see this", and the blank card, never an invented side (D3, HACK-DECLARE-03; the Lead's decision of 16 November for the line under it).
+- **Talk** (60 s, both phones): the capsule in the shell's stage, both people seated at its table, its door shut and its light lit, its lamps and the dust in the lamp's light, and each one's name tag, "You" on this phone's. The shell draws the pair bar ("Private talk", the time left) and the talk's own foot, Promises and My card (D7).
+
+**Built on, not redrawn:**
+- **The phone shell** (#265): the pair bar (`bar.kind: 'pair'`), with this component's words for its sub; the docked sheet and its footer; the tab bar's talk variant (Promises and My card).
+- **The kit** (`component-kit-0.7.1`): the tile, with its art, note icon and `label: false` (0.7.0), and who; portraits, the group note, the waiting block, the control policy. Kit 0.7.1's spent tile and a tile's art given as a node change nothing here: the side cards are available, selected or unavailable, and their art is markup.
+- **My parts module** (`play-parts/`, L2), at 0.1.2: it hands on the kit's tile and who with the same calls. Its 0.2.0 tile props (a card's art in place of its icon, as the pack's side cards are its `.tile`; a note led by an icon, the lock; and no accessible name of its own when asked, `label: false`, so a card is named by its words) moved into the kit in 0.7.0 with the same behaviour, ported from `fb41b717` and compared there with sheet 25's side cards. Who is as it is (64 px).
+- **The hosted capsule drawing,** used as it is: `apps/game/hosted/board-v2-drawing/capsule-scene.mjs` (the capsule's framing in a panel, the two seats and the name tags' places), `capsule-figures.mjs` (the seated pose, Injured and Jailed), and the crew drawing (`crew-runtime.mjs`), for the people.
+- **The capsule's pictures:** the board's `board-v2-art` bundle properties (`--board-v2-art-capsule-back`, `-door-0`, `-busy`), as the room-drawing release (`room-drawing-1.0.0`) redraws them. A phone draws the pictures its match's bundles carry; the component fetches nothing.
+- **The room scene's ambient** (`room-scene/ambient.mjs` and `.css`): the capsule's lamps, keys and dust, on the game's clock, as the room scene runs it.
+- **The side cards' art:** `HACK_ART` in `apps/game/hosted/scene-drawing/phone-kit-art.mjs` (`hack-side-blue`, `-red`, `-alien`, and `-none` for no declaration).
+
+**Not in this component:**
+- Asking for the talk: Actions (#273, `REQUEST_HACK`).
+- Promises during the talk: sheet 33, a later component of mine. The Promises button only reports the tap (the shell's).
+- My card during the talk: the Card sheet (#270).
+- The pair bar on the other phones: the shell's.
+- The capsule's film (walking in and out): later, as its own step (D5).
+
+## Files
+
+Designer's, runtime-safe, in `design/phone-ui/components/`:
+
+| Path | What |
+| --- | --- |
+| `private-talk/private-talk.mjs` | `PRIVATE_TALK_VERSION`, `SIDES`, `TALK_WORDS`, `CAPSULE_LAYERS`; the inputs' defaults and checks (`checkDeclare`, `nextDeclareInput`, `checkClaim`, `checkWait`, `checkCapsule`); the frames `declareSheet()`, `claimSheet()`, `waitSheet()`; the bar's words `talkBar()`; the mounts `mountDeclare()`, `mountTalkWait()`, `mountClaim()`, `mountCapsule()` |
+| `private-talk/private-talk.css` | Its layout, scoped under `.ms-private-talk`. It imports the kit's, the parts' and the ambient's styles |
+| `play-parts/play-parts.mjs` and `.css` | 0.1.2, Actions': a pass-through for the kit's tile and who. The tile's `art`, `noteIcon` and `label: false` are the kit's since 0.7.0 |
+| `private-talk/preview/` | Development only: the preview in the shell over the room scene and in the capsule (`states.mjs`, `preview.mjs`), the probe (`probe.mjs`), the agreement with the pack (`agree.mjs`) |
+| `private-talk/review/` | The check's captures and `check.json` |
+
+Also `design/tools/private-talk-check.mjs` (development only), `packages/design-tokens/test/private-talk.test.mjs`, and this page.
+
+## The steps, and who draws what
+
+| Step | The shell | The stage | This component |
+| --- | --- | --- | --- |
+| Declare, the declarer | `bar: talkBar({ phase: 'declare', … })`: the pair, "Private talk · declare", the time left. `sheet: declareSheet({ selected })` (id `talk-declare`), no close. The game's tabs, with Pass off (D7) | the room scene, as in the room (HACK-DECLARE-06: moving stays legal) | `mountDeclare()` in `shell.sheetBody`; a card calls `onSide(side)` |
+| Declare, sending | `declareSheet({ selected, phase: 'sending' })`: "Declare Blue" busy | unchanged | `update({ interactive: false })`: the cards take no tap |
+| Declare, the partner | the same bar; `sheet: waitSheet()` (id `talk-wait`, "Private talk") only while its view says it waits (Q1), else no sheet | the room scene | `mountTalkWait()`, with that sheet only |
+| The claim, both | `bar: talkBar({ phase: 'claim', … })`: "Private talk · claim". `sheet: claimSheet({ view, partner, declarer })` (id `talk-claim`), no footer, no close | the room scene | `mountClaim()` |
+| Talk, both | `bar: talkBar({ phase: 'talk', … })`: "Private talk". `tabs: { variant: 'talk' }`. No sheet | `mountCapsule()` in `shell.stage`, in place of the room scene, sized by the shell's `onLayout` | the capsule |
+| Any other phone, the shared display | the same pair bar, every step | the room scene | nothing |
+| The talk ends or aborts | the room again | the room scene again | every part disposed; nothing kept (HACK-DECLARE-04) |
+
+## Mount, update and dispose
+
+Every part returns `{ element, update(partial), suspend(), resume(), dispose() }`, as Actions' parts do:
+- `update(partial)` replaces each key given; an unknown key is an error, and nothing changes.
+- `suspend()`: the part takes no tap and the capsule stands still (its ambient and its crew), until `resume()`.
+- `dispose()` removes the part and its listeners and releases the capsule's crew; after it, nothing fires and `update()` does nothing.
+- Synchronous; no timers of its own. The capsule's ambient runs on the clock it is given.
+
+## Inputs
+
+### Every part
+
+As Actions': `viewer`, `status` (`'live'`, `'stale'` or `'concealed'`), `interactive`, `reducedMotion`, `versions`. Concealed, or for a new viewer, a part drops this viewer's inputs and empties itself, and nothing comes back until they are given again.
+
+The two people, for the private parts (declare, the wait, the claim), from the public `hackSession` and the board's names:
+
+| Field | What |
+| --- | --- |
+| `partner` | The initiator, who asked (`actorSeatId`): `{ seat, name, character }` |
+| `declarer` | The target, who declares (`targetSeatId`): `{ seat, name, character }` |
+
+Each part draws only for its own viewer among them: declare for the declarer, the wait for the partner, the claim for the one its `view` names. For anyone else, or with either person missing, it draws nothing.
+
+### Declare (`mountDeclare`)
+
+| Field | Audience | What |
+| --- | --- | --- |
+| `partner`, `declarer` | This viewer | As above |
+| `sides` | This viewer | The sides this phone may declare: the `DECLARE_HACK_SIDE` offer's `declaredSides`, as given (`['Blue']`, or all three). The other cards are locked. The component never works them out from the role (T3; D6). With no sides, nothing is drawn |
+| `selected` | This viewer | `'Blue'`, `'Red'`, `'Alien'` or `null`: Frontend's choice so far, one of `sides`. With one side offered, Frontend passes it |
+
+The line under the cards follows from `sides`: one side, "Your role declares its own side: Blue. Only you see this."; all three, "Your role may claim any side. Only you see this."; two, no line (neither is true).
+
+`declareSheet({ selected, phase })` gives the shell `{ id: 'talk-declare', title: 'Declare your side', close: false, actions: [{ id: 'declare', label: 'Declare Blue', icon: 'declare', kind: 'primary', busy, enabled }] }`. Before a choice it reads "Declare a side", off; `phase: 'sending'` makes it busy.
+
+Callback: `onSide(side)`, for an offered card. While the declaration sends, Frontend passes `interactive: false`, so the cards take no tap.
+
+### The wait (`mountTalkWait`, D1)
+
+`partner` and `declarer`, as above. Drawn on the partner's phone only, with `waitSheet()` (`{ id: 'talk-wait', title: 'Private talk', close: false, actions: [] }`): the declarer's portrait in the waiting block's 76 px place, and "Dev is choosing a side". Frontend mounts it only while the partner's view says it waits (`hackFeedback` `AWAITING_DECLARATION`, Q1).
+
+### The claim (`mountClaim`)
+
+| Field | Audience | What |
+| --- | --- | --- |
+| `view` | This viewer | `'declarer'` (the declarer's own claim) or `'initiator'` (the partner's phone) |
+| `partner`, `declarer` | This viewer | As above |
+| `claim` | This viewer | `'Blue'`, `'Red'`, `'Alien'`, or `null` for no declaration: `hackFeedback.declaredSide` with its `status` (`DECLARED` or `NO_DECLARATION`) |
+
+`claimSheet({ view, partner, declarer })` gives the title: "Ava sees your claim" on the declarer's phone, "Dev’s claim" on the partner's (D2); no footer, no close.
+
+### The capsule (`mountCapsule`)
+
+| Field | Audience | What |
+| --- | --- | --- |
+| `pair` | Public | `[initiator, target]` from `hackSession`, each `{ seat, name, character, health, location, jailed }` from the public board. The lower seat sits on the left, as the board seats them; `location` dresses them (`'Hospital'`, the gown; `'Jail'`, the prisoner's suit); Injured and Jailed change the seated pose, as on the board |
+| `size` | — | The stage's size, from the shell's layout, as the room scene takes it |
+| `covered` | — | How much of the stage's foot the talk's buttons cover, in px: the shell's `layout().covered.bottom`, which Frontend gives and updates from `onLayout`. The two tags stay above it; the capsule never calls the shell. Default 0 |
+| `clock` | — | The game's clock (`{ now() }`), for the ambient; `null` holds it still at 0 s |
+
+"You" goes on the tag of this phone's `viewer`.
+
+### The bar's words
+
+`talkBar({ phase, pair, remainingMs, round, promises, menu })` gives the shell's pair bar: the pair, initiator first, and the sub "Private talk · declare", "Private talk · claim" or "Private talk", with `timer: { remainingMs }`, the time left, which Frontend works out from the phase's deadline as for every bar (Q3).
+
+## Callbacks
+
+| Callback | When | What it carries |
+| --- | --- | --- |
+| `onSide(side)` | An offered card is tapped (the chosen one too) | `'Blue'`, `'Red'` or `'Alien'`: the only callback that carries a side |
+| `onFocusReturn({ intent, value })` | A focused card is removed (concealed, a new viewer, the step ends) | `{ intent: 'side', value: '2' }`: the card's place, never its side |
+| The shell's `onSheetAction('declare', 'talk-declare')` | "Declare Blue" | The action's id; Frontend sends `DECLARE_HACK_SIDE` with its own `selected` |
+
+## What each state draws
+
+The preview's states (`preview/states.mjs`), on the pack's synthetic fixtures (Ava, seat 1, asked Dev, seat 4; Gus, seat 7, is a third phone):
+
+| State | Phone | Draws |
+| --- | --- | --- |
+| `declare-own` (frame 1), `declare-any` (frame 2) | Dev's | The three cards, Blue chosen; the role's own side (Red and Alien locked) or any side |
+| `declare-unchosen`, `declare-red`, `declare-sending` | Dev's | Nothing chosen ("Declare a side", off); Red chosen; sending (busy, the cards refuse) |
+| `wait` | Ava's | "Dev is choosing a side" (D1) |
+| `declare-other`, `talk-other` | Gus's | The pair bar and the room; nothing of this component |
+| `claim-declarer` (frame 3), `claim-initiator`, `claim-alien` | Dev's, Ava's | The claim on both phones (D2) |
+| `claim-none-declarer`, `claim-none-initiator` | Dev's, Ava's | "No side declared" and the blank card (D3) |
+| `talk` (frame 4), `talk-initiator`, `talk-status` | Dev's, Ava's | The capsule; "You" on each phone's own tag; Ava from the Jail and Dev Injured from the Hospital |
+| `stale`, `concealed` | Dev's | Reconnecting, as last seen, no taps; concealed, nothing |
+| `small-declare`, `small-talk`, `largest-declare`, `largest-claim`, `largest-wait`, `largest-talk` | — | 320 × 568, and the Largest text (200 %) there |
+
+## Privacy and audiences
+
+The Lead's five points (16 November), each a check of the probe and asserted on the record by the unit test:
+- **Only the two talking phones ever get the declare or claim parts.** Each private part checks its own viewer against the two people and draws nothing for anyone else (`audience`).
+- **Any other viewer, the shared display and a concealed phone get only the pair bar** (`audience`: every part on the declarer's, the partner's, a third phone and no viewer, and each concealed; and a third phone's whole screen in each step).
+- **A viewer change drops everything** (`private`: each part handed to another viewer is empty, and stays empty when handed back, until given its inputs again).
+- **The locked sides' "Not for your role" exists only on the declarer's own phone** (`private`: every state's whole phone, and the declarer's phone after a viewer change).
+- **No side or claim reaches an attribute, the log or `onLayout`** (`leaks`: every attribute of every state's whole phone, through every card tapped, every side chosen and every claim shown; the console; every `onLayout` and every callback but `onSide`). A card is told apart by its place (`data-value` 1 to 3); the cards' and the claim's art is hidden from assistive technology, so a card is named by its own words.
+
+Also:
+- **A claim is never a check:** it says "Unverified", and nothing in the component treats it as a role.
+- **When the talk ends or aborts,** every part is disposed and nothing of the claim stays in the page.
+
+## Accessibility
+
+- The three cards are one radio group, "Side to declare", each a radio with `aria-checked`, as the pack marks them. A locked card keeps its place and its focus, is `aria-disabled`, and its name says "Not for your role".
+- Reconnecting, the cards take no tap and say why: "Controls return when the match is current", as Actions'.
+- The claim is a status (`role="status"`), read when it opens.
+- The capsule is decorative (`aria-hidden`): the pair bar names the two, and nothing in it is a control.
+- The ambient and the crew stand still with Reduce motion (the game's `reducedMotion` or the device's), suspended, or while reconnecting.
+
+## Frontend's connection (proposed)
+
+- Declare: mount when this viewer's `DECLARE_HACK_SIDE` offer exists, with its `declaredSides`; keep `selected`; on `onSheetAction('declare', 'talk-declare')`, send `DECLARE_HACK_SIDE` with it, and pass `interactive: false` until the server answers.
+- The wait: mount on the partner's phone while its view's `hackFeedback.status` is `AWAITING_DECLARATION` (Q1).
+- The claim: mount on either phone during `HACK_RESULT` from that phone's `hackFeedback` (Q2).
+- The capsule: mount in `shell.stage` in place of the room scene during `HACK`, with the pair from `hackSession` and the board, the game's clock, `size` from `shell.layout().stage` and `covered` from `shell.layout().covered.bottom`; update both from `onLayout`.
+- On any other phone, mount nothing: the pair bar is the shell's.
+- Replace the current "Hack" copy with these words (D4).
+
+## As built: what changed from the interface
+
+Accepted by the Lead on 16 November (1 to 7 as built; 8 decided). Each follows the pack or makes a privacy point provable, and none changes a rule:
+1. **Who stays at 64 px** (D8 smaller). The pack's code asks `pt(…, 56)`, but its own `.confirm-who .pt` rule draws every portrait there at 64 px, and the agreement measures 64 in sheet 25's frames. So who has no `size`, and play-parts 0.2.0 added only the tile's art, its note's icon and `label: false`. On 16 November those moved into the kit (0.7.0), and play-parts is a pass-through again (0.1.2).
+2. **Every private part takes both people.** Declare takes `declarer` as well as `partner`, and the wait `partner` and `declarer`, so each part checks its own viewer and the probe proves "only the two talking phones" in the component itself.
+3. **The capsule's "You" is the `viewer`** every part has: the interface also listed `self`, the same seat, so it is not a second input.
+4. **The capsule's people take `location`,** from the public board, for their outfit (the pack's `outfitFor(seat.location)`), with `health` and `jailed` for the pose.
+5. **`talkBar()` takes `remainingMs`,** the shell's timer, which Frontend works out from the phase's deadline (the interface said `endsAt`).
+6. **Two sides offered: no line** under the cards, since neither of the pack's lines would be true.
+7. **The wait's sheet** is titled "Private talk", with the declarer's portrait in the waiting block's 76 px place.
+8. **Under "No side declared"** (decided by the Lead): no claim was made, so no "Unverified". Only who sees it, capitalised: "Only Ava sees this" on Dev's phone and "Only you see this" on Ava's. The titles stay the step's names. It fills an undrawn state, so it is not a departure from a sheet.
+
+## Decisions and questions
+
+### The Lead's decisions (16 November, #293 at `7e068512`, posted on #4)
+
+- **D1:** the initiator's waiting sheet shows only when the view says so (Q1). Without that, no sheet, and the bar's "Private talk · declare" carries it.
+- **D2:** "Dev’s claim", "Unverified · only you see this".
+- **D3:** "No side declared" and the blank card, on both phones.
+- **D4:** the pack's words. Frontend's "Hack" copy goes when it connects.
+- **D5:** the capsule seated, with its ambient, now; the walking film later, as its own step.
+- **D6:** the sides come from the offer's `declaredSides`; the Lead drops "Frontend derives the sides from the role" from the handoff.
+- **D7:** the game's tabs, with Pass off, while declaring and during the claim; the talk's own foot only in the 60 s talk.
+- **D8:** `play-parts-0.2.0` (as built, item 1 above); its tile props are the kit's since 0.7.0 (16 November), and play-parts is a pass-through (0.1.2).
+
+### For Backend and Integration (asked by the Lead on #4)
+
+- **Q1.** During `HACK_DECLARE`, does the initiator's own view carry `hackFeedback` with `AWAITING_DECLARATION`, so the wait shows without guessing?
+- **Q2.** During `HACK_RESULT`, does the declarer's own view carry `hackFeedback` with its accepted side, so its claim shows what the server accepted rather than what the phone sent?
+- **Q3.** The pair bar's time left: is the phase's deadline in the public view for all three phases, as for the others?
+
+## Not in this version yet
+
+| What | Why |
+| --- | --- |
+| The capsule's film (walking in, declaring, the result, walking out) | D5: its own step, with the motion handoff |
+| Promises during the talk (sheet 33) | A later component of mine; the shell's Promises button reports the tap |
+| Lights out in the capsule | Sheet 25 draws the capsule lit |
+
+## Found while building, and resolved
+
+- **The talk's foot at the Largest text** (the shell's): on 320 × 568 at 200 %, Promises and My card stayed side by side and "My card" ran past the right edge. Fixed in shell 0.2.6 (`98aca824`, merged here as `52524365`): under 19 em they take a row each when their words don't fit, and what docks above them follows their height.
+- **The capsule's tags under the talk's foot** at the same size: the capsule now takes `covered` (above) and keeps its two tags over the band, 4 px clear at 200 % on 320 × 568. The probe's `covered` check measures it; at the Standard text the tags stay where the pack has them.
+- **The pack's portrait size in who:** `pt(…, 56)` in the pack's code is drawn at 64 px by its own `.confirm-who .pt` rule; the component follows the drawn frame (as built, item 1).
+
+## Checks run on this version
+
+At `c75362a2` (#273's `9f88c154` merged in: kit 0.7.1), with the source clean (the components, the hosted drawings, the room, capsule and crew pictures, and the tool):
+- **`node design/tools/private-talk-check.mjs`,** on the shared `design/tools/lib/component-check.mjs`, under the production headers (SHA-256 `424e5dec…`):
+  - **Captures:** 42 of 42: eighteen states at 390 × 844 and 430 × 932, and six at 320 × 568 (the small phone, and the Largest text there). Concealed, no private word is in the page; on a third phone, the pair bar and the room only.
+  - **Probe:** 15 of 15: declare, refused, claim, wait, capsule, covered, audience, private, leaks, inputs, focus, text, dispose and motion, plus motion again with the device's Reduce motion. The Lead's five privacy points are audience, private and leaks: no side or claim in any attribute of any state's whole phone, in the console, in `onLayout` or in a callback but `onSide`; "Not for your role" only on the declarer's phone. `covered`: at 200 % on 320 × 568 the band is 128 px and both tags end 4 px above it; at the Standard text on 390 × 844 (band 102) and 320 × 568 (band 68) the tags stay where the pack has them.
+  - **Agreement with the pinned pack's own `talk()` frames:** 4 of 4 (declare with the role's own side and with any side, the claim, the talk), with no differing part and no word amended: the pair bar, the sheet and its footer, who, each card's place, state, choice, words, lock, art and look, the line under the cards, the claim's card, and the capsule's pictures, the two seated, their tags, the ambient and the talk's two buttons, each to within half a pixel.
+  - **The tool exits 0.** `private-talk.test.mjs` checks the record: every capture and its hash, every probe check, the privacy details, the covered band, every frame.
+  - **Against `9990539e`'s record** (kit 0.7.0): every recorded field of the 42 captures is the same, and so are the probe's 15 checks and the agreement's 4. 19 captures did not change; the rest differ by at most 162 pixels, where the crew's idle motion, the capsule's ambient motion or the sending spinner was caught at another moment.
+  - **Against `dbac4888`'s record** (shell 0.2.6, kit 0.5.1, play-parts 0.2.0), at kit 0.7.0: every recorded field of the 42 captures is the same, and so are the probe's 15 checks and the agreement's 4. 17 captures did not change; the rest differ by at most 102 pixels, where the room's ambient motion or the sending spinner was caught at another moment.
+  - **Earlier, against `0b4da23f`'s captures:** `320x568-largest-talk` (the talk's buttons a row each, the tags above them); the four no-declaration claims (the line under "No side declared"); both reconnecting captures (the bar's glyph at 24 px, shell 0.2.2). A few others differ by under 330 pixels, where the crew's idle motion was caught at another moment.
+- **`private-talk.test.mjs`** 8 of 8 and **`play-parts.test.mjs`** 6 of 6 (Actions').
+- **Actions** is #273's at `9f88c154`, unchanged here, and its record there holds.
+- **On `c75362a2`, with the record:** `test:design` 406 of 406, `test:tooling` 337 of 337, `check-assets.mjs` 15 passed; `npm run build`, `typecheck`, `check:toolchain`, `check:workspace` and `check:sources` pass.
+- **The owner's test page:** a private page, sent to the Lead, rebuilt from these files at the record's commit, to the same link.
+- **Not run:** physical phones, Safari, screen readers, frame rate, the real app's connection.

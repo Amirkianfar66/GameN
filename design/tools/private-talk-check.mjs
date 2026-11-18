@@ -1,0 +1,205 @@
+// mothership:dev-only
+//
+// The private talk's check (design/phone-ui/components/private-talk, with design/phone-ui/components/play-parts).
+// It bundles the component's preview the way the game bundles the component (Vite: ordinary bundling, no copy),
+// serves the bundle with the hosted game's production response headers (scripts/prepare-hosted-preview.mjs: the
+// Content Security Policy of scripts/hosted-preview-policy.mjs and the six other headers), and captures every
+// preview state at the two development phone sizes, 390 × 844 and 430 × 932, and the small-phone and text-size
+// states at 320 × 568, in desktop Chromium at 2× pixels. Declare, the wait and the claim sit in the phone shell's
+// sheet, with the room scene in the shell's stage; the talk's capsule is the stage, as in the game.
+// A capture passes with no policy violation but the known Zod probe, no failed or refused request and no page
+// error, with what the state asks drawn (below), and people drawn: the room's crew behind, or the two seated.
+// It then runs, in the same bundle under the same headers:
+//   the probe (preview/probe.mjs), once as the page comes and once with the device's Reduce motion emulated:
+//   declare, refused, claim, wait, capsule, covered, audience, private, leaks, inputs, focus, text, dispose, motion
+//   (the Lead's five privacy points are audience, private and leaks);
+//   the agreement (preview/agree.mjs): the component beside the pinned pack's own drawing of sheet 25's four
+//   frames, the same words, boxes (to within half a pixel) and looks.
+// It writes design/phone-ui/components/private-talk/review/: one JPEG per state and size, and check.json (the
+// headers and their SHA-256, the source commit, what each capture drew and its SHA-256, and each probe and
+// agreement check with what it saw). It exits non-zero when any check fails, and says which.
+//   node design/tools/private-talk-check.mjs [--keep]
+// Needs a Chromium-based browser (CHROME_PATH). Desktop Chromium at each phone's CSS size: not a phone, not
+// Safari, not a performance measure.
+// The bundling, the headers and the policy reports are every component check's (lib/component-check.mjs).
+
+import { cp, mkdir, readdir, rm, writeFile } from 'node:fs/promises';
+import { join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { POLICY_LISTENER, bundlePreview, classify, recordedHeaders, serve, sha256, sourceState } from './lib/component-check.mjs';
+import { connect, launchBrowser, openPage, sleep } from './lib/chrome.mjs';
+
+const REPO = resolve(fileURLToPath(new URL('../../', import.meta.url)));
+const COMPONENT = join(REPO, 'design/phone-ui/components/private-talk');
+const REVIEW = join(COMPONENT, 'review');
+const SIZES = { '390x844': [390, 844], '430x932': [430, 932], '320x568': [320, 568] };
+// The moment of the voyage the captures hold, as the shell's do (2:10).
+const AT = 130;
+
+const DECLARING = 'Ava + Dev|Private talk · declare', CLAIMING = 'Ava + Dev|Private talk · claim', TALKING = 'Ava + Dev|Private talk';
+const ASKED = 'Ava asked to talk|Declare a side. It is a claim, not a check.';
+const OWN = 'Your role declares its own side: Blue. Only you see this.', ANY = 'Your role may claim any side. Only you see this.';
+const declareOf = (cards, footer, more = {}) => ({ part: 'declare', bar: DECLARING, sheet: 'Declare your side', who: ASKED, cards, footer, ...more });
+const claimOf = (sheet, who, more = {}) => ({ part: 'claim', bar: CLAIMING, sheet, who, card: true, footer: null, ...more });
+const talkOf = (tags, more = {}) => ({ part: 'capsule', bar: TALKING, sheet: null, tags, layers: 3, seated: 2, talk: 'Promises|My card', ...more });
+const ONLY_BLUE = 'Blue:selected,Red:unavailable,Alien:unavailable', ANY_BLUE = 'Blue:selected,Red:available,Alien:available';
+/** What each state must draw, from its fixture (preview/states.mjs): the pack's words and the Lead's, written out here. */
+const EXPECT = {
+  'declare-own': declareOf(ONLY_BLUE, 'Declare Blue', { note: OWN, locks: 2 }),
+  'declare-any': declareOf(ANY_BLUE, 'Declare Blue', { note: ANY, locks: 0 }),
+  'claim-declarer': claimOf('Ava sees your claim', 'Dev claims Blue|Unverified · only Ava sees this'),
+  talk: talkOf('1 Ava|4 You'),
+  'declare-unchosen': declareOf('Blue:available,Red:available,Alien:available', 'Declare a side', { note: ANY }),
+  'declare-red': declareOf('Blue:available,Red:selected,Alien:available', 'Declare Red', { note: ANY }),
+  'declare-sending': declareOf(ONLY_BLUE, 'Declare Blue', { note: OWN, refused: true }),
+  wait: { part: 'wait', bar: DECLARING, sheet: 'Private talk', wait: 'Dev is choosing a side', footer: null },
+  'declare-other': { part: null, bar: DECLARING, sheet: null, capsule: false },
+  'claim-initiator': claimOf('Dev’s claim', 'Dev claims Blue|Unverified · only you see this'),
+  'claim-none-declarer': claimOf('Ava sees your claim', 'No side declared|Only Ava sees this'),
+  'claim-none-initiator': claimOf('Dev’s claim', 'No side declared|Only you see this'),
+  'claim-alien': claimOf('Dev’s claim', 'Dev claims Alien|Unverified · only you see this'),
+  'talk-initiator': talkOf('1 You|4 Dev'),
+  'talk-status': talkOf('1 Ava|4 You'),
+  'talk-other': { part: null, bar: TALKING, sheet: null, capsule: false, talk: null },
+  stale: declareOf(ANY_BLUE, 'Declare Blue', { bar: 'Reconnecting…|Showing Round 3 as last seen', banner: 'Connection lost', refused: true }),
+  concealed: { concealed: true },
+  'small-declare': declareOf(ANY_BLUE, 'Declare Blue', { note: ANY, perRow: 3 }),
+  'small-talk': talkOf('1 Ava|4 You'),
+  'largest-declare': declareOf(ANY_BLUE, 'Declare Blue', { note: ANY, perRow: 3 }),
+  'largest-claim': claimOf('Ava sees your claim', 'Dev claims Blue|Unverified · only Ava sees this'),
+  'largest-wait': { part: 'wait', bar: DECLARING, sheet: 'Private talk', wait: 'Dev is choosing a side', footer: null },
+  'largest-talk': talkOf('1 Ava|4 You'),
+};
+/** The small-phone and text-size states, each at its own size. */
+const OWN_SIZE = { 'small-declare': '320x568', 'small-talk': '320x568', 'largest-declare': '320x568', 'largest-claim': '320x568', 'largest-wait': '320x568', 'largest-talk': '320x568' };
+/** The private words that must never be in a concealed page. */
+const PRIVATE = ['Blue', 'Red', 'Alien', 'Declare', 'claim', 'Not for your role', 'asked to talk', 'choosing a side', 'Private talk'];
+
+/**
+ * The preview bundled as the game bundles a component (lib/component-check.mjs). The agreement's pack finds the
+ * rooms' and the capsule's pictures (design/board-v2/assets/) from its own place at run time, which no bundle
+ * carries; they are copied to where it looks from the bundle, as the pack's own pages serve them (the library
+ * copies the crew's portraits). In the game, the art bundles' CSS properties carry them.
+ */
+async function bundle() {
+  const out = await bundlePreview({ repo: REPO, root: join(COMPONENT, 'preview'), name: 'private-talk-check' });
+  await cp(join(REPO, 'design/board-v2/assets'), join(out, 'board-v2/assets'), { recursive: true });
+  return out;
+}
+
+// The source the captures show, read before anything is written: the components' files, the hosted drawings
+// they use, the room and capsule pictures and the crew's, without the review folders checks write.
+const { sourceCommit, sourceClean } = sourceState(REPO, ['design/phone-ui/components', 'apps/game/hosted', 'design/room-drawing/assets', 'design/crew-drawing/assets', 'design/tools/private-talk-check.mjs']);
+const out = await bundle();
+const { server, origin } = await serve(out);
+const chrome = await launchBrowser();
+const browser = await connect(chrome.endpoint);
+const results = {};
+const probes = {};
+let agreement = null;
+let failed = 0;
+try {
+  await mkdir(REVIEW, { recursive: true });
+  // A clean review folder: captures of states that no longer exist do not linger.
+  for (const name of await readdir(REVIEW)) if (/\.jpg$/.test(name)) await rm(join(REVIEW, name));
+  for (const state of Object.keys(EXPECT)) {
+    for (const sizeKey of OWN_SIZE[state] ? [OWN_SIZE[state]] : ['390x844', '430x932']) {
+      const [width, height] = SIZES[sizeKey];
+      const page = await openPage(browser, { width, height, scale: 2 });
+      await page.send('Page.addScriptToEvaluateOnNewDocument', { source: POLICY_LISTENER });
+      await page.goto(`${origin}/index.html?single=1&size=${sizeKey}&state=${state}&at=${AT}`, 'window.__talk !== undefined');
+      await page.evaluate('window.__talk.ready');
+      // The shell's sheet slides in (220 ms): capture it where it rests.
+      await sleep(700);
+      const seen = await page.evaluate(`(() => {
+        const q = s => document.querySelector(s), all = s => [...document.querySelectorAll(s)], shown = n => !!n && n.getClientRects().length > 0;
+        const t = n => (shown(n) ? n.innerText.replace(/\\s+/g, ' ').trim() : null);
+        const sheetPart = q('.ms-ps-sheet-body .ms-private-talk'), capsule = q('.ms-pt-capsule'), room = q('.ms-room-scene');
+        const drawnPart = [sheetPart, capsule].find(n => n && [...n.children].some(c => !c.classList.contains('ms-k-vh'))) ?? null;
+        const cards = all('.ms-pt-sides .ms-k-tile');
+        const top = n => Math.round(n.getBoundingClientRect().top);
+        return { violations: window.__policy, part: drawnPart?.dataset.part ?? null, status: (sheetPart ?? capsule)?.dataset.status ?? null,
+          bar: [t(q('.ms-ps-tb .ms-ps-name')), t(q('.ms-ps-tb .ms-ps-sub'))].filter(Boolean).join('|') || null,
+          sheet: t(q('.ms-ps-sheet-title h2')),
+          footer: all('.ms-ps-sheet-foot .ms-k-btn').map(b => b.innerText.replace(/\\s+/g, ' ').trim()).join('|') || null,
+          who: q('.ms-private-talk .ms-k-who') ? [t(q('.ms-k-who-title')), t(q('.ms-k-who-sub'))].join('|') : null,
+          cards: cards.map(n => t(n.querySelector('.ms-k-tile-name')) + ':' + n.dataset.state).join(',') || null,
+          locks: cards.filter(n => n.querySelector('.ms-k-tile-note:not([hidden]) .ms-k-ic')).length,
+          note: t(q('.ms-pt-note')),
+          perRow: cards.length ? cards.filter(n => top(n) === top(cards[0])).length : null,
+          refused: cards.length ? cards.every(n => n.getAttribute('aria-disabled') === 'true') : null,
+          card: q('.ms-pt-card svg') ? shown(q('.ms-pt-card')) : null,
+          wait: t(q('.ms-pt-wait .ms-k-wait-title')),
+          capsule: !!capsule && [...capsule.children].some(c => !c.classList.contains('ms-k-vh')),
+          tags: all('.ms-pt-tag').map(n => n.innerText.replace(/\\s+/g, ' ').trim()).join('|') || null,
+          layers: all('.ms-pt-layer').length, seated: all('.ms-pt-fig svg').length,
+          talk: all('.ms-ps-talk .ms-k-btn').map(b => b.innerText.replace(/\\s+/g, ' ').trim()).join('|') || null,
+          banner: t(q('.ms-ps-banner b')),
+          page: document.body.innerText, figures: (room ? room.querySelectorAll('.ms-rs-fig svg').length : 0) + all('.ms-pt-fig svg').length };
+      })()`);
+      const art = page.requests().filter(url => /\.svg$/.test(url)).map(url => url.slice(origin.length + 1));
+      // The browser asks for /favicon.ico by itself; the preview has none, as the live site has none.
+      const problems = page.problems().filter(p => !/\/favicon\.ico$/.test(p));
+      for (const v of seen.violations) v.kind = await classify(out, v);
+      const file = join(REVIEW, `${sizeKey}-${state}.jpg`);
+      const { data } = await page.send('Page.captureScreenshot', { format: 'jpeg', quality: 72, clip: { x: 0, y: 0, width, height, scale: 1 } });
+      const bytes = Buffer.from(data, 'base64');
+      await writeFile(file, bytes);
+      const want = EXPECT[state];
+      const leaked = PRIVATE.filter(w => seen.page.includes(w));
+      const mismatched = want.concealed
+        ? seen.part !== null || seen.sheet !== null || leaked.length || seen.figures !== 0 ? ['concealed'] : []
+        : Object.entries(want).filter(([key, value]) => seen[key] !== value).map(([key]) => key);
+      const drawn = mismatched.length === 0 && (want.concealed || seen.figures > 0);
+      const ok = seen.violations.every(v => v.kind !== 'unexpected') && problems.length === 0 && drawn;
+      if (!ok) failed += 1;
+      delete seen.page;
+      results[`${sizeKey}/${state}`] = { file: file.slice(REPO.length + 1), sha256: sha256(bytes), ok, drawn, mismatched, ...seen, leaked, art, problems };
+      await page.close();
+      console.log(`${ok ? 'ok  ' : 'FAIL'} ${sizeKey} ${state}: part ${seen.part ?? '—'}, sheet ${seen.sheet ?? '—'}, people ${seen.figures}${mismatched.length ? `, differs: ${mismatched.map(k => `${k} ${JSON.stringify(seen[k])} ≠ ${JSON.stringify(want[k])}`).join('; ')}` : ''}, unexpected violations ${seen.violations.filter(v => v.kind === 'unexpected').length}, problems ${problems.length}`);
+    }
+  }
+  // The probe, as the page comes and with the device's Reduce motion; then the agreement with the pack.
+  for (const [mode, media, query] of [['full', null, 'probe=1'], ['device-reduced', { 'prefers-reduced-motion': 'reduce' }, 'probe=1'], ['agree', null, 'agree=1']]) {
+    const page = await openPage(browser, { width: 900, height: 1000, scale: 1 });
+    await page.send('Page.addScriptToEvaluateOnNewDocument', { source: POLICY_LISTENER });
+    if (media) await page.media(media);
+    await page.goto(`${origin}/index.html?single=1&${query}`, 'window.__talk !== undefined');
+    const outcome = await page.evaluate(mode === 'agree' ? 'window.__talk.agree' : 'window.__talk.probe');
+    const violations = await page.evaluate('window.__policy');
+    for (const v of violations) v.kind = await classify(out, v);
+    const problems = page.problems().filter(p => !/\/favicon\.ico$/.test(p));
+    const ok = outcome.ok && outcome.mode === mode && outcome.checks.length > 0 && problems.length === 0 && violations.every(v => v.kind !== 'unexpected');
+    if (!ok) failed += 1;
+    // The run's own verdict last, so the page's (outcome.ok) never stands in for it.
+    const entry = { emulated: media ?? {}, ...outcome, ok, violations, problems };
+    if (mode === 'agree') agreement = entry; else probes[mode] = entry;
+    await page.close();
+    for (const c of outcome.checks) console.log(`${c.ok ? 'ok  ' : 'FAIL'} ${mode === 'agree' ? '' : `probe ${mode} · `}${c.id}${c.ok ? '' : ` ${JSON.stringify(c.detail).slice(0, 1500)}`}`);
+    if (outcome.error) console.log(`FAIL ${mode}: ${outcome.error}`);
+    if (problems.length) console.log(`FAIL ${mode}: problems ${JSON.stringify(problems).slice(0, 1500)}`);
+  }
+} finally {
+  browser.close();
+  chrome.close?.();
+  server.close();
+  if (process.argv.includes('--keep')) console.log(`kept the bundle in ${out}`); else await rm(out, { recursive: true, force: true });
+}
+const record = {
+  tool: 'design/tools/private-talk-check.mjs',
+  component: 'design/phone-ui/components/private-talk',
+  parts: 'design/phone-ui/components/play-parts',
+  sourceCommit, sourceClean,
+  environment: 'Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.',
+  ...recordedHeaders(),
+  voyageAt: AT,
+  captures: results,
+  probe: probes,
+  agree: agreement,
+};
+await writeFile(join(REVIEW, 'check.json'), `${JSON.stringify(record, null, 2)}\n`);
+const passedCaptures = Object.values(results).filter(r => r.ok).length;
+const probeChecks = Object.values(probes).flatMap(p => p.checks ?? []);
+const agreeChecks = agreement?.checks ?? [];
+console.log(`${passedCaptures} of ${Object.keys(results).length} captures passed; probe ${probeChecks.filter(c => c.ok).length} of ${probeChecks.length} checks; agreement ${agreeChecks.filter(c => c.ok).length} of ${agreeChecks.length}; wrote ${REVIEW.slice(REPO.length + 1)}/check.json`);
+if (failed) process.exitCode = 1;

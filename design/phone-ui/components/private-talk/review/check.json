@@ -1,0 +1,2843 @@
+{
+  "tool": "design/tools/private-talk-check.mjs",
+  "component": "design/phone-ui/components/private-talk",
+  "parts": "design/phone-ui/components/play-parts",
+  "sourceCommit": "c75362a2d4bec2b89d90699b2d86c36a82a457a7",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "voyageAt": 130,
+  "captures": {
+    "390x844/declare-own": {
+      "file": "design/phone-ui/components/private-talk/review/390x844-declare-own.jpg",
+      "sha256": "5632a6c16bf4ecb518666d135d8a91bb72b5fd1e2dbc82910fdbd1ab0b89011a",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "declare",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · declare",
+      "sheet": "Declare your side",
+      "footer": "Declare Blue",
+      "who": "Ava asked to talk|Declare a side. It is a claim, not a check.",
+      "cards": "Blue:selected,Red:unavailable,Alien:unavailable",
+      "locks": 2,
+      "note": "Your role declares its own side: Blue. Only you see this.",
+      "perRow": 3,
+      "refused": false,
+      "card": null,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Blue",
+        "Red",
+        "Alien",
+        "Declare",
+        "claim",
+        "Not for your role",
+        "asked to talk",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/declare-own": {
+      "file": "design/phone-ui/components/private-talk/review/430x932-declare-own.jpg",
+      "sha256": "1494aa85c7150f3afa3821a48f2a68b659fe71b9a3d3db33d3935dd6f27da403",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "declare",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · declare",
+      "sheet": "Declare your side",
+      "footer": "Declare Blue",
+      "who": "Ava asked to talk|Declare a side. It is a claim, not a check.",
+      "cards": "Blue:selected,Red:unavailable,Alien:unavailable",
+      "locks": 2,
+      "note": "Your role declares its own side: Blue. Only you see this.",
+      "perRow": 3,
+      "refused": false,
+      "card": null,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Blue",
+        "Red",
+        "Alien",
+        "Declare",
+        "claim",
+        "Not for your role",
+        "asked to talk",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/declare-any": {
+      "file": "design/phone-ui/components/private-talk/review/390x844-declare-any.jpg",
+      "sha256": "8e59c39e87e950a0479ef0f7b7120bbfb3de474a1fc989c59e62e5a47271e3cd",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "declare",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · declare",
+      "sheet": "Declare your side",
+      "footer": "Declare Blue",
+      "who": "Ava asked to talk|Declare a side. It is a claim, not a check.",
+      "cards": "Blue:selected,Red:available,Alien:available",
+      "locks": 0,
+      "note": "Your role may claim any side. Only you see this.",
+      "perRow": 3,
+      "refused": false,
+      "card": null,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Blue",
+        "Red",
+        "Alien",
+        "Declare",
+        "claim",
+        "asked to talk",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/declare-any": {
+      "file": "design/phone-ui/components/private-talk/review/430x932-declare-any.jpg",
+      "sha256": "74bf850b5fc41af4c8935ed0aea9c2ad1dab0b3cb33dc5373d4469dc24b65f7b",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "declare",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · declare",
+      "sheet": "Declare your side",
+      "footer": "Declare Blue",
+      "who": "Ava asked to talk|Declare a side. It is a claim, not a check.",
+      "cards": "Blue:selected,Red:available,Alien:available",
+      "locks": 0,
+      "note": "Your role may claim any side. Only you see this.",
+      "perRow": 3,
+      "refused": false,
+      "card": null,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Blue",
+        "Red",
+        "Alien",
+        "Declare",
+        "claim",
+        "asked to talk",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/claim-declarer": {
+      "file": "design/phone-ui/components/private-talk/review/390x844-claim-declarer.jpg",
+      "sha256": "d2e045dee6dbb63e5d984d09c1d0170d625a0e084835c8ec693e2495f69ed2dd",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "claim",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · claim",
+      "sheet": "Ava sees your claim",
+      "footer": null,
+      "who": "Dev claims Blue|Unverified · only Ava sees this",
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": true,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Blue",
+        "claim",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/claim-declarer": {
+      "file": "design/phone-ui/components/private-talk/review/430x932-claim-declarer.jpg",
+      "sha256": "4da46a74a1ed137903fc586c4c2f511dbac3f4e4a8d6ff09d4bc12c22ff4654f",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "claim",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · claim",
+      "sheet": "Ava sees your claim",
+      "footer": null,
+      "who": "Dev claims Blue|Unverified · only Ava sees this",
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": true,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Blue",
+        "claim",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/talk": {
+      "file": "design/phone-ui/components/private-talk/review/390x844-talk.jpg",
+      "sha256": "b1342d571813966d5e2f24a0ac848a156d36fa5349d1483021b593af4dbcd255",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "capsule",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk",
+      "sheet": null,
+      "footer": null,
+      "who": null,
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": null,
+      "wait": null,
+      "capsule": true,
+      "tags": "1 Ava|4 You",
+      "layers": 3,
+      "seated": 2,
+      "talk": "Promises|My card",
+      "banner": null,
+      "figures": 2,
+      "leaked": [
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/capsule.back-BJYQgDil.svg",
+        "assets/capsule.door-0-BRyGibpO.svg",
+        "assets/capsule.busy-CgVVb3-W.svg"
+      ],
+      "problems": []
+    },
+    "430x932/talk": {
+      "file": "design/phone-ui/components/private-talk/review/430x932-talk.jpg",
+      "sha256": "276e4e91c77f10ee589584bb9a359d9d863dc93b97e858c6446db1c6f38691e2",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "capsule",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk",
+      "sheet": null,
+      "footer": null,
+      "who": null,
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": null,
+      "wait": null,
+      "capsule": true,
+      "tags": "1 Ava|4 You",
+      "layers": 3,
+      "seated": 2,
+      "talk": "Promises|My card",
+      "banner": null,
+      "figures": 2,
+      "leaked": [
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/capsule.back-BJYQgDil.svg",
+        "assets/capsule.door-0-BRyGibpO.svg",
+        "assets/capsule.busy-CgVVb3-W.svg"
+      ],
+      "problems": []
+    },
+    "390x844/declare-unchosen": {
+      "file": "design/phone-ui/components/private-talk/review/390x844-declare-unchosen.jpg",
+      "sha256": "e1a993c68d5512ffceaf7c2b61c03fcb41612a3fd656197860225194a4a1ab39",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "declare",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · declare",
+      "sheet": "Declare your side",
+      "footer": "Declare a side",
+      "who": "Ava asked to talk|Declare a side. It is a claim, not a check.",
+      "cards": "Blue:available,Red:available,Alien:available",
+      "locks": 0,
+      "note": "Your role may claim any side. Only you see this.",
+      "perRow": 3,
+      "refused": false,
+      "card": null,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Blue",
+        "Red",
+        "Alien",
+        "Declare",
+        "claim",
+        "asked to talk",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/declare-unchosen": {
+      "file": "design/phone-ui/components/private-talk/review/430x932-declare-unchosen.jpg",
+      "sha256": "bf9ead9dee996562feda8eabda649c826eb2e294c492cc2f3bc3a8669cd01854",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "declare",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · declare",
+      "sheet": "Declare your side",
+      "footer": "Declare a side",
+      "who": "Ava asked to talk|Declare a side. It is a claim, not a check.",
+      "cards": "Blue:available,Red:available,Alien:available",
+      "locks": 0,
+      "note": "Your role may claim any side. Only you see this.",
+      "perRow": 3,
+      "refused": false,
+      "card": null,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Blue",
+        "Red",
+        "Alien",
+        "Declare",
+        "claim",
+        "asked to talk",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/declare-red": {
+      "file": "design/phone-ui/components/private-talk/review/390x844-declare-red.jpg",
+      "sha256": "7c2b7a37cc21825e12845ed33ce0e1fa9d8e1f6a237ede0dfbee267f25ce47af",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "declare",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · declare",
+      "sheet": "Declare your side",
+      "footer": "Declare Red",
+      "who": "Ava asked to talk|Declare a side. It is a claim, not a check.",
+      "cards": "Blue:available,Red:selected,Alien:available",
+      "locks": 0,
+      "note": "Your role may claim any side. Only you see this.",
+      "perRow": 3,
+      "refused": false,
+      "card": null,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Blue",
+        "Red",
+        "Alien",
+        "Declare",
+        "claim",
+        "asked to talk",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/declare-red": {
+      "file": "design/phone-ui/components/private-talk/review/430x932-declare-red.jpg",
+      "sha256": "29743dd1ec64adca97e405bbee96033da931d61ccd4f23498e18fb006978db3f",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "declare",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · declare",
+      "sheet": "Declare your side",
+      "footer": "Declare Red",
+      "who": "Ava asked to talk|Declare a side. It is a claim, not a check.",
+      "cards": "Blue:available,Red:selected,Alien:available",
+      "locks": 0,
+      "note": "Your role may claim any side. Only you see this.",
+      "perRow": 3,
+      "refused": false,
+      "card": null,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Blue",
+        "Red",
+        "Alien",
+        "Declare",
+        "claim",
+        "asked to talk",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/declare-sending": {
+      "file": "design/phone-ui/components/private-talk/review/390x844-declare-sending.jpg",
+      "sha256": "45c7e9ca50f536c840acb3eae175ec933100d4757c2b845b30ddb178e6511021",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "declare",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · declare",
+      "sheet": "Declare your side",
+      "footer": "Declare Blue",
+      "who": "Ava asked to talk|Declare a side. It is a claim, not a check.",
+      "cards": "Blue:selected,Red:unavailable,Alien:unavailable",
+      "locks": 2,
+      "note": "Your role declares its own side: Blue. Only you see this.",
+      "perRow": 3,
+      "refused": true,
+      "card": null,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Blue",
+        "Red",
+        "Alien",
+        "Declare",
+        "claim",
+        "Not for your role",
+        "asked to talk",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/declare-sending": {
+      "file": "design/phone-ui/components/private-talk/review/430x932-declare-sending.jpg",
+      "sha256": "5aa4f874fd5b868d6014e57a7824a3b741d65240e858bc906b5e88b04407bdf8",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "declare",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · declare",
+      "sheet": "Declare your side",
+      "footer": "Declare Blue",
+      "who": "Ava asked to talk|Declare a side. It is a claim, not a check.",
+      "cards": "Blue:selected,Red:unavailable,Alien:unavailable",
+      "locks": 2,
+      "note": "Your role declares its own side: Blue. Only you see this.",
+      "perRow": 3,
+      "refused": true,
+      "card": null,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Blue",
+        "Red",
+        "Alien",
+        "Declare",
+        "claim",
+        "Not for your role",
+        "asked to talk",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/wait": {
+      "file": "design/phone-ui/components/private-talk/review/390x844-wait.jpg",
+      "sha256": "fc3f7e3335bf8c80d57467f7c5a837c4c3b99a6ddc6d0b460511aaaeaeb3e036",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "wait",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · declare",
+      "sheet": "Private talk",
+      "footer": null,
+      "who": null,
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": null,
+      "wait": "Dev is choosing a side",
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "choosing a side",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/wait": {
+      "file": "design/phone-ui/components/private-talk/review/430x932-wait.jpg",
+      "sha256": "aab22425d04d4af8d8d41ddafd4ac37fd50fb33d237e4762ad84854c926925a6",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "wait",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · declare",
+      "sheet": "Private talk",
+      "footer": null,
+      "who": null,
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": null,
+      "wait": "Dev is choosing a side",
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "choosing a side",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/declare-other": {
+      "file": "design/phone-ui/components/private-talk/review/390x844-declare-other.jpg",
+      "sha256": "f9362a9def6bbac3723d871b007fd2cd7b60fc39f7f15d021e5d7bc7e2b2930b",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "bar": "Ava + Dev|Private talk · declare",
+      "sheet": null,
+      "footer": null,
+      "who": null,
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": null,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/declare-other": {
+      "file": "design/phone-ui/components/private-talk/review/430x932-declare-other.jpg",
+      "sha256": "c7cf1d30d0663d52b0004d9b7f4807075e0c9fc4ea83583c8cb49b059c73b1e6",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "bar": "Ava + Dev|Private talk · declare",
+      "sheet": null,
+      "footer": null,
+      "who": null,
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": null,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/claim-initiator": {
+      "file": "design/phone-ui/components/private-talk/review/390x844-claim-initiator.jpg",
+      "sha256": "986bf99562f3cc3657a9e2e6fea38e9deaf54b48fc09e997901f749b4f741e23",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "claim",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · claim",
+      "sheet": "Dev’s claim",
+      "footer": null,
+      "who": "Dev claims Blue|Unverified · only you see this",
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": true,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Blue",
+        "claim",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/claim-initiator": {
+      "file": "design/phone-ui/components/private-talk/review/430x932-claim-initiator.jpg",
+      "sha256": "94a93bf2f770287f7b4ce7e63f34788d1822b55089b70fc5c929a0487dad24ac",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "claim",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · claim",
+      "sheet": "Dev’s claim",
+      "footer": null,
+      "who": "Dev claims Blue|Unverified · only you see this",
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": true,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Blue",
+        "claim",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/claim-none-declarer": {
+      "file": "design/phone-ui/components/private-talk/review/390x844-claim-none-declarer.jpg",
+      "sha256": "7baaec680c5240c5635a350cdaf7080b9c6442c7e16dc6ab681bd4ba089c5bb8",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "claim",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · claim",
+      "sheet": "Ava sees your claim",
+      "footer": null,
+      "who": "No side declared|Only Ava sees this",
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": true,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "claim",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/claim-none-declarer": {
+      "file": "design/phone-ui/components/private-talk/review/430x932-claim-none-declarer.jpg",
+      "sha256": "3fb0ddb054b279a35ef158bf61ed364675ff307138b7e84b348f5f50a3fe7911",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "claim",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · claim",
+      "sheet": "Ava sees your claim",
+      "footer": null,
+      "who": "No side declared|Only Ava sees this",
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": true,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "claim",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/claim-none-initiator": {
+      "file": "design/phone-ui/components/private-talk/review/390x844-claim-none-initiator.jpg",
+      "sha256": "9e9ac08e869796eccab2e8071d56ee2a9f1f7b11ef2734b8f66abeede949c5b8",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "claim",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · claim",
+      "sheet": "Dev’s claim",
+      "footer": null,
+      "who": "No side declared|Only you see this",
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": true,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "claim",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/claim-none-initiator": {
+      "file": "design/phone-ui/components/private-talk/review/430x932-claim-none-initiator.jpg",
+      "sha256": "a19b68787195f7c3a9919b26723bd4d930171fd95dfc4432cefda272d91285b4",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "claim",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · claim",
+      "sheet": "Dev’s claim",
+      "footer": null,
+      "who": "No side declared|Only you see this",
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": true,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "claim",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/claim-alien": {
+      "file": "design/phone-ui/components/private-talk/review/390x844-claim-alien.jpg",
+      "sha256": "93a8212307d9890cd2b6a4e6f1afb9ccfd781d3dbdba8555bdf58051d007b610",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "claim",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · claim",
+      "sheet": "Dev’s claim",
+      "footer": null,
+      "who": "Dev claims Alien|Unverified · only you see this",
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": true,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Alien",
+        "claim",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/claim-alien": {
+      "file": "design/phone-ui/components/private-talk/review/430x932-claim-alien.jpg",
+      "sha256": "f6eee353ef46f47a71e8c528f620790e0edb699ff099ef129fc3ae9192736af6",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "claim",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · claim",
+      "sheet": "Dev’s claim",
+      "footer": null,
+      "who": "Dev claims Alien|Unverified · only you see this",
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": true,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Alien",
+        "claim",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/talk-initiator": {
+      "file": "design/phone-ui/components/private-talk/review/390x844-talk-initiator.jpg",
+      "sha256": "59f148b069aa26990fa38de0efb8ec8a09cde4dd2797b025c00d89af02b0739f",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "capsule",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk",
+      "sheet": null,
+      "footer": null,
+      "who": null,
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": null,
+      "wait": null,
+      "capsule": true,
+      "tags": "1 You|4 Dev",
+      "layers": 3,
+      "seated": 2,
+      "talk": "Promises|My card",
+      "banner": null,
+      "figures": 2,
+      "leaked": [
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/capsule.back-BJYQgDil.svg",
+        "assets/capsule.door-0-BRyGibpO.svg",
+        "assets/capsule.busy-CgVVb3-W.svg"
+      ],
+      "problems": []
+    },
+    "430x932/talk-initiator": {
+      "file": "design/phone-ui/components/private-talk/review/430x932-talk-initiator.jpg",
+      "sha256": "576dd413567472cd6bb1d6773b41f06fb538641e1751dd619bae36c3e79beb38",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "capsule",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk",
+      "sheet": null,
+      "footer": null,
+      "who": null,
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": null,
+      "wait": null,
+      "capsule": true,
+      "tags": "1 You|4 Dev",
+      "layers": 3,
+      "seated": 2,
+      "talk": "Promises|My card",
+      "banner": null,
+      "figures": 2,
+      "leaked": [
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/capsule.back-BJYQgDil.svg",
+        "assets/capsule.door-0-BRyGibpO.svg",
+        "assets/capsule.busy-CgVVb3-W.svg"
+      ],
+      "problems": []
+    },
+    "390x844/talk-status": {
+      "file": "design/phone-ui/components/private-talk/review/390x844-talk-status.jpg",
+      "sha256": "f851d7661ac8ad122d4aaf831251564e369d095dbf44506ff8a82ede9e119764",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "capsule",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk",
+      "sheet": null,
+      "footer": null,
+      "who": null,
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": null,
+      "wait": null,
+      "capsule": true,
+      "tags": "1 Ava|4 You",
+      "layers": 3,
+      "seated": 2,
+      "talk": "Promises|My card",
+      "banner": null,
+      "figures": 2,
+      "leaked": [
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/capsule.back-BJYQgDil.svg",
+        "assets/capsule.door-0-BRyGibpO.svg",
+        "assets/capsule.busy-CgVVb3-W.svg"
+      ],
+      "problems": []
+    },
+    "430x932/talk-status": {
+      "file": "design/phone-ui/components/private-talk/review/430x932-talk-status.jpg",
+      "sha256": "f098ca79ebd21994eef84c566f31cfd5902824971afb84b1eba7ef2f665cb38b",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "capsule",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk",
+      "sheet": null,
+      "footer": null,
+      "who": null,
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": null,
+      "wait": null,
+      "capsule": true,
+      "tags": "1 Ava|4 You",
+      "layers": 3,
+      "seated": 2,
+      "talk": "Promises|My card",
+      "banner": null,
+      "figures": 2,
+      "leaked": [
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/capsule.back-BJYQgDil.svg",
+        "assets/capsule.door-0-BRyGibpO.svg",
+        "assets/capsule.busy-CgVVb3-W.svg"
+      ],
+      "problems": []
+    },
+    "390x844/talk-other": {
+      "file": "design/phone-ui/components/private-talk/review/390x844-talk-other.jpg",
+      "sha256": "39a1cc516b89471548c699e94900e0845a11385d3e60743e48388bb5ddcb8432",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "bar": "Ava + Dev|Private talk",
+      "sheet": null,
+      "footer": null,
+      "who": null,
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": null,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/talk-other": {
+      "file": "design/phone-ui/components/private-talk/review/430x932-talk-other.jpg",
+      "sha256": "0683f84cfae415896f71e9bb5d04daeb909ef4f52a7f2fd9217d9621969f951e",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "bar": "Ava + Dev|Private talk",
+      "sheet": null,
+      "footer": null,
+      "who": null,
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": null,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/stale": {
+      "file": "design/phone-ui/components/private-talk/review/390x844-stale.jpg",
+      "sha256": "9227c3bcb192024d346d34d3b447912707fed3940f65c1482a611f4217e2ea7b",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "declare",
+      "status": "stale",
+      "bar": "Reconnecting…|Showing Round 3 as last seen",
+      "sheet": "Declare your side",
+      "footer": "Declare Blue",
+      "who": "Ava asked to talk|Declare a side. It is a claim, not a check.",
+      "cards": "Blue:selected,Red:available,Alien:available",
+      "locks": 0,
+      "note": "Your role may claim any side. Only you see this.",
+      "perRow": 3,
+      "refused": true,
+      "card": null,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": "Connection lost",
+      "figures": 4,
+      "leaked": [
+        "Blue",
+        "Red",
+        "Alien",
+        "Declare",
+        "claim",
+        "asked to talk"
+      ],
+      "art": [
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg"
+      ],
+      "problems": []
+    },
+    "430x932/stale": {
+      "file": "design/phone-ui/components/private-talk/review/430x932-stale.jpg",
+      "sha256": "c1ea615883bb35b4041843d57e099d1998ab3eb4afad3d42fb5702ad299e6405",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "declare",
+      "status": "stale",
+      "bar": "Reconnecting…|Showing Round 3 as last seen",
+      "sheet": "Declare your side",
+      "footer": "Declare Blue",
+      "who": "Ava asked to talk|Declare a side. It is a claim, not a check.",
+      "cards": "Blue:selected,Red:available,Alien:available",
+      "locks": 0,
+      "note": "Your role may claim any side. Only you see this.",
+      "perRow": 3,
+      "refused": true,
+      "card": null,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": "Connection lost",
+      "figures": 4,
+      "leaked": [
+        "Blue",
+        "Red",
+        "Alien",
+        "Declare",
+        "claim",
+        "asked to talk"
+      ],
+      "art": [
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg"
+      ],
+      "problems": []
+    },
+    "390x844/concealed": {
+      "file": "design/phone-ui/components/private-talk/review/390x844-concealed.jpg",
+      "sha256": "039658d724e9e54723261c9d3a560ca18a733d75c92c154c95c5873cf83144f4",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "bar": null,
+      "sheet": null,
+      "footer": null,
+      "who": null,
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": null,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 0,
+      "leaked": [],
+      "art": [],
+      "problems": []
+    },
+    "430x932/concealed": {
+      "file": "design/phone-ui/components/private-talk/review/430x932-concealed.jpg",
+      "sha256": "655961c4e3dcb7e0b9408a04a177e76a1936980f86a29381cd2746bfe989efe2",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": null,
+      "status": null,
+      "bar": null,
+      "sheet": null,
+      "footer": null,
+      "who": null,
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": null,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 0,
+      "leaked": [],
+      "art": [],
+      "problems": []
+    },
+    "320x568/small-declare": {
+      "file": "design/phone-ui/components/private-talk/review/320x568-small-declare.jpg",
+      "sha256": "57d69a7bcbbc98c089ad5b32134250ca6a811fcd7c8e4cf01431d131051ced6c",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "declare",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · declare",
+      "sheet": "Declare your side",
+      "footer": "Declare Blue",
+      "who": "Ava asked to talk|Declare a side. It is a claim, not a check.",
+      "cards": "Blue:selected,Red:available,Alien:available",
+      "locks": 0,
+      "note": "Your role may claim any side. Only you see this.",
+      "perRow": 3,
+      "refused": false,
+      "card": null,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Blue",
+        "Red",
+        "Alien",
+        "Declare",
+        "claim",
+        "asked to talk",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "320x568/small-talk": {
+      "file": "design/phone-ui/components/private-talk/review/320x568-small-talk.jpg",
+      "sha256": "c898ad76869ec60cf6773a328fb1b94403d348dca0f35e368b220561cf817efe",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "capsule",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk",
+      "sheet": null,
+      "footer": null,
+      "who": null,
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": null,
+      "wait": null,
+      "capsule": true,
+      "tags": "1 Ava|4 You",
+      "layers": 3,
+      "seated": 2,
+      "talk": "Promises|My card",
+      "banner": null,
+      "figures": 2,
+      "leaked": [
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/capsule.back-BJYQgDil.svg",
+        "assets/capsule.door-0-BRyGibpO.svg",
+        "assets/capsule.busy-CgVVb3-W.svg"
+      ],
+      "problems": []
+    },
+    "320x568/largest-declare": {
+      "file": "design/phone-ui/components/private-talk/review/320x568-largest-declare.jpg",
+      "sha256": "bb0e9439f1bbd864a34653f6b2918dd5900018a66f55bc92315b72364a05239c",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "declare",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · declare",
+      "sheet": "Declare your side",
+      "footer": "Declare Blue",
+      "who": "Ava asked to talk|Declare a side. It is a claim, not a check.",
+      "cards": "Blue:selected,Red:available,Alien:available",
+      "locks": 0,
+      "note": "Your role may claim any side. Only you see this.",
+      "perRow": 3,
+      "refused": false,
+      "card": null,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Blue",
+        "Red",
+        "Alien",
+        "Declare",
+        "claim",
+        "asked to talk",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "320x568/largest-claim": {
+      "file": "design/phone-ui/components/private-talk/review/320x568-largest-claim.jpg",
+      "sha256": "0e7d0e4750864e346d30d0b10f0b04761ce7a2cbdc77cf4132ffacef1bb6fc12",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "claim",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · claim",
+      "sheet": "Ava sees your claim",
+      "footer": null,
+      "who": "Dev claims Blue|Unverified · only Ava sees this",
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": true,
+      "wait": null,
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "Blue",
+        "claim",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "320x568/largest-wait": {
+      "file": "design/phone-ui/components/private-talk/review/320x568-largest-wait.jpg",
+      "sha256": "e0b03859b2bc1b36ab2c4d929d58de51ee1b3a004530816c1cf322ad4c470bc3",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "wait",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk · declare",
+      "sheet": "Private talk",
+      "footer": null,
+      "who": null,
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": null,
+      "wait": "Dev is choosing a side",
+      "capsule": false,
+      "tags": null,
+      "layers": 0,
+      "seated": 0,
+      "talk": null,
+      "banner": null,
+      "figures": 4,
+      "leaked": [
+        "choosing a side",
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "320x568/largest-talk": {
+      "file": "design/phone-ui/components/private-talk/review/320x568-largest-talk.jpg",
+      "sha256": "0335d153171a7da9e2ec91f34852b045a873c9eb2a7f7eef48311bbd2258fd8a",
+      "ok": true,
+      "drawn": true,
+      "mismatched": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "part": "capsule",
+      "status": "live",
+      "bar": "Ava + Dev|Private talk",
+      "sheet": null,
+      "footer": null,
+      "who": null,
+      "cards": null,
+      "locks": 0,
+      "note": null,
+      "perRow": null,
+      "refused": null,
+      "card": null,
+      "wait": null,
+      "capsule": true,
+      "tags": "1 Ava|4 You",
+      "layers": 3,
+      "seated": 2,
+      "talk": "Promises|My card",
+      "banner": null,
+      "figures": 2,
+      "leaked": [
+        "Private talk"
+      ],
+      "art": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/capsule.back-BJYQgDil.svg",
+        "assets/capsule.door-0-BRyGibpO.svg",
+        "assets/capsule.busy-CgVVb3-W.svg"
+      ],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "declare",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": {
+              "names": [
+                "Blue",
+                "Red",
+                "Alien"
+              ],
+              "states": [
+                "selected",
+                "available",
+                "available"
+              ],
+              "checked": [
+                "true",
+                "false",
+                "false"
+              ],
+              "roles": [
+                "radio",
+                "radio",
+                "radio"
+              ],
+              "group": [
+                "radiogroup",
+                "Side to declare"
+              ]
+            },
+            "taps": [
+              "Red",
+              "Blue"
+            ],
+            "unchanged": true,
+            "chosen": {
+              "states": [
+                "available",
+                "selected",
+                "available"
+              ],
+              "checked": [
+                "false",
+                "true",
+                "false"
+              ],
+              "kept": true
+            },
+            "any": "Your role may claim any side. Only you see this.",
+            "own": "Your role declares its own side: Blue. Only you see this.",
+            "two": true,
+            "asked": [
+              "Ava asked to talk",
+              "Declare a side. It is a claim, not a check.",
+              64
+            ],
+            "sheets": [
+              "talk-declare|Declare your side|false|declare:Declare a side:declare::off",
+              "talk-declare|Declare your side|false|declare:Declare Red:declare::on",
+              "talk-declare|Declare your side|false|declare:Declare Blue:declare:busy:on"
+            ],
+            "alien": "3"
+          }
+        },
+        {
+          "id": "refused",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "locked": {
+              "taps": 0,
+              "focus": true,
+              "disabled": [
+                null,
+                "true",
+                "true"
+              ],
+              "states": [
+                "selected",
+                "unavailable",
+                "unavailable"
+              ],
+              "names": [
+                "Blue",
+                "Red Not for your role",
+                "Alien Not for your role"
+              ],
+              "lock": true,
+              "tag": "BUTTON"
+            },
+            "offered": [
+              "Blue"
+            ],
+            "quiet": 0,
+            "stale": {
+              "taps": 0,
+              "reason": "Controls return when the match is current"
+            }
+          }
+        },
+        {
+          "id": "claim",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": [
+              {
+                "viewer": 4,
+                "blue": {
+                  "said": [
+                    "Dev claims Blue",
+                    "Unverified · only Ava sees this"
+                  ],
+                  "art": true,
+                  "hidden": "true",
+                  "status": "status",
+                  "portrait": 64
+                },
+                "sides": [
+                  [
+                    "Dev claims Red",
+                    "Unverified · only Ava sees this",
+                    true
+                  ],
+                  [
+                    "Dev claims Alien",
+                    "Unverified · only Ava sees this",
+                    true
+                  ],
+                  [
+                    "No side declared",
+                    "Only Ava sees this",
+                    true
+                  ]
+                ],
+                "kept": true
+              },
+              {
+                "viewer": 1,
+                "blue": {
+                  "said": [
+                    "Dev claims Blue",
+                    "Unverified · only you see this"
+                  ],
+                  "art": true,
+                  "hidden": "true",
+                  "status": "status",
+                  "portrait": 64
+                },
+                "sides": [
+                  [
+                    "Dev claims Red",
+                    "Unverified · only you see this",
+                    true
+                  ],
+                  [
+                    "Dev claims Alien",
+                    "Unverified · only you see this",
+                    true
+                  ],
+                  [
+                    "No side declared",
+                    "Only you see this",
+                    true
+                  ]
+                ],
+                "kept": true
+              }
+            ],
+            "titles": [
+              "talk-claim|Ava sees your claim|false|0",
+              "talk-claim|Dev’s claim|false|0"
+            ]
+          }
+        },
+        {
+          "id": "wait",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "title": "Dev is choosing a side",
+            "portrait": 76,
+            "line": true,
+            "sheet": "talk-wait|Private talk|false|0"
+          }
+        },
+        {
+          "id": "capsule",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "layers": [
+              [
+                "back",
+                "var(--board-v2-art-capsule-back)",
+                "0",
+                true
+              ],
+              [
+                "door",
+                "var(--board-v2-art-capsule-door-0)",
+                "100",
+                true
+              ],
+              [
+                "busy",
+                "var(--board-v2-art-capsule-busy)",
+                "3000",
+                true
+              ]
+            ],
+            "seated": {
+              "drawn": [
+                true,
+                true
+              ],
+              "mirrored": [
+                "scaleX(-1)",
+                ""
+              ],
+              "left": [
+                -74,
+                158
+              ]
+            },
+            "tags": [
+              [
+                "1 Ava",
+                false,
+                38
+              ],
+              [
+                "4 You",
+                true,
+                282
+              ]
+            ],
+            "amb": "capsule",
+            "quiet": {
+              "hidden": "true",
+              "controls": 0
+            },
+            "resized": [
+              "430px",
+              "800px"
+            ],
+            "theirs": [
+              [
+                "1 You",
+                true
+              ],
+              [
+                "4 Dev",
+                false
+              ]
+            ],
+            "reversed": [
+              "1 You",
+              "4 Dev"
+            ]
+          }
+        },
+        {
+          "id": "covered",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "largest": {
+              "band": 128,
+              "tagBottoms": [
+                322,
+                322
+              ],
+              "tagTops": [
+                296,
+                296
+              ],
+              "bandTop": 326,
+              "footTop": 326,
+              "clear": true
+            },
+            "standard": {
+              "band": 102,
+              "tagBottoms": [
+                593,
+                593
+              ],
+              "tagTops": [
+                567,
+                567
+              ],
+              "bandTop": 643,
+              "footTop": 643,
+              "clear": true
+            },
+            "small": {
+              "band": 68,
+              "tagBottoms": [
+                412,
+                412
+              ],
+              "tagTops": [
+                386,
+                386
+              ],
+              "bandTop": 428,
+              "footTop": 428,
+              "clear": true
+            },
+            "unchangedAtStandard": true
+          }
+        },
+        {
+          "id": "audience",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "table": {
+              "declare": {
+                "1": false,
+                "4": true,
+                "7": false,
+                "4 concealed": false,
+                "1 concealed": false,
+                "7 concealed": false,
+                "display": false,
+                "display concealed": false
+              },
+              "wait": {
+                "1": true,
+                "4": false,
+                "7": false,
+                "4 concealed": false,
+                "1 concealed": false,
+                "7 concealed": false,
+                "display": false,
+                "display concealed": false
+              },
+              "claim (declarer)": {
+                "1": false,
+                "4": true,
+                "7": false,
+                "4 concealed": false,
+                "1 concealed": false,
+                "7 concealed": false,
+                "display": false,
+                "display concealed": false
+              },
+              "claim (initiator)": {
+                "1": true,
+                "4": false,
+                "7": false,
+                "4 concealed": false,
+                "1 concealed": false,
+                "7 concealed": false,
+                "display": false,
+                "display concealed": false
+              },
+              "capsule": {
+                "1": true,
+                "4": true,
+                "7": false,
+                "4 concealed": false,
+                "1 concealed": false,
+                "7 concealed": false,
+                "display": false,
+                "display concealed": false
+              }
+            },
+            "others": {
+              "declare-other": {
+                "bar": "Ava + DevPrivate talk · declare",
+                "sheet": false,
+                "talk": 0,
+                "room": true
+              },
+              "talk-other": {
+                "bar": "Ava + DevPrivate talk",
+                "sheet": false,
+                "talk": 0,
+                "room": true
+              }
+            }
+          }
+        },
+        {
+          "id": "private",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "results": {
+              "declare-own": {
+                "moved": "0",
+                "back": "0",
+                "concealed": "",
+                "shown": "0",
+                "leaked": []
+              },
+              "declare-any": {
+                "moved": "0",
+                "back": "0",
+                "concealed": "",
+                "shown": "0",
+                "leaked": []
+              },
+              "claim-declarer": {
+                "moved": "0",
+                "back": "0",
+                "concealed": "",
+                "shown": "0",
+                "leaked": []
+              },
+              "claim-initiator": {
+                "moved": "0",
+                "back": "0",
+                "concealed": "",
+                "shown": "0",
+                "leaked": []
+              },
+              "wait": {
+                "moved": "0",
+                "back": "0",
+                "concealed": "",
+                "shown": "0",
+                "leaked": []
+              },
+              "talk": {
+                "moved": "0",
+                "back": "0",
+                "concealed": "",
+                "shown": "0",
+                "leaked": []
+              },
+              "talk-initiator": {
+                "moved": "0",
+                "back": "0",
+                "concealed": "",
+                "shown": "0",
+                "leaked": []
+              }
+            },
+            "lockWords": {}
+          }
+        },
+        {
+          "id": "leaks",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "hits": [],
+            "console": [],
+            "onLayout": [],
+            "callbacks": [],
+            "layoutsSeen": 24,
+            "callbacksSeen": 14
+          }
+        },
+        {
+          "id": "inputs",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "errors": [
+              [
+                "an unknown key",
+                true
+              ],
+              [
+                "a side that is not one",
+                true
+              ],
+              [
+                "a side twice",
+                true
+              ],
+              [
+                "a choice not offered",
+                true
+              ],
+              [
+                "one person as both",
+                true
+              ],
+              [
+                "a view that is not one",
+                true
+              ],
+              [
+                "a claim that is not a side",
+                true
+              ],
+              [
+                "a pair of one",
+                true
+              ],
+              [
+                "no stage size",
+                true
+              ],
+              [
+                "a bar without its pair",
+                true
+              ],
+              [
+                "a bar for another phase",
+                true
+              ]
+            ],
+            "same": true
+          }
+        },
+        {
+          "id": "focus",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "onRoot": true,
+            "returned": [
+              {
+                "intent": "side",
+                "value": "2"
+              }
+            ]
+          }
+        },
+        {
+          "id": "text",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "declare": {
+              "perRow": 3,
+              "whole": true,
+              "tall": true,
+              "note": true
+            },
+            "claim": {
+              "who": true,
+              "card": 160
+            },
+            "wait": {
+              "title": true
+            },
+            "talk": {
+              "inside": true,
+              "apart": true
+            }
+          }
+        },
+        {
+          "id": "dispose",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "declare": {
+              "left": false,
+              "taps": 0,
+              "body": 0
+            },
+            "capsule": {
+              "before": 2,
+              "after": 0,
+              "left": false,
+              "stage": 0
+            }
+          }
+        },
+        {
+          "id": "motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "onClock": {
+              "count": 20,
+              "playing": 20,
+              "at": 130
+            },
+            "suspended": {
+              "count": 20,
+              "playing": 0,
+              "at": 130
+            },
+            "resumed": {
+              "count": 20,
+              "playing": 20,
+              "at": 130
+            },
+            "stale": {
+              "count": 20,
+              "playing": 0,
+              "at": 130
+            },
+            "reduced": {
+              "count": 20,
+              "playing": 0,
+              "at": 130
+            },
+            "noClock": {
+              "count": 20,
+              "playing": 0,
+              "at": 0
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "onClock": {
+              "count": 20,
+              "playing": 0,
+              "at": 130
+            },
+            "suspended": {
+              "count": 20,
+              "playing": 0,
+              "at": 130
+            },
+            "resumed": {
+              "count": 20,
+              "playing": 0,
+              "at": 130
+            },
+            "stale": {
+              "count": 20,
+              "playing": 0,
+              "at": 130
+            },
+            "reduced": {
+              "count": 20,
+              "playing": 0,
+              "at": 130
+            },
+            "noClock": {
+              "count": 20,
+              "playing": 0,
+              "at": 0
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BK3fNo_t.js",
+          "line": 1,
+          "column": 6050,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: declare-own (talk&stage=declare&role=Doctor)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: declare-any (talk&stage=declare&role=Undercover&side=blue)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: claim-declarer (talk&stage=result)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      },
+      {
+        "id": "agree: talk (talk&stage=talk)",
+        "ok": true,
+        "detail": {
+          "differences": []
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-BK3fNo_t.js",
+        "line": 1,
+        "column": 6050,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}
