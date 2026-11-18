@@ -972,7 +972,7 @@ The Lead then recommended one shared view for each fixed room. The owner:
 
 > Before you run tests let me see the design first
 
-**What it decides:** for a change of look the owner asks for, the owner sees the drawing before anyone spends time on checks. The order is:
+**What it decides:** for any change of look, whether the owner asked for it or the Lead did, the owner sees the drawing before anyone spends time on checks. The order is:
 1. The builder makes the change in the component itself. No recorded check and no test suite yet.
 2. The control page goes to the owner's link as a draft. It says so at the top: the look only, not checked yet, and it may still change.
 3. The Lead gets the same draft at the same moment and looks at it in parallel.
