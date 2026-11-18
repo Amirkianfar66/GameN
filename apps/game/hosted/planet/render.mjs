@@ -22,7 +22,7 @@ import {outfitFor} from '../scene-drawing/wardrobe.mjs';
 import {mountRoomScene,roomSceneFrame,roomScenePlaces,ROOM_SCENE_DEFAULTS} from '../../../../design/phone-ui/components/room-scene/room-scene.mjs';
 import {roomSceneArtReady,roomSceneHandlers,roomSceneInput,roomSceneInputKey,roomSceneKey,roomSceneLifecycle,roomScenePeople,roomSceneStatus} from './room-scene-input.mjs';
 import {mountPhoneShell} from '../../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
-import {connectShellLifecycle,createServerClock,ownPersonSeen,phaseClosed,shellFocusOrder,shellHandlers,shellHostSheet,shellInput,shellRuns} from './shell-input.mjs';
+import {connectShellLifecycle,createServerClock,ownPersonSeen,phaseClosed,shellFocusOrder,shellHandlers,shellHostSheet,shellInput,shellRuns,shellSheetKept} from './shell-input.mjs';
 
 const windowNames={A_B:'Room A ↔ Room B',A_HOSPITAL:'Room A ↔ Hospital',B_JAIL:'Room B ↔ Jail'};
 const number=id=>id?`Player ${id.slice(5)}`:'—';
@@ -71,13 +71,15 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  // The shell's state here: its last input, the frame of its open sheet, the board's List, the round last seen
  // live (the reconnecting bar names it), a toast (kept, so it shows its whole time once), its layout, and the
  // model painted before this one (a phase that closed under an open choice is told from the two: phaseClosed()).
- let shellKey=null,shellFrame=null,listOpen=false,listKey=null,lastRound=null,ownSeen=null,seenVersions=null,toast=null,shellRunning=true,shellLayout=null,choosing=false,opener=null,before=null;
+ let shellKey=null,shellFrame=null,listOpen=false,listKey=null,lastRound=null,ownSeen=null,seenVersions=null,toast=null,shellRunning=true,shellLayout=null,choosing=false,opener=null,before=null,sheetWas=null,sheetNow=null;
  // The match's trusted server time (G18), observed on each model: the round stamp's clock, with shell-input.mjs roundStart().
  const serverClock=createServerClock({monotonic:()=>win.performance.now()});
  // The shell's own element (its mount's `element`) holds its controls: the sheet's footer actions and the controls
  // the focus returns to are found there by their intents.
  const focusConfirm=()=>shell.element?.querySelector('[data-intent="sheet-action"][data-value="confirm"]')?.focus({preventScroll:true});
- const focusBack=()=>{const pick=shellFocusOrder(opener,{choosing}).map(css=>shell.element?.querySelector(css)).find(Boolean);pick?.focus({preventScroll:true});};
+ // While the sheet a control ended in is still open, the focus stays in it (shellSheetKept(): `sheetWas` and `sheetNow`
+ // are the open sheet's id before and after the shell's last change); otherwise it goes back as before.
+ const focusBack=ended=>{const pick=shellFocusOrder(opener,{choosing,sheet:shellSheetKept(ended,sheetWas,sheetNow)}).map(css=>shell.element?.querySelector(css)).find(Boolean);pick?.focus({preventScroll:true});};
  const shell=mountPhoneShell(shellHost,{},shellHandlers({
   live:()=>!disposed&&!!model,
   openPanel:panel=>{more=false;controller.openPanel(panel);},
@@ -91,7 +93,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   reconnect:()=>reconnect?.(),
   layout:next=>{shellLayout=next;render(controller.getModel());},
   opened:detail=>{opener=detail;},
-  focusReturn:()=>focusBack(),
+  focusReturn:ended=>focusBack(ended),
   // The host sheet (hostSheet: { frame(), mount(body), action(id), back(), close(), toast() }), while it is the open sheet.
   host:hostSheet&&{open:()=>shellFrame?.kind==='host',action:id=>{hostSheet.action(id);if(model)render(controller.getModel());},
    back:()=>{hostSheet.back();uiKey=null;if(model)render(controller.getModel());},close:()=>hostSheet.close()},
@@ -476,7 +478,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   // The shared display's status line and a message stay the game's; while the reconnecting banner shows, it says it.
   // Concealed, it hides itself, as everything of this viewer's in the shell does.
   status.textContent=model.dark?'':model.message??'';status.hidden=!status.textContent||model.action?.prompt===model.message||input.banner?.kind==='reconnecting'||input.status==='concealed';
-  const nextShellKey=JSON.stringify(input);if(nextShellKey!==shellKey){shellKey=nextShellKey;shell.update(input);}
+  const nextShellKey=JSON.stringify(input);if(nextShellKey!==shellKey){shellKey=nextShellKey;sheetWas=sheetNow;sheetNow=input.sheet?.id??null;shell.update(input);}
   syncShellActivity();mountSheetBody();
   // The bars' heights and the stage come from the shell: its layout() is measured after the update above. The
   // private talk's two buttons cover the stage's foot, which the board's layout keeps clear.

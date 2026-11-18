@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {connectShellLifecycle,createServerClock,ownOut,ownPersonSeen,ownTalk,phaseClosed,roundStart,shellFocusOrder,shellBanner,shellBar,shellChip,shellHandlers,shellHostSheet,shellHero,shellInput,shellPhaseFacts,shellPicking,shellRuns,shellSheet,shellStatus,shellTabs,shellTarget,shellTimer,shellToast,talkButtons,
+import {connectShellLifecycle,createServerClock,ownOut,ownPersonSeen,ownTalk,phaseClosed,roundStart,shellFocusOrder,shellSheetKept,SHELL_SHEET_FOCUS,SHELL_SHEET_INTENTS,shellBanner,shellBar,shellChip,shellHandlers,shellHostSheet,shellHero,shellInput,shellPhaseFacts,shellPicking,shellRuns,shellSheet,shellStatus,shellTabs,shellTarget,shellTimer,shellToast,talkButtons,
  SHELL_CHOOSING,SHELL_CLOSES_ITSELF,SHELL_PHASE_ICONS,SHELL_PHASE_NAMES} from '../hosted/planet/shell-input.mjs';
 import {checkBar,checkTabs,clockText,nextPhoneShellInput,PHONE_SHELL_DEFAULTS} from '../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
 import {PHASE_BAR_PHASES,PHASE_BAR_REFUSED,PHASE_WORDS,loadingBar,phaseBar,phaseClosedToast,reconnectingBar} from '../../../design/phone-ui/components/phone-shell/phase-bars.mjs';
@@ -444,6 +444,39 @@ test('the focus handed back: Cancel while choosing, else the control that opened
  assert.deepEqual(shellFocusOrder({intent:'tab',value:'card'},{choosing:true}),['[data-intent="cancel-target"]','[data-intent="tab"][data-value="card"]',first]);
  // An intent the shell never reports opens nothing to return to.
  assert.deepEqual(shellFocusOrder({intent:'sheet-close',value:null}),[first]);
+});
+
+test('the focus handed back while the same sheet is still open: its first available footer action, then its Close or Back, then as before',()=>{
+ const first='[data-intent="tab"][data-value="switch"]',tab='[data-intent="tab"][data-value="panels"]',opener={intent:'tab',value:'panels'};
+ // Inside the sheet first, in this order; then exactly the order without a sheet.
+ assert.deepEqual(SHELL_SHEET_FOCUS,[
+  '.ms-ps-sheet-foot :is([data-intent="sheet-action"],[data-intent="sheet-local"]):not([aria-disabled="true"]):not([aria-busy="true"])',
+  '.ms-ps-sheet [data-intent="sheet-close"]','.ms-ps-sheet [data-intent="sheet-back"]']);
+ assert.deepEqual(shellFocusOrder(opener,{sheet:true}),[...SHELL_SHEET_FOCUS,tab,first]);
+ assert.deepEqual(shellFocusOrder(opener,{sheet:true,choosing:true}),[...SHELL_SHEET_FOCUS,'[data-intent="cancel-target"]',tab,first]);
+ assert.deepEqual(shellFocusOrder(null,{sheet:true}),[...SHELL_SHEET_FOCUS,first]);
+ // The sheet closed, or no word of one: nothing changes. Only `true` is a kept sheet.
+ assert.deepEqual(shellFocusOrder(opener,{sheet:false}),[tab,first]);assert.deepEqual(shellFocusOrder(opener),[tab,first]);
+ for(const not of [null,undefined,0,1,'windows',{},[]])assert.deepEqual(shellFocusOrder(opener,{sheet:not}),[tab,first],JSON.stringify(not)??'undefined');
+ // Kept: one of the sheet's own controls ended, and the same sheet is open before and after the shell's change.
+ assert.deepEqual(SHELL_SHEET_INTENTS,['sheet-action','sheet-local','sheet-head','sheet-close','sheet-back']);
+ for(const intent of SHELL_SHEET_INTENTS)assert.equal(shellSheetKept({intent,value:'show'},'windows','windows'),true,intent);
+ // A footer action that gives way to another in the same sheet: a drawing's Show to Done.
+ assert.equal(shellSheetKept({intent:'sheet-action',value:'show'},'windows','windows'),true);
+ // The sheet closed (Close, Escape, a choice sent and registered), or another sheet took its place (Back to Panels).
+ assert.equal(shellSheetKept({intent:'sheet-close',value:null},'windows',null),false);
+ assert.equal(shellSheetKept({intent:'sheet-action',value:'confirm'},'action:VOTE',null),false);
+ assert.equal(shellSheetKept({intent:'sheet-back',value:null},'navigation','panels'),false);
+ // A sheet that opened where none was is not a sheet the control was in.
+ assert.equal(shellSheetKept({intent:'sheet-action',value:'confirm'},null,'pass'),false);
+ // A control outside a sheet that ended with a sheet open behind it: Cancel on the target bar, a tab, Retry.
+ for(const intent of ['cancel-target','tab','hero','promises','menu','chip','retry'])assert.equal(shellSheetKept({intent,value:null},'actions','actions'),false,intent);
+ // No report, and ids that are not ids.
+ assert.equal(shellSheetKept(null,'windows','windows'),false);assert.equal(shellSheetKept(undefined,'windows','windows'),false);assert.equal(shellSheetKept({},'windows','windows'),false);
+ assert.equal(shellSheetKept({intent:'sheet-action'},null,null),false);assert.equal(shellSheetKept({intent:'sheet-action'},'',''),false);assert.equal(shellSheetKept({intent:'sheet-action'},undefined,undefined),false);
+ // The handlers pass the shell's report on, so the renderer can tell which control ended.
+ const got=[];shellHandlers({openPanel(){},begin(){},confirm(){},dismiss(){},toggleView(){},showBoard(){},openList(){},closeList(){},focusReturn:ended=>got.push(ended)}).onFocusReturn({intent:'sheet-action',value:'show'});
+ assert.deepEqual(got,[{intent:'sheet-action',value:'show'}]);
 });
 
 test('lifecycle: the renderer\'s listeners are added together and dispose leaves none; the shell\'s motion runs only when shown and focused',()=>{

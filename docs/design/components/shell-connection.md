@@ -83,7 +83,7 @@ As the handoff's "Frontend's connection" maps them, with what it leaves open.
 | `onChip` | "Other rooms": the board view. "List": the List |
 | `onRetry` | The session's `refresh()`, at once |
 | `onLayout` | The room scene's size and the board's layout |
-| `onFocusReturn` | The focus goes back to Cancel while choosing on the scene; else to the shell control that opened what closed; else to the first tab, where today's Escape put it |
+| `onFocusReturn` | While the sheet the ended control was in is still open, the focus stays in that sheet: its first available footer action, then its Close, then its Back (`shellSheetKept()`, the Lead Designer, 18 November 2026). Otherwise it goes back to Cancel while choosing on the scene; else to the shell control that opened what closed; else to the first tab, where today's Escape put it |
 
 Nothing in the connection works out who may act: every enabled state comes from the model, from its offers and, for an eliminated player's Actions, from the public board.
 
@@ -209,7 +209,7 @@ These refuse the changed files until Integration approves. Each was found by rev
 
 ### Tests
 
-`apps/game/test/planet-phone-shell.test.mjs` passes 20 of 20. Every input it builds is accepted by the shell's own `checkBar`, `checkTabs` and `nextPhoneShellInput`. It covers:
+`apps/game/test/planet-phone-shell.test.mjs` passes 21 of 21. Every input it builds is accepted by the shell's own `checkBar`, `checkTabs` and `nextPhoneShellInput`. It covers:
 - the bar: another player's turn, your turn, each of the game's own phase names, the pair, reconnecting with the round last seen, and "Loading the ship" on the first connect;
 - the phase bars' words: before turns with an Officer, with a block shown, with no Officer and with the Officer's block open; the appointment for everyone else, never amber, and for the Captain with it open; the Blackout lit, with the time to lights-out, and dark; Ship synchronized's ring; Setting course in all four navigation phases, for everyone and for an office with its Navigation open; a shared display;
 - the facts for those words: each read from the model, unchanged by any offer, role or private field, and every phase either `phaseBar()`'s or one of the game's own;
@@ -225,7 +225,7 @@ These refuse the changed files until Integration approves. Each was found by rev
 - privacy: concealed and under Food's surface, the shell drops this viewer's inputs and keeps its shape; a display gets no tabs and no viewer, only ⋮ and Settings, and nothing private;
 - the host sheet (the pre-game connection's Host controls): in Settings' place only, its footer, Back and Close routed to it, and its Close dismissing Settings too;
 - each intent's call, and none after dispose;
-- where the focus goes back;
+- where the focus goes back, and that it stays in a sheet that is still open: only for one of the sheet's own controls, only while the same sheet is open before and after the shell's change, and never when the sheet closed or another took its place;
 - the lifecycle: the listeners added and removed together, and the shell running only while shown and focused.
 
 ### The check
@@ -318,7 +318,7 @@ Against `00e679e9`'s record (for `883473be`):
 | `display` | A shared display: no tabs, no Promises, ⋮ the only control, the whole board. Then ⋮ opens Settings with the display's preferences |
 | `concealed` | The page hidden: the bars' empty material only, the tab bar's shape kept |
 | `largest-pass` | At 320 × 568 only, the Largest text chosen in the game's Settings: "Pass your turn?" with Cancel and Pass. The head a row, the footer at the sheet's foot, nothing cut |
-| `largest-ballot` | At 320 × 568 only, the Largest text: the ballot with Player 2 chosen, and Vote. The head a row, the footer at the sheet's foot, nothing cut |
+| `largest-ballot` | At 320 × 568 only, the Largest text: the ballot with Player 2 chosen, and Vote. The head a row, the footer at the sheet's foot, nothing cut. Then Vote is sent: the sheet stays open while it registers, its footer action gone, and the focus is on the sheet's Close, not on the round button behind it |
 
 Each capture also passes with: the shell mounted and the stage in it; none of the old header, tab bar, Pass button, sheet or target bar; no unexpected policy report (only Zod's known, caught eval probe); no failed request and no page error.
 
@@ -380,6 +380,7 @@ Each capture also passes with: the shell mounted and the stage in it; none of th
   - Actions is unavailable to an eliminated player;
   - the 5 s result's round button is Vote, unavailable;
   - closing a sheet hands the focus back to the control that opened it (today's Escape went to the Board button);
+  - **a control that leaves a sheet that stays open keeps the focus in that sheet** (18 November 2026): a footer action that gives way to another, as a drawing's Show to Done in release 3, or one that goes while its choice registers, as Vote. Before, the focus went to the control behind the sheet. A keyboard or screen-reader player was thrown out of the sheet they were still in;
   - the old target bar's "Target list" is the board's List chip, and in the room view "Other rooms · n" opens the board;
   - under Food's surface the shell is concealed, and the board keeps the shell's bars (Food's measured the same at both sizes);
   - the result window and the status line lie under the shell's sheet, banners and toast; the status line hides while concealed and while the reconnecting banner shows;
