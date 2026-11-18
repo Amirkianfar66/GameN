@@ -222,7 +222,8 @@ Step 2 of the Lead's order of 18 November. Promises are Designer's promises comp
   - `promisesDrafting(flow)` is `true` exactly then: drafted, unsent, with no refusal's words showing. It is `false` for the list, the partner's offer, a draft being sent or just accepted, a refused one and no flow.
   - `render.mjs` gives the shell the flow of the paint before, as the shell gives the model of the paint before.
   - The draft is this phone's own, so the shell reads nothing private for it, and the toast goes to this phone alone.
-  - A send under way when the talk ends gets the server's words, not this toast. A send that the server answers with "The server closed that phase." while the view still shows the talk leaves the terms open, unsent. If the talk then ends, the toast follows. This is open, for the Bars & Icons builder.
+  - A send under way when the talk ends gets the server's words, not this toast (`sent`).
+  - One exception, the Bars & Icons builder's call of 18 November, which the Lead may overrule: a send that the server answers with "The server closed that phase." while the view still shows the talk. The terms are then open and unsent again, so when the talk ends, about 2 s later, the toast comes as the sheet closes. That is the moment it explains, and the two messages say the same true thing.
 
 ### Its input
 
@@ -277,6 +278,14 @@ Today's Promises sheet: its quota line, its cards naming "Player 1", and the off
   - It was also run on throwaway copies of `4367f7e0` and of `9ba0858e` with `app.mjs`, `render.mjs`, `phone.css` and `planet.css` back at `origin/main`, the four files the base's pins name. There it passes.
   - So this change pins no new file: `check:sources` accepts the new hunk, `actions-input.mjs`, the changed mappers, the tests and the check.
 - **The other pins** the shell connection's page names fall on the same files: the hosted build's `reviewed-crew-drawing-release` on `app.mjs`, and the drawing-port fence on `vite.config.mjs`, which the room and shell connections' hunks already changed. They were not re-run here.
+- **On `4f23375b` (a Promise being drafted gets the phase-closed toast, with #307's `1013ddeb` merged at `dc61e055`), and its record `15f78624`:**
+  - `typecheck`, `build`, `check:toolchain`, `check:workspace` and `node design/tools/check-assets.mjs` (15 of 15) pass;
+  - the game's tests pass 898 of 898 (#307's drafting test and Promises' 9 among them), with the production-exclusion scan;
+  - `check:sources` refuses `app.mjs` first, and passes with the same four pinned files back at `origin/main`, each then written back: nothing new is pinned;
+  - the design and tooling suites fail only on the Food pin: every failure, 25 of 442 and 68 of 356, is "Food consumer source: content differs: apps/game/hosted/planet/app.mjs";
+  - the fence builds the hosted Planet entry;
+  - #307's own check passes 44 of 44, with its record put back;
+  - the mutation run's 161 changes are all caught; the three mutations of the drafting rule's wiring are caught by the check.
 - **On `fd4aace9` (R2 with A3 and its review), and its record `9e3255be`:**
   - `typecheck`, `build`, `check:toolchain`, `check:workspace` and `node design/tools/check-assets.mjs` (15 of 15) pass;
   - the game's tests pass 896 of 896 (the refusals' 7 among them), with the production-exclusion scan;
@@ -330,7 +339,7 @@ Today's Promises sheet: its quota line, its cards naming "Player 1", and the off
 - the part: keyed once for the three views, only for the Panels tab's sheet, the status and Reduce motion, and the game's own Players words while players are away on the Food Supply Task;
 - the taps: the five destinations opened, nothing else, and nothing after the page has gone.
 
-`apps/game/test/planet-promises.test.mjs` passes 8 of 8. The component's own check (`nextPromisesInput`) and the shell's (`nextPhoneShellInput`) accept every input and frame built there. It covers:
+`apps/game/test/planet-promises.test.mjs` passes 9 of 9. The component's own check (`nextPromisesInput`) and the shell's (`nextPhoneShellInput`) accept every input and frame built there. It covers:
 - when the sheet is Promises': the panel, or its three commands at every step; not another command, the display, concealed, the dark or an expired phase; no target bar or chip while the controller's draft passes its steps;
 - that the Promises panel never falls through to a bare title, so the shell's `titles` no longer needs `promises` (the Bars & Icons builder's question): with no other command under way, in every phase, talk, private area, flow, command and step, the sheet is the component's; in the dark it is the shell's Blackout and with the phase run out its "Waiting for the server", as for every panel before. A Promise command is never under way in either, since the controller gives no action once the phase has run out and offers no Promise in the dark. With another command under way, the Promises panel changes nothing: the sheet is that command's, as from the board;
 - the input: the quota, the talk's partner only during the 60 s talk, the commands as offered, busy, or "Not available now", and Jail Vote's players exactly as offered;
@@ -338,6 +347,7 @@ Today's Promises sheet: its quota line, its cards naming "Player 1", and the off
 - this phone's view and draft, kept to what the model allows, with the draft's terms, and the flow passed through `shellSheet` and `shellInput`;
 - the part, and the receipt's toast;
 - the taps: local views and draft; Offer's, Accept's and Decline's controller calls, stopped by a refused `begin` or an unready draft; nothing after the renderer has gone;
+- a Promise being drafted, for the phase-closed toast (`promisesDrafting`): the kinds, the target and the terms, and not the list, the partner's offer, a send, a refusal or no flow; the flow as `promisesFlow` keeps it; with the shell's `phaseClosed()` and `shellToast()`, the toast once when the talk's time runs out or the next phase comes, and none for the same talk still running;
 - the shell connection's routing of the sheet's footer and Back, the host sheet first.
 
 `apps/game/test/planet-refusals.test.mjs` passes 7 of 7 (R2 with A3). It drives the real controller (`createPlanetController` in the tests' rig) and covers:
@@ -349,7 +359,10 @@ Today's Promises sheet: its quota line, its cards naming "Player 1", and the off
 - the status line: still while the sheet shows the words, and after while the message is still those words in that view, for that match and seat; saying them again once the message, the view or the viewer has moved on, as for a Pass refused with the same words;
 - a blur over a held refused check, in the renderer's order (`calm()`, `said` forgotten, then `dismiss()`): no sheet is left, and the status line would say the words while the controller still has them.
 
-**A mutation run** made 154 changes to the connection's source, each restored from its saved bytes. Every one is caught by the six connection test files (the refusals', Actions', Panels', Promises', the shell's and the room scene's), on `516bbfc1` with this step's changes, the Bars & Icons builder's review included. The earlier 121 were caught by the other five on `df255e8a`, again on `bfd458ea`, and on `7a9112ff`.
+**A mutation run** made 161 changes to the connection's source, each restored from its saved bytes. Every one is caught by the six connection test files (the refusals', Actions', Panels', Promises', the shell's and the room scene's), on `4f23375b`'s tree.
+- It adds 7 on the drafting rule (`promisesDrafting`): always false, a send counted, a refusal counted, the partner's offer counted, Jail Vote's player dropped, the list counted, and the flow itself returned for `true`.
+- Three more, on the drafting rule's wiring, are each caught by the match check: no draft passed (`promise-draft-closed`), this paint's flow instead of the paint before's, which is gone at 0:00 (`promise-draft-closed`), and a refused draft counted (`refused-phase-closed`).
+- The earlier 154 were caught on `516bbfc1` with R2's changes, the Bars & Icons builder's review included; the earlier 121 by the other five files on `df255e8a`, again on `bfd458ea`, and on `7a9112ff`.
 - It adds 33 for R2 with A3:
   - Frontend's three words, and the refusal read only when the connection is live and out of recovery;
   - how long the words hold: the view, a re-read, a connection not live, recovery;
@@ -377,8 +390,10 @@ Today's Promises sheet: its quota line, its cards naming "Player 1", and the off
 - It serves it with the hosted game's production headers (`createHostedPreviewHeaders`, headers SHA-256 `424e5dec…`, the shell's and the room scene's).
 - It drives the real app at 390 × 844 and 430 × 932, and two states at 320 × 568 with the Largest text.
 
-**Result:** 80 of 80 captures pass: thirty-nine states at both sizes and two at 320 × 568 with the Largest text, recorded in one run on `fd4aace9`, with the source clean and the art from `64e55516`. That commit is R2 with A3 and its review (every path to the controller clears the words, a blur, the shown words kept for their match and seat), with #307's shell 0.3.3 merged. `concealed` was drawn a second time on the record's commit for the comparison's bundle, with the record put back after. Origin/main is `7d18ac0f`, which changes only `AGENTS.md` and the roster since the art base; the art base is in its history.
-- **Against the record on `834dcef0`:** every recorded field of its 76 captures is the same, but for the bundle's file name in the known Zod report and three clocks, each one second off: `390x844-blackout`, `430x932-blackout` and `430x932-moved`. Six pictures are byte for byte the same.
+**Result:** 82 of 82 captures pass: forty states at both sizes and two at 320 × 568 with the Largest text, recorded in one run on `4f23375b`, with the source clean and the art from `64e55516`. That commit is the drafting step, with #307's `1013ddeb` merged. `concealed` was drawn a second time on the record's commit for the comparison's bundle, with the record put back after. Origin/main is `7d18ac0f`, which changes only `AGENTS.md` and the roster since the art base; the art base is in its history.
+- **Against the record on `fd4aace9`:** every recorded field of its 80 captures is the same, but for the bundle's file name in the known Zod report and three clocks, each one second off: `390x844-blackout`, and `moved` at both sizes. Nine pictures are byte for byte the same.
+- **The new state:** `promise-draft-closed` at both sizes, as the table says. `refused-phase-closed`'s no toast is now one of its facts.
+- **The record on `fd4aace9`** (80 of 80, R2 with A3 and its review), **against the one on `834dcef0`:** every recorded field of its 76 captures is the same, but for the bundle's file name in the known Zod report and three clocks, each one second off: `390x844-blackout`, `430x932-blackout` and `430x932-moved`. Six pictures are byte for byte the same.
 - **The new states:** `refused-blur` at both sizes, and `promise-incoming-largest` and `promise-incoming-largest-accept` at 320 × 568, as the table says.
 - **The record on `834dcef0`** (76 of 76, R2 with A3 before the review), **against the one on `755820d8`:** every recorded field of the 66 earlier captures is the same, with these exceptions:
   - the fields this check now records: the phone's notes, Promises' `error`, and the model's message and revision;
@@ -484,8 +499,9 @@ The harness answers a command at once, so "Registering…" is not drawn here; th
 ### The merge gate's comparison
 
 `design/tools/phone-ui-native-compare.mjs --only pass,actions,targeting,target-check,registered,clone,blackout,reconnecting,panels,players,round-order,promise-offer,promise-incoming,promise-results`:
-- The build is the check's own bundle (`--keep`, from a run of `concealed` alone on the record's commit, with the record put back after): it names `9e3255be`, the record of `fd4aace9`, clean, with art from `64e55516`. The pack is read at `9e3255be`, clean.
-- **Against the comparison on `aa7e7bcf`,** all fourteen parts are field for field the same; only the build's folder and commit, the pack's commit and the time differ.
+- The build is the check's own bundle (`--keep`, from a run of `concealed` alone on the record's commit, with the record put back after): it names `15f78624`, the record of `4f23375b`, clean, with art from `64e55516`. The pack is read at `15f78624`, clean.
+- **Against the comparison on `9e3255be`,** all fourteen parts are field for field the same; only the build's folder and commit, the pack's commit and the time differ. The drafting toast is drawn by the check alone: no compared part has it.
+- **The comparison on `9e3255be`** (its build named `9e3255be`, the record of `fd4aace9`, read at `9e3255be`, clean), **against the one on `aa7e7bcf`:** all fourteen parts are field for field the same; only the build's folder and commit, the pack's commit and the time differ.
 - **The comparison on `aa7e7bcf`** (its build named `aa7e7bcf`, the record of `834dcef0`, read at `aa7e7bcf`, clean), **against the one on `f15b8129`:** all fourteen parts are field for field the same; only the build's folder and commit, the pack's commit and the time differ. R2 and shell 0.3.3 change no part's recorded field. In the pictures, the tab bar has shell 0.3.2's painted tiles.
 - **The comparison on `f15b8129`** (its build named `f15b8129`, the record of `755820d8`, read at `f15b8129`, clean), **against the one on `bfd458ea`:** all fourteen parts are field for field the same; only the build's folder and commit, the pack's commit and the time differ. Shell 0.3.1's portrait changes no part's recorded field.
 - **Promises' three parts** (sheets 33 and 33.1) join the eleven. Every one was drawn with no problem met:
@@ -586,7 +602,6 @@ The connection works around none of these by inventing data. Where it holds this
   - R1 to R7, Promises' gaps. R1 means no Jail Vote Promise can be sent until Frontend's check is fixed: the Lead posted it on #222. R2's fix, with A3's, is an earlier step; how long its words hold is the Lead's answer of 18 November (R7), and R6 and R7 are new for #222, which the Lead posts;
   - the `closed` state of #307's check, which this branch doubles as #307 now does `pass`, `actions` and `course` (for #307 to take: the Bars & Icons builder's since 18 November);
   - the empty "Outcome unknown" when this phone did not see the send (A4): a model change, or a type-less specimen ("Your action was sent, …"), which would be new words for the Lead and the owner;
-- **For the Bars & Icons builder:** a Promise send that the server answers with "The server closed that phase." while the view still shows the talk. The terms are open and unsent again, so this builds them as a draft, and the toast follows if the talk then ends. Or they could count as just sent until the player's next tap, with no toast, as the words already said why ([Promises](#promises)).
 - **For Integration:**
   - the three fence hunks, Actions', the Panels tab's and Promises';
   - the fence not seeing `play-parts.css`'s `@import`;
