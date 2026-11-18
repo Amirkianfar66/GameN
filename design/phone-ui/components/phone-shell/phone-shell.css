@@ -167,10 +167,11 @@
    b, steady: every bar whose inside is up to 25 rem wide (a 390 px phone's is 22.9 rem at the Standard text, a
    430 px phone's 25.4 rem) has the slim controls
    always: Promises the handshake alone with its count, the clock without its icon. The owner's alternative
-   (data-bar-slim="measured") keeps them for the bar that would otherwise cut a line (data-fit~="slim"). */
+   (data-bar-fit="measured") keeps them for the bar that would otherwise cut a line (data-fit~="slim"). The root
+   says which (data-bar-fit), so an earlier shell drawn beside this one keeps its own bar. */
 @container ms-ps-bar (max-width: 25rem) {
-  .ms-phone-shell:not([data-bar-slim="measured"]) .ms-ps-pill { padding: 0; width: 36px; }
-  .ms-phone-shell:not([data-bar-slim="measured"]) :is(.ms-ps-pill-label, .ms-ps-div, .ms-ps-timer-mark:not(.ms-ps-ring)) { display: none; }
+  .ms-phone-shell[data-bar-fit="steady"] .ms-ps-pill { padding: 0; width: 36px; }
+  .ms-phone-shell[data-bar-fit="steady"] :is(.ms-ps-pill-label, .ms-ps-div, .ms-ps-timer-mark:not(.ms-ps-ring)) { display: none; }
 }
 .ms-phone-shell .ms-ps-tb[data-fit~="slim"] .ms-ps-pill { padding: 0; width: 36px; }
 .ms-phone-shell .ms-ps-tb[data-fit~="slim"] :is(.ms-ps-pill-label, .ms-ps-div, .ms-ps-timer-mark:not(.ms-ps-ring)) { display: none; }
