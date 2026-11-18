@@ -42,7 +42,7 @@ const lampOn = l => { const n = l.wall === 'north' ? [0, 0, -1] : l.wall === 'so
 const LAMPS6 = LAMPS.map(lampOn);
 const quadOn = (l, w, h, out = 0.04) => { const u = [-l.n[2], 0, l.n[0]], c = [l.at[0] + l.n[0] * out, l.at[1], l.at[2] + l.n[2] * out];
   return [[c[0] - u[0] * w / 2, c[1] - h / 2, c[2] - u[2] * w / 2], [c[0] + u[0] * w / 2, c[1] - h / 2, c[2] + u[2] * w / 2], [c[0] + u[0] * w / 2, c[1] + h / 2, c[2] + u[2] * w / 2], [c[0] - u[0] * w / 2, c[1] + h / 2, c[2] - u[2] * w / 2]]; };
-export function draw(mode, { furniture = true, capsule = true } = {}) {   // capsule: false draws the stations without the food capsule (version 4's step-2 guide)
+export function draw(mode, { furniture = true, capsule = true, stool = true } = {}) {   // capsule / stool: false draws the stations without the food capsule / Juno's stool (the step-2 guide)
   const plan = mode === 'plan', out = [], defs = []; let n = 0;
   const clip = pp => { const id = `c${n++}`; defs.push(`<clipPath id="${id}"><polygon points="${pts(pp)}"/></clipPath>`); return id; };
   const glow = (cx, cy, rx, ry, stops, cid) => { const id = `g${n++}`; defs.push(`<radialGradient id="${id}">${stops.map(([o, c, a]) => `<stop offset="${o}" stop-color="${c}" stop-opacity="${a}"/>`).join('')}</radialGradient>`);
@@ -78,7 +78,7 @@ export function draw(mode, { furniture = true, capsule = true } = {}) {   // cap
   // the stations, far to near, the viewer's own left out
   if (furniture) {
     const objs = room.objects.filter(o => o.place !== VIEWER).map(o => ({ o, z: o.name === 'microscope' || (o.name === 'food capsule' && o.kind === 'counter') ? depth(room.objects.find(b => b.place === o.place && b.name === 'bench').c) - 0.001 : depth(o.c) })).sort((a, b) => b.z - a.z);
-    for (const { o } of objs) { if (o.name === 'food capsule') { if (capsule) out.push(capsuleSvg(o, plan)); continue; } const display = o.name === 'tablet console' || o.name === 'console', box = o.faces.length === 5;
+    for (const { o } of objs) { if (o.name === 'food capsule') { if (capsule) out.push(capsuleSvg(o, plan)); continue; } if (o.name === 'stool' && !stool) continue; const display = o.name === 'tablet console' || o.name === 'console', box = o.faces.length === 5;
       o.faces.forEach((fc, i) => { const top = box ? i === 4 : i === o.faces.length - 1; if (!top && !facesCam(fc, o)) return; const pp = P(fc.pts); if (!pp) return;
         if (!plan) { out.push(`<polygon points="${pts(pp)}" fill="${top && display ? MAP.display : '#000'}"/>`); return; }
         const fill = top ? (display ? VIOLET.deep : PLUM.light) : box ? (i === 0 ? (o.name === 'microscope' ? PLUM.warm : PLUM.mid) : VIOLET.shadow) : PLUM.mid;
@@ -161,7 +161,10 @@ if (process.argv[1] && import.meta.url.endsWith(process.argv[1].split('/').pop()
   writeFileSync(DIR + `pv6-${VIEWER}-guide.svg`, svgOf(g.body, g.defs, VIOLET.deep)); writeFileSync(DIR + `pv6-${VIEWER}-empty.svg`, svgOf(e.body, e.defs, VIOLET.deep));
   // version 4: where the food capsule is in the picture it is painted in its own step 3, so step 2's input shows the guide without it
   const capObj = room.objects.find(o => o.name === 'food capsule' && o.place !== VIEWER), capIn = !!capObj && capObj.faces.some(f => { const pp = P(f.pts); return !!pp && pp.some(([x, y]) => x >= 0 && x <= GW && y >= 0 && y <= GH); });
-  if (capIn) { const g2 = draw('plan', { capsule: false }); writeFileSync(DIR + `pv6-${VIEWER}-guide-s2.svg`, svgOf(g2.body, g2.defs, VIOLET.deep)); }
+  // C's version 5 and E's version 3 (the Lead and the owner, 18 November): Juno's stool is painted in step 3 too, so step 2's input shows it neither
+  const inPic = o => !!o && o.faces.some(f => { const pp = P(f.pts); return !!pp && pp.some(([x, y]) => x >= 0 && x <= GW && y >= 0 && y <= GH); });
+  const stoolIn = inPic(room.objects.find(o => o.name === 'stool' && o.place !== VIEWER));
+  if (capIn || stoolIn) { const g2 = draw('plan', { capsule: false, stool: false }); writeFileSync(DIR + `pv6-${VIEWER}-guide-s2.svg`, svgOf(g2.body, g2.defs, VIOLET.deep)); }
   writeFileSync(DIR + `pv6-${VIEWER}-regions.svg`, svgOf(m.body, m.defs, '#000', '', true)); writeFileSync(DIR + `pv6-${VIEWER}-empty-regions.svg`, svgOf(em.body, em.defs, '#000', '', true));
   const ps = pieces(), shapes = ps.map(p => p.objects.flatMap(o => o.faces.map(f => P(f.pts)).filter(Boolean)));
   writeFileSync(DIR + `pv6-${VIEWER}-furniture.svg`, svgOf(shapes.flat().map(pp => `<polygon points="${pts(pp)}" fill="#FFF"/>`).join(''), '', '#000', '', true));

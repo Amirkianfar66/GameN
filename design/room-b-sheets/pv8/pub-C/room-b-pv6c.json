@@ -1,8 +1,8 @@
 {
  "sheet": "PV6-C",
- "version": 4,
+ "version": 5,
  "date": "2026-11-18",
- "status": "Version 4, for the Lead's go. Nothing is generated before it.",
+ "status": "Version 5, for the Lead's go. Nothing is generated before it.",
  "generated": "Every picture made from this sheet is AI-generated. Its record says so, with its tool, model, prompt, date and settings, and it is never presented as made by a person.",
  "owner": {
   "decision": "accepted the one-view test as the way to go for Room B: name tags at the feet; stronger shadows on the people (the In-game animation builder's); start the other four views, B, C, D and E, in this look",
@@ -16,7 +16,7 @@
   },
   "staging": "option 1 (the Lead's approval, 18 November): identical furniture in D and E, a person cheated alone; in B and C a station moves with its person, as in version 1, each move listed with its distance"
  },
- "test": "One view, Lyra's (place C): the empty room painted over a straight-lined guide, then one PLACE edit for the furniture, then one masked edit for the food capsule alone, by PV6-A's method; the people stay code.",
+ "test": "One view, Lyra's (place C): the empty room painted over a straight-lined guide, then one PLACE edit for the furniture, then one masked edit for the food capsule and the stool, two separate shapes, by PV6-A's method; the people stay code.",
  "camera": {
   "lens": "rectilinear (straight lines)",
   "acrossDeg": 70,
@@ -893,23 +893,23 @@
      },
      "place": {
       "published": "img/pv6-C-place.png",
-      "sha256": "189bf246b25074241b12924cb5bba661ae147be71272f66d77d5ae0d4b3ca44d"
+      "sha256": "68bedb64944288cc5e1ffe7dfbe90baacd08617baf011db08f889f1c70da6ce0"
      },
      "split": {
       "published": "img/pv6-C-split.png",
-      "sha256": "ea7c62f58c6d74d9991859821d65ea23b6c771317d596ddc3bde62e0492fc393"
+      "sha256": "59e90aec7419f603196b95966d62f1c9c3cfcda2ade77bba3547edf5f3ea5ed1"
      },
      "guideS2": {
       "published": "img/pv6-C-guide-s2.png",
-      "sha256": "52b87024f046be01918e25996636ddedcb9300305611a0771262270481c1677a"
+      "sha256": "65b52c2a8033ac95997a20b2310f843e0ea2e769c5bdfa222072dca151d85628"
      },
      "place3": {
       "published": "img/pv6-C-place3.png",
-      "sha256": "c2315470617865fda3391e44284362951dc89e5837bef85359eccdc03ef70602"
+      "sha256": "24a2424d12d2027683adbbb00700777347794566eba9046f10a81911a1b662fe"
      },
      "split3": {
       "published": "img/pv6-C-split3.png",
-      "sha256": "59b69c2165b286f90fa7646149deb45a403c79ec8f896730d6a148b976f2d4fc"
+      "sha256": "b64bd5f9bc2bba3c60844c5631610ff6841b929334ed0022803178f346bd31b5"
      },
      "marks": {
       "published": "pv6-C-marks.json",
@@ -943,13 +943,13 @@
       "inputSha256": "5855973f7220bb1969975b7a6e6dd3cfac61db3808722c0fb7bf13bf34673283"
      },
      "s2": {
-      "maskedShare": 0.1492,
-      "rawMaskAlpha": "2afa198ab115340e84079c11a8068a47bcc415258844598304323c7c61b2ab73",
+      "maskedShare": 0.1459,
+      "rawMaskAlpha": "b7f11b8389120f44b11c4d9d4bd3293fa9709b486e1bd3e8a441a7f766bdb6ca",
       "over10": true
      },
      "s3": {
-      "maskedShare": 0.0029,
-      "rawMaskAlpha": "403fef1f834996581c185865e454dcdba0a9d72fad72070fe763db8470a3e659"
+      "maskedShare": 0.0062,
+      "rawMaskAlpha": "a85f8fef1181439089d9f39a04e5deaa3167639a129a1a7724a93849b6beb625"
      }
     },
     "prompts": {
@@ -964,48 +964,46 @@
       "chars": 4693
      },
      "s2": {
-      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked shapes, and leave everything outside them exactly as it is. Each masked shape holds the furniture named for it, filling that shape exactly, standing on the deck or fixed to the wall, painted in full detail in the picture's style and light: the shape on the left holds two pieces, a low wheeled cart with shelves and, behind it on the right, a round stool on a single post with a ring of feet; the shape ahead is a low workbench by the west wall, set diagonally to it, seen at an angle, its top lit warm, its top clear at its right end; the shape on the right is a waist-high tablet console with a slanted top whose display is plain and dark, with no readouts, bars or keys on it.\n\nThe second attached picture shows Room B's furniture painted from another place. Paint each piece as the same furniture, with the same materials, colours, wear and warm light; a piece that is not in it is painted to match the pieces that are, a tablet console like the console and every workbench like the workbench.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
-      "sha256": "7381d010e9ad740465443034acaa0db7c97c38773de28a9b00930415c65cacee",
-      "chars": 3422
+      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked shapes, and leave everything outside them exactly as it is. Each masked shape holds one piece of furniture that fills that shape exactly, standing on the deck or fixed to the wall, painted in full detail in the picture's style and light: the shape on the left is a low wheeled cart with shelves; the shape ahead is a low workbench by the west wall, set diagonally to it, seen at an angle, its top lit warm, its top clear at its right end; the shape on the right is a waist-high tablet console with a slanted top whose display is plain and dark, with no readouts, bars or keys on it.\n\nThe second attached picture shows Room B's furniture painted from another place. Paint each piece as the same furniture, with the same materials, colours, wear and warm light; a piece that is not in it is painted to match the pieces that are, a tablet console like the console and every workbench like the workbench.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+      "sha256": "93f747738fa84a01e6755ab5cc6f2348cb549f500d43f31e88d6631de116f96b",
+      "chars": 3325
      },
      "s2-one": {
-      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked shapes, and leave everything outside them exactly as it is. Each masked shape holds the furniture named for it, filling that shape exactly, standing on the deck or fixed to the wall, painted in full detail in the picture's style and light: the shape on the left holds two pieces, a low wheeled cart with shelves and, behind it on the right, a round stool on a single post with a ring of feet; the shape ahead is a low workbench by the west wall, set diagonally to it, seen at an angle, its top lit warm, its top clear at its right end; the shape on the right is a waist-high tablet console with a slanted top whose display is plain and dark, with no readouts, bars or keys on it.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
-      "sha256": "d34c0df564a647b18f562c630a99908527156cbab2bfb0bd257c67ed3e854f98",
-      "chars": 3104
+      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked shapes, and leave everything outside them exactly as it is. Each masked shape holds one piece of furniture that fills that shape exactly, standing on the deck or fixed to the wall, painted in full detail in the picture's style and light: the shape on the left is a low wheeled cart with shelves; the shape ahead is a low workbench by the west wall, set diagonally to it, seen at an angle, its top lit warm, its top clear at its right end; the shape on the right is a waist-high tablet console with a slanted top whose display is plain and dark, with no readouts, bars or keys on it.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+      "sha256": "7c17e0fdb550cf8e8038ed5e90dc75a578bd4cb75c54de9fb102576e300774d8",
+      "chars": 3007
      },
      "s3": {
-      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked shape, and leave everything outside it exactly as it is. The masked shape holds one small food dispenser that fills the shape exactly, with nothing of it outside the shape, painted in full detail in the picture's style and light. It stands on the far end of the workbench's top, the right end in this picture, its foot on the bench's top: a steel housing with a rounded top on a short foot, about 0.24 m wide, 0.40 m tall and 0.22 m deep, its front a flat, plain hatch of warm paper-white, closed, with a small dark handle along its bottom edge, two thin vent slots under the hatch, and a small round lens above it, unlit and dark; nothing written, printed or lit on it. Paint it in the same metal, paint and wear as the furniture around it.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
-      "sha256": "bb7051cb9e7f202db3244f0315ff1bb3543906f5f4d0ca2b9cb8cb392b40244b",
-      "chars": 3166
+      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the two masked shapes, and leave everything outside them exactly as it is. Each shape holds one object that fills it exactly, with nothing of it outside its shape, painted in full detail in the picture's style and light. The small shape on the bench's far end, the right end in this picture, holds one small food dispenser standing on the workbench's top: a steel housing with a rounded top, about 0.24 m wide, 0.40 m tall and 0.22 m deep; a small round lens high on its front, unlit and dark; below it, a large closed hatch of warm paper-white filling most of the front, with a small dark handle along its bottom edge; no vent slots; nothing written, printed or lit on it. The shape behind the cart, over its middle, holds the top of a round stool that stands on the deck behind the low wheeled cart: only its round seat shows above the cart, which hides its single post and its ring of feet. Paint both in the same metal, paint and wear as the furniture around them.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+      "sha256": "a7a992ccb57aab18e843fbd8921a58488762925da7a43d06e0288c7175b53837",
+      "chars": 3382
      },
      "s3-one": {
-      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked shape, and leave everything outside it exactly as it is. The masked shape holds one small food dispenser that fills the shape exactly, with nothing of it outside the shape, painted in full detail in the picture's style and light. It stands on the far end of the workbench's top, the right end in this picture, its foot on the bench's top: a steel housing with a rounded top on a short foot, about 0.24 m wide, 0.40 m tall and 0.22 m deep, its front a flat, plain hatch of warm paper-white, closed, with a small dark handle along its bottom edge, two thin vent slots under the hatch, and a small round lens above it, unlit and dark; nothing written, printed or lit on it. Paint it in the same metal, paint and wear as the furniture around it.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
-      "sha256": "bb7051cb9e7f202db3244f0315ff1bb3543906f5f4d0ca2b9cb8cb392b40244b",
-      "chars": 3166
+      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the two masked shapes, and leave everything outside them exactly as it is. Each shape holds one object that fills it exactly, with nothing of it outside its shape, painted in full detail in the picture's style and light. The small shape on the bench's far end, the right end in this picture, holds one small food dispenser standing on the workbench's top: a steel housing with a rounded top, about 0.24 m wide, 0.40 m tall and 0.22 m deep; a small round lens high on its front, unlit and dark; below it, a large closed hatch of warm paper-white filling most of the front, with a small dark handle along its bottom edge; no vent slots; nothing written, printed or lit on it. The shape behind the cart, over its middle, holds the top of a round stool that stands on the deck behind the low wheeled cart: only its round seat shows above the cart, which hides its single post and its ring of feet. Paint both in the same metal, paint and wear as the furniture around them.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+      "sha256": "a7a992ccb57aab18e843fbd8921a58488762925da7a43d06e0288c7175b53837",
+      "chars": 3382
      }
     },
     "split": {
      "B laptop cart": 100,
-     "B stool": 80,
      "D bench": 20,
      "A tablet console": 60
     },
     "shapes": [
      {
       "pieces": [
-       0,
-       1
+       0
       ],
-      "px": 133406,
+      "px": 128213,
       "bbox": [
        70,
-       1073,
+       1099,
        400,
        1536
       ],
-      "visibleCentreX": 244,
+      "visibleCentreX": 243,
       "cutByEdge": false,
-      "tall": 1.4
+      "tall": 1.32
      },
      {
       "pieces": [
@@ -1039,9 +1037,25 @@
      }
     ],
     "split3": {
+     "B stool": 80,
      "D food capsule": 40
     },
     "shapes3": [
+     {
+      "pieces": [
+       1
+      ],
+      "px": 5248,
+      "bbox": [
+       197,
+       1077,
+       328,
+       1141
+      ],
+      "visibleCentreX": 262,
+      "cutByEdge": false,
+      "tall": 0.49
+     },
      {
       "pieces": [
        3
@@ -1069,7 +1083,7 @@
       "place": "B",
       "name": "stool",
       "grey": 80,
-      "step": 2
+      "step": 3
      },
      {
       "place": "D",
@@ -1304,7 +1318,7 @@
   "sha256": "39a0e51dfad20884e1b3dea2b94c93b9e304897a1a187f3c544583eacf29935b"
  },
  "budget": {
-  "afterTheGo": "one empty-room picture (step 1), one PLACE edit (step 2) and one capsule edit (step 3), about $0.18; one re-run only if a check fails, at most $0.24",
+  "afterTheGo": "one empty-room picture (step 1), one PLACE edit (step 2) and one edit for the capsule and the stool (step 3), about $0.18; one re-run only if a check fails, at most $0.24",
   "generatedSoFar": 0
  },
  "referencesSentToTheModel": "PV6-A-2 at step 1 and PV6-A-3 at step 2, the team's own AI-generated pictures of this room (records page), as a second picture where the image tool takes one; none at step 3; none of the owner's reference pictures"

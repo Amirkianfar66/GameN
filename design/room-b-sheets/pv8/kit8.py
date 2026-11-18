@@ -22,11 +22,24 @@ for p in PIECES:
 # slides up inside it, so it needs no room above); every other piece keeps 6 px. The mask is the union of the grown outlines.
 # version 4 (the Lead and the owner, 18 November): where the capsule is in the picture it is painted alone, in a step 3 after the
 # furniture: step 2's mask and split map hold the furniture only; step 3's mask is the capsule's outline grown 2 px, its own split map.
-CAP = [p for p in pieces if p['name'] == 'food capsule']; STEP2 = [p for p in pieces if p['name'] != 'food capsule']
+# C's version 5 and E's version 3 (the Lead and the owner, 18 November): Juno's stool joins step 3 wherever it is in the picture, its
+# shape its visible outline grown 2 px less every other piece's outline (it never repaints the cart in front of it); the shapes
+# of step 3 must not touch each other.
+S3NAMES = ('food capsule', 'stool')
+CAP = [p for p in pieces if p['name'] in S3NAMES]; STEP2 = [p for p in pieces if p['name'] not in S3NAMES]
 place = np.zeros((H, W), bool); split = np.zeros((H, W), np.uint8)
 for p in sorted(STEP2, key=lambda p: p['grey']): g = L.grow(np.abs(lab - p['grey']) <= 2, GROW); place |= g; split[g] = p['grey']
 place3 = np.zeros((H, W), bool); split3 = np.zeros((H, W), np.uint8)
-for p in CAP: g = L.grow(np.abs(lab - p['grey']) <= 2, 2); place3 |= g; split3[g] = p['grey']
+grown3 = {}
+for p in CAP:
+    g = L.grow(np.abs(lab - p['grey']) <= 2, 2)
+    if p['name'] == 'stool':
+        for q in pieces:
+            if q is not p: g &= ~(np.abs(lab - q['grey']) <= 2)
+    grown3[p['grey']] = g; place3 |= g; split3[g] = p['grey']
+for a in grown3:
+    for b in grown3:
+        if a < b: assert not (L.grow(grown3[a], 1) & grown3[b]).any(), 'two shapes of step 3 touch'
 for p in pieces: p['step'] = 3 if p in CAP else 2
 assert not (furn & ~(place | place3)).any(), 'an outline is outside the masks'
 assert ((split > 0) == place).all(), 'the split map is not the PLACE mask'
@@ -41,10 +54,10 @@ def shapes_of(mask, smap):
 shapes = shapes_of(place, split)
 save(place, f'pv6-{V}-place.png'); save(split, f'pv6-{V}-split.png')
 # the split maps' pieces in their left-to-right order, as before
-out = {'pieces': pieces, 'shapes': shapes, 'split': {f"{p['place']} {p['name']}": p['grey'] for p in pieces if p['name'] != 'food capsule'}, 'outlineShare': round(float(furn.mean()), 4),
+out = {'pieces': pieces, 'shapes': shapes, 'split': {f"{p['place']} {p['name']}": p['grey'] for p in pieces if p['name'] not in S3NAMES}, 'outlineShare': round(float(furn.mean()), 4),
        'expected': {'maskedShare': round(float(place.mean()), 4), 'rawMaskAlpha': alpha(place), 'over10': bool(place.mean() > 0.10)}}
 if CAP:   # version 4: step 3, the capsule alone
     save(place3, f'pv6-{V}-place3.png'); save(split3, f'pv6-{V}-split3.png')
-    out |= {'shapes3': shapes_of(place3, split3), 'split3': {f"{p['place']} {p['name']}": p['grey'] for p in pieces if p['name'] == 'food capsule'}, 'expected3': {'maskedShare': round(float(place3.mean()), 4), 'rawMaskAlpha': alpha(place3)}}
+    out |= {'shapes3': shapes_of(place3, split3), 'split3': {f"{p['place']} {p['name']}": p['grey'] for p in pieces if p['name'] in S3NAMES}, 'expected3': {'maskedShare': round(float(place3.mean()), 4), 'rawMaskAlpha': alpha(place3)}}
 json.dump(out, open(os.path.join(D, f'kit8-{V}.json'), 'w'), indent=1)
 print('outlines', out['outlineShare'], '| PLACE mask', out['expected']['maskedShare'], '(over 10%)' if out['expected']['over10'] else '', '| step 3', out.get('expected3'), '|', len(shapes), 'shapes:', ' | '.join(' + '.join(f"{pieces[i]['place']}'s {pieces[i]['name']}" for i in s['pieces']) + f" x {s['bbox'][0]}-{s['bbox'][2]}" for s in shapes))

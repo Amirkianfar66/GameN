@@ -39,10 +39,32 @@ export const S3_OPEN = 'This is a correction of the attached picture. Repaint on
 export function step3Text(c) {
   return `${S3_OPEN} The masked shape holds one small food dispenser that fills the shape exactly, with nothing of it outside the shape, painted in full detail in the picture's style and light. It stands on the ${c.depth} end of the workbench's top, the ${c.end} end in this picture, its foot on the bench's top: a steel housing with a rounded top on a short foot, about 0.24 m wide, 0.40 m tall and 0.22 m deep, ${BODY}. Paint it in the same metal, paint and wear as the furniture around it.`;
 }
+// C's version 5 and E's version 3 (the Lead and the owner, 18 November): Juno's stool is painted in step 3 as well, behind its cart.
+// Where it stands against the cart, in the picture: by its centre against the thirds of the cart's visible width (or past its ends);
+// and how much of its height shows (its visible box against its whole projected box), since the cart may hide most of it.
+export function stoolEnd(pieces) {
+  const stool = pieces.find(p => p.name === 'stool' && p.step === 3); if (!stool) return null;
+  const cart = pieces.find(p => p.place === stool.place && p.name === 'laptop cart'); if (!cart) return null;
+  const [c0, , c1] = cart.bbox, x = stool.partsX[stool.name], third = (c1 - c0) / 3;
+  const at = x < c0 + third ? 'left end' : x > c1 - third ? 'right end' : 'middle', seen = (stool.bbox[3] - stool.bbox[1]) / (stool.fullBox[3] - stool.fullBox[1]);
+  return { stool, cart, at, seen: +seen.toFixed(2) };
+}
+// the stool's words in step 3: whole where little of it is hidden, or only its seat where the cart hides its post and feet
+const stoolWords = s => s.seen < 0.5 ? `the top of a round stool that stands on the deck behind the low wheeled cart: only its round seat shows above the cart, which hides its single post and its ring of feet` : `${what6(s.stool)}, standing on the deck behind the low wheeled cart`;
+// the capsule as PV6-B-4 painted it (the Lead, 18 November), so that it matches between the two views
+const CAPSULE_B4 = 'a steel housing with a rounded top, about 0.24 m wide, 0.40 m tall and 0.22 m deep; a small round lens high on its front, unlit and dark; below it, a large closed hatch of warm paper-white filling most of the front, with a small dark handle along its bottom edge; no vent slots; nothing written, printed or lit on it';
+export const S3_OPEN2 = 'This is a correction of the attached picture. Repaint only the two masked shapes, and leave everything outside them exactly as it is.';
+export function step3TwoText(c, s) {
+  return `${S3_OPEN2} Each shape holds one object that fills it exactly, with nothing of it outside its shape, painted in full detail in the picture's style and light. The small shape on the bench's ${c.depth} end, the ${c.end} end in this picture, holds one small food dispenser standing on the workbench's top: ${CAPSULE_B4}. The shape behind the cart, ${s.at === 'middle' ? 'over its middle' : `at its ${s.at}`}, holds ${stoolWords(s)}. Paint both in the same metal, paint and wear as the furniture around them.`;
+}
+export function step3StoolText(s) {
+  return `${S3_OPEN} The masked shape holds ${s.seen < 0.5 ? stoolWords(s) : `${what6(s.stool)}, which fills the shape exactly`}, with nothing of it outside the shape, painted in full detail in the picture's style and light. ${s.seen < 0.5 ? `It stands behind the cart's ${s.at}.` : s.seen < 0.9 ? `It stands on the deck behind the cart's ${s.at}, partly hidden by the cart.` : `It stands on its own on the deck, just behind the cart's ${s.at}.`} Paint it in the same metal, paint and wear as the furniture around it.`;
+}
 export function prompts(V) {
-  const K = JSON.parse(readFileSync(DIR + `kit8-${V}.json`, 'utf8')), step3 = !!K.shapes3, cap = step3 ? capsuleEnd(K.pieces) : null;
+  const K = JSON.parse(readFileSync(DIR + `kit8-${V}.json`, 'utf8')), step3 = !!K.shapes3, cap = step3 && K.pieces.some(p => p.step === 3 && p.name === 'food capsule') ? capsuleEnd(K.pieces) : null, stool = step3 ? stoolEnd(K.pieces) : null;
   const place = placeText8(K.shapes, K.pieces, { clear: cap }), unit = !step3 && K.pieces.some(p => p.name === 'food capsule'), ref2 = unit ? `${REF2} ${REF2_CAPSULE}` : REF2;
-  if (step3 && !cap) throw new Error(`${V}: a step 3 with no counter unit on a bench`);
+  if (step3 && !cap && !stool) throw new Error(`${V}: a step 3 with neither a counter unit on a bench nor a stool behind its cart`);
+  const t3 = step3 ? (cap && stool ? step3TwoText(cap, stool) : stool ? step3StoolText(stool) : step3Text(cap)) : null;
   return {
     s1: [STYLE6, COLOUR6, ROOM6, REF1, LENS6, LINE7[V], OUT].join('\n\n'),
     's1-one': [STYLE6, COLOUR6, ROOM6, LENS6, LINE7[V], OUT].join('\n\n'),
@@ -50,7 +72,7 @@ export function prompts(V) {
     's2-one': [STYLE6, COLOUR6, place, OUT].join('\n\n'),
     // step 3 has no second picture: PV6-A-3 holds no dispenser to match, and the step-2 picture already shows the bench and the room
     // around the shape, so s3 and s3-one are the same text
-    ...(step3 ? { s3: [STYLE6, COLOUR6, step3Text(cap), OUT].join('\n\n'), 's3-one': [STYLE6, COLOUR6, step3Text(cap), OUT].join('\n\n') } : {}),
+    ...(step3 ? { s3: [STYLE6, COLOUR6, t3, OUT].join('\n\n'), 's3-one': [STYLE6, COLOUR6, t3, OUT].join('\n\n') } : {}),
   };
 }
 if (process.argv[1] && import.meta.url.endsWith(process.argv[1].split('/').pop())) {

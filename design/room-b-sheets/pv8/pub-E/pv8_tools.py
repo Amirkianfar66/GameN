@@ -1,3 +1,8 @@
+# Version 2 of the tool (pv8_tools.py), for sheets PV6-B and PV6-C version 4: version 1 (pv7_tools.py, below) with its commands unchanged,
+# and a step 3 where the view's kit has one (the Lead and the owner, 18 November): the food capsule alone, one masked edit of the kept
+# step-2 picture inside the capsule's outline grown 2 px (the kit's place3), its input showing the guide there, with no second picture
+# (s3 and s3-one are the same text); step 2's input shows the step-2 guide, the stations without the capsule (guideS2). keep3 and lift3
+# are keep and lift on step 3's mask and split map, so the capsule is lifted as its own piece. Version 1 was:
 # The tool for sheets PV6-B to PV6-E (Room B's views from Juno's, Lyra's, Atlas's and Vega's places): PV6-A's tool (pv6_tools.py),
 # its steps unchanged, for one view per sheet. Step 1 is a first pass over the empty-room guide; step 2 is one masked PLACE edit of
 # that picture inside the pieces' outlines grown 6 px, its input showing the guide there. A mask is RGBA: the input's RGB, alpha 0 =
@@ -19,6 +24,10 @@
 #   python3 -I pv7_tools.py keep <view> <step-1 picture.png> <raw.png> <out.png>   the edit kept inside the PLACE mask
 #   python3 -I pv7_tools.py lift <view> <step-1 picture.png> <kept.png> <prefix>   one RGBA layer per piece, and <prefix>-lift.json
 #   python3 -I pv7_tools.py replay-a <folder>                         PV5-A-3's keeps and lift again, from its records page's files
+#   python3 -I pv8_tools.py s3 <view> <step-2 kept.png> <prefix>       <prefix>-S3-input.png, -S3-mask.png, -S3-prompt.txt (version 2)
+#   python3 -I pv8_tools.py keep3 <view> <step-2 kept.png> <raw.png> <out.png>   the capsule's edit kept inside step 3's mask (version 2)
+#   python3 -I pv8_tools.py lift3 <view> <step-2 kept.png> <step-3 kept.png> <prefix>   the capsule's own layer (version 2)
+# (version 2 runs every command above as pv8_tools.py)
 import glob, hashlib, importlib.util, json, os, sys, zlib
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, __version__ as PILLOW
@@ -70,7 +79,7 @@ def s1(X, prefix, one=False):
                       'inputs': inputs_of(V, first, 'empty', one), 'settings': {'size': f'{W}x{H}', 'n': 1},
                       'check': {'sameRoom': f'pv7_tools.py same {X} <picture> <prefix>', 'colour': f"colour-check-v4.py with {V['files']['emptyRegions']['published']} (inside same)", 'lines': f"against {V['files']['emptyAnnotated']['published']}"}}, indent=1))
 def s2(X, picture, prefix, one=False):
-    K = kit(); V = view(K, X); pic = rgb_of(picture); a, al = place_of(V); guide = rgb_of(kitfile(V['files']['guide'])); inp = pic.copy(); inp[a] = guide[a]
+    K = kit(); V = view(K, X); pic = rgb_of(picture); a, al = place_of(V); guide = rgb_of(kitfile(V['files'].get('guideS2', V['files']['guide']))); inp = pic.copy(); inp[a] = guide[a]   # version 2: the step-2 guide, without the capsule, where there is one
     fi = save(inp, f'{prefix}-S2-input.png'); fm = save(np.dstack([inp, al]), f'{prefix}-S2-mask.png'); key = 's2-one' if one else 's2'; t = prompt_of(V, key); write_prompt(t, f'{prefix}-S2-prompt.txt')
     first = {'role': 'the picture to edit: the step-1 picture with the guide inside the PLACE mask, and the mask (alpha 0 = repaint)', 'file': f'{os.path.basename(prefix)}-S2-input.png', 'sha256': fi, 'mask': {'file': f'{os.path.basename(prefix)}-S2-mask.png', 'sha256': fm}}
     print(json.dumps({'view': X, 'step': 'S2 (place)', 'picture': {'file': os.path.basename(picture), 'sha256': fsha(picture), 'rawRGB': sha(pic.tobytes())},
@@ -186,6 +195,40 @@ def lift(X, start, kept, prefix):
     out['rebuildMeanAbsDiff'] = round(float(np.abs(L.rebuild(s, k, al).astype(int) - k).mean()), 4)
     json.dump(out, open(f'{prefix}-lift.json', 'w'), indent=1); print(json.dumps(out, indent=1))
     if out['missing']: sys.exit(1)
+# ---- version 2: step 3, the food capsule alone
+def place3_of(V):
+    if 'place3' not in V['files']: fail('this view has no step 3')
+    a = np.array(Image.open(kitfile(V['files']['place3'])).convert('L')) > 127   # True = repaint
+    al = np.where(a, 0, 255).astype(np.uint8); e = V['expected']['s3']
+    if sha(al.tobytes()) != e['rawMaskAlpha']: fail(f"step 3's mask alpha {sha(al.tobytes())[:12]}, want {e['rawMaskAlpha'][:12]}")
+    return a, al
+def s3(X, kept2, prefix):
+    K = kit(); V = view(K, X); a, al = place3_of(V); pic = rgb_of(kept2); guide = rgb_of(kitfile(V['files']['guide'])); inp = pic.copy(); inp[a] = guide[a]
+    fi = save(inp, f'{prefix}-S3-input.png'); fm = save(np.dstack([inp, al]), f'{prefix}-S3-mask.png'); t = prompt_of(V, 's3'); write_prompt(t, f'{prefix}-S3-prompt.txt')
+    if prompt_of(V, 's3-one') != t: fail('s3 and s3-one differ')
+    first = {'role': "the picture to edit: the kept step-2 picture with the guide inside step 3's mask (the capsule's outline grown 2 px), and the mask (alpha 0 = repaint)", 'file': f'{os.path.basename(prefix)}-S3-input.png', 'sha256': fi, 'mask': {'file': f'{os.path.basename(prefix)}-S3-mask.png', 'sha256': fm}}
+    print(json.dumps({'view': X, 'step': 'S3 (the food capsule alone, one masked edit)', 'picture': {'file': os.path.basename(kept2), 'sha256': fsha(kept2), 'rawRGB': sha(pic.tobytes())},
+                      'maskedShare': round(float(a.mean()), 4), 'rawInputRGB': sha(inp.tobytes()), 'rawMaskAlpha': sha(al.tobytes()), 'inputs': [first], 'secondPicture': 'none: s3 and s3-one are the same text',
+                      'prompt': {'key': 's3', 'file': f'{os.path.basename(prefix)}-S3-prompt.txt', 'sha256': sha(t.encode('utf-8')), 'chars': len(t)}, 'settings': {'size': f'{W}x{H}', 'n': 1}}, indent=1))
+def keep3(X, kept2, raw, outp):
+    K = kit(); V = view(K, X); a, _ = place3_of(V); s = rgb_of(kept2); o = composite(s, rgb_of(raw), a); f = save(o, outp)
+    d = np.abs(o.astype(int) - s).max(axis=2); far = ~L.grow(a, 4)
+    print(json.dumps({'view': X, 'step': 'S3 kept', 'start': {'file': os.path.basename(kept2), 'sha256': fsha(kept2)}, 'raw': {'file': os.path.basename(raw), 'sha256': fsha(raw)},
+                      'kept': {'file': os.path.basename(outp), 'sha256': f, 'rawRGBsha256': sha(o.tobytes())}, 'how': "the raw edit over the kept step-2 picture inside step 3's mask, feathered by a 2 px Gaussian",
+                      'moreThan4pxOutsideMask': {'meanAbsDiff': round(float(d[far].mean()), 4), 'maxAbsDiff': int(d[far].max())}}, indent=1))
+def lift3(X, kept2, kept3, prefix):
+    K = kit(); V = view(K, X); a, _ = place3_of(V); s, k = rgb_of(kept2), rgb_of(kept3)
+    split = np.array(Image.open(kitfile(V['files']['split3'])).convert('L'))
+    b, al = L.matte(s, k, a); out = {'view': X, 'step': 3, 'recipe': K['lift']['recipe'], 'pieces': {}, 'missing': []}
+    for st, grey in V['split3'].items():
+        own = split == grey; m = b & own; alpha = al * own
+        if not m.any(): out['missing'].append(st); continue
+        ys, xs = np.where(m); a8 = np.rint(alpha * 255).astype(np.uint8); f = f"{prefix}-{st.replace(' ', '-')}.png"
+        fh = save(np.dstack([k * (a8 > 0)[..., None], a8]), f, 'RGBA')
+        out['pieces'][st] = {'file': os.path.basename(f), 'sha256': fh, 'px': int(m.sum()), 'x': [int(xs.min()), int(xs.max())], 'y': [int(ys.min()), int(ys.max())], 'shareOfItsOutline': round(float(m.sum() / own.sum()), 4)}
+    out['rebuildMeanAbsDiff'] = round(float(np.abs(L.rebuild(s, k, al).astype(int) - k).mean()), 4)
+    json.dump(out, open(f'{prefix}-lift3.json', 'w'), indent=1); print(json.dumps(out, indent=1))
+    if out['missing']: sys.exit(1)
 def check():
     K = kit(); ok = True
     print(f'PV6-B to PV6-E kit for {", ".join(K["views"])}; Pillow {PILLOW}, zlib {zlib.ZLIB_RUNTIME_VERSION}; lift5.py {K["lift"]["sha256"][:12]}; colour-check-v4.py {K["colourCheck"]["sha256"][:12]}')
@@ -197,6 +240,11 @@ def check():
         print(f"   prompts s1 {V['prompts']['s1']['sha256']}, s1-one {V['prompts']['s1-one']['sha256']}")
         print(f"   S2 mask {V['files']['place']['published']}: share {V['expected']['s2']['maskedShare']}, rawMaskAlpha {V['expected']['s2']['rawMaskAlpha']}, reference {V['refs']['furnished']['published']}")
         print(f"   prompts s2 {V['prompts']['s2']['sha256']}, s2-one {V['prompts']['s2-one']['sha256']}")
+        if 'place3' in V['files']:   # version 2: step 3
+            a3, _ = place3_of(V); [prompt_of(V, k) for k in ('s3', 's3-one')]
+            if round(float(a3.mean()), 4) != V['expected']['s3']['maskedShare']: ok = False; print(f'  {X}: step 3 masked share {a3.mean():.4f}')
+            print(f"   S3 mask {V['files']['place3']['published']}: share {V['expected']['s3']['maskedShare']}, rawMaskAlpha {V['expected']['s3']['rawMaskAlpha']}, no second picture; S2 guide {V['files']['guideS2']['published']}")
+            print(f"   prompts s3 {V['prompts']['s3']['sha256']} (s3-one the same)")
     print('all files and expected hashes match' if ok else 'MISMATCH'); sys.exit(0 if ok else 1)
 # PV5-A-3's record (records page version 1794962903-4c9a), and the Lead's three parts of its lift
 A3 = {'s1': {'start': 'img/PV5-A-2-fix.png', 'raw': 'img/PV5-A-3-s1-raw.png', 'mask': 'check/PV5-A-3-S1-mask.png', 'input': 'check/PV5-A-3-S1-input.png',
@@ -225,4 +273,7 @@ if __name__ == '__main__':
     elif a[:1] == ['keep'] and len(a) == 5: keep(a[1], a[2], a[3], a[4])
     elif a[:1] == ['lift'] and len(a) == 5: lift(a[1], a[2], a[3], a[4])
     elif a[:1] == ['replay-a'] and len(a) == 2: replay_a(a[1])
+    elif a[:1] == ['s3'] and len(a) == 4: s3(a[1], a[2], a[3])
+    elif a[:1] == ['keep3'] and len(a) == 5: keep3(a[1], a[2], a[3], a[4])
+    elif a[:1] == ['lift3'] and len(a) == 5: lift3(a[1], a[2], a[3], a[4])
     else: sys.exit(open(__file__).read().split('import glob')[0])

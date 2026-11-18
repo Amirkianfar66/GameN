@@ -18,6 +18,8 @@ const out = pieces().map((p, k) => { const main = p.objects[0], w = byWall(main)
   const cos = Math.abs(w.long[0] * sight[0] + w.long[1] * sight[1]) / (Math.hypot(...w.long) * Math.hypot(...sight)); delete w.long;
   return { ...base[k], ...w, longSideToSightDeg: +(Math.acos(Math.min(1, cos)) * 180 / Math.PI).toFixed(0), dist: +p.dist.toFixed(2),
     partsX: Object.fromEntries(p.objects.map(o => [o.name, +xOf(o).toFixed(0)])), partsDist: Object.fromEntries(p.objects.map(o => [o.name, +cam.view(o.c)[2].toFixed(2)])),
-    partsInPicture: Object.fromEntries(p.objects.map(o => { const r = range(o); return [o.name, !!r && r[1] > 0 && r[0] < GW]; })) }; });
+    partsInPicture: Object.fromEntries(p.objects.map(o => { const r = range(o); return [o.name, !!r && r[1] > 0 && r[0] < GW]; })),
+    // C's version 5 and E's version 3: the piece's whole projected box, nothing hiding it (how much of Juno's stool its cart hides)
+    fullBox: (q => q.length ? [Math.min(...q.map(v => v[0])), Math.min(...q.map(v => v[1])), Math.max(...q.map(v => v[0])), Math.max(...q.map(v => v[1]))].map(v => +v.toFixed(1)) : null)(p.objects.flatMap(o => o.faces.map(f => P(f.pts)).filter(Boolean).flat())) }; });
 writeFileSync(DIR + `pieces8-${VIEW}.json`, JSON.stringify(out, null, 1));
 for (const p of out) console.log(p.place, p.name, 'wall', p.wall, p.wallGapM, 'm, long side to wall', p.longSideToWallDeg, '| to sight', p.longSideToSightDeg, '| depth', p.dist, '| parts', JSON.stringify(p.partsX), JSON.stringify(p.partsInPicture));

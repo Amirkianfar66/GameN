@@ -34,13 +34,19 @@ def build(V):
     VI = cp(os.path.join(D, f'visits-{LAYOUT}.json'), f'visits-{LAYOUT}.json'); VJ = json.load(open(os.path.join(D, f'visits-{LAYOUT}.json')))
     prompts = {k: {'text': t, 'sha256': hashlib.sha256(t.encode('utf-8')).hexdigest(), 'chars': len(t)} for k, t in P.items()}
     name, crew, num = NAMES[V]
-    VER = 4 if STEP3 else 2
+    VER = {'B': 4, 'C': 5, 'D': 2, 'E': 3}[V]   # C's version 5 and E's version 3: Juno's stool painted in step 3 as well
+    S3 = {q['name'] for q in K['pieces'] if q.get('step') == 3}
+    S3WHAT = 'the food capsule and the stool, two separate shapes' if S3 == {'food capsule', 'stool'} else 'the stool alone' if S3 == {'stool'} else 'the food capsule alone'
+    WITHOUT = 'without the capsule and the stool' if S3 == {'food capsule', 'stool'} else 'without the stool' if S3 == {'stool'} else 'without the capsule'
+    BUDGET3 = {'B': 'one PLACE edit (step 2) and one capsule edit (step 3), about $0.12, over the accepted step 1; one re-run only if a check fails, at most $0.18',
+               'C': 'one empty-room picture (step 1), one PLACE edit (step 2) and one edit for the capsule and the stool (step 3), about $0.18; one re-run only if a check fails, at most $0.24',
+               'E': 'one PLACE edit (step 2) and one stool edit (step 3), about $0.12, over the accepted step 1 (PV6-E-1); one re-run only if a check fails, at most $0.18'}
     m = {'sheet': f'PV6-{V}', 'version': VER, 'date': '2026-11-18', 'status': f"Version {VER}, for the Lead's go. Nothing is generated before it.", 'generated': A['generated'],
          'owner': {'decision': "accepted the one-view test as the way to go for Room B: name tags at the feet; stronger shadows on the people (the In-game animation builder's); start the other four views, B, C, D and E, in this look",
                    'recorded': '#280 at 4350eee6 (relayed by the Lead)', 'spend': 'about $0.12 a view, at most $0.18 with one re-run',
                    'capsule': {'asked': "Just don't forget in each room you have a food capsule characters eating from eat like past (the owner, relayed by the Lead, 18 November)", 'design': "ship-life's food capsule (#230, approved 11 November)", 'layout': LAYOUT, 'chosen': LAYOUT_CHOICE},
                    'staging': "option 1 (the Lead's approval, 18 November): identical furniture in D and E, a person cheated alone; in B and C a station moves with its person, as in version 1, each move listed with its distance"},
-         'test': f"One view, {name}'s (place {V}): the empty room painted over a straight-lined guide, then one PLACE edit for the furniture" + (", then one masked edit for the food capsule alone" if STEP3 else '') + ", by PV6-A's method; the people stay code.",
+         'test': f"One view, {name}'s (place {V}): the empty room painted over a straight-lined guide, then one PLACE edit for the furniture" + (f", then one masked edit for {S3WHAT}" if STEP3 else '') + ", by PV6-A's method; the people stay code.",
          'camera': {**{k: A['camera'][k] for k in ('lens', 'acrossDeg', 'eyeM', 'pitchDeg', 'pitchAs', 'back', 'turnDeg', 'painting', 'slices')}, 'at': R['camera']['at'], 'yawDeg': R['camera']['yawDeg'], 'yawDegExact': R['camera']['yawDegExact']},
          'staging': {'rule': "one staging of the whole room, shared by every view (PV6-A's stations for Vega, Lyra and Juno; the layout's for Mira and Atlas). In D and E the furniture is that staging's and a cheat moves a person alone, along their own station (Mira steps about her console); in B and C, as in version 1, a cheated person's station moves with them, keeping its facing. Every move is listed with its distance", 'listed': R['staging']['listed'], 'ownStation': R['staging']['ownStation'],
                      'people': {k: {f: p[f] for f in ('name', 'crew', 'plan', 'pv6a', 'spot', 'fromPlanM', 'fromPv6aM', 'facing', 'seenFromDeg', 'seenSide', 'pose')} | {'shareOfStageHeight': [p['390x844']['shareOfStageHeight'], p['430x932']['shareOfStageHeight']]} for k, p in R['people'].items()},
@@ -53,7 +59,7 @@ def build(V):
                  'lift': A['kit']['lift'], 'colourCheck': {'file': 'colour-check-v4.py', 'sha256': A['colourCheck']['sha256']}, 'tool': {'file': TOOL, 'sha256': sha(os.path.join(out, TOOL))}},
          'capsule': R['capsule'], 'visits': {**VI, 'layout': LAYOUT, 'units': VJ['units'], 'beats': VJ['beats'], 'measure': VJ['measure']},
          'figures': figures,
-         'cameraReport': rep, 'budget': {'afterTheGo': ('one PLACE edit (step 2) and one capsule edit (step 3), about $0.12, over the accepted step 1; one re-run only if a check fails, at most $0.18' if V == 'B' else 'one empty-room picture (step 1), one PLACE edit (step 2) and one capsule edit (step 3), about $0.18; one re-run only if a check fails, at most $0.24') if STEP3 else 'one empty-room picture (step 1) and one PLACE edit (step 2), about $0.12; one re-run only if a check fails, at most $0.18', 'generatedSoFar': 0},
+         'cameraReport': rep, 'budget': {'afterTheGo': BUDGET3[V] if STEP3 else 'one empty-room picture (step 1) and one PLACE edit (step 2), about $0.12; one re-run only if a check fails, at most $0.18', 'generatedSoFar': 0},
          'referencesSentToTheModel': "PV6-A-2 at step 1 and PV6-A-3 at step 2, the team's own AI-generated pictures of this room (records page), as a second picture where the image tool takes one" + ('; none at step 3' if STEP3 else '') + "; none of the owner's reference pictures"}
     json.dump(m, open(os.path.join(out, f'room-b-pv6{V.lower()}.json'), 'w'), indent=1)
     lines = [f'Room B · sheet PV6-{V} · prompts · 2026-11-18', A['generated'], 'Each prompt is the text between its BEGIN line and its END line (the newline after BEGIN and the one before END are not part of it); its sha256 is of that text in UTF-8.', '']
@@ -62,9 +68,9 @@ def build(V):
             's2': ('step 2 (PLACE, one masked edit)', f'inputs the step-1 picture with the guide inside img/pv6-{V}-place.png (mask alpha 0 = repaint), then img/PV6-A-3.png as the reference'),
             's2-one': ('step 2 (PLACE, one masked edit), for a tool that takes one picture', f'input the step-1 picture with the guide inside img/pv6-{V}-place.png; mask alpha 0 = repaint')}
     if STEP3:   # version 4: step 2's input shows the step-2 guide (no capsule); step 3 paints the capsule alone, with no second picture
-        what['s2'] = ('step 2 (PLACE, one masked edit: the furniture, without the capsule)', f'inputs the step-1 picture with the step-2 guide (img/pv6-{V}-guide-s2.png) inside img/pv6-{V}-place.png (mask alpha 0 = repaint), then img/PV6-A-3.png as the reference')
-        what['s2-one'] = ('step 2 (PLACE, one masked edit: the furniture, without the capsule), for a tool that takes one picture', f'input the step-1 picture with the step-2 guide (img/pv6-{V}-guide-s2.png) inside img/pv6-{V}-place.png; mask alpha 0 = repaint')
-        what['s3'] = ('step 3 (the food capsule alone, one masked edit)', f'input the kept step-2 picture with the guide (img/pv6-{V}-guide.png) inside img/pv6-{V}-place3.png (mask alpha 0 = repaint); no second picture')
+        what['s2'] = (f'step 2 (PLACE, one masked edit: the furniture, {WITHOUT})', f'inputs the step-1 picture with the step-2 guide (img/pv6-{V}-guide-s2.png) inside img/pv6-{V}-place.png (mask alpha 0 = repaint), then img/PV6-A-3.png as the reference')
+        what['s2-one'] = (f'step 2 (PLACE, one masked edit: the furniture, {WITHOUT}), for a tool that takes one picture', f'input the step-1 picture with the step-2 guide (img/pv6-{V}-guide-s2.png) inside img/pv6-{V}-place.png; mask alpha 0 = repaint')
+        what['s3'] = (f'step 3 ({S3WHAT}, one masked edit)', f'input the kept step-2 picture with the guide (img/pv6-{V}-guide.png) inside img/pv6-{V}-place3.png (mask alpha 0 = repaint); no second picture')
         what['s3-one'] = ('step 3, for a tool that takes one picture: the same text as s3', f'input the kept step-2 picture with the guide inside img/pv6-{V}-place3.png; mask alpha 0 = repaint')
     for k, (title, inp) in what.items():
         lines += [f"===== BEGIN PV6-{V} {k}: {title} · {inp} · sha256 {prompts[k]['sha256']} · {prompts[k]['chars']} characters", prompts[k]['text'], '===== END', '']
