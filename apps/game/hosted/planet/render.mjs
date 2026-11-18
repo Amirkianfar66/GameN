@@ -21,7 +21,7 @@ import {outfitFor} from '../scene-drawing/wardrobe.mjs';
 import {mountRoomScene,roomSceneFrame,roomScenePlaces,ROOM_SCENE_DEFAULTS} from '../../../../design/phone-ui/components/room-scene/room-scene.mjs';
 import {roomSceneArtReady,roomSceneHandlers,roomSceneInput,roomSceneInputKey,roomSceneKey,roomSceneLifecycle,roomScenePeople,roomSceneStatus} from './room-scene-input.mjs';
 import {mountPhoneShell} from '../../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
-import {connectShellLifecycle,createServerClock,ownPersonSeen,phaseClosed,shellFocusOrder,shellHandlers,shellHostSheet,shellInput,shellRuns} from './shell-input.mjs';
+import {connectShellLifecycle,createServerClock,ownPersonSeen,phaseClosed,shellFocusOrder,shellHandlers,shellHostSheet,shellInput,shellRuns,shellSheetKept} from './shell-input.mjs';
 import {mountActionCheck,mountActions,mountAfterRegister,mountOutcomeUnknown,mountPassNote,mountTargetList} from '../../../../design/phone-ui/components/actions/actions.mjs';
 import {EVERY_ROLE_TILES,ROLE_TILES,actionsCancel,actionsFlow,actionsHandlers,actionsHeard,actionsPart,actionsRefusal,holdActionsPick} from './actions-input.mjs';
 import {mountPanels} from '../../../../design/phone-ui/components/panels/panels.mjs';
@@ -102,7 +102,9 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  // The shell's own element (its mount's `element`) holds its controls: the sheet's footer actions and the controls
  // the focus returns to are found there by their intents.
  const focusConfirm=()=>shell.element?.querySelector('[data-intent="sheet-action"]:is([data-value="register"],[data-value="confirm"])')?.focus({preventScroll:true});
- const focusBack=()=>{const pick=shellFocusOrder(opener,{choosing}).map(css=>shell.element?.querySelector(css)).find(Boolean);pick?.focus({preventScroll:true});};
+ // When one of a sheet's own controls ended and a sheet is open (`shellFrame`, the frame of the shell's last input),
+ // the focus goes into that sheet (shellSheetKept()); otherwise it goes back as before.
+ const focusBack=ended=>{const pick=shellFocusOrder(opener,{choosing,sheet:shellSheetKept(ended,shellFrame?.id??null)}).map(css=>shell.element?.querySelector(css)).find(Boolean);pick?.focus({preventScroll:true});};
  const openPanel=panel=>{more=false;calm();controller.openPanel(panel);};
  const begin=type=>{more=false;calm();controller.begin(type);};
  const dismiss=()=>{more=false;listOpen=false;calm();controller.dismiss();};
@@ -140,7 +142,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   reconnect:()=>reconnect?.(),
   layout:next=>{shellLayout=next;render(controller.getModel());},
   opened:detail=>{opener=detail;},
-  focusReturn:()=>focusBack(),
+  focusReturn:ended=>focusBack(ended),
   // The host sheet (hostSheet: { frame(), mount(body), action(id), back(), close(), toast() }), while it is the open sheet.
   host:hostSheet&&{open:()=>shellFrame?.kind==='host',action:id=>{hostSheet.action(id);if(model)render(controller.getModel());},
    back:()=>{hostSheet.back();uiKey=null;if(model)render(controller.getModel());},close:()=>hostSheet.close()},

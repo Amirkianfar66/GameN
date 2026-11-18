@@ -421,13 +421,33 @@ export function shellHandlers({openPanel,begin,confirm,dismiss,toggleView,showBo
  };
 }
 
+/** A sheet's own controls, by the intent the shell reports for each: its footer and head actions, Close and Back. */
+export const SHELL_SHEET_INTENTS=Object.freeze(['sheet-action','sheet-local','sheet-head','sheet-close','sheet-back']);
+/**
+ * Inside an open sheet, where the focus goes: its first available footer action (not unavailable, not
+ * busy: the kit's policy marks both), then its Close, then its Back. Selectors inside the shell, tried in order.
+ */
+export const SHELL_SHEET_FOCUS=Object.freeze([
+ '.ms-ps-sheet-foot :is([data-intent="sheet-action"],[data-intent="sheet-local"]):not([aria-disabled="true"]):not([aria-busy="true"])',
+ '.ms-ps-sheet [data-intent="sheet-close"]','.ms-ps-sheet [data-intent="sheet-back"]']);
+/**
+ * Whether the focus stays in a sheet (the Lead Designer, 18 November 2026): the control that ended was a sheet's own
+ * and a sheet is open after the shell's change, the same one or the one that took its place. `ended` is what the
+ * shell reported ({ intent, value }) and `now` the open sheet's id after the change. A footer action that gives way
+ * to another in the same sheet, as a drawing's Show to Done, and Back from a panel's page to Panels are the cases:
+ * nobody is put behind a sheet they are looking at. A sheet that closed with nothing in its place is not.
+ */
+export const shellSheetKept=(ended,now)=>SHELL_SHEET_INTENTS.includes(ended?.intent)&&typeof now==='string'&&now!=='';
+
 /**
  * Where the focus goes when the shell hands it back (onFocusReturn: the focused control ended, as a sheet closed):
- * Cancel while choosing on the scene; else the control that opened it, as a dialog returns the focus to its opener;
- * else the first tab, as today's Escape did. Each is a selector inside the shell, tried in order.
+ * while a sheet is open after one of a sheet's own controls ended (`sheet`, from shellSheetKept()), inside it first; then Cancel
+ * while choosing on the scene; else the control that opened it, as a dialog returns the focus to its opener; else
+ * the first tab, as today's Escape did. Each is a selector inside the shell, tried in order.
  */
-export function shellFocusOrder(opener,{choosing=false}={}){
- const order=choosing?['[data-intent="cancel-target"]']:[];
+export function shellFocusOrder(opener,{choosing=false,sheet=false}={}){
+ const order=sheet===true?[...SHELL_SHEET_FOCUS]:[];
+ if(choosing)order.push('[data-intent="cancel-target"]');
  if(opener?.intent==='tab'&&opener.value)order.push(`[data-intent="tab"][data-value="${opener.value}"]`);
  else if(['hero','promises','menu','chip'].includes(opener?.intent))order.push(`[data-intent="${opener.intent}"]`);
  order.push('[data-intent="tab"][data-value="switch"]');

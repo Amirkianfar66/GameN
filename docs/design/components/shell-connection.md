@@ -83,7 +83,7 @@ As the handoff's "Frontend's connection" maps them, with what it leaves open.
 | `onChip` | "Other rooms": the board view. "List": the List |
 | `onRetry` | The session's `refresh()`, at once |
 | `onLayout` | The room scene's size and the board's layout |
-| `onFocusReturn` | The focus goes back to Cancel while choosing on the scene; else to the shell control that opened what closed; else to the first tab, where today's Escape put it |
+| `onFocusReturn` | When one of a sheet's own controls ended and a sheet is open after the change, the same sheet or the one that took its place, the focus goes into that sheet: its first available footer action, then its Close, then its Back (`shellSheetKept()`, the Lead Designer, 18 November 2026). Otherwise it goes back to Cancel while choosing on the scene; else to the shell control that opened what closed; else to the first tab, where today's Escape put it |
 
 Nothing in the connection works out who may act: every enabled state comes from the model, from its offers and, for an eliminated player's Actions, from the public board.
 
@@ -209,7 +209,7 @@ These refuse the changed files until Integration approves. Each was found by rev
 
 ### Tests
 
-`apps/game/test/planet-phone-shell.test.mjs` passes 20 of 20. Every input it builds is accepted by the shell's own `checkBar`, `checkTabs` and `nextPhoneShellInput`. It covers:
+`apps/game/test/planet-phone-shell.test.mjs` passes 21 of 21. Every input it builds is accepted by the shell's own `checkBar`, `checkTabs` and `nextPhoneShellInput`. It covers:
 - the bar: another player's turn, your turn, each of the game's own phase names, the pair, reconnecting with the round last seen, and "Loading the ship" on the first connect;
 - the phase bars' words: before turns with an Officer, with a block shown, with no Officer and with the Officer's block open; the appointment for everyone else, never amber, and for the Captain with it open; the Blackout lit, with the time to lights-out, and dark; Ship synchronized's ring; Setting course in all four navigation phases, for everyone and for an office with its Navigation open; a shared display;
 - the facts for those words: each read from the model, unchanged by any offer, role or private field, and every phase either `phaseBar()`'s or one of the game's own;
@@ -225,7 +225,7 @@ These refuse the changed files until Integration approves. Each was found by rev
 - privacy: concealed and under Food's surface, the shell drops this viewer's inputs and keeps its shape; a display gets no tabs and no viewer, only ⋮ and Settings, and nothing private;
 - the host sheet (the pre-game connection's Host controls): in Settings' place only, its footer, Back and Close routed to it, and its Close dismissing Settings too;
 - each intent's call, and none after dispose;
-- where the focus goes back;
+- where the focus goes back, and that it goes into an open sheet: only for one of a sheet's own controls, only while a sheet is open after the shell's change (the same one, or the one that took its place), and never when the sheet closed with nothing in its place;
 - the lifecycle: the listeners added and removed together, and the shell running only while shown and focused.
 
 ### The check
@@ -235,9 +235,13 @@ These refuse the changed files until Integration approves. Each was found by rev
 - It serves them with the hosted game's production headers (`createHostedPreviewHeaders`, headers SHA-256 `424e5dec…`, the same as the shell's and the room scene's checks).
 - It drives the app at 390 × 844 and 430 × 932, and two sheets at 320 × 568 with the Largest text, in one browser, one page at a time. `--only` draws some states and adds them to the record when it names the same candidate, art and headers. This record was made in one run.
 
-**Result:** 44 of 44 captures pass: twenty-one states at both sizes, and two sheets at 320 × 568 with the Largest text. Recorded on `92849b6b` (shell 0.3.3 with icons 1.1.0, kit 0.8.2 and room scene 0.5.1; the phase-closed rule's `drafting`, which nothing passes yet) with the source clean and the art from `64e55516`, in one run. `64e55516` was `origin/main` in this clone at the run; `main` has since moved to `7d18ac0f` by two documentation files (`AGENTS.md` and `docs/agent-roster.md`), so the art and the harnesses are the same.
+**Result:** 44 of 44 captures pass: twenty-one states at both sizes, and two sheets at 320 × 568 with the Largest text. Recorded on `09ea99be` (shell 0.3.3 with icons 1.1.0, kit 0.8.2 and room scene 0.5.1; the focus going into any sheet that is open) with the source clean and the art from `64e55516`, in one run. `64e55516` was `origin/main` in this clone at the run; `main` has since moved to `7d18ac0f` by two documentation files (`AGENTS.md` and `docs/agent-roster.md`), so the art and the harnesses are the same.
 
-**Against `637079f2`'s record,** the same 44 captures before `drafting`: every recorded box is the same (419 boxes), every check and every sheet's measure has the same answer, and the tab bar has no changed pixel. The top bar differs only at the result's ring (20 and 14 pixels) and at one digit of the Blackout's clock at 430 wide (151 pixels): the harness's time. `concealed` is the same byte for byte. The game behaves as before, as it must: nothing passes `drafting` here.
+**Against `0fe15dc2`'s record,** the same 44 captures before the rule was widened: every recorded box is the same (419 boxes), and every check and every sheet's measure has the same answer. `course` gains one fact at both sizes, held: after Back from Navigation the focus is on the Panels sheet's Close. The tab bar has no changed pixel; the top bar differs only at the result's ring (8 and 4 pixels) and one digit of `voted`'s clock at 430 wide (270 pixels), the harness's time. `concealed` is the same byte for byte.
+
+**Before it, `0fe15dc2`'s record** (the focus kept in the same sheet) **against `92849b6b`'s,** the same 44 captures before the focus rule: every recorded box is the same (419 boxes), and every check and every sheet's measure has the same answer. `largest-ballot` gains three facts, all held: the focus on Vote once a name is chosen; Vote sent once; and the focus on the sheet's Close while the sheet is still open with its footer action gone. The tab bar has no changed pixel. The top bar differs only at the result's ring (25 and 3 pixels) and one digit of the clock (`blackout` at both sizes, 151 pixels each, and `voted` at 430 wide, 270): the harness's time. `concealed` is the same byte for byte. Nothing drawn changes, as it must: the rule moves the focus and nothing else.
+
+**Before it, `92849b6b`'s record** (the phase-closed rule's `drafting`, which nothing passes in this PR) **against `637079f2`'s,** the same 44 captures before `drafting`: every recorded box is the same (419 boxes), every check and every sheet's measure has the same answer, and the tab bar has no changed pixel. The top bar differs only at the result's ring (20 and 14 pixels) and at one digit of the Blackout's clock at 430 wide (151 pixels): the harness's time. `concealed` is the same byte for byte. The game behaves as before, as it must: nothing passes `drafting` here.
 
 **Shell 0.3.3 changes nothing the connection gives or hears,** and nothing in these states' frame. `637079f2`'s record (shell 0.3.3 merged) against `97e28d09`'s (shell 0.3.2), in the 42 captures both have:
 - **Every recorded box is the same:** 394 boxes (the bars, the tabs, the round button, each sheet, the target bar, the banners, the stage), to a tenth of a pixel. Every check has the same answer.
@@ -314,11 +318,11 @@ Against `00e679e9`'s record (for `883473be`):
 | `blackout` | The Blackout's dark bar and the moon, "Dark · positions fixed", the clock amber. The Card tab shows no portrait, and the card's own icon in its place (its painted tile from shell 0.3.2, so the bar has four tiles): in the dark the game gives no one's identity, the viewer's own among them, and the portrait returns with the lights |
 | `before` | Before turns, on the Officer's phone with nothing open: "Before turns · Officer block · Blackhole", the hourglass, the clock, Promises and ⋮ |
 | `appointment` | The Officer's appointment, on the Captain's phone with nothing open: "New Officer · Crew 6 chooses". Then the appointment from Actions: "Appoint Officer · Random if time runs out" |
-| `course` | Setting course, on the Officer's phone with nothing open: "Setting course · The offices are setting it". Then Navigation from Panels: "Setting course · Officer · private" |
+| `course` | Setting course, on the Officer's phone with nothing open: "Setting course · The offices are setting it". Then Navigation from Panels: "Setting course · Officer · private". Then Back: Panels opens in its place, and the focus is on the Panels sheet's Close, not on the Panels tab behind it |
 | `display` | A shared display: no tabs, no Promises, ⋮ the only control, the whole board. Then ⋮ opens Settings with the display's preferences |
 | `concealed` | The page hidden: the bars' empty material only, the tab bar's shape kept |
 | `largest-pass` | At 320 × 568 only, the Largest text chosen in the game's Settings: "Pass your turn?" with Cancel and Pass. The head a row, the footer at the sheet's foot, nothing cut |
-| `largest-ballot` | At 320 × 568 only, the Largest text: the ballot with Player 2 chosen, and Vote. The head a row, the footer at the sheet's foot, nothing cut |
+| `largest-ballot` | At 320 × 568 only, the Largest text: the ballot with Player 2 chosen, and Vote. The head a row, the footer at the sheet's foot, nothing cut. Then Vote is sent: the sheet stays open while it registers, its footer action gone, and the focus is on the sheet's Close, not on the round button behind it |
 
 Each capture also passes with: the shell mounted and the stage in it; none of the old header, tab bar, Pass button, sheet or target bar; no unexpected policy report (only Zod's known, caught eval probe); no failed request and no page error.
 
@@ -380,6 +384,9 @@ Each capture also passes with: the shell mounted and the stage in it; none of th
   - Actions is unavailable to an eliminated player;
   - the 5 s result's round button is Vote, unavailable;
   - closing a sheet hands the focus back to the control that opened it (today's Escape went to the Board button);
+  - **when a sheet's own control ends and a sheet is open, the focus goes into that sheet** (18 November 2026): a footer action that gives way to another, as a drawing's Show to Done in release 3; one that goes while its choice registers, as Vote; and Back from a panel's page, which opens Panels in its place. Before, the focus went to the control behind the sheet. A keyboard or screen-reader player was put behind a sheet they were looking at.
+    - **Open:** the better landing after Back is the row that opened the page (the Lead Designer's note from Panels). Not done here.
+    - **To watch: a held Enter.** The focus now lands on an action the moment another is pressed, so a key held past its repeat delay presses the new one too. Today that is Done after Show, which is harmless. If a sheet ever puts a weightier action in the place of the one just pressed, that sheet's action is guarded against key repeat then;
   - the old target bar's "Target list" is the board's List chip, and in the room view "Other rooms · n" opens the board;
   - under Food's surface the shell is concealed, and the board keeps the shell's bars (Food's measured the same at both sizes);
   - the result window and the status line lie under the shell's sheet, banners and toast; the status line hides while concealed and while the reconnecting banner shows;

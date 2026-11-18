@@ -27,7 +27,8 @@
 // and, at 320 × 568 with the Largest text (200 %, chosen in the game's own Settings), shell 0.3.3's two sheet rules in
 // the real app, on the two sheets of this build that leave their content the least room:
 //   largest-pass             "Pass your turn?": the title on two lines and the two buttons a row each
-//   largest-ballot           the ballot with a name chosen: its question and Vote
+//   largest-ballot           the ballot with a name chosen: its question and Vote (then Vote sent: the focus stays in
+//                            the sheet, on its Close, while the sheet is still open)
 // A capture passes with no unexpected policy report, no failed request and no page error; the shell mounted with
 // the stage in it and none of the old header, nav, sheet or target bar left; and the state's own facts. It writes
 // design/phone-ui/review/shell-connection/: one JPEG per state and size, and check.json (the headers and their
@@ -430,7 +431,15 @@ const STATES = {
       await page.evaluate(tap('.ms-ps-sheet [data-planet-action="panel"][data-value="navigation"], .ms-ps-sheet-body > .ms-panels [data-intent="open"][data-value="navigation"]'));
       await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='navigation'&&document.querySelector('.ms-ps-sub')?.textContent==='Officer · private'", 'the Officer\'s own bar with Navigation open');
       const seen = await page.evaluate(LOOK);
-      return { ownBar: seen.bar?.name === 'Setting course' && seen.bar.sub === 'Officer · private' && seen.sheet?.title === 'Navigation' };
+      // Back from a panel's page opens Panels, another sheet in its place: the focus goes into that sheet, to its
+      // Close (it has no footer), and not to the Panels tab behind it (shell-input.mjs shellSheetKept()).
+      await page.evaluate("document.querySelector('.ms-ps-sheet [data-intent=\"sheet-back\"]').focus()");
+      await page.evaluate(tap('.ms-ps-sheet [data-intent="sheet-back"]'));
+      await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='panels'", 'Back to Panels');
+      await sleep(200);
+      const where = await page.evaluate("(()=>{const a=document.activeElement;return {intent:a?.dataset?.intent??null,sheet:a?.closest?.('.ms-ps-sheet')?.dataset.sheet??null};})()");
+      return { ownBar: seen.bar?.name === 'Setting course' && seen.bar.sub === 'Officer · private' && seen.sheet?.title === 'Navigation',
+        backIntoPanels: where.intent === 'sheet-close' && where.sheet === 'panels' };
     } },
   display: { page: 'phone', url: 'scenario=display', steps: async page => {
       await page.waitFor(`${game}.getModel().surface==='display'&&document.querySelector('.ms-phone-shell')?.dataset.tabs==='none'`, 'the shared display');
@@ -474,7 +483,21 @@ const STATES = {
     extra: async page => ({ fit: await page.evaluate(FIT) }),
     facts: (s, looks, { fit }) => ({ sheet: s.sheet?.title === 'Jail vote' && s.sheet.close && s.sheet.foot.map(b => b.label).join() === 'Vote',
       // The content keeps more than a third of the sheet, so the footer stays at the sheet's foot.
-      whole: unsqueezed(fit) && fit.room * 3 >= fit.sheet }) },
+      whole: unsqueezed(fit) && fit.room * 3 >= fit.sheet }),
+    after: async page => {
+      // The focus stays in a sheet that is open (shell-input.mjs shellSheetKept(), the Lead Designer, 18 November
+      // 2026). A name chosen puts the focus on Vote. Vote sent, the ballot's sheet stays open while it registers and its
+      // footer action is gone: the focus goes to that sheet's Close, not to the round button behind the sheet.
+      const WHERE = "(()=>{const a=document.activeElement,s=document.querySelector('.ms-ps-sheet');return {sheet:s?.dataset.sheet??null,foot:s?s.querySelectorAll('.ms-ps-sheet-foot button').length:0,intent:a?.dataset?.intent??null,value:a?.dataset?.value??null,inSheet:!!a?.closest?.('.ms-ps-sheet')};})()";
+      const before = await page.evaluate(WHERE);
+      await page.evaluate(tap('.ms-ps-sheet-foot [data-intent="sheet-action"][data-value="confirm"]'));
+      await page.waitFor(`${game}.getModel().action?.step==='accepted'&&document.querySelector('.ms-ps-sheet')&&!document.querySelector('.ms-ps-sheet-foot button')`, 'the vote registered, the sheet still open', 8000);
+      await sleep(200);
+      const after = await page.evaluate(WHERE), seen = await page.evaluate(LOOK);
+      return { focusOnVote: before.intent === 'sheet-action' && before.value === 'confirm' && before.inSheet,
+        focusStaysInSheet: after.sheet === 'action:VOTE' && after.foot === 0 && after.intent === 'sheet-close' && after.inSheet,
+        voteSent: seen.commands.join() === 'VOTE' };
+    } },
 };
 
 /** The record so far, when this run adds to it: the same candidate, art and headers. */
