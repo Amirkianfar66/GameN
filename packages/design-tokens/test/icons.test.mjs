@@ -7,8 +7,9 @@
 //   version), so a frozen copy never blocks growth; redrawing an icon a frozen copy holds fails until
 //   Integration refreshes that copy's pin.
 // - inline icons: no Designer runtime component (design/phone-ui/components/, previews and reviews aside)
-//   draws an icon of its own. An icon is an icon-sized drawing: a 24 × 24 viewBox, or one of the family's
-//   path strings, outside the source. Art is not flagged. Every exception is listed below with its reason.
+//   draws an icon of its own, in a script, a stylesheet or an SVG file (its assets/ folder included). An icon
+//   is an icon-sized drawing: a 24 × 24 viewBox, or one of the family's path strings, outside the source.
+//   Art is not flagged. Every exception is listed below with its reason.
 // And the page lists every icon of the family with its line in the source.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -90,7 +91,10 @@ export async function checkCopies(root, copies = findCopies(root)) {
   }
   const sourceSymbols = symbols(source.iconSprite());
   for (const path of copies.sprites) {
-    for (const [id, inner] of symbols(readFileSync(join(root, path), 'utf8'))) {
+    const sprite = readFileSync(join(root, path), 'utf8'), read = symbols(sprite), written = (sprite.match(/<symbol id="ic-/g) ?? []).length;
+    // A symbol written another way (one more attribute, another viewBox) would be skipped in silence: say so instead.
+    if (read.size !== written) findings.push(`${path}: ${written - read.size} of its ${written} symbols could not be read`);
+    for (const [id, inner] of read) {
       if (!sourceSymbols.has(id)) findings.push(`${path}: ${id}: not in the source`);
       else if (sourceSymbols.get(id) !== inner) findings.push(`${path}: ${id}: drawn differently from the source`);
     }
@@ -115,8 +119,9 @@ const VIEWBOX_24 = /viewBox(?:%3D|=|['"]\s*,)\s*(?:\\?["']|%22|%27)?\s*0[ ,]+0[ 
 
 /** Icon-sized drawings in the Designer components outside the source, and the exceptions none of them needed. */
 export async function checkInline(root) {
-  const source = await loadSource(root), paths = familyPaths(source), copies = new Set(findCopies(root).modules), findings = [], used = new Set();
-  const files = walk(root, COMPONENTS).filter(path => /\.(mjs|js|css)$/.test(path) && !/\/(preview|review|assets)\//.test(path) && path !== SOURCE && !copies.has(path));
+  const source = await loadSource(root), paths = familyPaths(source), found = findCopies(root), copies = new Set([...found.modules, ...found.sprites]), findings = [], used = new Set();
+  // Scripts, stylesheets and SVG files, a component's assets/ folder included: an icon shipped as a file is an icon.
+  const files = walk(root, COMPONENTS).filter(path => /\.(mjs|js|css|svg)$/.test(path) && !/\/(preview|review)\//.test(path) && path !== SOURCE && !copies.has(path));
   for (const path of files) {
     readFileSync(join(root, path), 'utf8').split('\n').forEach((line, i) => {
       const hit = VIEWBOX_24.test(line) ? 'a 24 × 24 viewBox' : paths.find(d => line.includes(d)) ? 'a family path string' : null;
@@ -158,7 +163,7 @@ test('every copy of the family under design/ and apps/game/, found by search, dr
   assert.deepEqual(await checkCopies(REPO, copies), []);
 });
 
-test('a planted copy fails when it redraws, adds or renames an icon, and passes when it only holds fewer icons than the source', async () => {
+test('a planted copy fails when it redraws, adds or renames an icon, or holds a sprite symbol that cannot be read, and passes when it only holds fewer icons than the source', async () => {
   const text = readFileSync(join(REPO, SOURCE), 'utf8');
   const actions = "actions: { label: 'Actions', group: 'navigation', parts: [p('M13.4 2.8 5.6 13.2h5.6l-1 8 7.8-10.4h-5.6z', { fill: true })] },";
   assert.ok(text.includes(actions));
@@ -168,6 +173,7 @@ test('a planted copy fails when it redraws, adds or renames an icon, and passes 
     'design/elsewhere/renamed-icons.mjs': text.replace("label: 'Actions'", "label: 'Act'"),
     'design/elsewhere/fewer-icons.mjs': text.replace(actions, ''),
     'design/releases/frozen/icons.mjs': text.replace(actions, actions.replace('M13.4 2.8', 'M1 1')),
+    'design/elsewhere/odd-sprite.svg': '<svg xmlns="http://www.w3.org/2000/svg"><symbol id="ic-board" viewBox="0 0 24 24" fill="none"><path d="M1 1"/></symbol></svg>',
   });
   try {
     const copies = findCopies(root);
@@ -176,20 +182,23 @@ test('a planted copy fails when it redraws, adds or renames an icon, and passes 
     assert.deepEqual(findings.sort(), [
       'apps/game/hosted/planet/changed-icons.mjs: actions: drawn differently from the source',
       'design/elsewhere/extra-icons.mjs: spare: not in the source',
+      'design/elsewhere/odd-sprite.svg: 1 of its 1 symbols could not be read',
       'design/elsewhere/renamed-icons.mjs: actions: drawn differently from the source',
     ]);
+    assert.deepEqual(copies.sprites, ['design/elsewhere/odd-sprite.svg']);
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
 
 test('no Designer component draws an icon of its own; the one listed exception is still needed', async () => {
   const { findings, unused, files } = await checkInline(REPO);
   assert.ok(files.includes('design/phone-ui/components/phone-shell/phone-shell.css') && files.includes('design/phone-ui/components/kit/kit.mjs'), 'the components are scanned');
+  assert.ok(files.includes('design/phone-ui/components/room-scene/assets/room-b.extend.svg'), 'and their SVG files, assets/ included');
   assert.deepEqual(findings, []);
   assert.deepEqual(unused, [], 'an exception no component needs any more is removed from the list');
   for (const e of INLINE_EXCEPTIONS) assert.ok(e.reason.length > 20, e.id);
 });
 
-test('a planted inline icon fails: a 24 × 24 viewBox, a data-URI one, or a family path string; art and the listed exception pass', async () => {
+test('a planted inline icon fails: a 24 × 24 viewBox, a data-URI one, an SVG file in assets/, or a family path string; art and the listed exception pass', async () => {
   const root = plant({
     'design/phone-ui/components/planted/planted.mjs': [
       "export const a = '<svg viewBox=\"0 0 24 24\"><path d=\"M4 4h16\"/></svg>';",
@@ -202,10 +211,14 @@ test('a planted inline icon fails: a 24 × 24 viewBox, a data-URI one, or a fami
       ".voted { background: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 24 24'%3E%3Cpath d='M6 12.6 10 16.6 18.4 8'/%3E%3C/svg%3E\"); }",
     ].join('\n'),
     'design/phone-ui/components/planted/preview/preview.mjs': "export const dev = '<svg viewBox=\"0 0 24 24\"></svg>';",
+    // An icon shipped as a file, shown through a CSS url(); and a picture, which is art.
+    'design/phone-ui/components/planted/assets/planted-check.svg': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>',
+    'design/phone-ui/components/planted/assets/planted-room.svg': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -200 1024 1168"><path d="M0 0h1024"/></svg>',
   });
   try {
     const { findings, unused } = await checkInline(root);
     assert.deepEqual(findings.sort(), [
+      `design/phone-ui/components/planted/assets/planted-check.svg:1: a 24 × 24 viewBox: an icon drawn outside ${SOURCE}`,
       `design/phone-ui/components/planted/planted.css:1: a 24 × 24 viewBox: an icon drawn outside ${SOURCE}`,
       `design/phone-ui/components/planted/planted.mjs:1: a 24 × 24 viewBox: an icon drawn outside ${SOURCE}`,
       `design/phone-ui/components/planted/planted.mjs:2: a 24 × 24 viewBox: an icon drawn outside ${SOURCE}`,
