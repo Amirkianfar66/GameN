@@ -30,7 +30,7 @@ The page has three sections. Bars and Icons are divided into sub-parts, each wit
 
 | Section | Sub-parts | What each holds |
 | --- | --- | --- |
-| **Bars** | Bottom bar · painted icons · draft (14 pairs) · Card tab · before and after (9 pairs) · Toast over a sheet · draft (7 pairs) · Long title at the largest text · draft · Top bar (20 states) · Bottom bar (15) · Other bars (8: the target bar, the banners, the chip, the toast) · Sheets (9) · Whole phone (3) | Each state is a strip of the phone at the phone's own width, with its name, the size of its bar and the phone pack's sheet number. The first sub-part is [the Card tab's change](#the-card-tab-before-and-after). |
+| **Bars** | Bottom bar · painted icons · draft (14 pairs) · Card tab · before and after (9 pairs) · Toast over a sheet · draft (7 pairs) · Long title at the largest text · two drafts · Top bar (20 states) · Bottom bar (15) · Other bars (8: the target bar, the banners, the chip, the toast) · Sheets (9) · Whole phone (3) | Each state is a strip of the phone at the phone's own width, with its name, the size of its bar and the phone pack's sheet number. The first sub-part is [the Card tab's change](#the-card-tab-before-and-after). |
 | **Icons** | Navigation (8) · Game actions (26) · People and places (8) · Phases (7) · Before the match (3) · Controls (27) · Drawn twice (31) · Other drawings (8) | The icons of `design/phone-ui/components/icons.mjs`, at rest and selected, on dark glass and on paper. The last two list the game's own drawings that are still on screen, beside the icon that replaces each. |
 | **Status** | — | The owner's marks, and the version and pull request of each part. |
 
@@ -67,7 +67,7 @@ So a change of look is shown here first, as a draft:
 
 A change that is more than a look (behaviour, data, privacy, the connection's inputs) keeps the usual order: checks, the Lead's review, then the owner.
 
-**The drafts on the page now.** Three, each with its own mark: the first is the owner's own picture, the other two are the Lead Designer's proposals.
+**The drafts on the page now.** Four, each with its own mark: the first is the owner's own picture, the other three are the Lead Designer's proposals.
 
 *The bottom bar with painted icons* (`#tiles-draft`, the first sub-part of Bars). The owner, 18 November 2026, with a picture of the bottom bar:
 
@@ -88,15 +88,29 @@ The picture: Board, Actions and Panels each as a small painted tile like the cha
 - **The view:** seven states, each as the bar is today above the draft: three with a tall sheet, two with the banner (with and without a sheet), a low sheet, and no sheet.
 - **The owner's mark:** `draft-toast-under-sheet-head`.
 
-*A long title at the largest text* (`#sheet-draft`, the third sub-part of Bars).
-- **Today:** a sheet's footer stays at its foot. On a 320 × 568 phone at the Largest text, a long title and two stacked footer buttons leave the body a line or two, and its last line is cut by the top button.
-- **The draft:** when the body would get less than a third of the sheet's height and its content needs more, the footer scrolls with the body. The body takes all the room under the head, and the actions follow the content. Everywhere else nothing moves.
-- **The view:** one sheet, "Offer from Fay · Player 6", with a card's stand-in, a note and two buttons, as three stills: today, the draft as it opens, and the draft scrolled to its end. Buttons set the phone and the text size: 320 × 568 at the Largest, and 390 × 844 and 430 × 932 at the Standard, where the three stills are the same. A still can't be scrolled; a Draft still opens the test view, which can.
-- **The owner's mark:** `draft-sheet-footer-scrolls`.
+*A long title at the largest text* (`#sheet-draft`): two drafts for one problem, each shown alone and both together.
+- **Today:** a sheet's footer stays at its foot, and its title sits beside Back and Close. On a 320 × 568 phone at the Largest text, a long title takes three lines there and two stacked footer buttons a row each. The body gets a line or two, and the sheet's parts are taller than the sheet.
+- **Draft A, the footer scrolls** (`draft-sheet-footer-scrolls`): when the body would get less than a third of the sheet's height and its content needs more, the footer scrolls with the body. The body takes all the room under the head, and the actions follow the content.
+- **Draft B, the head stacks** (`draft-sheet-head-stacks`): when the title would take more than two lines beside its buttons, and the head is shorter that way, the buttons take a row of their own (Back at the left, the rest at the right) and the title and its line take the full width. The text keeps the player's size. The Lead Designer asked for this in place of a cap on the title's size.
+- **The view:** one sheet, "Offer from Fay · Player 6", with a card's stand-in, a note and two buttons, as six stills in four groups: today; draft A as it opens and scrolled to its end; draft B; both, as they open and scrolled to their end. Under each still is the room its content gets, the height of the title's part, and how much of the sheet is cut at its foot, all measured from the sheet that still draws. Buttons set the phone and the text size.
+- **Each still is the component at its own commit,** read from git by the build tool: today `bf95c1a0`, draft A `346618f7`, draft B `a9e70acc`, both `9bc36fd5`. None of the four has the painted icons, so their bottom bars are the same.
+- **Measured on the page, the content's room:**
 
-"Today" in all three views is the shell's own file at `bf95c1a0` (shell 0.3.1), read from git by the build tool, as the Card tab's "before" is.
+| Phone and text | Today | Draft A | Draft B | Both |
+| --- | --- | --- | --- | --- |
+| 320 × 568, Largest | 16 px, 34 px cut at the foot | 132 px | 16 px, 3 px cut | 162 px |
+| 320 × 568, Large | 66 px | 215 px | 77 px | 226 px |
+| 320 × 568, Standard | 248 px | the same | the same | the same |
+| 390 × 844, Largest | 351 px | the same | the same | the same |
+| 390 × 844 and 430 × 932, Standard | 562 px and 650 px | the same | the same | the same |
+| 430 × 932, Largest | 487 px | the same | the same | the same |
 
-**Not done yet, on purpose:** the shell's record, its version, its tests for the three changes, the icon family's own page and test for the painted form, and the connection's check.
+- **What the numbers say:** draft B alone gives the content no more room at the Largest text: the 31 px it takes off the head (262 to 231) go to the footer, which today is cut. Its gain shows with draft A: 162 px against 132.
+- **At 390 px at the Largest text** the title takes three lines too, but a stacked head would be 2 px taller (231 against 229), so the head stays a row.
+
+"Today" in every draft's view is the shell's own file at `bf95c1a0` (shell 0.3.1), read from git by the build tool, as the Card tab's "before" is.
+
+**Not done yet, on purpose:** the shell's record, its version, its tests for the four changes, the icon family's own page and test for the painted form, and the connection's check.
 
 ## Sizes, backgrounds and colours
 

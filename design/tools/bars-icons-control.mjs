@@ -38,6 +38,15 @@ const BEFORE = '5616928e891babfe35b78dc0a19e1fa552f6d7a3';
 const BEFORE_TOAST = 'bf95c1a0';
 const SHELL = 'design/phone-ui/components/phone-shell/phone-shell.mjs', SHELL_STYLES = 'design/phone-ui/components/phone-shell/phone-shell.css';
 const QUERY = '?before', QUERY_TOAST = '?before-toast';
+/**
+ * The two sheet drafts, each alone and both together, for the view that shows them side by side: the footer that
+ * scrolls (#323 before the head's draft), the head that stacks (its own branch), and their merge on #323.
+ */
+const SHEET_DRAFTS = Object.freeze({
+  '?draft-foot': ['346618f708ccff5bfb2909e5aa1e0eb2dd2dd681', 'claude/designer-toast-under-sheet-head'],
+  '?draft-head': ['a9e70accecfad05a91301593bf888de88ff50b11', 'claude/designer-sheet-head-stacks'],
+  '?draft-sheet': ['9bc36fd51c5ab3248d8fd31c6c1ca67b5fa4bc84', 'claude/designer-toast-under-sheet-head'],
+});
 /** The shell's source at a commit, and whether today's stylesheet still draws it: every line of the old one is in the new. */
 async function shellBefore(BEFORE = '5616928e891babfe35b78dc0a19e1fa552f6d7a3', branch = 'claude/designer-phone-shell') {
   let source, styles;
@@ -73,6 +82,7 @@ async function iconFacts() {
 const before = await shellBefore();
 const beforeToast = await shellBefore(BEFORE_TOAST, 'claude/designer-card-tab');
 const befores = new Map([[QUERY, before], [QUERY_TOAST, beforeToast]]);
+for (const [query, [commit, branch]] of Object.entries(SHEET_DRAFTS)) befores.set(query, await shellBefore(commit, branch));
 const dir = await mkdtemp(join(tmpdir(), 'bars-icons-control-'));
 try {
   await build({
@@ -98,7 +108,8 @@ try {
   if (/\bimport\s*\(|\bfrom\s*["']\.\.?\//.test(script.slice(0, 2000))) throw new Error('The script still imports another file');
   const facts = { commit: git('rev-parse', 'HEAD'), branch: git('rev-parse', '--abbrev-ref', 'HEAD'), clean: git('status', '--porcelain', '--', 'design', 'apps/game/hosted', 'docs/design/components/icons.md') === '',
     built: new Date().toISOString().replace(/\.\d+Z$/, 'Z'), icons: await iconFacts(), before: { commit: BEFORE, version: before.version },
-    toastBefore: { commit: git('rev-parse', BEFORE_TOAST), version: beforeToast.version } };
+    toastBefore: { commit: git('rev-parse', BEFORE_TOAST), version: beforeToast.version },
+    sheetDrafts: { foot: SHEET_DRAFTS['?draft-foot'][0], head: SHEET_DRAFTS['?draft-head'][0], both: SHEET_DRAFTS['?draft-sheet'][0] } };
   const page = [
     '<title>Bars &amp; Icons Control</title>',
     '<meta name="claude:viewport-fit-sides" content="cover">',

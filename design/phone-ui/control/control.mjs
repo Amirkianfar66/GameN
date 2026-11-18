@@ -27,6 +27,10 @@ import { PHONE_SHELL_VERSION, mountPhoneShell } from '../components/phone-shell/
 import { PHONE_SHELL_VERSION as BEFORE_VERSION, mountPhoneShell as mountShellBefore } from '../components/phone-shell/phone-shell.mjs?before';
 // And the shell as it is before the toast's draft: the same file at the commit the build names for it.
 import { mountPhoneShell as mountShellBeforeToast } from '../components/phone-shell/phone-shell.mjs?before-toast';
+// The two sheet drafts, each alone and both together: the same file at the three commits the build names for them.
+import { mountPhoneShell as mountShellDraftFoot } from '../components/phone-shell/phone-shell.mjs?draft-foot';
+import { mountPhoneShell as mountShellDraftHead } from '../components/phone-shell/phone-shell.mjs?draft-head';
+import { mountPhoneShell as mountShellDraftSheet } from '../components/phone-shell/phone-shell.mjs?draft-sheet';
 import { COMPONENT_KIT_VERSION } from '../components/kit/kit.mjs';
 import { ICONS, ICON_FAMILY_VERSION, ICON_NAMES, iconSvg } from '../components/icons.mjs';
 import { ROOM_SCENE_VERSION, mountRoomScene } from '../components/room-scene/room-scene.mjs';
@@ -399,18 +403,51 @@ function buildTilesDraftPart(view) {
   pairs.append(...TILES_DRAFT.map(pair));
 }
 
-// ── Bars: a second draft, a squeezed sheet's footer ─────────────────
-const SQUEEZE = Object.freeze({ route: 'sheet-draft', title: 'Long title at the largest text · draft' });
+// ── Bars: the sheet's two drafts, a squeezed sheet's footer and its head ──
+// Both are the Lead Designer's proposals for one problem: on the smallest phone at the Largest text, a sheet with a
+// long title leaves its content a line or two. Each is shown alone and both together, beside today's, and each
+// still says how much room its content gets, measured from the sheet it draws.
+const SQUEEZE = Object.freeze({ route: 'sheet-draft', title: 'Long title at the largest text · two drafts' });
 function buildSheetDraftPart(view) {
   startStrips();
-  const hasBefore = !!DATA.toastBefore, state = SHEET_DRAFT, own = { width: cardTabWidth, height: cardTabHeight, mark: false, specs: false, route: SQUEEZE.route };
-  // The sheet's scrolling part, brought to its end: the body where today's footer stays, the wrapper where the draft's follows.
+  const hasBefore = !!DATA.toastBefore && !!DATA.sheetDrafts, state = SHEET_DRAFT, own = { width: cardTabWidth, height: cardTabHeight, mark: false, specs: false, route: SQUEEZE.route };
+  // The sheet's scrolling part, brought to its end: the body where the footer stays, the wrapper where it follows.
   const toEnd = strip => { for (const sel of ['.ms-ps-sheet-scroll', '.ms-ps-sheet-body']) { const node = strip.shell?.element.querySelector(sel); if (node) node.scrollTop = node.scrollHeight; } };
-  const sides = [];
-  if (hasBefore) sides.push(makeStrip({ ...state, key: 'squeeze-before' }, false, { ...own, mount: mountShellBeforeToast, opens: null, title: 'Today', tags: ['Sheet 33'] }));
-  sides.push(makeStrip({ ...state, key: 'squeeze-after' }, false, { ...own, opens: 'sheet-offer', title: 'Draft · as it opens', tags: ['Draft'] }));
-  sides.push(makeStrip({ ...state, key: 'squeeze-after-end' }, false, { ...own, opens: 'sheet-offer', title: 'Draft · scrolled to its end', tags: ['Draft'], rest: toEnd }));
-  for (const strip of sides) lazyStrips.observe(strip.card);
+  /** What the sheet a still draws gives its title and its content, measured from that sheet. */
+  const measure = strip => {
+    const sheet = strip.shell?.element.querySelector('.ms-ps-sheet');
+    if (!sheet) return null;
+    const head = sheet.querySelector('.ms-ps-sheet-head'), body = sheet.querySelector('.ms-ps-sheet-body'), scroll = sheet.querySelector('.ms-ps-sheet-scroll');
+    const follows = sheet.hasAttribute('data-foot-scrolls');
+    return { sheet: Math.round(sheet.offsetHeight), head: Math.round(head.offsetHeight), room: Math.round((follows && scroll ? scroll : body).clientHeight), follows, stacked: sheet.hasAttribute('data-head-stacked'),
+      // How much taller the sheet's parts are than the sheet: what is cut at its foot.
+      over: Math.max(0, Math.round(sheet.scrollHeight - sheet.clientHeight)) };
+  };
+  const still = (key, title, tags, mount, { end = false, opens = null } = {}) => {
+    const fact = h('p', { class: 'bc-strip-note bc-room' }, '…');
+    const strip = makeStrip({ ...state, key }, false, { ...own, ...(mount ? { mount } : {}), opens, title, tags,
+      rest: s => {
+        if (end) toEnd(s);
+        const m = measure(s);
+        if (m) fact.replaceChildren(h('b', {}, `Room for the content: ${m.room} px`), ` of a ${m.sheet} px sheet · the title’s part takes ${m.head} px`,
+          m.stacked ? ' · the title on its own rows' : '', m.follows ? ' · the buttons follow the content' : '',
+          m.over > 1 ? ` · the sheet’s parts are ${m.over} px taller than the sheet, cut at its foot` : '');
+      } });
+    strip.windowEl.after(fact);
+    lazyStrips.observe(strip.card);
+    return strip.card;
+  };
+  const group = (title, note, cards) => h('section', { class: 'bc-pair', 'aria-label': title }, h('h3', { class: 'bc-pair-title' }, title), note ? h('p', { class: 'bc-pair-note' }, note) : null, cards);
+  const groups = hasBefore ? [
+    group('Today', null, [still('squeeze-before', 'Today', ['Sheet 33'], mountShellBeforeToast)]),
+    group('Draft A · the buttons scroll with the content', null, [
+      still('squeeze-foot', 'Draft A · as it opens', ['Draft'], mountShellDraftFoot),
+      still('squeeze-foot-end', 'Draft A · scrolled to its end', ['Draft'], mountShellDraftFoot, { end: true })]),
+    group('Draft B · the title takes its own rows', null, [still('squeeze-head', 'Draft B', ['Draft'], mountShellDraftHead)]),
+    group('Both drafts together', null, [
+      still('squeeze-both', 'A and B · as it opens', ['Draft'], mountShellDraftSheet),
+      still('squeeze-both-end', 'A and B · scrolled to its end', ['Draft'], mountShellDraftSheet, { end: true })]),
+  ] : [group('Both drafts together', 'This build has no copy of the sheet as it is today, or of each draft alone.', [still('squeeze-both', 'A and B', ['Draft'], null, { opens: 'sheet-offer' })])];
   const pairs = h('div', { class: 'bc-pairs' });
   const fit = () => pairs.style.setProperty('--bc-pair-w', `${cardTabWidth()}px`);
   const widths = segmented('Phone', [['auto', 'This screen'], ['320', '320 × 568'], ['390', '390 × 844'], ['430', '430 × 932']], cardTab.width, setWidth);
@@ -420,24 +457,29 @@ function buildSheetDraftPart(view) {
   const show = (width, text) => () => { setTextSize(text); setWidth(width); };
   view.append(
     h('div', { class: 'bc-wrap bc-group-head' },
-      h('h2', {}, 'A long title at the largest text', h('span', { class: 'bc-count bc-count-draft' }, 'Draft')),
-      h('p', { class: 'bc-draft-line' }, TOAST.note),
-      h('p', {}, 'The Lead Designer proposes this change. Nothing is decided until you say so.'),
+      h('h2', {}, 'A long title at the largest text', h('span', { class: 'bc-count bc-count-draft' }, 'Two drafts')),
+      h('p', { class: 'bc-draft-line' }, 'Drafts: the look only, not checked yet. They may still change.'),
+      h('p', {}, 'The Lead Designer proposes two changes for one problem. You can take either one, both or neither. Nothing is decided until you say so.'),
       h('ul', { class: 'bc-change' },
-        h('li', {}, h('b', {}, 'Today. '), 'A sheet’s buttons always stay at its foot. On the smallest phone at the Largest text, a long title takes three lines and the buttons a row each, so the content between them gets a line or two, and its last line is cut by the top button.'),
-        h('li', {}, h('b', {}, 'Draft. '), 'When the content would get less than a third of the sheet, the buttons scroll with the content. The content takes all the room under the title, and the buttons come after it.'),
-        h('li', {}, h('b', {}, 'Unchanged. '), 'Everywhere else. At 390 and 430 at the Standard text nothing moves.'))),
+        h('li', {}, h('b', {}, 'Today. '), 'On the smallest phone at the Largest text, a long title beside Back and ✕ takes three lines, and the buttons at the foot take a row each. The content between them gets a line or two, and its last line is cut by the top button.'),
+        h('li', {}, h('b', {}, 'Draft A · the buttons scroll with the content. '), 'When the content would get less than a third of the sheet, the buttons at the foot scroll with it. The content takes all the room under the title, and the buttons come after it.'),
+        h('li', {}, h('b', {}, 'Draft B · the title takes its own rows. '), 'When a title would take more than two lines beside Back and ✕, those two move to a row of their own, and the title and the line under it get the sheet’s full width. The text keeps the size the player chose.'),
+        h('li', {}, h('b', {}, 'Unchanged. '), 'Everywhere a title fits in two lines and the content has room. At 390 and 430 at the Standard text nothing moves.'))),
     h('div', { class: 'bc-wrap bc-tools' },
       h('button', { type: 'button', class: 'bc-primary', onclick: show('320', 200) }, 'Show the problem: 320 × 568, Largest text'),
       h('button', { type: 'button', class: 'bc-secondary', onclick: show('390', 100) }, '390 × 844, Standard'),
       h('button', { type: 'button', class: 'bc-secondary', onclick: show('430', 100) }, '430 × 932, Standard'),
       textSizeChoice(), widths,
-      h('p', { class: 'bc-hint' }, 'Three stills of the same sheet: today, the draft as it opens, and the draft scrolled to its end. A still can’t be scrolled: tap a Draft still to open it live and scroll it yourself.')),
-    h('div', { class: 'bc-wrap' }, h('div', { class: 'bc-verdict' },
-      h('p', {}, h('b', {}, 'Is the draft right?'), ' Mark it here. After your OK it gets its checks; a Change comes back with your note.'),
-      markControl('draft-sheet-footer-scrolls', { label: 'Draft: a squeezed sheet’s buttons scroll with its content', group: 'Sheets · draft' }))),
+      h('p', { class: 'bc-hint' }, 'Each still is the real sheet: today, each draft alone, and both together. Under each is the room its content gets, measured from that sheet. A still can’t be scrolled, so two of them are shown scrolled to their end.')),
+    h('div', { class: 'bc-wrap' },
+      h('div', { class: 'bc-verdict' },
+        h('p', {}, h('b', {}, 'Draft A: is it right?'), ' The buttons scroll with the content when the content is squeezed.'),
+        markControl('draft-sheet-footer-scrolls', { label: 'Draft A: a squeezed sheet’s buttons scroll with its content', group: 'Sheets · draft' })),
+      h('div', { class: 'bc-verdict' },
+        h('p', {}, h('b', {}, 'Draft B: is it right?'), ' A long title takes its own rows, under Back and ✕.'),
+        markControl('draft-sheet-head-stacks', { label: 'Draft B: a long title takes its own rows', group: 'Sheets · draft' }))),
     pairs);
-  pairs.append(...sides.map(strip => h('section', { class: 'bc-pair' }, strip.card)));
+  pairs.append(...groups);
 }
 
 // ── Bars: the Card tab, before and after ─────────────────────────────
@@ -963,7 +1005,7 @@ function build() {
     { id: 'bars', title: 'Bars', parts: [{ route: TILES.route, title: TILES.title, count: TILES_DRAFT.length, build: buildTilesDraftPart },
       { route: CARD_TAB.route, title: CARD_TAB.title, count: SHEET_08.length, build: buildCardTabPart },
       { route: TOAST.route, title: TOAST.title, count: TOAST_DRAFT.length, build: buildToastDraftPart },
-      { route: SQUEEZE.route, title: SQUEEZE.title, count: 1, build: buildSheetDraftPart },
+      { route: SQUEEZE.route, title: SQUEEZE.title, count: 2, build: buildSheetDraftPart },
       ...GROUPS.map(group => ({ route: group.route, title: group.title, count: group.presets.length, build: view => buildBarsPart(view, group) }))] },
     { id: 'icons', title: 'Icons', parts: ICON_PARTS.map(part => ({ route: part.route, title: part.title, count: iconsCount(part), build: view => buildIconsPart(view, part) })) },
     { id: 'status', title: 'Status', parts: [{ route: 'status', title: 'Status', build: buildStatus }] },
@@ -983,9 +1025,9 @@ function build() {
       h('h1', {}, 'Bars & Icons Control'),
       h('p', { class: 'bc-lede' }, 'Every bar and every icon, drawn by the game’s own files and sorted into parts. Each one shows its size, its background and its colours. Look, try, then mark it OK or Change.'))),
     // A draft on the page says so at the top, before anything else: a look only, not checked yet.
-    h('div', { class: 'bc-wrap' }, h('p', { class: 'bc-draft', role: 'note' }, h('b', {}, 'Three drafts on this page. '), 'Drafts: the look only, not checked yet. They may still change. ',
-      h('a', { href: `#${TILES.route}` }, 'The bottom bar with painted icons'), ' (new: your picture), ',
-      h('a', { href: `#${TOAST.route}` }, 'the toast over a sheet or a banner'), ' and ', h('a', { href: `#${SQUEEZE.route}` }, 'a long title at the largest text'),
+    h('div', { class: 'bc-wrap' }, h('p', { class: 'bc-draft', role: 'note' }, h('b', {}, 'Four drafts on this page. '), 'Drafts: the look only, not checked yet. They may still change. ',
+      h('a', { href: `#${TILES.route}` }, 'The bottom bar with painted icons'), ' (your picture), ',
+      h('a', { href: `#${TOAST.route}` }, 'the toast over a sheet or a banner'), ' and ', h('a', { href: `#${SQUEEZE.route}` }, 'a long title at the largest text'), ' (two drafts)',
       '. The painted icons show on every bottom bar on this page. Everything else here is checked.')),
     nav,
     h('div', { class: 'bc-wrap' }, notice),
