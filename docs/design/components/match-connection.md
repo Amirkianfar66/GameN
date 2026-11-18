@@ -271,6 +271,14 @@ Today's Promises sheet: its quota line, its cards naming "Player 1", and the off
   - It was also run on throwaway copies of `4367f7e0` and of `9ba0858e` with `app.mjs`, `render.mjs`, `phone.css` and `planet.css` back at `origin/main`, the four files the base's pins name. There it passes.
   - So this change pins no new file: `check:sources` accepts the new hunk, `actions-input.mjs`, the changed mappers, the tests and the check.
 - **The other pins** the shell connection's page names fall on the same files: the hosted build's `reviewed-crew-drawing-release` on `app.mjs`, and the drawing-port fence on `vite.config.mjs`, which the room and shell connections' hunks already changed. They were not re-run here.
+- **On `fd4aace9` (R2 with A3 and its review), and its record `9e3255be`:**
+  - `typecheck`, `build`, `check:toolchain`, `check:workspace` and `node design/tools/check-assets.mjs` (15 of 15) pass;
+  - the game's tests pass 896 of 896 (the refusals' 7 among them), with the production-exclusion scan;
+  - `check:sources` refuses `app.mjs` first, and passes with the same four pinned files back at `origin/main`, each then written back: nothing new is pinned;
+  - the design and tooling suites fail only on the Food pin: every failure, 25 of 442 and 68 of 356, is "Food consumer source: content differs: apps/game/hosted/planet/app.mjs";
+  - the fence builds the hosted Planet entry;
+  - #307's own check passes 44 of 44, with its record put back;
+  - the mutation run's 154 changes are all caught; the three `render.mjs` mutations are caught by the check.
 - **On `834dcef0` (R2 with A3, #307's `b5d0a4dd` merged), and its record `aa7e7bcf`:**
   - `typecheck`, `build`, `check:toolchain`, `check:workspace` and `node design/tools/check-assets.mjs` (15 of 15) pass;
   - the game's tests pass 895 of 895 (889 before, and the refusals' 6), with the production-exclusion scan;
@@ -363,8 +371,10 @@ Today's Promises sheet: its quota line, its cards naming "Player 1", and the off
 - It serves it with the hosted game's production headers (`createHostedPreviewHeaders`, headers SHA-256 `424e5dec…`, the shell's and the room scene's).
 - It drives the real app at 390 × 844 and 430 × 932, and two states at 320 × 568 with the Largest text.
 
-**Result:** 76 of 76 captures pass: thirty-eight states at both sizes, recorded in one run on `834dcef0`, with the source clean and the art from `64e55516`. That commit is R2 with A3, with #307's shell 0.3.3 merged. `concealed` was drawn a second time on that candidate for the comparison's bundle. Origin/main is `7d18ac0f`, which changes only `AGENTS.md` and the roster since the art base; the art base is in its history.
-- **Against the record on `755820d8`:** every recorded field of the 66 earlier captures is the same, with these exceptions:
+**Result:** 80 of 80 captures pass: thirty-nine states at both sizes and two at 320 × 568 with the Largest text, recorded in one run on `fd4aace9`, with the source clean and the art from `64e55516`. That commit is R2 with A3 and its review (every path to the controller clears the words, a blur, the shown words kept for their match and seat), with #307's shell 0.3.3 merged. `concealed` was drawn a second time on the record's commit for the comparison's bundle, with the record put back after. Origin/main is `7d18ac0f`, which changes only `AGENTS.md` and the roster since the art base; the art base is in its history.
+- **Against the record on `834dcef0`:** every recorded field of its 76 captures is the same, but for the bundle's file name in the known Zod report and three clocks, each one second off: `390x844-blackout`, `430x932-blackout` and `430x932-moved`. Six pictures are byte for byte the same.
+- **The new states:** `refused-blur` at both sizes, and `promise-incoming-largest` and `promise-incoming-largest-accept` at 320 × 568, as the table says.
+- **The record on `834dcef0`** (76 of 76, R2 with A3 before the review), **against the one on `755820d8`:** every recorded field of the 66 earlier captures is the same, with these exceptions:
   - the fields this check now records: the phone's notes, Promises' `error`, and the model's message and revision;
   - the bundle's file name in the known Zod report;
   - `promise-refused` at both sizes: the words are now in the sheet's inline error, and the status line that said them behind the sheet is hidden;
@@ -467,8 +477,9 @@ The harness answers a command at once, so "Registering…" is not drawn here; th
 ### The merge gate's comparison
 
 `design/tools/phone-ui-native-compare.mjs --only pass,actions,targeting,target-check,registered,clone,blackout,reconnecting,panels,players,round-order,promise-offer,promise-incoming,promise-results`:
-- The build is the check's own bundle (`--keep`, from a run of `concealed` alone on the record's commit, with the record put back after): it names `aa7e7bcf`, the record of `834dcef0`, clean, with art from `64e55516`. The pack is read at `aa7e7bcf`, clean.
-- **Against the comparison on `f15b8129`,** all fourteen parts are field for field the same; only the build's folder and commit, the pack's commit and the time differ. R2 and shell 0.3.3 change no part's recorded field. In the pictures, the tab bar has shell 0.3.2's painted tiles.
+- The build is the check's own bundle (`--keep`, from a run of `concealed` alone on the record's commit, with the record put back after): it names `9e3255be`, the record of `fd4aace9`, clean, with art from `64e55516`. The pack is read at `9e3255be`, clean.
+- **Against the comparison on `aa7e7bcf`,** all fourteen parts are field for field the same; only the build's folder and commit, the pack's commit and the time differ.
+- **The comparison on `aa7e7bcf`** (its build named `aa7e7bcf`, the record of `834dcef0`, read at `aa7e7bcf`, clean), **against the one on `f15b8129`:** all fourteen parts are field for field the same; only the build's folder and commit, the pack's commit and the time differ. R2 and shell 0.3.3 change no part's recorded field. In the pictures, the tab bar has shell 0.3.2's painted tiles.
 - **The comparison on `f15b8129`** (its build named `f15b8129`, the record of `755820d8`, read at `f15b8129`, clean), **against the one on `bfd458ea`:** all fourteen parts are field for field the same; only the build's folder and commit, the pack's commit and the time differ. Shell 0.3.1's portrait changes no part's recorded field.
 - **Promises' three parts** (sheets 33 and 33.1) join the eleven. Every one was drawn with no problem met:
   - `promise-offer`: the tool's steps tap the top bar's Promises, then "Offer a Promise" by its words, and reach the six kinds. "Offer to Crew 1", the note, the six kinds two across and Next take the pack's form in the pack's places. The pack has Meet in Room A chosen and Next on; the tool's steps choose nothing.
