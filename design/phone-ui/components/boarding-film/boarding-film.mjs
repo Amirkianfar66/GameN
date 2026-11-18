@@ -534,7 +534,7 @@ function planFor(doc, view, roster) {
 
 /** How sharp the frame is drawn, as a share of the screen's own pixels: the steps a slow phone goes down. */
 export const QUALITY = Object.freeze([1, 0.8, 0.64, 0.5]);
-/** Frames slower than this, eight in a run (one twice as slow counts twice), and the frame is drawn a step less sharp. */
+/** Prepared drawing work slower than this, eight samples (one twice as slow counts twice), softens the frame. */
 export const SLOW_FRAME_MS = 22;
 export const SLOW_FRAMES = 8;
 /**
@@ -561,7 +561,11 @@ export function prepareBoardingScene(doc, { roster: given, width, height }) {
   const roster = publicRoster(given), view = viewOf(doc.defaultView, width, height), assets = createBakery(doc);
   const { jobs, sharp, bytes } = planFor(doc, view, roster);
   assets.add(jobs);
-  return { roster, view, assets, jobs, sharp, bytes, ready: assets.settled(), dispose: () => assets.stop() };
+  const prepared = { roster, view, assets, jobs, sharp, bytes, adopted: false, disposed: false, ready: assets.settled(),
+    // Before adoption the caller owns this queue. After adoption only the scene may stop it.
+    dispose() { if (!prepared.adopted && !prepared.disposed) { prepared.disposed = true; assets.stop(); } },
+  };
+  return prepared;
 }
 
 /**
@@ -592,7 +596,7 @@ export function createBoardingScene(holder, { options = {}, live = true } = {}) 
   let finish = { opacity: -1, grain: '', light: -1 }, lastTick = 0, slow = 0, bakedSoFar = 0, shown = { variant: null, box: [0, 0] };
 
   function adopt(prepared) {
-    const same = prepared && !prepared.adopted && prepared.view.W === baked.W && prepared.view.H === baked.H && prepared.roster.length === roster.length && prepared.roster.every((m, i) => m.seat === roster[i].seat && m.character === roster[i].character);
+    const same = prepared && !prepared.adopted && !prepared.disposed && prepared.view.W === baked.W && prepared.view.H === baked.H && prepared.roster.length === roster.length && prepared.roster.every((m, i) => m.seat === roster[i].seat && m.character === roster[i].character);
     if (!same) return false;
     prepared.adopted = true; assets = prepared.assets; jobs = prepared.jobs; stats.sharp = prepared.sharp; stats.planned = prepared.bytes;
     return true;
@@ -739,15 +743,16 @@ export function createBoardingScene(holder, { options = {}, live = true } = {}) 
     const now = win.performance.now(), since = now - anchor.at;
     if (since > COAST_MS || anchor.t + since > BOARDING_MS) return; // no paint for a while, or the film is over: the picture stops
     // A phone that cannot hold the frame draws it a step less sharp.
-    // - With its pictures drawn, a frame slower than SLOW_FRAME_MS is slow: the frame is what took the time.
+    // - With its pictures drawn, measure the drawing work itself. A 30 Hz display or another task can space cheap
+    //   frames more than 22 ms apart; reducing this film's sharpness cannot repair either and must not be remembered.
     // - While pictures are being drawn they share every gap, so only a frame slower than LATE_FRAME_MS counts: the
     //   film as a whole is late. Its step down also makes the pictures still to come smaller (soften), which is what
     //   brings them sooner. The page does not remember such a step: the next film may have its pictures drawn first.
     const drawing = assets.busy() || assets.stats.done !== bakedSoFar;
     bakedSoFar = assets.stats.done;
     if (lastTick) {
-      const gap = now - lastTick, limit = drawing ? LATE_FRAME_MS : SLOW_FRAME_MS;
-      slow = gap > limit ? slow + (gap > limit * 2 ? 2 : 1) : Math.max(0, slow - 1);
+      const sample = drawing ? now - lastTick : stats.drawMs, limit = drawing ? LATE_FRAME_MS : SLOW_FRAME_MS;
+      slow = sample > limit ? slow + (sample > limit * 2 ? 2 : 1) : Math.max(0, slow - 1);
       if (slow >= SLOW_FRAMES && step < QUALITY.length - 1) {
         step += 1; slow = 0;
         if (drawing) stats.lateSteps += 1;
@@ -786,7 +791,7 @@ export function createBoardingScene(holder, { options = {}, live = true } = {}) 
       // One drawing a frame: when the scene's own frame is already due, this paint only gives it the time.
       if (!moving || raf === null || changed) draw(time);
       shown = { variant, box: [...box] };
-      if (moving && raf === null) { lastTick = 0; raf = win.requestAnimationFrame(tick); }
+      if (moving && raf === null) { lastTick = 0; slow = 0; raf = win.requestAnimationFrame(tick); }
       if (!moving && raf !== null) { win.cancelAnimationFrame(raf); raf = null; }
     },
     /** Stops the scene's own frames (the page is hidden, the stage is covered). After resume(), the next paint restarts them. */

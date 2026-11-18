@@ -143,14 +143,21 @@ export async function runProbe({ width, height }) {
     if (!deviceReduced) {
       const counting = window.requestAnimationFrame, due = [];
       const clock = { now: performance.now(), film: 0 };
-      let ids = 0;
+      let ids = 0, drawingCost = 0;
       const set = prepareBoardingScene(document, { roster: rosterOf(8), ...size });
       await set.ready;
       const films = [];
       try {
         window.requestAnimationFrame = callback => { due.push(callback); return (ids -= 1); }; // an id no real frame has
         window.performance.now = () => clock.now;
-        const film = options => { const made = createBoardingScene(holder(), { options: { roster: rosterOf(8), ...options } }); films.push(made); return made; };
+        const film = options => {
+          const made = createBoardingScene(holder(), { options: { roster: rosterOf(8), ...options } });
+          const ctx = made.canvas.getContext('2d'), save = ctx.save.bind(ctx), restore = ctx.restore.bind(ctx); let depth = 0;
+          // Synthetic drawing cost, separate from the scheduler's gap. The real canvas still draws.
+          ctx.save = () => { if (depth++ === 0) clock.now += drawingCost; return save(); };
+          ctx.restore = () => { depth--; return restore(); };
+          films.push(made); return made;
+        };
         // Each frame comes `gap` ms after the last. The player's paint goes with it: with a frame due it only gives the time.
         const drive = (made, gaps) => { for (const gap of gaps) { clock.now += gap; clock.film += gap; made.paint(clock.film, size); for (const callback of due.splice(0)) callback(clock.now); } };
         const begin = made => { clock.film = 2200; due.length = 0; made.paint(clock.film, size); drive(made, [16]); };
@@ -159,12 +166,14 @@ export async function runProbe({ width, height }) {
         const drawnFirst = film({ prepared: set });
         begin(drawnFirst);
         const from = of(drawnFirst), planned = drawnFirst.stats.planned;
+        drawingCost = between;
         drive(drawnFirst, Array(SLOW_FRAMES - 1).fill(between));
         const before = of(drawnFirst);
         drive(drawnFirst, [between, between]);
         const down = of(drawnFirst);
+        drawingCost = 0;
         drive(drawnFirst, Array(SLOW_FRAMES * 2).fill(SLOW_FRAME_MS - 6));
-        check('sharpness: with its pictures drawn, frames slower than the screen take the frame down one step, and frames that keep up leave it there',
+        check('sharpness: expensive prepared drawing takes the frame down one step, and cheap drawing leaves it there',
           from === 0 && before === 0 && down === 1 && of(drawnFirst) === 1 && drawnFirst.stats.lateSteps === 0 && drawnFirst.stats.planned === planned,
           { steps: [from, before, down, of(drawnFirst)], gapMs: between, lateSteps: drawnFirst.stats.lateSteps });
         // Drawing its pictures as it plays: the same frames do not count, because a picture's drawing shares each gap.
