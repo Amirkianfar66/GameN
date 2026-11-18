@@ -47,11 +47,11 @@ export const SWITCHES = Object.freeze([
   { key: 'actionsTab', group: 'Bottom bar', label: 'Actions tab', when: c => c.tabs === 'game', options: [['on', 'Available'], ['off', 'Unavailable · eliminated']] },
   { key: 'badge', group: 'Bottom bar', label: 'Badge', when: c => c.tabs === 'game', options: [['none', 'None'], ['actions', '1 on Actions'], ['panels', '2 on Panels']] },
   { key: 'talkOpen', group: 'Bottom bar', label: 'Open button', when: c => c.tabs === 'talk', options: [['none', 'None'], ['promises', 'Promises'], ['my-card', 'My card']] },
-  { key: 'target', group: 'Over the room', label: 'Target bar', options: [['none', 'None'], ['rescue', 'Rescue · with Cancel'], ['move', 'Move · long words'], ['final', 'Fixed position · no Cancel']] },
-  { key: 'chip', group: 'Over the room', label: 'Chip', options: [['off', 'None'], ['on', 'Other rooms · 1']] },
-  { key: 'banner', group: 'Over the room', label: 'Banner', options: [['none', 'None'], ['reconnecting', 'Connection lost · Retry'], ['out', 'You’re out']] },
-  { key: 'toast', group: 'Over the room', label: 'Toast', options: [['none', 'None'], ['closed', 'That phase closed · choices cleared'], ['short', 'Copied']] },
-  { key: 'sheet', group: 'Sheet frame', label: 'Sheet', options: [
+  { key: 'target', group: 'Other bars', label: 'Target bar', options: [['none', 'None'], ['rescue', 'Rescue · with Cancel'], ['move', 'Move · long words'], ['final', 'Fixed position · no Cancel']] },
+  { key: 'chip', group: 'Other bars', label: 'Chip', options: [['off', 'None'], ['on', 'Other rooms · 1']] },
+  { key: 'banner', group: 'Other bars', label: 'Banner', options: [['none', 'None'], ['reconnecting', 'Connection lost · Retry'], ['out', 'You’re out']] },
+  { key: 'toast', group: 'Other bars', label: 'Toast', options: [['none', 'None'], ['closed', 'That phase closed · choices cleared'], ['short', 'Copied']] },
+  { key: 'sheet', group: 'Sheets', label: 'Sheet', options: [
     ['none', 'None'], ['pass', 'Pass your turn? · two buttons'], ['actions', 'Actions'], ['card', 'Your role · a head button'],
     ['block', 'Block movement · tall, two buttons'], ['appoint', 'Choose your Officer · one button'],
     ['navigation', 'Navigation · no Close'], ['host', 'Host controls · Back and a warning button'],
@@ -74,7 +74,7 @@ const film = { tabs: 'none', edge: 'on' };
  * what lies over the room, the chip, a sheet, or the whole phone. `sheet` is the phone pack's sheet number.
  */
 export const GROUPS = Object.freeze([
-  { id: 'top', title: 'Top bar', note: 'The room label side, Promises, ⋮, the round and the clock.', crop: 'top', presets: [
+  { id: 'top', route: 'top-bar', title: 'Top bar', note: 'The room label side, Promises, ⋮, the round and the clock.', crop: 'top', presets: [
     ['turn', 'Another player’s turn', '07', {}],
     ['own', 'Your turn', '07', own],
     ['urgent', 'Your turn · the last 10 seconds', '07', { ...own, clock: '8' }],
@@ -96,7 +96,7 @@ export const GROUPS = Object.freeze([
     ['loading', 'Loading the ship', '45', { bar: 'loading', promises: 'off', tabs: 'none' }],
     ['reconnecting', 'Reconnecting', '45', { bar: 'reconnecting', promises: '0', status: 'stale' }],
   ] },
-  { id: 'bottom', title: 'Bottom bar', note: 'The tabs, the round button as Pass, Vote or Voted, and the private talk’s two buttons.', crop: 'bottom', presets: [
+  { id: 'bottom', route: 'bottom-bar', title: 'Bottom bar', note: 'The tabs, the round button as Pass, Vote or Voted, and the private talk’s two buttons.', crop: 'bottom', presets: [
     ['pass', 'Pass · ready', '27', own],
     ['pass-off', 'Pass · unavailable', '27', {}],
     ['pass-busy', 'Pass · sending', '27', { ...own, hero: 'pass-busy' }],
@@ -112,7 +112,7 @@ export const GROUPS = Object.freeze([
     ['talk-buttons', 'Private talk · Promises and My card', '25', { bar: 'talk', promises: '0', tabs: 'talk' }],
     ['talk-promises', 'Private talk · Promises open', '25', { bar: 'talk', promises: '0', tabs: 'talk', talkOpen: 'promises' }],
   ] },
-  { id: 'over', title: 'Over the room', note: 'The target bar with Cancel, the chip, both banners and the toast.', crop: 'over', presets: [
+  { id: 'over', route: 'other-bars', title: 'Other bars', note: 'What lies over the room: the target bar with Cancel, both banners, the chip and the toast.', crop: 'over', presets: [
     ['target', 'Choosing a target · Cancel in the bar', '29', { ...own, target: 'rescue' }],
     ['target-move', 'Choosing a position · long words', '29', { ...own, target: 'move' }],
     ['target-final', 'A fixed position · no Cancel', '30', { bar: 'dark', promises: '0', target: 'final' }],
@@ -122,7 +122,7 @@ export const GROUPS = Object.freeze([
     ['banner-out', 'You’re out', '44', { banner: 'out', actionsTab: 'off' }],
     ['toast', 'Toast · that phase closed', '45', { ...own, clock: '0', toast: 'closed' }],
   ] },
-  { id: 'sheet', title: 'Sheet frame', note: 'The glass sheet’s frame: title, line, Back, Close, head and footer buttons. The content inside is other builders’.', crop: 'sheet', presets: [
+  { id: 'sheet', route: 'sheets', title: 'Sheets', note: 'The glass sheet’s frame: title, line, Back, Close, head and footer buttons. The content inside is other builders’.', crop: 'sheet', presets: [
     ['sheet-pass', 'Pass asks once · two buttons', '27', { ...own, sheet: 'pass' }],
     ['sheet-actions', 'Actions', '28', { ...own, open: 'actions', sheet: 'actions' }],
     ['sheet-card', 'Your role · Hide card in the head', '31', { ...own, open: 'card', sheet: 'card' }],
@@ -132,7 +132,7 @@ export const GROUPS = Object.freeze([
     ['sheet-host', 'Host controls · Back and a warning button', '15', { sheet: 'host' }],
     ['sheet-lost', 'A sheet while reconnecting · below the banner', '45', { bar: 'reconnecting', promises: '0', status: 'stale', banner: 'reconnecting', sheet: 'host' }],
   ] },
-  { id: 'whole', title: 'Whole phone', note: 'States where the bars leave, or the whole phone changes.', crop: 'whole', presets: [
+  { id: 'whole', route: 'whole-phone', title: 'Whole phone', note: 'States where the bars leave, or the whole phone changes.', crop: 'whole', presets: [
     ['concealed', 'Concealed · the phone put away', '45', { ...own, status: 'concealed' }],
     ['film', 'No top bar · a film edge to edge', '18', { bar: 'none', promises: 'off', status: 'stale', banner: 'reconnecting', ...film }],
     ['poster', 'Edge to edge under the bar · no tabs', '41', { bar: 'course', promises: '0', ...film }],
