@@ -332,7 +332,10 @@ function buildBarFitDraftPart(view) {
     other.card.setAttribute('data-ms-draft-bar', 'measured');
     sides.push(other);
     for (const strip of sides) lazyStrips.observe(strip.card);
-    return h('section', { class: 'bc-pair', 'aria-label': state.label }, h('h3', { class: 'bc-pair-title' }, state.label), sides.map(strip => strip.card));
+    // A choice for the owner, said on the bars it is about (the Lead Designer, 18 November 2026).
+    const note = state.controls.bar === 'own' ? h('p', { class: 'bc-pair-note' }, h('b', {}, 'At 320 with the Large text: '),
+      '“Your turn” takes both lines here. Your seat line (“Player 6 · Crew 6”) is read aloud by a screen reader but not drawn. The other way is a taller bar, with Promises, the clock and ⋮ on a row of their own. You choose.') : null;
+    return h('section', { class: 'bc-pair', 'aria-label': state.label }, h('h3', { class: 'bc-pair-title' }, state.label), note, sides.map(strip => strip.card));
   };
   const pairs = h('div', { class: 'bc-pairs' });
   const fit = () => pairs.style.setProperty('--bc-pair-w', `${cardTabWidth()}px`);
@@ -351,6 +354,7 @@ function buildBarFitDraftPart(view) {
           'First the controls slim: Promises is the handshake alone with its count, and the clock loses its small icon. Then the name takes two lines in place of the line under it (“Private talk” is still read out by a screen reader), or the line under it wraps to a second line. Last, Promises, the clock and ⋮ move to a row of their own and the words get the full width. The text keeps the size the player chose, and a line breaks at its “·” or “+”, never inside a name.'),
         h('li', {}, h('b', {}, 'Draft and alternative differ in one thing. '),
           'In the draft every phone up to about 424 px wide always has the slim controls, so two phones of one size look the same whatever the names. The Lead Designer recommends this. In the alternative the controls slim only on a phone where a line would otherwise be cut, so Promises keeps its word wherever there is room. Look at the last bar, a short name, at 390: that is where the two differ.'),
+        h('li', {}, h('b', {}, 'A departure from the approved sheet. '), 'Sheet 07 draws the word “Promises” on a turn’s bar at 390 px. In the draft a 390 px phone never shows that word: the handshake and its count stay. Your OK on the draft covers this departure.'),
         h('li', {}, h('b', {}, 'What it costs. '), 'A taller top bar in a few cases, most on a 320 px phone at the Large and the Largest text. And where the name takes two lines, the line under it is not drawn.'))),
     h('div', { class: 'bc-wrap bc-tools' }, textSizeChoice(), widths,
       h('p', { class: 'bc-hint' }, hasBefore
