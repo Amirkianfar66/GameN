@@ -35,7 +35,7 @@ function graph(entry) {
 const SELF = 4;
 const turn = (extra = {}) => ({ kind: 'turn', who: { seat: SELF, name: 'Dev', character: 'c1' }, self: true, round: 3, timer: { remainingMs: 42000 }, promises: { count: 1 }, menu: {}, ...extra });
 const live = (extra = {}) => nextPhoneShellInput(PHONE_SHELL_DEFAULTS, {
-  viewer: SELF, bar: turn(), tabs: { variant: 'game', hero: { mode: 'pass' } }, target: { title: 'Rescue' }, chip: { id: 'other', label: 'Other rooms · 1' },
+  viewer: SELF, bar: turn(), tabs: { variant: 'game', me: { seat: SELF, name: 'Dev', character: 'c1' }, hero: { mode: 'pass' } }, target: { title: 'Rescue' }, chip: { id: 'other', label: 'Other rooms · 1' },
   sheet: { id: 'pass', title: 'Pass your turn?', actions: [{ id: 'pass', label: 'Pass', kind: 'primary' }] }, toast: { id: 't', text: 'Turn passed' }, ...extra,
 });
 
@@ -135,9 +135,12 @@ test('its words are the pack\'s: the hero, the tabs, the bar and the two banners
   assert.ok(read('design/phone-ui/prototype/screens-more.mjs').includes(`banner({ icon: 'eliminated', title: '${OUT.title}', sub: '${OUT.sub}' })`), 'sheet 44: the eliminated player\'s banner');
   assert.deepEqual(BANNER_KINDS, ['reconnecting', 'out']);
   assert.ok(read('design/phone-ui/prototype/screens-more.mjs').includes("'My card'"), 'sheet 25: My card');
-  assert.deepEqual(GAME_TABS, ['switch', 'actions', 'hero', 'card', 'panels'], 'the pack\'s tab order');
+  // 0.3.0, the owner's 18 November 2026 decision: Card is the last tab, after Panels. The pack's sheet 08 draws it
+  // before Panels, and the pinned pack stays as it is.
+  assert.deepEqual(GAME_TABS, ['switch', 'actions', 'hero', 'panels', 'card'], 'the owner\'s tab order: Card last');
+  assert.match(read('design/phone-ui/prototype/ui.mjs'), /tab\('card', 'card', 'Card'\),\s*tab\('panels', 'panels', 'Panels'\)/, 'the pack draws Card before Panels');
   assert.deepEqual(TALK_BUTTONS, ['promises', 'my-card']);
-  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.2.12');
+  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.3.3');
   assert.ok(TOAST_MS > 0);
 });
 
@@ -167,7 +170,10 @@ test('inputs are checked, and refused with a reason', () => {
   refuses({ bar: { kind: 'phase', title: 'Jail vote', timer: { remainingMs: 3000, ring: 2 } } }, /ring is 0…1/);
   refuses({ bar: { kind: 'phase', title: 'x', round: 2.5 } }, /round is a whole number/);
   refuses({ tabs: { variant: 'menu' } }, /variant is game or talk/);
-  refuses({ tabs: { variant: 'game', open: 'promises' } }, /An open tab is one of switch, actions, card, panels/);
+  refuses({ tabs: { variant: 'game', open: 'promises' } }, /An open tab is one of switch, actions, panels, card/);
+  // 0.3.0: the viewer's own person, as the bar's who.
+  refuses({ tabs: { variant: 'game', me: { seat: 4 } } }, /tabs\.me needs a name/);
+  refuses({ tabs: { variant: 'game', me: { name: 'Dev' } } }, /tabs\.me needs a seat/);
   refuses({ tabs: { variant: 'talk', open: 'panels' } }, /An open tab is one of promises, my-card/);
   refuses({ tabs: { hero: { mode: 'cancel' } } }, /hero's mode is pass, vote, voted/);
   refuses({ banner: { kind: 'error' } }, /kind: 'reconnecting'/);
@@ -189,6 +195,12 @@ test('inputs are checked, and refused with a reason', () => {
   assert.equal(d.shape, 'none');
   assert.equal(d.edge, false, 'the stage between the bars unless edge is asked for');
   assert.equal(d.backdrop, 'scene', 'the room view\'s space behind the bars unless the canvas is asked for');
+  // 0.3.0: the viewer's own person for the Card tab, checked as the bar's who. None is the card icon; the private
+  // talk's two buttons take none.
+  assert.deepEqual(checkTabs({ variant: 'game', me: { seat: 4, name: 'Dev', character: 'c1' } }).me, { seat: 4, number: null, name: 'Dev', character: 'c1' });
+  assert.equal(checkTabs({ variant: 'game' }).me, null, 'no person: the card icon');
+  assert.equal(checkTabs({ variant: 'game', me: { seat: 4, name: 'Player 4' } }).me.character, null, 'a person with no character: the card icon');
+  assert.equal(checkTabs({ variant: 'talk', me: { seat: 4, name: 'Dev', character: 'c1' } }).me, null, 'the private talk\'s My card keeps its icon');
   // The checked forms are stable: checking them again changes nothing.
   const once = live();
   assert.deepEqual(nextPhoneShellInput(once, {}), once);
@@ -241,12 +253,49 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   assert.match(csp, /img-src 'self' data:/);
   assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
   const captures = Object.entries(record.captures);
-  assert.equal(captures.length, 64, 'thirty states at two sizes, the target bar at the Largest text on both, and the Largest text at 320 × 568 for a turn and for a phase');
+  assert.equal(captures.length, 73, 'thirty-four states at two sizes, the target bar at the Largest text on both, and the Largest text at 320 × 568 for a turn, for a phase and for a long-titled sheet');
   for (const [key, c] of captures) {
     assert.ok(c.ok && c.drawn, `${key} passed and drew what its state asks`);
     assert.deepEqual(c.problems, [], `${key}: no page error or failed request`);
     assert.ok(c.violations.every(v => v.kind.startsWith('known:')), `${key}: no unexpected policy report`);
     assert.ok(existsSync(join(REPO, c.file)), `${key}: ${c.file}`);
+  }
+  // 0.3.0, the owner's 18 November 2026 decision: Card is the last tab and draws this viewer's own crew portrait; with
+  // no character, the pack's card icon. The tab keeps its word and takes no other name. 0.3.1, the owner the same
+  // day: the portrait as the top bar draws it, at its 32 px, with a ring only while its sheet is open, in amber.
+  for (const [key, c] of captures) {
+    if (!c.order?.length) continue;
+    assert.deepEqual(c.order, ['switch', 'actions', 'hero', 'panels', 'card'], `${key}: Card is the last tab`);
+    assert.ok(c.card.words === 'Card' && c.card.name === null && c.card.icon === 'card' && c.card.level, `${key}: the Card tab's word, and its label level with the others`);
+    if (c.card.picture) assert.ok(c.card.drawn && c.card.box[0] === 32 && c.card.box[1] === 32, `${key}: the portrait drawn at the top bar's 32 px`);
+    assert.equal(c.card.picture ? c.card.amber : false, c.open === 'card' && c.card.picture, `${key}: an amber ring only while Card is open`);
+    if (c.card.picture) assert.equal(c.card.ring, c.card.amber, `${key}: no ring of another colour, and none at rest`);
+  }
+  for (const size of ['390x844', '430x932']) {
+    assert.ok(record.captures[`${size}/own`].card.picture && record.captures[`${size}/card`].card.amber, `${size}: the portrait, and its amber ring with Card open`);
+    assert.ok(!record.captures[`${size}/card-icon`].card.picture, `${size}: no character, no portrait`);
+    assert.equal(record.captures[`${size}/card-icon`].tiles.find(t => t.tab === 'card').form, 'card:tile', `${size}: no character, the card's tile`);
+    assert.equal(record.captures[`${size}/concealed`].order.length, 0, `${size}: concealed, no tab and no portrait`);
+  }
+  assert.ok(record.captures['320x568/large'].card.picture, 'the portrait at the Largest text on the small phone');
+  // 0.3.2, the owner's 18 November 2026 decision: every game tab's icon is a painted tile in the portrait's 32 px box,
+  // and the round button's icon is painted. Wherever the game's tabs are drawn, each tab draws a tile or the portrait.
+  for (const [key, c] of captures) {
+    if (!c.order.length) { assert.deepEqual(c.tiles, [], `${key}: no tabs, no tile`); continue; }
+    assert.deepEqual(c.tiles.map(t => t.tab), ['switch', 'actions', 'panels', 'card'], `${key}: the four tabs`);
+    for (const t of c.tiles) {
+      assert.deepEqual(t.box, [32, 32], `${key} ${t.tab}: a picture in the portrait's box`);
+      if (t.tab !== 'card') assert.ok(t.tile && t.drawn && /^(board|room|actions|panels):tile$/.test(t.form), `${key} ${t.tab}: a painted tile`);
+      else assert.equal(t.tile, !c.card.picture, `${key}: the Card tab draws the portrait or the card's tile, never both and never neither`);
+      if (t.tile) assert.equal(t.ring, c.open === t.tab, `${key} ${t.tab}: the ring lies over the open tab's tile and no other`);
+    }
+    assert.match(c.heroIcon, /^(pass|vote):painted$/, `${key}: the round button's icon is painted`);
+    assert.equal(c.heroGrey, c.heroOff, `${key}: grey only while the round button is unavailable`);
+  }
+  for (const size of ['390x844', '430x932']) {
+    const dark = record.captures[`${size}/dark`], out = record.captures[`${size}/out`];
+    assert.ok(!dark.card.picture && dark.tiles.every(t => t.tile), `${size}: in the dark no portrait, four tiles`);
+    assert.ok(out.tiles.find(t => t.tab === 'actions').faded && !out.tiles.find(t => t.tab === 'panels').faded, `${size}: eliminated, the Actions tile faded with its tab`);
   }
   // 0.2.9: while reconnecting, the target bar 8 px under the banner with its Cancel in reach; at 200 %, Cancel under
   // the bar's words, the bar inside the phone and the chip's label whole.
@@ -308,7 +357,66 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
   }
   const groups = record.probe.full.checks.map(c => c.id.split(':')[0]);
-  for (const group of ['focus', 'refused', 'stale', 'out', 'private', 'time', 'layout', 'layers', 'large', 'textsize', 'nobar', 'edge', 'reach', 'backdrop', 'head', 'footer', 'talk', 'toast', 'words', 'hud', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
+  for (const group of ['focus', 'refused', 'stale', 'out', 'private', 'time', 'layout', 'layers', 'large', 'textsize', 'nobar', 'edge', 'reach', 'backdrop', 'head', 'footer', 'talk', 'toast', 'words', 'hud', 'card', 'tiles', 'place', 'squeeze', 'stack', 'observers', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
+  // 0.3.0: the Card tab's own check, with what it saw: the portrait is the top bar's, and at every size keeps its box.
+  const cardTab = record.probe.full.checks.find(c => c.id.startsWith('card:')).detail;
+  assert.equal(cardTab.rest.image, cardTab.rest.barImage, 'the Card tab\'s portrait is the plain one the top bar draws');
+  // 0.3.1: the top bar's shape and size too: the same box, fitted the same way, with no ring at rest.
+  assert.deepEqual([cardTab.rest.box, cardTab.rest.fit, cardTab.rest.ring], [cardTab.rest.barBox, cardTab.rest.barFit, null], 'the top bar\'s box and fit, and no ring at rest');
+  assert.equal(cardTab.open.ring, cardTab.open.accent, 'open, the ring is the accent');
+  assert.deepEqual(Object.keys(cardTab.sized), ['390 standard', '390 largest', '430 standard', '430 largest', '320 standard', '320 largest']);
+  for (const [key, f] of Object.entries(cardTab.sized)) {
+    assert.deepEqual(f.box, [32, 32], `${key}: the portrait's box`);
+    assert.equal(f.barHeight, f.barHeightWithIcon, `${key}: the bar as tall as with the card icon`);
+  }
+  // 0.3.2: the tiles' own check, with what it saw.
+  const tiles = record.probe.full.checks.find(c => c.id.startsWith('tiles:')).detail;
+  for (const key of ['switch', 'actions', 'panels']) {
+    assert.ok(tiles.rest[key].tile && tiles.rest[key].frame, `${key}: a tile in the portrait's own frame`);
+    assert.deepEqual([tiles.rest[key].box, tiles.rest[key].top], [tiles.restPortrait.box, tiles.restPortrait.top], `${key}: the portrait's box and level`);
+    assert.equal(tiles.rest[key].ground, '#F19E5A,#EE8B3A,#82522F', `${key}: the one ground`);
+    assert.equal(tiles.rest[key].ring, null, `${key}: no ring at rest`);
+  }
+  assert.deepEqual([tiles.openActions.actions.ring, tiles.openActions.panels.ring, tiles.openPanels.panels.ring, tiles.openPanels.actions.ring], [tiles.accent, null, tiles.accent, null], 'the ring follows the open tab');
+  assert.ok(tiles.sameForAnotherViewer && tiles.sameWithNoPerson, 'a tile is the same drawing for another viewer and with no person given');
+  assert.deepEqual([tiles.dark.portraits, tiles.dark.card.form], [0, 'card:tile'], 'with no person (the Blackout\'s dark): no portrait, the card\'s tile');
+  assert.equal(tiles.off.opacity, '0.38', 'an unavailable tab at the pack\'s 38 %');
+  assert.deepEqual([tiles.heroReady.form, tiles.heroOff.filter, tiles.heroVote.form], ['pass:painted', 'grayscale(1)', 'vote:painted'], 'the round button\'s icon painted, grey when unavailable');
+  assert.deepEqual([tiles.concealed, tiles.talk.tiles, tiles.talk.line], [0, 0, 2], 'concealed, nothing; the private talk keeps its line icons');
+  // 0.3.3, the Lead Designer's three proposals, approved by the owner on 18 November 2026.
+  // The toast's place: never on the bar, a banner or an open sheet's head.
+  for (const size of ['390x844', '430x932']) {
+    const overSheet = record.captures[`${size}/toast-sheet`].toastPlace, underBanner = record.captures[`${size}/toast-banner`].toastPlace, alone = record.captures[`${size}/closed`].toastPlace;
+    assert.ok(overSheet.under && Math.abs(overSheet.toast - (overSheet.headBottom + 8)) < 1, `${size}: the toast 8 px under a tall sheet's head`);
+    assert.ok(underBanner.under && Math.abs(underBanner.toast - (underBanner.bannerBottom + 8)) < 1, `${size}: the toast 8 px under the banner`);
+    assert.ok(!alone.under && alone.toast < overSheet.toast, `${size}: with nothing in its way the toast keeps its place`);
+    const offer = record.captures[`${size}/offer`].sheetFit;
+    assert.deepEqual([offer.follows, offer.stacked, offer.cut], [false, false, 0], `${size}: a sheet with room for its body is as before`);
+  }
+  const squeezedSheet = record.captures['320x568/offer-large'].sheetFit;
+  assert.ok(squeezedSheet.follows && squeezedSheet.stacked && squeezedSheet.cut === 0 && squeezedSheet.room >= squeezedSheet.height - squeezedSheet.head - 14, 'the small phone at the Largest text: the head stacked, the footer following, nothing cut');
+  const place = record.probe.full.checks.find(c => c.id.startsWith('place:')).detail;
+  for (const key of ['390', '430', '320']) {
+    const o = place[key];
+    assert.ok(Math.abs(o.overTall.toast.top - (o.overTall.head.bottom + 8)) < 0.75 && o.overTall.head.top < o.alone.toast.bottom, `${key}: under a tall sheet's head, where its own place would have cut the head`);
+    assert.ok(Math.abs(o.underBanner.toast.top - (o.underBanner.banner.bottom + 8)) < 0.75 && Math.abs(o.both.toast.top - (o.both.head.bottom + 8)) < 0.75, `${key}: under the banner; with both, under the head`);
+    assert.ok(!o.overLow.under && !o.back.under && o.gone.toast === null, `${key}: a low sheet leaves it; gone, nothing is left set`);
+  }
+  // A squeezed sheet: the wrapper scrolls, the footer follows the body, and a part inside the body scrolls into view.
+  const squeeze = record.probe.full.checks.find(c => c.id.startsWith('squeeze:')).detail;
+  assert.deepEqual([squeeze.squeezed.follows, squeeze.squeezed.wrapDisplay, squeeze.squeezed.wrapOverflow, squeeze.squeezed.footInWrap, squeeze.squeezed.sameBody], [true, 'flex', 'auto', true, true]);
+  assert.deepEqual([squeeze.intoView.wrapScrolled, squeeze.intoView.bodyScrolled, squeeze.intoView.seen, squeeze.end.inside, squeeze.tapped], [true, 0, true, true, ['accept']], 'scrollIntoView reaches the wrapper; the last button is reached; a tap is reported');
+  for (const f of [squeeze.relaxed, squeeze.roomy['390'], squeeze.roomy['430']]) assert.deepEqual([f.follows, f.wrapDisplay, f.bodyOverflow, f.footAtFoot], [false, 'contents', 'auto', true], 'with room, the body scrolls and the footer is at the sheet\'s foot');
+  // A stacked head: decided from hidden copies, measured only on a change, the focus kept.
+  const stack = record.probe.full.checks.find(c => c.id.startsWith('stack:')).detail;
+  assert.ok(stack.stacked.stacked && stack.stacked.lines === 2 && stack.stacked.sameRow && stack.stacked.titleUnder && stack.stacked.titleFull, 'stacked: the buttons on a row, the title under them on the full width');
+  assert.deepEqual([stack.stacked.copies, stack.stacked.stands, stack.stacked.headings, stack.stacked.order], [0, 0, 1, ['sheet-back', 'title', 'sheet-close']], 'no copy is left, and the reading order is unchanged');
+  assert.deepEqual([stack.quiet.measures, stack.quiet.flips, stack.quiet.focused], [0, 0, true], 'six clock ticks: nothing measured, nothing moved, the focus kept');
+  assert.deepEqual([stack.short.measures, stack.short.flips, stack.short.stacked, stack.again.measures, stack.again.stacked, stack.again.focused], [1, 1, false, 1, true, true], 'a new title is measured once');
+  assert.ok(!stack.wide.stacked && stack.wide.lines >= 3 && stack.wide.height < stack.stacked.height + 4, 'at 390 px at the Largest text the title takes three lines, and the head stays a row: stacked it would be no shorter');
+  assert.ok(!stack.standard390.stacked && !stack.standard430.stacked && !stack.standard320.stacked && !stack.bare.stacked, 'at the Standard text, and with no button, nothing stacks');
+  const observers = record.probe.full.checks.find(c => c.id.startsWith('observers:')).detail;
+  assert.deepEqual([observers.closed.sheet, observers.closed.head, observers.closed.toast, observers.closed.stray, observers.replaced.old, observers.after], [false, false, false, 0, false, 0], 'a sheet, its head and a toast that go are no longer watched; after dispose nothing is');
   // 0.2.10: the lit Blackout counting down in one mounted shell, then dark: its words and clock change and nothing moves.
   const words = record.probe.full.checks.find(c => c.id.startsWith('words:')).detail;
   assert.deepEqual(words.subs, ['Lights out in 0:03', 'Lights out in 0:02', 'Lights out in 0:01', 'Dark · positions fixed']);

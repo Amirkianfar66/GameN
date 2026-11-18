@@ -1,0 +1,31 @@
+@import url("../kit/kit.css");
+/*
+ * The Hacker's Scan and final Code (hacker.mjs): the layout of their sheets' content. Runtime source, Designer's.
+ * The pack's own values (design/phone-ui/prototype/screens-more.mjs scan() and code(), screens.css .registered),
+ * on the kit's tokens. Who, the guesses, the cells and the 3 × 3, the row, the stamp, the group note, the inline
+ * error and the results' notice are the kit's (component-kit-0.7.1); the sheet's frame, its buttons and the target
+ * bar are the shell's. Its one motion is the results' stamp snap, as REGISTERED's (the handoff's motion table).
+ *
+ * Scope: every rule is under the component's root (.ms-hacker, which is also .ms-kit) and names a class of its
+ * own, so it weighs two classes and outranks the kit (one class), whatever order the
+ * stylesheets load in (kit.md).
+ */
+
+/* ── The root: it fills the sheet's body, and adds nothing to it ─────── */
+.ms-hacker.ms-kit { display: block; }
+.ms-hacker.ms-kit:focus { outline: none; }
+.ms-hacker.ms-kit [hidden] { display: none; }
+
+/* ── Scan · guess: the pack's segmented control, 6 px under who ──────── */
+.ms-hacker .ms-hk-guess { margin-top: 6px; }
+
+/* ── Not accepted (L6): the kit's inline note, as Actions' check ────── */
+.ms-hacker .ms-hk-error { margin-top: 14px; }
+
+/* ── The results' stamps (MATCHED, NO MATCH, CODE CORRECT, CODE WRONG) snap in as REGISTERED does: 120 ms ── */
+@keyframes ms-hk-stamp-in { from { opacity: 0; scale: 1.3; } }
+.ms-hacker .ms-hk-result .ms-k-stamp { animation: ms-hk-stamp-in 120ms var(--ms-k-ease) both; }
+
+/* ── Reduce motion: the game's (data-motion="reduced" on the root) or the device's: the stamp is there at once ── */
+.ms-hacker.ms-kit[data-motion="reduced"] .ms-hk-result .ms-k-stamp { animation: none; }
+@media (prefers-reduced-motion: reduce) { .ms-hacker .ms-hk-result .ms-k-stamp { animation: none; } }
