@@ -1,0 +1,460 @@
+{
+  "candidate": "39961a807d811aa2efb177f888302da17f0c2431",
+  "artwork": "64e55516d2f0026842c5c2a675f2eccda20e0a9e",
+  "environment": "Desktop Chromium with synthetic session transport. CSS pixel sizes are recorded per group.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "phoneChecker": {
+    "390x844/boarding": {
+      "screen": true,
+      "noOldView": true,
+      "policy": true,
+      "problems": true,
+      "stage": true,
+      "holding": true,
+      "noSkip": true
+    },
+    "390x844/characters": {
+      "screen": true,
+      "noOldView": true,
+      "policy": true,
+      "problems": true,
+      "select": true,
+      "grid": true,
+      "offered": true,
+      "clock": true,
+      "portraits": true,
+      "art": true,
+      "chosen": true
+    },
+    "390x844/host-abort": {
+      "screen": true,
+      "noOldView": true,
+      "policy": true,
+      "problems": true,
+      "title": true,
+      "confirm": true,
+      "footer": true,
+      "notSent": true,
+      "keepBack": true,
+      "abortSent": true,
+      "reopensSettings": true
+    },
+    "390x844/host-code": {
+      "screen": true,
+      "noOldView": true,
+      "policy": true,
+      "problems": true,
+      "title": true,
+      "issued": true,
+      "card": true,
+      "masked": true,
+      "note": true,
+      "noMinutes": true,
+      "footer": true,
+      "groups": true
+    },
+    "390x844/host-code-revealed": {
+      "screen": true,
+      "noOldView": true,
+      "policy": true,
+      "problems": true,
+      "revealed": true,
+      "footer": true,
+      "groups": true,
+      "copied": true,
+      "toast": true,
+      "refusedCopy": true,
+      "hidden": true,
+      "backToList": true,
+      "closedCodeCleared": true,
+      "concealedCodeCleared": true
+    },
+    "390x844/host-controls": {
+      "screen": true,
+      "noOldView": true,
+      "policy": true,
+      "problems": true,
+      "title": true,
+      "back": true,
+      "close": true,
+      "commands": true,
+      "seats": true,
+      "noCode": true,
+      "noOldControls": true,
+      "deadlineSent": true,
+      "receipt": true
+    },
+    "390x844/recover": {
+      "screen": true,
+      "noOldView": true,
+      "policy": true,
+      "problems": true,
+      "form": true,
+      "secret": true,
+      "offered": true,
+      "noCodeHint": true,
+      "recovered": true,
+      "codeNotKept": true,
+      "continueToMatch": true
+    },
+    "390x844/role-ready": {
+      "screen": true,
+      "noOldView": true,
+      "policy": true,
+      "problems": true,
+      "ready": true,
+      "readySent": true,
+      "count": true
+    },
+    "390x844/settings": {
+      "screen": true,
+      "noOldView": true,
+      "policy": true,
+      "problems": true,
+      "title": true,
+      "sheet": true,
+      "display": true,
+      "sizes": true,
+      "note": true,
+      "hostRow": true,
+      "noOldControls": true,
+      "nothingSent": true,
+      "largest": true,
+      "stored": true,
+      "oneInstance": true,
+      "focusKept": true
+    },
+    "390x844/stale": {
+      "screen": true,
+      "noOldView": true,
+      "policy": true,
+      "problems": true,
+      "stale": true,
+      "keptGrid": true,
+      "portraitsKept": true,
+      "artKept": true,
+      "retryReads": true
+    },
+    "430x932/boarding": {
+      "screen": true,
+      "noOldView": true,
+      "policy": true,
+      "problems": true,
+      "stage": true,
+      "holding": true,
+      "noSkip": true
+    },
+    "430x932/characters": {
+      "screen": true,
+      "noOldView": true,
+      "policy": true,
+      "problems": true,
+      "select": true,
+      "grid": true,
+      "offered": true,
+      "clock": true,
+      "portraits": true,
+      "art": true,
+      "chosen": true
+    },
+    "430x932/host-abort": {
+      "screen": true,
+      "noOldView": true,
+      "policy": true,
+      "problems": true,
+      "title": true,
+      "confirm": true,
+      "footer": true,
+      "notSent": true,
+      "keepBack": true,
+      "abortSent": true,
+      "reopensSettings": true
+    },
+    "430x932/host-code": {
+      "screen": true,
+      "noOldView": true,
+      "policy": true,
+      "problems": true,
+      "title": true,
+      "issued": true,
+      "card": true,
+      "masked": true,
+      "note": true,
+      "noMinutes": true,
+      "footer": true,
+      "groups": true
+    },
+    "430x932/host-code-revealed": {
+      "screen": true,
+      "noOldView": true,
+      "policy": true,
+      "problems": true,
+      "revealed": true,
+      "footer": true,
+      "groups": true,
+      "copied": true,
+      "toast": true,
+      "refusedCopy": true,
+      "hidden": true,
+      "backToList": true,
+      "closedCodeCleared": true,
+      "concealedCodeCleared": true
+    },
+    "430x932/host-controls": {
+      "screen": true,
+      "noOldView": true,
+      "policy": true,
+      "problems": true,
+      "title": true,
+      "back": true,
+      "close": true,
+      "commands": true,
+      "seats": true,
+      "noCode": true,
+      "noOldControls": true,
+      "deadlineSent": true,
+      "receipt": true
+    },
+    "430x932/recover": {
+      "screen": true,
+      "noOldView": true,
+      "policy": true,
+      "problems": true,
+      "form": true,
+      "secret": true,
+      "offered": true,
+      "noCodeHint": true,
+      "recovered": true,
+      "codeNotKept": true,
+      "continueToMatch": true
+    },
+    "430x932/role-ready": {
+      "screen": true,
+      "noOldView": true,
+      "policy": true,
+      "problems": true,
+      "ready": true,
+      "readySent": true,
+      "count": true
+    },
+    "430x932/settings": {
+      "screen": true,
+      "noOldView": true,
+      "policy": true,
+      "problems": true,
+      "title": true,
+      "sheet": true,
+      "display": true,
+      "sizes": true,
+      "note": true,
+      "hostRow": true,
+      "noOldControls": true,
+      "nothingSent": true,
+      "largest": true,
+      "stored": true,
+      "oneInstance": true,
+      "focusKept": true
+    },
+    "430x932/stale": {
+      "screen": true,
+      "noOldView": true,
+      "policy": true,
+      "problems": true,
+      "stale": true,
+      "keptGrid": true,
+      "portraitsKept": true,
+      "artKept": true,
+      "retryReads": true
+    }
+  },
+  "sessionJourneys": {
+    "390x844": {
+      "recover-normal": {
+        "recoveredConfirmation": true,
+        "gameMountedBeforeContinue": false,
+        "codeInStorage": false,
+        "sentCount": 1,
+        "exactRetry": false
+      },
+      "recover-retry": {
+        "recoveredConfirmation": true,
+        "gameMountedBeforeContinue": false,
+        "codeInStorage": false,
+        "sentCount": 2,
+        "exactRetry": true
+      },
+      "host": {
+        "sessionCleared": true,
+        "documentCleared": true,
+        "detachedBodyStillHasCode": false,
+        "bodyReused": false,
+        "codeInDocumentAfterReopening": false
+      },
+      "refused-choice": {
+        "sessionHasRefusal": true,
+        "screenShowsRefusal": true
+      },
+      "films": {
+        "concealedClearsRole": true,
+        "withheldUntilFreshRead": true,
+        "roleSkipLocal": true,
+        "boardingSkipLocal": true,
+        "waitedForRunning": true,
+        "pregameVideoPaths": [],
+        "gameVideoPaths": [
+          "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+          "/art/planet-library/rescue.eccab99be1.mp4",
+          "/art/planet-library/transit.6e338df52f.mp4",
+          "/art/planet-library/arrival-blue.5a905ac795.mp4",
+          "/art/planet-library/arrival-red.11cc978817.mp4"
+        ],
+        "readyBusy": true,
+        "roleShowsWhileBusy": false,
+        "showRoleOfferedWhileBusy": false
+      },
+      "brand": {
+        "brandSvg": true,
+        "menuAfterBrand": true,
+        "brandRepeatsAfterHostAndBack": 0
+      }
+    },
+    "430x932": {
+      "recover-normal": {
+        "recoveredConfirmation": true,
+        "gameMountedBeforeContinue": false,
+        "codeInStorage": false,
+        "sentCount": 1,
+        "exactRetry": false
+      },
+      "recover-retry": {
+        "recoveredConfirmation": true,
+        "gameMountedBeforeContinue": false,
+        "codeInStorage": false,
+        "sentCount": 2,
+        "exactRetry": true
+      },
+      "host": {
+        "sessionCleared": true,
+        "documentCleared": true,
+        "detachedBodyStillHasCode": false,
+        "bodyReused": false,
+        "codeInDocumentAfterReopening": false
+      },
+      "refused-choice": {
+        "sessionHasRefusal": true,
+        "screenShowsRefusal": true
+      },
+      "films": {
+        "concealedClearsRole": true,
+        "withheldUntilFreshRead": true,
+        "roleSkipLocal": true,
+        "boardingSkipLocal": true,
+        "waitedForRunning": true,
+        "pregameVideoPaths": [],
+        "gameVideoPaths": [
+          "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+          "/art/planet-library/rescue.eccab99be1.mp4",
+          "/art/planet-library/transit.6e338df52f.mp4",
+          "/art/planet-library/arrival-blue.5a905ac795.mp4",
+          "/art/planet-library/arrival-red.11cc978817.mp4"
+        ],
+        "readyBusy": true,
+        "roleShowsWhileBusy": false,
+        "showRoleOfferedWhileBusy": false
+      },
+      "brand": {
+        "brandSvg": true,
+        "menuAfterBrand": true,
+        "brandRepeatsAfterHostAndBack": 0
+      }
+    }
+  },
+  "screenshots": {
+    "guarded/390x844-recovered.jpg": {
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "4fab326d03a2731e044453e0bfaa3d54aa2b48c9bfc4187422342540054a1c45"
+    },
+    "guarded/390x844-character-refusal.jpg": {
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "8ad2921e2d1cc5e85bd7a0d9b9ca91f204f877a50709074ada81f03a350fb2ab"
+    },
+    "guarded/390x844-ready-pending.jpg": {
+      "pixels": [
+        390,
+        844
+      ],
+      "sha256": "d813d0bdfb6ba65c6a9e08bfaf55c8293205bbb914b7988f1fba1e02de1f63a4"
+    },
+    "guarded/390x844-host-code.jpg": {
+      "pixels": [
+        780,
+        1688
+      ],
+      "sha256": "10f5c14e4db73d0abc8342d3cc96d8a77c0d3cb664fc67c0c96422651af3cd21"
+    },
+    "guarded/430x932-recovered.jpg": {
+      "pixels": [
+        430,
+        932
+      ],
+      "sha256": "35de4780baefd319b09c07e7cffe1b5194837ca8aab1ac57a53fea8347060cd7"
+    },
+    "guarded/430x932-character-refusal.jpg": {
+      "pixels": [
+        430,
+        932
+      ],
+      "sha256": "2d9066f36edd75d2f273b8efa00faddabff1f21667a69d89876ccb4c9e625019"
+    },
+    "guarded/430x932-ready-pending.jpg": {
+      "pixels": [
+        430,
+        932
+      ],
+      "sha256": "f54d8f560edf6368d17a42c15db0dc9522ea19dcdfbf91aae5b03eadc3203769"
+    },
+    "guarded/430x932-host-code.jpg": {
+      "pixels": [
+        860,
+        1864
+      ],
+      "sha256": "c4e1b8892da21d396ed7f545c65c1ac77d4b74508a926c464af952e7231dc895"
+    }
+  }
+}

@@ -1,0 +1,264 @@
+{
+  "tool": "design/tools/phone-ui-native-compare.mjs",
+  "createdAt": "2026-11-18T13:21:44.761Z",
+  "browser": "Google Chrome 157.0.8103.80",
+  "view": "Drawn at each part's phone size, 1.5× pixels",
+  "pack": {
+    "commit": "39961a807d811aa2efb177f888302da17f0c2431",
+    "dirty": false
+  },
+  "build": {
+    "folder": "local pre-game review harness",
+    "head": "39961a807d811aa2efb177f888302da17f0c2431",
+    "dirty": false,
+    "artwork": "64e55516d2f0026842c5c2a675f2eccda20e0a9e"
+  },
+  "findingsDate": null,
+  "count": 9,
+  "parts": [
+    {
+      "id": "recover",
+      "stage": "start",
+      "title": "Recover a seat",
+      "sheet": "14",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=recover&state=entry&safe=47%2C34",
+        "image": "img/recover-pack.jpg",
+        "width": 585,
+        "height": 1266,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=join&count=9&tuple=phone",
+        "steps": [
+          [
+            "wait",
+            4500
+          ],
+          [
+            "tap",
+            "#planet-entry-recover, .planet-pregame-host [data-intent=\"recover\"]"
+          ],
+          [
+            "wait",
+            600
+          ]
+        ],
+        "image": "img/recover-build.jpg",
+        "width": 585,
+        "height": 1266,
+        "log": [
+          "tap: Recover my seat"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "close",
+        "note": "The same two fields. The line saying the host makes the code, and that it never appears on the shared display, is missing."
+      },
+      "now": null
+    },
+    {
+      "id": "characters",
+      "stage": "pregame",
+      "title": "Character selection",
+      "sheet": "16",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=choose&state=open&safe=47%2C34",
+        "image": "img/characters-pack.jpg",
+        "width": 585,
+        "height": 1266,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=choosing&count=9&tuple=phone&flow=3",
+        "steps": [],
+        "image": "img/characters-build.jpg",
+        "width": 585,
+        "height": 1266,
+        "log": [],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "close",
+        "note": "The 3 × 3 grid, taken characters greyed, the 30-second rule. The timer is small text under the grid instead of in the header."
+      },
+      "now": null
+    },
+    {
+      "id": "role-ready",
+      "stage": "pregame",
+      "title": "Ready, at 30 s",
+      "sheet": "17",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=role&t=30000&safe=47%2C34",
+        "image": "img/role-ready-pack.jpg",
+        "width": 585,
+        "height": 1266,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=reading&count=9&tuple=phone&flow=3&elapsed=30500",
+        "steps": [
+          [
+            "wait",
+            800
+          ]
+        ],
+        "image": "img/role-ready-build.jpg",
+        "width": 585,
+        "height": 1266,
+        "log": [],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "Ready works, under the text box. The design shows the card with “Hide your phone, then tap Ready”."
+      },
+      "now": null
+    },
+    {
+      "id": "settings",
+      "stage": "panels",
+      "title": "Settings (⋮)",
+      "sheet": "32",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=settings&safe=47%2C34",
+        "image": "img/settings-pack.jpg",
+        "width": 585,
+        "height": 1266,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=board&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-top-settings, .ms-ps-tb [data-intent=\"menu\"]"
+          ],
+          [
+            "wait",
+            500
+          ],
+          [
+            "tap",
+            "summary, .ms-ps-sheet .ms-ps-sheet-title"
+          ],
+          [
+            "wait",
+            500
+          ]
+        ],
+        "image": "img/settings-build.jpg",
+        "width": 585,
+        "height": 1266,
+        "log": [
+          "tap: Settings",
+          "tap: Settings"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "A checkbox and a drop-down under a folded line. The design has a switch with its explanation and Standard / Large / Largest."
+      },
+      "now": null
+    },
+    {
+      "id": "host-controls",
+      "stage": "system",
+      "title": "Host controls in a match",
+      "sheet": "15",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=host-controls&safe=47%2C34",
+        "image": "img/host-controls-pack.jpg",
+        "width": 585,
+        "height": 1266,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=board&count=9&tuple=phone",
+        "steps": [
+          [
+            "eval",
+            "(() => { const h = window.planetHarness, v = structuredClone(h.value); v.isHost = true; return h.replace(v); })()"
+          ],
+          [
+            "wait",
+            600
+          ],
+          [
+            "tap",
+            "#planet-top-settings, .ms-ps-tb [data-intent=\"menu\"]"
+          ],
+          [
+            "wait",
+            500
+          ],
+          [
+            "tap",
+            "summary, .ms-settings-sheet [data-intent=\"host-controls\"]"
+          ],
+          [
+            "wait",
+            500
+          ],
+          [
+            "reveal",
+            "Check server deadline|Check the deadline"
+          ],
+          [
+            "wait",
+            400
+          ]
+        ],
+        "image": "img/host-controls-build.jpg",
+        "width": 585,
+        "height": 1266,
+        "log": [
+          null,
+          "tap: Settings",
+          "tap: Host controlsBots, deadlines, recovery, abort",
+          "reveal: Check the deadlineAsks the server to move on if time is up"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "Inside Settings, as “Check server deadline”, “Run eligible bots” and “Issue recovery for Player 6”. The design has its own sheet in plain words with a code for each seat."
+      },
+      "now": null
+    }
+  ],
+  "stageSheets": [
+    "stages/01-start.jpg",
+    "stages/02-pregame.jpg",
+    "stages/03-panels.jpg",
+    "stages/04-system.jpg"
+  ]
+}
