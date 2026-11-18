@@ -690,6 +690,27 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - **The game.** The look reaches the game through Designer's room scene, with Frontend's and Integration's review. A check of the drawing's speed on a phone comes first.
 - **The tokens and the room scene** change through Designer's PRs. This record approves the direction, not a release.
 
+**The food capsule kept, minutes later.**
+- The owner added, word for word:
+
+> Just don't forget in each room you have a food capsule characters eating from eat like past
+
+**What it decides:**
+- **Every room in the new look keeps its food capsule and its eating visits**, as the ship-life package has them (#230). The owner approved that package on 11 November ("approved, go with a fifth wider"). It covers:
+  - the capsule: a steel housing, a paper hatch, a tray, a vent and a light;
+  - its three states: a warm glow when stocked, dark glass when empty, a steel shutter when not known;
+  - the visit: after a turn, walk over, open, eat facing the room, put the wrapper back and walk home, in 6.5 to 7.7 s.
+  - The Hospital has none, as approved then.
+- **In Room B,** the Pre-game Animation builder gives the capsule a counter place in the new layout, as in view as it can be from the five places.
+  - It is painted like the other furniture in every view that shows it.
+  - Its light and shutter are drawn by code.
+  - The people's visits are drawn by code with the new people.
+- **Mira's view (A) was painted without it.** If the capsule falls in that frame, view A needs one more masked edit, and the Lead asks the owner for that spend first.
+
+**What it does not settle:**
+- **The capsule's exact place.** It comes with the staging of the four views, for the Lead's review.
+- **The food contract.** The visits play in the game only once Integration and Backend give each room's food availability, with its audience, and the turn endings, as the ship-life package's adoption requirements say.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
