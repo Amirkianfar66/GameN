@@ -28,7 +28,7 @@ import {EVERY_ROLE_TILES,ROLE_TILES,actionsCancel,actionsFlow,actionsHandlers,ac
 import {mountPanels} from '../../../../design/phone-ui/components/panels/panels.mjs';
 import {panelsHandlers,panelsPart,panelsView} from './panels-input.mjs';
 import {mountPromises} from '../../../../design/phone-ui/components/promises/promises.mjs';
-import {PROMISE_COMMANDS,promisesFlow,promisesHandlers,promisesPart,promisesRefusal,withoutRefusal} from './promises-input.mjs';
+import {PROMISE_COMMANDS,promisesDrafting,promisesFlow,promisesHandlers,promisesPart,promisesRefusal,withoutRefusal} from './promises-input.mjs';
 import {refusalStatus} from './refusal-words.mjs';
 
 const windowNames={A_B:'Room A ↔ Room B',A_HOSPITAL:'Room A ↔ Hospital',B_JAIL:'Room B ↔ Jail'};
@@ -487,7 +487,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   // The viewer's own person as last given, for the Card tab while the connection isn't live (shell-input.mjs ownPersonSeen).
   ownSeen=ownPersonSeen(ownSeen,model);
   serverClock.observe(model);
-  const closed=phaseClosed(before,model);before=model;
+  // `promises` is still the paint before's flow here: a Promise drafted then is an open choice too (the Lead, 18 November).
+  const closed=phaseClosed(before,model,{drafting:promisesDrafting(promises)});before=model;
   // Only the exact Food tuple supplies these sanitized public facts. Ordinary
   // phones and the display get the same gauge, beside the shell's clock; no private Task is consulted.
   const clockSlot=shell.slot('clock');

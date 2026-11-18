@@ -35,6 +35,7 @@
 //   refused-blur                and with a blur: the sheet closes; the app's own blur interrupts the connection
 //   refused-concealed           and with a hidden page: nothing of them stays, nor when the page shows again
 //   refused-phase-closed        and with the talk: the sheet closes with its phase, and no words are left
+//   promise-draft-closed        a draft open when the talk's time runs out: the shell's phase-closed toast, once
 //   promise-results             after the talk: Received and Given with their status
 // And at 320 × 568 with the Largest text (the Lead's and the Bars & Icons builder's ask with shell 0.3.3):
 //   promise-incoming-largest    the partner's offer, the first game sheet the shell squeezes: its head and room
@@ -330,8 +331,8 @@ const STEPS = {
     await page.evaluate(tap(TOP_PROMISES));
     await page.waitFor(`${SHEET('promises')}&&${PVIEW('list')}`, 'Promises');
   },
-  /** Jail Vote with Crew 3, offered: the controller's own check refuses it, and its words show in the sheet. */
-  refused: async page => {
+  /** The terms of a Jail Vote for Crew 3, drafted and not sent: the six kinds, Jail Vote, Next, Crew 3, Next. */
+  terms: async page => {
     await STEPS.promises(page);
     await page.evaluate(tap(PROW('offer')));
     await page.waitFor(PVIEW('kinds'), 'the six kinds');
@@ -343,6 +344,10 @@ const STEPS = {
     await page.waitFor(PRESSED(PICK(3)), 'Crew 3 chosen');
     await page.evaluate(tap(FOOT('next')));
     await page.waitFor(PVIEW('confirm'), 'the terms');
+  },
+  /** Jail Vote with Crew 3, offered: the controller's own check refuses it, and its words show in the sheet. */
+  refused: async page => {
+    await STEPS.terms(page);
     await page.evaluate(tap(FOOT('offer')));
     await page.waitFor(NOTE, 'the refusal\'s words in the sheet');
   },
@@ -937,15 +942,35 @@ const STATES = {
   // The talk's phase ends under the words: the sheet closes with it (the controller clears the panel at a new phase),
   // and nothing of them is left. The harness answers every command, so the server's own "The server closed that
   // phase." cannot be drawn here: the connection never shows those words in a sheet (refusal-words.mjs, and
-  // apps/game/test/planet-refusals.test.mjs on the real controller). No phase-closed toast here: the shell's
-  // phaseClosed() looks for a choice the controller holds, and the refused offer left none.
+  // apps/game/test/planet-refusals.test.mjs on the real controller). No phase-closed toast here: the refused offer
+  // left no choice in the controller, and a draft showing a refusal's words is not one (promisesDrafting()).
   'refused-phase-closed': { page: 'phone', url: 'scenario=promises', steps: async page => {
       await STEPS.refused(page);
       await page.evaluate(edit("p.phase={id:'after-talk',kind:'ORDINARY_TURN',startedAt:now,endsAt:now+60000};p.hackSession=null;p.activeSeatId='seat-2'"));
       await page.waitFor(`${game}.getModel().phase?.kind==='ORDINARY_TURN'&&!${NOTE}`, 'the turn after the talk');
     },
     facts: s => ({ sheetClosed: s.sheet === null && s.promises === null, noNote: s.notes === 0 && !s.page.includes(REFUSED_WORDS), statusClear: s.status === null,
-      noCommand: s.commands.length === 0, infoToast: s.toast }) },
+      noCommand: s.commands.length === 0, noToast: s.toast === null }) },
+  // A Promise being drafted when the talk's time runs out (the Lead, 18 November): the terms open and unsent, and the
+  // talk's 60 s moved so that it ends 1.2 s on. At 0:00 the sheet closes under the player's thumb, and the shell's
+  // toast says why, once (shell-input.mjs phaseClosed(), told of the draft by promises-input.mjs promisesDrafting());
+  // nothing is sent. Then the turn after the talk arrives: the same closed phase gives no second toast.
+  'promise-draft-closed': { page: 'phone', url: 'scenario=promises', steps: async page => {
+      await STEPS.terms(page);
+      await page.evaluate(edit("const length=p.phase.endsAt-p.phase.startedAt;p.phase={...p.phase,startedAt:now+1200-length,endsAt:now+1200}"));
+      await page.waitFor("document.querySelector('.ms-ps-toast')", 'the toast when the time is up', 8000);
+      await page.evaluate(`window.__matchBefore={expired:${game}.getModel().phase?.expired===true,phase:${game}.getModel().phase?.id??null}`);
+    },
+    facts: s => ({ toast: s.toast === 'That phase closed · choices cleared', sheetClosed: s.sheet === null && s.promises === null, timeUp: s.before?.expired === true && s.before.phase === 'planet-phase-HACK',
+      noDraft: s.model?.action === null, statusClear: s.status === null, noCommand: s.commands.length === 0 }),
+    after: async page => {
+      await page.waitFor("!document.querySelector('.ms-ps-toast')", 'the toast gone after its time', 6000);
+      await page.evaluate(edit("p.phase={id:'after-talk',kind:'ORDINARY_TURN',startedAt:now,endsAt:now+60000};p.hackSession=null;p.activeSeatId='seat-2'"));
+      await page.waitFor(`${game}.getModel().phase?.id==='after-talk'&&${game}.getModel().phase.trusted&&!${game}.getModel().phase.expired`, 'the turn after the talk');
+      await sleep(500);
+      const seen = await page.evaluate(LOOK);
+      return { notAgain: seen.toast === null && seen.commands.length === 0, nextTurn: seen.model?.phase === 'ORDINARY_TURN' };
+    } },
   // The results (sheet 33.1), after the talk: Received and Given with their status, names and portraits.
   'promise-results': { page: 'phone', url: 'scenario=promise-results', steps: async page => {
       await page.evaluate(edit("p.phase={id:'after-talk',kind:'ORDINARY_TURN',startedAt:now,endsAt:now+60000};p.hackSession=null;p.activeSeatId='seat-2'"));

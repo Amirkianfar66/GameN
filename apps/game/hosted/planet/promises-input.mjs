@@ -119,6 +119,15 @@ export function promisesFlow(flow,model){
 export const promisesRefusal=flow=>flow?.error??null;
 /** The flow without a refusal's words: the player's next intent clears them (R2). */
 export function withoutRefusal(flow){if(!flow)return flow;const {error,errorAt,...rest}=flow;return rest;}
+/**
+ * A Promise being drafted on this phone, for the shell's phaseClosed() (the Lead Designer, 18 November 2026; the
+ * rule is Bars & Icons'): `true` exactly while the kinds, the target or the terms are open, with nothing being sent
+ * and no refusal's words showing. The list, the partner's offer, a draft being sent or just accepted (the list again),
+ * a refused one and no flow are `false`. It reads this phone's own flow alone. The renderer gives it the flow of the
+ * paint before, so a draft that the talk's end closes gets the phase-closed toast, once.
+ */
+const DRAFTING=new Set(['kinds','target','confirm']);
+export const promisesDrafting=flow=>!!flow&&DRAFTING.has(flow.view)&&!flow.sent&&!flow.error;
 
 /** The component's whole input for the open view, with the shell's status ('live', 'stale' or 'concealed') and the device's Reduce motion. */
 export function promisesInput(model,{flow=null,status='live',reducedMotion=false}={}){

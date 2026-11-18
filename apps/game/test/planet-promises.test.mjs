@@ -2,9 +2,10 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {PLANET_BLACKOUT_PINS} from '@mothership/contracts';
 import {planetPromiseTerms} from '@mothership/presentation';
-import {PROMISES_NOT_AVAILABLE,PROMISES_SHEET_ID,PROMISES_START,PROMISE_COMMANDS,promisesFlow,promisesFrame,promisesGiven,promisesHandlers,promisesIncoming,promisesInput,promisesOpen,
- promisesPart,promisesPartner,promisesReceived,promisesToast} from '../hosted/planet/promises-input.mjs';
-import {shellChip,shellHandlers,shellInput,shellSheet,shellTarget,shellToast} from '../hosted/planet/shell-input.mjs';
+import {PROMISES_NOT_AVAILABLE,PROMISES_SHEET_ID,PROMISES_START,PROMISE_COMMANDS,promisesDrafting,promisesFlow,promisesFrame,promisesGiven,promisesHandlers,promisesIncoming,promisesInput,
+ promisesOpen,promisesPart,promisesPartner,promisesReceived,promisesToast} from '../hosted/planet/promises-input.mjs';
+import {phaseClosed,shellChip,shellHandlers,shellInput,shellSheet,shellTarget,shellToast} from '../hosted/planet/shell-input.mjs';
+import {PHASE_CLOSED_WORDS} from '../hosted/planet/refusal-words.mjs';
 import {PROMISES_DEFAULTS,nextPromisesInput,promisesSheet} from '../../../design/phone-ui/components/promises/promises.mjs';
 import {nextPhoneShellInput,PHONE_SHELL_DEFAULTS} from '../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
 
@@ -193,6 +194,36 @@ test('the view and the draft are this phone\'s own, kept to what the model allow
  assert.deepEqual(shellInput(model(),{view:'room',room:'capsule',promises:kinds}).sheet,promisesFrame(model(),{flow:kinds}));
  assert.deepEqual(shellInput(model(),{view:'room',room:'capsule',promises:kinds}).sheet.actions.map(a=>[a.id,a.enabled]),[['next',true]]);
  assert.equal(promisesFrame(model(),{flow:{view:'incoming',kind:null,target:null}}).title,'Offer from Crew 1');
+});
+
+test('a Promise being drafted is an open choice for the shell\'s phase-closed toast: the kinds, the target or the terms, unsent, with no refusal\'s words',()=>{
+ // The Lead, 18 November 2026; the rule is Bars & Icons' phaseClosed(), which takes nothing but `true` for a draft.
+ const draft={view:'confirm',kind:'MEET_A',target:null};
+ for(const view of ['kinds','target','confirm'])assert.equal(promisesDrafting({view,kind:'JAIL_VOTE',target:3}),true,view);
+ assert.equal(promisesDrafting({view:'kinds',kind:null,target:null}),true,'no kind chosen yet');
+ // Not a draft: the list, the partner's offer, no flow, a send under way, a refused one showing its words.
+ for(const flow of [PROMISES_START,{view:'incoming',kind:null,target:null},{view:'incoming',kind:null,target:null,sent:'ACCEPT_PROMISE'},null,undefined,
+  {...draft,sent:'OFFER_PROMISE'},{...draft,error:'Not allowed.',errorAt:7},{view:'other',kind:'MEET_A',target:null}])
+  assert.equal(promisesDrafting(flow),false,JSON.stringify(flow)??'undefined');
+ // The flow as promisesFlow keeps it: the panel closed, the talk over or its time up, a command's receipt: no draft.
+ assert.equal(promisesDrafting(promisesFlow(draft,model({panel:'board'}))),false,'the panel closed');
+ assert.equal(promisesDrafting(promisesFlow(draft,model({phase:turn}))),false,'the talk over');
+ assert.equal(promisesDrafting(promisesFlow(draft,model({phase:{...talking,nowMs:60000,remainingMs:0,expired:true}}))),false,'its time up');
+ assert.equal(promisesDrafting(promisesFlow(draft,model({action:act('OFFER_PROMISE','accepted')}))),false,'the offer registered');
+ assert.equal(promisesDrafting(promisesFlow(draft,model())),true,'the terms, still open');
+ // A send answered with Frontend's own words (the server closed the phase) leaves the terms open again, unsent.
+ assert.equal(promisesDrafting(promisesFlow({...draft,sent:'OFFER_PROMISE'},model({message:PHASE_CLOSED_WORDS}))),true,'the send over, the terms again');
+ // With the shell's rule, a draft that the talk's end closes gets the toast once, with sheet 45's words.
+ const next=model({phase:turn,panel:'board'}),expired=model({phase:{...talking,nowMs:60000,remainingMs:0,expired:true}});
+ const closed=phaseClosed(model(),next,{drafting:promisesDrafting(draft)});
+ assert.deepEqual(closed,{id:'talk-1'});assert.deepEqual(phaseClosed(model(),expired,{drafting:promisesDrafting(draft)}),{id:'talk-1'});
+ assert.deepEqual(shellToast(next,{closed}),{id:'closed:talk-1',text:'That phase closed · choices cleared',icon:'info'});
+ // No draft, no toast: the list, the partner's offer, a send under way (the server's words say what happened), a refusal.
+ for(const flow of [PROMISES_START,{view:'incoming',kind:null,target:null},{...draft,sent:'OFFER_PROMISE'},{...draft,error:'Not allowed.',errorAt:7},null])
+  assert.equal(phaseClosed(model(),next,{drafting:promisesDrafting(flow)}),null,JSON.stringify(flow));
+ assert.equal(phaseClosed(model({action:act('OFFER_PROMISE','sending')}),next,{drafting:promisesDrafting({...draft,sent:'OFFER_PROMISE'})}),null,'sending');
+ // The same talk still running: the draft is still open. No toast.
+ assert.equal(phaseClosed(model(),model({phase:{...talking,nowMs:2000,remainingMs:58000}}),{drafting:promisesDrafting(draft)}),null);
 });
 
 test('the part in the sheet\'s body, and a command\'s receipt in the shell\'s toast in Frontend\'s words',()=>{
