@@ -23,6 +23,8 @@
 //   panels                      the Panels tab: its five rows with their lines, this room's windows; Windows opens, Back returns
 //   players                     Players: the nine seats' public facts, the Captain and Officer, injured, in Jail, eliminated
 //   round-order                 Round order: the game's steps for the tuple, in its order and words, each with its icon
+//   panels-food, players-away   the frozen Food release while players are away on its Task: the Panels tab from the Task's
+//                               own tabs, with its Tasks button after the list; Players, the game's own lines alone
 // A capture passes with no unexpected policy report, no failed request and no page error; the shell mounted with
 // the stage in it and none of the old chrome; and the state's own facts. It writes
 // design/phone-ui/review/match-connection/: one JPEG per state and size, and check.json (the headers and their
@@ -168,7 +170,7 @@ const LOOK = `(() => {
   const control = b => ({ intent: b.dataset.intent, value: b.dataset.value ?? null, label: b.getAttribute('aria-label') ?? text(b), expanded: b.getAttribute('aria-expanded'), disabled: b.getAttribute('aria-disabled') === 'true', busy: b.getAttribute('aria-busy') === 'true', box: box(b) });
   const bar = q('.ms-ps-tb'), tabs = q('.ms-ps-tabs'), hero = q('.ms-ps-hero'), sheet = q('.ms-ps-sheet'), target = q('.ms-ps-target'), banner = q('.ms-ps-banner');
   const part = document.querySelector(${JSON.stringify(ACTIONS)}), body = q('.ms-ps-sheet-body', sheet);
-  const harness = window.planetHarness, model = harness?.app.game?.getModel() ?? null;
+  const harness = window.planetHarness ?? window.foodAppHarness, model = harness?.app.game?.getModel() ?? null;
   return {
     shell: shell ? { status: shell.dataset.status, tabs: shell.dataset.tabs, box: box(shell) } : null,
     bar: bar ? { kind: bar.dataset.kind, tone: bar.getAttribute('data-tone'), name: text(q('.ms-ps-name', bar)), sub: text(q('.ms-ps-sub', bar)), clock: text(q('.ms-ps-timer', bar)), controls: all('button', bar).length } : null,
@@ -180,7 +182,7 @@ const LOOK = `(() => {
     toast: text(q('.ms-ps-toast')),
     sheet: sheet ? { id: sheet.dataset.sheet, title: text(q('.ms-ps-sheet-title h2', sheet)), sub: q('.ms-ps-sheet-title p', sheet)?.hidden ? null : text(q('.ms-ps-sheet-title p', sheet)),
       back: !!q('[data-intent="sheet-back"]', sheet), close: !!q('[data-intent="sheet-close"]', sheet), foot: all('.ms-ps-sheet-foot button', sheet).map(control),
-      game: (() => { const g = q('.ms-ps-sheet-body > .planet-sheet-body', sheet); return g ? { text: text(g).slice(0, 200), buttons: [...g.querySelectorAll('button')].map(b => b.id || text(b)) } : null; })(),
+      game: (() => { const g = q('.ms-ps-sheet-body > .planet-sheet-body', sheet); return g ? { text: text(g).slice(0, 200), buttons: [...g.querySelectorAll('button')].map(b => b.id || text(b)), lines: [...g.querySelectorAll('p')].map(text) } : null; })(),
       children: body ? [...body.children].map(n => n.dataset.part ?? n.className.split(' ')[0]) : [], box: box(sheet) } : null,
     actions: part ? { part: part.dataset.part, status: part.dataset.status, first: body?.firstElementChild === part,
       head: part.querySelector('.ms-k-section-head') ? [text(part.querySelector('.ms-k-section-title')), text(part.querySelector('.ms-k-section-aside'))].join('|') : null,
@@ -218,8 +220,9 @@ const LOOK = `(() => {
     before: window.__matchBefore ?? null,
     model: model ? { connection: model.connection, concealed: model.concealed, phase: model.phase?.kind ?? null, panel: model.panel, ownSeatId: model.ownSeatId, round: model.round,
       own: (seat => seat ? seat.location + ' ' + seat.slotId : null)(model.board?.seats?.find(x => x.seatId === model.ownSeatId)),
-      action: model.action ? { type: model.action.type, step: model.action.step, selected: model.action.selected } : null, recovery: model.recovery } : null,
-    commands: (window.planetHarness?.requests ?? []).filter(r => r.operation === 'command').map(r => ({ type: r.request.command.type, ...r.request.command })),
+      action: model.action ? { type: model.action.type, step: model.action.step, selected: model.action.selected } : null, recovery: model.recovery,
+      food: model.food?.step ? { step: model.food.step.kind, away: model.food.step.awaySeatIds ?? null } : null } : null,
+    commands: (window.planetHarness?.requests ?? window.foodAppHarness?.sent ?? []).filter(r => r.operation === 'command').map(r => ({ type: r.request.command.type, ...r.request.command })),
     page: document.body.innerText,
     violations: window.__policy,
   };
@@ -524,8 +527,9 @@ const STATES = {
     facts: s => ({ frame: s.sheet?.id === 'panels' && s.sheet.title === 'Panels' && s.sheet.sub === null && s.sheet.close && !s.sheet.back && !s.sheet.foot.length,
       partOnly: !!s.panels?.first && s.sheet.children.join() === 'ms-panels' && s.sheet.game === null, view: s.panels?.view === 'list' && s.panels.label === 'Panels',
       rows: rows(s, 'value') === 'windows|navigation|hospital|players|round-order', titles: rows(s, 'title') === 'Windows|Navigation|Hospital panel|Players|Round order',
-      // This room's windows (Room B: to Room A and to the Jail), then item 29's owner-approved words.
-      lines: rows(s, 'sub') === 'Room A ↔ Room B · Room B ↔ Jail|Captain and Officer only|Patients only|Seats, rooms and public status|Phases and timings',
+      // This room's windows (Room B: to Room A and to the Jail), then item 29's owner-approved words; the game gives no
+      // timings, so Round order's line is the Lead's "The phases, in order" (panels-0.1.1).
+      lines: rows(s, 'sub') === 'Room A ↔ Room B · Room B ↔ Jail|Captain and Officer only|Patients only|Seats, rooms and public status|The phases, in order',
       icons: rows(s, 'icon') === 'window|course|panel|players|rules', open: s.panels?.rows.every(r => !r.off && r.chevron),
       tabOpen: s.tabs?.buttons.find(b => b.value === 'panels')?.expanded === 'true', noCommand: s.commands.length === 0 }),
     after: async page => {
@@ -582,6 +586,37 @@ const STATES = {
       await page.waitFor("!document.querySelector('.ms-ps-sheet')", '✕ closed it');
       const seen = await page.evaluate(LOOK);
       return { closes: seen.panels === null && seen.model?.panel === 'board' };
+    } },
+  // ── The frozen Food release while players are away on its Task (answers 4 and 7; the Lead, 18 November): the
+  // viewer (Fay) stays aboard while Cleo and Hana are away, and opens Panels from the Task's own tabs ──
+  'panels-food': { page: 'food', url: 'case=food-flow-09&safe=0,0', steps: async page => {
+      await page.waitFor("document.querySelector('.planet-app')?.dataset.foodChrome==='true'&&document.querySelector('[data-tab=\"panels\"]')", 'the Food Task\'s own tabs');
+      await page.evaluate(tap('[data-tab="panels"]'));
+      await page.waitFor(`${SHEET('panels')}&&${VIEW('list')}`, 'the game\'s Panels tab');
+    },
+    facts: s => ({ frame: s.sheet?.title === 'Panels' && !s.sheet.back, away: s.model?.food?.step === 'AWAY' && s.model.food.away?.join() === 'seat-3,seat-8',
+      // The component's list first, then the Food release's own Tasks button (answer 7).
+      partThenTasks: !!s.panels?.first && s.sheet.children.join() === 'ms-panels,planet-sheet-body' && s.sheet.game?.buttons.join() === 'Tasks',
+      rows: rows(s, 'value') === 'windows|navigation|hospital|players|round-order', order: s.panels?.rows.at(-1)?.sub === 'The phases, in order' }) },
+  'players-away': { from: 'panels-food', steps: async page => {
+      await page.evaluate(tap(OPEN('players')));
+      await page.waitFor(`${SHEET('panels')}&&document.querySelector('.ms-ps-sheet-title h2')?.textContent==='Players'&&!document.querySelector(${JSON.stringify(PANELS)})`, 'Players, the game\'s own lines');
+    },
+    // Exactly one list (the Lead's check before the push): the component is not mounted, and the game's own line for
+    // each seat says who is away.
+    facts: s => {
+      const lines = s.sheet?.game?.lines ?? [];
+      return { frame: s.sheet?.id === 'panels' && s.sheet.title === 'Players' && s.sheet.back, noPart: s.panels === null && s.sheet.children.join() === 'planet-sheet-body',
+        oneList: lines.length === 9 && [1, 2, 3, 4, 5, 6, 7, 8, 9].every(n => lines.filter(l => l.startsWith(`Player ${n} ·`)).length === 1),
+        away: lines.filter(l => l.endsWith('Away on the Food Supply Task')).map(l => l.split(' · ')[0]).join() === 'Player 3,Player 8',
+        noComponentWords: !s.page.includes('Public facts only') && !s.page.includes('(you)') };
+    },
+    after: async page => {
+      // Back returns to the list, the component again.
+      await page.evaluate(tap(SHEET_BACK));
+      await page.waitFor(VIEW('list'), 'back to the list');
+      const seen = await page.evaluate(LOOK);
+      return { backToList: seen.sheet?.title === 'Panels' && seen.panels?.view === 'list' && seen.sheet.game?.buttons.join() === 'Tasks' };
     } },
 };
 /** The record so far, when this run adds to it: the same candidate, art and headers. */
