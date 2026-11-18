@@ -849,6 +849,19 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - **No in-between page** goes to the owner.
 - **The Lead reviews every view** at 390 × 844 and 430 × 932 before the owner sees the page.
 
+**The capsule painted in its own step, minutes later.**
+- **What was found:** the Rooms builder measured view B's rejected picture. The capsule's shape had not been twice the housing; it was the housing plus the same 6 px as every piece. But the capsule and the bench were one connected masked shape. The model stood the dispenser on the bench top's near edge and stretched it up to the capsule's shape, so a tighter capsule shape alone would not stop a repeat.
+- **The Lead asked, in the question dialog:**
+
+> To get the food dispenser the right size in views B and C, it needs its own small painting step after the furniture, inside a tight outline. Painted together with Atlas's bench, the image model stretched it. That adds about $0.07 per view: B would be about $0.27 in all, C about $0.20, or at most $0.34 and $0.27 if a step needs its one re-run. Approve the extra step?
+
+- **The owner chose:** "Yes, paint it separately", the Lead's recommendation, over drawing the dispenser in code.
+
+**What it decides:**
+- **Two steps for the furniture** in views B and C. Step 2 paints the furniture without the capsule. Step 3 paints only the capsule, in its own tight shape on the painted bench, at its approved size and place.
+- **The cost:** about $0.27 for B in all and about $0.20 for C, at most $0.34 and $0.27 with one re-run.
+- **The capsule stays painted,** like the furniture. Code draws its light and its moving parts over it.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
