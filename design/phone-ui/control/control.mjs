@@ -319,7 +319,7 @@ function textSizeChoice() {
 // tests let me see the design first"), approved by the owner the same day, then shell 0.3.3 with its record. Before is
 // the shell at the commit the build names (0.3.2); after is today's. Both are the component.
 const TOAST = Object.freeze({ route: 'toast-draft', title: 'Toast over a sheet', approval: 'I approve all as your recommendation',
-  status: 'Approved by you on 18 November, and now checked: 73 of 73 recorded pictures and 35 of 35 checks pass. The Lead Designer’s review of the checked build is still to come.' });
+  status: 'Approved by you on 18 November, checked (73 of 73 recorded pictures and 35 of 35 checks pass) and accepted by the Lead Designer.' });
 function buildToastDraftPart(view) {
   startStrips();
   const hasBefore = !!DATA.sheetBefore;
@@ -1040,10 +1040,10 @@ function build() {
       h('h1', {}, 'Bars & Icons Control'),
       h('p', { class: 'bc-lede' }, 'Every bar and every icon, drawn by the game’s own files and sorted into parts. Each one shows its size, its background and its colours. Look, try, then mark it OK or Change.'))),
     // What changed lately, at the top: the owner's approvals of 18 November 2026, each checked. No draft is on the page now.
-    h('div', { class: 'bc-wrap' }, h('p', { class: 'bc-approved', role: 'note' }, h('b', {}, 'Approved by you on 18 November, and checked: '),
-      h('a', { href: `#${TILES.route}` }, 'the bottom bar with painted icons'), ' (also accepted by the Lead Designer), ',
+    h('div', { class: 'bc-wrap' }, h('p', { class: 'bc-approved', role: 'note' }, h('b', {}, 'Approved by you on 18 November: '),
+      h('a', { href: `#${TILES.route}` }, 'the bottom bar with painted icons'), ', ',
       h('a', { href: `#${TOAST.route}` }, 'the toast over a sheet or a banner'), ' and ', h('a', { href: `#${SQUEEZE.route}` }, 'a long title at the largest text'),
-      '. The last two wait for the Lead Designer’s review. No drafts are on this page now.')),
+      '. All three are checked and accepted by the Lead Designer. No drafts are on this page now.')),
     nav,
     h('div', { class: 'bc-wrap' }, notice),
     main, iconDialog);
