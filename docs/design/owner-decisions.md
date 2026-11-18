@@ -711,6 +711,30 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - **The capsule's exact place.** It comes with the staging of the four views, for the Lead's review.
 - **The food contract.** The visits play in the game only once Integration and Backend give each room's food availability, with its audience, and the turn endings, as the ship-life package's adoption requirements say.
 
+**One capsule for Room B, about an hour later.**
+- The Pre-game Animation builder measured where the capsule could go in the five views. It tried counters and every 10 cm of the four walls, on both phones.
+  - One unit is in view from at most two of the five places.
+  - Two wall units, on the north and the west walls, reach all four new views.
+  - All five would need a third unit, which means one more edit to Mira's view.
+- The Lead asked in the session's question dialog: "Room B's food capsule: a single capsule can be seen from at most 2 of the room's 5 places, so most players would never see anyone eat. The 11 November design had one capsule per room. How many should Room B have?" The options were:
+  - two capsules (recommended): on the north and west walls, each new view showing one, Mira's not, no extra cost;
+  - three capsules: one more on the east wall so Mira's view shows one too, with one more edit of that picture, about $0.06, at most $0.12 with one re-run;
+  - one capsule: "As designed on 11 November: one on Atlas's bench. Only Juno's and Lyra's views show it; elsewhere people walk out of view to eat. Atlas walks about 3 m around his bench to reach it."
+- The owner chose **"One capsule"**.
+
+**What it decides:**
+- **Room B keeps one capsule, as the ship-life package has it:** a counter unit on Atlas's bench, at its north-west end, with its hatch facing into the room.
+- **Only Juno's view (B) and Lyra's view (C) paint it.** Mira's view (A) needs no edit.
+- **In the other views,** a visitor walks out of view to the capsule and back.
+- **No extra cost.**
+
+**What it means for the work:**
+- **The staging for the four views,** set by the Lead under the owner's "we can cheat a little bit about characters to fit":
+  - in D and E, the furniture is the same as in Mira's view;
+  - in B and C, a station moves with its person where the view needs it, by up to 0.85 m (Juno's stool and cart in C);
+  - every move is listed in the view's sheet.
+- **The eating visit** is drawn by code with the new people, as the record above says. The staging carries each walk's path, including where the walker leaves and re-enters a view.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
