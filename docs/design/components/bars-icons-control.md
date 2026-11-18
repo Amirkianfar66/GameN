@@ -30,7 +30,7 @@ The page has three sections. Bars and Icons are divided into sub-parts, each wit
 
 | Section | Sub-parts | What each holds |
 | --- | --- | --- |
-| **Bars** | Card tab · before and after (9 pairs) · Top bar (20 states) · Bottom bar (15) · Other bars (8: the target bar, the banners, the chip, the toast) · Sheets (8) · Whole phone (3) | Each state is a strip of the phone at the phone's own width, with its name, the size of its bar and the phone pack's sheet number. The first sub-part is [the Card tab's change](#the-card-tab-before-and-after). |
+| **Bars** | Card tab · before and after (9 pairs) · Toast over a sheet · draft (5 pairs) · Top bar (20 states) · Bottom bar (15) · Other bars (8: the target bar, the banners, the chip, the toast) · Sheets (8) · Whole phone (3) | Each state is a strip of the phone at the phone's own width, with its name, the size of its bar and the phone pack's sheet number. The first sub-part is [the Card tab's change](#the-card-tab-before-and-after). |
 | **Icons** | Navigation (8) · Game actions (26) · People and places (8) · Phases (7) · Before the match (3) · Controls (27) · Drawn twice (31) · Other drawings (8) | The icons of `design/phone-ui/components/icons.mjs`, at rest and selected, on dark glass and on paper. The last two list the game's own drawings that are still on screen, beside the icon that replaces each. |
 | **Status** | — | The owner's marks, and the version and pull request of each part. |
 
@@ -52,6 +52,27 @@ The first sub-part of Bars, where the page opens. It shows the owner's 18 Novemb
 - **Phone width:** this screen's, or 320, 390 or 430 px. A bar wider than the screen is drawn smaller, and its strip says by how much.
 - **The owner's mark:** one for the whole change, `change-card-tab`, at the top of the view.
 - **The test view** opens from the view's button, and from any "After" strip whose state is one of the presets.
+
+## Drafts: a look before its checks
+
+The owner, 18 November 2026, after the Card tab's first drawing was checked in full and then changed:
+
+> Before you run tests let me see the design first
+
+So a change of look is shown here first, as a draft:
+1. The change is made in the real component, on its own branch, with no record and no suite run.
+2. The page is built from it and published to the owner's link. A line at the top of the page says there is a draft, and the draft's own view says: "Draft: the look only, not checked yet. It may still change."
+3. The Lead Designer gets the same build at the same moment.
+4. Only after the owner's OK come the component's record, the suites, its pull request, and the game connection's own check.
+
+A change that is more than a look (behaviour, data, privacy, the connection's inputs) keeps the usual order: checks, the Lead's review, then the owner.
+
+**The draft on the page now: the toast over an open sheet** (`#toast-draft`, the second sub-part of Bars).
+- **Today:** the toast drops in 10 px under the top bar. Over a tall sheet it lies across the sheet's head and cuts the title and Close through. The Lead Designer saw it on the Promises sheet's record.
+- **The draft:** when the toast would touch an open sheet's head, it sits 8 px under the head instead, over the sheet's body. With no sheet, or a sheet that starts lower down, it keeps its place.
+- **The view:** five states, each as the bar is today above the draft. "Today" is the shell's own file at `bf95c1a0` (shell 0.3.1), read from git by the build tool, as the Card tab's "before" is.
+- **The owner's mark:** `draft-toast-under-sheet-head`.
+- **Not done yet, on purpose:** the shell's record, its version, its tests for the new place, and the connection's check.
 
 ## Sizes, backgrounds and colours
 

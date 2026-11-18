@@ -25,11 +25,13 @@ import { PHONE_SHELL_VERSION, mountPhoneShell } from '../components/phone-shell/
 // serves for this query (design/tools/bars-icons-control.mjs). Without that tool it is today's shell again,
 // and the page says the before is missing rather than show the new bar twice.
 import { PHONE_SHELL_VERSION as BEFORE_VERSION, mountPhoneShell as mountShellBefore } from '../components/phone-shell/phone-shell.mjs?before';
+// And the shell as it is before the toast's draft: the same file at the commit the build names for it.
+import { mountPhoneShell as mountShellBeforeToast } from '../components/phone-shell/phone-shell.mjs?before-toast';
 import { COMPONENT_KIT_VERSION } from '../components/kit/kit.mjs';
 import { ICONS, ICON_FAMILY_VERSION, ICON_NAMES, iconSvg } from '../components/icons.mjs';
 import { ROOM_SCENE_VERSION, mountRoomScene } from '../components/room-scene/room-scene.mjs';
 import { phoneIcon } from '../../../apps/game/hosted/planet/phone-controls.mjs';
-import { BASE, GROUPS, PRESETS, SHEET_08, SWITCHES, clockSeconds, matchPreset, presetOf, sceneInput, sheetContent, shellInput } from './states.mjs';
+import { BASE, GROUPS, PRESETS, SHEET_08, SWITCHES, TOAST_DRAFT, clockSeconds, matchPreset, presetOf, sceneInput, sheetContent, shellInput } from './states.mjs';
 import { mainSize, readIcons, readParts } from './specs.mjs';
 
 const doc = document, root = doc.documentElement;
@@ -196,6 +198,8 @@ const CROPS = Object.freeze({
   bottom: { from: 'bottom', parts: ['.ms-ps-tabs', '.ms-ps-talk', '.ms-ps-hero'], pad: 26 },
   chip: { from: 'bottom', parts: ['.ms-ps-chip', '.ms-ps-tabs'], pad: 22 },
   sheet: { from: 'bottom', parts: ['.ms-ps-sheet', '.ms-ps-tabs', '.ms-ps-talk'], pad: 26 },
+  // The top of the phone down past the toast and an open sheet's head, whichever ends lower.
+  toast: { from: 'top', parts: ['.ms-ps-tb', '.ms-ps-toast', '.ms-ps-sheet-head'], pad: 64 },
   whole: { from: 'whole', parts: [], pad: 0 },
 });
 function standIn(text, className = 'bc-standin') { return h('div', { class: className }, text); }
@@ -205,7 +209,7 @@ function standIn(text, className = 'bc-standin') { return h('div', { class: clas
  * `mount` draws it with another shell (the Card tab's before), `width` gives its phone's width, `opens` is the
  * preset a tap opens (null: none), `title`, `tags` and `mark` say what its card shows.
  */
-function makeStrip(preset, first = false, { mount = mountPhoneShell, width = stripWidth, opens = preset.key, title = preset.label, tags = [`Sheet ${preset.sheet}`], mark = true, specs: withSpecs = true } = {}) {
+function makeStrip(preset, first = false, { mount = mountPhoneShell, width = stripWidth, opens = preset.key, title = preset.label, tags = [`Sheet ${preset.sheet}`], mark = true, specs: withSpecs = true, route = null } = {}) {
   const phone = h('div', { class: 'bc-phone', inert: true });
   const scaler = h('div', { class: 'bc-scaler' }, phone);
   const open = () => openTest(opens);
@@ -225,7 +229,7 @@ function makeStrip(preset, first = false, { mount = mountPhoneShell, width = str
     preset.crop === 'whole' ? h('p', { class: 'bc-strip-note' }, 'The whole phone, small. Tap it to open it at full size.') : null,
     details,
     mark ? h('div', { class: 'bc-strip-foot' }, markControl(`bar-${preset.key}`, { label: preset.label, group: preset.groupTitle })) : null);
-  const strip = { preset, card, phone, scaler, windowEl, sizeTag, specs, details, mount, width, shell: null, toast: 0, timer: null };
+  const strip = { preset, card, phone, scaler, windowEl, sizeTag, specs, details, mount, width, route: route ?? GROUPS.find(g => g.id === preset.group)?.route ?? null, shell: null, toast: 0, timer: null };
   strips.push(strip);
   return strip;
 }
@@ -242,7 +246,7 @@ function mountStrip(strip) {
   if (preset.crop === 'whole') strip.shell.stage.append(standIn(sceneInput(preset.controls, { clock: null }).standIn
     ?? (preset.controls.status === 'concealed' ? 'Concealed · the room and this phone’s own controls are hidden' : 'The room')));
   // A toast shows once and fades: a strip shows it again every few seconds.
-  if (preset.controls.toast !== 'none') strip.timer = setInterval(() => { if (page.route === GROUPS.find(g => g.id === preset.group).route && !test.open) { strip.toast += 1; strip.shell.update(input()); frames(2).then(() => cropStrip(strip)); } }, 3400);
+  if (preset.controls.toast !== 'none') strip.timer = setInterval(() => { if (page.route === strip.route && !test.open) { strip.toast += 1; strip.shell.update(input()); frames(2).then(() => cropStrip(strip)); } }, 3400);
   frames(2).then(() => cropStrip(strip));
 }
 /** Shows the part of the phone the strip is about, at this phone's own size where it fits. */
@@ -298,6 +302,48 @@ function textSizeChoice() {
   return choice;
 }
 
+// ── Bars: a draft, the toast over an open sheet ──────────────────────
+// A look shown before anything is checked (the owner, 18 November 2026: "Before you run tests let me see the design
+// first"). Before is the shell at the commit the build names; after is the draft. Both are the component.
+const TOAST = Object.freeze({ route: 'toast-draft', title: 'Toast over a sheet · draft', note: 'Draft: the look only, not checked yet. It may still change.' });
+function buildToastDraftPart(view) {
+  startStrips();
+  const hasBefore = !!DATA.toastBefore;
+  const pair = state => {
+    const sides = [];
+    if (hasBefore) sides.push(makeStrip({ ...state, key: `toast-before-${state.key}` }, false,
+      { mount: mountShellBeforeToast, width: cardTabWidth, opens: null, title: 'Today', tags: ['Sheet 45'], mark: false, specs: false, route: TOAST.route }));
+    sides.push(makeStrip({ ...state, key: `toast-after-${state.key}` }, false,
+      { width: cardTabWidth, opens: null, title: 'Draft', tags: ['Draft'], mark: false, specs: false, route: TOAST.route }));
+    for (const strip of sides) lazyStrips.observe(strip.card);
+    return h('section', { class: 'bc-pair', 'aria-label': state.label }, h('h3', { class: 'bc-pair-title' }, state.label), sides.map(strip => strip.card));
+  };
+  const pairs = h('div', { class: 'bc-pairs' });
+  const fit = () => pairs.style.setProperty('--bc-pair-w', `${cardTabWidth()}px`);
+  const widths = segmented('Phone width', [['auto', 'This screen'], ['320', '320'], ['390', '390'], ['430', '430']], cardTab.width, value => { cardTab.width = value; for (const sync of widthSyncs) sync(value); rewidth(); });
+  widthSyncs.add(value => { widths.choose(value); fit(); });
+  fit();
+  window.addEventListener('resize', fit);
+  view.append(
+    h('div', { class: 'bc-wrap bc-group-head' },
+      h('h2', {}, 'The toast over an open sheet', h('span', { class: 'bc-count bc-count-draft' }, 'Draft')),
+      h('p', { class: 'bc-draft-line' }, TOAST.note),
+      h('p', {}, 'A toast is the short message that drops in after you do something, such as “Registered”. The Lead Designer proposes this change. Nothing is decided until you say so.'),
+      h('ul', { class: 'bc-change' },
+        h('li', {}, h('b', {}, 'Today. '), 'The toast always drops in just under the top bar. Over a tall sheet it lands on the sheet’s title and the ✕, and cuts them through.'),
+        h('li', {}, h('b', {}, 'Draft. '), 'When it would land on a sheet’s title, it sits just under that title instead, over the sheet’s content. The title, Back and ✕ stay whole and can be tapped.'),
+        h('li', {}, h('b', {}, 'Unchanged. '), 'With no sheet open, or a low sheet, the toast stays where it is today.'))),
+    h('div', { class: 'bc-wrap bc-tools' }, textSizeChoice(), widths,
+      h('p', { class: 'bc-hint' }, hasBefore
+        ? 'Each pair is the real bar twice: as it is today, then the draft. The toast shows for a moment and comes back every few seconds.'
+        : 'This build has no copy of the bar as it is today, so only the draft is shown.')),
+    h('div', { class: 'bc-wrap' }, h('div', { class: 'bc-verdict' },
+      h('p', {}, h('b', {}, 'Is the draft right?'), ' Mark it here. After your OK it gets its checks; a Change comes back with your note.'),
+      markControl('draft-toast-under-sheet-head', { label: 'Draft: the toast sits under an open sheet’s title', group: 'Sheets · draft' }))),
+    pairs);
+  pairs.append(...TOAST_DRAFT.map(pair));
+}
+
 // ── Bars: the Card tab, before and after ─────────────────────────────
 // The owner's 18 November 2026 change to sheet 08: Card is the last tab and shows the player's own character.
 // Before is the shell at the commit the build names (shell 0.2.12), after is today's; both are the component.
@@ -306,6 +352,8 @@ const CARD_TAB = Object.freeze({ route: 'card-tab', title: 'Card tab · before a
   // The owner's second word, on seeing the first drawing (a round picture in the icon's box): shell 0.3.1.
   shape: 'The shape of it should be similar to the top character icon not circular but cubic same size' });
 const cardTab = { width: 'auto' };
+/** The Phone width choice is one for the before-and-after views: each keeps its own control in step with the others. */
+const widthSyncs = new Set();
 const cardTabWidth = () => (cardTab.width === 'auto' ? stripWidth() : Number(cardTab.width));
 function buildCardTabPart(view) {
   startStrips();
@@ -321,7 +369,8 @@ function buildCardTabPart(view) {
   };
   const pairs = h('div', { class: 'bc-pairs' });
   const fit = () => pairs.style.setProperty('--bc-pair-w', `${cardTabWidth()}px`);
-  const widths = segmented('Phone width', [['auto', 'This screen'], ['320', '320'], ['390', '390'], ['430', '430']], cardTab.width, value => { cardTab.width = value; fit(); rewidth(); });
+  const widths = segmented('Phone width', [['auto', 'This screen'], ['320', '320'], ['390', '390'], ['430', '430']], cardTab.width, value => { cardTab.width = value; for (const sync of widthSyncs) sync(value); rewidth(); });
+  widthSyncs.add(value => { widths.choose(value); fit(); });
   fit();
   window.addEventListener('resize', fit);
   const noCharacter = makeStrip(presetOf('card-icon'), false, { width: cardTabWidth, title: 'After', tags: ['New'], mark: false });
@@ -814,6 +863,7 @@ function build() {
   // Three sections; Bars and Icons are divided into sub-parts, each its own view with its own address.
   const sections = [
     { id: 'bars', title: 'Bars', parts: [{ route: CARD_TAB.route, title: CARD_TAB.title, count: SHEET_08.length, build: buildCardTabPart },
+      { route: TOAST.route, title: TOAST.title, count: TOAST_DRAFT.length, build: buildToastDraftPart },
       ...GROUPS.map(group => ({ route: group.route, title: group.title, count: group.presets.length, build: view => buildBarsPart(view, group) }))] },
     { id: 'icons', title: 'Icons', parts: ICON_PARTS.map(part => ({ route: part.route, title: part.title, count: iconsCount(part), build: view => buildIconsPart(view, part) })) },
     { id: 'status', title: 'Status', parts: [{ route: 'status', title: 'Status', build: buildStatus }] },
@@ -832,6 +882,9 @@ function build() {
       h('p', { class: 'bc-eyebrow' }, 'Game N · phone'),
       h('h1', {}, 'Bars & Icons Control'),
       h('p', { class: 'bc-lede' }, 'Every bar and every icon, drawn by the game’s own files and sorted into parts. Each one shows its size, its background and its colours. Look, try, then mark it OK or Change.'))),
+    // A draft on the page says so at the top, before anything else: a look only, not checked yet.
+    h('div', { class: 'bc-wrap' }, h('p', { class: 'bc-draft', role: 'note' }, h('b', {}, 'One draft on this page. '), TOAST.note, ' ',
+      h('a', { href: `#${TOAST.route}` }, 'See the toast over an open sheet'), '. Everything else here is checked.')),
     nav,
     h('div', { class: 'bc-wrap' }, notice),
     main, iconDialog);

@@ -52,7 +52,7 @@ export const SWITCHES = Object.freeze([
   { key: 'target', group: 'Other bars', label: 'Target bar', options: [['none', 'None'], ['rescue', 'Rescue · with Cancel'], ['move', 'Move · long words'], ['final', 'Fixed position · no Cancel']] },
   { key: 'chip', group: 'Other bars', label: 'Chip', options: [['off', 'None'], ['on', 'Other rooms · 1']] },
   { key: 'banner', group: 'Other bars', label: 'Banner', options: [['none', 'None'], ['reconnecting', 'Connection lost · Retry'], ['out', 'You’re out']] },
-  { key: 'toast', group: 'Other bars', label: 'Toast', options: [['none', 'None'], ['closed', 'That phase closed · choices cleared'], ['short', 'Copied']] },
+  { key: 'toast', group: 'Other bars', label: 'Toast', options: [['none', 'None'], ['closed', 'That phase closed · choices cleared'], ['short', 'Copied'], ['receipt', 'Registered · the receipt after a choice']] },
   { key: 'sheet', group: 'Sheets', label: 'Sheet', options: [
     ['none', 'None'], ['pass', 'Pass your turn? · two buttons'], ['actions', 'Actions'], ['card', 'Your role · a head button'],
     ['block', 'Block movement · tall, two buttons'], ['appoint', 'Choose your Officer · one button'],
@@ -144,6 +144,18 @@ export const GROUPS = Object.freeze([
   Object.freeze({ key, label, sheet, group: group.id, groupTitle: group.title, crop: crop ?? group.crop, controls: Object.freeze({ ...BASE, ...change }) }))) })));
 
 export const PRESETS = Object.freeze(GROUPS.flatMap(group => group.presets));
+
+/**
+ * A draft of a look, for the owner's look before anything is checked: the toast over an open sheet. Today it lies
+ * across a tall sheet's head; in the draft it sits under the head. The last two states are ones where it keeps its place.
+ */
+export const TOAST_DRAFT = Object.freeze([
+  ['role', 'A tall sheet · the receipt after a choice', { ...own, open: 'card', sheet: 'card', toast: 'receipt' }],
+  ['host', 'A tall sheet with Back · the receipt', { sheet: 'host', toast: 'receipt' }],
+  ['copied', 'A tall sheet · a short toast', { ...own, open: 'card', sheet: 'card', toast: 'short' }],
+  ['low', 'A low sheet · the toast keeps its place', { ...own, sheet: 'pass', toast: 'receipt' }],
+  ['none', 'No sheet · the toast keeps its place', { ...own, clock: '0', toast: 'closed' }],
+].map(([key, label, change]) => Object.freeze({ key, label, sheet: '45', group: 'sheet', groupTitle: 'Sheets', crop: 'toast', controls: Object.freeze({ ...BASE, ...change }) })));
 
 /**
  * Sheet 08's nine states (Bottom navigation), in the sheet's order, for the Card tab's before and after: the
@@ -244,7 +256,9 @@ export function shellInput(c, { seconds = clockSeconds(c), toastId = 'control' }
     target: c.target === 'none' ? null : TARGETS[c.target],
     chip: c.chip === 'on' ? { id: 'other-rooms', label: 'Other rooms · 1', icon: 'board' } : null,
     banner: c.banner === 'none' ? null : { kind: c.banner },
-    toast: c.toast === 'closed' ? phaseClosedToast({ id: toastId }) : c.toast === 'short' ? { id: toastId, text: 'Copied', icon: 'copy' } : null,
+    toast: c.toast === 'closed' ? phaseClosedToast({ id: toastId }) : c.toast === 'short' ? { id: toastId, text: 'Copied', icon: 'copy' }
+      // The game's receipt after a registered choice (Frontend's planetRegistrationText), which Actions and Promises show over their sheets.
+      : c.toast === 'receipt' ? { id: toastId, text: 'Registered. Waiting for the authoritative view.', icon: 'check' } : null,
     sheet: SHEETS[c.sheet]?.frame ?? null,
   };
 }

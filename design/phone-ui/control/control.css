@@ -115,6 +115,11 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .bc-strip-note { margin: 0; color: var(--bc-ink-2); font-size: 13px; }
 .bc-standin { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; color: #55657E; font: 600 13px/1.35 var(--bc-body); letter-spacing: 0.04em; text-transform: uppercase; background: repeating-linear-gradient(135deg, #0C1018 0 14px, #0E131C 14px 28px); }
 .bc-standin-sheet { margin: 4px 0 0; min-height: 96px; border-radius: 14px; display: grid; place-items: center; padding: 16px; text-align: center; color: #B9C4D3; font: 600 13px/1.35 var(--bc-body); letter-spacing: 0.04em; text-transform: uppercase; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.16); background: rgba(8, 11, 18, 0.24); }
+/* A draft on the page: said at the top, and on the draft's own view. */
+.bc-draft { margin: 14px 0 0; padding: 10px 14px; border: 1px solid var(--bc-change); border-radius: 12px; background: var(--bc-panel); color: var(--bc-ink); font-size: 14px; line-height: 1.45; }
+.bc-draft a { color: inherit; font-weight: 600; }
+.bc-draft-line { color: var(--bc-change) !important; font-weight: 600; }
+.bc-count-draft { background: var(--bc-change-fill); color: #151923; }
 /* The Card tab's before and after: sheet 08's states in pairs, the bar as it was above the bar as it is now. */
 .bc-quote { margin: 8px 0 0; padding: 10px 14px; max-width: 68ch; border-left: 3px solid var(--bc-amber); border-radius: 0 10px 10px 0; background: var(--bc-panel); color: var(--bc-ink); font-size: 15px; line-height: 1.45; }
 .bc-change { margin: 10px 0 0; padding-left: 18px; max-width: 68ch; display: grid; gap: 4px; color: var(--bc-ink-2); }

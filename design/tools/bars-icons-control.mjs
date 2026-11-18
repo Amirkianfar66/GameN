@@ -34,13 +34,15 @@ const OUT = resolve(process.argv[outAt + 1]);
 
 /** The shell before the Card tab's change: #265's head, shell 0.2.12. */
 const BEFORE = '5616928e891babfe35b78dc0a19e1fa552f6d7a3';
+/** The shell before the toast's draft: #321's head, shell 0.3.1, as the Lead accepted it. */
+const BEFORE_TOAST = 'bf95c1a0';
 const SHELL = 'design/phone-ui/components/phone-shell/phone-shell.mjs', SHELL_STYLES = 'design/phone-ui/components/phone-shell/phone-shell.css';
-const QUERY = '?before';
-/** The shell's source at BEFORE, and whether today's stylesheet still draws it: every line of the old one is in the new. */
-async function shellBefore() {
+const QUERY = '?before', QUERY_TOAST = '?before-toast';
+/** The shell's source at a commit, and whether today's stylesheet still draws it: every line of the old one is in the new. */
+async function shellBefore(BEFORE = '5616928e891babfe35b78dc0a19e1fa552f6d7a3', branch = 'claude/designer-phone-shell') {
   let source, styles;
   try { source = git('show', `${BEFORE}:${SHELL}`); styles = git('show', `${BEFORE}:${SHELL_STYLES}`); }
-  catch { throw new Error(`The page's "before" needs commit ${BEFORE.slice(0, 8)} (shell 0.2.12) in this clone: git fetch origin claude/designer-phone-shell`); }
+  catch { throw new Error(`The page's "before" needs commit ${BEFORE.slice(0, 8)} in this clone: git fetch origin ${branch}`); }
   const now = new Set((await readFile(join(REPO, SHELL_STYLES), 'utf8')).split('\n'));
   const gone = styles.split('\n').filter(line => !now.has(line));
   if (gone.length) throw new Error(`Today's phone-shell.css no longer has ${gone.length} line(s) of the stylesheet at ${BEFORE.slice(0, 8)}, so it can't draw the bar as it was: ${gone[0].trim().slice(0, 80)}`);
@@ -69,6 +71,8 @@ async function iconFacts() {
 }
 
 const before = await shellBefore();
+const beforeToast = await shellBefore(BEFORE_TOAST, 'claude/designer-card-tab');
+const befores = new Map([[QUERY, before], [QUERY_TOAST, beforeToast]]);
 const dir = await mkdtemp(join(tmpdir(), 'bars-icons-control-'));
 try {
   await build({
@@ -76,12 +80,13 @@ try {
     // "…/phone-shell.mjs?before" is the shell's file at BEFORE: its own place, so its imports resolve as they did.
     plugins: [{ name: 'bars-icons-control-shell-before', enforce: 'pre',
       async resolveId(source, importer) {
-        if (!source.endsWith(QUERY)) return null;
-        const found = await this.resolve(source.slice(0, -QUERY.length), importer, { skipSelf: true });
+        const query = [...befores.keys()].find(q => source.endsWith(q));
+        if (!query) return null;
+        const found = await this.resolve(source.slice(0, -query.length), importer, { skipSelf: true });
         if (!found || found.id !== join(REPO, SHELL)) throw new Error(`Only the shell has a "before": ${source}`);
-        return `${found.id}${QUERY}`;
+        return `${found.id}${query}`;
       },
-      load(id) { return id === `${join(REPO, SHELL)}${QUERY}` ? before.source : null; } }],
+      load(id) { const query = [...befores.keys()].find(q => id === `${join(REPO, SHELL)}${q}`); return query ? befores.get(query).source : null; } }],
     build: { outDir: dir, emptyOutDir: true, target: 'es2022', assetsInlineLimit: 100_000_000, sourcemap: false, cssMinify: false, cssCodeSplit: false,
       chunkSizeWarningLimit: 4000, rollupOptions: { output: { codeSplitting: false } } },
   });
@@ -92,7 +97,8 @@ try {
   const script = await readFile(join(dir, 'assets', scripts[0]), 'utf8'), style = await readFile(join(dir, 'assets', styles[0]), 'utf8');
   if (/\bimport\s*\(|\bfrom\s*["']\.\.?\//.test(script.slice(0, 2000))) throw new Error('The script still imports another file');
   const facts = { commit: git('rev-parse', 'HEAD'), branch: git('rev-parse', '--abbrev-ref', 'HEAD'), clean: git('status', '--porcelain', '--', 'design', 'apps/game/hosted', 'docs/design/components/icons.md') === '',
-    built: new Date().toISOString().replace(/\.\d+Z$/, 'Z'), icons: await iconFacts(), before: { commit: BEFORE, version: before.version } };
+    built: new Date().toISOString().replace(/\.\d+Z$/, 'Z'), icons: await iconFacts(), before: { commit: BEFORE, version: before.version },
+    toastBefore: { commit: git('rev-parse', BEFORE_TOAST), version: beforeToast.version } };
   const page = [
     '<title>Bars &amp; Icons Control</title>',
     '<meta name="claude:viewport-fit-sides" content="cover">',
