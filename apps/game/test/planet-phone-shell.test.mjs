@@ -546,6 +546,48 @@ test('a phase that closed under an open choice: the pack\'s toast once, told fro
  assert.deepEqual(phaseClosed(loud(open),loud(expired)),phaseClosed(open,expired));
 });
 
+test('a phase that closed under a draft this phone alone holds: the same toast, once, by the same rule',()=>{
+ // A Promise being drafted lives in its sheet, not in the model: the model painted before has no action at all.
+ const talk=phase('PRIVATE_TALK');
+ const idle=model({phase:talk,activeSeatId:null,panel:'promises'});
+ const expired=model({phase:{...talk,nowMs:60000,remainingMs:0,expired:true},activeSeatId:null});
+ const next=model({phase:phase('ORDINARY_TURN')});
+ const drafting={drafting:true};
+ // Without the renderer's word nothing was open, as before: a sheet alone gives no toast.
+ assert.equal(phaseClosed(idle,expired),null);assert.equal(phaseClosed(idle,next),null);
+ assert.equal(phaseClosed(idle,expired,{}),null);assert.equal(phaseClosed(idle,expired,undefined),null);
+ // With it: the time is up, or another phase is on. The closed phase's id, so the toast shows once.
+ assert.deepEqual(phaseClosed(idle,expired,drafting),{id:'p-PRIVATE_TALK'});
+ assert.deepEqual(phaseClosed(idle,next,drafting),{id:'p-PRIVATE_TALK'});
+ // Only `true` is a draft: the renderer's flow itself, a count or a word is not taken for one.
+ for(const not of [false,null,undefined,0,1,'yes',{},[]])assert.equal(phaseClosed(idle,next,{drafting:not}),null,JSON.stringify(not)??'undefined');
+ // The same phase still running: the draft is still open, or the player closed or sent it. No toast.
+ assert.equal(phaseClosed(idle,model({phase:talk,activeSeatId:null}),drafting),null);
+ // The player closed the draft, or sent it, before the end: the paint before has no draft, so the renderer says none.
+ assert.equal(phaseClosed(idle,next,{drafting:false}),null);
+ // A lost connection, a phone put away, a display, another match or seat, time that is not trusted: none, as for a choice.
+ for(const other of [{connection:'stale'},{connection:'connecting'},{connection:'error'},{concealed:true},{surface:'display',ownSeatId:null},{phase:null}]){
+  assert.equal(phaseClosed({...idle,...other},next,drafting),null,JSON.stringify(other));
+  assert.equal(phaseClosed(idle,{...next,...other},drafting),null,JSON.stringify(other));
+ }
+ assert.equal(phaseClosed({...idle,matchId:'match-2'},next,drafting),null);assert.equal(phaseClosed({...idle,ownSeatId:'seat-1'},next,drafting),null);
+ assert.equal(phaseClosed(idle,model({phase:{...talk,trusted:false,expired:true,nowMs:null,remainingMs:null},activeSeatId:null}),drafting),null);
+ assert.equal(phaseClosed(null,next,drafting),null);assert.equal(phaseClosed(idle,null,drafting),null);
+ // A choice in the model and a draft together are one closed phase, not two.
+ const both=model({phase:talk,activeSeatId:null,action:action('PROMISE','promise',[])});
+ assert.deepEqual(phaseClosed(both,next,drafting),phaseClosed(both,next));
+ // A choice being sent is not a choice in progress; a draft still open beside it is.
+ const sending=model({phase:talk,activeSeatId:null,action:action('PROMISE','sending',[])});
+ assert.equal(phaseClosed(sending,next),null);assert.deepEqual(phaseClosed(sending,next,drafting),{id:'p-PRIVATE_TALK'});
+ // The words and the audience are the choice's: sheet 45's toast, on this phone, dropped while concealed and on a display.
+ const closed=phaseClosed(idle,expired,drafting);
+ assert.deepEqual(shellToast(expired,{closed}),{id:'closed:p-PRIVATE_TALK',text:'That phase closed · choices cleared',icon:'info'});
+ assert.equal(shellToast({...expired,surface:'display'},{closed}),null);assert.equal(shellToast({...expired,concealed:true},{closed}),null);
+ // It reads nothing private: every private field filled changes nothing.
+ const loud=m=>({...m,privateArea:{role:{name:'Alien'},offers:[{type:'ACTIVATE_BLACKHOLE'}]},offices:{captainSeatId:'seat-4',officerSeatId:'seat-1',blockedSeatId:null}});
+ assert.deepEqual(phaseClosed(loud(idle),loud(expired),drafting),phaseClosed(idle,expired,drafting));
+});
+
 test('the game\'s own controller clears an open choice without a word; its models give the toast once, and never for a cancel, a lost connection or a phone put away',async()=>{
  // The controller's own test rig (planet-support.mjs): every model it emits, and the toast between each two.
  async function watch(){
