@@ -10,7 +10,7 @@
 // Like the icons they are drawn from, these say no role, team or faction and no hidden fact. The
 // tile's ground is one fixed colour: it does not follow a player, a seat or a character.
 
-import { ICONS } from './icons.mjs';
+import { ICONS, ICON_PAINTED } from './icons.mjs';
 
 const num = n => Number(n.toFixed(2));
 const d1 = n => Number(n.toFixed(1));
@@ -43,17 +43,11 @@ const PAINTS = Object.freeze({
 export const ICON_PAINTS = Object.freeze(Object.keys(PAINTS));
 
 /**
- * An icon painted by hand rather than from its line drawing: the same silhouette, as stacked shapes
- * (`d`, a tone, drawn in order, each with its own line). The rest are painted from the family's parts.
+ * An icon painted by hand rather than from its line drawing: the same silhouette, as stacked shapes (`d`, a tone,
+ * drawn in order, each with its own line). Their shapes are the family's own (icons.mjs, ICON_PAINTED): no icon is
+ * drawn in this file. The rest are painted from the family's parts.
  */
-const STACKED = Object.freeze({
-  // Three sheets, the lowest the deepest.
-  panels: [
-    { d: 'M12 11.2 20.6 15.8 12 20.4 3.4 15.8z', tone: 'deep' },
-    { d: 'M12 7.4 20.6 12 12 16.6 3.4 12z', tone: 'main' },
-    { d: 'M12 3.6 20.6 8.2 12 12.8 3.4 8.2z', tone: 'light' },
-  ],
-});
+const STACKED = ICON_PAINTED;
 
 const LINE = 2.2; // how much wider the brown line is than the paint it goes round, on the 24 grid
 
