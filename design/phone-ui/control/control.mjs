@@ -159,13 +159,14 @@ function makeStrip(preset) {
   const phone = h('div', { class: 'bc-phone', inert: true });
   const scaler = h('div', { class: 'bc-scaler' }, phone);
   const open = () => openTest(preset.key);
-  const windowEl = h('div', { class: 'bc-window', role: 'button', tabindex: '0', 'aria-label': `Open “${preset.label}” in the test view`,
+  const windowEl = h('div', { class: 'bc-window', 'data-crop': preset.crop, role: 'button', tabindex: '0', 'aria-label': `Open “${preset.label}” in the test view`,
     onclick: open, onkeydown: event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } } }, scaler);
   const card = h('article', { class: 'bc-strip', id: `bc-strip-${preset.key}` },
     h('header', { class: 'bc-strip-head' },
       h('h3', { class: 'bc-strip-title' }, preset.label),
       h('span', { class: 'bc-tag' }, `Sheet ${preset.sheet}`)),
     windowEl,
+    preset.crop === 'whole' ? h('p', { class: 'bc-strip-note' }, 'The whole phone, small. Tap it to open it at full size.') : null,
     h('div', { class: 'bc-strip-foot' }, markControl(`bar-${preset.key}`, { label: preset.label, group: preset.groupTitle })));
   const strip = { preset, card, phone, scaler, windowEl, shell: null, toast: 0, timer: null };
   strips.push(strip);
@@ -180,7 +181,8 @@ function mountStrip(strip) {
   strip.shell = mountPhoneShell(phone, input(), { onLayout: () => cropStrip(strip) });
   const words = sheetContent(preset.controls);
   if (words && strip.shell.sheetBody) strip.shell.sheetBody.append(standIn(words, 'bc-standin-sheet'));
-  if (preset.crop === 'whole') strip.shell.stage.append(standIn(sceneInput(preset.controls, { clock: null }).standIn ?? 'The room'));
+  if (preset.crop === 'whole') strip.shell.stage.append(standIn(sceneInput(preset.controls, { clock: null }).standIn
+    ?? (preset.controls.status === 'concealed' ? 'Concealed · the room and this phone’s own controls are hidden' : 'The room')));
   // A toast shows once and fades: a strip shows it again every few seconds.
   if (preset.controls.toast !== 'none') strip.timer = setInterval(() => { if (page.view === 'bars' && !test.open) { strip.toast += 1; strip.shell.update(input()); frames(2).then(() => cropStrip(strip)); } }, 3400);
   frames(2).then(() => cropStrip(strip));
@@ -203,7 +205,10 @@ function cropStrip(strip) {
   scaler.style.width = `${width}px`;
   scaler.style.height = `${height}px`;
   scaler.style.transform = `translateX(-50%) scale(${scale})`;
-  windowEl.style.height = `${Math.round(height * scale)}px`;
+  // The whole phone keeps a margin above and below, so its outline shows.
+  const inset = crop.from === 'whole' ? 16 : 0;
+  scaler.style.top = `${inset}px`;
+  windowEl.style.height = `${Math.round(height * scale) + inset * 2}px`;
   windowEl.dataset.scale = scale === 1 ? 'true size' : `${Math.round(scale * 100)} %`;
 }
 function buildBars(view) {
@@ -338,6 +343,7 @@ function paintDrawer() {
 function setDrawer(open) {
   test.el.dataset.drawer = open ? 'open' : 'closed';
   test.drawer.inert = !open && !wide();
+  if (!open) test.fold?.(false);
 }
 function buildTest() {
   const selectRow = (id, label, options, value, onChange) => {
@@ -347,11 +353,21 @@ function buildTest() {
   };
   test.device = h('div', { class: 'bc-device' });
   test.caption = h('div', { class: 'bc-caption', role: 'status', 'aria-live': 'polite' });
+  // The floating controls fold to the screen's edge a few seconds after their last use, so they stay off the room;
+  // folded, the one button left unfolds them.
+  const main = h('button', { type: 'button', class: 'bc-float-btn bc-float-main', onclick: () => { if (float.hasAttribute('data-folded')) test.fold(false); else setDrawer(true); } }, icon('settings', { filled: true }));
+  const used = fn => () => { fn(); test.fold(false); };
   const float = h('div', { class: 'bc-float', role: 'toolbar', 'aria-label': 'Test view' },
     h('button', { type: 'button', class: 'bc-float-btn', 'aria-label': 'Leave the test view', onclick: closeTest }, icon('close')),
-    h('button', { type: 'button', class: 'bc-float-btn', 'aria-label': 'Previous state', onclick: () => stepPreset(-1) }, icon('chevronLeft')),
-    h('button', { type: 'button', class: 'bc-float-btn', 'aria-label': 'Next state', onclick: () => stepPreset(1) }, icon('chevronRight')),
-    h('button', { type: 'button', class: 'bc-float-btn bc-float-main', 'aria-label': 'Open the control', onclick: () => setDrawer(true) }, icon('settings', { filled: true })));
+    h('button', { type: 'button', class: 'bc-float-btn', 'aria-label': 'Previous state', onclick: used(() => stepPreset(-1)) }, icon('chevronLeft')),
+    h('button', { type: 'button', class: 'bc-float-btn', 'aria-label': 'Next state', onclick: used(() => stepPreset(1)) }, icon('chevronRight')),
+    main);
+  test.fold = folded => {
+    clearTimeout(test.foldTimer);
+    float.toggleAttribute('data-folded', folded);
+    main.setAttribute('aria-label', folded ? 'Show the test view’s controls' : 'Open the control');
+    if (!folded) test.foldTimer = setTimeout(() => test.fold(true), 5000);
+  };
   test.presetSelect = h('select', { id: 'bc-preset', class: 'bc-select', onchange: () => { const p = presetOf(test.presetSelect.value); if (p) setControls(p.controls); } },
     h('option', { value: '' }, 'Custom'),
     GROUPS.map(group => h('optgroup', { label: group.title }, group.presets.map(p => h('option', { value: p.key }, p.label)))));
@@ -409,6 +425,7 @@ function showTest() {
   doc.body.dataset.test = '';
   if (test.safe === null) { test.safe = wide() ? 'notch' : 'screen'; test.safeSelect.value = test.safe; }
   setDrawer(wide());
+  test.fold(false);
   fitDevice();
   if (preset) setControls(preset.controls); else applyTest();
   clearInterval(test.tick);
@@ -425,6 +442,7 @@ function closeTest() {
 function hideTest() {
   test.open = false;
   clearInterval(test.tick);
+  clearTimeout(test.foldTimer);
   test.el.hidden = true;
   delete doc.body.dataset.test;
   test.scene?.suspend?.();

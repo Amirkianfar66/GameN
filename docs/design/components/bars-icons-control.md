@@ -60,6 +60,10 @@ On `d0139b11`, in desktop Chromium, the built page inside the host's document sk
 - **Result:** no page error, no console error, and no sideways scroll at any size.
 - **The store:** an owner's write and read work, and a write at a viewer's level is refused.
 
+**After the Lead's review of the first version** (18 November), two changes, looked at again at 390 × 844:
+- a whole-phone strip shows the phone's outline on the page's ground, with words that read, and says to tap it;
+- the test view's floating controls fold to the screen's edge five seconds after their last use, clear of the room. The one button left unfolds them.
+
 **Not checked:** a physical phone, Safari, a screen reader. The page's own controls on the real page with the owner signed in are for the owner's first look.
 
 ## Limits
