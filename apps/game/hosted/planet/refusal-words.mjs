@@ -45,13 +45,15 @@ export function refusalHeld(model,words,at){
 
 /**
  * The game's status line beside a refusal's words (R2). `said` is the words an open sheet showed last, with the
- * view's revision; `noted` is the words it shows now, or null. The line keeps still while the model's message is
- * still the words the sheet showed, in that view, so they are said once. Once the message or the view moves on (a
- * new send says "Registering…"; a read of the view clears the message), the same words again are new, and the line
- * says them. Returns the next `said` and whether the line keeps still.
+ * view's revision, match and viewer; `noted` is the words it shows now, or null. The line keeps still while the
+ * model's message is still the words the sheet showed, in that view, for that viewer, so they are said once. Once
+ * the message or the view moves on (a new send says "Registering…"; a read of the view clears the message), or
+ * another match or seat is on the phone, the same words again are new, and the line says them. Returns the next
+ * `said` and whether the line keeps still.
  */
 export function refusalStatus(said,model,noted){
- const revision=model?.revision??null;
- const next=noted?{words:noted,revision}:said&&model?.message===said.words&&revision===said.revision?said:null;
+ const revision=model?.revision??null,match=model?.matchId??null,viewer=model?.ownSeatId??null;
+ const same=!!said&&model?.message===said.words&&revision===said.revision&&match===said.match&&viewer===said.viewer;
+ const next=noted?{words:noted,revision,match,viewer}:same?said:null;
  return {said:next,quiet:!!next&&model?.message===next.words};
 }

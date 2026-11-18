@@ -191,7 +191,7 @@ test('Promises: the words go with the next view, other words, a new choice, the 
 });
 
 test('the status line says a refusal\'s words once: still while the sheet shows them, and after while they are the same message',()=>{
- const words='The server did not allow that command.',at={message:words,revision:7},said={words,revision:7};
+ const words='The server did not allow that command.',at={message:words,revision:7,matchId:'match-1',ownSeatId:'seat-4'},said={words,revision:7,match:'match-1',viewer:'seat-4'};
  // The sheet shows them: the line keeps still.
  assert.deepEqual(refusalStatus(null,at,words),{said,quiet:true});
  assert.deepEqual(refusalStatus(null,{...at,message:null},words),{said,quiet:false},'held through a read: the line has nothing to say');
@@ -199,7 +199,8 @@ test('the status line says a refusal\'s words once: still while the sheet shows 
  assert.deepEqual(refusalStatus(said,at,null),{said,quiet:true});
  // Once the message or the view moves on, the same words again are new, and the line says them: a new send says
  // "Registering…" first, a read of the view clears the message, a new view is another revision.
- for(const moved of [{...at,message:SENDING_WORDS},{...at,message:null},{...at,revision:8},{...at,message:'Other words.'}])
+ // Another match or seat on the phone: the last viewer's words never quiet the new viewer's line.
+ for(const moved of [{...at,message:SENDING_WORDS},{...at,message:null},{...at,revision:8},{...at,message:'Other words.'},{...at,matchId:'match-2'},{...at,ownSeatId:'seat-5'}])
   assert.deepEqual(refusalStatus(said,moved,null),{said:null,quiet:false},JSON.stringify(moved));
  assert.deepEqual(refusalStatus(null,at,null),{said:null,quiet:false},'words no sheet showed: the line says them');
  // Through a sequence: shown, Back, a Pass sent and refused with the same words in the same view.
@@ -208,3 +209,25 @@ test('the status line says a refusal\'s words once: still while the sheet shows 
  state=refusalStatus(state.said,{...at,message:SENDING_WORDS},null);assert.equal(state.quiet,false,'the Pass sends');
  state=refusalStatus(state.said,at,null);assert.equal(state.quiet,false,'its refusal is said');
 });
+
+test('a blur over a held refused check: no sheet is left, and the words are not lost',async()=>{
+ // The renderer's onBlur, in its own order (render.mjs, the Bars & Icons builder's review): calm() drops this phone's
+ // refused flow, said is forgotten, then the controller dismisses whatever is open.
+ const r=rig(planetView());await r.controller.start();
+ const answer=held(r);let flow=moveToB5(r);const sent=r.controller.confirm();await settle();
+ flow=actionsFlow(flow,r.read());answer('NOT_ALLOWED');await sent;
+ flow=actionsFlow(flow,r.read());const words=flow.refusal;
+ let said=refusalStatus(null,r.read(),actionsRefusal(flow)).said;
+ assert.equal(refusalStatus(said,r.read(),actionsRefusal(flow)).quiet,true,'the check says them; the line keeps still');
+ if(actionsRefusal(flow))flow=null;said=null;r.controller.dismiss();
+ const model=r.read();
+ flow=actionsFlow(flow,model);
+ assert.equal(flow,null);
+ assert.notEqual(actionsFrame(model,{flow})?.kind,'action-check','no sheet is left');
+ assert.equal(model.message,words,'the controller still has them until the next read');
+ assert.deepEqual(refusalStatus(said,model,null),{said:null,quiet:false},'so the status line says them once when the player is back');
+ // Had said been kept, the line would keep still and the words would be lost.
+ assert.equal(refusalStatus(refusalStatus(null,model,words).said,model,null).quiet,true);
+ r.controller.dispose();
+});
+

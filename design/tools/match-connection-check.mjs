@@ -32,13 +32,18 @@
 //   promise-incoming, -accepted the partner's offer, accepted: one ACCEPT_PROMISE, and Received shows it
 //   refused-next-view           a refusal's words go with the next view; the terms stay
 //   refused-elsewhere           and with a tap out of the sheet (the top bar's Promises)
+//   refused-blur                and with a blur: the sheet closes; the app's own blur interrupts the connection
 //   refused-concealed           and with a hidden page: nothing of them stays, nor when the page shows again
 //   refused-phase-closed        and with the talk: the sheet closes with its phase, and no words are left
 //   promise-results             after the talk: Received and Given with their status
+// And at 320 × 568 with the Largest text (the Lead's and the Bars & Icons builder's ask with shell 0.3.3):
+//   promise-incoming-largest    the partner's offer, the first game sheet the shell squeezes: its head and room
+//   promise-incoming-largest-accept   scrolled to Accept, which a tap at its place on the screen sends
 // A capture passes with no unexpected policy report, no failed request and no page error; the shell mounted with
 // the stage in it and none of the old chrome; and the state's own facts. It writes
 // design/phone-ui/review/match-connection/: one JPEG per state and size, and check.json (the headers and their
-// SHA-256, the candidate and art commits, what each capture saw and its SHA-256).
+// SHA-256, the candidate and art commits, what each capture saw and its SHA-256). States are drawn at both phones
+// unless they name their sizes; the two Largest-text states are drawn at 320 × 568 alone.
 //   GAMEN_PHONE_ART_BASE=<clean worktree of origin/main> node design/tools/match-connection-check.mjs [--only a,b] [--keep]
 // One browser draws every capture, one page at a time. --only draws some states (a state another continues from
 // is drawn with it); a run with --only adds its captures to check.json when that record names the same candidate,
@@ -65,7 +70,9 @@ import { connect, launchBrowser, openPage, sleep } from './lib/chrome.mjs';
 
 const REPO = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const REVIEW = join(REPO, 'design/phone-ui/review/match-connection');
-const SIZES = { '390x844': [390, 844], '430x932': [430, 932] };
+const SIZES = { '390x844': [390, 844], '430x932': [430, 932], '320x568': [320, 568] };
+/** The two phones every state is drawn at, unless it names its sizes. */
+const PHONES = ['390x844', '430x932'];
 const PROJECT = 'gamen-mothership-staging';
 const HEADERS = createHostedPreviewHeaders(PROJECT);
 // The asset tooling the harnesses serve their art with: it must be main's, so the art is main's too.
@@ -178,6 +185,34 @@ const READS = "window.planetHarness.requests.filter(r=>r.operation==='read').len
 /** A refused command's words in Promises' part (R2): the kit's inline error. */
 const NOTE = `document.querySelector(${JSON.stringify('.ms-ps-sheet .ms-ps-sheet-body > .ms-promises .ms-k-error')})`;
 const REFUSED_WORDS = 'That choice is no longer offered.';
+/** The Largest text (200 %), chosen as a player does: ⋮, Settings, Text size; then Settings is closed (as #307's check). */
+const largestText = async page => {
+  await page.evaluate(tap('.ms-ps-tb [data-intent="menu"]'));
+  await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='settings'&&document.querySelector('.ms-ps-sheet select[aria-label=\"Text size\"]')", 'Settings');
+  await page.evaluate("(()=>{const s=document.querySelector('.ms-ps-sheet select[aria-label=\"Text size\"]');s.value='2';s.dispatchEvent(new Event('change',{bubbles:true}));})()");
+  await page.waitFor("document.documentElement.style.fontSize==='200%'", 'the Largest text');
+  await page.evaluate(tap('.ms-ps-sheet [data-intent="sheet-close"]'));
+  await page.waitFor("!document.querySelector('.ms-ps-sheet')", 'Settings closed');
+};
+/**
+ * How the open sheet is laid out (shell 0.3.3, as #307's check reads it): a stacked head, a footer that scrolls with
+ * the body, the title's lines, the scroller's content and room, whether the sheet and its parts are on the screen,
+ * and where Accept is: inside the scroller's visible box, and the control a finger at its centre would touch.
+ */
+const FIT = `(() => {
+  const sheet = document.querySelector('.ms-ps-sheet'); if (!sheet) return null;
+  const head = sheet.querySelector('.ms-ps-sheet-head'), h2 = head.querySelector('h2'), squeezed = sheet.hasAttribute('data-foot-scrolls');
+  const scroller = squeezed ? sheet.querySelector('.ms-ps-sheet-scroll') : sheet.querySelector('.ms-ps-sheet-body'), foot = sheet.querySelector('.ms-ps-sheet-foot');
+  const r = n => n.getBoundingClientRect(), s = r(sheet), box = r(scroller), tabs = document.querySelector('.ms-ps-tabs');
+  const accept = sheet.querySelector('.ms-ps-sheet-foot [data-value="accept"]'), a = accept ? r(accept) : null;
+  const hit = a ? document.elementFromPoint(a.left + a.width / 2, a.top + a.height / 2) : null;
+  return { text: document.documentElement.style.fontSize, stacked: head.hasAttribute('data-stacked'), footScrolls: squeezed,
+    titleLines: Math.round(h2.offsetHeight / parseFloat(getComputedStyle(h2).lineHeight)), titleWhole: h2.scrollWidth <= h2.clientWidth + 1 && h2.scrollHeight <= h2.clientHeight + 1,
+    sheet: Math.round(s.height), head: Math.round(r(head).height), content: scroller.scrollHeight, room: scroller.clientHeight, scrolled: Math.round(scroller.scrollTop),
+    inView: s.top >= 0 && s.bottom <= window.innerHeight + 0.5, aboveTabs: !tabs || tabs.hidden || s.bottom <= r(tabs).top + 0.5,
+    footInScroller: !!foot && scroller.contains(foot),
+    accept: a ? { inView: a.top >= box.top - 0.5 && a.bottom <= box.bottom + 0.5, x: a.left + a.width / 2, y: a.top + a.height / 2, touched: !!hit && (hit === accept || accept.contains(hit)) } : null };
+})()`;
 const SHEET_CLOSE = '.ms-ps-sheet [data-intent="sheet-close"]';
 /** The phone's own turn, in a board scenario: the offers of a scenario, as its view has them, with more. */
 const offers = list => edit(`p.offers=${JSON.stringify(list)}`);
@@ -857,6 +892,35 @@ const STATES = {
     },
     facts: s => ({ noNote: s.notes === 0 && !s.page.includes(REFUSED_WORDS), statusHidden: s.status === null, noCommand: s.commands.length === 0,
       infoSheet: s.sheet?.id ?? null, infoView: s.promises?.view ?? null }) },
+  // A blur (not the player's intent: a notification can blur the window) closes the sheet with the words
+  // (render.mjs onBlur: calm(), the Bars & Icons builder's review). Frontend's app also hides its session on a blur
+  // (app.mjs concealRole), so the connection is interrupted at once: the controller's message is its own
+  // "Connection interrupted…", under the reconnecting banner, and the words are dropped as when the phone is put away.
+  // onBlur's said=null would let the status line say them once, were the message still them. Measured at the blur.
+  'refused-blur': { page: 'phone', url: 'scenario=promises', steps: async page => {
+      await STEPS.refused(page);
+      await page.evaluate(`(async () => {
+        const frame = () => new Promise(done => requestAnimationFrame(() => done())), reads = () => ${READS};
+        const n = reads(); for (let i = 0; i < 300 && reads() === n; i++) await frame();
+        document.querySelector(${JSON.stringify(FOOT('offer'))}).click();
+        for (let i = 0; i < 60 && !${NOTE}; i++) await frame();
+        const noted = !!${NOTE};
+        window.dispatchEvent(new Event('blur'));
+        await frame(); await frame();
+        const status = document.querySelector('.planet-status');
+        window.__matchBefore = { noted, messageAtBlur: ${game}.getModel().message, statusAtBlur: status && !status.hidden ? status.textContent.trim() : null,
+          sheetAtBlur: document.querySelector('.ms-ps-sheet')?.dataset.sheet ?? null, notesAtBlur: document.querySelectorAll('.ms-phone-shell .ms-k-error').length };
+      })()`);
+    },
+    facts: s => ({ notedFirst: s.before?.noted === true, noSheet: s.before?.sheetAtBlur === null && s.sheet === null, noNote: s.before?.notesAtBlur === 0 && s.notes === 0,
+      interrupted: s.before?.messageAtBlur === 'Connection interrupted. Your command recovery is retained.' && s.before.statusAtBlur === null && s.banner?.kind === 'reconnecting',
+      noWords: !s.page.includes(REFUSED_WORDS), noCommand: s.commands.length === 0 }),
+    after: async page => {
+      await page.evaluate("window.dispatchEvent(new Event('focus'))");
+      await page.waitFor(`${game}.getModel().connection==='live'&&document.querySelector('.ms-phone-shell')?.dataset.status==='live'`, 'live again');
+      const seen = await page.evaluate(LOOK);
+      return { backNoNote: seen.notes === 0 && !seen.page.includes(REFUSED_WORDS), backClear: seen.status === null, infoBackSheet: seen.sheet?.id ?? null };
+    } },
   // A hidden page keeps nothing of them, and they do not come back when the page shows again.
   'refused-concealed': { page: 'phone', url: 'scenario=promises', steps: async page => {
       await STEPS.refused(page);
@@ -892,6 +956,38 @@ const STATES = {
       rows: promiseRows(s) === 'Your quota / Given 1/1 · Received 1/1|Jail Vote / From Crew 3 / Not fulfilled|Meet in Room B / To Crew 1 / Pending',
       portraits: s.promises?.rows.slice(1).every(r => r.portrait), note: s.promises?.notes.join('|') === '“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.',
       noTalk: !s.promises?.text.includes('talking now'), noCommand: s.commands.length === 0 }) },
+  // Shell 0.3.3 in the game (the Lead's and the Bars & Icons builder's ask, 18 November): the partner's offer, on the
+  // smallest phone at the Largest text, the first game sheet the shell squeezes. Its head, its content's room, then
+  // Accept reached by scrolling, and its tap, at its place on the screen, sending the one ACCEPT_PROMISE.
+  'promise-incoming-largest': { page: 'phone', url: 'scenario=promises', sizes: ['320x568'], steps: async page => {
+      await largestText(page);
+      await STEPS.promises(page);
+      await page.evaluate(tap(PROW('incoming')));
+      await page.waitFor(PVIEW('incoming'), 'Crew 1\'s offer');
+    },
+    extra: async page => ({ fit: await page.evaluate(FIT) }),
+    facts: (s, looks, { fit }) => ({ frame: s.sheet?.id === 'promises' && s.sheet.title === 'Offer from Crew 1' && foot(s) === 'decline:Decline|accept:Accept',
+      largest: fit?.text === '200%', titleWhole: fit?.titleWhole === true, onScreen: fit?.inView === true && fit.aboveTabs === true,
+      card: s.promises?.card?.name === 'Meet in Room A' && s.promises.card.terms === 'Player 1 will be in Room A when Round 6\'s voting begins, after Sync.',
+      noCommand: s.commands.length === 0, infoStacked: fit?.stacked, infoFootScrolls: fit?.footScrolls, infoTitleLines: fit?.titleLines,
+      infoRoom: fit ? { content: fit.content, room: fit.room, sheet: fit.sheet, head: fit.head } : null, infoAcceptAtFirst: fit?.accept?.inView ?? null }) },
+  'promise-incoming-largest-accept': { from: 'promise-incoming-largest', sizes: ['320x568'], steps: async page => {
+      // As a thumb would: the sheet's scroller (the body and footer's wrapper, when the footer scrolls) to its end.
+      await page.evaluate(`(() => { const sheet = document.querySelector('.ms-ps-sheet'); const scroller = sheet.hasAttribute('data-foot-scrolls') ? sheet.querySelector('.ms-ps-sheet-scroll') : sheet.querySelector('.ms-ps-sheet-body'); scroller.scrollTop = scroller.scrollHeight; })()`);
+      await page.waitFor(`(${FIT})?.accept?.inView`, 'Accept in view');
+    },
+    extra: async page => ({ fit: await page.evaluate(FIT) }),
+    facts: (s, looks, { fit }) => ({ reached: fit?.accept?.inView === true && fit.accept.touched === true, noCommand: s.commands.length === 0, infoScrolled: fit?.scrolled }),
+    after: async (page, seen) => {
+      const fit = await page.evaluate(FIT);
+      // A tap at Accept's place on the screen: the pointer goes where a finger would, so a cover would take it.
+      await page.send('Input.dispatchMouseEvent', { type: 'mousePressed', x: fit.accept.x, y: fit.accept.y, button: 'left', clickCount: 1 });
+      await page.send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: fit.accept.x, y: fit.accept.y, button: 'left', clickCount: 1 });
+      await page.waitFor(`document.querySelector('.ms-ps-toast')&&${PVIEW('list')}`, 'the receipt and the list');
+      const after = await page.evaluate(LOOK);
+      return { acceptSent: JSON.stringify(after.commands) === JSON.stringify([{ type: 'ACCEPT_PROMISE', promiseId: 'incoming-promise' }]),
+        receipt: after.toast === 'Registered. Waiting for the authoritative view.' };
+    } },
 };
 /** The record so far, when this run adds to it: the same candidate, art and headers. */
 
@@ -926,6 +1022,7 @@ try {
     let page = null;
     for (const [name, state] of Object.entries(STATES)) {
       if (wanted && !wanted.has(name)) continue;
+      if (!(state.sizes ?? PHONES).includes(sizeKey)) continue;
       const result = { ok: false };
       try {
         if (!state.from) {

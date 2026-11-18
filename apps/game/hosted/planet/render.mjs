@@ -593,22 +593,25 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  }
  const onClick=e=>{
   const target=e.target.closest('button');if(!target||!root.contains(target)||target.disabled)return;
-  if(target.dataset.moveRoom){if(sceneMode!=='board'||model.dark||!model.canMove||!model.moveRooms.includes(target.dataset.moveRoom))return;controller.begin('MOVE');controller.choose(target.dataset.moveRoom);return;}
+  if(target.dataset.moveRoom){if(sceneMode!=='board'||model.dark||!model.canMove||!model.moveRooms.includes(target.dataset.moveRoom))return;calm();controller.begin('MOVE');controller.choose(target.dataset.moveRoom);return;}
   if(target.dataset.intent==='action/choose'){choose(target.dataset.value);return;}
   const action=target.dataset.planetAction,value=target.dataset.value;
-  if(action==='food-tasks'){controller.dismiss();food?.openTasks();return;}
-  if(action==='panel'){if(value==='board')switchView();else {more=false;controller.openPanel(value==='more'?'panels':value);}}
-  if(action==='begin'){more=false;controller.begin(value);}
+  if(action==='food-tasks'){calm();controller.dismiss();food?.openTasks();return;}
+  // The game's own buttons go through the closures above, which also clear a refused command's words (calm, R2).
+  if(action==='panel'){if(value==='board'){calm();switchView();}else openPanel(value==='more'?'panels':value);}
+  if(action==='begin')begin(value);
   if(action==='choose')choose(value);
   if(action==='confirm')void controller.confirm();
-  if(action==='close'){more=false;listOpen=false;controller.dismiss();}
+  if(action==='close')dismiss();
  };
  // Escape closes what is open, as today's Close; the shell moves the focus to itself when the focused control ends.
- const onKey=e=>{if(e.key==='Escape'){more=false;listOpen=false;controller.dismiss();}};
+ const onKey=e=>{if(e.key==='Escape')dismiss();};
  const onVisibility=()=>{controller.setVisible(document.visibilityState==='visible');syncSceneActivity();syncShellActivity();if(document.visibilityState!=='visible'){motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;}};
  const onMotion=()=>{motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;if(model)render(controller.getModel());};
  const onArt=()=>{uiKey=null;if(model)render(controller.getModel());};
- const onBlur=()=>{blurred=true;syncSceneActivity();syncShellActivity();controller.dismiss();motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;};
+ // A blur is not the player's intent (a notification can blur the window for an instant): the sheets close, a refused
+ // command's words with them, and the status line may say those words once more, as nothing showed them last (R2).
+ const onBlur=()=>{blurred=true;syncSceneActivity();syncShellActivity();calm();said=null;controller.dismiss();motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;};
  const onFocus=()=>{blurred=false;if(model)render(controller.getModel());syncSceneActivity();syncShellActivity();};
  const onResize=()=>{uiKey=null;if(model)render(controller.getModel());};
  // The shell reports its bars' and stage's sizes (onLayout), which replaced the old bars' ResizeObserver.
@@ -616,6 +619,6 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  const stop=controller.subscribe(render);
  return {get view(){return sceneMode;},bars(){const bars=disposed?null:shell.layout()?.bars;return {top:bars?.top??0,bottom:bars?.bottom??0};},
   foodSurface(next){if(JSON.stringify(next)===JSON.stringify(foodSurface))return;foodSurface=next;uiKey=null;if(model)render(controller.getModel());},
-  navigate(next){if(next==='switch'){sceneMode=sceneMode==='room'?'board':'room';if(sceneMode==='room'&&lastOwnRoom)currentRoom=lastOwnTalk?'capsule':lastOwnRoom;uiKey=null;controller.dismiss();}else controller.openPanel(next);},
+  navigate(next){calm();if(next==='switch'){sceneMode=sceneMode==='room'?'board':'room';if(sceneMode==='room'&&lastOwnRoom)currentRoom=lastOwnTalk?'capsule':lastOwnRoom;uiKey=null;controller.dismiss();}else controller.openPanel(next);},
   settingsChanged(){if(model?.panel==='settings'){uiKey=null;render(controller.getModel());}},dispose(){if(disposed)return;disposed=true;stop();closeScene();closeSheetPart();disconnect();blackoutGeometry.clear();if(raf!==null)win.cancelAnimationFrame(raf);disposeCrewMounts(holder);motion.dispose();capsule.dispose();blackout.dispose();films.dispose();rescue.dispose();cinematic.dispose();drawings.clear();shell.dispose();delete root.dataset.crewArt;root.replaceChildren();}};
 }
