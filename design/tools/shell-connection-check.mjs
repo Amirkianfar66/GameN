@@ -158,7 +158,9 @@ const LOOK = `(() => {
       glyph: q('.ms-ps-glyph', bar)?.getAttribute('data-tone') ?? (q('.ms-ps-glyph', bar) ? 'plain' : null), portrait: !!q('.ms-ps-pt', bar), round: text(q('.ms-ps-round', bar)), clock: text(q('.ms-ps-timer', bar)),
       urgent: !!q('.ms-ps-timer[data-urgent]', bar), ring: !!q('.ms-ps-ring', bar), promises: q('.ms-ps-promises', bar)?.getAttribute('aria-label') ?? null, menu: !!q('.ms-ps-menu', bar),
       gauge: q('.ms-ps-slot .fs-food', bar)?.getAttribute('aria-label') ?? null, controls: all('button', bar).length, box: box(bar) } : null,
-    tabs: tabs ? { hidden: tabs.getAttribute('aria-hidden') === 'true', buttons: all('button[data-intent]', tabs).map(control), box: box(tabs) } : null,
+    tabs: tabs ? { hidden: tabs.getAttribute('aria-hidden') === 'true', buttons: all('button[data-intent]', tabs).map(control), box: box(tabs),
+      // Shell 0.3.0: the Card tab's picture, this viewer's own crew portrait: whether it is drawn, with which picture, and its box.
+      card: (() => { const tab = q('[data-intent="tab"][data-value="card"]', tabs), pt = tab ? q('.ms-ps-tab-pt', tab) : null; return tab ? { portrait: !!pt, picture: pt ? getComputedStyle(pt).backgroundImage !== 'none' : null, property: pt ? (/--ms-asset-[a-z0-9-]+/.exec(pt.style.backgroundImage)?.[0] ?? null) : null, size: pt ? [pt.getBoundingClientRect().width, pt.getBoundingClientRect().height] : null, icon: !!q('svg', tab), words: text(q('.ms-ps-tab-label', tab)), name: tab.getAttribute('aria-label') } : null; })() } : null,
     talk: talk ? all('button[data-intent]', talk).map(control) : null,
     hero: hero ? { mode: hero.dataset.mode, ...control(hero) } : null,
     target: target ? { title: text(q('.ms-ps-text b', target)), sub: text(q('.ms-ps-text span', target)), cancel: q('[data-intent="cancel-target"]', target) ? control(q('[data-intent="cancel-target"]', target)) : null, box: box(target) } : null,
@@ -199,9 +201,12 @@ const STATES = {
       await page.waitFor(`${game}.getModel().activeSeatId==='seat-1'`, 'another player\'s turn');
     },
     facts: s => ({ turnBar: s.bar?.kind === 'turn' && s.bar.name === 'Crew 1' && s.bar.sub === 'Player 1 · Turn' && s.bar.portrait, clock: /^\d:\d\d$/.test(s.bar?.clock ?? ''), round: s.bar?.round === 'R6',
-      promisesMenu: !!s.bar?.promises && s.bar.menu, tabs: values(s) === 'switch,actions,hero:pass,card,panels', passOff: s.hero?.mode === 'pass' && s.hero.disabled, live: s.shell?.status === 'live' }) },
+      promisesMenu: !!s.bar?.promises && s.bar.menu, tabs: values(s) === 'switch,actions,hero:pass,panels,card', passOff: s.hero?.mode === 'pass' && s.hero.disabled, live: s.shell?.status === 'live' }) },
   own: { page: 'phone', url: 'scenario=board',
     facts: s => ({ yourTurn: s.bar?.kind === 'turn' && s.bar.name === 'Your turn' && s.bar.sub === 'Player 6 · Crew 6', passOn: s.hero?.mode === 'pass' && !s.hero.disabled && s.model?.canPass === true,
+      // Shell 0.3.0: Card is the last tab and draws this viewer's own portrait (Player 6's) in the icon's 26 px box; the tab keeps its word.
+      cardTab: values(s) === 'switch,actions,hero:pass,panels,card' && s.tabs.card?.portrait === true && s.tabs.card.picture === true && /-c6$/.test(s.tabs.card.property ?? '') && s.tabs.card.size.join() === '26,26'
+        && !s.tabs.card.icon && s.tabs.card.words === 'Card' && s.tabs.card.name === null,
       roomScene: s.stage.scene === 'room-b' && s.stage.view === 'room' }) },
   pass: { from: 'own', steps: async page => {
       await page.evaluate(tap(HERO));
@@ -254,10 +259,8 @@ const STATES = {
   // clears the choice at 0:00, and the shell's toast says why.
   closed: { page: 'phone', url: 'scenario=board', steps: async page => {
       await page.evaluate(tap(TAB('actions')));
-      // Both builds, #307's first: the game's own Scan button; release 3's (#310), Actions' Scan tile.
-      const scan = '#planet-action-SCAN, .ms-ps-sheet-body > .ms-actions [data-intent="tile"][data-value="SCAN"]';
-      await page.waitFor(`document.querySelector(${JSON.stringify(scan)})`, 'Scan offered in Actions');
-      await page.evaluate(tap(scan));
+      await page.waitFor("document.querySelector('#planet-action-SCAN')", 'Scan offered in Actions');
+      await page.evaluate(tap('#planet-action-SCAN'));
       await page.waitFor(`${game}.getModel().action?.type==='SCAN'&&!!document.querySelector('.ms-ps-target')`, 'the Scan choice open');
       await page.evaluate(edit("const length=p.phase.endsAt-p.phase.startedAt;p.phase={...p.phase,startedAt:now+1200-length,endsAt:now+1200}"));
       await page.waitFor("document.querySelector('.ms-ps-toast')", 'the toast when the time is up', 8000);
@@ -373,10 +376,8 @@ const STATES = {
     after: async page => {
       await page.evaluate(tap(TAB('panels')));
       await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='panels'", 'Panels');
-      // Both builds, #307's first: the game's own Navigation button; release 3's (#310), the panels component's row.
-      const navigation = '.ms-ps-sheet [data-planet-action="panel"][data-value="navigation"], .ms-ps-sheet-body > .ms-panels [data-intent="open"][data-value="navigation"]';
-      await page.waitFor(`document.querySelector(${JSON.stringify(navigation)})`, 'Navigation in Panels');
-      await page.evaluate(tap(navigation));
+      // The game's own Panels list, or (with release 3, #310) the Panels component's row.
+      await page.evaluate(tap('.ms-ps-sheet [data-planet-action="panel"][data-value="navigation"], .ms-ps-sheet-body > .ms-panels [data-intent="open"][data-value="navigation"]'));
       await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='navigation'&&document.querySelector('.ms-ps-sub')?.textContent==='Officer · private'", 'the Officer\'s own bar with Navigation open');
       const seen = await page.evaluate(LOOK);
       return { ownBar: seen.bar?.name === 'Setting course' && seen.bar.sub === 'Officer · private' && seen.sheet?.title === 'Navigation' };

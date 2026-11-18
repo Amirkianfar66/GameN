@@ -1,13 +1,13 @@
 # Shell connection: the match's frame on the phone shell
 
-**Status (17 November 2026):** a draft for the Lead Designer's review, then Frontend's. It is not in the game yet.
+**Status (18 November 2026):** a draft for the Lead Designer's review, then Frontend's. It is not in the game yet.
 - Integration first approves the source fence's marked hunk and the pins that refuse the changed files: `app.mjs`, `render.mjs`, `phone.css` and `planet.css`, and, through the drawing-port fence, `vite.config.mjs`, which the room connection's hunk already meets (see [The gates](#the-gates)).
 - This is not a release.
-- It is stacked on the room connection (`5f1b1c83`, [its page](room-connection.md)) and the phone shell (#265), merged at `9e296ccc` (#265 at `0e5a0b8a`) again at `5347df3f` (#265 at `bb567d7e`, shell 0.2.9), at `8c64f77c` (#265 at `60afd967`, shell 0.2.10, with the phase bars' words), at `4a109dc5` (#265 at `e86ca86b`, shell 0.2.11 with kit 0.8.1: a part opened after the text size changes takes the new size's rules), at `48e55eba` (#265 at `a0900240`, kit 0.8.2: the toast's words wrap at larger text), at `4601ac6c` and `aa46726c` (room scene 0.5.1, through #265 at `562723d8` and the room connection at `e2640346`), and at `a95dfc39` (#265 at `8e969200`, shell 0.2.12: a final target bar, with no Cancel).
+- It is stacked on the room connection (`5f1b1c83`, [its page](room-connection.md)) and the phone shell (#265), merged at `9e296ccc` (#265 at `0e5a0b8a`) again at `5347df3f` (#265 at `bb567d7e`, shell 0.2.9), at `8c64f77c` (#265 at `60afd967`, shell 0.2.10, with the phase bars' words), at `4a109dc5` (#265 at `e86ca86b`, shell 0.2.11 with kit 0.8.1: a part opened after the text size changes takes the new size's rules), at `48e55eba` (#265 at `a0900240`, kit 0.8.2: the toast's words wrap at larger text), at `4601ac6c` and `aa46726c` (room scene 0.5.1, through #265 at `562723d8` and the room connection at `e2640346`), at `a95dfc39` (#265 at `8e969200`, shell 0.2.12: a final target bar, with no Cancel), at `99c20a18` (the room connection at `0595c51b`, its record), and at `3f604614` (#321 at `1370773a`, shell 0.3.0: Card is the last tab and draws the player's own character).
 
 **What it is:**
-- On a phone, the Planet app's match is framed by Designer's [phone shell](phone-shell.md) (`phone-shell-0.2.12`, with `component-kit-0.8.2`), used as it is:
-  - the top bar, with the shell's own words for each game step that has no active player (0.2.10), the tabs with the round button (Pass, Vote, Voted), and the private talk's two buttons;
+- On a phone, the Planet app's match is framed by Designer's [phone shell](phone-shell.md) (`phone-shell-0.3.0`, with `component-kit-0.8.2`), used as it is:
+  - the top bar, with the shell's own words for each game step that has no active player (0.2.10), the tabs with the round button (Pass, Vote, Voted), Card last with the player's own character (0.3.0, the owner's 18 November decision, [the shell's page](phone-shell.md#the-card-tab)), and the private talk's two buttons;
   - the target bar with Cancel, the floating chip, both banners and the toast;
   - the docked sheet's frame: its title, line, Back, Close and footer actions.
 - The shell replaces the app's own header, tab bar, Pass button, sheet frame and target bar. None of them is left in the page.
@@ -53,6 +53,7 @@ As the handoff's "Frontend's connection" maps them, with what it leaves open.
 | `bar.promises` | As the handoff: on a player's phone, none during the two fixed presentations and none on a display |
 | `bar.menu` | ⋮ on every phone, **a shared display's included.** Settings is the one panel the controller opens on a display (`openPanel`), with the display's preferences and, when the display hosts, the host's controls; today's header offered it there. The handoff says a display uses the bar "without Promises or ⋮ today"; following it would leave a hosting display without its controls during the match |
 | `tabs` | As the handoff. **An eliminated player:** Actions unavailable, described by "You’re out. You can still watch." (sheet 44); the Board, Card and Panels stay. The presentation offers an eliminated seat nothing to act on (`packages/presentation/src/planet/model.ts`) |
+| `tabs.me` | Shell 0.3.0. The viewer's own public person, `{ seat: ownSeatId, name, character }` from `identities`, built as `bar.who` is for the active seat: the Card tab draws their crew portrait. Before a character is chosen the person has none, and the shell keeps the card icon. With no seat, `null` |
 | `tabs.hero` | As the handoff, and **Vote, unavailable, through the 5 s result**, as the pack draws it (sheet 38) and the shell's own agreement case `phase-result` compares it. The handoff's table says Pass there |
 | `target` | While this viewer chooses on the scene or the board (today's rule: the action's seat choices except a ballot or a code, a move's room or position, the Blackout's fixed position): the action's name and prompt, with its icon |
 | `chip` | "Other rooms · n" in the room view when people the action offers stand in other rooms (counted on the public board), or "Other rooms on the Board" for a move; "List" in the board view (sheet 29) |
@@ -184,7 +185,7 @@ These refuse the changed files until Integration approves. Each was found by rev
 | --- | --- |
 | `npm run check:sources` | In order: `app.mjs`, then `render.mjs` ("Food consumer source: content differs", `scripts/food-consumer-source.mjs`, the frozen Food release; as on the base, where the room connection changed both); then, new here, `phone.css` ("Phone UI production consumer: current content differs") and `planet.css` ("Runtime art release: content differs"). With all four reverted it passes, so `check:sources` accepts the `vite.config.mjs` hunk and the new files |
 | The hosted Vite build, plugin `reviewed-crew-drawing-release` | `app.mjs` first, as on the base |
-| `npm run test:design` | 25 of 397 fail, every one on the Food release's refusal of `app.mjs`, which the room connection already meets (its page records 25 of 370). Before shell 0.2.10's eleven tests of the phase bars, which pass, it was 25 of 386 |
+| `npm run test:design` | 25 of 399 fail (on shell 0.3.0), every one on the Food release's refusal of `app.mjs`, which the room connection already meets (its page records 25 of 370). Before shell 0.2.10's eleven tests of the phase bars, which pass, it was 25 of 386 |
 | `npm run test:tooling` | 68 of 356 fail, every one on that same refusal (the room connection's page: 68 of 356) |
 | The same suites with `app.mjs` and `render.mjs` reverted | Every failure moves to the next pin: 25 of 386 design tests and 65 of 356 tooling tests, all on "Phone UI production consumer: current content differs: `phone.css`" |
 | The same suites with all four reverted | 4 of 386 design tests and 6 of 356 tooling tests fail, every one on the drawing-port fence's three findings on `vite.config.mjs` (next row) |
@@ -212,7 +213,7 @@ These refuse the changed files until Integration approves. Each was found by rev
 - the same on the game's own controller, with its test rig (`planet-support.mjs`): it clears an open choice at 0:00 without a word, and its models give the toast once; never for a cancel, a pass accepted, a lost connection, a phone put away or a sheet alone;
 - the clock: the time as given, amber from 10 s, the ring without amber for the two fixed presentations, no clock while untrusted;
 - Promises and ⋮;
-- the tabs: the view, the open tab, the round button's modes and the result's Vote unavailable, the talk's buttons, an eliminated player's Actions;
+- the tabs: the view, the open tab, the round button's modes and the result's Vote unavailable, the talk's buttons, an eliminated player's Actions, and the viewer's own person for the Card tab (theirs and never the active player's; no character; no seat);
 - the target bar and the chip, from this viewer's own action only;
 - both banners, the pass's sheet and toast, and every sheet's frame;
 - privacy: concealed and under Food's surface, the shell drops this viewer's inputs and keeps its shape; a display gets no tabs and no viewer, only ⋮ and Settings, and nothing private;
@@ -228,9 +229,16 @@ These refuse the changed files until Integration approves. Each was found by rev
 - It serves them with the hosted game's production headers (`createHostedPreviewHeaders`, headers SHA-256 `424e5dec…`, the same as the shell's and the room scene's checks).
 - It drives the app at 390 × 844 and 430 × 932, in one browser, one page at a time. `--only` draws some states and adds them to the record when it names the same candidate, art and headers. This record was made in one run.
 
-**Result:** 42 of 42 captures pass: twenty-one states at both sizes, recorded on `211b5b58` (shell 0.2.12 with kit 0.8.2 and room scene 0.5.1, the phase-closed toast, the host sheet hook, the doubled selectors, and the game's sheet rules kept off Designer components in the sheet body) with the source clean and the art from `64e55516`, in one run. Before it, `8ad0ff44`, the same less the sheet rules, also passed 42 of 42. The in-game animation builder's run of the phase-closed toast's patch, on its own commit on `c19be75a`, also passed 42 of 42. Before them, `883473be` (shell 0.2.11 with kit 0.8.1, the phase bars' words, and no banner on the first connect) passed 40 of 40, as did the in-game animation builder's run of its patch on its own commit before the 0.2.11 merge. Before those, `00e679e9` (shell 0.2.9) and the helper's first record, `45afe011` (shell 0.2.8), each passed 34 of 34.
+**Result:** 42 of 42 captures pass: twenty-one states at both sizes, recorded on `fab43d8d` (shell 0.3.0 with kit 0.8.2 and room scene 0.5.1: Card the last tab, with the viewer's own person given for its portrait) with the source clean and the art from `64e55516`, in one run. Before it, `211b5b58` (shell 0.2.12, the phase-closed toast, the host sheet hook, the doubled selectors, and the game's sheet rules kept off Designer components in the sheet body) also passed 42 of 42. Before it, `8ad0ff44`, the same less the sheet rules, also passed 42 of 42. The in-game animation builder's run of the phase-closed toast's patch, on its own commit on `c19be75a`, also passed 42 of 42. Before them, `883473be` (shell 0.2.11 with kit 0.8.1, the phase bars' words, and no banner on the first connect) passed 40 of 40, as did the in-game animation builder's run of its patch on its own commit before the 0.2.11 merge. Before those, `00e679e9` (shell 0.2.9) and the helper's first record, `45afe011` (shell 0.2.8), each passed 34 of 34.
 
-Against `8ad0ff44`'s record:
+Against `211b5b58`'s record (shell 0.2.12):
+- **The tab bar changed in its fourth and fifth places only,** in the 34 captures that draw the game's tabs: Panels and Card changed places, and Card draws Player 6's own portrait. Between 3,588 and 4,296 pixels each, from 254 to 370 px across at 390 wide and from 282 to 406 at 430. Board/Room, Actions and the round button did not move.
+- **The six captures with no game tabs** (`talk`, `display` and `food-surface` at both sizes) have no difference in the tab bar's place. `concealed` is the same byte for byte at both sizes.
+- **The top bar** differs only at one digit of the clock (`ballot`, `blackout` and `voted`, at most 270 pixels) and at the result's ring (at most 111 pixels): the harness's time at the capture.
+- The rest differs inside the stage, where the room moves, also behind the glass of a docked sheet.
+- In `own`, at both sizes, the record holds the Card tab's facts: the last tab, its portrait drawn from `--ms-asset-crew-portrait-c6` in a 26 × 26 px box, no icon, the word "Card" and no other name.
+
+Before, `211b5b58` against `8ad0ff44`'s record:
 - Nothing in the frame moved. The tab bar is the same in all 42 captures. The top bar differs only at the result's ring (26 pixels), the harness's time.
 - The sheet rules change nothing here: nothing in this connection mounts a kit root in the sheet body, so the game's own sheets keep their rules. Inside the docked sheets, which are glass, only the room moving behind them differs (at most 850 pixels); the ballot's sheet doesn't differ at all.
 - The rest differs inside the stage, where the room moves. `concealed` is the same byte for byte at both sizes.
@@ -249,8 +257,8 @@ Against `00e679e9`'s record (for `883473be`):
 
 | State | What it shows and checks |
 | --- | --- |
-| `turn` | Another player's turn: "Crew 1 · Player 1 · Turn" with the portrait, R6, the clock, Promises and ⋮; the tabs Board, Actions, Pass (unavailable), Card, Panels |
-| `own` | Your turn: "Your turn" and, in amber, "Player 6 · Crew 6"; Pass usable; the room scene in the stage |
+| `turn` | Another player's turn: "Crew 1 · Player 1 · Turn" with the portrait, R6, the clock, Promises and ⋮; the tabs Board, Actions, Pass (unavailable), Panels, Card |
+| `own` | Your turn: "Your turn" and, in amber, "Player 6 · Crew 6"; Pass usable; the room scene in the stage. Card is the last tab and draws Player 6's own portrait in the icon's 26 px box, with its word "Card" (shell 0.3.0) |
 | `pass` | "Pass your turn?" with Cancel and Pass, and nothing sent. Then Pass sends `PASS_TURN`, once, and the sheet closes |
 | `actions` | The Actions sheet: the game's tiles in the shell's frame, the Actions tab open. Then Escape from inside the sheet closes it, and the focus goes back to the Actions tab |
 | `target` | The Officer's block from Actions: the top bar "Block a move · Before turns · Officer", the target bar "Block movement" with Cancel, no sheet, three people offered in the scene, the round button kept (T2). Then Cancel ends the choosing, and the top bar is everyone's again |
