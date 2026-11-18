@@ -475,6 +475,7 @@ Listed, not omitted:
     - In each case 10 to 20 parts sit in the same place, with the same words and states.
   - **Page health:** no page errors and no failed requests. The one policy report is the known one, Zod's eval probe, which Zod catches and which the live game's own bundle also has.
   - **Where the record is:** the captures and `check.json` are in `review/`, with each check and what it saw.
+    - **Beside 0.3.0, for the Lead's review:** `review/supplement/card-tab-0.3.1.jpg` puts the tab bar of 0.3.0's record beside 0.3.1's at 390 × 844 and 430 × 932: at rest, open, with no character and in the Blackout's dark, and at the Largest text on 320 × 568. It adds the Card tab unavailable, drawn from the same preview by giving it `enabled: { card: false }`, which no preview state does. It is a picture for the eye, not part of the record.
     - Recorded on `f0d52240`, with kit 0.8.2 and shell 0.3.1, and the source clean. Against `60c6dcd0`'s record (shell 0.3.0):
       - 14 captures are unchanged byte for byte: the seven states with no tabs, at both sizes.
       - 50 changed in the Card tab's place only: the portrait's own 32 px box, from 335 to 367 px across at 390 wide and from 371 to 403 at 430, between 2,493 and 2,856 pixels each. The Card label, Panels and every other tab did not move.
