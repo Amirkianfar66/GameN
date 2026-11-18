@@ -25,13 +25,14 @@
 // One departure from the pack's sheet 08, the owner's of 18 November 2026 (docs/design/owner-decisions.md,
 // "The Card tab moves to the right and shows the player's own character"), 0.3.0: Card is the last tab,
 // after Panels, and its icon is this viewer's own crew portrait (`tabs.me`), the plain portrait the top
-// bar draws. With no character it keeps the pack's card icon.
+// bar draws. With no character it keeps the pack's card icon. From 0.3.1 (the owner, the same day) the
+// portrait has the top bar's own shape and size: its rounded-square tile, whole, at 32 px.
 
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
 import { createControlPolicy, createKit, followTextSize } from '../kit/kit.mjs';
 
-export const PHONE_SHELL_VERSION = 'phone-shell-0.3.0';
+export const PHONE_SHELL_VERSION = 'phone-shell-0.3.1';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const KINDS = Object.freeze(['turn', 'phase', 'pair']);
 const HERO_MODES = Object.freeze(['pass', 'vote', 'voted']);

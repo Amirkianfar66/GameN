@@ -140,7 +140,7 @@ test('its words are the pack\'s: the hero, the tabs, the bar and the two banners
   assert.deepEqual(GAME_TABS, ['switch', 'actions', 'hero', 'panels', 'card'], 'the owner\'s tab order: Card last');
   assert.match(read('design/phone-ui/prototype/ui.mjs'), /tab\('card', 'card', 'Card'\),\s*tab\('panels', 'panels', 'Panels'\)/, 'the pack draws Card before Panels');
   assert.deepEqual(TALK_BUTTONS, ['promises', 'my-card']);
-  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.3.0');
+  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.3.1');
   assert.ok(TOAST_MS > 0);
 });
 
@@ -260,15 +260,16 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.ok(c.violations.every(v => v.kind.startsWith('known:')), `${key}: no unexpected policy report`);
     assert.ok(existsSync(join(REPO, c.file)), `${key}: ${c.file}`);
   }
-  // 0.3.0, the owner's 18 November 2026 decision: Card is the last tab and draws this viewer's own crew portrait in
-  // the icon's 26 px box, its ring amber only while its sheet is open; with no character, the pack's card icon. The
-  // tab keeps its word and takes no other name.
+  // 0.3.0, the owner's 18 November 2026 decision: Card is the last tab and draws this viewer's own crew portrait; with
+  // no character, the pack's card icon. The tab keeps its word and takes no other name. 0.3.1, the owner the same
+  // day: the portrait as the top bar draws it, at its 32 px, with a ring only while its sheet is open, in amber.
   for (const [key, c] of captures) {
     if (!c.order?.length) continue;
     assert.deepEqual(c.order, ['switch', 'actions', 'hero', 'panels', 'card'], `${key}: Card is the last tab`);
     assert.ok(c.card.words === 'Card' && c.card.name === null && c.card.icon === 'card' && c.card.level, `${key}: the Card tab's word, and its label level with the others`);
-    if (c.card.picture) assert.ok(c.card.drawn && c.card.box[0] === 26 && c.card.box[1] === 26, `${key}: the portrait drawn in the icon's 26 px box`);
-    assert.equal(c.card.picture ? c.card.amber : false, c.open === 'card' && c.card.picture, `${key}: the ring amber only while Card is open`);
+    if (c.card.picture) assert.ok(c.card.drawn && c.card.box[0] === 32 && c.card.box[1] === 32, `${key}: the portrait drawn at the top bar's 32 px`);
+    assert.equal(c.card.picture ? c.card.amber : false, c.open === 'card' && c.card.picture, `${key}: an amber ring only while Card is open`);
+    if (c.card.picture) assert.equal(c.card.ring, c.card.amber, `${key}: no ring of another colour, and none at rest`);
   }
   for (const size of ['390x844', '430x932']) {
     assert.ok(record.captures[`${size}/own`].card.picture && record.captures[`${size}/card`].card.amber, `${size}: the portrait, and its amber ring with Card open`);
@@ -340,8 +341,14 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   // 0.3.0: the Card tab's own check, with what it saw: the portrait is the top bar's, and at every size keeps its box.
   const cardTab = record.probe.full.checks.find(c => c.id.startsWith('card:')).detail;
   assert.equal(cardTab.rest.image, cardTab.rest.barImage, 'the Card tab\'s portrait is the plain one the top bar draws');
+  // 0.3.1: the top bar's shape and size too: the same box, fitted the same way, with no ring at rest.
+  assert.deepEqual([cardTab.rest.box, cardTab.rest.fit, cardTab.rest.ring], [cardTab.rest.barBox, cardTab.rest.barFit, null], 'the top bar\'s box and fit, and no ring at rest');
+  assert.equal(cardTab.open.ring, cardTab.open.accent, 'open, the ring is the accent');
   assert.deepEqual(Object.keys(cardTab.sized), ['390 standard', '390 largest', '430 standard', '430 largest', '320 standard', '320 largest']);
-  for (const [key, f] of Object.entries(cardTab.sized)) assert.deepEqual(f.box, [26, 26], `${key}: the portrait's box`);
+  for (const [key, f] of Object.entries(cardTab.sized)) {
+    assert.deepEqual(f.box, [32, 32], `${key}: the portrait's box`);
+    assert.equal(f.barHeight, f.barHeightWithIcon, `${key}: the bar as tall as with the card icon`);
+  }
   // 0.2.10: the lit Blackout counting down in one mounted shell, then dark: its words and clock change and nothing moves.
   const words = record.probe.full.checks.find(c => c.id.startsWith('words:')).detail;
   assert.deepEqual(words.subs, ['Lights out in 0:03', 'Lights out in 0:02', 'Lights out in 0:01', 'Dark · positions fixed']);
