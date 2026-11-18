@@ -34,7 +34,7 @@
 import { createControlPolicy, createKit, seatNumber } from '../kit/kit.mjs';
 import { TILE_STATES, createPlayParts } from '../play-parts/play-parts.mjs';
 
-export const ACTIONS_VERSION = 'actions-0.2.4';
+export const ACTIONS_VERSION = 'actions-0.2.5';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const TURNS = Object.freeze(['own', 'other']);
 const AFTER_KINDS = Object.freeze(['registered', 'accepted', 'active', 'captured']);
@@ -77,7 +77,9 @@ export const ACTION_WORDS = Object.freeze({
   tilesLabel: 'Your actions', notAvailable: 'Not available now',
   actions: 'Actions', actionsSub: (role, room) => [role, room].filter(Boolean).join(' · ') || null,
   list: 'Choose from a list', listSub: title => `${title} · everyone you can reach`, listButton: 'List',
-  you: name => `${name} (you)`, player: n => `Player ${n}`, players: (a, b) => `Players ${a} and ${b}`, picked: 'Picked',
+  // "Player" keeps its number, and a seat or name its separator, on one line (no-break spaces), so no line starts
+  // with "·" and no number stands alone (the Lead, 18 November).
+  you: name => `${name} (you)`, player: n => `Player\u00a0${n}`, players: (a, b) => `Players\u00a0${a} and\u00a0${b}`, picked: 'Picked',
   check: 'Check and register', onlyYou: 'Only you see this', yourself: 'yourself', and: (a, b) => `${a} and ${b}`,
   cancel: 'Cancel', done: 'Done',
   choosePlayer: 'Choose a player', chooseTwo: 'Choose two players', chooseSecond: 'Choose the second player', everyRoom: sub => `${sub} · every room`,
@@ -86,7 +88,7 @@ export const ACTION_WORDS = Object.freeze({
   toast: Object.freeze({ registered: noun => `${noun} registered`, accepted: noun => `${noun} accepted`, active: noun => `${noun} active`, captured: () => 'Navigation suppressed' }),
   unknown: 'Outcome unknown', retrySame: 'Retry the same', checkReceipt: 'Check receipt',
   noAnswer: what => `${what} was sent, but no answer came back.`, checkFirst: 'Check before doing anything else.',
-  passTitle: 'Pass your turn?', passNext: (name, n) => `The turn goes to ${name} · Player ${n}`, pass: 'Pass', passed: 'Turn passed',
+  passTitle: 'Pass your turn?', passNext: (name, n) => `The turn goes to ${name}\u00a0· Player\u00a0${n}`, pass: 'Pass', passed: 'Turn passed',
   stale: 'Controls return when the match is current',
   // Move (screens-game.mjs room() and board(); the Lead's Q2 and Q3 for the steps the pack leaves undrawn).
   moveWithin: room => `Move within ${room}`, moveTo: slot => `Move to ${slot}`, moved: slot => `Moved to ${slot}`,
@@ -345,7 +347,7 @@ export function actionWords({ type, targets = [], viewer = null, position = null
   }
   if (targets.length === 1) {
     const t = targets[0], what = `${verb} ${named(t, viewer)}`;
-    return { title: what, sub: t.room ? `${ACTION_WORDS.player(t.seat)} · ${t.room}` : ACTION_WORDS.player(t.seat), what };
+    return { title: what, sub: t.room ? `${ACTION_WORDS.player(t.seat)}\u00a0· ${t.room}` : ACTION_WORDS.player(t.seat), what };
   }
   return { title: verb, sub: ACTION_WORDS.onlyYou, what: verb };
 }
@@ -709,7 +711,7 @@ export function mountTargetList(host, input = {}, handlers = {}) {
           const items = g.people.map(p => {
             let node = rows.get(p.seat);
             const props = { lead: node?.querySelector('.ms-k-pt') ?? kit.portrait(p, s.versions), title: p.you || p.seat === s.viewer ? ACTION_WORDS.you(p.name) : p.name,
-              sub: `${ACTION_WORDS.player(p.seat)}${p.health && p.health !== 'Healthy' ? ` · ${p.health}` : ''}`, value: picked.has(p.seat) ? ACTION_WORDS.picked : null,
+              sub: `${ACTION_WORDS.player(p.seat)}${p.health && p.health !== 'Healthy' ? `\u00a0· ${p.health}` : ''}`, value: picked.has(p.seat) ? ACTION_WORDS.picked : null,
               chevron: true, intent: 'pick', data: p.seat };
             kit.setPortrait(props.lead, p, s.versions);
             ids.set(p.seat, p.id);
@@ -765,7 +767,12 @@ export function mountActionCheck(host, input = {}, handlers = {}) {
           errorKey = key;
           error?.remove();
           error = s.error ? kit.errorNote(`${s.error.text}${s.error.detail ? ` ${s.error.detail}` : ''}`) : null;
-          if (error) { error.classList.add('ms-ac-error'); facts.after(error); }
+          if (error) {
+            error.classList.add('ms-ac-error');
+            facts.after(error);
+            // A refusal's words (0.2.5, R2): brought into view as they appear, above the footer's Cancel and Register.
+            error.scrollIntoView?.({ block: 'nearest' });
+          }
         }
       },
     };

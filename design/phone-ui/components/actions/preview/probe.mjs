@@ -13,7 +13,9 @@
 //   list      a row reports its seat as Frontend gave it; each row is kept by its seat; Supply's first pick
 //             is marked; "Dev (you)"; a focused row keeps the focus when the groups change
 //   check     the person, both people (Supply) or the action's icon; "yourself" for this viewer; the facts;
-//             the inline error when not accepted, as an alert, and gone when cleared
+//             the inline error when not accepted, as an alert, and gone when cleared; "Player" with its number
+//             and the seat with its "·" (no-break spaces, 0.2.5); a refusal (0.2.5, R2): the check kept open with
+//             Register off, the words last in the part and brought into view
 //   after     the stamp, its words and tone for each kind; the headline, the detail, the people, the steps;
 //             no time line after a reload; nothing drawn outside the sheet (nothing on the target)
 //   words     the frames and the shell's words: the sheets' ids, titles, subs and buttons; the target bar
@@ -160,7 +162,9 @@ export async function runActionsProbe({ sizes, versions }) {
 
     await check('check', async () => {
       const p = phone('check');
-      const read = () => ({ title: p.root.querySelector('.ms-k-who-title').textContent, sub: p.root.querySelector('.ms-k-who-sub').textContent, form: p.root.querySelector('.ms-k-who-lead').dataset.form,
+      // The words compared with a no-break space as a space; the joins themselves are checked on their own (0.2.5).
+      const read = () => ({ title: p.root.querySelector('.ms-k-who-title').textContent, sub: p.root.querySelector('.ms-k-who-sub').textContent.replace(/\u00a0/g, ' '),
+        subRaw: p.root.querySelector('.ms-k-who-sub').textContent, form: p.root.querySelector('.ms-k-who-lead').dataset.form,
         portraits: p.root.querySelectorAll('.ms-k-who-lead .ms-k-pt').length, facts: [...p.root.querySelectorAll('.ms-k-facts li')].map(n => n.textContent), error: p.root.querySelector('.ms-k-error')?.textContent ?? null,
         alert: p.root.querySelector('.ms-k-error')?.getAttribute('role') ?? null });
       const one = read();
@@ -175,10 +179,24 @@ export async function runActionsProbe({ sizes, versions }) {
       p.part.update({ error: null });
       const cleared = read();
       p.dispose();
+      const joins = { one: one.subRaw === 'Player\u00a05\u00a0· Hospital', two: two.subRaw === 'Players\u00a01 and\u00a07' };
+      // A refusal (0.2.5, R2): Frontend's words; the check stays open with Register off (canRegister: false), the
+      // words last in the part and brought into view above the footer.
+      const r = phone('check-refused');
+      const note = r.root.querySelector('.ms-k-error'), register = r.frame.querySelector('.ms-ps-sheet-foot [data-value="register"]');
+      const body = r.frame.querySelector('.ms-ps-sheet-body').getBoundingClientRect(), box = note?.getBoundingClientRect();
+      const following = []; for (let n = note?.nextElementSibling; n; n = n.nextElementSibling) following.push([...n.classList].join('.'));
+      // Last of what is drawn: only the control policy's visually hidden descriptions (.ms-k-vh) may follow it.
+      const held = { words: note?.textContent ?? null, alert: note?.getAttribute('role') ?? null, last: !!note && following.every(c => c.split('.').includes('ms-k-vh')), following,
+        registerOff: !!register && (register.disabled || register.getAttribute('aria-disabled') === 'true'), cancel: !!r.frame.querySelector('.ms-ps-sheet-foot [data-value="cancel"]'),
+        inView: !!box && box.top >= body.top - 0.5 && box.top < body.bottom };
+      r.dispose();
       return { ok: one.title === 'Rescue Eli' && one.sub === 'Player 5 · Hospital' && one.form === 'person' && one.portraits === 1 && one.facts.length === 3
         && self.title === 'Rescue yourself' && two.title === 'Supply Ava and Gus' && two.sub === 'Players 1 and 7' && two.form === 'pair' && two.portraits === 2
         && none.title === 'Request Blackout' && none.sub === 'Only you see this' && none.form === 'icon' && none.portraits === 0 && none.facts.length === 0
-        && error.error === 'The server did not accept Rescue. Register again.' && error.alert === 'alert' && cleared.error === null, one, self, two, none, error, cleared };
+        && error.error === 'The server did not accept Rescue. Register again.' && error.alert === 'alert' && cleared.error === null
+        && joins.one && joins.two && held.words === 'The server did not allow that command.' && held.alert === 'alert' && held.last && held.registerOff && held.cancel && held.inView,
+        one: { ...one, subRaw: one.subRaw.replace(/\u00a0/g, '~') }, self, two: { ...two, subRaw: two.subRaw.replace(/\u00a0/g, '~') }, none, error, cleared, joins, held };
     });
 
     await check('after', async () => {
@@ -203,7 +221,10 @@ export async function runActionsProbe({ sizes, versions }) {
     await check('words', async () => {
       const sheets = [actionsSheet({ role: 'Doctor', room: 'Room A' }), targetListSheet({ type: 'RESCUE' }), checkSheet({ type: 'RESCUE' }), checkSheet({ type: 'REQUEST_HACK', phase: 'sending' }),
         afterSheet({ type: 'PROTECT' }), unknownSheet({ type: 'RESCUE' }), passSheet({ next: { seat: 'seat-5', name: 'Eli' } }), passSheet({})];
-      const said = sheets.map(s => [s.id, s.title, s.sub ?? null, (s.actions ?? []).map(a => `${a.id}:${a.label}${a.busy ? ':busy' : ''}${a.local ? ':local' : ''}`).join('|') || null]);
+      // The words compared with a no-break space as a space; the Pass line's joins are checked on their own (0.2.5).
+      const said = sheets.map(s => [s.id, s.title, s.sub?.replace(/\u00a0/g, ' ') ?? null, (s.actions ?? []).map(a => `${a.id}:${a.label}${a.busy ? ':busy' : ''}${a.local ? ':local' : ''}`).join('|') || null]);
+      const joined = { pass: passSheet({ next: { seat: 'seat-5', name: 'Eli' } }).sub === 'The turn goes to Eli\u00a0· Player\u00a05', player: ACTION_WORDS.player(5) === 'Player\u00a05',
+        players: ACTION_WORDS.players(1, 7) === 'Players\u00a01 and\u00a07' };
       const bars = [targetBar({ type: 'RESCUE' }), targetBar({ type: 'SUPPLY' }), targetBar({ type: 'SUPPLY', picked: ['seat-1'] }), targetBar({ type: 'RESCUE', where: 'board' }),
         blackoutBar({ room: 'Room A' }), blackoutBar({ room: 'Room A', fixed: 'A3' })].map(b => `${b.icon}|${b.title}|${b.sub}`);
       // The Disabler's bar (sheet 30) names its room while choosing, and needs one; "fixed" is a position.
@@ -219,7 +240,8 @@ export async function runActionsProbe({ sizes, versions }) {
           'position|Choose a position|Room A · any position, even empty', 'position|Position A3 fixed|Resolves after the window · no effect shown now'])
         && refusals.every(r => typeof r === 'string')
         && JSON.stringify(chips) === JSON.stringify(['other-rooms|Other rooms · 1|board', 'list|List|players'])
-        && JSON.stringify(toasts) === JSON.stringify(['Rescue registered', 'Private talk accepted', 'Clone active', 'Navigation suppressed']), said, bars, chips, toasts, refusals };
+        && JSON.stringify(toasts) === JSON.stringify(['Rescue registered', 'Private talk accepted', 'Clone active', 'Navigation suppressed'])
+        && Object.values(joined).every(Boolean), said, bars, chips, toasts, refusals, joined };
     });
 
     await check('footer', async () => {
