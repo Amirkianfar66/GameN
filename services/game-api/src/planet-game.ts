@@ -14,6 +14,9 @@ import type {
 import {createPlanetFoodCoordinator} from './planet-food-service.js';
 import type {FoodServiceState} from './planet-food-service.js';
 
+export {withPlanetRequestTiming} from './planet-request-timing.js';
+export type {PlanetRequestTimingSummary} from './planet-request-timing.js';
+
 export interface PlanetStateEnvelope {matchId:string;versions:PlanetVersions;round:number;phase:{id:string;kind:string;startedAt:number;endsAt:number|null};deadlineToken:string|null}
 export interface PlanetSetup {
   matchId:string;playerCount:7|8|9;roleOrder:PlanetRole[];initialRooms:Record<string,'Room A'|'Room B'>;

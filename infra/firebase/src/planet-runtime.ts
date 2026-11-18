@@ -4,6 +4,7 @@ import type { RuntimeConfiguration } from './runtime.js';
 
 export interface PlanetRuntimeConfiguration extends RuntimeConfiguration {
   creationEnabled: boolean; setupFlowVersion?: 2|3; engineProfile?:typeof PLANET_PHONE_ENGINE_PROFILE|typeof PLANET_BLACKOUT_ENGINE_PROFILE|typeof PLANET_FOOD_TASK_ENGINE_PROFILE;
+  requestTimingEnabled?: boolean;
 }
 
 /** Planet has its own creation switch and artwork pin. Legacy release switches remain separate. */
@@ -16,6 +17,8 @@ export function assertPlanetRuntimeEnvironment(environment: Record<string, strin
   });
   const enabled = environment['MOTHERSHIP_PLANET_CREATION_ENABLED'];
   if (enabled !== undefined && enabled !== 'true' && enabled !== 'false') throw new Error('Invalid Planet creation switch');
+  const requestTiming = environment['MOTHERSHIP_PLANET_REQUEST_TIMING'];
+  if (requestTiming !== undefined && requestTiming !== 'true' && requestTiming !== 'false') throw new Error('Invalid Planet request timing switch');
   const setupFlowVersion = environment['MOTHERSHIP_PLANET_SETUP_FLOW_VERSION'];
   if (setupFlowVersion !== undefined && setupFlowVersion !== '1' && setupFlowVersion !== '2' && setupFlowVersion !== '3') {
     throw new Error('Unsupported Planet setup flow version');
@@ -29,6 +32,7 @@ export function assertPlanetRuntimeEnvironment(environment: Record<string, strin
     throw new Error('An explicit Planet asset manifest version is required');
   }
   return { ...configuration, assetManifestVersion: assetManifestVersion!, creationEnabled: enabled === 'true',
+    ...(requestTiming === 'true' ? {requestTimingEnabled: true} : {}),
     ...(setupFlowVersion === '2' ? {setupFlowVersion: 2 as const} : setupFlowVersion === '3' ? {setupFlowVersion: 3 as const} : {}),
     ...(engineProfile===undefined?{}:{engineProfile}) };
 }

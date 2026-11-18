@@ -12,14 +12,14 @@
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
 
-export const COMPONENT_KIT_VERSION = 'component-kit-0.7.0';
+export const COMPONENT_KIT_VERSION = 'component-kit-0.8.2';
 export const BUTTON_KINDS = Object.freeze(['primary', 'secondary', 'tinted', 'plain', 'outline', 'warn']);
 export const CELL_STATES = Object.freeze(['available', 'selected', 'confirmed', 'taken', 'ineligible', 'empty', 'winner', 'faded']);
 export const STAMP_TONES = Object.freeze([null, 'amber', 'pending', 'gold', 'steel']);
 export const PILL_TONES = Object.freeze([null, 'amber', 'paper', 'accent']);
 export const ROW_TINTS = Object.freeze([null, 'amber', 'paper', 'steel', 'teal', 'slate']);
 /** A tile's states (0.6.0, from play-parts): offered, being chosen, with the server, accepted and waiting, or not offered. */
-export const TILE_STATES = Object.freeze(['available', 'selected', 'sending', 'registered', 'unavailable']);
+export const TILE_STATES = Object.freeze(['available', 'selected', 'sending', 'registered', 'unavailable', 'spent']);
 /** The words a tile draws itself: only the registered mark. Everything else is the caller's. */
 export const TILE_WORDS = Object.freeze({ registered: 'REGISTERED', registeredSaid: 'registered' });
 
@@ -339,7 +339,8 @@ export function createKit(doc) {
   const tileArt = new WeakMap();
   function setTile(node, props) {
     if (!isText(props?.name)) throw new TypeError('A tile needs its name');
-    if (!isText(props.icon) && !isText(props.art)) throw new TypeError('A tile needs its icon or its art');
+    const art = isText(props.art) || isNode(props.art) ? props.art : null;
+    if (!isText(props.icon) && art === null) throw new TypeError('A tile needs its icon or its art');
     const state = props.state ?? 'available';
     if (!TILE_STATES.includes(state)) throw new TypeError(`A tile's state is ${TILE_STATES.join(', ')}, not ${JSON.stringify(state)}`);
     const note = optionalText(props.note, 'A tile\'s note');
@@ -352,21 +353,29 @@ export function createKit(doc) {
     }
     const [glyph, name, small, count, mark] = node.children;
     node.dataset.state = state;
-    if (isText(props.art)) {
+    if (art !== null) {
       // A card's art in place of the icon (0.7.0; sheet 25's side cards, the pack's .hack-card): the game's own art
-      // markup (HACK_ART), never words or anything a player gave. Kept while it is the same markup.
+      // markup (HACK_ART), never words or anything a player gave; or (0.7.1) a picture node the component draws, as
+      // the Captain console's plates (the film bundle's pictures). Kept while it is the same markup or node.
+      // The kit fades only the markup when the tile is unavailable, as sheet 25 fades its one picture; a node is drawn
+      // for its state by the component (the pack's unavailable Eject plate is a drawing of its own), so it is left
+      // as given (0.7.2).
       if (glyph.className !== 'ms-k-tile-art') { glyph.className = 'ms-k-tile-art'; glyph.dataset.icon = ''; glyph.hidden = false; }
       glyph.setAttribute('aria-hidden', 'true');
-      if (tileArt.get(glyph) !== props.art) {
-        const t = doc.createElement('template');
-        t.innerHTML = props.art.trim();
-        glyph.replaceChildren(t.content);
-        tileArt.set(glyph, props.art);
+      glyph.toggleAttribute('data-node', isNode(art));
+      if (tileArt.get(glyph) !== art) {
+        if (isNode(art)) glyph.replaceChildren(art);
+        else {
+          const t = doc.createElement('template');
+          t.innerHTML = art.trim();
+          glyph.replaceChildren(t.content);
+        }
+        tileArt.set(glyph, art);
       }
     } else {
-      if (glyph.className !== 'ms-k-tile-icon') { glyph.className = 'ms-k-tile-icon'; glyph.removeAttribute('aria-hidden'); tileArt.delete(glyph); glyph.replaceChildren(); glyph.dataset.icon = ''; }
-      // The pack fills the icon, but not on an unavailable tile.
-      setIcon(glyph, props.icon, state !== 'unavailable');
+      if (glyph.className !== 'ms-k-tile-icon') { glyph.className = 'ms-k-tile-icon'; glyph.removeAttribute('aria-hidden'); glyph.removeAttribute('data-node'); tileArt.delete(glyph); glyph.replaceChildren(); glyph.dataset.icon = ''; }
+      // The pack fills the icon, but not on an unavailable or a spent tile.
+      setIcon(glyph, props.icon, state !== 'unavailable' && state !== 'spent');
     }
     text(name, props.name);
     if (note !== null && isText(props.noteIcon)) {
@@ -489,6 +498,29 @@ export function createKit(doc) {
   /** The pack's paper card (kit.css .comic): paper, an ink border and the ink shadow. The caller fills it and pads it. */
   const comic = (...children) => { const card = h('article', 'ms-k-comic'); card.append(...children.flat().filter(Boolean)); return card; };
 
+  // ── The toast (ui.mjs toast; kit.css .toast; 0.8.0) ─────────────────
+  /**
+   * { text, icon, filled, leaving, extra }: a local confirmation ("Copied", "Turn passed"), read as it is drawn.
+   * The icon is filled, as the pack's (default `check`). Words too long for one line wrap inside the phone, so every
+   * word shows (0.8.2; they were cut with an ellipsis before).
+   * It takes no tap: a tap reaches what is under it. It drops in where it is added and fades out once `leaving`.
+   * How long it shows and when it goes are its owner's (the shell's TOAST_MS, once per id), and so is where it sits:
+   * 10 px under --ms-k-toast-top, which the owner sets to where its bar ends (the pack's --top). `extra` adds the
+   * owner's classes. Changed in place.
+   */
+  function setToast(node, props) {
+    if (!isText(props?.text)) throw new TypeError('A toast needs its text');
+    const cls = ['ms-k-toast', ...(props.extra ?? [])].join(' ');
+    if (node.className !== cls) node.className = cls;
+    attr(node, 'role', 'status');
+    if (!node.firstChild) node.append(h('span', 'ms-k-toast-icon'), h('span', 'ms-k-toast-text'));
+    setIcon(node.firstChild, isText(props.icon) ? props.icon : 'check', props.filled !== false);
+    text(node.lastChild, props.text);
+    attr(node, 'data-leaving', props.leaving ? '' : null);
+    return node;
+  }
+  const toast = props => setToast(h('div'), props);
+
   // ── The segmented control, the stepper, the switch ───────────────────
   /**
    * options: [{ id, label, icon }]; one is `value`. A radio group: each option says whether it is chosen.
@@ -543,7 +575,7 @@ export function createKit(doc) {
 
   return Object.freeze({ h, text, attr, icon, setIcon, button, setButton, iconButton, setIconButton, row, setRow, list, groupLabel, groupNote, sectionHead, setSectionHead, notice, setNotice,
     pill, setPill, stamp, setStamp, caption, num, portrait, setPortrait, cell, setCell, grid9, field, setField, codeBoxes, setCodeBoxes, errorNote,
-    seg, setSeg, stepper, setStepper, switchControl, setSwitch, wait, setWait, tile, setTile, tiles, who, setWho, facts, setFacts, comic });
+    seg, setSeg, stepper, setStepper, switchControl, setSwitch, wait, setWait, tile, setTile, tiles, who, setWho, facts, setFacts, comic, toast, setToast });
 }
 
 /**
@@ -601,4 +633,43 @@ export function createControlPolicy({ root, accepts = () => true, defaultReason 
   }
   function dispose() { disposed = true; reasons.remove(); }
   return Object.freeze({ control, refused, remove, dispose });
+}
+
+/**
+ * Keeps a phone root's container (.ms-k-phone, kit.css) in step with the text size (0.8.1). A component whose root
+ * carries .ms-k-phone (the shell's; an entry screen's) calls it once, and dispose() when the root goes.
+ * Chromium (153) re-reads a container's em for its queries only while something inside it uses one of them. When the
+ * text size changed while nothing did, a part added afterwards took the old size's rules: at 200 % a target bar
+ * opened afterwards stood side by side, its chip's label was cut, a sheet's two footer actions stayed side by side
+ * and a row's value stayed beside its title (the Gameplay builder's finding, 17 November 2026; a part already open
+ * through the change was right). A hidden 1 em box among the root's children reports each change of the root's
+ * text size, and the root's container is set up again at once, before anything is drawn: every part, open or added
+ * later, then takes the new size's rules. It keeps the focus, the scroll positions and what is moving; it draws
+ * nothing. A root that replaces all its children gets its box back at the next change.
+ */
+export function followTextSize(root) {
+  if (!root?.ownerDocument) throw new TypeError('followTextSize needs the phone root');
+  const doc = root.ownerDocument, win = doc.defaultView;
+  const em = doc.createElement('span');
+  em.className = 'ms-k-em';
+  em.setAttribute('aria-hidden', 'true');
+  root.append(em);
+  let height = null, disposed = false;
+  /** The root's container once more: off for one layout, then as its style has it. Nothing is drawn between. */
+  function renew() {
+    const inline = root.style.getPropertyValue('container-type'), priority = root.style.getPropertyPriority('container-type');
+    root.style.setProperty('container-type', 'normal');
+    void root.offsetWidth;
+    if (inline) root.style.setProperty('container-type', inline, priority); else root.style.removeProperty('container-type');
+  }
+  const observer = typeof win?.ResizeObserver === 'function' ? new win.ResizeObserver(entries => {
+    if (disposed) return;
+    if (em.parentNode !== root) { root.append(em); return; }
+    const next = entries[entries.length - 1].contentRect.height;
+    if (height !== null && next !== height) renew();
+    height = next;
+  }) : null;
+  observer?.observe(em);
+  function dispose() { if (disposed) return; disposed = true; observer?.disconnect(); em.remove(); }
+  return Object.freeze({ dispose });
 }
