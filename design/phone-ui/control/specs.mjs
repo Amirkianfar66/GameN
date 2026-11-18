@@ -45,8 +45,10 @@ export const PARTS = Object.freeze([
   { area: 'bottom', sel: '.ms-ps-tab:not(.ms-ps-tab-hero)[aria-disabled="true"]', name: 'Tab · unavailable', words: '.ms-ps-tab-label', icon: true },
   { area: 'bottom', sel: '.ms-ps-tab:not(.ms-ps-tab-hero):not([aria-expanded="true"]):not([aria-disabled="true"])', name: 'Tab', words: '.ms-ps-tab-label', icon: true },
   // Shell 0.3.0: the Card tab, last, with the player's own portrait in the icon's place (or the card icon).
-  { area: 'bottom', sel: '.ms-ps-tab[data-value="card"]', name: el => (el.querySelector('.ms-ps-tab-pt') ? 'Card tab · with the portrait' : 'Card tab · with the card icon'), words: '.ms-ps-tab-label', icon: true },
-  { area: 'bottom', sel: '.ms-ps-tab-pt', name: 'Card tab · portrait', picture: 'The player’s own character, the picture the top bar draws' },
+  { area: 'bottom', sel: '.ms-ps-tab[data-value="card"]', name: el => (el.querySelector('.ms-ps-tab-pt:not([data-tile])') ? 'Card tab · with the portrait' : 'Card tab · with the card icon'), words: '.ms-ps-tab-label', icon: true },
+  { area: 'bottom', sel: '.ms-ps-tab-pt:not([data-tile])', name: 'Card tab · portrait', picture: 'The player’s own character, the picture the top bar draws' },
+  // A draft (18 November): a tab's icon as a painted tile, in the portrait's box.
+  { area: 'bottom', sel: '.ms-ps-tab-pt[data-tile]', name: 'Tab · painted tile (draft)', picture: 'The tab’s icon, painted, in the frame of the character’s picture' },
   { area: 'bottom', sel: '.ms-ps-tab .ms-ps-badge', name: 'Tab · badge', text: true },
   { area: 'bottom', sel: '.ms-ps-hero', name: 'Round button', words: '.ms-ps-hero-label', icon: true },
   { area: 'bottom', sel: '.ms-ps-talk .ms-k-btn', name: el => `“${el.textContent.trim()}” button`, words: '.ms-k-btn-label', icon: true, each: true },
@@ -163,7 +165,10 @@ function iconFacts(el, tokens, k) {
   if (!svg) return null;
   const box = boxOf(svg, k), colour = parseColour(getComputedStyle(svg).color), which = iconOf(svg);
   if (!box.width) return null;
-  return { name: which?.name ?? null, filled: which?.filled ?? false, width: round(box.width), height: round(box.height), colour: colour ? colourFacts(colour, tokens) : null };
+  // A painted icon (the draft) carries its own colours; the part that holds it names the icon and the form.
+  const held = which ? [] : (svg.closest('[data-icon]')?.dataset.icon ?? '').split(':');
+  const painted = held[1] === 'tile' || held[1] === 'painted' ? held[1] : null;
+  return { name: which?.name ?? (painted ? held[0] : null), filled: which?.filled ?? false, painted, width: round(box.width), height: round(box.height), colour: colour && !painted ? colourFacts(colour, tokens) : null };
 }
 function wordsOf(el, tokens) {
   const cs = getComputedStyle(el), colour = parseColour(cs.color), said = el.textContent.trim().replace(/\s+/g, ' ');

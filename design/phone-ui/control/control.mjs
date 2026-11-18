@@ -31,7 +31,7 @@ import { COMPONENT_KIT_VERSION } from '../components/kit/kit.mjs';
 import { ICONS, ICON_FAMILY_VERSION, ICON_NAMES, iconSvg } from '../components/icons.mjs';
 import { ROOM_SCENE_VERSION, mountRoomScene } from '../components/room-scene/room-scene.mjs';
 import { phoneIcon } from '../../../apps/game/hosted/planet/phone-controls.mjs';
-import { BASE, GROUPS, PRESETS, SHEET_08, SHEET_DRAFT, SWITCHES, TOAST_DRAFT, clockSeconds, matchPreset, presetOf, sceneInput, sheetContent, sheetNote, shellInput } from './states.mjs';
+import { BASE, GROUPS, PRESETS, SHEET_08, SHEET_DRAFT, SWITCHES, TILES_DRAFT, TOAST_DRAFT, clockSeconds, matchPreset, presetOf, sceneInput, sheetContent, sheetNote, shellInput } from './states.mjs';
 import { mainSize, readIcons, readParts } from './specs.mjs';
 
 const doc = document, root = doc.documentElement;
@@ -97,7 +97,7 @@ function specList(parts) {
       part.border ? line('Border', `${part.border.width} px, ${part.border.sides === 'all' ? 'all round' : part.border.sides} · `, colourLine(part.border.colour)) : null,
       part.corners ? line('Corners', part.corners) : null,
       part.words ? line('Text', `“${part.words.said}” · ${part.words.size} px, weight ${part.words.weight}`, part.words.colour ? [' · ', colourLine(part.words.colour)] : '') : null,
-      part.icon ? line('Icon', part.icon.name ? h('code', {}, part.icon.name) : 'A drawing', part.icon.filled ? ', selected form' : '', ` · ${part.icon.width} × ${part.icon.height} px`, part.icon.colour ? [' · ', colourLine(part.icon.colour)] : '') : null))));
+      part.icon ? line('Icon', part.icon.name ? h('code', {}, part.icon.name) : 'A drawing', part.icon.filled ? ', selected form' : '', part.icon.painted === 'tile' ? ', a painted tile (draft)' : part.icon.painted ? ', painted (draft)' : '', ` · ${part.icon.width} × ${part.icon.height} px`, part.icon.colour ? [' · ', colourLine(part.icon.colour)] : '') : null))));
 }
 /** Brings a still phone to rest before it is read: an arriving sheet or toast is finished, not caught part-way in. */
 function settle(element) {
@@ -351,6 +351,52 @@ function buildToastDraftPart(view) {
       markControl('draft-toast-under-sheet-head', { label: 'Draft: the toast sits under an open sheet’s title', group: 'Sheets · draft' }))),
     pairs);
   pairs.append(...TOAST_DRAFT.map(pair));
+}
+
+// ── Bars: a third draft, the bottom bar's icons as painted tiles ────
+// The owner's picture of the bottom bar (18 November 2026), drawn in the real bar before any check.
+const TILES = Object.freeze({ route: 'tiles-draft', title: 'Bottom bar · painted icons · draft', words: 'This is what i am thinking of bottom bar' });
+function buildTilesDraftPart(view) {
+  startStrips();
+  const hasBefore = !!DATA.toastBefore;
+  const pair = state => {
+    const sides = [];
+    if (hasBefore) sides.push(makeStrip({ ...state, key: `tiles-before-${state.key}` }, false,
+      { mount: mountShellBeforeToast, width: cardTabWidth, opens: null, title: 'Today', tags: ['Sheet 08'], mark: false, specs: false }));
+    sides.push(makeStrip({ ...state, key: `tiles-after-${state.key}` }, false,
+      { width: cardTabWidth, opens: matchPreset(state.controls)?.key ?? null, title: 'Draft', tags: ['Draft'], mark: false }));
+    for (const strip of sides) lazyStrips.observe(strip.card);
+    return h('section', { class: 'bc-pair', 'aria-label': state.label }, h('h3', { class: 'bc-pair-title' }, state.label), sides.map(strip => strip.card));
+  };
+  const pairs = h('div', { class: 'bc-pairs' });
+  const fit = () => pairs.style.setProperty('--bc-pair-w', `${cardTabWidth()}px`);
+  const widths = segmented('Phone width', [['auto', 'This screen'], ['320', '320'], ['390', '390'], ['430', '430']], cardTab.width, setWidth);
+  widthSyncs.add(value => { widths.choose(value); fit(); });
+  fit();
+  window.addEventListener('resize', fit);
+  view.append(
+    h('div', { class: 'bc-wrap bc-group-head' },
+      h('h2', {}, 'The bottom bar with painted icons', h('span', { class: 'bc-count bc-count-draft' }, 'Draft')),
+      h('p', { class: 'bc-draft-line' }, TOAST.note),
+      h('p', {}, 'You sent a picture of the bottom bar and wrote:'),
+      h('blockquote', { class: 'bc-quote' }, `“${TILES.words}”`),
+      h('p', {}, 'This is that picture, drawn in the game’s own bottom bar.'),
+      h('ul', { class: 'bc-change' },
+        h('li', {}, h('b', {}, 'Today. '), 'Board, Actions and Panels are line icons, and the round button has a flat dark icon. Only the Card tab is a picture.'),
+        h('li', {}, h('b', {}, 'Draft. '), 'Board, Actions and Panels are small painted tiles: the same frame, size and place as your character’s picture, a warm orange ground, the drawing in cream with a dark line. The round button’s icon (Pass or Vote) is painted in orange.'),
+        h('li', {}, h('b', {}, 'An open tab. '), 'An amber ring round its tile and an amber label, as the Card tab has.'),
+        h('li', {}, h('b', {}, 'Unavailable. '), 'The tile fades with its label. The round button turns grey, and its icon with it.'),
+        h('li', {}, h('b', {}, 'Unchanged. '), 'The words, the order of the tabs, the bar’s height and where you tap.'),
+        h('li', {}, h('b', {}, 'One choice for you. '), 'The tiles are orange on every phone, as in your picture, where the character is the orange one too. The last pair shows a player with a teal character: the tiles stay orange. If the tiles should take the player’s own colour instead, mark Change and say so.'))),
+    h('div', { class: 'bc-wrap bc-tools' }, textSizeChoice(), widths,
+      h('p', { class: 'bc-hint' }, hasBefore
+        ? 'Each pair is the real bar twice: as it is today, then the draft. Tap a Draft bar to open it in the test view and press its buttons.'
+        : 'This build has no copy of the bar as it is today, so only the draft is shown.')),
+    h('div', { class: 'bc-wrap' }, h('div', { class: 'bc-verdict' },
+      h('p', {}, h('b', {}, 'Is the draft right?'), ' Mark it here. After your OK it gets its checks; a Change comes back with your note.'),
+      markControl('draft-tab-tiles', { label: 'Draft: the bottom bar’s icons as painted tiles', group: 'Bottom bar · draft' }))),
+    pairs);
+  pairs.append(...TILES_DRAFT.map(pair));
 }
 
 // ── Bars: a second draft, a squeezed sheet's footer ─────────────────
@@ -914,7 +960,8 @@ function build() {
   const app = doc.getElementById('bc-app') ?? doc.body.appendChild(h('div', { id: 'bc-app' }));
   // Three sections; Bars and Icons are divided into sub-parts, each its own view with its own address.
   const sections = [
-    { id: 'bars', title: 'Bars', parts: [{ route: CARD_TAB.route, title: CARD_TAB.title, count: SHEET_08.length, build: buildCardTabPart },
+    { id: 'bars', title: 'Bars', parts: [{ route: TILES.route, title: TILES.title, count: TILES_DRAFT.length, build: buildTilesDraftPart },
+      { route: CARD_TAB.route, title: CARD_TAB.title, count: SHEET_08.length, build: buildCardTabPart },
       { route: TOAST.route, title: TOAST.title, count: TOAST_DRAFT.length, build: buildToastDraftPart },
       { route: SQUEEZE.route, title: SQUEEZE.title, count: 1, build: buildSheetDraftPart },
       ...GROUPS.map(group => ({ route: group.route, title: group.title, count: group.presets.length, build: view => buildBarsPart(view, group) }))] },
@@ -936,8 +983,10 @@ function build() {
       h('h1', {}, 'Bars & Icons Control'),
       h('p', { class: 'bc-lede' }, 'Every bar and every icon, drawn by the game’s own files and sorted into parts. Each one shows its size, its background and its colours. Look, try, then mark it OK or Change.'))),
     // A draft on the page says so at the top, before anything else: a look only, not checked yet.
-    h('div', { class: 'bc-wrap' }, h('p', { class: 'bc-draft', role: 'note' }, h('b', {}, 'Two drafts on this page. '), 'Drafts: the look only, not checked yet. They may still change. ',
-      h('a', { href: `#${TOAST.route}` }, 'The toast over a sheet or a banner'), ' and ', h('a', { href: `#${SQUEEZE.route}` }, 'a long title at the largest text'), '. Everything else here is checked.')),
+    h('div', { class: 'bc-wrap' }, h('p', { class: 'bc-draft', role: 'note' }, h('b', {}, 'Three drafts on this page. '), 'Drafts: the look only, not checked yet. They may still change. ',
+      h('a', { href: `#${TILES.route}` }, 'The bottom bar with painted icons'), ' (new: your picture), ',
+      h('a', { href: `#${TOAST.route}` }, 'the toast over a sheet or a banner'), ' and ', h('a', { href: `#${SQUEEZE.route}` }, 'a long title at the largest text'),
+      '. The painted icons show on every bottom bar on this page. Everything else here is checked.')),
     nav,
     h('div', { class: 'bc-wrap' }, notice),
     main, iconDialog);

@@ -30,7 +30,7 @@ The page has three sections. Bars and Icons are divided into sub-parts, each wit
 
 | Section | Sub-parts | What each holds |
 | --- | --- | --- |
-| **Bars** | Card tab · before and after (9 pairs) · Toast over a sheet · draft (7 pairs) · Long title at the largest text · draft · Top bar (20 states) · Bottom bar (15) · Other bars (8: the target bar, the banners, the chip, the toast) · Sheets (9) · Whole phone (3) | Each state is a strip of the phone at the phone's own width, with its name, the size of its bar and the phone pack's sheet number. The first sub-part is [the Card tab's change](#the-card-tab-before-and-after). |
+| **Bars** | Bottom bar · painted icons · draft (14 pairs) · Card tab · before and after (9 pairs) · Toast over a sheet · draft (7 pairs) · Long title at the largest text · draft · Top bar (20 states) · Bottom bar (15) · Other bars (8: the target bar, the banners, the chip, the toast) · Sheets (9) · Whole phone (3) | Each state is a strip of the phone at the phone's own width, with its name, the size of its bar and the phone pack's sheet number. The first sub-part is [the Card tab's change](#the-card-tab-before-and-after). |
 | **Icons** | Navigation (8) · Game actions (26) · People and places (8) · Phases (7) · Before the match (3) · Controls (27) · Drawn twice (31) · Other drawings (8) | The icons of `design/phone-ui/components/icons.mjs`, at rest and selected, on dark glass and on paper. The last two list the game's own drawings that are still on screen, beside the icon that replaces each. |
 | **Status** | — | The owner's marks, and the version and pull request of each part. |
 
@@ -67,7 +67,20 @@ So a change of look is shown here first, as a draft:
 
 A change that is more than a look (behaviour, data, privacy, the connection's inputs) keeps the usual order: checks, the Lead's review, then the owner.
 
-**The drafts on the page now.** Both are the Lead Designer's proposals, and each has its own mark.
+**The drafts on the page now.** Three, each with its own mark: the first is the owner's own picture, the other two are the Lead Designer's proposals.
+
+*The bottom bar with painted icons* (`#tiles-draft`, the first sub-part of Bars). The owner, 18 November 2026, with a picture of the bottom bar:
+
+> This is what i am thinking of bottom bar
+
+The picture: Board, Actions and Panels each as a small painted tile like the character's portrait (a warm orange ground, a white frame, a cream drawing with a dark line), the same size as the Card tab's portrait, and the round button's Pass icon painted in orange with a darker line. The labels are as they are.
+- **Today:** Board, Actions and Panels are line icons in the soft text colour, filled and amber when open. The round button's icon is the flat filled form.
+- **The draft:** each tab's icon is a tile in the portrait's own box (32 × 32 px) and frame: the same path, white rim, shadow and vignette as `design/crew-drawing/source/portrait.mjs` draws, on one fixed warm orange ground, with the icon's own drawing in cream over a brown line. The round button's icon (Pass, Vote) is the same drawing painted in orange. An open tab has the Card tab's amber ring and amber label. An unavailable tab fades as before; an unavailable round button's icon goes grey with it.
+- **Drawn in code:** `design/phone-ui/components/icon-paint.mjs` paints the tiles from the icon family's own parts, so each icon keeps one silhouette. No picture file is added.
+- **Not following the player:** the tiles' ground is one colour on every phone. It says nothing about a seat, a character, a role or a team. Whether it should take the player's own character colour is put to the owner in the view.
+- **The view:** fourteen bottom-bar states, each as the bar is today above the draft: Pass ready and unavailable, each tab open, the Board view's Room tab, a badge, Vote and Voted, Pass sending, eliminated, no character, the Blackout's dark, and a player whose character is teal.
+- **The owner's mark:** `draft-tab-tiles`.
+- **On every bottom bar here:** the page is built from the draft, so each game bottom bar on the page draws the tiles. The readouts name a tile "a painted tile (draft)". The Icons section's list of where each icon is drawn does not list the painted uses yet.
 
 *The toast over a sheet or a banner* (`#toast-draft`, the second sub-part of Bars).
 - **Today:** the toast drops in 10 px under the top bar. Over a tall sheet it lies across the sheet's head and cuts the title and Close through; with the reconnecting banner showing, it lies on the banner.
@@ -81,9 +94,9 @@ A change that is more than a look (behaviour, data, privacy, the connection's in
 - **The view:** one sheet, "Offer from Fay · Player 6", with a card's stand-in, a note and two buttons, as three stills: today, the draft as it opens, and the draft scrolled to its end. Buttons set the phone and the text size: 320 × 568 at the Largest, and 390 × 844 and 430 × 932 at the Standard, where the three stills are the same. A still can't be scrolled; a Draft still opens the test view, which can.
 - **The owner's mark:** `draft-sheet-footer-scrolls`.
 
-"Today" in both views is the shell's own file at `bf95c1a0` (shell 0.3.1), read from git by the build tool, as the Card tab's "before" is.
+"Today" in all three views is the shell's own file at `bf95c1a0` (shell 0.3.1), read from git by the build tool, as the Card tab's "before" is.
 
-**Not done yet, on purpose:** the shell's record, its version, its tests for the two changes, and the connection's check.
+**Not done yet, on purpose:** the shell's record, its version, its tests for the three changes, the icon family's own page and test for the painted form, and the connection's check.
 
 ## Sizes, backgrounds and colours
 
