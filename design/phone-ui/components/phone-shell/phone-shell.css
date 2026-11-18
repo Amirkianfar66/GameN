@@ -197,6 +197,11 @@
    never a team's or a role's colour, and nothing around it moves. */
 .ms-phone-shell .ms-ps-tab-pt { display: block; width: 32px; height: 32px; margin-top: -6px; flex: none; border-radius: 11px; background: center / contain no-repeat; }
 .ms-phone-shell .ms-ps-tab[aria-expanded="true"] .ms-ps-tab-pt { box-shadow: inset 0 0 0 2px var(--ms-ps-accent); }
+/* Draft (18 November, the owner's bottom bar): every tab's icon is a painted tile in the portrait's box, and
+   the round button's icon is painted. A tile is drawn inside its box, so the open tab's ring is laid over it. */
+.ms-phone-shell .ms-ps-tab-pt[data-tile] { position: relative; }
+.ms-phone-shell .ms-ps-tab-pt[data-tile] > svg { display: block; width: 100%; height: 100%; }
+.ms-phone-shell .ms-ps-tab[aria-expanded="true"] .ms-ps-tab-pt[data-tile]::after { content: ""; position: absolute; inset: 0; border-radius: 11px; box-shadow: inset 0 0 0 2px var(--ms-ps-accent); }
 /* Labels are capped at 14 px, as iOS caps tab labels; a long press shows the large-content view. */
 .ms-phone-shell .ms-ps-tab-label { font: 600 clamp(12px, 0.75rem, 14px)/1.15 var(--ms-ps-font); letter-spacing: 0.01em; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 .ms-phone-shell .ms-ps-tab[aria-expanded="true"] { color: var(--ms-ps-accent); --ic-knock: #0B0F16; }
@@ -211,6 +216,8 @@
   --ic-knock: var(--ms-ps-accent); -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;
 }
 .ms-phone-shell .ms-ps-hero .ms-ps-ic { width: 25px; height: 25px; }
+.ms-phone-shell .ms-ps-hero .ms-ps-ic-paint { width: 29px; height: 29px; }
+.ms-phone-shell .ms-ps-hero[data-off] .ms-ps-ic-paint { filter: grayscale(1); opacity: 0.55; }
 .ms-phone-shell .ms-ps-hero-label { font: 800 clamp(12px, 0.75rem, 13px)/1 var(--ms-ps-letter); letter-spacing: 0.08em; text-transform: uppercase; }
 .ms-phone-shell .ms-ps-hero-space { margin-top: auto; visibility: hidden; font: 600 clamp(12px, 0.75rem, 14px)/1.15 var(--ms-ps-font); }
 .ms-phone-shell .ms-ps-hero[data-off] { background: var(--ms-ps-surface-4); color: var(--ms-ps-text-2); border-color: #0A0D14; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45); --ic-knock: var(--ms-ps-surface-4); }
