@@ -89,7 +89,11 @@ test('one source: the pack uses the component\'s outlines and ambient layer, and
     }
   }
   assert.deepEqual(packIcons.ICONS, icons.ICONS, 'the same icon family');
-  assert.equal(packIcons.ICON_FAMILY_VERSION, icons.ICON_FAMILY_VERSION);
+  // The pinned pack keeps the family as it was (1.0.0). The source may grow within the same major version: 1.1.0
+  // adds a painted form and changes none of the icons, which the two lines around this one hold equal.
+  const major = version => version.replace(/\.\d+\.\d+$/, '');
+  assert.equal(major(packIcons.ICON_FAMILY_VERSION), major(icons.ICON_FAMILY_VERSION));
+  assert.equal(major(icons.ICON_FAMILY_VERSION), 'phone-ui-icons-1');
   for (const name of icons.ICON_NAMES) for (const filled of [false, true]) {
     assert.equal(packIcons.iconSvg(name, { filled }), icons.iconSvg(name, { filled }), `${name}${filled ? ' filled' : ''}`);
   }
