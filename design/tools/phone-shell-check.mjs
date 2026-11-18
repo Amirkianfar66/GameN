@@ -36,7 +36,9 @@ const SIZES = { '390x844': [390, 844], '430x932': [430, 932], '320x568': [320, 5
 /** Each state at the two development sizes; the Largest text at 320 × 568 (preview.mjs PREVIEW_STATES). */
 const STATES = { turn: 2, own: 2, urgent: 2, vote: 2, voted: 2, result: 2, dark: 2, target: 2, pass: 2, actions: 2, card: 2, 'card-icon': 2, talk: 2, stale: 2, out: 2, concealed: 2, film: 2, poster: 2, large: ['320x568'], 'target-stale': 2, 'target-large': ['390x844', '430x932'],
   // 0.2.10, the phase bars: each row of the words table (phase-bars.mjs), and one at the Largest text.
-  before: 2, 'before-start': 2, block: 2, appointment: 2, appoint: 2, lit: 2, 'lit-next': 2, synchronized: 2, 'course-own': 2, moved: 2, loading: 2, closed: 2, 'phase-large': ['320x568'] };
+  before: 2, 'before-start': 2, block: 2, appointment: 2, appoint: 2, lit: 2, 'lit-next': 2, synchronized: 2, 'course-own': 2, moved: 2, loading: 2, closed: 2, 'phase-large': ['320x568'],
+  // 0.3.3: the toast under a tall sheet's head and under the banner; a sheet with a long title, and the same at the Largest text on the small phone.
+  'toast-sheet': 2, 'toast-banner': 2, offer: 2, 'offer-large': ['320x568'] };
 /** The states whose stage holds no room (a film, a poster, the talk's capsule) or whose room shows no one. */
 const NO_CREW = ['dark', 'talk', 'concealed', 'film', 'poster', 'synchronized', 'moved', 'loading'];
 // The moment of the voyage the captures hold, as the pack's sheet 55 does (2:10).
@@ -100,6 +102,13 @@ const EXPECT = {
   'target-large': s => s.target === 'Move within Room A' && s.over.cancelTop >= s.over.wordsBottom && s.over.targetRight <= s.layout.size.width && s.over.chipWhole && s.over.cancelReach,
   // 0.2.10, the phase bars: the pack's words for each row of the table, the clock amber only where someone may act,
   // Promises and ⋮ where the pack's bar has them.
+  // 0.3.3: the toast 8 px under a tall sheet's head, and 8 px under the banner; never on either.
+  'toast-sheet': s => s.sheet === 'Your role' && /^Registered/.test(s.toast ?? '') && s.toastPlace.under && Math.abs(s.toastPlace.toast - (s.toastPlace.headBottom + 8)) < 1,
+  'toast-banner': s => s.banner === 'Connection lost' && s.toast === 'Copied' && s.toastPlace.under && Math.abs(s.toastPlace.toast - (s.toastPlace.bannerBottom + 8)) < 1,
+  // 0.3.3: with room for its body a sheet is as before: the footer at its foot, the head a row, nothing cut.
+  offer: s => s.sheet === 'Offer from Fay · Player 6' && s.sheetActions === 2 && !s.sheetFit.follows && !s.sheetFit.stacked && s.sheetFit.cut <= 1,
+  // 0.3.3: on the small phone at 200 %, the head stacked and the footer following the body: the content has the room under the head, and nothing is cut.
+  'offer-large': s => s.sheet === 'Offer from Fay · Player 6' && s.sheetFit.follows && s.sheetFit.stacked && s.sheetFit.cut <= 1 && s.sheetFit.room >= s.sheetFit.height - s.sheetFit.head - 14,
   before: s => s.kind === 'phase' && s.name === 'Before turns' && s.sub === 'Officer block · Blackhole' && s.timer === '0:12' && !s.urgent && s.round === 'R3' && s.promises === 'Promises' && s.menu,
   'before-start': s => s.name === 'Before turns' && s.sub === 'Turns start at 0:00' && s.timer === '0:09' && s.urgent,
   block: s => s.name === 'Block a move' && s.sub === 'Before turns · Officer' && s.sheet === 'Block movement' && s.sheetActions === 2,
@@ -146,6 +155,13 @@ try {
             return { tab: tab.dataset.value, form: tab.querySelector('.ms-ps-tab-icon').dataset.icon.split(':').slice(0, 2).join(':'), tile: isTile, drawn: isTile ? !!pt.querySelector('svg') : null, box: r ? [r.width, r.height] : null,
               ring: isTile ? getComputedStyle(pt, '::after').boxShadow !== 'none' : null, faded: getComputedStyle(tab).opacity !== '1' }; }),
           heroIcon: q('.ms-ps-hero .ms-ps-hero-icon')?.dataset.icon ?? null, heroGrey: q('.ms-ps-hero .ms-ps-hero-icon svg') ? getComputedStyle(q('.ms-ps-hero .ms-ps-hero-icon svg')).filter !== 'none' : null,
+          // 0.3.3: where the toast comes to rest (its place in layout, from the shell's top) against a banner's and a sheet's head's foot;
+          // and how a sheet is fitted: its footer following its body or not, its head stacked or not, the room its content gets, and what is cut.
+          toastPlace: (() => { const top = n => { let t = 0; for (let node = n; node && node !== root; node = node.offsetParent) t += node.offsetTop; return t; };
+            const toast = q('.ms-ps-toast'), head = q('.ms-ps-sheet-head'), banner = q('.ms-ps-banner');
+            return { under: root.hasAttribute('data-toast-under'), toast: toast ? top(toast) : null, headBottom: head ? top(head) + head.offsetHeight : null, bannerBottom: banner ? top(banner) + banner.offsetHeight : null }; })(),
+          sheetFit: (() => { const sheet = q('.ms-ps-sheet'); if (!sheet) return null; const head = q('.ms-ps-sheet-head'), body = q('.ms-ps-sheet-body'), wrap = q('.ms-ps-sheet-scroll'), follows = sheet.hasAttribute('data-foot-scrolls');
+            return { follows, stacked: head.hasAttribute('data-stacked'), height: sheet.clientHeight, head: head.offsetHeight, room: Math.round((follows ? wrap : body).clientHeight), cut: Math.max(0, sheet.scrollHeight - sheet.clientHeight) }; })(),
           hero: q('.ms-ps-hero')?.dataset.mode ?? null, heroOff: !!q('.ms-ps-hero[data-off]'), talk: root.querySelectorAll('.ms-ps-talk button').length,
           target: t('.ms-ps-target b'), chip: t('.ms-ps-chip .ms-k-btn-label'), banner: t('.ms-ps-banner b'), bannerKind: q('.ms-ps-banner')?.dataset.kind ?? null, toast: t('.ms-ps-toast'),
           // 0.2.10: where the bar and each part of its right side lie, and how the title sits: its lines, and whether all of it shows.

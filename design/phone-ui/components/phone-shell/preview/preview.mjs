@@ -71,6 +71,10 @@ const player = { promises: { count: 0 }, menu: {} };
 const phase = (kind, facts = {}) => phaseBar({ phase: kind, round: 3, ...player, ...facts });
 const idle = { ...room, active: null };
 const sheetNote = text => ({ fill: body => { const p = document.createElement('p'); p.className = 'pv-note'; p.textContent = text; body.append(p); } });
+/** A sheet with a long title, Back, Close and two footer buttons (the Promises component's offer, sheet 33), and its content: a card's stand-in and a note. */
+const OFFER = { id: 'offer', title: 'Offer from Fay · Player 6', sub: 'A promise · answer before the talk ends', detent: 'large', back: true, close: true,
+  actions: [{ id: 'decline', label: 'Decline' }, { id: 'accept', label: 'Accept', kind: 'primary', icon: 'check' }] };
+const sheetOffer = { fill: body => { sheetStandIn('The offer’s card · the Promises component (sheet 33)').fill(body); sheetNote('You can accept one promise this round. An accepted promise can’t be taken back.').fill(body); } };
 const sheetStandIn = text => ({ fill: body => { const p = document.createElement('div'); p.className = 'pv-sheet-stand-in'; p.textContent = text; body.append(p); } });
 
 /** Each state Frontend checks: the shell's input, the room scene's (null: a stand-in), and a sheet's content. */
@@ -129,6 +133,12 @@ export const PREVIEW_STATES = Object.freeze({
   moved: { caption: 'The ship moved · no clock', shell: { viewer: SELF, versions, bar: movedBar({ round: 3, ...player }), tabs: null, edge: true }, scene: null, standIn: 'Ship travel’s still (#269) · in the stage, under the bar' },
   loading: { caption: 'Loading the ship · before the match', shell: { viewer: SELF, versions, bar: loadingBar({ index: 3, total: 5 }), tabs: null, backdrop: 'canvas' }, scene: null, standIn: 'The rooms’ pictures loading (sheet 45)' },
   closed: { caption: 'That phase closed · the toast', shell: { ...own, bar: turnBar(SELF, { timer: seconds(0) }), toast: phaseClosedToast({ id: 'phase-3-turn-4' }) }, scene: { ...room, active: SELF } },
+  // 0.3.3: the toast keeps clear of an open sheet's head and of a banner; a long title's head stacks and a squeezed
+  // sheet's footer scrolls with its body, on the smallest phone at the Largest text.
+  'toast-sheet': { caption: 'A toast over a tall sheet · under the sheet’s head', shell: { ...own, tabs: tabs({ open: 'card', hero: { mode: 'pass' } }), sheet: { id: 'card', title: 'Your role', sub: 'Only on this phone', detent: 'large', head: [{ id: 'hide', icon: 'hide', label: 'Hide card' }] }, toast: { id: 'receipt-1', text: 'Registered. Waiting for the authoritative view.' } }, scene: { ...room, active: SELF, control: null }, content: sheetStandIn('The Card sheet · the Gameplay UI builder’s (#270)') },
+  'toast-banner': { caption: 'A toast while reconnecting · under the banner', shell: { viewer: SELF, versions, status: 'stale', bar: reconnectingBar({ round: 3, ...player }), tabs: tabs(), banner: { kind: 'reconnecting' }, toast: { id: 'copied-1', text: 'Copied' } }, scene: { ...room, status: 'stale' } },
+  offer: { caption: 'A sheet with a long title, a note and two buttons', shell: { ...own, sheet: OFFER }, scene: { ...room, active: SELF, control: null }, content: sheetOffer },
+  'offer-large': { caption: 'The same sheet at the Largest text (200%) · 320 × 568 · the head stacked, the buttons after the content', shell: { ...own, sheet: OFFER }, scene: { ...room, active: SELF, control: null }, content: sheetOffer, sizes: ['320x568'], text: 200 },
   'phase-large': { caption: 'A phase bar at the Largest text (200%) · 320 × 568', shell: { viewer: SELF, versions, bar: phase('OFFICER_APPOINTMENT', { own: true, round: 2, remainingMs: 22000 }), tabs: tabs() }, scene: idle, sizes: ['320x568'], text: 200 },
 });
 

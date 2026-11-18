@@ -54,6 +54,15 @@
 //             tab has; an unavailable tab fades to the pack's 38 %; the round button's icon is painted, and grey
 //             when unavailable; with no person given (the Blackout's dark) the bar draws no portrait and the same
 //             tiles; the private talk's buttons keep their line icons
+//   place     the toast never covers the bar, a banner or an open sheet's head (0.3.3): it takes the first free place
+//             below, 8 px clear, and keeps its own place when nothing is in its way
+//   squeeze   when a sheet's body would get under a third of the sheet, its footer scrolls with it (0.3.3): the
+//             wrapper is the scroller, the footer follows the body, a part inside the body scrolls into view, and
+//             sheetBody is the same element; where the body has room nothing changes
+//   stack     a head whose title would take more than two lines beside its buttons stacks where that makes it shorter
+//             (0.3.3): decided from hidden copies that leave nothing behind, and measured again only when the width,
+//             the text size, the title or the buttons change
+//   observers a sheet that goes, and its head, are no longer watched for their size; after dispose nothing is
 //   dispose   after dispose(), nothing is left and nothing fires
 // With the device's Reduce motion emulated, only the motion check runs (the page's mode says which).
 
@@ -485,6 +494,8 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       const first = s.shell.layout();
       const top = selector => Math.round((s.q(selector).getBoundingClientRect().top - box.top) * 100) / 100;
       const banner = top('.ms-ps-banner'), toast = top('.ms-ps-toast'), cover = top('.ms-ps-cover');
+      // 0.3.3: with the banner showing, the toast lies 8 px under it, not on it.
+      const bannerBottom = Math.round((s.q('.ms-ps-banner').getBoundingClientRect().bottom - box.top) * 100) / 100;
       const bar = s.q('.ms-ps-tb'), hidden = getComputedStyle(bar).display === 'none' && bar.getAttribute('aria-hidden') === 'true';
       // Concealed with no bar, nothing to read; the bar comes back when given again, its clock place unchanged.
       s.shell.update({ status: 'concealed' });
@@ -497,8 +508,8 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       // The bar's place is where the bar ends when it comes back (99 px: the 47 px safe area and the bar's 52):
       // the pack's toast and banner keep it on its films, below the film's clock chip (sheet 18).
       const place = back.bars.top;
-      return { ok: first.bars.top === 0 && cover === 0 && hidden && place === 99 && Math.abs(banner - (place + 8)) < 0.5 && Math.abs(toast - (place + 10)) < 0.5 && concealed && sameClock,
-        bars: first.bars, cover, banner, toast, place, hidden, concealed, back: back.bars, sameClock };
+      return { ok: first.bars.top === 0 && cover === 0 && hidden && place === 99 && Math.abs(banner - (place + 8)) < 0.5 && Math.abs(toast - (bannerBottom + 8)) < 0.5 && concealed && sameClock,
+        bars: first.bars, cover, banner, bannerBottom, toast, place, hidden, concealed, back: back.bars, sameClock };
     });
 
     await check('edge: with edge: true the stage and its cover fill the shell under the bar, layout() gives the safe areas, and the overlays stay where they are', async () => {
@@ -515,6 +526,8 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       // The bar's glass lies over the stage: what is under a point in the bar is the bar.
       const overBar = !!document.elementFromPoint(box.left + 40, box.top + first.safe.top + 26)?.closest('.ms-ps-tb');
       const banner = top('.ms-ps-banner'), toastTop = top('.ms-ps-toast');
+      // 0.3.3: with the banner showing, the toast lies 8 px under it, not on it.
+      const bannerBottom = Math.round((s.q('.ms-ps-banner').getBoundingClientRect().bottom - s.root.getBoundingClientRect().top) * 100) / 100;
       // No bar, still edge to edge; then edge off: the stage between the safe areas' top edge and the foot's.
       s.shell.update({ bar: null });
       await frames();
@@ -536,10 +549,10 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       const { top: safeTop, bottom: safeBottom } = size.insets;
       const ok = whole(under.stage) && whole(under.cover) && first.bars.top === 0 && first.bars.bottom === 0 && first.stage.height === size.height
         && first.safe.top === safeTop && first.safe.bottom === safeBottom && overBar
-        && Math.abs(banner - (99 + 8)) < 0.5 && Math.abs(toastTop - (99 + 10)) < 0.5
+        && Math.abs(banner - (99 + 8)) < 0.5 && Math.abs(toastTop - (bannerBottom + 8)) < 0.5
         && nobar.bars.top === 0 && nobar.bars.bottom === 0 && off.bars.top === 0 && off.bars.bottom === safeBottom
         && reported?.safe.top === 20 && reported?.safe.bottom === 0 && refused;
-      return { ok, under, first, overBar, banner, toast: toastTop, nobar: nobar.bars, off: off.bars, reported: reported?.safe ?? null, refused };
+      return { ok, under, first, overBar, banner, bannerBottom, toast: toastTop, nobar: nobar.bars, off: off.bars, reported: reported?.safe ?? null, refused };
     });
 
     await check('reach: the cover\'s reach (--ms-ps-cover-top, --ms-ps-cover-bottom) is how far it lies from the phone\'s edges, so a part in it reaches the whole phone: with the bars, with no bar, with the private talk\'s buttons, and edge to edge', async () => {
@@ -1032,6 +1045,213 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
         openPanels: Object.fromEntries(KEYS.map(key => [key, { ring: openPanels[key].ring, ink: openPanels[key].ink }])),
         off: strip(off), room: strip(room), heroReady, heroOff, heroVote, sameForAnotherViewer: same(rest, other), sameWithNoPerson: same(rest, dark.tiles),
         dark: { portraits: dark.portraits, card: strip(dark.card) }, concealed, talk };
+    });
+
+    // 0.3.3: a sheet with a long title, Back, Close and two footer buttons, and content taller than a squeezed body.
+    const offerSheet = { id: 'offer', title: 'Offer from Fay · Player 6', sub: 'A promise · answer before the talk ends', detent: 'large', back: true, close: true,
+      actions: [{ id: 'decline', label: 'Decline' }, { id: 'accept', label: 'Accept', kind: 'primary', icon: 'check' }] };
+    const fillOffer = body => {
+      const card = document.createElement('div'), note = document.createElement('p'), end = document.createElement('span');
+      card.style.height = '96px';
+      note.textContent = 'You can accept one promise this round. An accepted promise can’t be taken back.';
+      end.dataset.probe = 'end';
+      end.textContent = 'End';
+      body.append(card, note, end);
+    };
+    const phoneSize = async (width, height, text = '') => { Object.assign(frame.style, { width: `${width}px`, height: `${height}px` }); document.documentElement.style.fontSize = text; await frames(); await frames(); };
+
+    await check('place: the toast never covers the bar, a banner or an open sheet\'s head: it takes the first free place below, 8 px clear, and keeps its own place when nothing is in its way, on 390, 430 and 320 px phones', async () => {
+      const tall = { id: 'card', title: 'Your role', sub: 'Only on this phone', detent: 'large', close: true, head: [{ id: 'hide', icon: 'hide', label: 'Hide card' }] };
+      const out = {};
+      for (const [key, width, height] of [['390', 390, 844], ['430', 430, 932], ['320', 320, 568]]) {
+        await phoneSize(width, height);
+        const s = mount(own());
+        await frames();
+        // Where each part comes to rest, from the shell's top: its place in layout, which a part still sliding or dropping in already has.
+        const rect = sel => { const n = s.q(sel); if (!n) return null; let top = 0; for (let node = n; node && node !== s.root; node = node.offsetParent) top += node.offsetTop; return { top, bottom: top + n.offsetHeight }; };
+        let n = 0;
+        const see = async input => {
+          s.shell.update({ ...input, ...(input.toast === null ? {} : { toast: { id: `place-${key}-${n += 1}`, text: 'Registered. Waiting for the authoritative view.' } }) });
+          await frames(); await frames();
+          return { toast: rect('.ms-ps-toast'), head: rect('.ms-ps-sheet-head'), banner: rect('.ms-ps-banner'), bar: rect('.ms-ps-tb'), under: s.root.hasAttribute('data-toast-under') };
+        };
+        const alone = await see({ sheet: null, banner: null });
+        const overTall = await see({ sheet: tall });
+        const overLow = await see({ sheet: passSheet });
+        const underBanner = await see({ sheet: null, status: 'stale', banner: { kind: 'reconnecting' } });
+        const both = await see({ sheet: tall, status: 'stale', banner: { kind: 'reconnecting' } });
+        const gone = await see({ sheet: tall, status: 'live', banner: null, toast: null });
+        const back = await see({ sheet: null });
+        s.shell.dispose();
+        out[key] = { alone, overTall, overLow, underBanner, both, gone: { under: gone.under, toast: gone.toast }, back };
+      }
+      await phoneSize(size.width, size.height);
+      const near = (a, b) => Math.abs(a - b) < 0.75;
+      return { ok: Object.values(out).every(o => !o.alone.under && o.alone.toast.top >= o.alone.bar.bottom
+        // Over a tall sheet the toast lies under the head; today's place would have cut the head through.
+        && o.overTall.under && near(o.overTall.toast.top, o.overTall.head.bottom + 8) && o.overTall.head.top < o.alone.toast.bottom
+        // A low sheet's head is not in its way: the toast keeps its place.
+        && !o.overLow.under && near(o.overLow.toast.top, o.alone.toast.top) && o.overLow.head.top > o.overLow.toast.bottom
+        && o.underBanner.under && near(o.underBanner.toast.top, o.underBanner.banner.bottom + 8)
+        && o.both.under && near(o.both.toast.top, o.both.head.bottom + 8) && o.both.toast.top > o.both.banner.bottom
+        && !o.gone.under && o.gone.toast === null
+        && !o.back.under && near(o.back.toast.top, o.alone.toast.top)), ...out };
+    });
+
+    await check('squeeze: when a sheet\'s body would get under a third of the sheet, its footer scrolls with it: the wrapper is the scroller, the footer follows the body, the last button is reached by scrolling, a part inside the body scrolls into view and sheetBody is the same element; with room for the body nothing changes, on 320, 390 and 430 px phones', async () => {
+      const see = s => {
+        const sheet = s.q('.ms-ps-sheet'), body = s.q('.ms-ps-sheet-body'), wrap = s.q('.ms-ps-sheet-scroll'), foot = s.q('.ms-ps-sheet-foot'), head = s.q('.ms-ps-sheet-head');
+        const follows = sheet.hasAttribute('data-foot-scrolls'), fr = foot.getBoundingClientRect(), sr = sheet.getBoundingClientRect();
+        return { follows, wrapDisplay: getComputedStyle(wrap).display, wrapOverflow: getComputedStyle(wrap).overflowY, bodyOverflow: getComputedStyle(body).overflowY,
+          wrapScrolls: wrap.scrollHeight > wrap.clientHeight + 1, sheet: sheet.clientHeight, head: head.offsetHeight, foot: foot.offsetHeight, room: Math.round((follows ? wrap : body).clientHeight),
+          footInWrap: foot.parentNode === wrap && foot.previousElementSibling === body, sameBody: s.shell.sheetBody === body,
+          // How much taller the sheet's parts are than the sheet, and where the footer ends against the sheet's foot.
+          cut: Math.max(0, sheet.scrollHeight - sheet.clientHeight), footAtFoot: Math.abs(fr.bottom - sr.bottom) < 1.5 };
+      };
+      const open = async (width, height, text) => {
+        await phoneSize(width, height, text);
+        const s = mount({ ...own(), sheet: offerSheet });
+        fillOffer(s.shell.sheetBody);
+        // The content arrives after the shell's own update: the fit follows it a frame later.
+        await frames(); await frames(); await frames();
+        return s;
+      };
+      // The smallest phone at the Largest text: squeezed.
+      const s = await open(320, 568, '200%');
+      const body = s.shell.sheetBody, wrap = s.q('.ms-ps-sheet-scroll');
+      const squeezed = see(s);
+      // To its end: the last button whole inside the scroller.
+      wrap.scrollTop = wrap.scrollHeight;
+      const last = s.q('.ms-ps-sheet-foot').lastElementChild.getBoundingClientRect(), wr = wrap.getBoundingClientRect();
+      const end = { lastButton: s.q('.ms-ps-sheet-foot').lastElementChild.textContent.trim(), inside: last.top >= wr.top - 0.5 && last.bottom <= wr.bottom + 0.5 };
+      // A part inside the body asks to be seen (a builder's inline note): the wrapper scrolls, not the body.
+      wrap.scrollTop = 0;
+      const mark = body.querySelector('[data-probe="end"]');
+      const hiddenBefore = mark.getBoundingClientRect().bottom > wrap.getBoundingClientRect().bottom;
+      mark.scrollIntoView({ block: 'nearest' });
+      const mr = mark.getBoundingClientRect(), wr2 = wrap.getBoundingClientRect();
+      const intoView = { hiddenBefore, wrapScrolled: wrap.scrollTop > 0, bodyScrolled: body.scrollTop, seen: mr.top >= wr2.top - 0.5 && mr.bottom <= wr2.bottom + 0.5 };
+      // A tap on a button that followed the body still reports its action.
+      wrap.scrollTop = wrap.scrollHeight;
+      s.q('.ms-ps-sheet-foot [data-value="accept"]').click();
+      const tapped = named(s.calls, 'onSheetAction').map(c => c[1]);
+      // Back at the Standard text on the same phone: the body has room again, and everything is as before.
+      await phoneSize(320, 568);
+      await frames();
+      const relaxed = see(s);
+      s.shell.dispose();
+      const roomy = {};
+      for (const [key, width, height] of [['390', 390, 844], ['430', 430, 932]]) { const t = await open(width, height, ''); roomy[key] = see(t); t.shell.dispose(); }
+      await phoneSize(size.width, size.height);
+      const plain = f => !f.follows && f.wrapDisplay === 'contents' && f.bodyOverflow === 'auto' && f.footInWrap && f.sameBody && f.footAtFoot && f.cut <= 1;
+      return { ok: squeezed.follows && squeezed.wrapDisplay === 'flex' && squeezed.wrapOverflow === 'auto' && squeezed.wrapScrolls && squeezed.footInWrap && squeezed.sameBody && squeezed.cut <= 1
+        // The body would have had under a third of the sheet beside the footer; with the footer following, the content has all the room under the head.
+        && squeezed.sheet - squeezed.head - squeezed.foot < squeezed.sheet / 3 && squeezed.room >= squeezed.sheet - squeezed.head - 14
+        && end.lastButton === 'Accept' && end.inside
+        && intoView.hiddenBefore && intoView.wrapScrolled && intoView.bodyScrolled === 0 && intoView.seen
+        && tapped.join() === 'accept'
+        && plain(relaxed) && plain(roomy['390']) && plain(roomy['430']),
+        squeezed, end, intoView, tapped, relaxed, roomy };
+    });
+
+    await check('stack: a head whose title would take more than two lines beside its buttons stacks where that makes it shorter: its buttons on a row, Back at the left and Close at the right, then the title and its line on the full width; decided from hidden copies that leave nothing behind, and measured again only when the width, the text size, the title or the buttons change; the focus stays', async () => {
+      await phoneSize(320, 568, '200%');
+      // Every measuring copy the shell adds is counted, and every change of the head's arrangement.
+      let measures = 0, flips = 0;
+      const s = mount({ ...own(), sheet: offerSheet });
+      const counter = new MutationObserver(records => { for (const r of records) { for (const n of r.addedNodes) if (n.classList?.contains('ms-ps-measure')) measures += 1; if (r.type === 'attributes') flips += 1; } });
+      counter.observe(s.root, { childList: true });
+      counter.observe(s.q('.ms-ps-sheet-head'), { attributes: true, attributeFilter: ['data-stacked'] });
+      fillOffer(s.shell.sheetBody);
+      await frames(); await frames();
+      const head = () => s.q('.ms-ps-sheet-head');
+      const see = () => {
+        const h = head(), r = n => n.getBoundingClientRect(), back = h.querySelector('[data-intent="sheet-back"]'), close = h.querySelector('[data-intent="sheet-close"]'), title = h.querySelector('.ms-ps-sheet-title'), h2 = title.querySelector('h2');
+        const cs = getComputedStyle(h), inner = h.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight), line = parseFloat(getComputedStyle(h2).lineHeight);
+        return { stacked: h.hasAttribute('data-stacked'), height: h.offsetHeight, lines: Math.round(h2.offsetHeight / line), order: [...h.children].map(n => n.dataset.intent ?? 'title'),
+          backLeft: back ? r(back).left < r(title).left + 1 && r(back).right < r(close ?? title).left : null, sameRow: back && close ? Math.abs(r(back).top - r(close).top) < 1 : null,
+          closeRight: close ? Math.abs(r(close).right - (r(h).right - parseFloat(cs.paddingRight))) < 1 : null,
+          titleUnder: back ? r(title).top >= r(back).bottom : null, titleFull: Math.abs(r(title).width - inner) < 1,
+          copies: s.qa('.ms-ps-measure').length, stands: s.qa('.ms-ps-sheet-stand').length, headings: s.qa('h2').length, labelled: document.getElementById(s.q('.ms-ps-sheet').getAttribute('aria-labelledby')) === h2 };
+      };
+      const stacked = see();
+      // The clock ticks and the same sheet is given again: nothing is measured and nothing moves.
+      const close = head().querySelector('[data-intent="sheet-close"]');
+      close.focus();
+      measures = 0; flips = 0;
+      for (const remainingMs of [41000, 40000, 39000, 38000, 37000, 36000]) s.shell.update({ bar: { ...own().bar, timer: { remainingMs } }, sheet: { ...offerSheet } });
+      await frames(); await frames();
+      const quiet = { measures, flips, stacked: see().stacked, focused: document.activeElement === close };
+      // A short title: measured once, and a row again. The long one back: measured once, and stacked. Close keeps the focus.
+      measures = 0; flips = 0;
+      s.shell.update({ sheet: { ...offerSheet, title: 'Offer' } });
+      await frames(); await frames();
+      const short = { ...see(), measures, flips };
+      measures = 0; flips = 0;
+      s.shell.update({ sheet: { ...offerSheet } });
+      await frames(); await frames();
+      const again = { ...see(), measures, flips, focused: document.activeElement === close, sameClose: head().querySelector('[data-intent="sheet-close"]') === close };
+      // A wider phone at the same text size: measured again. At 390 px the title still takes three lines beside its
+      // buttons, but stacked the head would be no shorter, so it stays a row.
+      measures = 0;
+      await phoneSize(390, 844, '200%');
+      const wide = { ...see(), measures };
+      // The text size back to the Standard: measured again, a row.
+      measures = 0;
+      await phoneSize(390, 844);
+      const standard390 = { ...see(), measures };
+      await phoneSize(430, 932);
+      const standard430 = see();
+      await phoneSize(320, 568);
+      const standard320 = see();
+      // No button beside the title: nothing to stack, whatever the title.
+      await phoneSize(320, 568, '200%');
+      s.shell.update({ sheet: { ...offerSheet, back: false, close: false } });
+      await frames(); await frames();
+      const bare = { stacked: head().hasAttribute('data-stacked'), buttons: head().querySelectorAll('button').length };
+      counter.disconnect();
+      s.shell.dispose();
+      await phoneSize(size.width, size.height);
+      const clean = f => f.copies === 0 && f.stands === 0 && f.headings === 1 && f.labelled && f.order.join() === 'sheet-back,title,sheet-close';
+      return { ok: stacked.stacked && stacked.lines === 2 && stacked.backLeft && stacked.sameRow && stacked.closeRight && stacked.titleUnder && stacked.titleFull && clean(stacked)
+        && quiet.measures === 0 && quiet.flips === 0 && quiet.stacked && quiet.focused
+        && !short.stacked && short.lines === 1 && short.measures === 1 && short.flips === 1 && clean(short)
+        && again.stacked && again.measures === 1 && again.flips === 1 && again.focused && again.sameClose && again.height === stacked.height
+        && !wide.stacked && wide.lines >= 3 && wide.measures >= 1 && clean(wide)
+        && !standard390.stacked && standard390.measures >= 1 && !standard430.stacked && !standard320.stacked
+        && !bare.stacked && bare.buttons === 0,
+        stacked, quiet, short, again, wide, standard390, standard430, standard320, bare };
+    });
+
+    await check('observers: a sheet that goes, and its head, are no longer watched for their size, and a toast that goes is not either; after dispose nothing is watched', async () => {
+      const Real = window.ResizeObserver, observers = new Set();
+      window.ResizeObserver = class extends Real {
+        constructor(callback) { super(callback); this.watched = new Set(); observers.add(this); }
+        observe(node, options) { this.watched.add(node); super.observe(node, options); }
+        unobserve(node) { this.watched.delete(node); super.unobserve(node); }
+        disconnect() { this.watched.clear(); super.disconnect(); }
+      };
+      const watched = () => [...observers].flatMap(o => [...o.watched]);
+      try {
+        const s = mount({ ...own(), sheet: offerSheet, toast: { id: 'observed-1', text: 'Copied' } });
+        await frames();
+        const sheet = s.q('.ms-ps-sheet'), head = s.q('.ms-ps-sheet-head'), toast = s.q('.ms-ps-toast');
+        const open = { sheet: watched().includes(sheet), head: watched().includes(head), toast: watched().includes(toast) };
+        s.shell.update({ sheet: null, toast: null });
+        await frames();
+        const closed = { sheet: watched().includes(sheet), head: watched().includes(head), toast: watched().includes(toast), stray: watched().filter(n => !n.isConnected).length };
+        // Another sheet, then a third in its place: only the one that is there is watched.
+        s.shell.update({ sheet: passSheet });
+        await frames();
+        const second = s.q('.ms-ps-sheet');
+        s.shell.update({ sheet: offerSheet });
+        await frames();
+        const replaced = { old: watched().includes(second), now: watched().includes(s.q('.ms-ps-sheet')), stray: watched().filter(n => !n.isConnected).length };
+        s.shell.dispose();
+        const after = watched().length;
+        return { ok: open.sheet && open.head && open.toast && !closed.sheet && !closed.head && !closed.toast && closed.stray === 0 && !replaced.old && replaced.now && replaced.stray === 0 && after === 0,
+          open, closed, replaced, after };
+      } finally { window.ResizeObserver = Real; }
     });
 
     await check('dispose: twice is safe; layout(), slot() and sheetBody are null; nothing is left and nothing fires', async () => {

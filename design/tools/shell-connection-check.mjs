@@ -24,6 +24,10 @@
 //   before, appointment,     the phase bars (shell 0.2.10, phase-bars.mjs): before turns; the Officer's appointment,
 //   course                   everyone's bar and then the Captain's own; setting course, everyone's and then an office's own
 //   display, concealed       a shared display (no tabs or Promises; ⋮ opens Settings); a hidden page
+// and, at 320 × 568 with the Largest text (200 %, chosen in the game's own Settings), shell 0.3.3's two sheet rules in
+// the real app, on the two sheets of this build that leave their content the least room:
+//   largest-pass             "Pass your turn?": the title on two lines and the two buttons a row each
+//   largest-ballot           the ballot with a name chosen: its question and Vote
 // A capture passes with no unexpected policy report, no failed request and no page error; the shell mounted with
 // the stage in it and none of the old header, nav, sheet or target bar left; and the state's own facts. It writes
 // design/phone-ui/review/shell-connection/: one JPEG per state and size, and check.json (the headers and their
@@ -53,7 +57,9 @@ import { connect, launchBrowser, openPage, sleep } from './lib/chrome.mjs';
 
 const REPO = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const REVIEW = join(REPO, 'design/phone-ui/review/shell-connection');
-const SIZES = { '390x844': [390, 844], '430x932': [430, 932] };
+const SIZES = { '390x844': [390, 844], '430x932': [430, 932], '320x568': [320, 568] };
+// Every state is drawn at the two phones; a state that names its own `sizes` is drawn at those alone.
+const PHONES = ['390x844', '430x932'];
 const PROJECT = 'gamen-mothership-staging';
 const HEADERS = createHostedPreviewHeaders(PROJECT);
 // The asset tooling the harnesses serve their art with: it must be main's, so the art is main's too.
@@ -199,6 +205,28 @@ const centre = b => [b.x + b.width / 2, b.y + b.height / 2];
 const values = s => (s.tabs?.buttons ?? []).map(b => b.intent === 'hero' ? `hero:${b.value}` : b.value).join(',');
 /** Shell 0.3.2: the game's tabs draw exactly these painted tiles, in order, each drawn in the portrait's 32 px box. */
 const painted = (s, icons) => { const tiles = (s.tabs?.tiles ?? []).filter(t => t.tile); return tiles.map(t => t.icon).join() === icons.join() && tiles.every(t => t.size.join() === '32,32'); };
+
+/** The Largest text (200 %), chosen as a player does: ⋮, Settings, Text size. Then Settings is closed. */
+const largestText = async page => {
+  await page.evaluate(tap('.ms-ps-tb [data-intent="menu"]'));
+  await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='settings'&&document.querySelector('.ms-ps-sheet select[aria-label=\"Text size\"]')", 'Settings');
+  await page.evaluate("(()=>{const s=document.querySelector('.ms-ps-sheet select[aria-label=\"Text size\"]');s.value='2';s.dispatchEvent(new Event('change',{bubbles:true}));})()");
+  await page.waitFor("document.documentElement.style.fontSize==='200%'", 'the Largest text');
+  await page.evaluate(tap('.ms-ps-sheet [data-intent="sheet-close"]'));
+  await page.waitFor("!document.querySelector('.ms-ps-sheet')", 'Settings closed');
+};
+/** How an open sheet is laid out: shell 0.3.3's two rules (a stacked head, a footer that scrolls) and whether anything is cut. */
+const FIT = `(() => {
+  const sheet = document.querySelector('.ms-ps-sheet'); if (!sheet) return null;
+  const head = sheet.querySelector('.ms-ps-sheet-head'), h2 = head.querySelector('h2'), body = sheet.querySelector('.ms-ps-sheet-body'), foot = sheet.querySelector('.ms-ps-sheet-foot'), tabs = document.querySelector('.ms-ps-tabs');
+  const r = n => n.getBoundingClientRect(), s = r(sheet), f = foot && !foot.hidden && foot.children.length ? r(foot) : null;
+  return { text: document.documentElement.style.fontSize, stacked: head.hasAttribute('data-stacked'), footScrolls: sheet.hasAttribute('data-foot-scrolls'),
+    titleLines: Math.round(h2.offsetHeight / parseFloat(getComputedStyle(h2).lineHeight)), sheet: Math.round(s.height), head: Math.round(r(head).height), body: Math.round(r(body).height), foot: f ? Math.round(f.height) : 0,
+    content: body.scrollHeight, room: body.clientHeight, inView: s.top >= 0 && s.bottom <= window.innerHeight + 0.5, footInSheet: !f || (f.bottom <= s.bottom + 0.5 && f.top >= r(head).bottom - 0.5),
+    aboveTabs: !tabs || tabs.hidden || s.bottom <= r(tabs).top + 0.5 };
+})()`;
+/** A sheet the two rules leave alone, whole: the head a row, the footer at the sheet's foot, the sheet inside the screen. */
+const unsqueezed = fit => !!fit && fit.text === '200%' && !fit.stacked && !fit.footScrolls && fit.titleLines <= 2 && fit.inView && fit.footInSheet;
 
 /**
  * Each state: the page and address it starts from (or `from`, the state it continues), the steps that reach it
@@ -421,6 +449,32 @@ const STATES = {
       await page.waitFor(`${game}.getModel().concealed&&document.querySelector('.ms-phone-shell')?.dataset.status==='concealed'`, 'concealed');
     },
     facts: s => ({ empty: s.bar?.hidden && !s.bar.name && !s.bar.clock && s.bar.controls === 0 && (s.tabs?.buttons.length ?? 0) === 0 && s.tabs?.hidden, shape: s.shell?.tabs === 'game' }) },
+  // Shell 0.3.3 in the real app, on the smallest phone at the Largest text. No sheet of this build is squeezed there:
+  // none has a title of more than two lines, and none leaves its content under a third of the sheet. So the two
+  // rules leave both sheets as they were, and nothing is cut. A squeezed sheet in the game comes with release 3's
+  // Promises (#310): an offer's sheet, as the shell's own `offer-large` capture draws it.
+  'largest-pass': { page: 'phone', url: 'scenario=board', sizes: ['320x568'], steps: async page => {
+      await largestText(page);
+      await page.evaluate(tap(HERO));
+      await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='pass'", 'Pass your turn?');
+    },
+    extra: async page => ({ fit: await page.evaluate(FIT) }),
+    facts: (s, looks, { fit }) => ({ sheet: s.sheet?.title === 'Pass your turn?' && s.sheet.foot.map(b => b.label).join() === 'Cancel,Pass',
+      // The title takes two lines beside nothing, so the head stays a row; the two buttons take a row each and stay at the foot.
+      whole: unsqueezed(fit) && fit.titleLines === 2 && fit.content <= fit.room + 1 }) },
+  'largest-ballot': { page: 'phone', url: 'scenario=board', sizes: ['320x568'], steps: async page => {
+      await largestText(page);
+      await page.evaluate(edit("const ids=p.board.seats.filter(s=>s.health!=='Eliminated').map(s=>s.seatId);p.phase={id:'phone-jail-vote',kind:'JAIL_VOTE',startedAt:now,endsAt:now+60000};p.activeSeatId=null;p.hackSession=null;p.ballot={eligibleVoters:ids,eligibleTargets:ids};p.offers=[{type:'VOTE',targetSeatIds:ids,slotIds:[],windowIds:[],promiseTargetSeatIds:[]}];p.board.checkpoint='AFTER_BLACKOUT';p.board.finalizedRound=p.round"));
+      await page.waitFor(`${game}.getModel().phase?.kind==='JAIL_VOTE'&&document.querySelector('.ms-ps-hero')?.dataset.mode==='vote'`, 'the round button as Vote');
+      await page.evaluate(tap(HERO));
+      await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='action:VOTE'&&document.querySelector('.ms-ps-sheet .planet-roster-grid')", 'the ballot');
+      await page.evaluate(tap('#planet-choice-seat-2'));
+      await page.waitFor("document.querySelector('.ms-ps-sheet-foot button')", 'a name chosen: Vote');
+    },
+    extra: async page => ({ fit: await page.evaluate(FIT) }),
+    facts: (s, looks, { fit }) => ({ sheet: s.sheet?.title === 'Jail vote' && s.sheet.close && s.sheet.foot.map(b => b.label).join() === 'Vote',
+      // The content keeps more than a third of the sheet, so the footer stays at the sheet's foot.
+      whole: unsqueezed(fit) && fit.room * 3 >= fit.sheet }) },
 };
 
 /** The record so far, when this run adds to it: the same candidate, art and headers. */
@@ -455,6 +509,7 @@ try {
     let page = null;
     for (const [name, state] of Object.entries(STATES)) {
       if (wanted && !wanted.has(name)) continue;
+      if (!(state.sizes ?? PHONES).includes(sizeKey)) continue;
       const result = { ok: false };
       try {
         if (!state.from) {
