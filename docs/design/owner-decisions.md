@@ -773,6 +773,27 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - **The top and bottom bars:** they stay with the Lead. The owner's first question also asked for them to be worked on; what they want changed is still to be asked.
 - **The open choices of the paused film test,** such as the ship through the window and whether its look goes beyond the Doctor test. They stay the owner's and pass to Codex with the test.
 
+**A builder for the bars and the icons, and the Lead leads, minutes later.**
+- Asked what they wanted done on the bars, the owner answered, word for word:
+
+> I want to have a specific agent for the top , bot bar and icons , Icons means all Icons , because I want you to be responsible to handle the design lead not to build
+
+**What it decides:**
+- **A new Designer builder, "Designer · Bars & Icons",** owns:
+  - the phone shell, which is the top bar, the bottom tab bar, the sheet frame, target bar, banners and toast, and the shared kit they are built from (#265);
+  - the shell's connection in the game (#307);
+  - every icon in the game, as their one source of truth.
+- **The Lead leads and does not build.** The Lead's remaining building work goes to builders:
+  - the bars and the kit to the Bars & Icons builder;
+  - the room scene component and the room connection (#261, #284) to the rooms builder (until today, the Pre-game Animation builder).
+- **The Lead keeps:**
+  - the reviews at 390 × 844 and 430 × 932 before the owner sees anything;
+  - the briefs and the coordination;
+  - this record;
+  - the posts on #4 and #222.
+
+**What it does not settle:** the icons' single style. The new builder first inventories every icon and proposes one source. A change to how an icon looks goes to the owner through the Lead.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
