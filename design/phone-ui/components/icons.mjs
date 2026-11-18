@@ -111,6 +111,21 @@ export const ICONS = Object.freeze({
   minus: { label: 'Remove', group: 'utility', parts: [p('M5 12h14', { width: 2 })] },
 });
 
+/**
+ * An icon's painted form, where it is painted by hand rather than from its line drawing: the same silhouette as
+ * stacked shapes (`d`, and a tone: light, main or deep), drawn in order. Kept here, beside the family, so every
+ * icon's drawing is in this one file; design/phone-ui/components/icon-paint.mjs paints them. It is beside the
+ * entries and not on them because a copy of the family holds each entry exactly as it is here.
+ */
+export const ICON_PAINTED = Object.freeze({
+  // Panels: three sheets, the lowest the deepest.
+  panels: Object.freeze([
+    Object.freeze({ d: 'M12 11.2 20.6 15.8 12 20.4 3.4 15.8z', tone: 'deep' }),
+    Object.freeze({ d: 'M12 7.4 20.6 12 12 16.6 3.4 12z', tone: 'main' }),
+    Object.freeze({ d: 'M12 3.6 20.6 8.2 12 12.8 3.4 8.2z', tone: 'light' }),
+  ]),
+});
+
 /** Every name, in the family's order. */
 export const ICON_NAMES = Object.freeze(Object.keys(ICONS));
 
