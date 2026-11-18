@@ -187,6 +187,9 @@
 .ms-phone-shell .ms-ps-tb[data-fit~="stack"] .ms-ps-right { margin-left: auto; }
 /* A wrapped line breaks between its parts ("Player 6", a person's name), at its "·" or "+", never inside one. */
 .ms-phone-shell .ms-ps-part { white-space: nowrap; }
+/* A second line on two lines breaks at its "·", and the break takes the dot's place: the dot is not drawn there, and
+   is still read. A "+" stays at its break: it means "and". */
+.ms-phone-shell .ms-ps-tb[data-fit~="sub2"] .ms-ps-dot { display: block; height: 0; overflow: hidden; }
 /* A bar that grew keeps a little air above and below its words. */
 .ms-phone-shell .ms-ps-tb:is([data-fit~="stack"], [data-fit~="sub2"]) { padding-top: calc(var(--ms-ps-safe-t) + 4px); padding-bottom: 4px; }
 /* The hidden copy the fit is decided from: the bar at its own least height, growing with what it holds. */

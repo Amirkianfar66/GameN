@@ -413,12 +413,15 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     // DRAFT (0.3.4): a part of a line that stays together when the line wraps ("Player 6", a person's name), so a
     // line breaks at its "·" or "+" and never inside a name. The line's words are the same.
     const part = text => { const node = el('span', 'ms-ps-part'); node.textContent = text; return node; };
+    // The "·" between two parts of a second line. Where that line wraps, the break takes the dot's place ("Player 6"
+    // over "Crew 6"); the line's words, and what a screen reader reads, keep it.
+    const dot = () => { const node = el('span', 'ms-ps-dot'); node.textContent = ' · '; return node; };
     if (b.kind === 'turn') {
       const n = seatNumber(b.who), face = portrait(b.who);
       if (face) who.append(face);
       name.textContent = b.self ? 'Your turn' : b.who.name;
-      if (b.self) { const strong = el('b'); strong.append(part(`Player ${n}`), ' · ', part(b.who.name)); sub.append(strong); }
-      else sub.append(part(`Player ${n}`), ' · ', part('Turn'));
+      if (b.self) { const strong = el('b'); strong.append(part(`Player ${n}`), dot(), part(b.who.name)); sub.append(strong); }
+      else sub.append(part(`Player ${n}`), dot(), part('Turn'));
       lines.append(name, sub);
     } else if (b.kind === 'pair') {
       const faces = b.pair.map(portrait).filter(Boolean);
