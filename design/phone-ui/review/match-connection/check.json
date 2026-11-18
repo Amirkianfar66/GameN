@@ -2,7 +2,7 @@
   "tool": "design/tools/match-connection-check.mjs",
   "what": "The Planet app's match screens drawn by Designer's components (release 3: Actions, design/phone-ui/components/actions; the Panels tab, design/phone-ui/components/panels) in the phone shell, in Frontend's phone harness (apps/game/dev/phone) built from the candidate below",
   "candidate": {
-    "commit": "9c0e15bfcc2549b68195d1a614a5a5abeb54f1f0",
+    "commit": "0911c440119b4bf3f3d116eeb2fa6af03b4ebff5",
     "clean": true,
     "dirty": []
   },
@@ -59,7 +59,7 @@
         "noAfter": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-blackhole.jpg",
-      "sha256": "0557f8d027d850ddea918fb76e1ad4e62cef9dc2638d02f129b698c541269e4c",
+      "sha256": "43d9c038d062b39f95368ad261f63d3912326b53938e59984e488990b2297a1e",
       "seen": {
         "shell": {
           "status": "live",
@@ -270,7 +270,8 @@
             "step": "confirm",
             "selected": []
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "7\nYou\nCOMMAND ROOM\nBefore turns\nTurns start at 0:00\nR6\n0:13\nCheck and register\nActivate Blackhole\nOnly you see this\nThis spends its global lifetime use and this round’s Role Action.\nCancel\nActivate Blackhole\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Command Room, C1, Captain.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain Player 7 · Officer —Activate Blackhole\n\nActivate Blackhole",
@@ -278,7 +279,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -305,7 +306,7 @@
         "noSheetSending": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-blackout.jpg",
-      "sha256": "7a5c907fd6a28c32f0a973c1b4f794748aad5f8c2c8d77af4917c83f8f758dbc",
+      "sha256": "2a9652cdbde66cf244ffdfec9d80d04390e5afee700e9a616ca25703d9c745f1",
       "seen": {
         "shell": {
           "status": "live",
@@ -473,7 +474,8 @@
             "step": "slots",
             "selected": []
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "ROOM A\nBlackout\nDark · positions fixed\nR6\n0:08\nChoose a position\nRoom A · any position, even empty\nCancel\nBoard\nActions\nPASS\nCard\nPanels\n\nChoose a fixed position in your bound room.\n\nChoose a fixed position in your bound room.",
@@ -481,7 +483,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -503,7 +505,7 @@
         "noSheet": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-blackout-fixed.jpg",
-      "sha256": "37a8e27ba91d6f225c491447c5e1c045ef948a47a9d5283a29c75c1262028790",
+      "sha256": "2c981698b2db6ccde0655c2a77a5e15e03d7c766804598739f8b3d5d65c77ede",
       "seen": {
         "shell": {
           "status": "live",
@@ -654,7 +656,8 @@
           "round": 6,
           "own": null,
           "action": null,
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [
           {
@@ -668,7 +671,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -744,7 +747,8 @@
           "round": null,
           "own": null,
           "action": null,
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "Captain — · Officer —",
@@ -752,7 +756,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -775,7 +779,7 @@
         "rowToCheck": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-list.jpg",
-      "sha256": "c92149257465a7777aa5173d8c0306d6bd7d76e62b5bc9a4feaf13372c940d1c",
+      "sha256": "c89d5614eae03c8c7e9014672902415d6ac3f1afce165161460caf20e58f6c71",
       "seen": {
         "shell": {
           "status": "live",
@@ -995,7 +999,8 @@
             "step": "targets",
             "selected": []
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nYou\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\n3\nCrew 3\nRESCUE R6\nJAIL\nPRIVATE TALK\nYour turn\nPlayer 2 · Crew 2\nPromises\nR6\n0:58\nRescue\nChoose a player · every room\nCancel\nList\nChoose from a list\n\nRescue · everyone you can reach\n\nROOM A\n\nCrew 1\nPlayer 1\n\nROOM B\n\nCrew 7\nPlayer 7\n\nHOSPITAL\n\nCrew 3\nPlayer 3 · Injured\nRoom\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Injured, Hospital, H1, Rescue possible through Round 6.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Choose an offered character on the board.\n\nChoose an offered character on the board.",
@@ -1003,7 +1008,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1027,7 +1032,7 @@
         "roomChosen": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-move.jpg",
-      "sha256": "3f7d8c56cb4176acaf9262de0aa7efa5e10c20791a153c67c2b6ec4db82da601",
+      "sha256": "f81bbdd51c6157d647652cd07696c601dd062f08e6b9e4d7f5bdbc820fb7ddf1",
       "seen": {
         "shell": {
           "status": "live",
@@ -1206,7 +1211,8 @@
               "Room B"
             ]
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nMove within Room B\nChoose an empty position · or another room on the Board\nCancel\nOther rooms on the Board\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Choose an empty position in Room B.\n\nChoose an empty position in Room B.",
@@ -1214,7 +1220,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1237,7 +1243,7 @@
         "otherRoom": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-move-board.jpg",
-      "sha256": "4448be6746d879810eb0ec16e486116c2706e515331f804f8fd15b88b0b3522f",
+      "sha256": "9cb908351c02ed992788ae44a5a1ccae21761f833853ca6db62cfa06d10f9686",
       "seen": {
         "shell": {
           "status": "live",
@@ -1406,7 +1412,8 @@
               "Room B"
             ]
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nB5\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nMove\nChoose an empty position · uses this round’s move\nCancel\nRoom\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Choose an empty position in Room B.\n\nChoose an empty position in Room B.",
@@ -1414,7 +1421,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1438,7 +1445,7 @@
         "cancelToChoosing": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-move-check.jpg",
-      "sha256": "1cec762d9d490e3425e760461d6af32b0532d64e7016d53a5e18e778677b7ace",
+      "sha256": "68f3c9492ead0af4506f1a76c5507a7ff05ac15fd43114f9a470287e7f57b85d",
       "seen": {
         "shell": {
           "status": "live",
@@ -1653,7 +1660,8 @@
               "Room B"
             ]
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:57\nCheck and register\nMove to B5\nRoom B\nEntering or repositioning spends this round’s movement.\nCancel\nRegister move\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Review before registering.\n\nReview before registering.",
@@ -1661,7 +1669,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1684,7 +1692,7 @@
         "youThere": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-moved.jpg",
-      "sha256": "e2959814ecaad8b9f1a21daa498dc38f20aa25ab375e7bbd132358991896b9c0",
+      "sha256": "c486cd752dbb39f4dce828935af40f5299e78861e13c0b114b49d9b80897378c",
       "seen": {
         "shell": {
           "status": "live",
@@ -1701,7 +1709,7 @@
           "tone": null,
           "name": "Your turn",
           "sub": "Player 6 · Crew 6",
-          "clock": "0:55",
+          "clock": "0:56",
           "controls": 2
         },
         "tabs": {
@@ -1812,7 +1820,7 @@
         },
         "old": 0,
         "status": null,
-        "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BWindowsYour turnPlayer 6 · Crew 6PromisesR60:55BoardActionsPassPassCardPanelsMoved to B5",
+        "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BWindowsYour turnPlayer 6 · Crew 6PromisesR60:56BoardActionsPassPassCardPanelsMoved to B5",
         "hiddenStep": "",
         "hiddenCheckpoint": "Current board · shared: Round 5 complete",
         "before": {
@@ -1828,7 +1836,8 @@
           "round": 6,
           "own": "Room B B5",
           "action": null,
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [
           {
@@ -1837,12 +1846,12 @@
             "slotId": "B5"
           }
         ],
-        "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nWindows\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:55\nBoard\nActions\nPASS\nCard\nPanels\nMoved to B5\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B5.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
+        "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nWindows\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:56\nBoard\nActions\nPASS\nCard\nPanels\nMoved to B5\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B5.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
         "violations": [
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1864,7 +1873,7 @@
         "chipToBoard": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-other-rooms.jpg",
-      "sha256": "e315d8cc6ccd92c1593ca3b426c32c6bb3560d2b23101a581dcd0b626bbdaf5b",
+      "sha256": "e97b031b47b65d2f38e87b59b01f385a1d2d045ff0cc3a0d2d413288adab1bad",
       "seen": {
         "shell": {
           "status": "live",
@@ -2041,7 +2050,8 @@
             "step": "targets",
             "selected": []
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "1\nCrew 1\n2\nYou\n4\nCrew 4\n5\nCrew 5\nROOM A\nYour turn\nPlayer 2 · Crew 2\nPromises\nR6\n0:58\nRescue\nChoose a player\nCancel\nOther rooms · 2\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Injured, Hospital, H1, Rescue possible through Round 6.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Choose an offered character on the board.\n\nChoose an offered character on the board.",
@@ -2049,7 +2059,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2079,7 +2089,7 @@
         "backToPanels": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-panels.jpg",
-      "sha256": "c36a4286d46f38e7232c7b585829005bc9b9913a7b4b3cee2dc1e28e7f47d8f5",
+      "sha256": "73d25d053e901744c76d2e4894b9b698e9307c6b4fb26d25dba20b63b4c81d2b",
       "seen": {
         "shell": {
           "status": "live",
@@ -2294,7 +2304,7 @@
               "seat": null,
               "kind": null,
               "title": "Round order",
-              "sub": "Phases and timings",
+              "sub": "The phases, in order",
               "icon": "rules",
               "portrait": null,
               "badges": [],
@@ -2309,7 +2319,7 @@
             }
           ],
           "note": null,
-          "text": "WindowsRoom A ↔ Room B · Room B ↔ JailNavigationCaptain and Officer onlyHospital panelPatients onlyPlayersSeats, rooms and public statusRound orderPhases and timings"
+          "text": "WindowsRoom A ↔ Room B · Room B ↔ JailNavigationCaptain and Officer onlyHospital panelPatients onlyPlayersSeats, rooms and public statusRound orderThe phases, in order"
         },
         "stage": {
           "inShell": true,
@@ -2323,7 +2333,7 @@
         },
         "old": 0,
         "status": null,
-        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BYour turnPlayer 6 · Crew 6PromisesR60:58PanelsWindowsRoom A ↔ Room B · Room B ↔ JailNavigationCaptain and Officer onlyHospital panelPatients onlyPlayersSeats, rooms and public statusRound orderPhases and timingsBoardActionsPassPassCardPanels",
+        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BYour turnPlayer 6 · Crew 6PromisesR60:58PanelsWindowsRoom A ↔ Room B · Room B ↔ JailNavigationCaptain and Officer onlyHospital panelPatients onlyPlayersSeats, rooms and public statusRound orderThe phases, in orderBoardActionsPassPassCardPanels",
         "hiddenStep": "",
         "hiddenCheckpoint": "Current board · shared: Round 5 complete",
         "before": null,
@@ -2336,15 +2346,318 @@
           "round": 6,
           "own": "Room B B1",
           "action": null,
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
-        "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nPanels\nWindows\nRoom A ↔ Room B · Room B ↔ Jail\nNavigation\nCaptain and Officer only\nHospital panel\nPatients only\nPlayers\nSeats, rooms and public status\nRound order\nPhases and timings\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
+        "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nPanels\nWindows\nRoom A ↔ Room B · Room B ↔ Jail\nNavigation\nCaptain and Officer only\nHospital panel\nPatients only\nPlayers\nSeats, rooms and public status\nRound order\nThe phases, in order\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
         "violations": [
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/panels-food": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "frame": true,
+        "away": true,
+        "partThenTasks": true,
+        "rows": true,
+        "order": true
+      },
+      "file": "design/phone-ui/review/match-connection/390x844-panels-food.jpg",
+      "sha256": "1a6ad2590af89272765c675068301f9d2e11acf85fc67f5e2448ac2b564a8661",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": null,
+          "name": "Food Supply",
+          "sub": "Current board · shared: Round 2 complete",
+          "clock": "0:26",
+          "controls": 2
+        },
+        "tabs": {
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 78,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 162,
+                "y": 767,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 234,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "true",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 312,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            }
+          ]
+        },
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": true,
+          "busy": false,
+          "box": {
+            "x": 162,
+            "y": 767,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "sheet": {
+          "id": "panels",
+          "title": "Panels",
+          "sub": null,
+          "back": false,
+          "close": true,
+          "foot": [],
+          "game": {
+            "text": "Tasks",
+            "buttons": [
+              "Tasks"
+            ],
+            "lines": []
+          },
+          "children": [
+            "ms-panels",
+            "planet-sheet-body"
+          ],
+          "box": {
+            "x": 0,
+            "y": 345.3,
+            "width": 390,
+            "height": 440.7
+          }
+        },
+        "actions": null,
+        "panels": {
+          "view": "list",
+          "label": "Panels",
+          "first": true,
+          "motion": "full",
+          "rows": [
+            {
+              "value": "windows",
+              "seat": null,
+              "kind": null,
+              "title": "Windows",
+              "sub": "Room A ↔ Room B · Room B ↔ Jail",
+              "icon": "window",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": true,
+              "box": {
+                "x": 16,
+                "y": 420.3,
+                "width": 358,
+                "height": 53.14
+              }
+            },
+            {
+              "value": "navigation",
+              "seat": null,
+              "kind": null,
+              "title": "Navigation",
+              "sub": "Captain and Officer only",
+              "icon": "course",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": true,
+              "box": {
+                "x": 16,
+                "y": 473.44,
+                "width": 358,
+                "height": 53.14
+              }
+            },
+            {
+              "value": "hospital",
+              "seat": null,
+              "kind": null,
+              "title": "Hospital panel",
+              "sub": "Patients only",
+              "icon": "panel",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": true,
+              "box": {
+                "x": 16,
+                "y": 526.58,
+                "width": 358,
+                "height": 53.14
+              }
+            },
+            {
+              "value": "players",
+              "seat": null,
+              "kind": null,
+              "title": "Players",
+              "sub": "Seats, rooms and public status",
+              "icon": "players",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": true,
+              "box": {
+                "x": 16,
+                "y": 593.72,
+                "width": 358,
+                "height": 53.14
+              }
+            },
+            {
+              "value": "round-order",
+              "seat": null,
+              "kind": null,
+              "title": "Round order",
+              "sub": "The phases, in order",
+              "icon": "rules",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": true,
+              "box": {
+                "x": 16,
+                "y": 646.86,
+                "width": 358,
+                "height": 53.14
+              }
+            }
+          ],
+          "note": null,
+          "text": "WindowsRoom A ↔ Room B · Room B ↔ JailNavigationCaptain and Officer onlyHospital panelPatients onlyPlayersSeats, rooms and public statusRound orderThe phases, in order"
+        },
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "lighting": "lit",
+          "presses": [],
+          "slots": [],
+          "boardSlots": [],
+          "captions": []
+        },
+        "old": 0,
+        "status": null,
+        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6YouRoom BFood SupplyCurrent board · shared: Round 2 completePromisesR30:261PanelsWindowsRoom A ↔ Room B · Room B ↔ JailNavigationCaptain and Officer onlyHospital panelPatients onlyPlayersSeats, rooms and public statusRound orderThe phases, in orderTasksBoardActionsPassPassCardPanels",
+        "hiddenStep": "",
+        "hiddenCheckpoint": "Current board · shared: Round 2 complete",
+        "before": null,
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "phase": "FOOD_SUPPLY",
+          "panel": "panels",
+          "ownSeatId": "seat-6",
+          "round": 3,
+          "own": "Room B B2",
+          "action": null,
+          "recovery": null,
+          "food": {
+            "step": "AWAY",
+            "away": [
+              "seat-3",
+              "seat-8"
+            ]
+          }
+        },
+        "commands": [],
+        "page": "6\nYou\nROOM B\nFood Supply\nCurrent board · shared: Round 2 complete\nR3\n0:26\n1\nPanels\nWindows\nRoom A ↔ Room B · Room B ↔ Jail\nNavigation\nCaptain and Officer only\nHospital panel\nPatients only\nPlayers\nSeats, rooms and public status\nRound order\nThe phases, in order\nTasks\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Ava: Healthy, Room A, A1.\nPlayer 2, Ben: Healthy, Command Room, C1, Captain.\nPlayer 3, Cleo: Healthy, Room B, B1, away on the Food Supply Task, Officer.\nPlayer 4, Dev: Healthy, Room A, A2.\nPlayer 5, Eli: Injured, Hospital, H1, Rescue possible through Round 3.\nPlayer 6, Fay: Healthy, Room B, B2.\nPlayer 7, Gus: Healthy, Room A, A3.\nPlayer 8, Hana: Healthy, Room B, B3, away on the Food Supply Task.\nPlayer 9, Ike: Healthy, Room A, A4.\nCaptain Player 2 · Officer Player 3Current board · shared: Round 2 complete",
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2370,7 +2683,7 @@
         "sheetClosed": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-pass.jpg",
-      "sha256": "faca433b0f88307734ff249a9673dd66d1631ea22e3784276e625e0e8c485751",
+      "sha256": "ef3bbc03539106ab5a927a31b2f8e66f8620dd80dce20ccf275d9ab4b74cd187",
       "seen": {
         "shell": {
           "status": "live",
@@ -2579,7 +2892,8 @@
             "step": "confirm",
             "selected": []
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nPass your turn?\nCancel\nPass\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Pass\n\nPass",
@@ -2587,7 +2901,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2617,7 +2931,7 @@
         "backToList": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-players.jpg",
-      "sha256": "3d3f42789a83f7d55840f61face69a71f74d42948ac99b0c0634132795a6606c",
+      "sha256": "fe296c543a6d1750f794ec27dfe04f857317bfb7b81efff5dcb4af8a75a0e30b",
       "seen": {
         "shell": {
           "status": "live",
@@ -2950,7 +3264,8 @@
           "round": 6,
           "own": "Room B B1",
           "action": null,
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "6\nYou\n7\nCrew 7\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nPlayers\n1 · Crew 1\nRoom A\nCaptain\n2 · Crew 2\nRoom A\n3 · Crew 3\nHospital · Injured\n4 · Crew 4\nRoom A\n5 · Crew 5\nRoom A\n6 · Crew 6 (you)\nRoom B\n7 · Crew 7\nRoom B\nOfficer\n8 · Crew 8\nIn Jail\n9 · Crew 9\nEliminated\n\nPublic facts only: seats, rooms, health and offices.\n\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1, Captain.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Injured, Hospital, H1, Rescue possible through Round 6.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2, Officer.\nPlayer 8, Crew 8: Healthy, Jail, J1, detained.\nPlayer 9, Crew 9: Eliminated, off board.\nCaptain Player 1 · Officer Player 7Current board · shared: Round 5 complete",
@@ -2958,7 +3273,218 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "390x844/players-away": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "frame": true,
+        "noPart": true,
+        "oneList": true,
+        "away": true,
+        "noComponentWords": true,
+        "backToList": true
+      },
+      "file": "design/phone-ui/review/match-connection/390x844-players-away.jpg",
+      "sha256": "dea52dc31ec6164bfeabfbcd8b5431173b974b0df317bc4db0eac211d2486432",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 390,
+            "height": 844
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": null,
+          "name": "Food Supply",
+          "sub": "Current board · shared: Round 2 complete",
+          "clock": "0:26",
+          "controls": 2
+        },
+        "tabs": {
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 78,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 162,
+                "y": 767,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 234,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "true",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 312,
+                "y": 787,
+                "width": 78,
+                "height": 57
+              }
+            }
+          ]
+        },
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": true,
+          "busy": false,
+          "box": {
+            "x": 162,
+            "y": 767,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "sheet": {
+          "id": "panels",
+          "title": "Players",
+          "sub": null,
+          "back": true,
+          "close": true,
+          "foot": [],
+          "game": {
+            "text": "Player 1 · Ava · Room A · HealthyPlayer 2 · Ben · Command Room · HealthyPlayer 3 · Cleo · Away on the Food Supply TaskPlayer 4 · Dev · Room A · HealthyPlayer 5 · Eli · Hospital · InjuredPlayer 6 · Fay",
+            "buttons": [],
+            "lines": [
+              "Player 1 · Ava · Room A · Healthy",
+              "Player 2 · Ben · Command Room · Healthy",
+              "Player 3 · Cleo · Away on the Food Supply Task",
+              "Player 4 · Dev · Room A · Healthy",
+              "Player 5 · Eli · Hospital · Injured",
+              "Player 6 · Fay · Room B · Healthy",
+              "Player 7 · Gus · Room A · Healthy",
+              "Player 8 · Hana · Away on the Food Supply Task",
+              "Player 9 · Ike · Room A · Healthy"
+            ]
+          },
+          "children": [
+            "planet-sheet-body"
+          ],
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 390,
+            "height": 726
+          }
+        },
+        "actions": null,
+        "panels": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "lighting": "lit",
+          "presses": [],
+          "slots": [],
+          "boardSlots": [],
+          "captions": []
+        },
+        "old": 0,
+        "status": null,
+        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6YouRoom BFood SupplyCurrent board · shared: Round 2 completePromisesR30:261PlayersPlayer 1 · Ava · Room A · HealthyPlayer 2 · Ben · Command Room · HealthyPlayer 3 · Cleo · Away on the Food Supply TaskPlayer 4 · Dev · Room A · HealthyPlayer 5 · Eli · Hospital · InjuredPlayer 6 · Fay · Room B · HealthyPlayer 7 · Gus · Room A · HealthyPlayer 8 · Hana · Away on the Food Supply TaskPlayer 9 · Ike · Room A · HealthyBoardActionsPassPassCardPanels",
+        "hiddenStep": "",
+        "hiddenCheckpoint": "Current board · shared: Round 2 complete",
+        "before": null,
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "phase": "FOOD_SUPPLY",
+          "panel": "players",
+          "ownSeatId": "seat-6",
+          "round": 3,
+          "own": "Room B B2",
+          "action": null,
+          "recovery": null,
+          "food": {
+            "step": "AWAY",
+            "away": [
+              "seat-3",
+              "seat-8"
+            ]
+          }
+        },
+        "commands": [],
+        "page": "6\nYou\nROOM B\nFood Supply\nCurrent board · shared: Round 2 complete\nR3\n0:26\n1\nPlayers\n\nPlayer 1 · Ava · Room A · Healthy\n\nPlayer 2 · Ben · Command Room · Healthy\n\nPlayer 3 · Cleo · Away on the Food Supply Task\n\nPlayer 4 · Dev · Room A · Healthy\n\nPlayer 5 · Eli · Hospital · Injured\n\nPlayer 6 · Fay · Room B · Healthy\n\nPlayer 7 · Gus · Room A · Healthy\n\nPlayer 8 · Hana · Away on the Food Supply Task\n\nPlayer 9 · Ike · Room A · Healthy\n\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Ava: Healthy, Room A, A1.\nPlayer 2, Ben: Healthy, Command Room, C1, Captain.\nPlayer 3, Cleo: Healthy, Room B, B1, away on the Food Supply Task, Officer.\nPlayer 4, Dev: Healthy, Room A, A2.\nPlayer 5, Eli: Injured, Hospital, H1, Rescue possible through Round 3.\nPlayer 6, Fay: Healthy, Room B, B2.\nPlayer 7, Gus: Healthy, Room A, A3.\nPlayer 8, Hana: Healthy, Room B, B3, away on the Food Supply Task.\nPlayer 9, Ike: Healthy, Room A, A4.\nCaptain Player 2 · Officer Player 3Current board · shared: Round 2 complete",
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2979,7 +3505,7 @@
         "noTiles": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-reconnecting.jpg",
-      "sha256": "f6cc249725a15f6e42f0f51d87064ae6eafb115a05652705d44c22bddedd6ed4",
+      "sha256": "72a8bb05086c0d86683688aca655196cce1be81d931718a0b2a10708007a0bfc",
       "seen": {
         "shell": {
           "status": "stale",
@@ -3123,7 +3649,8 @@
           "round": null,
           "own": null,
           "action": null,
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "1\nCrew 1\n2\nYou\n4\nCrew 4\n5\nCrew 5\nROOM A\nReconnecting…\nShowing Round 6 as last seen\nR6\nConnection lost\nControls return when the match is current\nRetry\nControls return when the match is currentControls return when the match is currentControls return when the match is currentControls return when the match is currentControls return when the match is current\nBoard\nActions\nPASS\nCard\nPanels\n\nCaptain — · Officer —",
@@ -3131,7 +3658,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3155,7 +3682,7 @@
         "heroStays": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-rescue.jpg",
-      "sha256": "b014a3f45df64e1be9acebfde19591a168c63bb8319d4fac49768c9aebae1efc",
+      "sha256": "b1a3081c199c856b6f4edb1aabb87bbd5e7ddc8aadbfe9889fe1fab2ccb85091",
       "seen": {
         "shell": {
           "status": "live",
@@ -3319,7 +3846,8 @@
             "step": "targets",
             "selected": []
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "RESCUE R6\n3\nCrew 3\n· Injured\nHOSPITAL\nYour turn\nPlayer 2 · Crew 2\nPromises\nR6\n0:58\nRescue\nChoose a player\nCancel\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Injured, Hospital, H1, Rescue possible through Round 6.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Choose an offered character on the board.\n\nChoose an offered character on the board.",
@@ -3327,7 +3855,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3355,7 +3883,7 @@
         "doneCloses": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-rescue-after.jpg",
-      "sha256": "c538c94e2d4cdeb2c95fde09e17800e727f380ac5252a30b34ae460593a6cdc2",
+      "sha256": "fd4c488f4c54d9c23ede5649ea1df0cf4315e6fd3791e5fb7370620ffa73206a",
       "seen": {
         "shell": {
           "status": "live",
@@ -3553,7 +4081,8 @@
             "step": "accepted",
             "selected": []
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [
           {
@@ -3566,7 +4095,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3591,7 +4120,7 @@
         "cancelToTiles": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-rescue-check.jpg",
-      "sha256": "f10db75fad66adb665b0029112cd9ee4f46f433b3049498a2b83bc87c4d1f9ed",
+      "sha256": "90320c0262c9fb218bb5b35421d156acf4423eec2d10be6d85c449a69e1d2266",
       "seen": {
         "shell": {
           "status": "live",
@@ -3802,7 +4331,8 @@
             "step": "confirm",
             "selected": []
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "RESCUE R6\n3\nCrew 3\n· Injured\nHOSPITAL\nYour turn\nPlayer 2 · Crew 2\nPromises\nR6\n0:57\nCheck and register\nRescue Crew 3\nPlayer 3 · Hospital\nCancel\nRegister Rescue\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Injured, Hospital, H1, Rescue possible through Round 6.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Review before registering.\n\nReview before registering.",
@@ -3810,7 +4340,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3836,7 +4366,7 @@
         "closes": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-round-order.jpg",
-      "sha256": "464ac8d5503a1ead56c712ffbf3e6e910fa21f1dec13170a0d9f0549ea330bba",
+      "sha256": "8b6d635eadf9858658962bdb9f9ded9f4c24d369c9b2200d4a2134cfbc6a0304",
       "seen": {
         "shell": {
           "status": "live",
@@ -4165,7 +4695,8 @@
           "round": 6,
           "own": "Room B B1",
           "action": null,
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nRound order\nPlayer turns\nPrivate talk\nSync when applicable\nBlackout\nDamage and Hospital placement\nJail vote\nResult\nRemaining resolution and Rescue\nNavigation\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
@@ -4173,7 +4704,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4198,7 +4729,7 @@
         "heard": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-suppress.jpg",
-      "sha256": "daa31dd4bf61c847a86afa9b557f663ae242d4898e6ce3910fbb600159754e1e",
+      "sha256": "44e2de8665099895ecf3e05a9c1ef9c9502e79612aa4abf3db465e057da71a59",
       "seen": {
         "shell": {
           "status": "live",
@@ -4407,7 +4938,8 @@
             "step": "confirm",
             "selected": []
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nYou\nROOM B\nYour turn\nPlayer 9 · Crew 9\nPromises\nR6\n0:58\nCheck and register\nSuppress navigation\nOnly you see this\nCancel\nSuppress navigation\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Suppress navigation\n\nSuppress navigation",
@@ -4415,7 +4947,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4441,7 +4973,7 @@
         "unavailableRefused": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-tiles.jpg",
-      "sha256": "29e843785f9a8c8d51327b6f45fe224ea08bd77604b6e63dd9812a886b3269cf",
+      "sha256": "d5e008d00c586497774544645e8e3f38d7382f81f79083ca8bad403b12872bca",
       "seen": {
         "shell": {
           "status": "live",
@@ -4653,7 +5185,8 @@
           "round": 6,
           "own": "Room B B1",
           "action": null,
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nActions\n\nRoom B\n\nYOUR TURN\nRound 6\nScan\nFinal Code\nMove\nPrivate talk\nNot available now\nShoot\nNot available now\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
@@ -4661,7 +5194,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4685,7 +5218,7 @@
         "afterRetry": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-unknown.jpg",
-      "sha256": "8f82980a263e369d2ceaa019904e7bf3119dec230fa9fc958786e9d6dae68a68",
+      "sha256": "6bc7ba6d29007bf8a43374aa0b0e3557e44aed78524e95f822afa5b8b1c6d2b0",
       "seen": {
         "shell": {
           "status": "live",
@@ -4897,7 +5430,8 @@
             "status": "unknown",
             "canCheck": true,
             "canRetry": true
-          }
+          },
+          "food": null
         },
         "commands": [
           {
@@ -4910,7 +5444,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4934,7 +5468,7 @@
         "noAfter": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-blackhole.jpg",
-      "sha256": "f39a758a184b80da265e14e8ffce63e34d9250a59894cba8f2add5902c74f066",
+      "sha256": "492a4ca84e17be40079ad624a7404849ac5756f53bfc37429da1a881d929af54",
       "seen": {
         "shell": {
           "status": "live",
@@ -5145,7 +5679,8 @@
             "step": "confirm",
             "selected": []
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "7\nYou\nCOMMAND ROOM\nBefore turns\nTurns start at 0:00\nR6\n0:13\nCheck and register\nActivate Blackhole\nOnly you see this\nThis spends its global lifetime use and this round’s Role Action.\nCancel\nActivate Blackhole\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Command Room, C1, Captain.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain Player 7 · Officer —Activate Blackhole\n\nActivate Blackhole",
@@ -5153,7 +5688,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5180,7 +5715,7 @@
         "noSheetSending": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-blackout.jpg",
-      "sha256": "de57015641e67759e5b4d81cc1089fc6819c563438c56655587c4f4b6ab5743d",
+      "sha256": "39e78da027627df4c905a70cb515ffb51a21fd61551b3f8a96674839036df3b5",
       "seen": {
         "shell": {
           "status": "live",
@@ -5348,7 +5883,8 @@
             "step": "slots",
             "selected": []
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "ROOM A\nBlackout\nDark · positions fixed\nR6\n0:08\nChoose a position\nRoom A · any position, even empty\nCancel\nBoard\nActions\nPASS\nCard\nPanels\n\nChoose a fixed position in your bound room.\n\nChoose a fixed position in your bound room.",
@@ -5356,7 +5892,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5378,7 +5914,7 @@
         "noSheet": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-blackout-fixed.jpg",
-      "sha256": "79b89058a921b8478423638d834f73ec04801e6d8479ce60ec1acebd0b42263b",
+      "sha256": "b512e12b740f1815db5780e554b2c199529be43e1b2079658329a3b834f52398",
       "seen": {
         "shell": {
           "status": "live",
@@ -5529,7 +6065,8 @@
           "round": 6,
           "own": null,
           "action": null,
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [
           {
@@ -5543,7 +6080,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5619,7 +6156,8 @@
           "round": null,
           "own": null,
           "action": null,
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "Captain — · Officer —",
@@ -5627,7 +6165,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5650,7 +6188,7 @@
         "rowToCheck": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-list.jpg",
-      "sha256": "c935125160d031033f3989e52a821f8696b080589926a8a8afd4800e1cb860c9",
+      "sha256": "1dafaa1320bae2f4159a16986d13754891c50896357d2e822e036db66c911361",
       "seen": {
         "shell": {
           "status": "live",
@@ -5870,7 +6408,8 @@
             "step": "targets",
             "selected": []
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nYou\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\n3\nCrew 3\nRESCUE R6\nJAIL\nPRIVATE TALK\nYour turn\nPlayer 2 · Crew 2\nPromises\nR6\n0:58\nRescue\nChoose a player · every room\nCancel\nList\nChoose from a list\n\nRescue · everyone you can reach\n\nROOM A\n\nCrew 1\nPlayer 1\n\nROOM B\n\nCrew 7\nPlayer 7\n\nHOSPITAL\n\nCrew 3\nPlayer 3 · Injured\nRoom\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Injured, Hospital, H1, Rescue possible through Round 6.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Choose an offered character on the board.\n\nChoose an offered character on the board.",
@@ -5878,7 +6417,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5902,7 +6441,7 @@
         "roomChosen": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-move.jpg",
-      "sha256": "7e447bcae5bbdf0e15bac3eb144502c30be1cc60024d608ba6a44526c2d459ee",
+      "sha256": "a0981b683f3e38804a571fc812cc1441a2c3a8e6c950649aee537e937c47e8e6",
       "seen": {
         "shell": {
           "status": "live",
@@ -6081,7 +6620,8 @@
               "Room B"
             ]
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nMove within Room B\nChoose an empty position · or another room on the Board\nCancel\nOther rooms on the Board\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Choose an empty position in Room B.\n\nChoose an empty position in Room B.",
@@ -6089,7 +6629,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6112,7 +6652,7 @@
         "otherRoom": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-move-board.jpg",
-      "sha256": "a9899768ec9fbb11543f13babf7b25c0482d28438badf7924a5f7768a02f59e8",
+      "sha256": "cf457e8b431a0668f9f7dcdb1d023d4a7a17471133b9ff3a1ec928e99de31e51",
       "seen": {
         "shell": {
           "status": "live",
@@ -6281,7 +6821,8 @@
               "Room B"
             ]
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nB5\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nMove\nChoose an empty position · uses this round’s move\nCancel\nRoom\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Choose an empty position in Room B.\n\nChoose an empty position in Room B.",
@@ -6289,7 +6830,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6313,7 +6854,7 @@
         "cancelToChoosing": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-move-check.jpg",
-      "sha256": "9d916855bd471b6298dd895e6b93c97b53cdbaece5272183cc43c85ff4543153",
+      "sha256": "3222893a21a819833ac79ee83e8ddbec960ed9d7ba9957fde12f5e29e7061e20",
       "seen": {
         "shell": {
           "status": "live",
@@ -6528,7 +7069,8 @@
               "Room B"
             ]
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:57\nCheck and register\nMove to B5\nRoom B\nEntering or repositioning spends this round’s movement.\nCancel\nRegister move\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Review before registering.\n\nReview before registering.",
@@ -6536,7 +7078,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6559,7 +7101,7 @@
         "youThere": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-moved.jpg",
-      "sha256": "5911ed7627e17f8c314c8d6f2d452a7de9e54314a7d5b9cb0d8ca88aa7a8ddeb",
+      "sha256": "f06ef7481a2025d82d9b1970015438f7c186c77ff208d215642b498400c5ae02",
       "seen": {
         "shell": {
           "status": "live",
@@ -6703,7 +7245,8 @@
           "round": 6,
           "own": "Room B B5",
           "action": null,
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [
           {
@@ -6717,7 +7260,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6739,7 +7282,7 @@
         "chipToBoard": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-other-rooms.jpg",
-      "sha256": "a0f95aa6ab89fd246844122b3852f4bda382c5f0e8df084fb12fc5106cb63140",
+      "sha256": "64ea8902edeb7b2ef57a577ce024546e7ab7f8a36bd8b176ba5bd10142044e6a",
       "seen": {
         "shell": {
           "status": "live",
@@ -6916,7 +7459,8 @@
             "step": "targets",
             "selected": []
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "1\nCrew 1\n2\nYou\n4\nCrew 4\n5\nCrew 5\nROOM A\nYour turn\nPlayer 2 · Crew 2\nPromises\nR6\n0:58\nRescue\nChoose a player\nCancel\nOther rooms · 2\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Injured, Hospital, H1, Rescue possible through Round 6.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Choose an offered character on the board.\n\nChoose an offered character on the board.",
@@ -6924,7 +7468,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6954,7 +7498,7 @@
         "backToPanels": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-panels.jpg",
-      "sha256": "018725aa70dcb2cc641ccc0677edb5c26b8b2c858d4f6bcd059495183496d692",
+      "sha256": "61f042e019db6cf009aebfaa7de02680651715fdc8035da2f4054a9c9682503e",
       "seen": {
         "shell": {
           "status": "live",
@@ -7169,7 +7713,7 @@
               "seat": null,
               "kind": null,
               "title": "Round order",
-              "sub": "Phases and timings",
+              "sub": "The phases, in order",
               "icon": "rules",
               "portrait": null,
               "badges": [],
@@ -7184,7 +7728,7 @@
             }
           ],
           "note": null,
-          "text": "WindowsRoom A ↔ Room B · Room B ↔ JailNavigationCaptain and Officer onlyHospital panelPatients onlyPlayersSeats, rooms and public statusRound orderPhases and timings"
+          "text": "WindowsRoom A ↔ Room B · Room B ↔ JailNavigationCaptain and Officer onlyHospital panelPatients onlyPlayersSeats, rooms and public statusRound orderThe phases, in order"
         },
         "stage": {
           "inShell": true,
@@ -7198,7 +7742,7 @@
         },
         "old": 0,
         "status": null,
-        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BYour turnPlayer 6 · Crew 6PromisesR60:58PanelsWindowsRoom A ↔ Room B · Room B ↔ JailNavigationCaptain and Officer onlyHospital panelPatients onlyPlayersSeats, rooms and public statusRound orderPhases and timingsBoardActionsPassPassCardPanels",
+        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BYour turnPlayer 6 · Crew 6PromisesR60:58PanelsWindowsRoom A ↔ Room B · Room B ↔ JailNavigationCaptain and Officer onlyHospital panelPatients onlyPlayersSeats, rooms and public statusRound orderThe phases, in orderBoardActionsPassPassCardPanels",
         "hiddenStep": "",
         "hiddenCheckpoint": "Current board · shared: Round 5 complete",
         "before": null,
@@ -7211,15 +7755,318 @@
           "round": 6,
           "own": "Room B B1",
           "action": null,
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
-        "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nPanels\nWindows\nRoom A ↔ Room B · Room B ↔ Jail\nNavigation\nCaptain and Officer only\nHospital panel\nPatients only\nPlayers\nSeats, rooms and public status\nRound order\nPhases and timings\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
+        "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nPanels\nWindows\nRoom A ↔ Room B · Room B ↔ Jail\nNavigation\nCaptain and Officer only\nHospital panel\nPatients only\nPlayers\nSeats, rooms and public status\nRound order\nThe phases, in order\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
         "violations": [
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/panels-food": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "frame": true,
+        "away": true,
+        "partThenTasks": true,
+        "rows": true,
+        "order": true
+      },
+      "file": "design/phone-ui/review/match-connection/430x932-panels-food.jpg",
+      "sha256": "942088de6426798b7f2c7433262ecf5bc83fe23fcd4c06ec6314d558b1afe53f",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": null,
+          "name": "Food Supply",
+          "sub": "Current board · shared: Round 2 complete",
+          "clock": "0:26",
+          "controls": 2
+        },
+        "tabs": {
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 86,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 182,
+                "y": 855,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 258,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "true",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 344,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            }
+          ]
+        },
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": true,
+          "busy": false,
+          "box": {
+            "x": 182,
+            "y": 855,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "sheet": {
+          "id": "panels",
+          "title": "Panels",
+          "sub": null,
+          "back": false,
+          "close": true,
+          "foot": [],
+          "game": {
+            "text": "Tasks",
+            "buttons": [
+              "Tasks"
+            ],
+            "lines": []
+          },
+          "children": [
+            "ms-panels",
+            "planet-sheet-body"
+          ],
+          "box": {
+            "x": 0,
+            "y": 433.3,
+            "width": 430,
+            "height": 440.7
+          }
+        },
+        "actions": null,
+        "panels": {
+          "view": "list",
+          "label": "Panels",
+          "first": true,
+          "motion": "full",
+          "rows": [
+            {
+              "value": "windows",
+              "seat": null,
+              "kind": null,
+              "title": "Windows",
+              "sub": "Room A ↔ Room B · Room B ↔ Jail",
+              "icon": "window",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": true,
+              "box": {
+                "x": 16,
+                "y": 508.3,
+                "width": 398,
+                "height": 53.14
+              }
+            },
+            {
+              "value": "navigation",
+              "seat": null,
+              "kind": null,
+              "title": "Navigation",
+              "sub": "Captain and Officer only",
+              "icon": "course",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": true,
+              "box": {
+                "x": 16,
+                "y": 561.44,
+                "width": 398,
+                "height": 53.14
+              }
+            },
+            {
+              "value": "hospital",
+              "seat": null,
+              "kind": null,
+              "title": "Hospital panel",
+              "sub": "Patients only",
+              "icon": "panel",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": true,
+              "box": {
+                "x": 16,
+                "y": 614.58,
+                "width": 398,
+                "height": 53.14
+              }
+            },
+            {
+              "value": "players",
+              "seat": null,
+              "kind": null,
+              "title": "Players",
+              "sub": "Seats, rooms and public status",
+              "icon": "players",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": true,
+              "box": {
+                "x": 16,
+                "y": 681.72,
+                "width": 398,
+                "height": 53.14
+              }
+            },
+            {
+              "value": "round-order",
+              "seat": null,
+              "kind": null,
+              "title": "Round order",
+              "sub": "The phases, in order",
+              "icon": "rules",
+              "portrait": null,
+              "badges": [],
+              "off": false,
+              "chevron": true,
+              "box": {
+                "x": 16,
+                "y": 734.86,
+                "width": 398,
+                "height": 53.14
+              }
+            }
+          ],
+          "note": null,
+          "text": "WindowsRoom A ↔ Room B · Room B ↔ JailNavigationCaptain and Officer onlyHospital panelPatients onlyPlayersSeats, rooms and public statusRound orderThe phases, in order"
+        },
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "lighting": "lit",
+          "presses": [],
+          "slots": [],
+          "boardSlots": [],
+          "captions": []
+        },
+        "old": 0,
+        "status": null,
+        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6YouRoom BFood SupplyCurrent board · shared: Round 2 completePromisesR30:261PanelsWindowsRoom A ↔ Room B · Room B ↔ JailNavigationCaptain and Officer onlyHospital panelPatients onlyPlayersSeats, rooms and public statusRound orderThe phases, in orderTasksBoardActionsPassPassCardPanels",
+        "hiddenStep": "",
+        "hiddenCheckpoint": "Current board · shared: Round 2 complete",
+        "before": null,
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "phase": "FOOD_SUPPLY",
+          "panel": "panels",
+          "ownSeatId": "seat-6",
+          "round": 3,
+          "own": "Room B B2",
+          "action": null,
+          "recovery": null,
+          "food": {
+            "step": "AWAY",
+            "away": [
+              "seat-3",
+              "seat-8"
+            ]
+          }
+        },
+        "commands": [],
+        "page": "6\nYou\nROOM B\nFood Supply\nCurrent board · shared: Round 2 complete\nR3\n0:26\n1\nPanels\nWindows\nRoom A ↔ Room B · Room B ↔ Jail\nNavigation\nCaptain and Officer only\nHospital panel\nPatients only\nPlayers\nSeats, rooms and public status\nRound order\nThe phases, in order\nTasks\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Ava: Healthy, Room A, A1.\nPlayer 2, Ben: Healthy, Command Room, C1, Captain.\nPlayer 3, Cleo: Healthy, Room B, B1, away on the Food Supply Task, Officer.\nPlayer 4, Dev: Healthy, Room A, A2.\nPlayer 5, Eli: Injured, Hospital, H1, Rescue possible through Round 3.\nPlayer 6, Fay: Healthy, Room B, B2.\nPlayer 7, Gus: Healthy, Room A, A3.\nPlayer 8, Hana: Healthy, Room B, B3, away on the Food Supply Task.\nPlayer 9, Ike: Healthy, Room A, A4.\nCaptain Player 2 · Officer Player 3Current board · shared: Round 2 complete",
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7245,7 +8092,7 @@
         "sheetClosed": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-pass.jpg",
-      "sha256": "7147d6793254baf8d328e154e34f63a8542a17ca75ed700bb15b12b17a837722",
+      "sha256": "08b67697560a4fefaf2f44f64b7b6c5d5dceee77c1a22919feb23b62f426c6b1",
       "seen": {
         "shell": {
           "status": "live",
@@ -7454,7 +8301,8 @@
             "step": "confirm",
             "selected": []
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nPass your turn?\nCancel\nPass\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Pass\n\nPass",
@@ -7462,7 +8310,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7492,7 +8340,7 @@
         "backToList": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-players.jpg",
-      "sha256": "5900fc7da600d7dbf4b8565093c4319fae4ffd775df5fe92af6df093eb8b7167",
+      "sha256": "ae35e7c62082cb9332e37b346770732afca0326e5f6035770b70041f80f19bed",
       "seen": {
         "shell": {
           "status": "live",
@@ -7825,7 +8673,8 @@
           "round": 6,
           "own": "Room B B1",
           "action": null,
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "6\nYou\n7\nCrew 7\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nPlayers\n1 · Crew 1\nRoom A\nCaptain\n2 · Crew 2\nRoom A\n3 · Crew 3\nHospital · Injured\n4 · Crew 4\nRoom A\n5 · Crew 5\nRoom A\n6 · Crew 6 (you)\nRoom B\n7 · Crew 7\nRoom B\nOfficer\n8 · Crew 8\nIn Jail\n9 · Crew 9\nEliminated\n\nPublic facts only: seats, rooms, health and offices.\n\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1, Captain.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Injured, Hospital, H1, Rescue possible through Round 6.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2, Officer.\nPlayer 8, Crew 8: Healthy, Jail, J1, detained.\nPlayer 9, Crew 9: Eliminated, off board.\nCaptain Player 1 · Officer Player 7Current board · shared: Round 5 complete",
@@ -7833,7 +8682,218 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
+            "line": 1,
+            "column": 3180,
+            "kind": "known: zod eval probe, caught; the live game bundle has it too"
+          }
+        ]
+      },
+      "problems": []
+    },
+    "430x932/players-away": {
+      "ok": true,
+      "checks": {
+        "shell": true,
+        "noOldChrome": true,
+        "policy": true,
+        "problems": true,
+        "frame": true,
+        "noPart": true,
+        "oneList": true,
+        "away": true,
+        "noComponentWords": true,
+        "backToList": true
+      },
+      "file": "design/phone-ui/review/match-connection/430x932-players-away.jpg",
+      "sha256": "fb59b76d67092fc0cfd23c7594cca8ef1a17fe75ae5ecf82390f88df8d5e7bd5",
+      "seen": {
+        "shell": {
+          "status": "live",
+          "tabs": "game",
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 430,
+            "height": 932
+          }
+        },
+        "bar": {
+          "kind": "phase",
+          "tone": null,
+          "name": "Food Supply",
+          "sub": "Current board · shared: Round 2 complete",
+          "clock": "0:26",
+          "controls": 2
+        },
+        "tabs": {
+          "buttons": [
+            {
+              "intent": "tab",
+              "value": "switch",
+              "label": "Show the whole board",
+              "expanded": null,
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 0,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "actions",
+              "label": "Actions",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 86,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "hero",
+              "value": "pass",
+              "label": "Pass your turn",
+              "expanded": null,
+              "disabled": true,
+              "busy": false,
+              "box": {
+                "x": 182,
+                "y": 855,
+                "width": 66,
+                "height": 66
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "card",
+              "label": "Card",
+              "expanded": "false",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 258,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            },
+            {
+              "intent": "tab",
+              "value": "panels",
+              "label": "Panels",
+              "expanded": "true",
+              "disabled": false,
+              "busy": false,
+              "box": {
+                "x": 344,
+                "y": 875,
+                "width": 86,
+                "height": 57
+              }
+            }
+          ]
+        },
+        "hero": {
+          "mode": "pass",
+          "intent": "hero",
+          "value": "pass",
+          "label": "Pass your turn",
+          "expanded": null,
+          "disabled": true,
+          "busy": false,
+          "box": {
+            "x": 182,
+            "y": 855,
+            "width": 66,
+            "height": 66
+          }
+        },
+        "target": null,
+        "chip": null,
+        "banner": null,
+        "toast": null,
+        "sheet": {
+          "id": "panels",
+          "title": "Players",
+          "sub": null,
+          "back": true,
+          "close": true,
+          "foot": [],
+          "game": {
+            "text": "Player 1 · Ava · Room A · HealthyPlayer 2 · Ben · Command Room · HealthyPlayer 3 · Cleo · Away on the Food Supply TaskPlayer 4 · Dev · Room A · HealthyPlayer 5 · Eli · Hospital · InjuredPlayer 6 · Fay",
+            "buttons": [],
+            "lines": [
+              "Player 1 · Ava · Room A · Healthy",
+              "Player 2 · Ben · Command Room · Healthy",
+              "Player 3 · Cleo · Away on the Food Supply Task",
+              "Player 4 · Dev · Room A · Healthy",
+              "Player 5 · Eli · Hospital · Injured",
+              "Player 6 · Fay · Room B · Healthy",
+              "Player 7 · Gus · Room A · Healthy",
+              "Player 8 · Hana · Away on the Food Supply Task",
+              "Player 9 · Ike · Room A · Healthy"
+            ]
+          },
+          "children": [
+            "planet-sheet-body"
+          ],
+          "box": {
+            "x": 0,
+            "y": 60,
+            "width": 430,
+            "height": 814
+          }
+        },
+        "actions": null,
+        "panels": null,
+        "stage": {
+          "inShell": true,
+          "scene": "room-b",
+          "view": "room",
+          "lighting": "lit",
+          "presses": [],
+          "slots": [],
+          "boardSlots": [],
+          "captions": []
+        },
+        "old": 0,
+        "status": null,
+        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } 6YouRoom BFood SupplyCurrent board · shared: Round 2 completePromisesR30:261PlayersPlayer 1 · Ava · Room A · HealthyPlayer 2 · Ben · Command Room · HealthyPlayer 3 · Cleo · Away on the Food Supply TaskPlayer 4 · Dev · Room A · HealthyPlayer 5 · Eli · Hospital · InjuredPlayer 6 · Fay · Room B · HealthyPlayer 7 · Gus · Room A · HealthyPlayer 8 · Hana · Away on the Food Supply TaskPlayer 9 · Ike · Room A · HealthyBoardActionsPassPassCardPanels",
+        "hiddenStep": "",
+        "hiddenCheckpoint": "Current board · shared: Round 2 complete",
+        "before": null,
+        "model": {
+          "connection": "live",
+          "concealed": false,
+          "phase": "FOOD_SUPPLY",
+          "panel": "players",
+          "ownSeatId": "seat-6",
+          "round": 3,
+          "own": "Room B B2",
+          "action": null,
+          "recovery": null,
+          "food": {
+            "step": "AWAY",
+            "away": [
+              "seat-3",
+              "seat-8"
+            ]
+          }
+        },
+        "commands": [],
+        "page": "6\nYou\nROOM B\nFood Supply\nCurrent board · shared: Round 2 complete\nR3\n0:26\n1\nPlayers\n\nPlayer 1 · Ava · Room A · Healthy\n\nPlayer 2 · Ben · Command Room · Healthy\n\nPlayer 3 · Cleo · Away on the Food Supply Task\n\nPlayer 4 · Dev · Room A · Healthy\n\nPlayer 5 · Eli · Hospital · Injured\n\nPlayer 6 · Fay · Room B · Healthy\n\nPlayer 7 · Gus · Room A · Healthy\n\nPlayer 8 · Hana · Away on the Food Supply Task\n\nPlayer 9 · Ike · Room A · Healthy\n\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Ava: Healthy, Room A, A1.\nPlayer 2, Ben: Healthy, Command Room, C1, Captain.\nPlayer 3, Cleo: Healthy, Room B, B1, away on the Food Supply Task, Officer.\nPlayer 4, Dev: Healthy, Room A, A2.\nPlayer 5, Eli: Injured, Hospital, H1, Rescue possible through Round 3.\nPlayer 6, Fay: Healthy, Room B, B2.\nPlayer 7, Gus: Healthy, Room A, A3.\nPlayer 8, Hana: Healthy, Room B, B3, away on the Food Supply Task.\nPlayer 9, Ike: Healthy, Room A, A4.\nCaptain Player 2 · Officer Player 3Current board · shared: Round 2 complete",
+        "violations": [
+          {
+            "directive": "script-src",
+            "blocked": "eval",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7854,7 +8914,7 @@
         "noTiles": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-reconnecting.jpg",
-      "sha256": "c6c3a1a423b6fdbaf3f837de3e87ac0ff7fbd480024c109c97270b81739ebe62",
+      "sha256": "f34e01a24261809e3ff1db7cd3db269a37595c5bd47d8389b515e3b6dc0c7a59",
       "seen": {
         "shell": {
           "status": "stale",
@@ -7998,7 +9058,8 @@
           "round": null,
           "own": null,
           "action": null,
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "1\nCrew 1\n2\nYou\n4\nCrew 4\n5\nCrew 5\nROOM A\nReconnecting…\nShowing Round 6 as last seen\nR6\nConnection lost\nControls return when the match is current\nRetry\nControls return when the match is currentControls return when the match is currentControls return when the match is currentControls return when the match is currentControls return when the match is current\nBoard\nActions\nPASS\nCard\nPanels\n\nCaptain — · Officer —",
@@ -8006,7 +9067,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8030,7 +9091,7 @@
         "heroStays": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-rescue.jpg",
-      "sha256": "22c346db9f723f500ddabdd15c089e86d83232e02e094c64cda4c9fe11b772e9",
+      "sha256": "ebe1abb14ad87baf0890eda7cc70aef43f00de558e6c5766a24f76272802e7f1",
       "seen": {
         "shell": {
           "status": "live",
@@ -8194,7 +9255,8 @@
             "step": "targets",
             "selected": []
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "RESCUE R6\n3\nCrew 3\n· Injured\nHOSPITAL\nYour turn\nPlayer 2 · Crew 2\nPromises\nR6\n0:58\nRescue\nChoose a player\nCancel\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Injured, Hospital, H1, Rescue possible through Round 6.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Choose an offered character on the board.\n\nChoose an offered character on the board.",
@@ -8202,7 +9264,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8230,7 +9292,7 @@
         "doneCloses": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-rescue-after.jpg",
-      "sha256": "769871f1fe375e37324a706cb41bad073b482a954d5395e6f63ee37117d305bc",
+      "sha256": "38a8652aa2f3cf3f1847d8b665c8a6d77a50c43a23b4325ae546d80b913b0dbe",
       "seen": {
         "shell": {
           "status": "live",
@@ -8428,7 +9490,8 @@
             "step": "accepted",
             "selected": []
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [
           {
@@ -8441,7 +9504,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8466,7 +9529,7 @@
         "cancelToTiles": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-rescue-check.jpg",
-      "sha256": "3a752ce5bf20c031eeaa2f55594691ecdcb2a8695fbe3536f378fe622e4b957d",
+      "sha256": "81c3f37941cba4f7b54dca9633d5c557d80933bd806ed0d7a48feb3340628eed",
       "seen": {
         "shell": {
           "status": "live",
@@ -8677,7 +9740,8 @@
             "step": "confirm",
             "selected": []
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "RESCUE R6\n3\nCrew 3\n· Injured\nHOSPITAL\nYour turn\nPlayer 2 · Crew 2\nPromises\nR6\n0:57\nCheck and register\nRescue Crew 3\nPlayer 3 · Hospital\nCancel\nRegister Rescue\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Injured, Hospital, H1, Rescue possible through Round 6.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Review before registering.\n\nReview before registering.",
@@ -8685,7 +9749,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8711,7 +9775,7 @@
         "closes": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-round-order.jpg",
-      "sha256": "d59650b5655cb2c52234f8008840fa0196b26ddbef87f8d90398b71e03ecb9c1",
+      "sha256": "55fd0e544c6d053f8a450ae40a0e1c0994da5faf71092e3e4f0c5bc6c7f7cbc9",
       "seen": {
         "shell": {
           "status": "live",
@@ -9040,7 +10104,8 @@
           "round": 6,
           "own": "Room B B1",
           "action": null,
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nRound order\nPlayer turns\nPrivate talk\nSync when applicable\nBlackout\nDamage and Hospital placement\nJail vote\nResult\nRemaining resolution and Rescue\nNavigation\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
@@ -9048,7 +10113,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9073,7 +10138,7 @@
         "heard": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-suppress.jpg",
-      "sha256": "4fb11da0aa9750d57ad435d0b794ec6817e30b8686b05c893a279ab588c372e1",
+      "sha256": "83b2adde445eec39dd0c5e075c2091aead149729ca73dfa6f11e5016e52ae3fe",
       "seen": {
         "shell": {
           "status": "live",
@@ -9282,7 +10347,8 @@
             "step": "confirm",
             "selected": []
           },
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nYou\nROOM B\nYour turn\nPlayer 9 · Crew 9\nPromises\nR6\n0:58\nCheck and register\nSuppress navigation\nOnly you see this\nCancel\nSuppress navigation\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Suppress navigation\n\nSuppress navigation",
@@ -9290,7 +10356,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9316,7 +10382,7 @@
         "unavailableRefused": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-tiles.jpg",
-      "sha256": "28a85dea9eccdfe9c0667f733ad4ef86b8de5eba8eacc7054c1ac465a8aa96b6",
+      "sha256": "e59fc6cc6dd9bd10043b1313645ea88b248b3e9c296d510c95ec014183257708",
       "seen": {
         "shell": {
           "status": "live",
@@ -9528,7 +10594,8 @@
           "round": 6,
           "own": "Room B B1",
           "action": null,
-          "recovery": null
+          "recovery": null,
+          "food": null
         },
         "commands": [],
         "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:58\nActions\n\nRoom B\n\nYOUR TURN\nRound 6\nScan\nFinal Code\nMove\nPrivate talk\nNot available now\nShoot\nNot available now\nBoard\nActions\nPASS\nCard\nPanels\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
@@ -9536,7 +10603,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9560,7 +10627,7 @@
         "afterRetry": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-unknown.jpg",
-      "sha256": "e6bcb7d4a52dfeb05c43fe821aa01fa2efcb472a50604b1015f43a0ffdbfb63c",
+      "sha256": "c9c0e1bd52eb555256e762a9bb4dfb2088df9f020fea83154f1d459497ba8bfc",
       "seen": {
         "shell": {
           "status": "live",
@@ -9772,7 +10839,8 @@
             "status": "unknown",
             "canCheck": true,
             "canRetry": true
-          }
+          },
+          "food": null
         },
         "commands": [
           {
@@ -9785,7 +10853,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-DslU7n6i.js",
+            "source": "assets/app-DQ5JMQdn.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
