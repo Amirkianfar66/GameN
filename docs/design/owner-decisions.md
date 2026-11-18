@@ -567,6 +567,58 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - **PV5-B to PV5-E are on hold:** no pictures, and the builder stops preparing their kit. The approval above stays, unused, until the owner asks for them.
 - **Only the Mira test goes ahead.** It needs no new picture.
 
+**The level to reach, an hour later.**
+- The owner sent four pictures of Room B with the crew in it, painted together in one style, and asked, word for word:
+
+> How we can reach this level? Explain me without applying
+
+- The four pictures are on the reference page (https://claude.ai/artifact/2sTvJ2J2rYNWLFXaLanUbY, version 1794968151-5de5), with their sha256:
+  - ref-1 `62d3e40c…cacc4d07`;
+  - ref-2 `c5468def…edfa3cba`;
+  - ref-3 `885842a9…1cb966c6`;
+  - ref-4 `c874e430…cbf2f88a`.
+- **The Lead's answer, applying nothing:**
+  - **Why they look better.** The people are painted into the room, so the room's light and shadow fall on them, and they turn toward their work. The camera has straight lines. One person is near, one in the middle, one far. Warm orange lamps play against purple. Screens and props tell a story.
+  - **Why the game can't use such pictures.** Any of the nine characters can stand at any place, and people move, eat, get hurt or leave, so frozen pictures would mean thousands of them.
+  - **The way there:**
+    - the room painted to this standard;
+    - the people as layers, either painted per view or painted once per angle and lit by code;
+    - the code's finishing: depth order, shadows, the room's light on the people, reflections.
+  - **One rule stays:** a pose or prop comes from the place or the character, never from a secret role.
+- The owner then answered, word for word:
+
+> Lets test 1 view ,  1the camera  as you explained but we can cheat a little bir about characters to fit ,  2. Colors and lights as you recommended to improve 3. People's should be code because we need them in different status and action but we can test 1 view improving the code to be more close to the image more AAA quality also adding shadow effect and detail .What do you think?
+
+**What it decides:**
+- **A one-view test toward the owner's four pictures,** in Mira's view (place A) of Room B.
+- **The camera.**
+  - Straight lines, a normal camera, about 70° across, at eye level, with the 5° down kept as a raised horizon.
+  - The crew's places on screen may be cheated a little so the three in view fit, near, middle and far.
+  - Who can see whom does not change.
+- **Colour and light,** as in the owner's pictures:
+  - purple stays the base;
+  - warm orange lamps and their glow, cream lamp cores, a little rust on worn edges, blue-green screens.
+  - For this test this departs from Room B's approved colour family and from the colour check's limits (no brown; accents only teal, gold and paper).
+- **People drawn by code,** because the game needs them in many states and actions. For this view they are raised toward the pictures:
+  - turned toward their work;
+  - the room's light on them;
+  - shadows;
+  - more detail.
+
+**What it means for the work:**
+1. The Pre-game Animation builder makes the test's sheet:
+   - the straight camera and the cheated places;
+   - the new colour plan, measured from the owner's pictures, with its colour check;
+   - an empty-room guide, the furniture's outlines and the prompts.
+2. The Motion & Cinematics builder draws the three people in view (Vega, Lyra and Juno) turned toward their stations. Sketches go to the owner before they are drawn in full. Then comes the code's light and shadow.
+3. The Lead reviews both. One new room picture and one furniture edit (about $0.12, at most $0.18 with one re-run) wait for the owner's yes on the spend.
+
+**What it does not settle:**
+- **The spend** for the new picture: asked.
+- **Room B's glass ceiling** stays (decided above); its ring of lights becomes warm.
+- **The colour family and the camera for the game.** Only the test changes; the tokens and the room scene change only if the owner adopts the result.
+- **The other four views,** still held.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
