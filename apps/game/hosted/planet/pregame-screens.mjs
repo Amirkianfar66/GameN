@@ -151,8 +151,11 @@ export function createPregameScreens(root,{session,preferences,draft,hooks}){
    const withheld=mounted&&MATCHED.includes(mounted.screen)&&mounted.matchId===model.matchId?withheldStatus(model,{visible:visible()}):null;
    if(withheld){
     const status=STAGES.includes(mounted.screen)?{status:withheld}:{interactive:false};
-    // Retire the film immediately, retaining the last public clock during a withheld read.
-    if(boardingEnded&&mounted.screen==='boarding')Object.assign(status,{view:'holding',skip:null});
+    if(mounted.screen==='boarding'){
+     // A withheld read cannot support a countdown, even on the retained screen.
+     status.clock=null;
+     if(boardingEnded)Object.assign(status,{view:'holding',skip:null});
+    }
     const inputKey=JSON.stringify(status);if(mounted.inputKey!==inputKey){mounted.inputKey=inputKey;mounted.view.update(status);}
     return true;
    }

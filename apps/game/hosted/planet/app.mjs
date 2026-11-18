@@ -54,12 +54,18 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  const screens=createPregameScreens(root,{session,preferences,draft:entryDraft,hooks:{
   rerender:()=>{sessionKey=null;if(model)render(session.getModel());},
   boardingPlaying:()=>pregame.sample()?.kind==='boarding',
-  skipBoarding:()=>{pregame.skip();presentation.sync(true);},
+  skipBoarding:()=>presentation.skipBoarding(),
   // As today's recovery form did: no role film replays for a recovered seat.
   beforeRecover:()=>{pregame.suppressRolePlayback();presentation.clear();}}});
  const presentation=mountPregamePresentation(root,pregame,{
   preferences:preferences.get,
   boardingFilm:()=>screens.boardingFilm,
+  boardingWindow:()=>{
+   const {connection:state,status,uncertain,matchId,selfSeatId,setup,setupClock}=session.getModel();
+   if(state!=='live'||status!=='boarding'||uncertain||!setup||setupClock.status!=='synced')return null;
+   if(setupClock.serverNowMs+setupClock.uncertaintyMs>=setup.endsAt)return null;
+   return JSON.stringify([matchId,selfSeatId,setup.id,setup.startedAt,setup.endsAt]);
+  },
   onBoardingEnd:holder=>{if(holder===screens.boardingFilm)screens.sync(session.getModel(),{boardingEnded:true});},
   // The seatless host keeps the existing setup screen (G15).
   legacyBoarding:()=>model?.isHost===true&&model.selfSeatId===null,

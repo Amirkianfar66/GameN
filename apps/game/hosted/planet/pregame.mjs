@@ -4,13 +4,15 @@ import './pregame.css';
 
 /** One presentation surface; every exit destroys the private scene, captions and retained bindings. */
 export function mountPregamePresentation(root,controller,{
- preferences=()=>({reduced:false}),boardingFilm=()=>null,onBoardingEnd,legacyBoarding=()=>false,
+ preferences=()=>({reduced:false}),boardingFilm=()=>null,boardingWindow=()=>null,onBoardingEnd,legacyBoarding=()=>false,
 }={}){
  const document=root.ownerDocument,win=document.defaultView,media=win.matchMedia('(prefers-reduced-motion: reduce)');
  let overlay=null,picture=null,captions=null,words=null,skip=null,scene=null,key=null,raf=null,disposed=false,lastPaint=-Infinity,previousFocus=null,previousInert=false,slotSize=null;
+ let boardingFade=null;
  const el=(tag,className)=>{const n=document.createElement(tag);n.className=className;return n;};
  function clear(){
-  const endedBoarding=overlay?null:picture;
+  const endedBoarding=overlay||boardingFade?null:picture;
+  boardingFade=null;
   if(raf!==null)win.cancelAnimationFrame(raf);raf=null;scene?.dispose();scene=null;key=null;
   if(overlay){overlay.replaceChildren();overlay.remove();overlay=null;root.inert=previousInert;if(previousFocus?.isConnected&&document.hasFocus()&&document.visibilityState==='visible')previousFocus.focus({preventScroll:true});}
   picture=null;captions=null;words=null;skip=null;previousFocus=null;slotSize=null;
@@ -33,9 +35,36 @@ export function mountPregamePresentation(root,controller,{
   overlay.addEventListener('keydown',event=>{if(!skip)return;if(event.key==='Escape'){event.preventDefault();controller.skip();sync(true);}else if(event.key==='Tab'){event.preventDefault();skip.focus();}});
   scene=createPregameScene(picture,{kind:film.kind,options});root.parentNode.insertBefore(overlay,root.nextSibling);skip?.focus({preventScroll:true});
  }
+ function visibleBoardingWindow(slot){
+  if(!slot?.isConnected||slot!==boardingFilm()||document.visibilityState!=='visible'||!document.hasFocus())return null;
+  return boardingWindow();
+ }
+ function skipBoarding(){
+  const film=controller.sample(),slot=picture;
+  const binding=film?.kind==='boarding'&&film.key===key?visibleBoardingWindow(slot):null;
+  controller.skip();
+  if(binding){
+   // The stage hides Skip now. Keep the last public picture in its own fading layer.
+   onBoardingEnd?.(slot);
+   const animation=slot.parentElement?.getAnimations?.().find(value=>value.transitionProperty==='opacity');
+   if(animation)boardingFade={binding,animation};
+  }
+  sync(true);
+ }
+ function nextFrame(){
+  if(raf===null)raf=win.requestAnimationFrame(()=>{raf=null;sync();});
+ }
  function sync(force=false){
   if(disposed)return;
-  const film=controller.sample();if(!film){clear();return;}
+  const film=controller.sample();
+  if(!film){
+   if(boardingFade?.animation.playState==='running'&&visibleBoardingWindow(picture)===boardingFade.binding){
+    nextFrame();
+    return;
+   }
+   clear();
+   return;
+  }
   const slot=film.kind==='boarding'?boardingFilm():null;
   if(film.kind==='boarding'&&!slot&&!legacyBoarding()){clear();return;}
   try{
@@ -61,9 +90,9 @@ export function mountPregamePresentation(root,controller,{
     // A failed drawing is a local dismissal, with no service command or changed deadline.
     controller.skip();clear();return;
   }
-  if(raf===null)raf=win.requestAnimationFrame(()=>{raf=null;sync();});
+  nextFrame();
  }
  const preference=()=>sync(true),resize=()=>sync(true);
  media.addEventListener('change',preference);document.addEventListener('mothership:preferences-change',preference);win.addEventListener('resize',resize);
- return {sync,clear,get stats(){return scene?.stats??null},dispose(){disposed=true;clear();media.removeEventListener('change',preference);document.removeEventListener('mothership:preferences-change',preference);win.removeEventListener('resize',resize);}};
+ return {sync,clear,skipBoarding,get stats(){return scene?.stats??null},dispose(){disposed=true;clear();media.removeEventListener('change',preference);document.removeEventListener('mothership:preferences-change',preference);win.removeEventListener('resize',resize);}};
 }
