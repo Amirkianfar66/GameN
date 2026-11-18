@@ -259,8 +259,10 @@ const STATES = {
   // clears the choice at 0:00, and the shell's toast says why.
   closed: { page: 'phone', url: 'scenario=board', steps: async page => {
       await page.evaluate(tap(TAB('actions')));
-      await page.waitFor("document.querySelector('#planet-action-SCAN')", 'Scan offered in Actions');
-      await page.evaluate(tap('#planet-action-SCAN'));
+      // Both builds, #307's first: the game's own Scan button; release 3's (#310), Actions' Scan tile.
+      const scan = '#planet-action-SCAN, .ms-ps-sheet-body > .ms-actions [data-intent="tile"][data-value="SCAN"]';
+      await page.waitFor(`document.querySelector(${JSON.stringify(scan)})`, 'Scan offered in Actions');
+      await page.evaluate(tap(scan));
       await page.waitFor(`${game}.getModel().action?.type==='SCAN'&&!!document.querySelector('.ms-ps-target')`, 'the Scan choice open');
       await page.evaluate(edit("const length=p.phase.endsAt-p.phase.startedAt;p.phase={...p.phase,startedAt:now+1200-length,endsAt:now+1200}"));
       await page.waitFor("document.querySelector('.ms-ps-toast')", 'the toast when the time is up', 8000);
