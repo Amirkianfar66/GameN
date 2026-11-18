@@ -2,6 +2,8 @@
 
 **18 November 2026 · #311 · supplemental component review for Frontend.**
 
+Frontend subsequently delivered #320. The [integrated placement review](integrated-320/README.md) records the two-size comparison, recovery checks and two requested adapter corrections.
+
 The existing `boarding-stage-0.1.0` supplies the required film slot, phone-only Skip, shared display without Skip, holding, waiting and concealed states. **No canonical component change is needed.** Frontend is the sole implementer of the adapter change that places the admitted SVG player in this stage. The [placement handoff on #311](https://github.com/Amirkianfar66/GameN/issues/311#issuecomment-6980876366) and [existing component contract](../../components/boarding-stage.md) identify the boundary. The independent Claude Lead reviews the integrated candidate in its PR.
 
 ## Source and refreshed evidence

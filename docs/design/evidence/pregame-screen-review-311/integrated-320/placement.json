@@ -1,0 +1,2526 @@
+{
+  "part": "boarding",
+  "sheet": 19,
+  "evidenceHead": "78e98dd45fbc43c380fda9fa7642f75627b5cf65",
+  "runtime": "533be55945de82536596f2043a1093c1c73f08c1",
+  "artwork": "64e55516d2f0026842c5c2a675f2eccda20e0a9e",
+  "originalProvenance": {
+    "scope": "The phone harness built by design/tools/pregame-connection-check.mjs: the candidate's native modules, with art from a clean worktree of origin/main",
+    "candidate": {
+      "root": "/private/tmp/gamen-boarding-check.0i37vV",
+      "head": "533be55945de82536596f2043a1093c1c73f08c1",
+      "dirty": false
+    },
+    "artwork": {
+      "root": "/private/tmp/gamen-pregame-308-art.fVdp1V",
+      "head": "64e55516d2f0026842c5c2a675f2eccda20e0a9e",
+      "mainHead": "7574bfe5ce3d7acd12ed66eb8202187045817a24"
+    }
+  },
+  "source": "149cf77e3675430f49d86cc8215fdb532012cb11",
+  "driverSha256": "cb8ee80b1d544e145305cd6f4cbd06e44981bac0f795aac4308e9dc5b5d4840e",
+  "browser": "Google Chrome 157.0.8103.80",
+  "headerHash": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "responseHeaders": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "entry": {
+    "path": "/assets/phone-B44exWa9.js",
+    "sha256": "f7309015ff1b2d047d2fa535e3811adde775bca803c7696e5c4bff88dbf121be"
+  },
+  "method": "Production headers. Synthetic normal player and display admission. Both fixture clocks held at sheet cues. CSS, paint, session, input and lifecycle use the integrated browser implementation. Zero simulated safe inset.",
+  "captures": {
+    "390x844-player/film15": {
+      "file": "390x844-player-film15.jpg",
+      "sha256": "9bd3e63ee06aceb2a2840154c8b39615314270734dffe64a19bdb6c222706e92",
+      "url": "http://127.0.0.1:60985/index.html?scenario=reading&flow=3&elapsed=31000&count=9&tuple=blackout",
+      "view": "film",
+      "status": "live",
+      "name": "The crew boards the ship",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "svg": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "svgCount": 1,
+      "visibleSkip": 1,
+      "skip": {
+        "x": 291.234375,
+        "y": 794,
+        "width": 84.765625,
+        "height": 36
+      },
+      "overlay": false,
+      "filmHidden": false,
+      "holdingHidden": true,
+      "cover": false,
+      "title": null,
+      "titleBox": null,
+      "tile": null,
+      "line": null,
+      "clockStatus": "synced",
+      "timerVisible": false,
+      "connection": "live",
+      "seat": "seat-6",
+      "isDisplay": false,
+      "elapsed": 1500,
+      "deadline": 1795012903401,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "390x844-player/film6": {
+      "file": "390x844-player-film6.jpg",
+      "sha256": "3404b61e75b0bb16aa4b05d1a86e9e952af439adfb57eaad3fc161118b9a6d57",
+      "url": "http://127.0.0.1:60985/index.html?scenario=reading&flow=3&elapsed=31000&count=9&tuple=blackout",
+      "view": "film",
+      "status": "live",
+      "name": "The crew boards the ship",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "svg": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "svgCount": 1,
+      "visibleSkip": 1,
+      "skip": {
+        "x": 291.234375,
+        "y": 794,
+        "width": 84.765625,
+        "height": 36
+      },
+      "overlay": false,
+      "filmHidden": false,
+      "holdingHidden": true,
+      "cover": false,
+      "title": null,
+      "titleBox": null,
+      "tile": null,
+      "line": null,
+      "clockStatus": "synced",
+      "timerVisible": false,
+      "connection": "live",
+      "seat": "seat-6",
+      "isDisplay": false,
+      "elapsed": 6000,
+      "deadline": 1795012903401,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "390x844-player/concealed": {
+      "file": "390x844-player-concealed.jpg",
+      "sha256": "a73ac0c7df5f7c618ef0b1859b0263907c1394a72d76c2524a64841b56ebbb75",
+      "url": "http://127.0.0.1:60985/index.html?scenario=reading&flow=3&elapsed=31000&count=9&tuple=blackout",
+      "view": "holding",
+      "status": "concealed",
+      "name": "Hidden",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "svg": null,
+      "svgCount": 0,
+      "visibleSkip": 0,
+      "skip": null,
+      "overlay": false,
+      "filmHidden": true,
+      "holdingHidden": true,
+      "cover": true,
+      "title": null,
+      "titleBox": null,
+      "tile": null,
+      "line": null,
+      "clockStatus": "unsynced",
+      "timerVisible": false,
+      "connection": "live",
+      "seat": null,
+      "isDisplay": false,
+      "elapsed": null,
+      "deadline": null,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "390x844-player/stale": {
+      "file": "390x844-player-stale.jpg",
+      "sha256": "fe66c2c56d722fdca4b8ae10b808ffc6e24672cf4c5b565036f2ea0a308eff69",
+      "url": "http://127.0.0.1:60985/index.html?scenario=reading&flow=3&elapsed=31000&count=9&tuple=blackout",
+      "view": "holding",
+      "status": "stale",
+      "name": "Boarding",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "svg": null,
+      "svgCount": 0,
+      "visibleSkip": 0,
+      "skip": null,
+      "overlay": false,
+      "filmHidden": true,
+      "holdingHidden": false,
+      "cover": false,
+      "title": "Boarding",
+      "titleBox": {
+        "x": 145.40625,
+        "y": 443.40625,
+        "width": 99.171875,
+        "height": 28.796875
+      },
+      "tile": {
+        "x": 157,
+        "y": 349.40625,
+        "width": 76,
+        "height": 76
+      },
+      "line": "Round 1 in 0:04",
+      "clockStatus": "unsynced",
+      "timerVisible": true,
+      "connection": "stale",
+      "seat": null,
+      "isDisplay": false,
+      "elapsed": null,
+      "deadline": null,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "390x844-player/resumed": {
+      "file": "390x844-player-resumed.jpg",
+      "sha256": "c0ed791d143f552338759d8c3d3f0621c62727fdaa7fa1e85d0244c8bcc0470f",
+      "url": "http://127.0.0.1:60985/index.html?scenario=reading&flow=3&elapsed=31000&count=9&tuple=blackout",
+      "view": "film",
+      "status": "live",
+      "name": "The crew boards the ship",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "svg": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "svgCount": 1,
+      "visibleSkip": 1,
+      "skip": {
+        "x": 291.234375,
+        "y": 794,
+        "width": 84.765625,
+        "height": 36
+      },
+      "overlay": false,
+      "filmHidden": false,
+      "holdingHidden": true,
+      "cover": false,
+      "title": null,
+      "titleBox": null,
+      "tile": null,
+      "line": null,
+      "clockStatus": "synced",
+      "timerVisible": false,
+      "connection": "live",
+      "seat": "seat-6",
+      "isDisplay": false,
+      "elapsed": 6600,
+      "deadline": 1795012903401,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "390x844-display/film15": {
+      "file": "390x844-display-film15.jpg",
+      "sha256": "6a8ebe8116545b5de32e9a87a5a74ffabdd0bf1d82d8ac9e9f7ce807959ef9bc",
+      "url": "http://127.0.0.1:60985/index.html?scenario=join&flow=3&count=9&tuple=blackout",
+      "view": "film",
+      "status": "live",
+      "name": "The crew boards the ship",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "svg": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "svgCount": 1,
+      "visibleSkip": 0,
+      "skip": null,
+      "overlay": false,
+      "filmHidden": false,
+      "holdingHidden": true,
+      "cover": false,
+      "title": null,
+      "titleBox": null,
+      "tile": null,
+      "line": null,
+      "clockStatus": "synced",
+      "timerVisible": false,
+      "connection": "live",
+      "seat": null,
+      "isDisplay": true,
+      "elapsed": 1500,
+      "deadline": 1795012907413,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "390x844-display/film4": {
+      "file": "390x844-display-film4.jpg",
+      "sha256": "cd3c82f4b1570c0c98b448efac315ea1ff6a0183daee439779b9310d13ca0fb4",
+      "url": "http://127.0.0.1:60985/index.html?scenario=join&flow=3&count=9&tuple=blackout",
+      "view": "film",
+      "status": "live",
+      "name": "The crew boards the ship",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "svg": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "svgCount": 1,
+      "visibleSkip": 0,
+      "skip": null,
+      "overlay": false,
+      "filmHidden": false,
+      "holdingHidden": true,
+      "cover": false,
+      "title": null,
+      "titleBox": null,
+      "tile": null,
+      "line": null,
+      "clockStatus": "synced",
+      "timerVisible": false,
+      "connection": "live",
+      "seat": null,
+      "isDisplay": true,
+      "elapsed": 4000,
+      "deadline": 1795012907413,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "390x844-display/film6": {
+      "file": "390x844-display-film6.jpg",
+      "sha256": "5570a7277b1a2e2d140bc07bfb0133b527b1c753453238bf7b275dcff39ba557",
+      "url": "http://127.0.0.1:60985/index.html?scenario=join&flow=3&count=9&tuple=blackout",
+      "view": "film",
+      "status": "live",
+      "name": "The crew boards the ship",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "svg": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "svgCount": 1,
+      "visibleSkip": 0,
+      "skip": null,
+      "overlay": false,
+      "filmHidden": false,
+      "holdingHidden": true,
+      "cover": false,
+      "title": null,
+      "titleBox": null,
+      "tile": null,
+      "line": null,
+      "clockStatus": "synced",
+      "timerVisible": false,
+      "connection": "live",
+      "seat": null,
+      "isDisplay": true,
+      "elapsed": 6000,
+      "deadline": 1795012907413,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "390x844-display/concealed": {
+      "file": "390x844-display-concealed.jpg",
+      "sha256": "a73ac0c7df5f7c618ef0b1859b0263907c1394a72d76c2524a64841b56ebbb75",
+      "url": "http://127.0.0.1:60985/index.html?scenario=join&flow=3&count=9&tuple=blackout",
+      "view": "holding",
+      "status": "concealed",
+      "name": "Hidden",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "svg": null,
+      "svgCount": 0,
+      "visibleSkip": 0,
+      "skip": null,
+      "overlay": false,
+      "filmHidden": true,
+      "holdingHidden": true,
+      "cover": true,
+      "title": null,
+      "titleBox": null,
+      "tile": null,
+      "line": null,
+      "clockStatus": "unsynced",
+      "timerVisible": false,
+      "connection": "live",
+      "seat": null,
+      "isDisplay": true,
+      "elapsed": null,
+      "deadline": null,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "390x844-display/stale": {
+      "file": "390x844-display-stale.jpg",
+      "sha256": "fe66c2c56d722fdca4b8ae10b808ffc6e24672cf4c5b565036f2ea0a308eff69",
+      "url": "http://127.0.0.1:60985/index.html?scenario=join&flow=3&count=9&tuple=blackout",
+      "view": "holding",
+      "status": "stale",
+      "name": "Boarding",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "svg": null,
+      "svgCount": 0,
+      "visibleSkip": 0,
+      "skip": null,
+      "overlay": false,
+      "filmHidden": true,
+      "holdingHidden": false,
+      "cover": false,
+      "title": "Boarding",
+      "titleBox": {
+        "x": 145.40625,
+        "y": 443.40625,
+        "width": 99.171875,
+        "height": 28.796875
+      },
+      "tile": {
+        "x": 157,
+        "y": 349.40625,
+        "width": 76,
+        "height": 76
+      },
+      "line": "Round 1 in 0:04",
+      "clockStatus": "unsynced",
+      "timerVisible": true,
+      "connection": "stale",
+      "seat": null,
+      "isDisplay": true,
+      "elapsed": null,
+      "deadline": null,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "390x844-display/resumed": {
+      "file": "390x844-display-resumed.jpg",
+      "sha256": "fd2165193ed894b8b6837e3aeb5170874ec4e707482664fba95e4af438079abc",
+      "url": "http://127.0.0.1:60985/index.html?scenario=join&flow=3&count=9&tuple=blackout",
+      "view": "film",
+      "status": "live",
+      "name": "The crew boards the ship",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "svg": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "svgCount": 1,
+      "visibleSkip": 0,
+      "skip": null,
+      "overlay": false,
+      "filmHidden": false,
+      "holdingHidden": true,
+      "cover": false,
+      "title": null,
+      "titleBox": null,
+      "tile": null,
+      "line": null,
+      "clockStatus": "synced",
+      "timerVisible": false,
+      "connection": "live",
+      "seat": null,
+      "isDisplay": true,
+      "elapsed": 6600,
+      "deadline": 1795012907413,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "390x844-reduced/film6": {
+      "file": "390x844-reduced-film6.jpg",
+      "sha256": "ee5bfa50873cc80ce9776875a4cdc36cf6f6ed14bbf71fc5b2b9afda3533de5d",
+      "url": "http://127.0.0.1:60985/index.html?scenario=reading&flow=3&elapsed=31000&count=9&tuple=blackout",
+      "view": "film",
+      "status": "live",
+      "name": "The crew boards the ship",
+      "motion": "reduced",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "svg": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "svgCount": 1,
+      "visibleSkip": 1,
+      "skip": {
+        "x": 291.234375,
+        "y": 794,
+        "width": 84.765625,
+        "height": 36
+      },
+      "overlay": false,
+      "filmHidden": false,
+      "holdingHidden": true,
+      "cover": false,
+      "title": null,
+      "titleBox": null,
+      "tile": null,
+      "line": null,
+      "clockStatus": "synced",
+      "timerVisible": false,
+      "connection": "live",
+      "seat": "seat-6",
+      "isDisplay": false,
+      "elapsed": 6000,
+      "deadline": 1795012909401,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "430x932-player/film15": {
+      "file": "430x932-player-film15.jpg",
+      "sha256": "9437a86e7a82ca4503436825c23ad21545145bf96ce18357b10b71d7e0652768",
+      "url": "http://127.0.0.1:60985/index.html?scenario=reading&flow=3&elapsed=31000&count=9&tuple=blackout",
+      "view": "film",
+      "status": "live",
+      "name": "The crew boards the ship",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "svg": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "svgCount": 1,
+      "visibleSkip": 1,
+      "skip": {
+        "x": 331.234375,
+        "y": 882,
+        "width": 84.765625,
+        "height": 36
+      },
+      "overlay": false,
+      "filmHidden": false,
+      "holdingHidden": true,
+      "cover": false,
+      "title": null,
+      "titleBox": null,
+      "tile": null,
+      "line": null,
+      "clockStatus": "synced",
+      "timerVisible": false,
+      "connection": "live",
+      "seat": "seat-6",
+      "isDisplay": false,
+      "elapsed": 1500,
+      "deadline": 1795012910518,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "430x932-player/film6": {
+      "file": "430x932-player-film6.jpg",
+      "sha256": "257665d233bc8d5a5e14d436a4010f79ab680b774e695cf58a496dd272e281bf",
+      "url": "http://127.0.0.1:60985/index.html?scenario=reading&flow=3&elapsed=31000&count=9&tuple=blackout",
+      "view": "film",
+      "status": "live",
+      "name": "The crew boards the ship",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "svg": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "svgCount": 1,
+      "visibleSkip": 1,
+      "skip": {
+        "x": 331.234375,
+        "y": 882,
+        "width": 84.765625,
+        "height": 36
+      },
+      "overlay": false,
+      "filmHidden": false,
+      "holdingHidden": true,
+      "cover": false,
+      "title": null,
+      "titleBox": null,
+      "tile": null,
+      "line": null,
+      "clockStatus": "synced",
+      "timerVisible": false,
+      "connection": "live",
+      "seat": "seat-6",
+      "isDisplay": false,
+      "elapsed": 6000,
+      "deadline": 1795012910518,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "430x932-player/concealed": {
+      "file": "430x932-player-concealed.jpg",
+      "sha256": "29ba4049b19daf0b8a69264a428f90fc8ca2365b18b7b714ba3411077d2186af",
+      "url": "http://127.0.0.1:60985/index.html?scenario=reading&flow=3&elapsed=31000&count=9&tuple=blackout",
+      "view": "holding",
+      "status": "concealed",
+      "name": "Hidden",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "svg": null,
+      "svgCount": 0,
+      "visibleSkip": 0,
+      "skip": null,
+      "overlay": false,
+      "filmHidden": true,
+      "holdingHidden": true,
+      "cover": true,
+      "title": null,
+      "titleBox": null,
+      "tile": null,
+      "line": null,
+      "clockStatus": "unsynced",
+      "timerVisible": false,
+      "connection": "live",
+      "seat": null,
+      "isDisplay": false,
+      "elapsed": null,
+      "deadline": null,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "430x932-player/stale": {
+      "file": "430x932-player-stale.jpg",
+      "sha256": "07d2c054d2a9e0ac1665d17938260f92c2d04e3a6b9733124727ef30edf68fd5",
+      "url": "http://127.0.0.1:60985/index.html?scenario=reading&flow=3&elapsed=31000&count=9&tuple=blackout",
+      "view": "holding",
+      "status": "stale",
+      "name": "Boarding",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "svg": null,
+      "svgCount": 0,
+      "visibleSkip": 0,
+      "skip": null,
+      "overlay": false,
+      "filmHidden": true,
+      "holdingHidden": false,
+      "cover": false,
+      "title": "Boarding",
+      "titleBox": {
+        "x": 165.40625,
+        "y": 487.40625,
+        "width": 99.171875,
+        "height": 28.796875
+      },
+      "tile": {
+        "x": 177,
+        "y": 393.40625,
+        "width": 76,
+        "height": 76
+      },
+      "line": "Round 1 in 0:04",
+      "clockStatus": "unsynced",
+      "timerVisible": true,
+      "connection": "stale",
+      "seat": null,
+      "isDisplay": false,
+      "elapsed": null,
+      "deadline": null,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "430x932-player/resumed": {
+      "file": "430x932-player-resumed.jpg",
+      "sha256": "0391edc67915c9ce138460dc55345ed0a7115084d8d44e82a2f71381f16bcee3",
+      "url": "http://127.0.0.1:60985/index.html?scenario=reading&flow=3&elapsed=31000&count=9&tuple=blackout",
+      "view": "film",
+      "status": "live",
+      "name": "The crew boards the ship",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "svg": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "svgCount": 1,
+      "visibleSkip": 1,
+      "skip": {
+        "x": 331.234375,
+        "y": 882,
+        "width": 84.765625,
+        "height": 36
+      },
+      "overlay": false,
+      "filmHidden": false,
+      "holdingHidden": true,
+      "cover": false,
+      "title": null,
+      "titleBox": null,
+      "tile": null,
+      "line": null,
+      "clockStatus": "synced",
+      "timerVisible": false,
+      "connection": "live",
+      "seat": "seat-6",
+      "isDisplay": false,
+      "elapsed": 6600,
+      "deadline": 1795012910518,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "430x932-display/film15": {
+      "file": "430x932-display-film15.jpg",
+      "sha256": "00e4f0eb1146dc190730494230b5818b6714fdde2eb713fe14b6d21c4162a9df",
+      "url": "http://127.0.0.1:60985/index.html?scenario=join&flow=3&count=9&tuple=blackout",
+      "view": "film",
+      "status": "live",
+      "name": "The crew boards the ship",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "svg": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "svgCount": 1,
+      "visibleSkip": 0,
+      "skip": null,
+      "overlay": false,
+      "filmHidden": false,
+      "holdingHidden": true,
+      "cover": false,
+      "title": null,
+      "titleBox": null,
+      "tile": null,
+      "line": null,
+      "clockStatus": "synced",
+      "timerVisible": false,
+      "connection": "live",
+      "seat": null,
+      "isDisplay": true,
+      "elapsed": 1500,
+      "deadline": 1795012914497,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "430x932-display/film4": {
+      "file": "430x932-display-film4.jpg",
+      "sha256": "0582c3225d76f8c4de3b9a449d5fa24c56033a0f8da2879a807e30bf3922b420",
+      "url": "http://127.0.0.1:60985/index.html?scenario=join&flow=3&count=9&tuple=blackout",
+      "view": "film",
+      "status": "live",
+      "name": "The crew boards the ship",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "svg": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "svgCount": 1,
+      "visibleSkip": 0,
+      "skip": null,
+      "overlay": false,
+      "filmHidden": false,
+      "holdingHidden": true,
+      "cover": false,
+      "title": null,
+      "titleBox": null,
+      "tile": null,
+      "line": null,
+      "clockStatus": "synced",
+      "timerVisible": false,
+      "connection": "live",
+      "seat": null,
+      "isDisplay": true,
+      "elapsed": 4000,
+      "deadline": 1795012914497,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "430x932-display/film6": {
+      "file": "430x932-display-film6.jpg",
+      "sha256": "ebbd1d062b457ad2232e50733e0e7250a03a48c7f16316cd53d1486a09e15ffa",
+      "url": "http://127.0.0.1:60985/index.html?scenario=join&flow=3&count=9&tuple=blackout",
+      "view": "film",
+      "status": "live",
+      "name": "The crew boards the ship",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "svg": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "svgCount": 1,
+      "visibleSkip": 0,
+      "skip": null,
+      "overlay": false,
+      "filmHidden": false,
+      "holdingHidden": true,
+      "cover": false,
+      "title": null,
+      "titleBox": null,
+      "tile": null,
+      "line": null,
+      "clockStatus": "synced",
+      "timerVisible": false,
+      "connection": "live",
+      "seat": null,
+      "isDisplay": true,
+      "elapsed": 6000,
+      "deadline": 1795012914497,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "430x932-display/concealed": {
+      "file": "430x932-display-concealed.jpg",
+      "sha256": "29ba4049b19daf0b8a69264a428f90fc8ca2365b18b7b714ba3411077d2186af",
+      "url": "http://127.0.0.1:60985/index.html?scenario=join&flow=3&count=9&tuple=blackout",
+      "view": "holding",
+      "status": "concealed",
+      "name": "Hidden",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "svg": null,
+      "svgCount": 0,
+      "visibleSkip": 0,
+      "skip": null,
+      "overlay": false,
+      "filmHidden": true,
+      "holdingHidden": true,
+      "cover": true,
+      "title": null,
+      "titleBox": null,
+      "tile": null,
+      "line": null,
+      "clockStatus": "unsynced",
+      "timerVisible": false,
+      "connection": "live",
+      "seat": null,
+      "isDisplay": true,
+      "elapsed": null,
+      "deadline": null,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "430x932-display/stale": {
+      "file": "430x932-display-stale.jpg",
+      "sha256": "07d2c054d2a9e0ac1665d17938260f92c2d04e3a6b9733124727ef30edf68fd5",
+      "url": "http://127.0.0.1:60985/index.html?scenario=join&flow=3&count=9&tuple=blackout",
+      "view": "holding",
+      "status": "stale",
+      "name": "Boarding",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "svg": null,
+      "svgCount": 0,
+      "visibleSkip": 0,
+      "skip": null,
+      "overlay": false,
+      "filmHidden": true,
+      "holdingHidden": false,
+      "cover": false,
+      "title": "Boarding",
+      "titleBox": {
+        "x": 165.40625,
+        "y": 487.40625,
+        "width": 99.171875,
+        "height": 28.796875
+      },
+      "tile": {
+        "x": 177,
+        "y": 393.40625,
+        "width": 76,
+        "height": 76
+      },
+      "line": "Round 1 in 0:04",
+      "clockStatus": "unsynced",
+      "timerVisible": true,
+      "connection": "stale",
+      "seat": null,
+      "isDisplay": true,
+      "elapsed": null,
+      "deadline": null,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "430x932-display/resumed": {
+      "file": "430x932-display-resumed.jpg",
+      "sha256": "5454f02f46f3450ecd00d0fa332ec5c985fab6c54453ababff22aea81169b5b8",
+      "url": "http://127.0.0.1:60985/index.html?scenario=join&flow=3&count=9&tuple=blackout",
+      "view": "film",
+      "status": "live",
+      "name": "The crew boards the ship",
+      "motion": "full",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "svg": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "svgCount": 1,
+      "visibleSkip": 0,
+      "skip": null,
+      "overlay": false,
+      "filmHidden": false,
+      "holdingHidden": true,
+      "cover": false,
+      "title": null,
+      "titleBox": null,
+      "tile": null,
+      "line": null,
+      "clockStatus": "synced",
+      "timerVisible": false,
+      "connection": "live",
+      "seat": null,
+      "isDisplay": true,
+      "elapsed": 6600,
+      "deadline": 1795012914497,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    },
+    "430x932-reduced/film6": {
+      "file": "430x932-reduced-film6.jpg",
+      "sha256": "b9bf7204c1b44e472819208724230a9b2cc07da215b8231864c43adfee64dd75",
+      "url": "http://127.0.0.1:60985/index.html?scenario=reading&flow=3&elapsed=31000&count=9&tuple=blackout",
+      "view": "film",
+      "status": "live",
+      "name": "The crew boards the ship",
+      "motion": "reduced",
+      "stage": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "slot": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "svg": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932
+      },
+      "svgCount": 1,
+      "visibleSkip": 1,
+      "skip": {
+        "x": 331.234375,
+        "y": 882,
+        "width": 84.765625,
+        "height": 36
+      },
+      "overlay": false,
+      "filmHidden": false,
+      "holdingHidden": true,
+      "cover": false,
+      "title": null,
+      "titleBox": null,
+      "tile": null,
+      "line": null,
+      "clockStatus": "synced",
+      "timerVisible": false,
+      "connection": "live",
+      "seat": "seat-6",
+      "isDisplay": false,
+      "elapsed": 6000,
+      "deadline": 1795012916484,
+      "activeGame": false,
+      "commands": 0,
+      "focusOnStage": false
+    }
+  },
+  "journeys": {
+    "390x844-player": {
+      "withheld": {
+        "clockStatus": "unsynced",
+        "visibleLine": "Round 1 in 0:04"
+      },
+      "recoveredSameWindow": true,
+      "skipFrames": [
+        {
+          "ms": 0,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": true,
+          "view": "film"
+        },
+        {
+          "ms": 0,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 17,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 33,
+          "opacity": 0.938736,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 50,
+          "opacity": 0.811643,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 67,
+          "opacity": 0.642367,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 83,
+          "opacity": 0.480358,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 100,
+          "opacity": 0.348994,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 117,
+          "opacity": 0.246714,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 133,
+          "opacity": 0.16893,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 150,
+          "opacity": 0.110477,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 167,
+          "opacity": 0.0676129,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 183,
+          "opacity": 0.0370515,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 200,
+          "opacity": 0.0165481,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 217,
+          "opacity": 0.00466415,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 233,
+          "opacity": 0.000127837,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 250,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 267,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 283,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        }
+      ],
+      "skipCapture": {
+        "file": "390x844-player-skip.jpg",
+        "sha256": "e77bdf2528d66f3ae0da27f6cbd485d9635cb06e9642a3bb275dc25f2075d6f7",
+        "fromMs": 33,
+        "toMs": 83
+      },
+      "skipSurvivesReload": true,
+      "problems": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/phone-B44exWa9.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ]
+    },
+    "390x844-display": {
+      "withheld": {
+        "clockStatus": "unsynced",
+        "visibleLine": "Round 1 in 0:04"
+      },
+      "recoveredSameWindow": true,
+      "problems": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/phone-B44exWa9.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ]
+    },
+    "390x844-reduced": {
+      "skipFrames": [
+        {
+          "ms": 0,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": true,
+          "view": "film"
+        },
+        {
+          "ms": 0,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 17,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 33,
+          "opacity": 0.686442,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 50,
+          "opacity": 0.29426,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 67,
+          "opacity": 0.0983182,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 83,
+          "opacity": 0.0165933,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 100,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 117,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 133,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 150,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 167,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 183,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 200,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 217,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 233,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 250,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 267,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 283,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        }
+      ],
+      "skipCapture": {
+        "file": "390x844-reduced-skip.jpg",
+        "sha256": "13cbbd516d1ec7cc0b18e061a422c710b168a51c80bb5ef0aa252c5df9ceee47",
+        "fromMs": 33,
+        "toMs": 83
+      },
+      "problems": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/phone-B44exWa9.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ]
+    },
+    "430x932-player": {
+      "withheld": {
+        "clockStatus": "unsynced",
+        "visibleLine": "Round 1 in 0:04"
+      },
+      "recoveredSameWindow": true,
+      "skipFrames": [
+        {
+          "ms": 0,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": true,
+          "view": "film"
+        },
+        {
+          "ms": 0,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 17,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 33,
+          "opacity": 0.939189,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 50,
+          "opacity": 0.811455,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 67,
+          "opacity": 0.642161,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 83,
+          "opacity": 0.481068,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 100,
+          "opacity": 0.348854,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 117,
+          "opacity": 0.247141,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 133,
+          "opacity": 0.169253,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 150,
+          "opacity": 0.110718,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 167,
+          "opacity": 0.067788,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 183,
+          "opacity": 0.0370211,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 200,
+          "opacity": 0.016529,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 217,
+          "opacity": 0.00465454,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 233,
+          "opacity": 0.000126325,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 250,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 267,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 283,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        }
+      ],
+      "skipCapture": {
+        "file": "430x932-player-skip.jpg",
+        "sha256": "b8683e23d46f7dd17101ff1105df1f5cbcd2ba57cfe56f29cccb2c61539a82d7",
+        "fromMs": 33,
+        "toMs": 83
+      },
+      "skipSurvivesReload": true,
+      "problems": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/phone-B44exWa9.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ]
+    },
+    "430x932-display": {
+      "withheld": {
+        "clockStatus": "unsynced",
+        "visibleLine": "Round 1 in 0:04"
+      },
+      "recoveredSameWindow": true,
+      "problems": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/phone-B44exWa9.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ]
+    },
+    "430x932-reduced": {
+      "skipFrames": [
+        {
+          "ms": 0,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": true,
+          "view": "film"
+        },
+        {
+          "ms": 0,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 17,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 33,
+          "opacity": 0.686557,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 50,
+          "opacity": 0.294327,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 67,
+          "opacity": 0.0983488,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 83,
+          "opacity": 0.0166038,
+          "visibility": "visible",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 100,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 117,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 133,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 150,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 167,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 183,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 200,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 217,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 234,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 250,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 267,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        },
+        {
+          "ms": 283,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": false,
+          "view": "holding"
+        }
+      ],
+      "skipCapture": {
+        "file": "430x932-reduced-skip.jpg",
+        "sha256": "b780afcc95a49e0de3fcb92be7e15b0e6dcae04ab609284c34bf7f66a6cd9369",
+        "fromMs": 33,
+        "toMs": 83
+      },
+      "problems": [],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/phone-B44exWa9.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ]
+    }
+  },
+  "reference": {
+    "390x844-full": {
+      "url": "http://127.0.0.1:61011/index.html?single=1&size=390x844&state=film6",
+      "file": "390x844-reference-full-skip.jpg",
+      "sha256": "3db72c5fd4bda62c02bd65d7f511706a9fd4dc1abde15883d63732895aa4f11e",
+      "fromMs": 50,
+      "toMs": 117,
+      "frames": [
+        {
+          "ms": 0,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": true,
+          "view": "film"
+        },
+        {
+          "ms": 0,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 17,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 33,
+          "opacity": 0.939364,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 50,
+          "opacity": 0.811746,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 67,
+          "opacity": 0.642481,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 83,
+          "opacity": 0.480455,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 100,
+          "opacity": 0.349071,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 117,
+          "opacity": 0.246773,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 133,
+          "opacity": 0.168974,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 150,
+          "opacity": 0.110811,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 167,
+          "opacity": 0.067637,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 183,
+          "opacity": 0.0369166,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 200,
+          "opacity": 0.0165586,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 217,
+          "opacity": 0.00466943,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 233,
+          "opacity": 0.000128671,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 250,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 267,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 283,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        }
+      ],
+      "staleWithoutClock": {
+        "file": "390x844-reference-stale-unsynced.jpg",
+        "sha256": "d5cfb7e3862d05a7df3273ae2d6250135c1444db73ce7780a448094c0219ca60",
+        "line": {
+          "hidden": true,
+          "text": ""
+        }
+      }
+    },
+    "390x844-reduced": {
+      "url": "http://127.0.0.1:61011/index.html?single=1&size=390x844&state=reduced",
+      "file": "390x844-reference-reduced-skip.jpg",
+      "sha256": "1ca80f4805108beeefe76a5f0479904ef54f33224195d10fc9aecfdcbaa0d9fa",
+      "fromMs": 33,
+      "toMs": 83,
+      "frames": [
+        {
+          "ms": 0,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": true,
+          "view": "film"
+        },
+        {
+          "ms": 0,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 0,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 17,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 33,
+          "opacity": 0.686728,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 50,
+          "opacity": 0.294428,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 67,
+          "opacity": 0.0983947,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 83,
+          "opacity": 0.0166196,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 100,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 117,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 133,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 150,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 167,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 183,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 200,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 217,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 233,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 250,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 267,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 283,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        }
+      ]
+    },
+    "430x932-full": {
+      "url": "http://127.0.0.1:61011/index.html?single=1&size=430x932&state=film6",
+      "file": "430x932-reference-full-skip.jpg",
+      "sha256": "1e3c7db0ededb18e14c2515e8b34823cf2011fd265ffa5fd7eb6d98bfe1a2394",
+      "fromMs": 33,
+      "toMs": 100,
+      "frames": [
+        {
+          "ms": 0,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": true,
+          "view": "film"
+        },
+        {
+          "ms": 0,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 0,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 17,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 33,
+          "opacity": 0.938724,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 50,
+          "opacity": 0.811624,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 67,
+          "opacity": 0.642346,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 83,
+          "opacity": 0.48034,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 100,
+          "opacity": 0.348283,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 117,
+          "opacity": 0.247237,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 133,
+          "opacity": 0.169325,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 150,
+          "opacity": 0.110772,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 167,
+          "opacity": 0.0676085,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 183,
+          "opacity": 0.0370484,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 200,
+          "opacity": 0.0165462,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 217,
+          "opacity": 0.00466318,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 233,
+          "opacity": 0.000120225,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 250,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 267,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 283,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        }
+      ],
+      "staleWithoutClock": {
+        "file": "430x932-reference-stale-unsynced.jpg",
+        "sha256": "cdde928241ba8e49a119c2603b46d8cd26cefc4b0425288825ffee410d3a5974",
+        "line": {
+          "hidden": true,
+          "text": ""
+        }
+      }
+    },
+    "430x932-reduced": {
+      "url": "http://127.0.0.1:61011/index.html?single=1&size=430x932&state=reduced",
+      "file": "430x932-reference-reduced-skip.jpg",
+      "sha256": "1f9beacf20942daad07acd0772d9b2df4c31fee4618c7ff08be745dedce67f65",
+      "fromMs": 33,
+      "toMs": 83,
+      "frames": [
+        {
+          "ms": 0,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": true,
+          "view": "film"
+        },
+        {
+          "ms": 0,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 0,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 17,
+          "opacity": 1,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 33,
+          "opacity": 0.684469,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 50,
+          "opacity": 0.294781,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 67,
+          "opacity": 0.0985556,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 83,
+          "opacity": 0.016675,
+          "visibility": "visible",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 100,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 117,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 133,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 150,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 167,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 183,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 200,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 217,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 233,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 250,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 267,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        },
+        {
+          "ms": 283,
+          "opacity": 0,
+          "visibility": "hidden",
+          "svg": true,
+          "view": "holding"
+        }
+      ]
+    }
+  }
+}
