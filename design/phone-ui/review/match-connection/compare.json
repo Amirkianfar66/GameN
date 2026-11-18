@@ -1,15 +1,15 @@
 {
   "tool": "design/tools/phone-ui-native-compare.mjs",
-  "createdAt": "2026-11-18T14:30:39.394Z",
+  "createdAt": "2026-11-18T15:28:05.905Z",
   "browser": "Google Chrome for Testing 153.0.8010.12",
   "view": "Drawn at each part's phone size, 1.5× pixels",
   "pack": {
-    "commit": "a92fdd24e39f66fef72852673c69dfb79d4949a1",
+    "commit": "c253d1b79c57e5650ae051dfe4d003a0358637e5",
     "dirty": false
   },
   "build": {
-    "folder": "/dev/shm/match-connection-check-tgunyR",
-    "head": "0911c440119b4bf3f3d116eeb2fa6af03b4ebff5",
+    "folder": "/dev/shm/match-connection-check-hRhFdd",
+    "head": "bfd458eae5b0369db41097a0f903fced9a5730dc",
     "dirty": false,
     "artwork": "64e55516d2f0026842c5c2a675f2eccda20e0a9e"
   },
@@ -478,6 +478,144 @@
         "date": "2026-11-11",
         "verdict": "differs",
         "note": "One long sentence. The design lists each phase on its own row with its timing."
+      },
+      "now": null
+    },
+    {
+      "id": "promise-offer",
+      "stage": "panels",
+      "title": "Offer a Promise",
+      "sheet": "33",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=promises&state=kinds&safe=47%2C34",
+        "image": "img/promise-offer-pack.jpg",
+        "width": 585,
+        "height": 1266,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=promises&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-top-promises, .ms-ps-tb [data-intent=\"promises\"]"
+          ],
+          [
+            "wait",
+            600
+          ],
+          [
+            "tapText",
+            "Offer a Promise"
+          ],
+          [
+            "wait",
+            700
+          ]
+        ],
+        "image": "img/promise-offer-build.jpg",
+        "width": 585,
+        "height": 1266,
+        "log": [
+          "tap: Promises, 1 new Promises1",
+          "tapText: Offer a PromiseSix kinds · exact terms"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "It first asks you to pick your private-talk partner, who is already known. The design goes straight to “Offer to Ava” and the six kinds."
+      },
+      "now": null
+    },
+    {
+      "id": "promise-incoming",
+      "stage": "panels",
+      "title": "A Promise offered to you",
+      "sheet": "33",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=promises&state=incoming&safe=47%2C34",
+        "image": "img/promise-incoming-pack.jpg",
+        "width": 585,
+        "height": 1266,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=promises&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-top-promises, .ms-ps-tb [data-intent=\"promises\"]"
+          ],
+          [
+            "wait",
+            600
+          ]
+        ],
+        "image": "img/promise-incoming-build.jpg",
+        "width": 585,
+        "height": 1266,
+        "log": [
+          "tap: Promises, 1 new Promises1"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "A line of counts and Accept / Decline rows. The design shows the offer as a card with its exact terms, then Decline or Accept."
+      },
+      "now": null
+    },
+    {
+      "id": "promise-results",
+      "stage": "panels",
+      "title": "Promise results",
+      "sheet": "33.1",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?case=fulfilled&s=promises&state=results&safe=47%2C34",
+        "image": "img/promise-results-pack.jpg",
+        "width": 585,
+        "height": 1266,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=promise-results&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-top-promises, .ms-ps-tb [data-intent=\"promises\"]"
+          ],
+          [
+            "wait",
+            600
+          ]
+        ],
+        "image": "img/promise-results-build.jpg",
+        "width": 585,
+        "height": 1266,
+        "log": [
+          "tap: Promises Promises"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "close",
+        "note": "Cards with Pending and Not fulfilled, within the quota. Player numbers instead of names and portraits."
       },
       "now": null
     },
