@@ -44,6 +44,9 @@ export const PARTS = Object.freeze([
   { area: 'bottom', sel: '.ms-ps-tab:not(.ms-ps-tab-hero)[aria-expanded="true"]', name: 'Tab · open', words: '.ms-ps-tab-label', icon: true },
   { area: 'bottom', sel: '.ms-ps-tab:not(.ms-ps-tab-hero)[aria-disabled="true"]', name: 'Tab · unavailable', words: '.ms-ps-tab-label', icon: true },
   { area: 'bottom', sel: '.ms-ps-tab:not(.ms-ps-tab-hero):not([aria-expanded="true"]):not([aria-disabled="true"])', name: 'Tab', words: '.ms-ps-tab-label', icon: true },
+  // Shell 0.3.0: the Card tab, last, with the player's own portrait in the icon's place (or the card icon).
+  { area: 'bottom', sel: '.ms-ps-tab[data-value="card"]', name: el => (el.querySelector('.ms-ps-tab-pt') ? 'Card tab · with the portrait' : 'Card tab · with the card icon'), words: '.ms-ps-tab-label', icon: true },
+  { area: 'bottom', sel: '.ms-ps-tab-pt', name: 'Card tab · portrait', picture: 'The player’s own character, the picture the top bar draws' },
   { area: 'bottom', sel: '.ms-ps-tab .ms-ps-badge', name: 'Tab · badge', text: true },
   { area: 'bottom', sel: '.ms-ps-hero', name: 'Round button', words: '.ms-ps-hero-label', icon: true },
   { area: 'bottom', sel: '.ms-ps-talk .ms-k-btn', name: el => `“${el.textContent.trim()}” button`, words: '.ms-k-btn-label', icon: true, each: true },
@@ -168,7 +171,14 @@ function wordsOf(el, tokens) {
   return { said: said.length > 30 ? `${said.slice(0, 29)}…` : said, size: round(parseFloat(cs.fontSize)), weight: Number(cs.fontWeight) || cs.fontWeight, colour: colour ? colourFacts(colour, tokens) : null };
 }
 
-/** One part, read from its element: { name, width, height, dimmed, tap, ground, border, corners, words, icon }. */
+/** A ring drawn inside a part (an inset shadow with no blur): its width and colour, or null. */
+function ringOf(el, tokens) {
+  const first = getComputedStyle(el).boxShadow.split(/,(?![^(]*\))/)[0] ?? '';
+  const colour = parseColour(/rgba?\([^)]+\)|color\([^)]+\)/.exec(first)?.[0] ?? ''), lengths = [...first.replace(/rgba?\([^)]+\)|color\([^)]+\)/, '').matchAll(/(-?[\d.]+)px/g)].map(m => Number(m[1]));
+  return first.includes('inset') && colour && lengths.length === 4 && lengths[3] > 0 ? { width: round(lengths[3]), colour: colourFacts(colour, tokens) } : null;
+}
+
+/** One part, read from its element: { name, width, height, dimmed, tap, ground, border, corners, words, icon, picture, ring }. */
 function readPart(el, def, tokens, k, shellRoot) {
   const box = boxOf(el, k);
   if (!box.width || !box.height) return null;
@@ -179,7 +189,9 @@ function readPart(el, def, tokens, k, shellRoot) {
     width: round(box.width), height: round(box.height),
     dimmed: shownAt(el, shellRoot),
     tap: tap && (tap.width > box.width + 1 || tap.height > box.height + 1) ? { width: round(tap.width), height: round(tap.height) } : null,
-    ground: def.text ? null : groundOf(el, tokens),
+    ground: def.text || def.picture ? null : groundOf(el, tokens),
+    picture: def.picture ?? null,
+    ring: def.picture ? ringOf(el, tokens) : null,
     border: def.text ? null : borderOf(el, tokens),
     corners: def.text ? null : cornersOf(el, box),
     words: wordsEl ? wordsOf(wordsEl, tokens) : null,

@@ -34,7 +34,7 @@ const COMPONENT = join(REPO, 'design/phone-ui/components/phone-shell');
 const REVIEW = join(COMPONENT, 'review');
 const SIZES = { '390x844': [390, 844], '430x932': [430, 932], '320x568': [320, 568] };
 /** Each state at the two development sizes; the Largest text at 320 × 568 (preview.mjs PREVIEW_STATES). */
-const STATES = { turn: 2, own: 2, urgent: 2, vote: 2, voted: 2, result: 2, dark: 2, target: 2, pass: 2, actions: 2, card: 2, talk: 2, stale: 2, out: 2, concealed: 2, film: 2, poster: 2, large: ['320x568'], 'target-stale': 2, 'target-large': ['390x844', '430x932'],
+const STATES = { turn: 2, own: 2, urgent: 2, vote: 2, voted: 2, result: 2, dark: 2, target: 2, pass: 2, actions: 2, card: 2, 'card-icon': 2, talk: 2, stale: 2, out: 2, concealed: 2, film: 2, poster: 2, large: ['320x568'], 'target-stale': 2, 'target-large': ['390x844', '430x932'],
   // 0.2.10, the phase bars: each row of the words table (phase-bars.mjs), and one at the Largest text.
   before: 2, 'before-start': 2, block: 2, appointment: 2, appoint: 2, lit: 2, 'lit-next': 2, synchronized: 2, 'course-own': 2, moved: 2, loading: 2, closed: 2, 'phase-large': ['320x568'] };
 /** The states whose stage holds no room (a film, a poster, the talk's capsule) or whose room shows no one. */
@@ -59,7 +59,8 @@ let agreement = null;
 let failed = 0;
 /** What a state must show, from the shell's own DOM (and the room scene's crew where a room is drawn). */
 const EXPECT = {
-  turn: s => s.kind === 'turn' && s.name === 'Fay' && s.tabs === 4 && s.hero === 'pass' && s.heroOff,
+  // 0.3.0: Card is the last tab and draws this viewer's own portrait, its ring the tab's colour, not amber.
+  turn: s => s.kind === 'turn' && s.name === 'Fay' && s.tabs === 4 && s.hero === 'pass' && s.heroOff && s.order.join() === 'switch,actions,hero,panels,card' && s.card.picture && s.card.drawn && !s.card.amber,
   own: s => s.name === 'Your turn' && s.hero === 'pass' && !s.heroOff && s.promises === 'Promises, 1 new' && s.timer === '0:42',
   urgent: s => s.urgent && s.timer === '0:08',
   vote: s => s.kind === 'phase' && s.hero === 'vote' && !s.heroOff,
@@ -70,7 +71,10 @@ const EXPECT = {
   target: s => s.target === 'Rescue' && s.chip === 'Other rooms · 1',
   pass: s => s.sheet === 'Pass your turn?' && s.sheetActions === 2,
   actions: s => s.sheet === 'Actions' && s.open === 'actions',
-  card: s => s.sheet === 'Your role' && s.open === 'card' && s.head === 'Hide card',
+  // 0.3.0: open, the portrait's ring is amber, and the tab is still named by its word.
+  card: s => s.sheet === 'Your role' && s.open === 'card' && s.head === 'Hide card' && s.card.picture && s.card.drawn && s.card.amber && s.card.words === 'Card' && s.card.name === null,
+  // 0.3.0: with no character, the pack's card icon, in the last place.
+  'card-icon': s => s.order.join() === 'switch,actions,hero,panels,card' && !s.card.picture && s.card.icon === 'card' && s.card.words === 'Card',
   talk: s => s.kind === 'pair' && s.talk === 2 && s.tabs === 0,
   stale: s => s.banner === 'Connection lost' && s.status === 'stale' && s.name === 'Reconnecting…' && s.sub === 'Showing Round 3 as last seen' && s.timer === null,
   // An eliminated player's phone (0.2.8): the banner's words without Retry, the phone live, Actions not offered.
@@ -81,7 +85,8 @@ const EXPECT = {
   film: s => s.kind === 'none' && s.layout.bars.top === 0 && s.layout.bars.bottom === 0 && s.layout.stage.height === s.layout.size.height && s.tabs === 0
     && s.banner === 'Connection lost' && s.bannerTop === s.layout.safe.top + 52 + 8,
   poster: s => s.kind === 'phase' && s.name === 'Setting course' && s.sub === 'The offices are setting it' && s.layout.bars.top === 0 && s.layout.bars.bottom === 0 && s.layout.stage.height === s.layout.size.height && s.tabs === 0,
-  large: s => s.name === 'Your turn' && s.tabs === 4,
+  // 0.3.0: at 200 % on the small phone the portrait keeps its box (the top bar's 32 px, 0.3.1), and the Card label the other labels' level.
+  large: s => s.name === 'Your turn' && s.tabs === 4 && s.card.picture && s.card.box.join() === '32,32' && s.card.level,
   // 0.2.9: the target bar 8 px under the banner while reconnecting, so its Cancel is in reach; the banner keeps its place.
   'target-stale': s => s.banner === 'Connection lost' && s.target === 'Rescue' && s.over.targetTop >= s.over.bannerBottom + 8 && s.over.cancelReach,
   // 0.2.9: at 200 % on the two phones, Cancel under the words, the bar inside the phone, and the chip's label whole.
@@ -120,6 +125,14 @@ try {
           name: t('.ms-ps-name'), sub: t('.ms-ps-sub'), round: t('.ms-ps-round'), timer: q('.ms-ps-timer')?.lastChild?.textContent ?? null,
           urgent: !!q('.ms-ps-timer[data-urgent]'), ring: !!q('.ms-ps-ring'), promises: q('.ms-ps-promises')?.getAttribute('aria-label') ?? null, menu: !!q('.ms-ps-menu'),
           tabs: root.querySelectorAll('.ms-ps-tab[data-intent]').length, open: q('.ms-ps-tab[aria-expanded="true"]')?.dataset.value ?? null,
+          // 0.3.0: the tabs' order, and the Card tab: its portrait (drawn, its box, amber or not) or its icon, its word and its name.
+          order: [...root.querySelectorAll('.ms-ps-tabs > *')].map(n => n.dataset.value ?? 'hero'),
+          card: (() => { const tab = q('.ms-ps-tab[data-value="card"]'); if (!tab) return null; const pt = tab.querySelector('.ms-ps-tab-pt'), label = tab.querySelector('.ms-ps-tab-label'), other = q('.ms-ps-tab[data-value="panels"] .ms-ps-tab-label');
+            const probe = document.createElement('i'); probe.style.color = 'var(--ms-ps-accent)'; root.append(probe); const accent = getComputedStyle(probe).color; probe.remove();
+            return { picture: !!pt, drawn: pt ? getComputedStyle(pt).backgroundImage !== 'none' : null, box: pt ? [pt.getBoundingClientRect().width, pt.getBoundingClientRect().height] : null,
+              // 0.3.1: no ring at rest; open, a ring in the accent (an inset shadow). amber: whether that ring is drawn.
+              amber: pt ? getComputedStyle(pt).boxShadow.includes(accent) : null, ring: pt ? getComputedStyle(pt).boxShadow !== 'none' : null,
+              icon: tab.querySelector('.ms-ps-tab-icon').dataset.icon.split(':')[0], words: label.textContent, name: tab.getAttribute('aria-label'), level: other ? Math.abs(label.getBoundingClientRect().top - other.getBoundingClientRect().top) < 0.5 : null }; })(),
           hero: q('.ms-ps-hero')?.dataset.mode ?? null, heroOff: !!q('.ms-ps-hero[data-off]'), talk: root.querySelectorAll('.ms-ps-talk button').length,
           target: t('.ms-ps-target b'), chip: t('.ms-ps-chip .ms-k-btn-label'), banner: t('.ms-ps-banner b'), bannerKind: q('.ms-ps-banner')?.dataset.kind ?? null, toast: t('.ms-ps-toast'),
           // 0.2.10: where the bar and each part of its right side lie, and how the title sits: its lines, and whether all of it shows.

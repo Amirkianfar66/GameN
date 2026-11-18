@@ -43,6 +43,11 @@
 //             0.2.10) builds only the bar's left part again: the bar keeps its height, Promises, the round, the
 //             clock and ⋮ keep their elements and places, the focus stays, and no layout is reported
 //   hud       a long press on a capped tab label shows its word large, and only then
+//   card      Card is the last tab and draws this viewer's own crew portrait (0.3.0, the owner's 18 November 2026
+//             decision): the top bar's portrait itself, the same picture, shape and 32 px size (0.3.1), with no ring
+//             at rest and an amber one only while its sheet is open; with no character it keeps the card icon; the
+//             tab is named Card and announces open as the others do; the portrait's foot is an icon's foot, so the
+//             label keeps its level and the bar its height at every text size
 //   dispose   after dispose(), nothing is left and nothing fires
 // With the device's Reduce motion emulated, only the motion check runs (the page's mode says which).
 
@@ -841,6 +846,98 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       document.documentElement.style.fontSize = '';
       s.shell.dispose();
       return { ok: plain.hud === null && large.hud === 'Board' && !large.after, plain, large };
+    });
+
+    await check('card: Card is the last tab and draws this viewer\'s own crew portrait as the top bar draws it, the same picture, shape and 32 px size; no character keeps the card icon; named Card, open announced, an amber ring only while open; the label keeps its level and the bar its height at every text size; concealed, a new viewer and the private talk draw none', async () => {
+      const me = person(SELF);
+      const game = (extra = {}) => ({ ...own().tabs, me, ...extra });
+      const s = mount({ ...own(), tabs: game() });
+      await frames();
+      const tab = () => s.q('.ms-ps-tab[data-value="card"]'), picture = () => tab()?.querySelector('.ms-ps-tab-pt') ?? null;
+      const colour = value => { const i = document.createElement('i'); i.style.color = value; s.root.append(i); const c = getComputedStyle(i).color; i.remove(); return c; };
+      const facts = () => {
+        const p = picture(), r = p?.getBoundingClientRect() ?? null, label = tab().querySelector('.ms-ps-tab-label'), lb = label.getBoundingClientRect();
+        const panels = s.q('.ms-ps-tab[data-value="panels"]'), other = panels.querySelector('.ms-ps-tab-label').getBoundingClientRect(), icon = panels.querySelector('.ms-ps-ic').getBoundingClientRect();
+        const bar = s.q('.ms-ps-tabs').getBoundingClientRect();
+        return { picture: !!p, image: p ? getComputedStyle(p).backgroundImage : null, box: r ? [r.width, r.height] : null, fit: p ? getComputedStyle(p).backgroundSize : null,
+          // The ring: none, or the colour of the inset shadow that draws it.
+          ring: p ? (getComputedStyle(p).boxShadow === 'none' ? null : /rgba?\([^)]+\)/.exec(getComputedStyle(p).boxShadow)?.[0] ?? 'other') : null,
+          hidden: p?.getAttribute('aria-hidden') ?? null, icon: tab().querySelector('.ms-ps-tab-icon').dataset.icon.split(':')[0], drawnIcon: !!tab().querySelector('svg'),
+          // The picture's foot is an icon's foot, it stays inside the bar, and the bar keeps the height it has without it.
+          labelLevel: Math.abs(lb.top - other.top), pictureLevel: r ? Math.abs(r.bottom - icon.bottom) : null, insideBar: r ? r.top >= bar.top : null, barHeight: bar.height,
+          inside: lb.right <= s.root.getBoundingClientRect().right + 0.5 && lb.left >= s.root.getBoundingClientRect().left - 0.5,
+          whole: label.scrollWidth <= label.clientWidth + 1, name: tab().getAttribute('aria-label'), words: label.textContent, expanded: tab().getAttribute('aria-expanded') };
+      };
+      const order = s.qa('.ms-ps-tabs > *').map(n => n.dataset.value ?? 'hero');
+      // The top bar's own portrait of the same person: its picture, how it is fitted, and its box.
+      const top = s.q('.ms-ps-who .ms-ps-pt'), topBox = top.getBoundingClientRect();
+      const rest = { ...facts(), barImage: getComputedStyle(top).backgroundImage, barFit: getComputedStyle(top).backgroundSize, barBox: [topBox.width, topBox.height] };
+      // Open: the same element keeps the focus, the tab says expanded, and only then is the ring amber.
+      const node = tab();
+      node.focus();
+      s.shell.update({ tabs: game({ open: 'card' }) });
+      const open = { ...facts(), same: tab() === node, focused: document.activeElement === node, accent: colour('var(--ms-ps-accent)') };
+      node.click();
+      const tapped = named(s.calls, 'onTab').map(c => c[1]);
+      // Unavailable: the whole tab at the pack's 38 %, with its reason, as every tab.
+      s.shell.update({ tabs: game({ enabled: { card: false }, reasons: { card: 'Not available now' } }) });
+      const off = { opacity: getComputedStyle(tab()).opacity, picture: !!picture(), reason: describedBy(tab()) };
+      // No character, no person, or a character the crew bundle has no portrait for: the pack's card icon.
+      s.shell.update({ tabs: game({ me: { ...me, character: null } }) });
+      const none = facts();
+      s.shell.update({ tabs: own().tabs });
+      const absent = facts();
+      s.shell.update({ tabs: game({ me: { ...me, character: 'c0' } }) });
+      const unknown = facts();
+      s.shell.update({ tabs: game({ open: 'card', me: { ...me, character: null } }) });
+      const noneOpen = { ...facts(), filled: tab().querySelector('.ms-ps-tab-icon').dataset.icon };
+      // Every text size on the three phones: the portrait keeps its box and its place, and the label its level.
+      s.shell.update({ tabs: game() });
+      const sized = {};
+      for (const [key, width, height, text] of [['390 standard', 390, 844, ''], ['390 largest', 390, 844, '200%'], ['430 standard', 430, 932, ''], ['430 largest', 430, 932, '200%'], ['320 standard', 320, 568, ''], ['320 largest', 320, 568, '200%']]) {
+        Object.assign(frame.style, { width: `${width}px`, height: `${height}px` });
+        document.documentElement.style.fontSize = text;
+        await frames();
+        sized[key] = facts();
+        // The bar's height with the card icon in the portrait's place, at this size: the portrait must not change it.
+        s.shell.update({ tabs: game({ me: null }) });
+        await frames();
+        sized[key].barHeightWithIcon = s.q('.ms-ps-tabs').getBoundingClientRect().height;
+        s.shell.update({ tabs: game() });
+        await frames();
+      }
+      // A long press at the Largest text shows the tab's word with its own icon, as every tab.
+      tab().dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
+      await wait(650);
+      const hud = { words: s.q('.ms-ps-hud')?.textContent ?? null, icon: s.q('.ms-ps-hud-icon')?.dataset.icon ?? null };
+      tab().dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+      Object.assign(frame.style, { width: `${size.width}px`, height: `${size.height}px` });
+      document.documentElement.style.fontSize = '';
+      await frames();
+      // This viewer's own: none while concealed, none after it, none for a new viewer; the private talk's My card keeps its icon.
+      s.shell.update({ status: 'concealed' });
+      const concealed = s.qa('.ms-ps-tab-pt').length;
+      s.shell.update({ status: 'live' });
+      const shownAgain = s.qa('.ms-ps-tab-pt').length;
+      s.shell.update({ tabs: game() });
+      const givenAgain = s.qa('.ms-ps-tab-pt').length;
+      s.shell.update({ viewer: 5 });
+      const newViewer = s.qa('.ms-ps-tab-pt').length;
+      s.shell.update({ viewer: SELF, tabs: { variant: 'talk', me } });
+      const talk = { pictures: s.qa('.ms-ps-tab-pt').length, buttons: s.qa('.ms-ps-talk button').length, icon: s.q('.ms-ps-talk [data-value="my-card"] .ms-k-btn-icon')?.dataset.icon?.split(':')[0] ?? null };
+      s.shell.dispose();
+      const plain = f => !f.picture && f.icon === 'card' && f.drawnIcon;
+      return { ok: order.join() === 'switch,actions,hero,panels,card'
+        && rest.picture && rest.image !== 'none' && rest.image === rest.barImage && rest.fit === rest.barFit && rest.fit === 'contain' && rest.box.join() === rest.barBox.join() && rest.box.join() === '32,32'
+        && rest.hidden === 'true' && rest.icon === 'card' && !rest.drawnIcon
+        && rest.name === null && rest.words === 'Card' && rest.expanded === 'false' && rest.ring === null
+        && open.picture && open.same && open.focused && open.expanded === 'true' && open.ring === open.accent && tapped.join() === 'card'
+        && off.opacity === '0.38' && off.picture && off.reason === 'Not available now'
+        && plain(none) && plain(absent) && plain(unknown) && plain(noneOpen) && noneOpen.filled === 'card:filled' && noneOpen.expanded === 'true'
+        && Object.values(sized).every(f => f.picture && f.box[0] === 32 && f.box[1] === 32 && f.labelLevel < 0.5 && f.pictureLevel < 0.5 && f.insideBar && f.barHeight === f.barHeightWithIcon && f.inside && f.whole)
+        && hud.words === 'Card' && hud.icon === 'card:filled'
+        && concealed === 0 && shownAgain === 0 && givenAgain === 1 && newViewer === 0 && talk.pictures === 0 && talk.buttons === 2 && talk.icon === 'card',
+        order, rest, open, tapped, off, none, absent, unknown, noneOpen, sized, hud, concealed, shownAgain, givenAgain, newViewer, talk };
     });
 
     await check('dispose: twice is safe; layout(), slot() and sheetBody are null; nothing is left and nothing fires', async () => {

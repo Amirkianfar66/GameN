@@ -188,6 +188,15 @@
 }
 .ms-phone-shell .ms-ps-tab { position: relative; border: 0; background: none; padding: 7px 2px 6px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 3px; color: var(--ms-ps-text-2); min-width: 0; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
 .ms-phone-shell .ms-ps-tab .ms-ps-ic { width: 26px; height: 26px; }
+/* The Card tab's picture (0.3.0, the owner's 18 November 2026 decision): this viewer's own crew portrait in the
+   icon's place. From 0.3.1 (the owner, the same day: "similar to the top character icon not circular but cubic same
+   size") it is the top bar's portrait itself: the portrait's own rounded-square tile with its frame, whole, at the
+   top bar's 32 px. It is 6 px taller than an icon, so it rises into the tab's top padding: its foot stays where an
+   icon's foot is, the label keeps its level and the bar its height. At rest it has no ring, as in the top bar.
+   While its sheet is open, an amber ring is drawn round the tile, inside the box, in the tile's own clear margin:
+   never a team's or a role's colour, and nothing around it moves. */
+.ms-phone-shell .ms-ps-tab-pt { display: block; width: 32px; height: 32px; margin-top: -6px; flex: none; border-radius: 11px; background: center / contain no-repeat; }
+.ms-phone-shell .ms-ps-tab[aria-expanded="true"] .ms-ps-tab-pt { box-shadow: inset 0 0 0 2px var(--ms-ps-accent); }
 /* Labels are capped at 14 px, as iOS caps tab labels; a long press shows the large-content view. */
 .ms-phone-shell .ms-ps-tab-label { font: 600 clamp(12px, 0.75rem, 14px)/1.15 var(--ms-ps-font); letter-spacing: 0.01em; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 .ms-phone-shell .ms-ps-tab[aria-expanded="true"] { color: var(--ms-ps-accent); --ic-knock: #0B0F16; }

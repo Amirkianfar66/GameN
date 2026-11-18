@@ -43,6 +43,8 @@ export const SWITCHES = Object.freeze([
     ['vote', 'Vote · ready'], ['vote-off', 'Vote · unavailable'], ['voted', 'Voted'],
   ] },
   { key: 'open', group: 'Bottom bar', label: 'Open tab', when: c => c.tabs === 'game', options: [['none', 'None'], ['actions', 'Actions'], ['card', 'Card'], ['panels', 'Panels']] },
+  // Shell 0.3.0 (the owner, 18 November 2026): the Card tab draws the player's own character; with none, the card icon.
+  { key: 'me', group: 'Bottom bar', label: 'Card tab', when: c => c.tabs === 'game', options: [['portrait', 'My character'], ['icon', 'No character yet · the card icon']] },
   { key: 'view', group: 'Bottom bar', label: 'First tab', when: c => c.tabs === 'game', options: [['room', 'Board (you are in the room view)'], ['board', 'Room (you are on the Board)']] },
   { key: 'actionsTab', group: 'Bottom bar', label: 'Actions tab', when: c => c.tabs === 'game', options: [['on', 'Available'], ['off', 'Unavailable · eliminated']] },
   { key: 'badge', group: 'Bottom bar', label: 'Badge', when: c => c.tabs === 'game', options: [['none', 'None'], ['actions', '1 on Actions'], ['panels', '2 on Panels']] },
@@ -62,7 +64,7 @@ export const SWITCHES = Object.freeze([
 
 /** Each switch's value before a preset changes it: another player's turn, in the room view. */
 export const BASE = Object.freeze({
-  bar: 'turn', clock: '42', promises: '1', tabs: 'game', hero: 'pass-off', open: 'none', view: 'room', actionsTab: 'on', badge: 'none',
+  bar: 'turn', clock: '42', promises: '1', tabs: 'game', hero: 'pass-off', open: 'none', me: 'portrait', view: 'room', actionsTab: 'on', badge: 'none',
   talkOpen: 'none', target: 'none', chip: 'off', banner: 'none', toast: 'none', sheet: 'none', status: 'live', edge: 'off',
 });
 
@@ -96,7 +98,7 @@ export const GROUPS = Object.freeze([
     ['loading', 'Loading the ship', '45', { bar: 'loading', promises: 'off', tabs: 'none' }],
     ['reconnecting', 'Reconnecting', '45', { bar: 'reconnecting', promises: '0', status: 'stale' }],
   ] },
-  { id: 'bottom', route: 'bottom-bar', title: 'Bottom bar', note: 'The tabs, the round button as Pass, Vote or Voted, and the private talk’s two buttons.', crop: 'bottom', presets: [
+  { id: 'bottom', route: 'bottom-bar', title: 'Bottom bar', note: 'The tabs, the round button as Pass, Vote or Voted, and the private talk’s two buttons. Card is the last tab and shows the player’s own character.', crop: 'bottom', presets: [
     ['pass', 'Pass · ready', '27', own],
     ['pass-off', 'Pass · unavailable', '27', {}],
     ['pass-busy', 'Pass · sending', '27', { ...own, hero: 'pass-busy' }],
@@ -104,7 +106,8 @@ export const GROUPS = Object.freeze([
     ['tab-vote-off', 'Vote · unavailable', '38', { bar: 'result', promises: 'off', hero: 'vote-off' }],
     ['voted', 'Voted', '38', { bar: 'vote', promises: '0', hero: 'voted' }],
     ['open-actions', 'Actions open · amber, filled icon', '28', { ...own, open: 'actions' }],
-    ['open-card', 'Card open', '31', { ...own, open: 'card' }],
+    ['open-card', 'Card open · an amber ring round the portrait', '31', { ...own, open: 'card' }],
+    ['card-icon', 'No character yet · the Card tab keeps the card icon', '08', { ...own, me: 'icon' }],
     ['open-panels', 'Panels open', '32', { ...own, open: 'panels' }],
     ['on-board', 'On the Board · the first tab says Room', '27', { view: 'board' }],
     ['badge', 'A badge on Panels', '27', { badge: 'panels' }],
@@ -141,6 +144,22 @@ export const GROUPS = Object.freeze([
   Object.freeze({ key, label, sheet, group: group.id, groupTitle: group.title, crop: crop ?? group.crop, controls: Object.freeze({ ...BASE, ...change }) }))) })));
 
 export const PRESETS = Object.freeze(GROUPS.flatMap(group => group.presets));
+
+/**
+ * Sheet 08's nine states (Bottom navigation), in the sheet's order, for the Card tab's before and after: the
+ * owner's 18 November 2026 decision moved Card to the last place and gave it the player's own character.
+ */
+export const SHEET_08 = Object.freeze([
+  ['turn', 'Room view · another player’s turn', {}],
+  ['own', 'Room view · your turn', own],
+  ['board', 'Board view · the first tab says Room', { view: 'board' }],
+  ['actions', 'Actions open', { ...own, open: 'actions' }],
+  ['card', 'Card open', { open: 'card' }],
+  ['panels', 'Panels open', { open: 'panels' }],
+  ['vote', 'Voting · Vote replaces Pass', { bar: 'vote', promises: '0', hero: 'vote' }],
+  ['voted', 'Ballot registered', { bar: 'vote', promises: '0', hero: 'voted' }],
+  ['out', 'Eliminated · Actions unavailable', { actionsTab: 'off' }],
+].map(([key, label, change]) => Object.freeze({ key, label, sheet: '08', group: 'bottom', groupTitle: 'Bottom bar', crop: 'bottom', controls: Object.freeze({ ...BASE, ...change }) })));
 export const presetOf = key => PRESETS.find(p => p.key === key) ?? null;
 /** The preset whose switches are exactly these, or null: a custom combination. */
 export const matchPreset = controls => PRESETS.find(p => Object.keys(BASE).every(k => p.controls[k] === controls[k])) ?? null;
@@ -203,6 +222,9 @@ function tabsInput(c) {
   if (c.tabs === 'talk') return { variant: 'talk', open: c.talkOpen === 'none' ? null : c.talkOpen };
   return {
     variant: 'game', view: c.view, open: c.open === 'none' ? null : c.open, hero: HEROES[c.hero],
+    // The viewer's own person: the Card tab draws their portrait (shell 0.3.0). None: the card icon. In the Blackout's
+    // dark the game gives no one's identity, the viewer's own among them, so the tab shows the card icon there too.
+    me: c.me === 'portrait' && c.bar !== 'dark' ? person(SELF) : null,
     ...(c.actionsTab === 'off' ? { enabled: { actions: false }, reasons: { actions: 'You’re out' } } : {}),
     ...(c.badge === 'actions' ? { badges: { actions: 1 } } : c.badge === 'panels' ? { badges: { panels: 2 } } : {}),
   };

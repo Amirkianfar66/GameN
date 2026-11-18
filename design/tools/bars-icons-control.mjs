@@ -7,7 +7,11 @@
 //     room's extension (the room scene's assets) and the crew's portraits, as data on the CSS properties
 //     the game's bundles define;
 //   - the facts the page shows: the source commit, the build time, and the icons page's table
-//     (docs/design/components/icons.md: each icon's line and users).
+//     (docs/design/components/icons.md: each icon's line and users);
+//   - the shell as it was before the Card tab's change (the owner, 18 November 2026): phone-shell.mjs at BEFORE,
+//     read from git and bundled beside today's for the page's before and after. It is the component's own file
+//     at that commit, not a copy kept in the repository. Today's stylesheet draws both, so the build first checks
+//     that every line of the stylesheet at BEFORE is still in it.
 // The page is content for a host that adds its own document skeleton: no doctype, head or body here.
 //   node design/tools/bars-icons-control.mjs --out <file.html>
 // It writes nothing in the repository, and nothing it writes is a release or a record.
@@ -27,6 +31,22 @@ const git = (...args) => execFileSync('git', ['-C', REPO, ...args], { encoding: 
 const outAt = process.argv.indexOf('--out');
 if (outAt === -1 || !process.argv[outAt + 1]) throw new Error('Usage: node design/tools/bars-icons-control.mjs --out <file.html>');
 const OUT = resolve(process.argv[outAt + 1]);
+
+/** The shell before the Card tab's change: #265's head, shell 0.2.12. */
+const BEFORE = '5616928e891babfe35b78dc0a19e1fa552f6d7a3';
+const SHELL = 'design/phone-ui/components/phone-shell/phone-shell.mjs', SHELL_STYLES = 'design/phone-ui/components/phone-shell/phone-shell.css';
+const QUERY = '?before';
+/** The shell's source at BEFORE, and whether today's stylesheet still draws it: every line of the old one is in the new. */
+async function shellBefore() {
+  let source, styles;
+  try { source = git('show', `${BEFORE}:${SHELL}`); styles = git('show', `${BEFORE}:${SHELL_STYLES}`); }
+  catch { throw new Error(`The page's "before" needs commit ${BEFORE.slice(0, 8)} (shell 0.2.12) in this clone: git fetch origin claude/designer-phone-shell`); }
+  const now = new Set((await readFile(join(REPO, SHELL_STYLES), 'utf8')).split('\n'));
+  const gone = styles.split('\n').filter(line => !now.has(line));
+  if (gone.length) throw new Error(`Today's phone-shell.css no longer has ${gone.length} line(s) of the stylesheet at ${BEFORE.slice(0, 8)}, so it can't draw the bar as it was: ${gone[0].trim().slice(0, 80)}`);
+  const version = /PHONE_SHELL_VERSION = '([^']+)'/.exec(source)?.[1] ?? null;
+  return { source, version };
+}
 
 /** One picture as a CSS url() of its own bytes. */
 async function dataUrl(path) {
@@ -48,10 +68,20 @@ async function iconFacts() {
     .map(m => [m[1], { line: Number(m[2]), usedBy: m[3].trim(), pack: m[4].trim() === 'yes' }]));
 }
 
+const before = await shellBefore();
 const dir = await mkdtemp(join(tmpdir(), 'bars-icons-control-'));
 try {
   await build({
     root: ROOT, base: './', logLevel: 'warn', configFile: false, publicDir: false,
+    // "…/phone-shell.mjs?before" is the shell's file at BEFORE: its own place, so its imports resolve as they did.
+    plugins: [{ name: 'bars-icons-control-shell-before', enforce: 'pre',
+      async resolveId(source, importer) {
+        if (!source.endsWith(QUERY)) return null;
+        const found = await this.resolve(source.slice(0, -QUERY.length), importer, { skipSelf: true });
+        if (!found || found.id !== join(REPO, SHELL)) throw new Error(`Only the shell has a "before": ${source}`);
+        return `${found.id}${QUERY}`;
+      },
+      load(id) { return id === `${join(REPO, SHELL)}${QUERY}` ? before.source : null; } }],
     build: { outDir: dir, emptyOutDir: true, target: 'es2022', assetsInlineLimit: 100_000_000, sourcemap: false, cssMinify: false, cssCodeSplit: false,
       chunkSizeWarningLimit: 4000, rollupOptions: { output: { codeSplitting: false } } },
   });
@@ -62,7 +92,7 @@ try {
   const script = await readFile(join(dir, 'assets', scripts[0]), 'utf8'), style = await readFile(join(dir, 'assets', styles[0]), 'utf8');
   if (/\bimport\s*\(|\bfrom\s*["']\.\.?\//.test(script.slice(0, 2000))) throw new Error('The script still imports another file');
   const facts = { commit: git('rev-parse', 'HEAD'), branch: git('rev-parse', '--abbrev-ref', 'HEAD'), clean: git('status', '--porcelain', '--', 'design', 'apps/game/hosted', 'docs/design/components/icons.md') === '',
-    built: new Date().toISOString().replace(/\.\d+Z$/, 'Z'), icons: await iconFacts() };
+    built: new Date().toISOString().replace(/\.\d+Z$/, 'Z'), icons: await iconFacts(), before: { commit: BEFORE, version: before.version } };
   const page = [
     '<title>Bars &amp; Icons Control</title>',
     '<meta name="claude:viewport-fit-sides" content="cover">',
@@ -76,7 +106,7 @@ try {
   ].join('\n');
   await writeFile(OUT, page);
   const kb = n => `${Math.round(n / 1024)} KB`;
-  console.log(`wrote ${OUT}: ${kb(Buffer.byteLength(page))} (script ${kb(Buffer.byteLength(script))}, styles ${kb(Buffer.byteLength(style))}); ${Object.keys(facts.icons).length} icons' facts; source ${facts.commit.slice(0, 8)}${facts.clean ? '' : ', with uncommitted changes'}`);
+  console.log(`wrote ${OUT}: ${kb(Buffer.byteLength(page))} (script ${kb(Buffer.byteLength(script))}, styles ${kb(Buffer.byteLength(style))}); ${Object.keys(facts.icons).length} icons' facts; before ${before.version} at ${BEFORE.slice(0, 8)}; source ${facts.commit.slice(0, 8)}${facts.clean ? '' : ', with uncommitted changes'}`);
 } finally {
   await rm(dir, { recursive: true, force: true });
 }
