@@ -38,8 +38,10 @@
 //   promise-draft-closed        a draft open when the talk's time runs out: the shell's phase-closed toast, once
 //   promise-results             after the talk: Received and Given with their status
 //   windows                     Windows (#299) at a station: its window, the drawings by name, the box and the inks
-//   windows-drawn, -shown, -done  two strokes drawn; Show sends one SHOW_WINDOW with them; SHOWN once the view has it; Done
+//   windows-drawn, -shown, -done  two strokes drawn, no focus ring; Show sends one SHOW_WINDOW with them; SHOWN once the view has it; Done
 //   windows-view, windows-none  away from a station, the room's windows; in the Command Room, the game's own sentence
+//   windows-keyboard-show       Show by Enter: once Done takes its place, the focus is on Done (#307's focus rule)
+//   panels-back-focus           Players' Back by Enter: the Panels list, the focus on the sheet's Close (the same rule)
 // And at 320 × 568 with the Largest text (the Lead's and the Bars & Icons builder's ask with shell 0.3.3):
 //   promise-incoming-largest    the partner's offer, the first game sheet the shell squeezes: its head and room
 //   promise-incoming-largest-accept   scrolled to Accept, which a tap at its place on the screen sends
@@ -334,6 +336,17 @@ const gone = (s, words = []) => s.actions === null && words.every(w => !s.page.i
 
 /** Steps that more than one state starts with: the Doctor's Rescue of Crew 3, and the Hacker's Move with two rooms. */
 /** A stroke drawn in the drawing box as a finger would: pressed, moved in eight steps, released (real input events). */
+/** The check plays the server for Show: the next view has the drawing just sent, by this player, at its window. */
+const SHOW_SERVED = "const c=h.requests.filter(r=>r.operation==='command').at(-1).request.command;p.windows.find(w=>w.windowId===c.windowId).drawings.push({id:'shown-3',windowId:c.windowId,authorSeatId:p.self.seatId,round:p.round,order:2,drawing:c.drawing})";
+/** A key as the keyboard gives it (Chrome's own input, not the page's events). */
+async function pressKey(page, key, code, vk, text) {
+  await page.send('Input.dispatchKeyEvent', { type: 'keyDown', key, code, windowsVirtualKeyCode: vk, ...(text ? { text } : {}) });
+  await page.send('Input.dispatchKeyEvent', { type: 'keyUp', key, code, windowsVirtualKeyCode: vk });
+}
+/** The focused control, as its intent and value ("sheet-action:done"), or its tag. */
+const FOCUSED = "(e=>e&&e!==document.body?[e.dataset?.intent??e.tagName.toLowerCase(),e.dataset?.value??''].join(':'):null)(document.activeElement)";
+/** Whether the drawing box draws its focus ring now. */
+const RING = `(p=>{if(!p)return null;const st=getComputedStyle(p);return st.outlineStyle!=='none'&&parseFloat(st.outlineWidth)>0;})(document.querySelector(${JSON.stringify('.ms-ps-sheet .ms-ps-sheet-body > .ms-windows .ms-wn-pad')}))`;
 async function drawStroke(page, [x0, y0], [x1, y1]) {
   const pad = `${WINDOWS} .ms-wn-pad`;
   await page.evaluate(`document.querySelector(${JSON.stringify(pad)}).scrollIntoView({block:'center'})`);
@@ -1038,15 +1051,18 @@ const STATES = {
       await drawStroke(page, [0.55, 0.7], [0.85, 0.3]);
       await page.waitFor(`document.querySelectorAll(${JSON.stringify(WINDOWS + ' .ms-wn-pad .ms-wn-stroke')}).length===2`, 'two strokes in the box');
     },
-    facts: s => ({ strokes: s.windows?.pad?.strokes === 2, showOn: foot(s) === 'show:Show', noCommand: s.commands.length === 0,
-      teal: s.windows?.inks.join('|') === 'Gold:false|Paper:false|Teal:true|Pink:false', undoOn: s.windows?.undoOff === false }) },
+    extra: async page => ({ ring: await page.evaluate(RING), focused: await page.evaluate(FOCUSED) }),
+    facts: (s, looks, { ring, focused }) => ({ strokes: s.windows?.pad?.strokes === 2, showOn: foot(s) === 'show:Show', noCommand: s.commands.length === 0,
+      teal: s.windows?.inks.join('|') === 'Gold:false|Paper:false|Teal:true|Pink:false', undoOn: s.windows?.undoOff === false,
+      // The box's focus ring is the keyboard's: none after strokes drawn with a pointer (windows-0.1.1, the Lead's rule).
+      noRing: ring === false, infoFocused: focused }) },
   // Show: the controller's own draft of the drawing, then confirm; one SHOW_WINDOW with the two strokes. The harness
   // answers every command and changes nothing, so the check plays the server: the next view has the drawing, by this
   // player, at Room A ↔ Room B. Then the shown view: the drawing with its SHOWN stamp, and Done.
   'windows-shown': { from: 'windows-drawn', steps: async page => {
       await page.evaluate(tap(FOOT('show')));
       await page.waitFor(`(window.planetHarness?.requests??[]).some(r=>r.operation==='command'&&r.request.command.type==='SHOW_WINDOW')`, 'Show sent');
-      await page.evaluate(edit("const c=h.requests.filter(r=>r.operation==='command').at(-1).request.command;p.windows.find(w=>w.windowId===c.windowId).drawings.push({id:'shown-3',windowId:c.windowId,authorSeatId:p.self.seatId,round:p.round,order:2,drawing:c.drawing})"));
+      await page.evaluate(edit(SHOW_SERVED));
       await page.waitFor(`document.querySelector(${JSON.stringify(WINDOWS + ' .ms-wn-stamp')})&&document.querySelector('.ms-ps-sheet-foot [data-value="done"]')`, 'the shown view');
     },
     facts: s => ({ sent: s.commands.length === 1 && s.commands[0].type === 'SHOW_WINDOW' && s.commands[0].windowId === 'A_B' && s.commands[0].drawing?.strokes?.length === 2,
@@ -1081,6 +1097,37 @@ const STATES = {
     },
     facts: s => ({ wait: s.windows?.wait === 'No window is visible from your current location.', noPad: s.windows?.pad === null, noFoot: s.sheet?.foot.length === 0,
       noCommand: s.commands.length === 0, noHead: s.windows?.heads.length === 0 }) },
+  // Show by the keyboard (the Bars & Icons builder's focus rule, #307's 680237e4): Enter on the focused Show sends it;
+  // when Show gives way to Done in the same open sheet, the focus goes to Done, not to the Panels tab behind it.
+  'windows-keyboard-show': { page: 'phone', url: 'scenario=windows', steps: async page => {
+      await STEPS.windows(page);
+      await drawStroke(page, [0.2, 0.3], [0.7, 0.6]);
+      await page.waitFor(`document.querySelectorAll(${JSON.stringify(WINDOWS + ' .ms-wn-pad .ms-wn-stroke')}).length===1`, 'a stroke in the box');
+      await page.evaluate(`document.querySelector(${JSON.stringify(FOOT('show'))}).focus()`);
+      await pressKey(page, 'Enter', 'Enter', 13, '\r');
+      await page.waitFor(`(window.planetHarness?.requests??[]).some(r=>r.operation==='command'&&r.request.command.type==='SHOW_WINDOW')`, 'Show sent by Enter');
+      await page.evaluate(edit(SHOW_SERVED));
+      await page.waitFor(`document.querySelector(${JSON.stringify(WINDOWS + ' .ms-wn-stamp')})&&document.querySelector('.ms-ps-sheet-foot [data-value="done"]')`, 'the shown view');
+      // Done is this phone's own (the component's local action), which the shell draws as `sheet-local`.
+      await page.waitFor(`${FOCUSED}==='sheet-local:done'`, 'the focus on Done');
+    },
+    extra: async page => ({ focused: await page.evaluate(FOCUSED) }),
+    facts: (s, looks, { focused }) => ({ sent: s.commands.length === 1 && s.commands[0].type === 'SHOW_WINDOW' && s.commands[0].drawing?.strokes?.length === 1,
+      stamp: s.windows?.stamp === 'SHOWN', done: foot(s) === 'done:Done', focusOnDone: focused === 'sheet-local:done' }) },
+  // A panel page's Back by the keyboard (the same rule): Players' Back returns to the Panels list in the same sheet,
+  // and the focus goes to the Panels sheet's Close, not to the tab behind it.
+  'panels-back-focus': { page: 'phone', url: 'scenario=board', steps: async page => {
+      await STEPS.panels(page);
+      await page.evaluate(tap(OPEN('players')));
+      await page.waitFor(`${SHEET('panels')}&&${VIEW('players')}`, 'Players');
+      await page.evaluate(`document.querySelector(${JSON.stringify(SHEET_BACK)}).focus()`);
+      await pressKey(page, 'Enter', 'Enter', 13, '\r');
+      await page.waitFor(VIEW('list'), 'back to the list');
+      await page.waitFor(`${FOCUSED}==='sheet-close:'`, 'the focus on the sheet\'s Close');
+    },
+    extra: async page => ({ focused: await page.evaluate(FOCUSED) }),
+    facts: (s, looks, { focused }) => ({ list: s.sheet?.id === 'panels' && s.sheet.title === 'Panels' && s.panels?.view === 'list' && s.model?.panel === 'panels',
+      focusOnClose: focused === 'sheet-close:', noCommand: s.commands.length === 0 }) },
   // Shell 0.3.3 in the game (the Lead's and the Bars & Icons builder's ask, 18 November): the partner's offer, on the
   // smallest phone at the Largest text, the first game sheet the shell squeezes. Its head, its content's room, then
   // Accept reached by scrolling, and its tap, at its place on the screen, sending the one ACCEPT_PROMISE.
