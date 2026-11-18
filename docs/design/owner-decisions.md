@@ -497,6 +497,67 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - **The 18 new crew angles.** They go to the owner before anyone draws them.
 - **The observation rule** ([#222](https://github.com/Amirkianfar66/GameN/issues/222)).
 
+**Furniture placed by code, the same morning.**
+- The owner looked at the Mira test page with the fixed picture (PV5-A-3) and the stand-in crew, and said, word for word:
+
+> The position of the characters are totally wrong and not good
+
+- The Lead sent the furniture before and after the fix, and asked what still felt wrong. The owner then asked, word for word:
+
+> What if for furnitures which are in the area of room not attached to wall, we can use the code? What do you think? We can define a perimeter
+
+- **What the Lead measured** on Room B's plan (`room-b-places.json`, sha256 `5ce20bc4…2d90e99b`). The room is 4 m across, and every place stands 0.32 m from its wall.
+  - Four pieces stand by the walls, within 0.7 m:
+    - Mira's tablet console, 0.19 to 0.59 m from the wall;
+    - Juno's stool, 0.07 to 0.41 m;
+    - Juno's laptop cart, 0.17 to 0.59 m;
+    - Lyra's console, 0.27 to 0.67 m.
+  - Two stand out into the room:
+    - Atlas's bench, 0.20 to 1.25 m;
+    - Vega's bench with its microscope, 0.43 to 0.94 m.
+  - In PV5-A the picture model drew three pieces wrong, and two of them stand by the walls: Lyra's console and Juno's stool.
+- **The Lead agreed, with two rules:**
+  1. Anything inside a line about 0.7 m in from the walls is placed by code.
+  2. So is any piece a crew member sits on, leans on or works at, wherever it stands. In Room B that is all seven pieces.
+  - Everything else stays in the painting: walls, pipes, shelves, window, screen, skylight, lights and floor.
+- **The pieces stay painted,** in the room's own style and light. The code only places them and decides what is in front. Plain shapes drawn by code would look stuck on.
+- **Shown without generating anything:** Mira's view taken apart.
+  - It uses PV5-A-3 and the empty-room picture from its own fix (`PV5-A-3-s1.png`, sha256 `096735ea…07df4c89`).
+  - Their difference inside the fix's outlines gives three pieces on their own: Vega's bench with the microscope, Lyra's console and Juno's stool.
+  - Put back over PV5-A-3-s1, the pieces rebuild PV5-A-3, with a mean difference of 0.045 out of 255.
+- **The other views,** each in two steps:
+  - the empty room first;
+  - then one masked edit that paints its pieces inside their exact outlines, the step that fixed PV5-A.
+  - This costs about $0.12 a view instead of $0.18. It is within the approval above: one picture, one re-run only if a check fails, and one masked edit a view.
+- The owner answered, word for word:
+
+> Yes we can test
+
+**What it decides:**
+- **A test of furniture placed by code in Room B,** by the Lead's two rules.
+  - The painting keeps the room. The code places the pieces and the crew from the one plan.
+  - A piece is drawn over a person only where the piece is nearer.
+  - The pieces are painted, never plain shapes.
+- **Mira's view is the test,** with the three pieces lifted from PV5-A-3. It needs no new picture.
+
+**What it means for the work:**
+1. The Pre-game Animation builder makes the next version of the Mira test page:
+   - PV5-A-3-s1 as the room and the three pieces as layers;
+   - each person in front of or behind the pieces by distance;
+   - a report of which pieces cover whom.
+2. The Lead checks the published page at 390 × 844 and 430 × 932 and sends it to the owner.
+3. The builder reworks the kit for PV5-B to PV5-E:
+   - an empty-room guide for each view, drawn from the plan;
+   - one edit's outlines and prompt for every piece the view holds;
+   - no removal edits.
+4. The other four views follow once the owner has seen the Mira test, within the approval above.
+
+**What it does not settle:**
+- **The crew's facing.** The stand-ins still face the camera. The 18 new crew angles go to the owner before anyone draws them.
+- **The line's distance in the other rooms.** Each room's sheet sets it.
+- **The room view in the game.** The room scene takes the pieces as layers only after the test.
+- **Room A's ceiling and the observation rule** ([#222](https://github.com/Amirkianfar66/GameN/issues/222)).
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
