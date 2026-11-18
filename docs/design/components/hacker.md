@@ -8,7 +8,7 @@
 >
 > 15. **Hacker: final Code** (sheet 42): the nine portraits with names, marked Pick 1–4, instead of nine "Player n" buttons.
 
-**Stacked on Actions (#273),** as the private talk (#293) is, at `05fab266` (`actions-0.2.5`, with a refused command's words in the open check), which carries the phone shell at `5616928e` (`phone-shell-0.2.12`, `component-kit-0.8.2`). The Lead kept this base: the results were to be play-parts' notice, which is on Actions' branch, and a branch is not rewritten. Since kit 0.7.0 the notice is the kit's, so the component is built on the kit alone and imports neither Actions nor play-parts.
+**Stacked on Actions (#273),** as the private talk (#293) is, at `05fab266` (`actions-0.2.5`, with a refused command's words in the open check), which carries the phone shell at `5616928e` (`phone-shell-0.2.12`, `component-kit-0.8.2`). Since 18 November it also carries #323's `241e5aa8` (`phone-shell-0.3.3`), merged at `b86a8d1b` as the Lead asked, until #323 lands in its base. The Lead kept this base: the results were to be play-parts' notice, which is on Actions' branch, and a branch is not rewritten. Since kit 0.7.0 the notice is the kit's, so the component is built on the kit alone and imports neither Actions nor play-parts.
 
 ## The pack's eight frames
 
@@ -183,7 +183,7 @@ For the Lead. Nothing here changes the agreed interface:
   | `npm run build`, `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
-- **`node design/tools/hacker-check.mjs`:** recorded on `0ab741f5` (hacker-0.1.1, with #273's `05fab266`, `actions-0.2.5`, shell 0.2.12 and kit 0.8.2, merged in), with the source clean.
+- **`node design/tools/hacker-check.mjs`:** recorded on `b86a8d1b` (hacker-0.1.1, with #323's `241e5aa8`, shell 0.3.3 and kit 0.8.2, merged in), with the source clean.
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy, through the shared `design/tools/lib/component-check.mjs`. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the other components'. Each part is mounted in the shell's sheet body, over the room scene, as Frontend would.
   - **Captures:** 46 of 46 pass, each drawing what its state asks: the part, the sheet, its sub and footer and which buttons are off, the target bar and the people Scan reaches, who, the guesses and which is chosen, the picks and their order, "You", the seats not offered, the empty seat, the cells to a row, the line, the error, the stamp, the lines and the row, the banner, and the room's crew behind.
     - 20 states at 390 × 844 and 430 × 932;
@@ -204,7 +204,13 @@ For the Lead. Nothing here changes the agreed interface:
     - each result's stamp, tone, lines and row, with the row's icon and tint.
 
     Every frame is compared as the pack draws it, CODE WRONG with both its lines.
-  - **Against `6dc2f8be`'s record** (the same hacker-0.1.1, on #273's `a3c08123`):
+  - **Against `0ab741f5`'s record** (the same hacker-0.1.1, on shell 0.2.12):
+    - No recorded field changed but the source commit, and the bundle's file name and column in the one known report, Zod's `eval` probe, caught: every capture draws what it drew, and the probe's 15 checks and the agreement's 8 pass as before.
+    - The Hacker's own parts are unchanged. 2 captures have no pixel that differs by more than 40 levels; the other 44 differ in shell 0.3.3's parts only:
+      - the bottom bar is shell 0.3.2's painted one, with Card last (shell 0.3.0), in every capture that has it;
+      - at 320 × 568 with the Largest text, the guess sheet's footer scrolls with its body (shell 0.3.3's squeezed sheet): "A wrong guess also blocks your next round." is whole, and Cancel and Scan are reached by scrolling;
+      - and the three sending states' spinners, at another angle.
+  - **Before:** `0ab741f5`. **Against `6dc2f8be`'s record** (the same hacker-0.1.1, on #273's `a3c08123`):
     - No recorded field changed but the source commit, and the bundle's file name and column in the one known report, Zod's `eval` probe, caught: every capture draws what it drew, and the probe's 15 checks and the agreement's 8 pass as before.
     - 38 of the 46 captures have no pixel that differs by more than 40 levels (4 of them byte for byte the same); the other 8 differ by at most 102 pixels, in the sending spinner's angle and the room's ambient motion.
     - Nothing drawn here changes with:
