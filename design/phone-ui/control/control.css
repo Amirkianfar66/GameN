@@ -268,3 +268,5 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 /* A still's own measure (the sheet drafts): the room its content gets, under the still. */
 .bc-room b { color: var(--bc-ink); font-weight: 600; }
 .bc-pair-note { margin: 0; color: var(--bc-ink-2); font-size: 13px; }
+.bc-advice { margin: 16px 0 0; max-width: 720px; color: var(--bc-ink-2); }
+.bc-advice b { color: var(--bc-ink); font-weight: 600; }

@@ -472,6 +472,8 @@ function buildSheetDraftPart(view) {
       textSizeChoice(), widths,
       h('p', { class: 'bc-hint' }, 'Each still is the real sheet: today, each draft alone, and both together. Under each is the room its content gets, measured from that sheet. A still can’t be scrolled, so two of them are shown scrolled to their end.')),
     h('div', { class: 'bc-wrap' },
+      // The Lead Designer's own recommendation, in their words, so the owner has one beside the two questions.
+      h('p', { class: 'bc-advice' }, h('b', {}, 'The Lead recommends both together: '), 'A gives the content its room, and B gives the title the full width.'),
       h('div', { class: 'bc-verdict' },
         h('p', {}, h('b', {}, 'Draft A: is it right?'), ' The buttons scroll with the content when the content is squeezed.'),
         markControl('draft-sheet-footer-scrolls', { label: 'Draft A: a squeezed sheet’s buttons scroll with its content', group: 'Sheets · draft' })),
@@ -993,7 +995,7 @@ function buildStatus(view) {
       h('li', {}, 'Not the game: no match, no rule, no real player. Names and seats are invented.'),
       h('li', {}, 'A sheet’s content, the private talk’s capsule and the films are other builders’ parts, shown as labelled stand-ins.'),
       h('li', {}, 'A browser on your phone, inside this page’s frame: the bars are true size, the phone’s height is the frame’s.')),
-    h('p', { class: 'bc-built' }, DATA.commit ? `Built from ${DATA.branch} at ${DATA.commit.slice(0, 8)} · ${DATA.built}` : 'An unbundled copy: no build facts.')));
+    h('p', { class: 'bc-built' }, DATA.commit ? `Built from ${DATA.branch} at ${DATA.commit.slice(0, 8)}${DATA.clean === false ? ', with changes not committed yet' : ''} · ${DATA.built}` : 'An unbundled copy: no build facts.')));
   paint();
 }
 
