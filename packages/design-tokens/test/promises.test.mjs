@@ -98,15 +98,19 @@ test('its words are the pack\'s (sheets 33 and 33.1); the six kinds are the cont
   }
   for (const [kind, k] of Object.entries(PROMISE_KINDS)) assert.ok(more.includes(`['${k.icon}', '${k.name}', '${k.line}']`), `the pack's ${kind}: ${k.name}`);
   assert.equal(W.quotaValue(true, false), 'Given 1/1 · Received 0/1');
+  // A name and its time keep ordinary spaces: joining them split long names and added a line (owner, 18 November).
   assert.equal(W.from('Ava', 'next Captain election'), 'From Ava · next Captain election');
   assert.equal(W.to('Ava', 'Round 3 voting'), 'To Ava · Round 3 voting');
+  // A seat keeps its "·" on its line, a no-break space before it (the Lead's polish, approved by the owner on 18 November).
+  assert.equal(W.seat(2, 'Ben'), '2\u00a0· Ben');
+  assert.equal(W.seat(6, 'Player\u00a06'), '6\u00a0· Player\u00a06', 'a name is drawn as given, its own joins included');
   assert.deepEqual(Object.keys(PROMISE_KINDS), PlanetPromiseKindSchema.options, 'the contract\'s six kinds, in its order');
   assert.deepEqual(PROMISE_STATUSES, PlanetPromiseStatusSchema.options, 'the contract\'s four results');
   // The words that state a rule for one Promise are Frontend's (the Lead's answer 3): no terms, condition, when or why here.
   const source = read(`${COMPONENT}/promises.mjs`);
   for (const words of ['votes for', 'will be in Room', 'when Round', 'Condition not met`', 'including runoffs', 'after Sync', 'admission is not required']) assert.ok(!source.includes(words), `no rule words of its own: ${words}`);
   assert.equal(W.targetTitle, 'Who will you vote to jail?', 'Jail Vote\'s player: the Lead\'s words (answer 4)');
-  assert.equal(PROMISES_VERSION, 'promises-0.1.0');
+  assert.equal(PROMISES_VERSION, 'promises-0.1.1');
 });
 
 test('its inputs are checked, and refused with a reason', () => {
@@ -122,12 +126,21 @@ test('its inputs are checked, and refused with a reason', () => {
   refuses({ received: incoming({ giver: DEV }) }, /between two players/);
   refuses({ draft: { kind: 'JAIL_VOTE', target: 7 }, targets: [BEN] }, /one of the given targets/);
   refuses({ targets: [BEN, BEN] }, /Seat 2 is given twice/);
+  refuses({ error: { text: 'x' } }, /error is words, or null/);
+  refuses({ error: '' }, /error is words, or null/);
   const d = nextPromisesInput(PROMISES_DEFAULTS, {});
   assert.deepEqual([d.view, d.talk, d.offer, d.given, d.received, d.targets, d.draft], ['list', null, null, null, null, [], { kind: null, target: null, terms: null }], 'nothing offered or given until Frontend gives it');
   assert.equal(live({ received: incoming({ state: 'accepted' }) }).received.status, 'Pending', 'an accepted Promise without a status is Pending');
   assert.equal(live({ received: incoming() }).received.terms, TERMS, 'the exact terms as given, to the letter');
   const once = live({ received: incoming(), draft: { kind: 'JAIL_VOTE', target: 2, terms: null } });
   assert.deepEqual(nextPromisesInput(once, {}), once, 'the checked form is stable');
+  // A refused command (0.1.1, R2): Frontend's words, kept to the letter until Frontend clears them.
+  const WORDS = 'The server did not allow that command.';
+  assert.equal(d.error, null, 'no refusal until Frontend gives one');
+  const refusedOnce = live({ view: 'confirm', draft: { kind: 'MEET_A', terms: 'x' }, error: WORDS });
+  assert.equal(refusedOnce.error, WORDS, 'the words as given');
+  assert.equal(nextPromisesInput(refusedOnce, { draft: { kind: 'MEET_B', terms: 'y' } }).error, WORDS, 'kept until Frontend clears them');
+  assert.equal(nextPromisesInput(refusedOnce, { error: null }).error, null);
 });
 
 test('the pair\'s privacy (the Lead\'s answer 6): a Promise names the viewer, and leaves with the viewer or when concealed', () => {
@@ -138,6 +151,7 @@ test('the pair\'s privacy (the Lead\'s answer 6): a Promise names the viewer, an
   const shown = live({ given: offered(), received: incoming(), draft: { kind: 'JAIL_VOTE', target: 2, terms: null } });
   const moved = nextPromisesInput(shown, { viewer: 5 });
   assert.deepEqual([moved.given, moved.received, moved.talk, moved.targets, moved.draft.kind], [null, null, null, [], null], 'a new viewer: everything of the last viewer\'s is dropped');
+  assert.equal(nextPromisesInput({ ...shown, error: 'Refused.' }, { viewer: 5 }).error, null, 'a new viewer: the last viewer\'s refusal is dropped');
   const eli = { seat: 5, name: 'Eli', character: 'c3' };
   assert.equal(nextPromisesInput(shown, { viewer: 5, received: incoming({ recipient: eli }) }).received.recipient.seat, 5, 'what the same update gives the new viewer is kept');
   assert.equal(nextPromisesInput(shown, { viewer: 4 }).received.id, 'p1', 'the same viewer again drops nothing');
@@ -145,6 +159,9 @@ test('the pair\'s privacy (the Lead\'s answer 6): a Promise names the viewer, an
   assert.deepEqual([hidden.given, hidden.received, hidden.talk, hidden.draft.kind], [null, null, null, null], 'concealed: dropped');
   assert.equal(nextPromisesInput(hidden, { received: incoming() }).received, null, 'refused while concealed');
   assert.equal(nextPromisesInput(hidden, { status: 'live' }).received, null, 'nothing comes back by itself');
+  const refusal = nextPromisesInput({ ...shown, error: 'Refused.' }, { status: 'concealed' });
+  assert.equal(refusal.error, null, 'concealed: a refusal is dropped');
+  assert.equal(nextPromisesInput(refusal, { error: 'Refused.' }).error, null, 'and refused while concealed');
 });
 
 test('the sheet it gives the shell: the pack\'s frame and footer for each view; local Next and Back, and the commands', () => {
@@ -164,6 +181,11 @@ test('the sheet it gives the shell: the pack\'s frame and footer for each view; 
   ], 'Decline and Accept are the commands, with Frontend\'s state');
   assert.deepEqual(promisesSheet(live({ view: 'incoming' })).actions, [], 'no offer, no answer');
   assert.ok(!JSON.stringify(promisesSheet(live({ view: 'incoming', received: incoming() }))).includes(TERMS), 'the terms are never in the sheet\'s frame');
+  // A refusal (0.1.1) is the body's, never the frame's: the sheet's title, Back and footer stay as they are.
+  for (const view of ['confirm', 'incoming']) {
+    const base = { view, draft: { kind: 'MEET_A', terms: 'x' }, received: incoming() };
+    assert.deepEqual(promisesSheet(live({ ...base, error: 'Refused.' })), promisesSheet(live(base)), `${view}: the frame is the same with a refusal`);
+  }
 });
 
 test('the check\'s record: every capture, probe check and agreement case passed under the production headers', () => {
@@ -174,7 +196,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   assert.match(csp, /default-src 'none'/);
   assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
   const captures = Object.entries(record.captures);
-  assert.equal(captures.length, 26, 'sheets 33 and 33.1\'s states, Jail Vote\'s player, the offer in flight, reconnecting and the Largest text, at two sizes');
+  assert.equal(captures.length, 32, 'sheets 33 and 33.1\'s states, Jail Vote\'s player, the offer in flight, reconnecting, the Largest text and the two refusals at two sizes; the refusals again at 320 × 568 with the Largest text');
   for (const [key, c] of captures) {
     assert.ok(c.ok && c.drawn, `${key} passed and drew what its state asks`);
     assert.deepEqual(c.problems, [], `${key}: no page error or failed request`);
@@ -185,6 +207,11 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   }
   for (const size of ['390x844', '430x932']) {
     assert.equal(record.captures[`${size}/target`].title, 'Who will you vote to jail?', `${size}: Jail Vote's player, the undrawn state (answer 4), captured`);
+    assert.ok(record.captures[`${size}/target`].seatJoined, `${size}: every seat keeps its "·" with a no-break space`);
+    for (const [state, words] of [['refused', 'That choice is no longer offered.'], ['answer-refused', 'The server did not allow that command.']]) {
+      const c = record.captures[`${size}/${state}`];
+      assert.ok(c.error === words && c.errorRole === 'alert' && c.errorLast && c.errorWhole, `${size}: ${state}, Frontend's words whole in view, last in the body`);
+    }
     assert.equal(record.captures[`${size}/stale`].offerWaits, 'Controls return when the match is current', `${size}: reconnecting, Offer waits with the banner's words`);
   }
   assert.deepEqual(Object.keys(record.probe).sort(), ['device-reduced', 'full']);
@@ -193,7 +220,11 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
   }
   const ids = record.probe.full.checks.map(c => c.id);
-  for (const group of ['report', 'footer', 'offer', 'lists', 'words', 'target', 'privacy', 'reconnect', 'focus', 'layout', 'dispose', 'motion']) assert.ok(ids.some(id => id.startsWith(`${group}:`)), `probe group ${group}`);
+  for (const state of ['refused-largest', 'answer-refused-largest']) {
+    const c = record.captures[`320x568/${state}`];
+    assert.ok(c && c.root === 32 && c.errorStarts && c.errorLast, `320 × 568 at the Largest text: ${state}, the note starts in view above the footer`);
+  }
+  for (const group of ['report', 'footer', 'offer', 'lists', 'words', 'target', 'refused', 'privacy', 'reconnect', 'focus', 'layout', 'dispose', 'motion']) assert.ok(ids.some(id => id.startsWith(`${group}:`)), `probe group ${group}`);
   // The Lead's privacy answer (6), each its own check.
   for (const pattern of [/doesn't name the viewer as its giver or recipient is refused/, /leave the page when the viewer changes/, /while concealed/]) assert.ok(ids.some(id => pattern.test(id)), `probe: ${pattern}`);
   assert.ok(ids.some(id => /drawn exactly as given, never composed or trimmed/.test(id)), 'probe: Frontend\'s words as given (answer 3)');

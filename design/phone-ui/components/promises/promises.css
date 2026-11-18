@@ -27,5 +27,8 @@
 .ms-promises .ms-pr-card-name { font: 800 1.25rem/1 var(--ms-k-letter); letter-spacing: 0.04em; text-transform: uppercase; }
 .ms-promises .ms-pr-card-terms { margin: 10px 0 0; font: 500 1rem/1.4 var(--ms-k-font); }
 
+/* A refused command (0.1.1): the kit's inline error after the card's facts, 14 px below them, as Actions' check. */
+.ms-promises .ms-pr-error { margin-top: 14px; }
+
 /* Jail Vote's chosen player (an undrawn state, the Lead's answer 4): the amber check at the row's end. */
 .ms-promises .ms-pr-chosen { display: inline-flex; flex: none; color: var(--ms-k-accent); --ic-knock: var(--ms-k-surface-2); }
