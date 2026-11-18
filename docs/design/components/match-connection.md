@@ -270,7 +270,15 @@ Today's Promises sheet: its quota line, its cards naming "Player 1", and the off
   - It was also run on throwaway copies of `4367f7e0` and of `9ba0858e` with `app.mjs`, `render.mjs`, `phone.css` and `planet.css` back at `origin/main`, the four files the base's pins name. There it passes.
   - So this change pins no new file: `check:sources` accepts the new hunk, `actions-input.mjs`, the changed mappers, the tests and the check.
 - **The other pins** the shell connection's page names fall on the same files: the hosted build's `reviewed-crew-drawing-release` on `app.mjs`, and the drawing-port fence on `vite.config.mjs`, which the room and shell connections' hunks already changed. They were not re-run here.
-- **These pass:** `typecheck`, `build`, `check:toolchain`, `check:workspace`, `node design/tools/check-assets.mjs` (15 of 15), and the game's tests, 889 of 889 on `755820d8`, #307's `68c9a296` merged (the shell connection's 864, Actions' 11, the Panels tab's 6 and Promises' 8), with the production-exclusion scan. Before: 889 of 889 on `7a9112ff`; 888 of 888 on `df255e8a` and again on `bfd458ea`, before Promises' eighth test; 881 of 881 on `9c0e15bf` and on `0911c440`, 875 of 875 on `31430b8b` and on `e49cd1cd`, and 871 of 871 on `1e723308`.
+- **On `834dcef0` (R2 with A3, #307's `b5d0a4dd` merged), and its record `aa7e7bcf`:**
+  - `typecheck`, `build`, `check:toolchain`, `check:workspace` and `node design/tools/check-assets.mjs` (15 of 15) pass;
+  - the game's tests pass 895 of 895 (889 before, and the refusals' 6), with the production-exclusion scan;
+  - `check:sources` refuses `app.mjs` first, as on the base, and passes with the same four pinned files back at `origin/main`, one at a time as it named them, each then written back from its saved bytes: R2 pins no new file, `refusal-words.mjs` included;
+  - the design and tooling suites fail only on the Food pin the base already meets: every failure, 25 of 442 and 68 of 356, is "Food consumer source: content differs: apps/game/hosted/planet/app.mjs";
+  - the fence: the hosted Planet entry builds with the three hunks, with only the config's own fence and Firebase registry plugins. R2 adds no Designer file to the boundary;
+  - #307's own check passes 44 of 44, with its record put back from its saved bytes;
+  - the mutation run's 152 changes are all caught.
+- **Before:** `typecheck`, `build`, `check:toolchain`, `check:workspace`, `node design/tools/check-assets.mjs` (15 of 15), and the game's tests, 889 of 889 on `755820d8`, #307's `68c9a296` merged (the shell connection's 864, Actions' 11, the Panels tab's 6 and Promises' 8), with the production-exclusion scan. Before: 889 of 889 on `7a9112ff`; 888 of 888 on `df255e8a` and again on `bfd458ea`, before Promises' eighth test; 881 of 881 on `9c0e15bf` and on `0911c440`, 875 of 875 on `31430b8b` and on `e49cd1cd`, and 871 of 871 on `1e723308`.
 - On `f15b8129` (the record of `755820d8`), with #307's `68c9a296` as the base:
   - `check:sources` passes with the base's four pinned files back at `origin/main`, so the merge pins no new file;
   - the design and tooling suites fail only on the Food pin the base already meets, 25 of 431 and 68 of 356, as before;
@@ -353,8 +361,28 @@ Today's Promises sheet: its quota line, its cards naming "Player 1", and the off
 - It serves it with the hosted game's production headers (`createHostedPreviewHeaders`, headers SHA-256 `424e5dec…`, the shell's and the room scene's).
 - It drives the real app at 390 × 844 and 430 × 932.
 
-**Result:** 66 of 66 captures pass: thirty-three states at both sizes, recorded on `755820d8` (#307's shell 0.3.1) with the source clean and the art from `64e55516`, in one run. Origin/main is `7d18ac0f`, which changes only `AGENTS.md` and the roster since the art base; the art base is in its history.
-- **Against the record on `bfd458ea`:** every recorded field of the 66 captures is the same, but for the bundle's file name in the known Zod report and eight clocks, each one second on: `390x844-blackout`, `-promise-sent` and `-promise-waiting`, and `430x932-blackout`, `-blackout-fixed`, `-moved`, `-other-rooms` and `-promise-results`.
+**Result:** 76 of 76 captures pass: thirty-eight states at both sizes, recorded in one run on `834dcef0`, with the source clean and the art from `64e55516`. That commit is R2 with A3, with #307's shell 0.3.3 merged. `concealed` was drawn a second time on that candidate for the comparison's bundle. Origin/main is `7d18ac0f`, which changes only `AGENTS.md` and the roster since the art base; the art base is in its history.
+- **Against the record on `755820d8`:** every recorded field of the 66 earlier captures is the same, with these exceptions:
+  - the fields this check now records: the phone's notes, Promises' `error`, and the model's message and revision;
+  - the bundle's file name in the known Zod report;
+  - `promise-refused` at both sizes: the words are now in the sheet's inline error, and the status line that said them behind the sheet is hidden;
+  - the joins: a no-break space where there was a space (`list`, `rescue-check` and `promise-target`):
+    - "Player 1", "Player 7" and "Player 3 · Injured" in the List;
+    - "Player 3 · Hospital" in Rescue's check;
+    - Jail Vote's nine rows, "1 · Crew 1" to "9 · Crew 9";
+  - the clocks:
+    - `moved` at both sizes, and `430x932-blackout`, each one second off;
+    - `promise-sent` and `promise-waiting`, one or two seconds on, since they now follow `promise-refused-back`'s steps.
+- **In the pictures:**
+  - shell 0.3.2's painted tiles in the tab bar of every capture that has it;
+  - shell 0.3.3's toast under an open sheet's head, in `promise-sent`, `promise-waiting` and `promise-accepted`;
+  - the room's ambient motion and the clocks.
+  - The five Promises sheets drawn over the stage (`promises`, `promise-kinds`, `promise-target`, `promise-confirm` and `promise-incoming`) have no changed pixel at either size. `concealed` at both sizes, and `390x844-promise-target`, are byte for byte the same.
+- **The new states pass at both sizes:**
+  - `promise-refused-back`: on the first attempt, the words were still the model's message when Back took them, and the status line stayed still;
+  - `refused-elsewhere`: the top bar's Promises took them, and the sheet stayed on the terms;
+  - `refused-next-view`, `refused-concealed` and `refused-phase-closed`, as the table says.
+- **The record on `755820d8`** (66 of 66, thirty-three states, #307's shell 0.3.1), **against the one on `bfd458ea`:** every recorded field of the 66 captures is the same, but for the bundle's file name in the known Zod report and eight clocks, each one second on: `390x844-blackout`, `-promise-sent` and `-promise-waiting`, and `430x932-blackout`, `-blackout-fixed`, `-moved`, `-other-rooms` and `-promise-results`.
   - The tab buttons' recorded fields (`value`, `label`, `box`, `expanded`, `disabled`, `busy`) are the same in all 66: the portrait's shape is not a recorded field.
   - In the pictures, the Card tab (place 5) is shell 0.3.1's square portrait in 42 captures, and no other tab changes. In the dark the Card tab shows the card, as before; reconnecting, it keeps the portrait.
   - Elsewhere only the room's ambient motion and the clocks move, and `promise-refused`'s status line behind the glass is caught at another moment, with the same recorded words. 15 pictures differ only within compression noise, and `concealed` is byte for byte the same at both sizes.
@@ -434,8 +462,9 @@ The harness answers a command at once, so "Registering…" is not drawn here; th
 ### The merge gate's comparison
 
 `design/tools/phone-ui-native-compare.mjs --only pass,actions,targeting,target-check,registered,clone,blackout,reconnecting,panels,players,round-order,promise-offer,promise-incoming,promise-results`:
-- The build is the check's own bundle (`--keep`, from a run of `concealed` alone on the record's commit): it names `f15b8129`, the record of `755820d8`, clean, with art from `64e55516`. The pack is read at `f15b8129`, clean.
-- **Against the comparison on `bfd458ea`,** all fourteen parts are field for field the same; only the build's folder and commit, the pack's commit and the time differ. Shell 0.3.1's portrait changes no part's recorded field.
+- The build is the check's own bundle (`--keep`, from a run of `concealed` alone on the record's commit, with the record put back after): it names `aa7e7bcf`, the record of `834dcef0`, clean, with art from `64e55516`. The pack is read at `aa7e7bcf`, clean.
+- **Against the comparison on `f15b8129`,** all fourteen parts are field for field the same; only the build's folder and commit, the pack's commit and the time differ. R2 and shell 0.3.3 change no part's recorded field. In the pictures, the tab bar has shell 0.3.2's painted tiles.
+- **The comparison on `f15b8129`** (its build named `f15b8129`, the record of `755820d8`, read at `f15b8129`, clean), **against the one on `bfd458ea`:** all fourteen parts are field for field the same; only the build's folder and commit, the pack's commit and the time differ. Shell 0.3.1's portrait changes no part's recorded field.
 - **Promises' three parts** (sheets 33 and 33.1) join the eleven. Every one was drawn with no problem met:
   - `promise-offer`: the tool's steps tap the top bar's Promises, then "Offer a Promise" by its words, and reach the six kinds. "Offer to Crew 1", the note, the six kinds two across and Next take the pack's form in the pack's places. The pack has Meet in Room A chosen and Next on; the tool's steps choose nothing.
   - `promise-incoming`: the tool's steps stop at the list, so the pair is the list beside the pack's incoming card. The check's `promise-incoming` state draws the card.
