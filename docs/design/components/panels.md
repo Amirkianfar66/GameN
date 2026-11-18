@@ -1,6 +1,6 @@
 # Panels: Designer's runtime component
 
-**Version:** `panels-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on #296, with the Lead's seven answers below, against the phone shell 0.2.6. **Since 18 November** it is on the phone shell 0.2.12 and kit 0.8.2 (#265 at `5616928e`, merged at `58c38232`), and it looks and reads as before; it belongs to the Designer's Gameplay UI builder. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
+**Version:** `panels-0.1.1`. **Status (16 November 2026):** built to the interface the Lead Designer approved on #296, with the Lead's seven answers below, against the phone shell 0.2.6. **Since 18 November** it is on the phone shell 0.2.12 and kit 0.8.2 (#265 at `5616928e`, merged at `58c38232`), and it looks and reads as before; it belongs to the Designer's Gameplay UI builder. **`panels-0.1.1` (18 November):** the Round order row's line follows the steps given, the Lead's fix from the review of the game's Panels ([below](#the-round-order-rows-line)). Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
 
 **What it is:** the Panels tab's sheets, as sheet 32 draws them: the Panels list, Players and Round order. It covers #222 items 29, 30 and 31 (P3):
 - **Panels:** "each row says what it shows and who can use it".
@@ -15,7 +15,7 @@ The game imports it as it is, and the preview mounts the same files ([ownership]
 
 | View | Sheet (the shell's frame) | Body (this component) |
 | --- | --- | --- |
-| **Panels** (`list`) | "Panels", ✕, the shell's own height | The destinations, each with what it shows or who can use it: "Windows" ("Room A ↔ Room B · Room A ↔ Hospital"), "Navigation" ("Captain and Officer only"), "Hospital panel" ("Patients only"). Then "Players" ("Seats, rooms and public status") and "Round order" ("Phases and timings"). A destination this player can't use is dimmed. |
+| **Panels** (`list`) | "Panels", ✕, the shell's own height | The destinations, each with what it shows or who can use it: "Windows" ("Room A ↔ Room B · Room A ↔ Hospital"), "Navigation" ("Captain and Officer only"), "Hospital panel" ("Patients only"). Then "Players" ("Seats, rooms and public status") and "Round order" ("Phases and timings", or "The phases, in order" while no step has its timing). A destination this player can't use is dimmed. |
 | **Players** (`players`) | "Players", Back, ✕, large | A row per seat: the portrait, "1 · Ava" ("4 · Dev (you)" for this phone), the line ("Hospital · Injured", "In Jail"), and the Captain or Officer badge. Then "Public facts only: seats, rooms, health and offices." |
 | **Round order** (`round-order`) | "Round order", Back, ✕, large | A row per phase, in the ruleset's order: its icon on steel, its name ("Jail vote") and its timing ("60 s, then 5 s result"), in Frontend's words |
 
@@ -63,13 +63,21 @@ The game imports it as it is, and the preview mounts the same files ([ownership]
 6. **Reconnecting:** the rows only open a sheet on this phone, so they keep taking taps, as Settings does. A destination that isn't enabled stays refused, and `interactive: false` refuses everything.
 7. **The frozen Food release's Tasks row** stays out.
 
+### The Round order row's line
+
+The Lead's fix of 18 November, from the review of the game's Panels (#310): the row says what the view will show.
+- **"Phases and timings"** (the pack's) once a step is given with its timing.
+- **"The phases, in order"** (the Lead's words) while none is. The game gives no timings yet (#222).
+
+The line follows the steps given (`roundOrderLine(steps)`), never a fixed string. When Frontend gives timings, it goes back to "Phases and timings" with no change here.
+
 ## Files
 
 Designer's, runtime-safe, in `design/phone-ui/components/panels/`:
 
 | Path | What |
 | --- | --- |
-| `panels.mjs` | `mountPanels()`, `panelsSheet()`, `nextPanelsInput()`, `playerLine()`, `PANELS_DEFAULTS`, `PANELS_VERSION`, `PANELS_SHEET_ID`, `PANELS_WORDS`, `PANEL_DESTINATIONS`, `ROUND_STEP_ICONS` |
+| `panels.mjs` | `mountPanels()`, `panelsSheet()`, `nextPanelsInput()`, `playerLine()`, `roundOrderLine()`, `PANELS_DEFAULTS`, `PANELS_VERSION`, `PANELS_SHEET_ID`, `PANELS_WORDS`, `PANEL_DESTINATIONS`, `ROUND_STEP_ICONS` |
 | `panels.css` | Every style, under `.ms-panels`; starts with the kit's stylesheet. Its own: the 14 px between the Panels list's two lists, and the badges' row at a player's end |
 | `preview/` | Development only: the preview (the body in the phone shell's sheet over Room A, with the Panels tab open, as sheet 32 draws it), `probe.mjs`, and `agree.mjs` (beside the frozen pack's `panels`, `players` and `rules`) |
 | `review/` | The check's captures and `check.json` |
@@ -120,7 +128,7 @@ The shell's `onSheetBack` and `onSheetClose` are Frontend's, as for every sheet.
 
 | Part | Drawn |
 | --- | --- |
-| Panels | Two lists, 14 px apart. First list: **Windows** (the window icon on paper, the room pairs), **Navigation** (the course icon on slate, "Captain and Officer only"), **Hospital panel** (the panel icon on teal, "Patients only"). Second list: **Players** (the players icon on steel, "Seats, rooms and public status") and **Round order** (the rules icon on steel, "Phases and timings"). Each has a chevron. With no destination given, the first list and the gap go |
+| Panels | Two lists, 14 px apart. First list: **Windows** (the window icon on paper, the room pairs), **Navigation** (the course icon on slate, "Captain and Officer only"), **Hospital panel** (the panel icon on teal, "Patients only"). Second list: **Players** (the players icon on steel, "Seats, rooms and public status") and **Round order** (the rules icon on steel, "Phases and timings", or "The phases, in order" while no step has its timing). Each has a chevron. With no destination given, the first list and the gap go |
 | A destination this player can't use | Dimmed, its line unchanged; still focusable; a tap reports nothing; Frontend's reason is its accessible description |
 | Players | One list, a row per seat, not buttons: the 36 px portrait, "Seat · Name" ("(you)" after this phone's name), the line, and at the end the Captain badge (the captain icon) or the Officer badge (the officer icon), the kit's paper pills. Then the note |
 | The Players line | "In Jail" in the room's place when jailed; otherwise the room. Then "Injured" or "Eliminated" when so. With no room, the health word alone |
@@ -141,6 +149,7 @@ The shell's `onSheetBack` and `onSheetClose` are Frontend's, as for every sheet.
 
 The agreement draws the frozen pack's `panels`, `players` and `rules` screens beside the sheet (at both sizes, and Players at the Largest text) and compares, to within half a pixel: the sheet, its title and body; the lists, the rows, their mains, icon tiles and drawings, portraits (by file), titles, lines and chevrons; the badges and their icons; and the note. It compares their boxes, words, looks (including the dimmed rows' opacity), states (`aria-disabled`, names, roles) and drawings. The room behind the sheet, the top bar and the tabs are the room scene's and the shell's own agreements'; what the pack does not draw (the Captain's Navigation, no window, players in Jail, reconnecting) is the probe's and the captures'.
 
+- The preview gives the pack's steps with their timings, so its list says the pack's "Phases and timings"; the probe checks the Lead's line without timings.
 - **Recorded, in Round order only (answer 5):** the pack's note under the steps ("Current order. The owner's Blackout-before-voting order is an Integration proposal, pending the rules update.") is the rules' business, so the component draws no note. Those two cases record the note's absence; everything else is compared as usual.
 
 ## Check

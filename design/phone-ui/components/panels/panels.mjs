@@ -16,12 +16,16 @@
 // projection; the round's phases, their names and their timings are Frontend's, from the ruleset, in its order; the
 // component holds no step words and never the order (answer 5). Each row reports a tap, and only that.
 //
+// The Round order row's line says what the view will show (the Lead's review of the game's Panels, 18 November):
+// "Phases and timings" once a step has its timing, "The phases, in order" while none has. It follows the steps given,
+// never a fixed string (roundOrderLine).
+//
 // Players are public facts only (the pack's note: seats, rooms, health and offices). A player takes exactly the eight
 // keys below; any other (a role, a revealed faction) is refused, so nothing private reaches this sheet (answer 4).
 
 import { createControlPolicy, createKit } from '../kit/kit.mjs';
 
-export const PANELS_VERSION = 'panels-0.1.0';
+export const PANELS_VERSION = 'panels-0.1.1';
 const VIEWS = Object.freeze(['list', 'players', 'round-order']);
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 /** The sheet's id, the same for the three views, so the shell keeps its body (and this content) through them. */
@@ -33,13 +37,16 @@ const HEALTH = Object.freeze(['Healthy', 'Injured', 'Eliminated']);
 /** A player's keys: the public facts of the pack's note, and nothing else. */
 const PLAYER_KEYS = Object.freeze(['seat', 'name', 'character', 'location', 'health', 'jailed', 'captain', 'officer']);
 
-/** The pack's words (screens-game.mjs panels; screens-more.mjs players and rules; sheet 32). No step words: answer 5. */
+/**
+ * The pack's words (screens-game.mjs panels; screens-more.mjs players and rules; sheet 32), and one of the Lead's (18
+ * November): the Round order row's line while no step has its timing. No step words: answer 5.
+ */
 export const PANELS_WORDS = Object.freeze({
   panels: 'Panels', players: 'Players', roundOrder: 'Round order',
   windows: 'Windows', noWindow: 'No window here',
   navigation: 'Navigation', navigationLine: 'Captain and Officer only',
   hospital: 'Hospital panel', hospitalLine: 'Patients only',
-  playersLine: 'Seats, rooms and public status', roundOrderLine: 'Phases and timings',
+  playersLine: 'Seats, rooms and public status', roundOrderLine: 'Phases and timings', roundOrderPhases: 'The phases, in order',
   seat: (seat, name, you) => `${seat} · ${you ? `${name} (you)` : name}`,
   pair: (a, b) => `${a} ↔ ${b}`, join: ' · ',
   inJail: 'In Jail', injured: 'Injured', eliminated: 'Eliminated',
@@ -146,6 +153,11 @@ export function panelsSheet(input) {
   return { id: PANELS_SHEET_ID, title: W.panels, back: false, close: true, detent: 'auto', actions: [] };
 }
 
+/** The Round order row's line: "Phases and timings" once a step has its timing, else "The phases, in order" (the Lead, 18 November). */
+export function roundOrderLine(steps) {
+  return (steps ?? []).some(step => isText(step?.timing)) ? PANELS_WORDS.roundOrderLine : PANELS_WORDS.roundOrderPhases;
+}
+
 /** A player's line (the Lead's answer 4): "In Jail" in the room's place when jailed; then "Injured" or "Eliminated". */
 export function playerLine(p) {
   const W = PANELS_WORDS;
@@ -191,6 +203,8 @@ export function mountPanels(host, input = {}, handlers = {}) {
     ['navigation', { icon: 'course', tint: 'slate', title: W.navigation, sub: W.navigationLine }],
     ['hospital', { icon: 'panel', tint: 'teal', title: W.hospital, sub: W.hospitalLine }],
   ];
+  // The Round order row: its line follows the steps given (roundOrderLine).
+  const ORDER_ROW = steps => ({ icon: 'rules', tint: 'steel', title: W.roundOrder, sub: roundOrderLine(steps) });
   const destinationRow = (value, props) => {
     const row = kit.row({ ...props, chevron: true, intent: 'open', data: value });
     row.dataset.value = value;
@@ -206,7 +220,7 @@ export function mountPanels(host, input = {}, handlers = {}) {
     }
     const gap = kit.h('div', 'ms-pn-gap', { 'aria-hidden': 'true' });
     const players = destinationRow('players', { icon: 'players', tint: 'steel', title: W.players, sub: W.playersLine });
-    const order = destinationRow('round-order', { icon: 'rules', tint: 'steel', title: W.roundOrder, sub: W.roundOrderLine });
+    const order = destinationRow('round-order', ORDER_ROW(state.steps));
     root.append(first, gap, kit.list(players, order));
     parts = { first, rows, gap, views: [players, order] };
   }
@@ -225,6 +239,7 @@ export function mountPanels(host, input = {}, handlers = {}) {
       i += 1;
     }
     p.first.hidden = p.gap.hidden = i === 0;
+    kit.setRow(p.views[1], { ...ORDER_ROW(s.steps), chevron: true, intent: 'open', data: 'round-order' });
     // Players and Round order are this sheet's own views: always offered, refused only as everything is.
     for (const row of p.views) policy.control(row, {});
   }

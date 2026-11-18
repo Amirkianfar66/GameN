@@ -7,7 +7,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  PANELS_DEFAULTS, PANELS_SHEET_ID, PANELS_VERSION, PANELS_WORDS, PANEL_DESTINATIONS, ROUND_STEP_ICONS, nextPanelsInput, panelsSheet, playerLine,
+  PANELS_DEFAULTS, PANELS_SHEET_ID, PANELS_VERSION, PANELS_WORDS, PANEL_DESTINATIONS, ROUND_STEP_ICONS, nextPanelsInput, panelsSheet, playerLine, roundOrderLine,
 } from '../../../design/phone-ui/components/panels/panels.mjs';
 import { ICON_NAMES } from '../../../design/phone-ui/components/icons.mjs';
 
@@ -96,7 +96,20 @@ test('its words are the pack\'s (sheet 32), and it holds no step words (the Lead
   for (const words of ['Before turns', 'Ship synchronized', 'Jail vote', 'Officer block', '5 s lit', 'then the offices acknowledge', 'Current order', 'Blackout-before-voting']) {
     assert.ok(!source.includes(words), `no step words of its own: ${words}`);
   }
-  assert.equal(PANELS_VERSION, 'panels-0.1.0');
+  // The one line of the Lead's own (18 November): Round order's while no step has its timing. It is not the pack's.
+  assert.equal(W.roundOrderPhases, 'The phases, in order');
+  assert.ok(!game.includes(W.roundOrderPhases) && !more.includes(W.roundOrderPhases));
+  assert.equal(PANELS_VERSION, 'panels-0.1.1');
+});
+
+test('the Round order row\'s line follows the steps given: "Phases and timings" once one has its timing, else "The phases, in order"', () => {
+  const step = (timing = null) => ({ kind: 'turns', title: 'Player turns', timing });
+  assert.equal(roundOrderLine([step('60 s each'), step('15 s')]), 'Phases and timings');
+  assert.equal(roundOrderLine([step(), step('15 s')]), 'Phases and timings', 'one timing is enough');
+  for (const steps of [[step(), step()], [step('')], [], null, undefined]) assert.equal(roundOrderLine(steps), 'The phases, in order', JSON.stringify(steps));
+  // From the component's own normalized input, as mountPanels paints it.
+  assert.equal(roundOrderLine(live().steps), 'The phases, in order');
+  assert.equal(roundOrderLine(live({ steps: [step('60 s each')] }).steps), 'Phases and timings');
 });
 
 test('each step\'s icon is the component\'s by kind, from the shared set, with the Round order icon for an unknown kind', () => {
@@ -179,7 +192,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   const ids = record.probe.full.checks.map(c => c.id);
   for (const group of ['report', 'refuse', 'windows', 'reconnect', 'players', 'privacy', 'steps', 'focus', 'words', 'layout', 'dispose', 'motion']) assert.ok(ids.some(id => id.startsWith(`${group}:`)), `probe group ${group}`);
   // The Lead's answers (#296), each its own check.
-  for (const pattern of [/only Frontend's `enabled` decides, never the line/, /"No window here", still enabled/, /"In Jail" in the room's place/, /only the public facts/, /an unknown kind the Round order icon; no note/, /rows keep taking taps/]) {
+  for (const pattern of [/only Frontend's `enabled` decides, never the line/, /"No window here", still enabled/, /"In Jail" in the room's place/, /only the public facts/, /an unknown kind the Round order icon; no note/, /rows keep taking taps/, /"The phases, in order"/]) {
     assert.ok(ids.some(id => pattern.test(id)), `probe: ${pattern}`);
   }
   const agree = record.agree;
