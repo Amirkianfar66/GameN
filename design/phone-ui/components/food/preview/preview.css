@@ -1,0 +1,61 @@
+/* mothership:dev-only */
+/* The page around the phone on the Food component's preview pages. Nothing here styles the component: its own
+   styles are food-kit.css, food.css and food-surface.css, imported by the component itself. */
+:root { color-scheme: dark; }
+/* The root's own text size is left alone: the surface's sizes are in rem, and the game's text setting scales the root. */
+html, body { margin: 0; background: #0B0E14; color: #E8E2D6; }
+body { min-height: 100vh; font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; }
+
+/* The phone: its size comes from stage.mjs. The Food host is laid over it as the game lays it over its app, whose own
+   background shows through the surface's glass (apps/game/hosted/planet/planet.css: .planet-app is #060C1C). */
+.preview-phone { position: relative; overflow: hidden; background: #060C1C; flex: none; }
+.preview-phone .preview-host { position: absolute; inset: 0; }
+/* The review frames' safe areas, where a phone gives its own through env(). The same rule serves both pages. */
+.preview-phone .preview-host .planet-food.ph { --safe-t: var(--preview-safe-t); --safe-b: var(--preview-safe-b); }
+/* Stand-ins for the ordinary app's own header, bar and board: grey, hatched and labelled, so nobody takes them for
+   the game's. They are measured and given to the surface as `bars`; the app hides its own while Food owns the bars. */
+.preview-phone .preview-ordinary { position: absolute; left: 0; right: 0; display: grid; place-items: center; box-sizing: border-box;
+  color: #8D97A8; font: 500 12px/1.2 system-ui, sans-serif; letter-spacing: 0.02em; text-align: center;
+  background: repeating-linear-gradient(135deg, #1E2532 0 10px, #232B3A 10px 20px); }
+.preview-phone .planet-header.preview-ordinary { top: 0; padding-top: var(--preview-safe-t); border-bottom: 1px dashed #4A566B; }
+.preview-phone .planet-nav.preview-ordinary { bottom: 0; padding-bottom: var(--preview-safe-b); border-top: 1px dashed #4A566B; }
+.preview-phone .planet-header.preview-ordinary .preview-gauge { position: absolute; right: 12px; bottom: 10px; height: auto; background: transparent; }
+.preview-phone .preview-board { position: absolute; inset: 0; display: grid; place-items: center; color: #5E697C; font: 500 12px/1.3 system-ui, sans-serif; text-align: center; padding: 0 40px; }
+.preview-phone[data-food-chrome="true"] > .preview-ordinary { display: none; }
+.preview-phone[data-food-exclusive="true"] > .preview-board { display: none; }
+
+/* A capture is the phone alone, at the page's corner. */
+body[data-single] { overflow: hidden; }
+body[data-single] .preview-page > :not(.preview-stage), body[data-single] .preview-stage > :not(.preview-phone) { display: none; }
+body[data-single] .preview-page, body[data-single] .preview-stage { display: block; padding: 0; margin: 0; }
+/* both.html: the frozen port's phone and the component's, side by side with nothing between them. For a capture
+   (?stack=1) they stand one on the other at the page's corner, each where a phone alone stands, and the one asked
+   for is in front: a drawing is rasterized a little differently at another place in the page. */
+body[data-single][data-both] .preview-stage { display: flex; flex-wrap: nowrap; gap: 0; }
+body[data-single][data-both][data-stack] .preview-stage { display: block; position: relative; }
+/* Each phone keeps what it draws to itself (the Food host's own z-index would otherwise lift the phone behind over the one in front). */
+body[data-single][data-both][data-stack] .preview-phone { position: absolute; left: 0; top: 0; z-index: 0; isolation: isolate; }
+body[data-single][data-both][data-stack] .preview-phone[data-front] { z-index: 1; }
+
+.preview-page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 16px; max-width: 1180px; margin: 0 auto; }
+.preview-page h1 { margin: 0; font-size: 18px; font-weight: 650; }
+.preview-page p { margin: 4px 0 0; color: #AEB8C7; max-width: 76ch; }
+.preview-bar { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: end; }
+.preview-bar label { display: grid; gap: 4px; font-size: 12px; color: #AEB8C7; min-width: 0; }
+.preview-bar select { max-width: min(520px, 100%); }
+.preview-bar select, .preview-bar button { font: inherit; color: inherit; background: #1B2230; border: 1px solid #3A4558; border-radius: 8px; padding: 7px 10px; min-height: 36px; }
+.preview-bar button { cursor: pointer; }
+.preview-bar button:hover { background: #232C3D; }
+.preview-stage { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
+.preview-side { flex: 1 1 320px; min-width: 0; display: grid; gap: 12px; }
+.preview-note { margin: 0; padding: 10px 12px; border: 1px solid #3A4558; border-radius: 10px; background: #141A25; color: #C9D1DD; }
+.preview-note b { color: #F1B84B; font-weight: 600; }
+.preview-log { margin: 0; padding: 10px 12px; height: 260px; overflow: auto; border: 1px solid #2B3445; border-radius: 10px; background: #0F141D; font: 12px/1.5 ui-monospace, "SF Mono", Menlo, monospace; white-space: pre-wrap; color: #C9D1DD; }
+.preview-readout { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; font-size: 12px; color: #AEB8C7; }
+.preview-readout dt { color: #8D97A8; }
+.preview-readout dd { margin: 0; font-variant-numeric: tabular-nums; color: #E8E2D6; }
+
+/* The comparisons' side-by-side (compare.html). */
+.preview-row { display: flex; gap: 12px; padding: 12px; width: max-content; background: #0B0E14; }
+.preview-row figure { margin: 0; }
+.preview-row figcaption { padding: 8px 2px 0; color: #C9D1DD; font: 500 12px/1.3 system-ui, sans-serif; max-width: 430px; }
