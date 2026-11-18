@@ -934,8 +934,12 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - **The owner chose:** "Turned heads for both", the Lead's recommendation.
 
 **What it decides:**
-- **The angles:** Atlas's turned head and Lyra's side view are used from about 100° to 118° round while walking away.
-- **Everywhere else, nothing changes:** the approved face nearer the front and the back view farther round. That is five of Atlas's drawings and 21 of Lyra's across the five views.
+- **The angles:** Atlas's turned head and Lyra's side view are used from about 100° to 118° round while walking away. That is five of Atlas's drawings and 23 of Lyra's across the five views. The sheet counted 21 of Lyra's; the build counts 23.
+- **Everywhere else, nothing changes:** the approved face nearer the front and the back view farther round.
+- **Built and checked:** the In-game animation builder built both into all five views of the Room B page (1795016511-67f0). The Lead checked the band's edges:
+  - Atlas: the approved face at 97°, his turned head at 101°, the back view at 119°;
+  - Lyra: the approved face at 99°, her side view from 102° to 116°, the back view at 119°;
+  - no drawing flickers between heads.
 - **The rule for new angles stands:** a head the owner hasn't seen goes to them as a sketch first.
 
 **The Card tab's portrait is square, like the top bar's, at the same size, minutes later.**
