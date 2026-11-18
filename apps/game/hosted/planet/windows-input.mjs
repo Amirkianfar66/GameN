@@ -5,14 +5,16 @@
 //
 // What they give is this room's or this phone's own: the windows are the controller's for the Windows panel (its
 // privateArea, from ownPlanetWindows: this room's windows, this round's drawings, and whether this player stands at
-// the window's station), and each drawing's author is named by the identities. Whether Show can be sent is the model's
-// offer alone; a refused command says "Not available now" (T3), as the model gives no reason (A1). Nothing here works
-// out a rule.
+// the window's station), and each drawing's author is named by the identities. A drawing outside the contract
+// (PlanetDrawingSchema) is left out, never painted, as the component refuses one. Whether Show can be sent is the
+// model's offer alone; a refused command says "Not available now" (T3), as the model gives no reason (A1). Nothing
+// here works out a rule.
 //
 // The drawing being made, a Show under way and the drawing just shown are this phone's own (`flow`): the component's
 // `draft`, `view` and `shown` (windows.md, decision 4). The model names no drawing just shown (W2), so the connection
 // holds the ids of this player's drawings at the window when it sends, and the shown view begins with the view that
 // has a new one.
+import {PlanetDrawingSchema} from '@mothership/contracts';
 import {PLANET_WINDOW_ENDPOINTS} from '@mothership/presentation';
 import {WINDOWS_SHEET_ID,windowsSheet} from '../../../../design/phone-ui/components/windows/windows.mjs';
 
@@ -44,6 +46,8 @@ function nameOf(model,id){
 const roomWindows=model=>(model.privateArea?.windows??[]).filter(w=>Object.hasOwn(PLANET_WINDOW_ENDPOINTS,w.windowId));
 /** The window at this player's station, which the model lets them draw at, if any. */
 const stationWindow=model=>roomWindows(model).find(w=>w.canDraw===true)??null;
+/** The round a draft's key belongs to (its first part). */
+const keyRound=key=>key===null?null:String(key).split(':')[0];
 /** The key a draft belongs to: a new round, another window or another place starts a blank one. */
 function draftKey(model){
  const w=stationWindow(model),own=ownSeat(model);
@@ -62,13 +66,14 @@ export function windowsOpen(model){
 /**
  * This room's windows in the component's terms: the two rooms by name, this player's first; the station, this
  * player's place, when the model lets them draw there; and this round's drawings, each with its author's seat and name.
+ * A drawing that isn't the contract's (PlanetDrawingSchema), or by a seat that isn't one, is left out: never painted.
  */
 export function windowsList(model){
  const own=ownSeat(model);
  return roomWindows(model).map(w=>{
   const [a,b]=PLANET_WINDOW_ENDPOINTS[w.windowId];
   return {windowId:w.windowId,rooms:b===own?.location?[b,a]:[a,b],station:w.canDraw===true&&own?.slotId?own.slotId:null,
-   drawings:w.drawings.filter(d=>seatNumber(d.authorSeatId)!==null).map(d=>({id:d.id,order:d.order,round:d.round,
+   drawings:w.drawings.filter(d=>seatNumber(d.authorSeatId)!==null&&PlanetDrawingSchema.safeParse(d.drawing).success).map(d=>({id:d.id,order:d.order,round:d.round,
     author:{seat:seatNumber(d.authorSeatId),name:nameOf(model,d.authorSeatId)},drawing:{strokes:d.drawing.strokes}}))};
  });
 }
@@ -76,7 +81,8 @@ export function windowsList(model){
 /**
  * This phone's view, draft and Show, kept to what the model still allows. Null on a shared display or while concealed:
  * the draft goes then, and with another viewer (decision 4). The draft belongs to this round, window and place, and
- * waits for the sheet to open again, unless the sheet shuts while a Show of it is under way: then it goes, as today's
+ * goes at the round's end, the sheet open or not. It waits through the dark and a phase run out (the Lead, 18
+ * November), and for the sheet to open again, unless the sheet shuts while a Show of it is under way: then it goes, as today's
  * sheet's drawing went whenever it closed (accepted, the drawing is in the list; refused, the game's status line says
  * so), and can't be shown twice by mistake. A Show this phone sent (`sent`: the window, and this player's drawings there when
  * it was sent) ends in the shown view once the model has a new drawing of this player's at that window; without the
@@ -88,6 +94,8 @@ export function windowsFlow(flow,model){
  const viewer=`${model.matchId}:${model.ownSeatId}`;
  let f={...WINDOWS_START,...(flow??{})};
  if(f.viewer!==viewer)f={...WINDOWS_START,viewer};
+ // The round's end ends the draft, the sheet open or not.
+ if(f.key!==null&&keyRound(f.key)!==String(model.round))f={...f,key:null,draft:null};
  if(!windowsOpen(model))return {...f,view:'windows',shown:null,sent:null,draft:f.sent?null:f.draft};
  const key=draftKey(model);
  if(key!==null&&key!==f.key)f={...f,key,draft:null,view:'windows',shown:null,sent:null};

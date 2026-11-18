@@ -72,6 +72,13 @@ test('the input: this room\'s windows by name with this player\'s room first, th
  // A window the game doesn't know, or a drawing with no seat, is left out.
  assert.deepEqual(windowsList(model({},{windows:[{windowId:'NOPE',canDraw:false,drawings:[]}]})),[]);
  assert.deepEqual(windowsList(model({},{windows:[{windowId:'A_B',canDraw:false,drawings:[{...drawing('x','x',0),authorSeatId:'host'}]}]}))[0].drawings,[]);
+ // A drawing outside the contract (PlanetDrawingSchema) is left out, never painted: the component would refuse it.
+ const bad=[{...drawing('b1',1,0),drawing:{strokes:[]}},{...drawing('b2',1,1),drawing:{strokes:[{...stroke(0.1),color:'red'}]}},
+  {...drawing('b3',1,2),drawing:{strokes:[{...stroke(0.1),width:40}]}},{...drawing('b4',1,3),drawing:{strokes:[stroke(0.1)],script:'x'}},
+  {...drawing('b5',1,4),drawing:{strokes:Array.from({length:129},(_,i)=>stroke(i/200))}},drawing('ok',1,5)];
+ const listed=windowsList(model({},{windows:[{windowId:'A_HOSPITAL',canDraw:true,drawings:bad}]}))[0].drawings;
+ assert.deepEqual(listed.map(d=>d.id),['ok']);
+ assert.ok(accepted(windowsInput(model({},{windows:[{windowId:'A_HOSPITAL',canDraw:true,drawings:bad}]}))));
  // The whole input, which the component's own check accepts, with Show as the model offers it.
  const input=windowsInput(model(),{flow:{...WINDOWS_START,key:'3:A_HOSPITAL:A2',draft:draft()}});
  assert.deepEqual([input.view,input.viewer,input.none,input.shown,input.show],['windows',4,null,null,ON]);
@@ -107,8 +114,18 @@ test('the drawing being made is this phone\'s own: kept between openings in its 
   const shut=windowsFlow({...drawn,sent},model({panel:'board',privateArea:{}}));
   assert.deepEqual([shut.draft,shut.sent,shut.view],[null,null,'windows']);assert.equal(windowsFlow(shut,model()).draft,null);
  }
- // A new round, another place or another window: a blank draft.
+ // A new round, another place or another window: a blank draft. The round's end ends it with the sheet shut too.
  assert.equal(windowsFlow(drawn,model({round:4})).draft,null);
+ const nextRound=windowsFlow(drawn,model({round:4,panel:'board',privateArea:{}}));
+ assert.deepEqual([nextRound.draft,nextRound.key],[null,null]);assert.equal(windowsFlow(nextRound,model({round:4})).draft,null);
+ // Through the dark and a phase run out it waits (the Lead, 18 November), and nothing of it is drawn: the sheet is the
+ // shell's then, so no part is mounted.
+ for(const over of [{dark:true},{phase:{...turn,expired:true}}]){
+  const m=model(over),kept=windowsFlow(drawn,m);
+  assert.deepEqual(kept.draft,draft(),JSON.stringify(over));assert.equal(windowsFrame(m,{flow:kept}),null);
+  assert.equal(windowsPart(m,{frame:shellSheet(m,{windows:kept}),flow:kept}),null);
+  assert.deepEqual(windowsFlow(kept,model()).draft,draft(),'and back when the sheet is Windows\' again');
+ }
  assert.equal(windowsFlow(drawn,model({board:{seats:[seat(4,'Room A','A1')]}},{windows:[{windowId:'A_B',canDraw:true,drawings:[]}]})).draft,null);
  // Concealed or on a display: nothing kept. Another match or seat starts afresh.
  assert.equal(windowsFlow(drawn,model({concealed:true})),null);assert.equal(windowsFlow(drawn,model({surface:'display',ownSeatId:null})),null);
