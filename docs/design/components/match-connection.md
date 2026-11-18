@@ -226,7 +226,7 @@ Step 2 of the Lead's order of 18 November. Promises are Designer's promises comp
   - `render.mjs` gives the shell the flow of the paint before, as the shell gives the model of the paint before.
   - The draft is this phone's own, so the shell reads nothing private for it, and the toast goes to this phone alone.
   - A send under way when the talk ends gets the server's words, not this toast (`sent`).
-  - One exception, the Bars & Icons builder's call of 18 November, which the Lead may overrule: a send that the server answers with "The server closed that phase." while the view still shows the talk. The terms are then open and unsent again, so when the talk ends, about 2 s later, the toast comes as the sheet closes. That is the moment it explains, and the two messages say the same true thing.
+  - One exception, decided by the Bars & Icons builder and agreed by the Lead Designer on 18 November: a send that the server answers with "The server closed that phase." while the view still shows the talk. The terms are then open and unsent again, so when the talk ends, about 2 s later, the toast comes as the sheet closes. That is the moment it explains, and the two messages say the same true thing.
 
 ### Its input
 
@@ -263,7 +263,7 @@ Today's Promises sheet: its quota line, its cards naming "Player 1", and the off
 
 ## Windows
 
-Step 3 of the Lead's order of 18 November. Windows are Designer's windows component (#299, `windows-0.1.0`, on `component-kit-0.8.2` and the phone shell 0.2.12; #299's `55fcfa6b`, merged at `4f7b5f1b`), used as it is, with the Lead's eight decisions on #299. The sheet opens from the Panels tab's Windows row (#296), as today.
+Step 3 of the Lead's order of 18 November. Windows are Designer's windows component (#299, `windows-0.1.1`, on `component-kit-0.8.2` and the phone shell 0.2.12; #299's `55fcfa6b` first, merged at `4f7b5f1b`, then `f9b3f064`, merged at `91a9e51b`), used as it is, with the Lead's decisions on #299. The sheet opens from the Panels tab's Windows row (#296), as today. The Lead accepted its look on 18 November, from the before and after of `ac5c8d82`'s record.
 
 | This phone shows | The component's view | The shell's sheet (`windowsSheet`) |
 | --- | --- | --- |
@@ -280,14 +280,23 @@ Step 3 of the Lead's order of 18 November. Windows are Designer's windows compon
 From the model, with nothing worked out:
 - **This room's windows,** as the controller gives them for the panel (`ownPlanetWindows`): the two rooms by name, this player's first ("Room B ↔ Room A" from Room B).
 - **The station:** this player's place, when the model lets them draw at the window (`canDraw`).
-- **This round's drawings,** in order, each with its author's seat and name; a seat with no identity is "Player n", with a no-break space.
+- **This round's drawings,** in order, each with its author's seat and name; a seat with no identity is "Player n", with a no-break space. A drawing outside the contract (`PlanetDrawingSchema`) is left out, never painted: the component refuses one, and today's sheet painted none (it showed the caption over a blank canvas). The view's own schema already holds every drawing to the contract, so this is a second guard.
+- **"Unverified":** each shown drawing is an image named by its line, "1 · Crew 1 · Round 6 Unverified", and this player's own "… Can’t be changed" (Chromium's accessibility tree, at the station and away from it). The sheet's old line, "Unverified claims · Expires after Round N", goes: the Lead accepted that on 18 November, as each drawing's line says "Unverified" and each window's head "Ends with the round".
 - **Show,** as the model offers it at the station's window; busy while it sends and until the view has the drawing; otherwise "Not available now" (T3).
 - **No window:** the game's own sentence, "No window is visible from your current location.", as the waiting block's title, with no line. The game has one sentence for a room with no window and for windows closed now (W1).
 
 ### This phone's drawing, Show and the drawing just shown
 
-- **The drawing being made** is this phone's own (`windowsFlow`, the component's decision 4), kept as the component reports it (`onDraft`). It is kept between openings of the sheet in its round, at its window and place, and goes when the page is hidden or put away, when concealed, for another viewer, or with a new round, window or place. It also goes when the sheet shuts while a Show of it is under way, as today's drawing went whenever the sheet closed: accepted, the drawing is in the list; refused, the status line says so. It can't be shown twice by mistake.
+- **The drawing's limits,** 128 strokes, 512 points a stroke and 4,096 in all, are held while drawing, by the component: a stroke past them ends and none starts beyond them (`windows.mjs`'s `DRAWING_LIMITS`, the pen's `begin` and `extend`), exercised by its probe's `limits` check and pinned to the contract's source by `packages/design-tokens/test/windows.test.mjs`. Show sends what the component reported, and the controller's `showDrawing` checks it against `PlanetDrawingSchema` again before anything is sent.
+- **The drawing being made** is this phone's own (`windowsFlow`, the component's decision 4, as the Lead decided it on 18 November), kept as the component reports it (`onDraft`).
+  - It is kept between openings of the sheet in its round, at its window and place, and through the dark and a phase run out, while the sheet is the shell's and nothing of it is drawn.
+  - It goes when the page is hidden or blurred, when concealed, for another viewer, on a shared display, at dispose, at the round's end (the sheet open or shut), and with another window or place.
+  - It also goes when the sheet shuts while a Show of it is under way, as today's drawing went whenever the sheet closed: accepted, the drawing is in the list; refused, the status line says so. It can't be shown twice by mistake.
+  - **Not when the model's `privateArea` is null** (the Lead's choice of 18 November): the controller fills it only for the open private panel, so it is null whenever the sheet is shut, and a reconnect with the sheet open makes it null too. Every case where the phone loses the player's private view is already above. The Bars & Icons builder withdrew the rule, and the Lead chose to keep the draft as built.
+- **No phase-closed toast for a drawing being made,** a new round's included (the Lead, 18 November): the draft is kept for its round, so "choices cleared" would be untrue. `drafting` stays Promises' alone.
 - **Show** makes the controller's own draft of the drawing (`showDrawing`), then confirms it once the controller has checked the offer and the drawing: one tap, where today's sheet asked for a second (W3). The drawing is sent as drawn: the pack's four inks, 6 wide in 512, every point the finger passed.
+- **The drawing box's focus ring is the keyboard's** (`windows-0.1.1`, the Lead's rule of 18 November): no ring while a finger or a mouse draws, also after Tab; the keyboard's own focus shows it. The component marks a focus the pointer gave the box. The check draws `windows-drawn` with no ring.
+- **The focus after Show** goes to Done, in the same open sheet, not to the Panels tab behind it: #307's focus rule (`680237e4`, merged at `336369cf`), drawn by the check's `windows-keyboard-show`.
 - **The shown view** begins with the view that has a new drawing of this player's at that window: the model names no drawing just shown (W2), so the connection holds the ids of this player's drawings there when it sends. It shows the drawing with its SHOWN stamp, and Done returns to the window with a blank box. It is the receipt: no toast.
 - **A Show that doesn't go through:** refused by the controller, nothing is under way; refused by the server, the draft stays for another try, and the game's status line says why, as the component draws no refusal. Accepted without the drawing in the next view, Show is no longer busy and the draft stays.
 
@@ -387,6 +396,15 @@ Today's Windows sheet: its sub "Unverified claims · Expires after Round 3", its
 - a Promise being drafted, for the phase-closed toast (`promisesDrafting`): the kinds, the target and the terms, and not the list, the partner's offer, a send, a refusal or no flow; the flow as `promisesFlow` keeps it; with the shell's `phaseClosed()` and `shellToast()`, the toast once when the talk's time runs out or the next phase comes, and none for the same talk still running;
 - the shell connection's routing of the sheet's footer and Back, the host sheet first.
 
+`apps/game/test/planet-windows.test.mjs` passes 7 of 7. The component's own check (`nextWindowsInput`) and the shell's (`nextPhoneShellInput`) accept every input and frame built there. It covers:
+- when the sheet is Windows': the panel, or Show drafted, sending or accepted; not another command or panel, the display, concealed, the dark or an expired phase; the shell's frame (one id, Back, ✕, large, no line) and Show in its footer, off while nothing is drawn; no target bar or chip while Show is drafted;
+- the input: this room's windows by name with this player's room first, the station only where the model lets them draw, this round's drawings with their authors' names ("Player n" with a no-break space for a seat with no name, and none for a seat that isn't one), Show as offered, busy or "Not available now", and the game's sentence when no window is given;
+- this phone's drawing: kept between openings in its round, at its window and place; gone when concealed, on a display, for another match, with a new round, window or place, and when the sheet shuts while a Show of it is sending or accepted; waiting away from the station, with no draft in the input;
+- Show: the controller's own `showDrawing` with the drawing as drawn, then `confirm`; busy while it sends and until the view has the drawing, with no second send; the shown view once the view has this player's new drawing, the draft used, and Done back to a blank box; the shown view ending when the sheet closes;
+- a Show that doesn't go through: refused by the server (the draft kept for another try), accepted with no drawing in the next view (no longer busy, the draft kept), refused by the controller (nothing under way); a drawing there before the send is not the one just shown, and the shown view needs this player's drawing at this station; nothing drawn, an empty drawing, no station, the shown view, or after the renderer has gone: nothing called;
+- the component's drafts kept as reported, the whole draft each time, for the station's window only, and not while a Show is under way;
+- the shell connection's routing of the sheet's footer (Show, Done) to the handlers, its Back to Panels and its ✕.
+
 `apps/game/test/planet-refusals.test.mjs` passes 7 of 7 (R2 with A3). It drives the real controller (`createPlanetController` in the tests' rig) and covers:
 - Frontend's words the connection leaves out, pinned against the controller (the Lead's note 1): "Registering…", the message and the sending prompt while a command sends; `planetRegistrationText` once it is accepted; "The server closed that phase." for the server's `PHASE_CLOSED`. A change of any of them fails here;
 - the server's `NOT_ALLOWED` for this phone's Move to B5: the check held with the model's words, verbatim, Register off and Cancel back to the tiles, by the same key; nothing sent again; the words kept through a re-read of the same view and gone with the next view, and the tiles again;
@@ -427,9 +445,10 @@ Today's Windows sheet: its sub "Unverified claims · Expires after Round 3", its
 - It serves it with the hosted game's production headers (`createHostedPreviewHeaders`, headers SHA-256 `424e5dec…`, the shell's and the room scene's).
 - It drives the real app at 390 × 844 and 430 × 932, and two states at 320 × 568 with the Largest text.
 
-**Result:** 82 of 82 captures pass: forty states at both sizes and two at 320 × 568 with the Largest text, recorded in one run on `4f23375b`, with the source clean and the art from `64e55516`. That commit is the drafting step, with #307's `1013ddeb` merged. `concealed` was drawn a second time on the record's commit for the comparison's bundle, with the record put back after. Origin/main is `7d18ac0f`, which changes only `AGENTS.md` and the roster since the art base; the art base is in its history.
-- **Against the record on `fd4aace9`:** every recorded field of its 80 captures is the same, but for the bundle's file name in the known Zod report and three clocks, each one second off: `390x844-blackout`, and `moved` at both sizes. Nine pictures are byte for byte the same.
-- **The new state:** `promise-draft-closed` at both sizes, as the table says. `refused-phase-closed`'s no toast is now one of its facts.
+**Result:** 94 of 94 captures pass: forty-six states at both sizes and two at 320 × 568 with the Largest text, recorded in one run on `ac5c8d82`, with the source clean and the art from `64e55516`. That commit is Windows, with #299's `55fcfa6b` merged at `4f7b5f1b`. `concealed` was drawn a second time on the record's commit for the comparison's bundle, with the record put back after. Origin/main is `7d18ac0f`, which changes only `AGENTS.md` and the roster since the art base; the art base is in its history.
+- **Against the record on `4f23375b`:** every recorded field of its 82 captures is the same, but for the bundle's file name in the known Zod report, the new `windows` fact (none, in each), and four clocks, each one second off: `blackout` and `moved` at both sizes. Twelve pictures are byte for byte the same.
+- **The new states:** Windows' six at both sizes, as the table says. The known Zod report is in each, as in every capture.
+- **The record on `4f23375b`** (82 of 82, the drafting step), **against the one on `fd4aace9`:** every recorded field of its 80 captures is the same, but for the bundle's file name in the known Zod report and three clocks, each one second off: `390x844-blackout`, and `moved` at both sizes. Nine pictures are byte for byte the same. Its new state was `promise-draft-closed` at both sizes, and `refused-phase-closed`'s no toast became one of its facts.
 - **The record on `fd4aace9`** (80 of 80, R2 with A3 and its review), **against the one on `834dcef0`:** every recorded field of its 76 captures is the same, but for the bundle's file name in the known Zod report and three clocks, each one second off: `390x844-blackout`, `430x932-blackout` and `430x932-moved`. Six pictures are byte for byte the same.
 - **The new states:** `refused-blur` at both sizes, and `promise-incoming-largest` and `promise-incoming-largest-accept` at 320 × 568, as the table says.
 - **The record on `834dcef0`** (76 of 76, R2 with A3 before the review), **against the one on `755820d8`:** every recorded field of the 66 earlier captures is the same, with these exceptions:
@@ -524,11 +543,13 @@ Today's Windows sheet: its sub "Unverified claims · Expires after Round 3", its
 | `promise-incoming-largest-accept` | Scrolled as a thumb would (613 px): Accept in view, and the control a finger at its centre touches. A tap there, sent as a pointer at that point, sends the one `ACCEPT_PROMISE { promiseId: 'incoming-promise' }`, and the receipt's toast shows |
 | `promise-results` | After the talk (sheet 33.1): "Received" with "Jail Vote · From Crew 3 · Not fulfilled" and "Given" with "Meet in Room B · To Crew 1 · Pending", each with the other player's portrait, "Given 1/1 · Received 1/1" and the note; no talk group |
 | `windows` | At B1, the station of Room A ↔ Room B, from the Panels row: "Windows" with Back and ✕, no sub; "Room B ↔ Room A" and "Your station · B1"; the empty drawing box, "Drawing for Room B ↔ Room A"; the inks, Gold chosen; Undo dimmed; "Shown this round" with "1 · Crew 1 · Round 6", "Unverified", and "2 · Crew 6 · Round 6", "Can’t be changed"; Show off; no status line |
-| `windows-drawn` | Two strokes drawn with real input, the second in Teal: both in the box, Teal chosen, Undo on, Show on, nothing sent |
+| `windows-drawn` | Two strokes drawn with real input, the second in Teal: both in the box, Teal chosen, Undo on, Show on, nothing sent, and no focus ring on the box (`windows-0.1.1`) |
 | `windows-shown` | Show: one `SHOW_WINDOW { windowId: 'A_B', drawing }` with the two strokes as drawn (`#F7D886`, then `#57BBA8`, 6 wide, 9 points each). The check plays the server's part: the next view has the drawing. Then the shown view: the drawing with its SHOWN stamp, "3 · Crew 6 · Round 6", "Can’t be changed", the other two after it, Done; no toast and no status line |
 | `windows-done` | Done: the box blank, Show off, the three drawings among this round's, still one command |
 | `windows-view` | Away from a station (B5): "Room B ↔ Room A" and "Ends with the round" with its two drawings, then "Room B ↔ Jail"; no box, no footer |
 | `windows-none` | In the Command Room: the waiting block with "No window is visible from your current location."; no head, no box, no footer |
+| `windows-keyboard-show` | A stroke, then Show by Enter: one `SHOW_WINDOW`; once the view has the drawing, SHOWN and Done, with the focus on Done (#307's focus rule) |
+| `panels-back-focus` | Players, then its Back by Enter: the Panels list in the same sheet, with the focus on the sheet's Close (the same rule) |
 | `players-away` | Players then: one list, the game's nine lines, one for each seat, with "Away on the Food Supply Task" for Cleo and Hana. The component is not mounted, and none of its words ("(you)", the note) is on the page. Then Back returns to the component's list and Tasks |
 
 Each capture also passes with:
@@ -615,6 +636,7 @@ The connection works around none of these by inventing data. Where it holds this
 | W2 (new) | The model names no drawing just shown: the shown view waits for the view with a new drawing of this player's at the window | Frontend |
 | W3 (new) | Show is two calls on the controller (`showDrawing`, then `confirm`); the connection makes them one tap | Frontend |
 | W4 (new) | The windows are in the model only while the Windows panel is open, so nothing outside it can count them (the room's "Windows · 2") | Frontend |
+| W5 (new) | While the view isn't fresh (reconnecting), the model gives no windows: the open sheet says "No window is visible from your current location." and draws no box until the view returns, as today's sheet did. The component's decision 8, drawing while reconnecting, needs the windows in a stale view | Frontend |
 | P3 (new) | Frontend's earlier development captures (`apps/game/dev/phone/capture.mjs`, `round-order-capture.mjs`, `food-ordinary-compare.mjs`) look for the old navigation and Panels buttons, which the shell connection had already removed. None runs in CI; they are not changed here | Frontend |
 
 ## Behaviour changes, for Frontend's review
@@ -642,7 +664,7 @@ The connection works around none of these by inventing data. Where it holds this
   - this room's windows with this player's room first, each drawing's line with its author's name ("1 · Crew 1 · Round 6"), "Unverified", or "Can’t be changed" for this player's own; until now "1. Player 8 · Round 3";
   - at a station, that window only, the drawing box with the pack's four inks, Undo and Clear, and Show in one tap; until now a colour picker, a width list, two buttons and a second step;
   - the drawing being made is kept when the sheet closes and opens again, in its round, at its window and place; until now it went whenever the panel changed. It still goes when the sheet shuts while a Show of it is under way;
-  - after Show, the drawing with its SHOWN stamp and Done; "No window is visible from your current location." in the pack's waiting block.
+  - after Show, the drawing with its SHOWN stamp and Done, with the focus on Done; "No window is visible from your current location." in the pack's waiting block.
 - **A Promise being drafted when the talk ends** closes with the shell's toast, "That phase closed · choices cleared", once, as a choice does; until now the sheet closed without a word.
 - **A seat with no name** reads "Player 5" with a no-break space, so the number never starts a line (the Lead's polish, approved by the owner on 18 November).
 
@@ -654,7 +676,7 @@ The connection works around none of these by inventing data. Where it holds this
   - R1 to R7, Promises' gaps. R1 means no Jail Vote Promise can be sent until Frontend's check is fixed: the Lead posted it on #222. R2's fix, with A3's, is an earlier step; how long its words hold is the Lead's answer of 18 November (R7), and R6 and R7 are new for #222, which the Lead posts;
   - the `closed` state of #307's check, which this branch doubles as #307 now does `pass`, `actions` and `course` (for #307 to take: the Bars & Icons builder's since 18 November);
   - the empty "Outcome unknown" when this phone did not see the send (A4): a model change, or a type-less specimen ("Your action was sent, …"), which would be new words for the Lead and the owner;
-- **For the Bars & Icons builder:** after Show, the focused Show button gives way to Done, and the focus goes back to the Panels tab, the control that opened the sheet, as the shell's contract has it for a control that leaves. Whether a footer action replaced in the same sheet should keep the focus in the footer is the shell's call.
+- **The Bars & Icons builder's focus rule** (#307's `680237e4`, merged at `336369cf`): done. After Show the focus is on Done (`windows-keyboard-show`), and a panel page's Back lands on the Panels sheet's Close (`panels-back-focus`), both by the keyboard. The better landing for Back, the row that opened the page, is the Bars & Icons builder's and mine to do later (the Lead).
 - **For Integration:**
   - the four fence hunks, Actions', the Panels tab's, Promises' and Windows';
   - the fence not seeing `play-parts.css`'s `@import`;
