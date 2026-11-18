@@ -1,6 +1,6 @@
 # Panels: Designer's runtime component
 
-**Version:** `panels-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on #296, with the Lead's seven answers below, against the phone shell 0.2.6. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
+**Version:** `panels-0.1.0`. **Status (16 November 2026):** built to the interface the Lead Designer approved on #296, with the Lead's seven answers below, against the phone shell 0.2.6. **Since 18 November** it is on the phone shell 0.2.12 and kit 0.8.2 (#265 at `5616928e`, merged at `58c38232`), and it looks and reads as before; it belongs to the Designer's Gameplay UI builder. Built without waiting for Frontend (the owner's 16 November decision, `docs/design/owner-decisions.md`, #280). It does not activate a native interface: that is Frontend's PR, under the phone merge gate.
 
 **What it is:** the Panels tab's sheets, as sheet 32 draws them: the Panels list, Players and Round order. It covers #222 items 29, 30 and 31 (P3):
 - **Panels:** "each row says what it shows and who can use it".
@@ -77,8 +77,8 @@ Designer's, runtime-safe, in `design/phone-ui/components/panels/`:
 The tool is `design/tools/panels-check.mjs`, on the shared `lib/component-check.mjs`. The test is `packages/design-tokens/test/panels.test.mjs`.
 
 **Uses unchanged:**
-- **The kit (0.5.1):** `list` and `row` (the icon tile, the portrait as the lead, the chevron, a non-interactive `div` row), `pill` (the badges, `paper` with the captain and officer icons), `portrait`, `groupNote`, and the control policy.
-- **The phone shell (0.2.6):** its sheet, opened by Frontend; the component does not import the shell.
+- **The kit (0.8.2; built on 0.5.1):** `list` and `row` (the icon tile, the portrait as the lead, the chevron, a non-interactive `div` row), `pill` (the badges, `paper` with the captain and officer icons), `portrait`, `groupNote`, and the control policy.
+- **The phone shell (0.2.12; built on 0.2.6):** its sheet, opened by Frontend; the component does not import the shell.
 
 ## Mount, update and dispose
 
@@ -147,7 +147,8 @@ The agreement draws the frozen pack's `panels`, `players` and `rules` screens be
 
 `node design/tools/panels-check.mjs` bundles the preview with Vite and serves it with the production headers. It captures 8 states at 390 × 844 and 430 × 932: the list as a passenger, the list as the Captain, no window, Players, Fay and Ike in Jail (Dev, the viewer, stays in Room A, the room behind the sheet), Round order, reconnecting, and Players at the Largest text, each with the Panels tab open. Then it runs the probe (as the page comes and with the device's Reduce motion) and the agreement.
 
-**Recorded against `b53f66be` (clean, with the shell 0.2.6):** 16 of 16 captures, the probe 19 of 19 checks (18 as the page comes, the motion check with the device's Reduce motion), and the agreement 7 of 7, with Round order's note recorded as absent, no unexpected policy report and no page problem. The headers' SHA-256 is `424e5dec…`. The record is `review/check.json`.
+**Recorded against `58c38232` (clean, with the shell 0.2.12 and kit 0.8.2, #265 at `5616928e`):** 16 of 16 captures, the probe 19 of 19 checks (18 as the page comes, the motion check with the device's Reduce motion), and the agreement 7 of 7, with Round order's note recorded as absent, no unexpected policy report and no page problem. The headers' SHA-256 is `424e5dec…`. The record is `review/check.json`.
+- **Against the record on `b53f66be`** (shell 0.2.6, kit 0.5.1): every recorded field of the 16 captures, the probe's 19 checks and the agreement's 7 is the same, but for the bundle's file name in the known Zod report. 6 captures are byte for byte the same: Players, players in Jail and the Largest text, at both sizes. The other 10 differ only in the room behind the sheet, a crew member's ambient motion, in one area of at most 87 × 78 pixels; the sheet itself is unchanged.
 
 ## Not in this version
 
