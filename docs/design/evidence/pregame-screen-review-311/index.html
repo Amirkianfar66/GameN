@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pack and build</title>
+<style>
+  :root { --bg: #0b0e14; --panel: #121722; --ink: #f4ebdd; --muted: #a9b1be; --amber: #f1b84b; --same: #7ed3a2; --close: #93b7e6; --differs: #ff9576; --line: #263042; }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  header, main { max-width: 1340px; margin: 0 auto; padding: 16px; }
+  h1 { margin: 8px 0 4px; font-size: 22px; }
+  header p { margin: 4px 0; color: var(--muted); }
+  h2 { color: var(--amber); font-size: 18px; margin: 28px 0 12px; }
+  .pairs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr)); gap: 22px; }
+  .pair { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px; min-width: 0; }
+  h3 { margin: 0 0 6px; font-size: 16px; }
+  .sheet { color: var(--muted); font-weight: 400; font-size: 13px; }
+  .sides { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  figure { margin: 0; min-width: 0; }
+  img { display: block; width: 100%; height: auto; border-radius: 6px; background: #000; }
+  figcaption { color: var(--muted); font-size: 12px; margin-top: 4px; }
+  .missing div { aspect-ratio: 390 / 844; display: grid; place-items: center; padding: 12px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 6px; font-size: 13px; }
+  .finding { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
+  .finding b { margin-right: 4px; }
+  .when { color: var(--muted); }
+  [data-v=same] { color: var(--same); } [data-v=close] { color: var(--close); } [data-v=differs] { color: var(--differs); }
+  details { margin-top: 8px; font-size: 12px; color: var(--muted); }
+  code { word-break: break-all; color: var(--ink); }
+  .failed { color: var(--differs); }
+  body.sheet-mode details, body.sheet-mode .earlier, body.sheet-mode .note { display: none; }
+  section.stage { display: flow-root; }
+  body.sheet-mode section.stage { padding: 4px 16px 16px; }
+  body.sheet-mode .pairs { grid-template-columns: repeat(3, 1fr); }
+</style>
+</head>
+<body>
+<header><p><strong>Lead Designer acceptance is still pending in PR #314.</strong> <a style="color:#f1b84b" href="README.md">Read the scoped handoff and provenance limits</a>.</p><p>The pack has no exact refusal or Ready-pending fixture. Existing reference states are shown unchanged; their additional feedback is identified below. Integrated screenshots are reused, not recaptured.</p>
+  <h1>Screen Designer · pack and integrated screens</h1>
+  <p>10 parts · 0 same · 10 close · 0 differs, as Screen Designer found them on 18 November 2026</p>
+  <p>The pack: <code>9347a9c61faa483f9eda275270cffdff2b160c3d</code>. The build: <code>39961a807d811aa2efb177f888302da17f0c2431</code>. 390 × 844 and 430 × 932; pack at 1× pixels, reused app captures at their recorded scale. Pack safe areas 47/34 px, app harness none.</p>
+  <p>Desktop Chromium with sample matches on both sides: not a phone, a live match, VoiceOver or motion.</p>
+</header>
+<main>
+  <section class="stage" data-stage="start">
+    <h2>Start: menu, hosting, joining</h2>
+    <div class="pairs">
+      <article class="pair" id="recover-390x844">
+        <h3>Recover a seat · 390x844 <span class="sheet">sheet 14</span></h3>
+        <p class="finding current"><span class="when">18 November 2026:</span> <b data-v="close">Close</b> <span class="note">The recovered-seat confirmation, check tile, words and Continue match the pack composition at both sizes. Seat 6 is fixture data. The known absent code-length hint is G4; the server and Frontend retain recovery authority. Pack reference: Seat recovered, the pack fixture seat.</span></p>
+        <div class="sides"><figure><img src="pack/390x844-recover-pack.jpg" alt="The pack" width="390" height="844"><figcaption>The pack</figcaption></figure><figure><img src="../../../frontend/evidence/pregame-connection-311/guarded/390x844-recovered.jpg" alt="The build" width="390" height="844"><figcaption>The build</figcaption></figure></div>
+        
+        <p class="finding earlier"><span class="when">11 November 2026:</span> <b data-v="close">Close</b> <span class="note">The same two fields. The line saying the host makes the code, and that it never appears on the shared display, is missing.</span></p>
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=recover&amp;state=success&amp;safe=47%2C34</code></p>
+          <p>The build: <code>Original local origin not retained. Reproduction route: /?test=recover-retry</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="recover-430x932">
+        <h3>Recover a seat · 430x932 <span class="sheet">sheet 14</span></h3>
+        <p class="finding current"><span class="when">18 November 2026:</span> <b data-v="close">Close</b> <span class="note">The recovered-seat confirmation, check tile, words and Continue match the pack composition at both sizes. Seat 6 is fixture data. The known absent code-length hint is G4; the server and Frontend retain recovery authority. Pack reference: Seat recovered, the pack fixture seat.</span></p>
+        <div class="sides"><figure><img src="pack/430x932-recover-pack.jpg" alt="The pack" width="430" height="932"><figcaption>The pack</figcaption></figure><figure><img src="../../../frontend/evidence/pregame-connection-311/guarded/430x932-recovered.jpg" alt="The build" width="430" height="932"><figcaption>The build</figcaption></figure></div>
+        
+        <p class="finding earlier"><span class="when">11 November 2026:</span> <b data-v="close">Close</b> <span class="note">The same two fields. The line saying the host makes the code, and that it never appears on the shared display, is missing.</span></p>
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=recover&amp;state=success&amp;safe=47%2C34</code></p>
+          <p>The build: <code>Original local origin not retained. Reproduction route: /?test=recover-retry</code></p>
+          
+        </details>
+      </article>
+    </div>
+  </section>
+  <section class="stage" data-stage="pregame">
+    <h2>Before Round 1</h2>
+    <div class="pairs">
+      <article class="pair" id="characters-390x844">
+        <h3>Character selection · 390x844 <span class="sheet">sheet 16</span></h3>
+        <p class="finding current"><span class="when">18 November 2026:</span> <b data-v="close">Close</b> <span class="note">The timer is in the header, the grid and footer retain the pack composition, and the server refusal uses the existing shell toast. Taken seats differ with the fixture. The 430 capture catches the toast during its fade; this is still evidence, not a motion-readability measurement. Pack reference: Open grid. The pack has no server-refusal fixture; the integrated toast is additional receipt feedback.</span></p>
+        <div class="sides"><figure><img src="pack/390x844-characters-pack.jpg" alt="The pack" width="390" height="844"><figcaption>The pack</figcaption></figure><figure><img src="../../../frontend/evidence/pregame-connection-311/guarded/390x844-character-refusal.jpg" alt="The build" width="390" height="844"><figcaption>The build</figcaption></figure></div>
+        
+        <p class="finding earlier"><span class="when">11 November 2026:</span> <b data-v="close">Close</b> <span class="note">The 3 × 3 grid, taken characters greyed, the 30-second rule. The timer is small text under the grid instead of in the header.</span></p>
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=choose&amp;state=open&amp;safe=47%2C34</code></p>
+          <p>The build: <code>Original local origin not retained. Reproduction route: /?test=refused-choice</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="role-ready-390x844">
+        <h3>Ready, at 30 s · 390x844 <span class="sheet">sheet 17</span></h3>
+        <p class="finding current"><span class="when">18 November 2026:</span> <b data-v="close">Close</b> <span class="note">The pending Ready state uses the existing card back and busy control at both sizes; the privacy cue and footer remain visible. The kit intentionally refuses non-interactive controls without dimming, so Show role&#39;s appearance alone does not mean it is offered. Ready settlement remains Frontend/server-owned; G7 facts stay null. Pack reference: Existing concealed card after the interval. The pack has no Ready-pending fixture; the integrated busy button is additional request feedback.</span></p>
+        <div class="sides"><figure><img src="pack/390x844-role-ready-pack.jpg" alt="The pack" width="390" height="844"><figcaption>The pack</figcaption></figure><figure><img src="../../../frontend/evidence/pregame-connection-311/guarded/390x844-ready-pending.jpg" alt="The build" width="390" height="844"><figcaption>The build</figcaption></figure></div>
+        
+        <p class="finding earlier"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">Ready works, under the text box. The design shows the card with “Hide your phone, then tap Ready”.</span></p>
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=role&amp;t=30000&amp;state=concealed&amp;safe=47%2C34</code></p>
+          <p>The build: <code>Original local origin not retained. Reproduction route: /?test=films</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="characters-430x932">
+        <h3>Character selection · 430x932 <span class="sheet">sheet 16</span></h3>
+        <p class="finding current"><span class="when">18 November 2026:</span> <b data-v="close">Close</b> <span class="note">The timer is in the header, the grid and footer retain the pack composition, and the server refusal uses the existing shell toast. Taken seats differ with the fixture. The 430 capture catches the toast during its fade; this is still evidence, not a motion-readability measurement. Pack reference: Open grid. The pack has no server-refusal fixture; the integrated toast is additional receipt feedback.</span></p>
+        <div class="sides"><figure><img src="pack/430x932-characters-pack.jpg" alt="The pack" width="430" height="932"><figcaption>The pack</figcaption></figure><figure><img src="../../../frontend/evidence/pregame-connection-311/guarded/430x932-character-refusal.jpg" alt="The build" width="430" height="932"><figcaption>The build</figcaption></figure></div>
+        
+        <p class="finding earlier"><span class="when">11 November 2026:</span> <b data-v="close">Close</b> <span class="note">The 3 × 3 grid, taken characters greyed, the 30-second rule. The timer is small text under the grid instead of in the header.</span></p>
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=choose&amp;state=open&amp;safe=47%2C34</code></p>
+          <p>The build: <code>Original local origin not retained. Reproduction route: /?test=refused-choice</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="role-ready-430x932">
+        <h3>Ready, at 30 s · 430x932 <span class="sheet">sheet 17</span></h3>
+        <p class="finding current"><span class="when">18 November 2026:</span> <b data-v="close">Close</b> <span class="note">The pending Ready state uses the existing card back and busy control at both sizes; the privacy cue and footer remain visible. The kit intentionally refuses non-interactive controls without dimming, so Show role&#39;s appearance alone does not mean it is offered. Ready settlement remains Frontend/server-owned; G7 facts stay null. Pack reference: Existing concealed card after the interval. The pack has no Ready-pending fixture; the integrated busy button is additional request feedback.</span></p>
+        <div class="sides"><figure><img src="pack/430x932-role-ready-pack.jpg" alt="The pack" width="430" height="932"><figcaption>The pack</figcaption></figure><figure><img src="../../../frontend/evidence/pregame-connection-311/guarded/430x932-ready-pending.jpg" alt="The build" width="430" height="932"><figcaption>The build</figcaption></figure></div>
+        
+        <p class="finding earlier"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">Ready works, under the text box. The design shows the card with “Hide your phone, then tap Ready”.</span></p>
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=role&amp;t=30000&amp;state=concealed&amp;safe=47%2C34</code></p>
+          <p>The build: <code>Original local origin not retained. Reproduction route: /?test=films</code></p>
+          
+        </details>
+      </article>
+    </div>
+  </section>
+  <section class="stage" data-stage="panels">
+    <h2>Panels and Promises</h2>
+    <div class="pairs">
+      <article class="pair" id="settings-390x844">
+        <h3>Settings (⋮) · 390x844 <span class="sheet">sheet 32</span></h3>
+        <p class="finding current"><span class="when">18 November 2026:</span> <b data-v="close">Close</b> <span class="note">The integrated host Settings sheet shows the released switch, size selector, local-only note and Host controls row at both sizes. Existing clean-runtime captures are reused with their exact hashes. The non-host 390 comparison and the host captures show different audience inputs, not an omitted row. Pack reference: Settings with the host-only row.</span></p>
+        <div class="sides"><figure><img src="pack/390x844-settings-pack.jpg" alt="The pack" width="390" height="844"><figcaption>The pack</figcaption></figure><figure><img src="settings/390x844-settings.jpg" alt="The build" width="780" height="1688"><figcaption>The build</figcaption></figure></div>
+        
+        <p class="finding earlier"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">A checkbox and a drop-down under a folded line. The design has a switch with its explanation and Standard / Large / Largest.</span></p>
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=settings&amp;host=1&amp;safe=47%2C34</code></p>
+          <p>The build: <code>Original local origin not retained. Reproduction route: /?scenario=board&amp;count=9&amp;tuple=phone</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="settings-430x932">
+        <h3>Settings (⋮) · 430x932 <span class="sheet">sheet 32</span></h3>
+        <p class="finding current"><span class="when">18 November 2026:</span> <b data-v="close">Close</b> <span class="note">The integrated host Settings sheet shows the released switch, size selector, local-only note and Host controls row at both sizes. Existing clean-runtime captures are reused with their exact hashes. The non-host 390 comparison and the host captures show different audience inputs, not an omitted row. Pack reference: Settings with the host-only row.</span></p>
+        <div class="sides"><figure><img src="pack/430x932-settings-pack.jpg" alt="The pack" width="430" height="932"><figcaption>The pack</figcaption></figure><figure><img src="settings/430x932-settings.jpg" alt="The build" width="860" height="1864"><figcaption>The build</figcaption></figure></div>
+        
+        <p class="finding earlier"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">A checkbox and a drop-down under a folded line. The design has a switch with its explanation and Standard / Large / Largest.</span></p>
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=settings&amp;host=1&amp;safe=47%2C34</code></p>
+          <p>The build: <code>Original local origin not retained. Reproduction route: /?scenario=board&amp;count=9&amp;tuple=phone</code></p>
+          
+        </details>
+      </article>
+    </div>
+  </section>
+  <section class="stage" data-stage="system">
+    <h2>Host and connection</h2>
+    <div class="pairs">
+      <article class="pair" id="host-controls-390x844">
+        <h3>Host controls in a match · 390x844 <span class="sheet">sheet 15</span></h3>
+        <p class="finding current"><span class="when">18 November 2026:</span> <b data-v="close">Close</b> <span class="note">The sheet title, privacy cue, code card, note and Reveal/Copy footer follow the released component at both sizes. Whole mask groups wrap to two lines at 390 and one at 430. No expiry is shown under G4. The repeated shared refusal is a separate non-blocking proposal; supplemental real-largest scrolled captures show the complete code with intact groups. Pack reference: Code hidden. The accepted 0.1.2 group wrapping and G4 absent expiry differ from this historical pack.</span></p>
+        <div class="sides"><figure><img src="pack/390x844-host-controls-pack.jpg" alt="The pack" width="390" height="844"><figcaption>The pack</figcaption></figure><figure><img src="../../../frontend/evidence/pregame-connection-311/guarded/390x844-host-code.jpg" alt="The build" width="780" height="1688"><figcaption>The build</figcaption></figure></div>
+        
+        <p class="finding earlier"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">Inside Settings, as “Check server deadline”, “Run eligible bots” and “Issue recovery for Player 6”. The design has its own sheet in plain words with a code for each seat.</span></p>
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=host-controls&amp;state=code&amp;safe=47%2C34</code></p>
+          <p>The build: <code>Original local origin not retained. Reproduction route: /?scenario=board&amp;count=9&amp;tuple=phone</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="host-controls-430x932">
+        <h3>Host controls in a match · 430x932 <span class="sheet">sheet 15</span></h3>
+        <p class="finding current"><span class="when">18 November 2026:</span> <b data-v="close">Close</b> <span class="note">The sheet title, privacy cue, code card, note and Reveal/Copy footer follow the released component at both sizes. Whole mask groups wrap to two lines at 390 and one at 430. No expiry is shown under G4. The repeated shared refusal is a separate non-blocking proposal; supplemental real-largest scrolled captures show the complete code with intact groups. Pack reference: Code hidden. The accepted 0.1.2 group wrapping and G4 absent expiry differ from this historical pack.</span></p>
+        <div class="sides"><figure><img src="pack/430x932-host-controls-pack.jpg" alt="The pack" width="430" height="932"><figcaption>The pack</figcaption></figure><figure><img src="../../../frontend/evidence/pregame-connection-311/guarded/430x932-host-code.jpg" alt="The build" width="860" height="1864"><figcaption>The build</figcaption></figure></div>
+        
+        <p class="finding earlier"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">Inside Settings, as “Check server deadline”, “Run eligible bots” and “Issue recovery for Player 6”. The design has its own sheet in plain words with a code for each seat.</span></p>
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>http://127.0.0.1:59614/design/phone-ui/prototype/index.html?s=host-controls&amp;state=code&amp;safe=47%2C34</code></p>
+          <p>The build: <code>Original local origin not retained. Reproduction route: /?scenario=board&amp;count=9&amp;tuple=phone</code></p>
+          
+        </details>
+      </article>
+    </div>
+  </section>
+</main>
+<script>if (new URLSearchParams(location.search).has('sheet')) document.body.classList.add('sheet-mode');</script>
+</body>
+</html>

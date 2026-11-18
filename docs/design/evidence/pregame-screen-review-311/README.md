@@ -4,12 +4,15 @@
 
 I found no new blocking visual discrepancy in the five reviewed parts at **390 × 844** and **430 × 932**. Their existing canonical components can stay as released. This is the Screen Designer's assessment, **not the Claude Lead Designer's required acceptance** of [#314](https://github.com/Amirkianfar66/GameN/pull/314). The shared-reason change remains a proposal; the missing scrolled Host code evidence is supplied below.
 
+[Open all ten pack/app pairs](index.html) · [comparison and image provenance](compare.json). This supplements the original comparison using its existing page renderer and the reused app images. The pack's reference screens were rendered at both sizes without changing the frozen prototype. The pack has no exact server-refusal or Ready-pending fixture; the closest existing states and those limits are labeled in each pair.
+
 ## Candidate and evidence limits
 
 - PR #314 head: `a5a6cdffa913c8a08248f7e02f5f48fc1944ced6`; runtime: `39961a807d811aa2efb177f888302da17f0c2431`.
 - Base: #308 at `5f36e3f57561e967d1acdaa81f9ea0eccdec8d34`. The runtime-to-head diff adds evidence only. The canonical components, shared kit/shell, icons, tokens, films and release assets are unchanged from that base.
 - Integrated artwork: `64e55516d2f0026842c5c2a675f2eccda20e0a9e`. The [original comparison record](../../../frontend/evidence/pregame-connection-311/comparison/compare.json) identifies both the pack and clean build at `39961a80`.
 - The five original pack/build pairs are **390 × 844 only**, on the comparison server's own headers. Their `was` findings date from 11 November and their `now` values are null. [This review's findings](findings.json) are separate; historical findings have not been overwritten.
+- The new [pack-side record](pack/pack-check.json) supplies all five reference states at both sizes under production headers, including actual local URLs. Its clean source is `9347a9c6`; the frozen pack and artwork trees are unchanged from #314. No pending/refusal fixture was invented for the pack.
 - The eight [guarded interaction captures](../../../frontend/evidence/pregame-connection-311/README.md) match all eight recorded SHA-256 values. The two Settings captures below come from Frontend's original phone-checker run on the **same clean runtime**, not the older `5d35f110` images committed under the design review directory. Both hashes match the original record.
 - Guarded captures use the staging response headers, hash `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`. [Original values](../../../frontend/evidence/pregame-connection-311/checks.json) · [selected original Settings record](settings-check.json). The known caught Zod feature probe is classified in that record; no unexpected policy report or page problem is recorded for Settings.
 - The pack includes 47 px/34 px safe areas; the integrated phone harness has none. Fixture seats, characters, rooms and role facts differ as documented in G1–G18 of [the existing connection handoff](../../components/pregame-connection.md). Those differences are not new screen designs.
@@ -27,7 +30,7 @@ I found no new blocking visual discrepancy in the five reviewed parts at **390 �
 | `settings`, sheet 32, Settings · host | Switch, three text sizes, local-only note and Host controls row fit and align. The comparison's non-host state correctly omits the Host row; the reused host captures include it. | [390](settings/390x844-settings.jpg) · [430](settings/430x932-settings.jpg) |
 | `host-controls`, sheet 15, list / Code · hidden | Separate sheet, privacy cue, code card, note and footer use the released source. Hidden code wraps only between groups: two lines at 390, one at 430. The missing expiry remains G4. Closing/concealing cleanup is supported by Frontend's recorded journey, not by a still alone. | [390](../../../frontend/evidence/pregame-connection-311/guarded/390x844-host-code.jpg) · [430](../../../frontend/evidence/pregame-connection-311/guarded/430x932-host-code.jpg) |
 
-The reference sheets inspected are 14, 15, 16, 17, 18 and 32 under `design/phone-ui/review/sheets/`, together with all five original comparison pairs. The guarded captures at each size were inspected directly. No new artwork, wording or layout exception is proposed for these five changes.
+The reference sheets inspected are 14, 15, 16, 17, 18 and 32 under `design/phone-ui/review/sheets/`, together with all five original comparison pairs and the supplemental pack references. The guarded captures at each size were inspected directly. No new artwork, wording or layout exception is proposed for these five changes.
 
 ## One file-specific handoff to Frontend
 
@@ -56,14 +59,15 @@ Each mount keeps its existing `update`/`dispose` contract. Frontend continues ow
 
 ## Supplemental check and validation
 
-`design/tools/host-controls-scroll-check.mjs` is the only new source tool. It bundles the existing Host controls preview, verifies the actual served headers, scrolls only the sheet body, asserts that the complete real-format code fits, and records source/tree identities, URLs, measurements and image hashes. Its clean capture source is `ab0d4dec`; only the tool differs from #314, and the recorded component/art trees remain the candidate's. The 47 px/34 px safe areas and synthetic 15-minute preview value are fixture inputs, not new game-side fields.
+`design/tools/host-controls-scroll-check.mjs` bundles the existing Host controls preview, verifies the actual served headers, scrolls only the sheet body, asserts that the complete real-format code fits, and records source/tree identities, URLs, measurements and image hashes. Its clean capture source is `ab0d4dec`; only that tool differs from #314, and the recorded component/art trees remain the candidate's. The 47 px/34 px safe areas and synthetic 15-minute preview value are fixture inputs, not new game-side fields. The other new tool, `design/tools/pregame-screen-pack-check.mjs`, captures only the five existing pack references at both sizes; it does not run or modify the app.
 
 From a clean checkout with the workspace built:
 
 ```sh
 node design/tools/host-controls-scroll-check.mjs --out /private/tmp/gamen-host-controls-scroll-review
+node design/tools/pregame-screen-pack-check.mjs --out /private/tmp/gamen-pregame-pack-review
 ```
 
 The output directory must be outside the checkout during capture. The tool leaves historical review files unchanged. Its preview evidence supplements the real-app captures; it does not replace them.
 
-Checks run for this change: Node 22.21.1 / npm 10.9.4; offline dependency install with lifecycle scripts skipped; workspace build; pure/browser typecheck; Host controls' nine existing tests; the new supplemental check (2/2); syntax and whitespace checks. The eight guarded hashes and both reused Settings hashes were independently checked. The 20-state phone checker and original session journeys were **reused, not rerun**. No film, gameplay, adapter, shared visual source, release registry or deployment was changed.
+Checks run for this change: Node 22.21.1 / npm 10.9.4; offline dependency install with lifecycle scripts skipped; workspace build; pure/browser typecheck; Host controls' nine existing tests; the scrolled-code check (2/2); the pack capture check (10/10); syntax and whitespace checks. The eight guarded hashes and both reused Settings hashes were independently checked. The 20-state phone checker and original session journeys were **reused, not rerun**. No film, gameplay, adapter, shared visual source, release registry or deployment was changed.
