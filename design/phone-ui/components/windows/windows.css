@@ -31,6 +31,9 @@
 .ms-windows .ms-wn-pad { touch-action: none; cursor: crosshair; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
 .ms-windows .ms-wn-pad:focus { outline: none; }
 .ms-windows .ms-wn-pad:focus-visible { outline: 3px solid #FFD36D; outline-offset: 2px; }
+/* A focus the pointer gave the box shows no ring, even after keyboard use: never while a finger draws (the Lead,
+   18 November). The box's next key takes the mark away. */
+.ms-windows .ms-wn-pad[data-pointer]:focus-visible { outline: none; }
 .ms-windows .ms-wn-pen { display: none; }
 .ms-windows .ms-wn-pad[data-pen] .ms-wn-pen { display: inline; }
 

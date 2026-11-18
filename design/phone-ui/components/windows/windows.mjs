@@ -26,7 +26,7 @@
 
 import { createControlPolicy, createKit } from '../kit/kit.mjs';
 
-export const WINDOWS_VERSION = 'windows-0.1.0';
+export const WINDOWS_VERSION = 'windows-0.1.1';
 const VIEWS = Object.freeze(['windows', 'shown']);
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 /** The sheet's id, the same for every view, so the shell keeps its body (and this content) through them. */
@@ -478,6 +478,9 @@ export function mountWindows(host, input = {}, handlers = {}) {
     pad.addEventListener('pointerdown', e => {
       if (!accepts() || pointer !== null || (e.pointerType === 'mouse' && e.button !== 0)) return;
       e.preventDefault();
+      // A focus the pointer gives the box shows no ring, whatever the last input was (the Lead, 18 November): the
+      // box marks it, and its next key or a blur takes the mark away, so the keyboard shows the ring again.
+      pad.dataset.pointer = '';
       pad.focus({ preventScroll: true });
       penOn = false;
       if (!begin(pointOf(pad, e))) { paintLive(); return; }
@@ -493,6 +496,7 @@ export function mountWindows(host, input = {}, handlers = {}) {
     const end = e => { if (e.pointerId !== pointer) return; pointer = null; if (accepts()) finish(); else drop(); };
     for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) pad.addEventListener(type, end);
     pad.addEventListener('keydown', e => {
+      delete pad.dataset.pointer;
       if (!accepts()) return;
       const dx = e.key === 'ArrowRight' ? KEY_STEP : e.key === 'ArrowLeft' ? -KEY_STEP : 0;
       const dy = e.key === 'ArrowDown' ? KEY_STEP : e.key === 'ArrowUp' ? -KEY_STEP : 0;
@@ -512,7 +516,7 @@ export function mountWindows(host, input = {}, handlers = {}) {
       }
     });
     pad.addEventListener('keyup', e => { if (e.key === 'Shift' && pointer === null) finish(); });
-    pad.addEventListener('blur', () => { if (pointer === null) finish(); penOn = false; paintLive(); });
+    pad.addEventListener('blur', () => { delete pad.dataset.pointer; if (pointer === null) finish(); penOn = false; paintLive(); });
   }
 
   const onClick = event => {
