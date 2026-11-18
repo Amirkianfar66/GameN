@@ -8,7 +8,7 @@
 >
 > 15. **Hacker: final Code** (sheet 42): the nine portraits with names, marked Pick 1–4, instead of nine "Player n" buttons.
 
-**Stacked on Actions (#273),** as the private talk (#293) is, at `a3c08123` (`actions-0.2.1`, with Move and the Hospital panel's "Outcome unknown"), which carries the phone shell at `bb567d7e` (`phone-shell-0.2.9`, `component-kit-0.8.0`). The Lead kept this base: the results were to be play-parts' notice, which is on Actions' branch, and a branch is not rewritten. Since kit 0.7.0 the notice is the kit's, so the component is built on the kit alone and imports neither Actions nor play-parts.
+**Stacked on Actions (#273),** as the private talk (#293) is, at `05fab266` (`actions-0.2.5`, with a refused command's words in the open check), which carries the phone shell at `5616928e` (`phone-shell-0.2.12`, `component-kit-0.8.2`). The Lead kept this base: the results were to be play-parts' notice, which is on Actions' branch, and a branch is not rewritten. Since kit 0.7.0 the notice is the kit's, so the component is built on the kit alone and imports neither Actions nor play-parts.
 
 ## The pack's eight frames
 
@@ -29,8 +29,8 @@ Sheet 42 draws five of them. The pack's code draws all eight, and the agreement 
 
 - **The phone shell** (#265): the sheet's frame (title, sub, no ✕, the large detent for the Code), its footer with each button's busy state and the local actions, the target bar with its Cancel (T2), the reconnecting banner. This component fills the sheet's body and gives the frame's words.
 - **The room scene** (#261): the rings on the people Scan reaches and on the one picked (`targets: { seats, picked }`), as Actions' targets.
-- **The kit** (`component-kit-0.8.0`): who (the target's 64 px portrait and words), the cells and the 3 × 3 (the Vote ballot's), the segmented control, the stamp, the row and list, the group note, the inline error, the control policy, and the notice (0.7.0, from my parts module), which draws the four results, with Scan's row as its `extra`. The shell draws the buttons.
-- **Actions** (`actions-0.2.1`): the Scan and Final Code tiles start them, and its `targetBar()` refuses both, naming this component's helpers. Sheet 45's "Outcome unknown" (`mountOutcomeUnknown`) says when no answer came: "Scan Gus was sent, but no answer came back." and "Final Code was sent, but no answer came back."
+- **The kit** (`component-kit-0.8.2`): who (the target's 64 px portrait and words), the cells and the 3 × 3 (the Vote ballot's), the segmented control, the stamp, the row and list, the group note, the inline error, the control policy, and the notice (0.7.0, from my parts module), which draws the four results, with Scan's row as its `extra`. The shell draws the buttons.
+- **Actions** (`actions-0.2.5`): the Scan and Final Code tiles start them, and its `targetBar()` refuses both, naming this component's helpers. Sheet 45's "Outcome unknown" (`mountOutcomeUnknown`) says when no answer came: "Scan Gus was sent, but no answer came back." and "Final Code was sent, but no answer came back."
 
 **Not in this component:**
 - Hack Spaceship, once unlocked: Actions' tile and its check (L7).
@@ -178,12 +178,12 @@ For the Lead. Nothing here changes the agreed interface:
   | Check | Result |
   | --- | --- |
   | `packages/design-tokens/test/hacker.test.mjs` | 8 of 8: the runtime-safe graph on the kit alone (no other component, no play-parts); every style scoped at two classes, with no colour of its own, the kit's parts placed only inside the component's own, and one motion, the results' stamp snap (120 ms, stopped by the game's and the device's Reduce motion; Q-a); the pinned pack unchanged; the pack's words and the decisions' additions, with "Scan stays available" the pack's and the component's again (the owner's decision); the inputs' checks, normalization and privacy rules; every preview state a valid input and the eight compared frames; the target bar and the sheets' frames; and the check's record, with Q-a's snap, CODE WRONG's two lines, no frame with anything taken out, and the hidden names leaving the page |
-  | `npm run test:design` | 409 of 409 |
+  | `npm run test:design` | 423 of 423 |
   | `npm run test:tooling` | 356 of 356 |
   | `npm run build`, `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
-- **`node design/tools/hacker-check.mjs`:** recorded on `6dc2f8be` (hacker-0.1.1, with #273's `a3c08123`, `actions-0.2.1` and shell 0.2.9, merged in), with the source clean.
+- **`node design/tools/hacker-check.mjs`:** recorded on `0ab741f5` (hacker-0.1.1, with #273's `05fab266`, `actions-0.2.5`, shell 0.2.12 and kit 0.8.2, merged in), with the source clean.
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy, through the shared `design/tools/lib/component-check.mjs`. The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the other components'. Each part is mounted in the shell's sheet body, over the room scene, as Frontend would.
   - **Captures:** 46 of 46 pass, each drawing what its state asks: the part, the sheet, its sub and footer and which buttons are off, the target bar and the people Scan reaches, who, the guesses and which is chosen, the picks and their order, "You", the seats not offered, the empty seat, the cells to a row, the line, the error, the stamp, the lines and the row, the banner, and the room's crew behind.
     - 20 states at 390 × 844 and 430 × 932;
@@ -204,7 +204,14 @@ For the Lead. Nothing here changes the agreed interface:
     - each result's stamp, tone, lines and row, with the row's icon and tint.
 
     Every frame is compared as the pack draws it, CODE WRONG with both its lines.
-  - **Against `61e60d97`'s record** (the same hacker-0.1.1, on #273's `7e82a999`):
+  - **Against `6dc2f8be`'s record** (the same hacker-0.1.1, on #273's `a3c08123`):
+    - No recorded field changed but the source commit, and the bundle's file name and column in the one known report, Zod's `eval` probe, caught: every capture draws what it drew, and the probe's 15 checks and the agreement's 8 pass as before.
+    - 38 of the 46 captures have no pixel that differs by more than 40 levels (4 of them byte for byte the same); the other 8 differ by at most 102 pixels, in the sending spinner's angle and the room's ambient motion.
+    - Nothing drawn here changes with:
+      - Actions 0.2.2 to 0.2.5: the Disabler's position bar, After Register's words, the fixed bar with no Cancel, and a refused command's words in the open check;
+      - shell 0.2.10 to 0.2.12: the phase bars' words, the text size changing in a match, and a final target bar;
+      - kit 0.8.1 and 0.8.2: the text size's rules, and a toast's words wrapping.
+  - **Before:** `6dc2f8be`. **Against `61e60d97`'s record** (the same hacker-0.1.1, on #273's `7e82a999`):
     - No recorded field changed but the source commit: every capture draws what it drew, and the probe's 15 checks and the agreement's 8 pass as before.
     - 40 of the 46 captures have no pixel that differs by more than 40 levels (3 of them byte for byte the same); the other 6 differ by at most 58 pixels, in the sending spinner's angle and the room's ambient motion.
     - Actions 0.2.1 (the Hospital panel's "Outcome unknown") and shell 0.2.9 (the target bar below the banner; at the Largest text, Cancel under the bar's words) change nothing drawn here.
