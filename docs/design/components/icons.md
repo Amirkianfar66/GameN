@@ -78,7 +78,7 @@ The test finds copies by what they hold, not from a list: any icons module, spri
 
 ## Exceptions
 
-The test finds an icon drawn inside a Designer component (`design/phone-ui/components/`, previews and reviews aside) by its size, not its look: a 24 × 24 viewBox, or one of the family's path strings, outside the source. Art is not flagged. One exception is listed:
+The test finds an icon drawn inside a Designer component (`design/phone-ui/components/`, previews and reviews aside) by its size, not its look: a 24 × 24 viewBox, or one of the family's path strings, outside the source. It reads each component's scripts, stylesheets and SVG files, its `assets/` folder included, so an icon shipped as a file is found too. Art is not flagged. One exception is listed:
 
 | Exception | Where | Why |
 | --- | --- | --- |
@@ -269,7 +269,7 @@ On each screen, every visible picture was listed and named by the custom propert
 `packages/design-tokens/test/icons.test.mjs`, in `npm run test:design`:
 - **The source is the family:** every icon has a name, a group, parts and the 24 grid.
 - **Every copy found by search agrees with the source:** the prototype, Food's copy, the sprite and the manifest today.
-- **A planted copy fails** when it redraws, adds or renames an icon, and passes when it holds fewer icons than the source. A copy under `design/releases/` is not checked.
+- **A planted copy fails** when it redraws, adds or renames an icon, or holds a sprite symbol the test cannot read. It passes when it holds fewer icons than the source. A copy under `design/releases/` is not checked.
 - **No Designer component draws an icon of its own.** The Voted badge is the one exception, and it must still be needed.
-- **A planted inline icon fails:** a 24 × 24 viewBox in markup, in `setAttribute` or in a CSS data-URI, or a family path string. Art and the Voted badge pass, and so does a preview.
+- **A planted inline icon fails:** a 24 × 24 viewBox in markup, in `setAttribute`, in a CSS data-URI or in an SVG file under `assets/`, or a family path string. Art and the Voted badge pass, and so does a preview.
 - **This page's table** has one row per icon, in the family's order, with its group, accessible name and line.
