@@ -101,7 +101,11 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  const calm=()=>{if(actionsRefusal(flow))flow=null;promises=withoutRefusal(promises);};
  // The shell's own element (its mount's `element`) holds its controls: the sheet's footer actions and the controls
  // the focus returns to are found there by their intents.
- const focusConfirm=()=>shell.element?.querySelector('[data-intent="sheet-action"]:is([data-value="register"],[data-value="confirm"])')?.focus({preventScroll:true});
+ // The confirm step's action, Actions' Register or the game's confirm, once that step is reached in a sheet that stays
+ // (renderUI). While the shell holds the focus on its root, a control of its own has just ended and the shell's hand-back
+ // follows this render: it goes first.
+ const focusConfirm=()=>{if(document.activeElement===shell.element)return;
+  shell.element?.querySelector('[data-intent="sheet-action"]:is([data-value="register"],[data-value="confirm"])')?.focus({preventScroll:true});};
  // Where the focus goes (the Lead Designer, 18 November 2026; shell-input.mjs shellSheetEntered() and shellSheetFocus()).
  // Another sheet opened or took the place of the one before: its title (`focusTitle`, at the shell's change, below),
  // unless a tab, the round button, Promises or the menu opened it and has the focus: that control keeps it. The same
@@ -323,7 +327,10 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   if(shellFrame)input.control=null;
   putBox(sceneHost,{left:0,top:0,...size});
   if(!scene){
-   scene=mountRoomScene(sceneHost,input,roomSceneHandlers({choose,openPanel,focusNext:focusConfirm}));
+   // The scene hands the focus back when its focused person or position goes: with a sheet open (the check a choice
+   // opened), to that sheet's title; otherwise as the shell's own hand-back goes, Cancel first while choosing. The
+   // jump to Register is gone (the Lead Designer, 18 November 2026).
+   scene=mountRoomScene(sceneHost,input,roomSceneHandlers({choose,openPanel,focusNext:()=>{if(shellFrame)focusTitle();else focusBack();}}));
    sceneKey=roomSceneKey(model);sceneInput=roomSceneInputKey(input);sceneRunning=true;syncSceneActivity();
   }else{const key=roomSceneInputKey(input);if(key!==sceneInput){sceneInput=key;scene.update(input);}}
   return sceneOverlay(input);

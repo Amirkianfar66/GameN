@@ -41,8 +41,16 @@
 //   windows-drawn, -shown, -done  two strokes drawn, no focus ring; Show sends one SHOW_WINDOW with them; SHOWN once the view has it; Done
 //   windows-finger              opened by a finger's taps, two strokes by a finger: no focus ring while drawing or after
 //   windows-view, windows-none  away from a station, the room's windows; in the Command Room, the game's own sentence
-//   windows-keyboard-show       Show by Enter: once Done takes its place, the focus is on Done (#307's focus rule)
-//   panels-back-focus           Players' Back by Enter: the Panels list, the focus on the sheet's Close (the same rule)
+//   windows-keyboard-show       Show by Enter: once Done takes its place in the same sheet, the focus is on Done (#307)
+//   panels-back-focus           Players' Back by Enter: the Panels list in the same sheet, the focus on its Close
+// A sheet that opens or takes another's place takes the focus on its title (#307's 12b9cb74, the Lead's rule of
+// 18 November), and a held Enter's repeats press nothing; with Chrome's own keys:
+//   windows-keyboard-open       the Panels tab, then the Windows row, by Enter: the Windows sheet's title
+//   tile-keyboard-check         the Actions tab, then the Engineer's tile, by Enter: the check's title, not Register
+//   board-target-keyboard       the Hacker's Move on the board, C1 by Enter: the check's title
+//   target-held-enter           Enter held on Crew 3: the check's title, nothing sent; Tab to Register, one Enter registers
+//   scene-press-gone            the turn moves on under the choice: the focus back on the Actions tab, not lost
+//   ballot-held-enter           the Captain vote, Enter held on Player 2: the focus on Vote, nothing sent; one Enter votes
 // And at 320 × 568 with the Largest text (the Lead's and the Bars & Icons builder's ask with shell 0.3.3):
 //   promise-incoming-largest    the partner's offer, the first game sheet the shell squeezes: its head and room
 //   promise-incoming-largest-accept   scrolled to Accept, which a tap at its place on the screen sends
@@ -173,6 +181,8 @@ const ACTIONS = '.ms-ps-sheet .ms-ps-sheet-body > .ms-actions';
 const TILE = type => `${ACTIONS} [data-intent="tile"][data-value="${type}"]`;
 const FOOT = id => `.ms-ps-sheet-foot [data-value="${id}"]`;
 const PRESS = seat => `.planet-stage .ms-rs-press[data-value="${seat}"]`;
+/** A name on the game's own ballot, in the open sheet's body (render.mjs rosterGrid). */
+const BALLOT_NAME = seat => `.ms-ps-sheet .planet-roster-cell[data-planet-action="choose"][data-value="${seat}"]`;
 const SLOT = id => `.planet-stage .ms-rs-slot[data-value="${id}"]`;
 const SHEET = id => `document.querySelector('.ms-ps-sheet')?.dataset.sheet===${JSON.stringify(id)}`;
 const PART = name => `document.querySelector(${JSON.stringify(ACTIONS)})?.dataset.part===${JSON.stringify(name)}`;
@@ -344,8 +354,26 @@ async function pressKey(page, key, code, vk, text) {
   await page.send('Input.dispatchKeyEvent', { type: 'keyDown', key, code, windowsVirtualKeyCode: vk, ...(text ? { text } : {}) });
   await page.send('Input.dispatchKeyEvent', { type: 'keyUp', key, code, windowsVirtualKeyCode: vk });
 }
+/**
+ * A key held down as the keyboard gives it (Chrome's own input): the first press, then, after the repeat delay, its
+ * repeats (`autoRepeat`, which the page sees as `event.repeat`), then the release.
+ */
+async function holdKey(page, key, code, vk, text, repeats, { delay = 500, interval = 35 } = {}) {
+  await page.send('Input.dispatchKeyEvent', { type: 'keyDown', key, code, windowsVirtualKeyCode: vk, ...(text ? { text } : {}) });
+  await sleep(delay);
+  for (let i = 0; i < repeats; i += 1) {
+    await page.send('Input.dispatchKeyEvent', { type: 'keyDown', key, code, windowsVirtualKeyCode: vk, autoRepeat: true, ...(text ? { text } : {}) });
+    await sleep(interval);
+  }
+  await page.send('Input.dispatchKeyEvent', { type: 'keyUp', key, code, windowsVirtualKeyCode: vk });
+}
 /** The focused control, as its intent and value ("sheet-action:done"), or its tag. */
 const FOCUSED = "(e=>e&&e!==document.body?[e.dataset?.intent??e.tagName.toLowerCase(),e.dataset?.value??''].join(':'):null)(document.activeElement)";
+/**
+ * Whether the open sheet's title has the focus: a sheet that opens or takes another's place puts it there (shell
+ * 0.3.4's focusable title, with no ring; the Lead, 18 November). The selector is shell-input.mjs's SHELL_SHEET_TITLE.
+ */
+const TITLE_FOCUSED = "!!document.activeElement?.matches?.('.ms-ps-sheet .ms-ps-sheet-title h2')";
 /** Whether the drawing box draws its focus ring now. */
 const RING = `(p=>{if(!p)return null;const st=getComputedStyle(p);return st.outlineStyle!=='none'&&parseFloat(st.outlineWidth)>0;})(document.querySelector(${JSON.stringify('.ms-ps-sheet .ms-ps-sheet-body > .ms-windows .ms-wn-pad')}))`;
 async function drawStroke(page, [x0, y0], [x1, y1]) {
@@ -478,7 +506,7 @@ const STATES = {
       const seen = await page.evaluate(LOOK);
       return { cancelToTiles: seen.model?.action === null && seen.commands.length === 0 && !seen.page.includes('Rescue Crew 3') };
     } },
-  'rescue-after': { page: 'phone', url: 'scenario=doctor', note: 'The ring on Done is where the script\'s clicks leave the focus, since #307\'s 680237e4 puts it into the sheet that took the place of the one closed. A real key shows it there; a real tap or click leaves none (the Bars & Icons builder\'s measurement in #307\'s app, 18 November).', steps: async page => {
+  'rescue-after': { page: 'phone', url: 'scenario=doctor', note: 'After Register takes the check\'s place, so the focus is on its title, which draws no ring (#307\'s 12b9cb74: a sheet that takes another\'s place takes the focus on its title; the Lead, 18 November). The ring on Done in the pictures recorded before came from the script\'s clicks.', steps: async page => {
       await STEPS.rescue(page);
       await page.evaluate(tap(PRESS('seat-3')));
       await page.waitFor(SHEET('action-check'), 'the check');
@@ -487,7 +515,8 @@ const STATES = {
     },
     // The handoff's words (the Lead, 17 November): Frontend's line for Rescue, with this phone's pick, and the
     // component's time line from the round the server reports; never the model's generic prompt.
-    facts: s => ({ frame: s.sheet?.title === 'Rescue' && foot(s) === 'done:Done', stamp: s.actions?.stamp === 'REGISTERED', headline: s.actions?.headline === 'Rescue of Crew 3 registered.',
+    extra: async page => ({ focused: await page.evaluate(FOCUSED), title: await page.evaluate(TITLE_FOCUSED) }),
+    facts: (s, looks, { focused, title }) => ({ infoFocused: focused, infoTitle: title, frame: s.sheet?.title === 'Rescue' && foot(s) === 'done:Done', stamp: s.actions?.stamp === 'REGISTERED', headline: s.actions?.headline === 'Rescue of Crew 3 registered.',
       detail: s.actions?.detail === 'This is not a result. Registered actions are resolved at the end of the round.',
       timeLine: JSON.stringify(s.actions?.timeline) === JSON.stringify([`Registered · Round ${s.model?.round} · your turn`, `End of Round ${s.model?.round} · Rescue is resolved, after the attacks`]),
       sent: s.commands.length === 1 && s.commands[0].type === 'RESCUE' && s.commands[0].targetSeatId === 'seat-3', nothingOnTarget: !s.stage.presses.length,
@@ -501,7 +530,7 @@ const STATES = {
       return { doneCloses: seen.actions === null && seen.model?.panel === 'board' };
     } },
   // ── Sheet 45: no answer came back ──
-  unknown: { page: 'phone', url: 'scenario=doctor', note: 'The ring on "Retry the same" is where the script\'s clicks leave the focus, since #307\'s 680237e4 puts it into the sheet that took the place of the one closed. A real key shows it there; a real tap or click leaves none (the Bars & Icons builder\'s measurement in #307\'s app, 18 November).', steps: async page => {
+  unknown: { page: 'phone', url: 'scenario=doctor', note: 'Outcome unknown takes the check\'s place, so the focus is on its title, which draws no ring, and a screen reader hears it first (#307\'s 12b9cb74; the Lead, 18 November). The ring on "Retry the same" in the pictures recorded before came from the script\'s clicks.', steps: async page => {
       await page.evaluate('window.planetHarness.setLost(true)');
       await page.evaluate(tap(TAB('actions')));
       await page.waitFor(PART('tiles'), 'the tiles');
@@ -512,7 +541,8 @@ const STATES = {
       await page.evaluate(tap(FOOT('register')));
       await page.waitFor(`${SHEET('action-unknown')}&&${PART('unknown')}`, 'Outcome unknown', 12000);
     },
-    facts: s => ({ frame: s.sheet?.title === 'Outcome unknown' && !s.sheet.close && foot(s) === 'retry:Retry the same|check:Check receipt',
+    extra: async page => ({ focused: await page.evaluate(FOCUSED), title: await page.evaluate(TITLE_FOCUSED) }),
+    facts: (s, looks, { focused, title }) => ({ infoFocused: focused, infoTitle: title, frame: s.sheet?.title === 'Outcome unknown' && !s.sheet.close && foot(s) === 'retry:Retry the same|check:Check receipt',
       notice: s.actions?.notice.join('|') === 'Rescue Crew 3 was sent, but no answer came back.|Check before doing anything else.', recovery: s.model?.recovery?.status === 'unknown',
       // One message, not two (the Lead, 17 November): the game's own status line hides while Actions' notice is open.
       oneMessage: s.status === null }),
@@ -1093,7 +1123,8 @@ const STATES = {
       await page.evaluate(edit(SHOW_SERVED));
       await page.waitFor(`document.querySelector(${JSON.stringify(WINDOWS + ' .ms-wn-stamp')})&&document.querySelector('.ms-ps-sheet-foot [data-value="done"]')`, 'the shown view');
     },
-    facts: s => ({ sent: s.commands.length === 1 && s.commands[0].type === 'SHOW_WINDOW' && s.commands[0].windowId === 'A_B' && s.commands[0].drawing?.strokes?.length === 2,
+    extra: async page => ({ focused: await page.evaluate(FOCUSED), title: await page.evaluate(TITLE_FOCUSED) }),
+    facts: (s, looks, { focused, title }) => ({ infoFocused: focused, infoTitle: title, sent: s.commands.length === 1 && s.commands[0].type === 'SHOW_WINDOW' && s.commands[0].windowId === 'A_B' && s.commands[0].drawing?.strokes?.length === 2,
       // The pack's pen: Gold first, then Teal, each 6 wide in 512; every point the finger passed.
       strokes: s.commands[0]?.drawing?.strokes?.map(x => `${x.color}/${x.width}/${x.points.length}`).join(' ') === '#F7D886/6/9 #57BBA8/6/9',
       stamp: s.windows?.stamp === 'SHOWN', done: foot(s) === 'done:Done', noPad: s.windows?.pad === null,
@@ -1105,7 +1136,8 @@ const STATES = {
       await page.evaluate(tap(FOOT('done')));
       await page.waitFor(`document.querySelector(${JSON.stringify(WINDOWS + ' .ms-wn-pad')})`, 'the box again');
     },
-    facts: s => ({ blank: s.windows?.pad?.strokes === 0, showOff: foot(s) === 'show:Show:off', oneCommand: s.commands.length === 1, noStamp: s.windows?.stamp === null,
+    extra: async page => ({ focused: await page.evaluate(FOCUSED), title: await page.evaluate(TITLE_FOCUSED) }),
+    facts: (s, looks, { focused, title }) => ({ infoFocused: focused, infoTitle: title, blank: s.windows?.pad?.strokes === 0, showOff: foot(s) === 'show:Show:off', oneCommand: s.commands.length === 1, noStamp: s.windows?.stamp === null,
       shownAmong: s.windows?.metas.join('||') === '1 · Crew 1 · Round 6|Unverified||2 · Crew 6 · Round 6|Can’t be changed||3 · Crew 6 · Round 6|Can’t be changed' }) },
   // A finger all the way (the Lead, 18 November): the Panels tab and the Windows row opened by a finger's taps, two
   // strokes by a finger with Teal tapped between them. No ring in the middle of either stroke, nor after them, with
@@ -1163,6 +1195,119 @@ const STATES = {
     extra: async page => ({ focused: await page.evaluate(FOCUSED) }),
     facts: (s, looks, { focused }) => ({ sent: s.commands.length === 1 && s.commands[0].type === 'SHOW_WINDOW' && s.commands[0].drawing?.strokes?.length === 1,
       stamp: s.windows?.stamp === 'SHOWN', done: foot(s) === 'done:Done', focusOnDone: focused === 'sheet-local:done' }) },
+  // A Panels row opened by the keyboard (the Lead's and the Bars & Icons builder's case, 18 November): the Panels tab
+  // by Enter, then the Windows row by Enter. The Windows sheet takes the Panels sheet's place, and the focus goes to its
+  // title: not behind it, and not to a footer action.
+  'windows-keyboard-open': { page: 'phone', url: 'scenario=windows', steps: async page => {
+      await page.evaluate(`document.querySelector(${JSON.stringify(TAB('panels'))}).focus()`);
+      await pressKey(page, 'Enter', 'Enter', 13, '\r');
+      await page.waitFor(`${SHEET('panels')}&&${VIEW('list')}`, 'the Panels tab by Enter');
+      await page.evaluate(`document.querySelector(${JSON.stringify(OPEN('windows'))}).focus()`);
+      await pressKey(page, 'Enter', 'Enter', 13, '\r');
+      await page.waitFor(`${SHEET('windows')}&&document.querySelector(${JSON.stringify(WINDOWS)})`, 'the Windows row by Enter');
+      await sleep(400);
+    },
+    extra: async page => ({ focused: await page.evaluate(FOCUSED), title: await page.evaluate(TITLE_FOCUSED) }),
+    facts: (s, looks, { focused, title }) => ({ windows: s.sheet?.id === 'windows' && s.sheet.title === 'Windows' && s.sheet.back, focusOnTitle: title === true,
+      noCommand: s.commands.length === 0, infoFocused: focused }) },
+  // An Actions tile opened by the keyboard (the same rule): the Actions tab by Enter, then the Engineer's Suppress
+  // navigation by Enter. Its check takes the tiles' place, and the focus goes to the check's title: never to Register.
+  'tile-keyboard-check': { page: 'phone', url: 'scenario=engineer', steps: async page => {
+      await page.evaluate(`document.querySelector(${JSON.stringify(TAB('actions'))}).focus()`);
+      await pressKey(page, 'Enter', 'Enter', 13, '\r');
+      await page.waitFor(PART('tiles'), 'the Engineer\'s tiles by Enter');
+      await page.evaluate(`document.querySelector(${JSON.stringify(TILE('ENGINEER_SUPPRESS'))}).focus()`);
+      await pressKey(page, 'Enter', 'Enter', 13, '\r');
+      await page.waitFor(`${SHEET('action-check')}&&${PART('check')}`, 'the check by Enter');
+      await sleep(400);
+    },
+    extra: async page => ({ focused: await page.evaluate(FOCUSED), title: await page.evaluate(TITLE_FOCUSED) }),
+    facts: (s, looks, { focused, title }) => ({ check: foot(s) === 'cancel:Cancel|register:Suppress navigation',
+      focusOnTitle: title === true, notRegister: focused !== 'sheet-action:register', noCommand: s.commands.length === 0, infoFocused: focused }) },
+  // A board target chosen by the keyboard (the same rule): the Hacker's Move, the Command Room's caption, then C1 on
+  // the board by Enter. The check takes the target bar's place, and the focus goes to its title: never to Register.
+  'board-target-keyboard': { page: 'phone', url: 'scenario=board', steps: async page => {
+      await STEPS.move(page);
+      await page.evaluate(tap('.ms-ps-chip button'));
+      await page.waitFor("document.querySelector('.planet-stage')?.dataset.view==='board'", 'the board');
+      await page.evaluate("document.querySelector('.planet-stage button[data-move-room=\"Command Room\"]').click()");
+      await page.waitFor("document.querySelector('.planet-targets .bv2-slot-target[data-value=\"C1\"]')", 'C1 on the board');
+      await page.evaluate("document.querySelector('.planet-targets .bv2-slot-target[data-value=\"C1\"]').focus()");
+      await pressKey(page, 'Enter', 'Enter', 13, '\r');
+      await page.waitFor(`${SHEET('action-check')}&&${PART('check')}`, 'the check by Enter');
+      await sleep(400);
+    },
+    extra: async page => ({ focused: await page.evaluate(FOCUSED), title: await page.evaluate(TITLE_FOCUSED) }),
+    facts: (s, looks, { focused, title }) => ({ who: s.actions?.who === 'Move to C1|Command Room', focusOnTitle: title === true, notRegister: focused !== 'sheet-action:register',
+      noCommand: s.commands.length === 0, infoFocused: focused }) },
+  // A person picked by the keyboard with the key held (the Lead, 18 November): Enter on Crew 3 in the Hospital chooses
+  // them, and the check opens with the focus on its title. The key's repeats press nothing; Tab reaches Register, and
+  // a new press registers, once. Without the guard on repeats, the held key registered the Rescue, closed After
+  // Register by its Done and went on opening and closing the Actions tab (measured on a6c75e60).
+  'target-held-enter': { page: 'phone', url: 'scenario=doctor', steps: async page => {
+      await STEPS.rescue(page);
+      await page.evaluate(`document.querySelector(${JSON.stringify(PRESS('seat-3'))}).focus()`);
+      await holdKey(page, 'Enter', 'Enter', 13, '\r', 6);
+      // What the held key left, whatever it was: the facts say whether it is still the check, with nothing sent.
+      await sleep(400);
+    },
+    extra: async page => ({ focused: await page.evaluate(FOCUSED), title: await page.evaluate(TITLE_FOCUSED) }),
+    facts: (s, looks, { focused, title }) => ({ check: foot(s) === 'cancel:Cancel|register:Register Rescue', who: s.actions?.who === 'Rescue Crew 3|Player 3 · Hospital',
+      confirmStep: s.model?.action?.step === 'confirm', notPressed: s.commands.length === 0, focusOnTitle: title === true, infoFocused: focused }),
+    after: async page => {
+      // Tab reaches Register (after Cancel, in the footer's order), and a new press registers, once. (Not on the check
+      // any more: the held key took it.)
+      if (!(await page.evaluate(SHEET('action-check')))) return { tabToRegister: false, newPressRegisters: false };
+      const path = [];
+      for (let i = 0; i < 6 && (await page.evaluate(FOCUSED)) !== 'sheet-action:register'; i += 1) { await pressKey(page, 'Tab', 'Tab', 9); path.push(await page.evaluate(FOCUSED)); }
+      const reached = (await page.evaluate(FOCUSED)) === 'sheet-action:register';
+      if (!reached) return { tabToRegister: false, newPressRegisters: false, infoTabs: path.join(' > ') };
+      await pressKey(page, 'Enter', 'Enter', 13, '\r');
+      await page.waitFor(SHEET('action-after'), 'After Register');
+      const seen = await page.evaluate(LOOK);
+      return { tabToRegister: true, infoTabs: path.join(' > '),
+        newPressRegisters: seen.commands.length === 1 && seen.commands[0].type === 'RESCUE' && seen.commands[0].targetSeatId === 'seat-3' };
+    } },
+  // A person's press goes while the keyboard is on it (the turn moved on to Player 2 under the choice): the scene
+  // hands the focus back, and with no sheet open it goes as the shell's own hand-back does, to the Actions tab that
+  // opened it: not lost on the scene.
+  'scene-press-gone': { page: 'phone', url: 'scenario=doctor', steps: async page => {
+      await STEPS.rescue(page);
+      await page.evaluate(`document.querySelector(${JSON.stringify(PRESS('seat-3'))}).focus()`);
+      await page.evaluate(edit("p.phase={id:p.phase.id+'-next',kind:'ORDINARY_TURN',startedAt:now,endsAt:now+60000};p.activeSeatId=p.board.seats.find(s=>s.seatId!==p.self.seatId&&s.health!=='Eliminated').seatId;p.offers=[]"));
+      await page.waitFor(`!document.querySelector(${JSON.stringify(PRESS('seat-3'))})&&!document.querySelector('.ms-ps-target')`, 'the turn moved on');
+      await sleep(400);
+    },
+    extra: async page => ({ focused: await page.evaluate(FOCUSED) }),
+    facts: (s, looks, { focused }) => ({ noTarget: s.target === null, noSheet: s.sheet === null, focusOnOpener: focused === 'tab:actions',
+      noCommand: s.commands.length === 0, infoFocused: focused }) },
+  // A ballot name chosen by the keyboard with the key held (the Lead, 18 November): the Captain vote is open, the round
+  // button opens the ballot, and Enter on Player 2 chooses them in the same sheet, so Vote takes the focus (a ballot
+  // name keeps the jump to Vote). The key's repeats land on Vote and press nothing; a new press votes, once.
+  'ballot-held-enter': { page: 'phone', url: 'scenario=board', steps: async page => {
+      await page.evaluate(edit("const all=p.board.seats.filter(s=>s.health!=='Eliminated').map(s=>s.seatId),others=all.filter(id=>id!==p.self.seatId);p.phase={id:'planet-phase-captain',kind:'CAPTAIN_ELECTION',startedAt:now,endsAt:now+60000};p.activeSeatId=null;p.offices={...p.offices,captainSeatId:null};p.ballot={eligibleVoters:all,eligibleTargets:others};p.ownBallot=null;p.offers=[{type:'VOTE',targetSeatIds:others,slotIds:[],windowIds:[],promiseTargetSeatIds:[]}]"));
+      await page.waitFor(`${game}.getModel().phase?.kind==='CAPTAIN_ELECTION'&&${game}.getModel().canVote`, 'the Captain vote open');
+      await page.evaluate(tap(HERO));
+      await page.waitFor(`${SHEET('action:VOTE')}&&document.querySelector(${JSON.stringify(BALLOT_NAME('seat-2'))})`, 'the ballot');
+      await page.evaluate(`document.querySelector(${JSON.stringify(BALLOT_NAME('seat-2'))}).focus()`);
+      await holdKey(page, 'Enter', 'Enter', 13, '\r', 6);
+      // What the held key left, whatever it was: the facts say whether it is still the ballot, with nothing sent.
+      await sleep(400);
+    },
+    extra: async page => ({ focused: await page.evaluate(FOCUSED) }),
+    facts: (s, looks, { focused }) => ({ ballot: s.sheet?.id === 'action:VOTE' && s.sheet.title === 'Captain vote' && foot(s) === 'confirm:Vote',
+      chosen: s.model?.action?.type === 'VOTE' && s.model.action.step === 'confirm', notPressed: s.commands.length === 0, focusOnVote: focused === 'sheet-action:confirm',
+      infoFocused: focused }),
+    after: async page => {
+      // A new press is a press: Vote votes, once. (Not on the ballot any more: the held key took it.)
+      if (!(await page.evaluate(SHEET('action:VOTE')))) return { newPressVotes: false };
+      if ((await page.evaluate(FOCUSED)) === 'sheet-action:confirm') await pressKey(page, 'Enter', 'Enter', 13, '\r');
+      else await page.evaluate(tap(FOOT('confirm')));
+      await page.waitFor("window.planetHarness.requests.some(r=>r.operation==='command')", 'the vote sent');
+      await sleep(300);
+      const seen = await page.evaluate(LOOK);
+      return { newPressVotes: seen.commands.length === 1 && seen.commands[0].type === 'VOTE' && seen.commands[0].targetSeatId === 'seat-2' };
+    } },
   // A panel page's Back by the keyboard (the same rule): Players' Back returns to the Panels list in the same sheet,
   // and the focus goes to the Panels sheet's Close, not to the tab behind it.
   'panels-back-focus': { page: 'phone', url: 'scenario=board', steps: async page => {

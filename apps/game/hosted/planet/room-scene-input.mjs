@@ -49,7 +49,8 @@ export function roomSceneLifecycle({mounted,key},model,{view,room,fits}){
 
 /**
  * The scene's callbacks. They report intent only: choose() checks the current offer before anything is
- * sent. Room B's control opens the Windows panel; the focus goes on to the next step's control, if any.
+ * sent. Room B's control opens the Windows panel. When the scene's focused control goes, focusNext() hands the
+ * focus back (render.mjs: to the open sheet's title, or as the shell's own hand-back goes).
  */
 export function roomSceneHandlers({choose,openPanel,focusNext}){
  return {
