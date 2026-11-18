@@ -186,8 +186,8 @@ These refuse the changed files until Integration approves. Each was found by rev
 | --- | --- |
 | `npm run check:sources` | In order: `app.mjs`, then `render.mjs` ("Food consumer source: content differs", `scripts/food-consumer-source.mjs`, the frozen Food release; as on the base, where the room connection changed both); then, new here, `phone.css` ("Phone UI production consumer: current content differs") and `planet.css` ("Runtime art release: content differs"). With all four reverted it passes, so `check:sources` accepts the `vite.config.mjs` hunk and the new files |
 | The hosted Vite build, plugin `reviewed-crew-drawing-release` | `app.mjs` first, as on the base |
-| `npm run test:design` | 25 of 410 fail on shell 0.3.2 (410 with the icons' six tests and the painted form's five, which pass); it was 25 of 399 on shell 0.3.0. Every one is on the Food release's refusal of `app.mjs`, which the room connection already meets (its page records 25 of 370). Before shell 0.2.10's eleven tests of the phase bars, which pass, it was 25 of 386 |
-| `npm run test:tooling` | 68 of 356 fail, every one on that same refusal (the room connection's page: 68 of 356); the same on shell 0.3.2 |
+| `npm run test:design` | 25 of 410 fail on shell 0.3.3, as on shell 0.3.2 (410 with the icons' six tests and the painted form's five, which pass); it was 25 of 399 on shell 0.3.0. Every one is on the Food release's refusal of `app.mjs`, which the room connection already meets (its page records 25 of 370). Before shell 0.2.10's eleven tests of the phase bars, which pass, it was 25 of 386 |
+| `npm run test:tooling` | 68 of 356 fail, every one on that same refusal (the room connection's page: 68 of 356); the same on shell 0.3.2 and 0.3.3 |
 | The same suites with `app.mjs` and `render.mjs` reverted | Every failure moves to the next pin: 25 of 386 design tests and 65 of 356 tooling tests, all on "Phone UI production consumer: current content differs: `phone.css`" |
 | The same suites with all four reverted | 4 of 386 design tests and 6 of 356 tooling tests fail, every one on the drawing-port fence's three findings on `vite.config.mjs` (next row) |
 | The drawing-port fence (`design/tools/lib/drawing-port-fence.mjs`, through the board-motion and pregame-films checks and six tooling tests) | `vite.config.mjs`: "required candidate drawing input differs" and "reviewed build adapter content hash differs"; and, as the reviewed hash carried the permitted literals, "production code refers to the board-motion prototype". **Already on the base:** run on a clean worktree of origin/main, main's config raises nothing, and the base's config (the room connection's hunk alone) raises the same three as this one's. The room connection's page, which checked `check:sources` only, did not name this pin |
@@ -228,11 +228,27 @@ These refuse the changed files until Integration approves. Each was found by rev
 `GAMEN_PHONE_ART_BASE=<clean worktree of origin/main> node design/tools/shell-connection-check.mjs`:
 - It builds Frontend's two harnesses from this tree: the phone harness (`apps/game/dev/phone`: the real Planet app, controller and renderer over its synthetic connection) and the Food harness (the same app on the frozen Food release's packets), with art from origin/main.
 - It serves them with the hosted game's production headers (`createHostedPreviewHeaders`, headers SHA-256 `424e5dec…`, the same as the shell's and the room scene's checks).
-- It drives the app at 390 × 844 and 430 × 932, in one browser, one page at a time. `--only` draws some states and adds them to the record when it names the same candidate, art and headers. This record was made in one run.
+- It drives the app at 390 × 844 and 430 × 932, and two sheets at 320 × 568 with the Largest text, in one browser, one page at a time. `--only` draws some states and adds them to the record when it names the same candidate, art and headers. This record was made in one run.
 
-**Result:** 42 of 42 captures pass: twenty-one states at both sizes, recorded on `97e28d09` (shell 0.3.2 with icons 1.1.0, kit 0.8.2 and room scene 0.5.1: the bottom bar's icons as painted tiles) with the source clean and the art from `64e55516`, in one run. `64e55516` was `origin/main` in this clone at the run; `main` has since moved to `7d18ac0f` by two documentation files (`AGENTS.md` and `docs/agent-roster.md`), so the art and the harnesses are the same.
+**Result:** 44 of 44 captures pass: twenty-one states at both sizes, and two sheets at 320 × 568 with the Largest text. Recorded on `637079f2` (shell 0.3.3 with icons 1.1.0, kit 0.8.2 and room scene 0.5.1: the toast's place, a squeezed sheet's footer and a long title's head) with the source clean and the art from `64e55516`, in one run. `64e55516` was `origin/main` in this clone at the run; `main` has since moved to `7d18ac0f` by two documentation files (`AGENTS.md` and `docs/agent-roster.md`), so the art and the harnesses are the same.
 
-Against `c3016fa8`'s record (shell 0.3.1), with the tab bar cut in fifths, one per tab, and a pixel counted when it is more than 32 of 255 apart:
+**Shell 0.3.3 changes nothing the connection gives or hears,** and nothing in these states' frame. Against `97e28d09`'s record (shell 0.3.2), in the 42 captures both have:
+- **Every recorded box is the same:** 394 boxes (the bars, the tabs, the round button, each sheet, the target bar, the banners, the stage), to a tenth of a pixel. Every check has the same answer.
+- **The tab bar has no changed pixel** in any capture, a pixel counted when it is more than 32 of 255 apart. **The top bar** differs only at the result's ring (5 and 4 pixels): the harness's time.
+- **The Pass sheet** has no changed pixel at either size. The Actions sheet and the ballot differ only where the room moves behind their glass (at most 3,248 pixels, none of them in the ballot's head).
+- **`closed`,** the one state with a toast, keeps it in its own place: no banner and no sheet is in its way.
+- The rest differs inside the stage, where the room moves. `concealed` is the same byte for byte at both sizes.
+
+**The two new captures, and what they do not show.** The Lead Designer asked for a squeezed sheet in the real app at 320 × 568 and 200 %, so the game itself would show both sheet rules. No sheet of this build is squeezed at that size. Tried there, with the Largest text chosen in the game's own Settings: Settings, Actions, Panels, Card, "Pass your turn?", "Submit final Code" and the ballot with a name chosen. None has a title of more than two lines, and none leaves its content under a third of the sheet. So the record holds the two that leave the least room, and that the rules leave them whole:
+
+| Capture | Title | Head | Content | Footer | Sheet | What it holds |
+| --- | --- | --- | --- | --- | --- | --- |
+| `320x568/largest-pass` | "Pass your turn?", two lines | 114 px, a row | 16 px, all of it shown | 149 px: Cancel and Pass, a row each | 292 px | The head is not stacked, the footer stays at the sheet's foot, the sheet is inside the screen |
+| `320x568/largest-ballot` | "Jail vote", one line, with ✕ | 66 px, a row | 153 px, all of it shown | 89 px: Vote | 321 px | The same; the content keeps more than a third of the sheet |
+
+The first sheet in the game that would be squeezed is an offer's, with release 3's Promises (#310): a long title with Back and ✕, and two buttons a row each. The shell's own record draws that sheet (`offer-large`, in [the shell's page](phone-shell.md#the-toasts-place-a-squeezed-sheet-and-a-long-title-033)).
+
+Before it, `97e28d09` (shell 0.3.2 with icons 1.1.0: the bottom bar's icons as painted tiles) passed 42 of 42. Against `c3016fa8`'s record (shell 0.3.1), with the tab bar cut in fifths, one per tab, and a pixel counted when it is more than 32 of 255 apart:
 - **In the 17 states that draw the game's tabs,** at both sizes: Board's, Actions' and Panels' places change by the tile (about 2,600 to 3,500 pixels each at 2×), and the round button's by its painted icon (about 1,100 to 2,700).
 - **The Card tab's place has no changed pixel** in 16 of them: the portrait is as it was. That holds in `reconnecting` too, where the portrait is kept as last seen.
 - **`blackout`** is the seventeenth: the Card place changes (2,902 pixels at 390 wide, 2,914 at 430), from the card's line icon to its tile.
@@ -294,6 +310,8 @@ Against `00e679e9`'s record (for `883473be`):
 | `course` | Setting course, on the Officer's phone with nothing open: "Setting course · The offices are setting it". Then Navigation from Panels: "Setting course · Officer · private" |
 | `display` | A shared display: no tabs, no Promises, ⋮ the only control, the whole board. Then ⋮ opens Settings with the display's preferences |
 | `concealed` | The page hidden: the bars' empty material only, the tab bar's shape kept |
+| `largest-pass` | At 320 × 568 only, the Largest text chosen in the game's Settings: "Pass your turn?" with Cancel and Pass. The head a row, the footer at the sheet's foot, nothing cut |
+| `largest-ballot` | At 320 × 568 only, the Largest text: the ballot with Player 2 chosen, and Vote. The head a row, the footer at the sheet's foot, nothing cut |
 
 Each capture also passes with: the shell mounted and the stage in it; none of the old header, tab bar, Pass button, sheet or target bar; no unexpected policy report (only Zod's known, caught eval probe); no failed request and no page error.
 
