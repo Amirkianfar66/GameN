@@ -658,6 +658,38 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - **Phone speed:** the finish's cost is measured on a phone, in the game, before anything is adopted.
 - **The game's crew drawing.** Lyra's back view, Juno's side view and the finish stay in the test until the owner adopts the result.
 
+**The test accepted, about three hours later.**
+- The Lead sent the owner the finished test page: https://claude.ai/artifact/J6bLyir4qCZkutcC94HvUK, version 1794991147-9a35.
+  - It shows the painted room, with Vega, Lyra and Juno drawn by code and lit by the room's lamps.
+  - It asks one question: name tags at the people's feet (the Lead's recommendation, since there they cover none of the people), or where the game puts them now.
+- The owner answered, word for word:
+
+> I happy with the result this way to go. The labels as you recommended, the only thing i would add is a shadow
+
+- The Lead asked two follow-up questions in the session's question dialog, each with its options. The owner chose:
+  - for the shadow: **"Stronger people shadows"**, offered as "Make each person's shadow on the floor darker and clearer, so it shows on a phone";
+  - for the next step: **"Start the other views"**, offered as "Begin the four other Room B views in this look, about $0.12 each for pictures (at most $0.18 with one re-run)".
+
+**What it decides:**
+- **Room B goes this way.** The test is the direction for Room B:
+  - the straight camera with the owner's colour and light;
+  - the painted room, with the furniture placed by code from the painting;
+  - the people drawn by code, with the room's light and shadows on them.
+- **Name tags sit at the people's feet.** Where there is no room there at the larger text sizes, a tag goes above the person's head and never over a face. This replaces the pack's place in this look.
+- **The people's floor shadows get stronger,** darker and clearer at phone size.
+- **The other four Room B views start in this look.**
+  - The spend is approved: about $0.12 a view, at most $0.18 with one re-run, so at most $0.72 for the four.
+  - This lifts the hold on PV5-B to PV5-E recorded above. They are now made the way the Mira test was made.
+- **The rules stay:**
+  - each new crew angle goes to the owner as a sketch before it is drawn in full;
+  - each picture's go names a reviewed sheet and its hashes;
+  - every picture is recorded as AI-generated.
+
+**What it does not settle:**
+- **The other rooms** still go room by room, as planned on 17 November, each with the owner's go.
+- **The game.** The look reaches the game through Designer's room scene, with Frontend's and Integration's review. A check of the drawing's speed on a phone comes first.
+- **The tokens and the room scene** change through Designer's PRs. This record approves the direction, not a release.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
