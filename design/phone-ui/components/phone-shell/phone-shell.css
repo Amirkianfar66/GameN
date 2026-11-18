@@ -295,7 +295,7 @@
 .ms-phone-shell .ms-ps-sheet-title h2 { margin: 0; font: 700 1.25rem/1.2 var(--ms-ps-font); letter-spacing: -0.01em; }
 .ms-phone-shell .ms-ps-sheet-title p { margin: 2px 0 0; font: 500 0.8125rem/1.25 var(--ms-ps-font); color: var(--ms-ps-text-2); }
 /* Draft (18 November, the Lead Designer's proposal): a head whose title would take more than two lines beside its
-   buttons stacks. Its buttons take a row of their own, Back at the left and the rest at the right, in the order
+   buttons stacks, where that makes it shorter. Its buttons take a row of their own, Back at the left and the rest at the right, in the order
    they are read; then the title and its line take the full width. */
 .ms-phone-shell .ms-ps-sheet[data-head-stacked] .ms-ps-sheet-head { flex-wrap: wrap; justify-content: flex-end; row-gap: 6px; }
 .ms-phone-shell .ms-ps-sheet[data-head-stacked] .ms-ps-sheet-title { order: 1; flex: 0 0 100%; }
