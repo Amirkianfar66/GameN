@@ -117,8 +117,8 @@ export function createPregameScreens(root,{session,preferences,draft,hooks}){
   role:{mount:(host,input)=>mountRoleStage(host,input,{onShowRole:()=>session.revealRole(true),onReady:()=>op('ready',{operation:'ready',matchId:model.matchId}),
     onRetry:()=>void session.refresh()}),
    input:m=>roleInput(m,ui,prefs(),{visible:visible()})},
-  boarding:{mount:(host,input)=>mountBoardingStage(host,input,{onRetry:()=>void session.refresh()}),
-   input:m=>boardingInput(m,prefs(),{visible:visible()})},
+  boarding:{mount:(host,input)=>mountBoardingStage(host,input,{onSkip:hooks.skipBoarding,onRetry:()=>void session.refresh()}),
+   input:m=>boardingInput(m,prefs(),{visible:visible(),playing:hooks.boardingPlaying()})},
  };
 
  function unmount(){
@@ -140,7 +140,7 @@ export function createPregameScreens(root,{session,preferences,draft,hooks}){
  return {
   ui,
   /** Draw the screen this model asks for, or return false for the app's own view. */
-  sync(next){
+  sync(next,{boardingEnded=false}={}){
    if(disposed)return false;model=next;
    ui.recover=settleRecovery(model,ui);
    if(ui.choosing&&!model.busy)ui.choosing=null;
@@ -151,11 +151,14 @@ export function createPregameScreens(root,{session,preferences,draft,hooks}){
    const withheld=mounted&&MATCHED.includes(mounted.screen)&&mounted.matchId===model.matchId?withheldStatus(model,{visible:visible()}):null;
    if(withheld){
     const status=STAGES.includes(mounted.screen)?{status:withheld}:{interactive:false};
+    // Retire the film immediately, retaining the last public clock during a withheld read.
+    if(boardingEnded&&mounted.screen==='boarding')Object.assign(status,{view:'holding',skip:null});
     const inputKey=JSON.stringify(status);if(mounted.inputKey!==inputKey){mounted.inputKey=inputKey;mounted.view.update(status);}
     return true;
    }
    unmount();return false;
   },
+  get boardingFilm(){return mounted?.screen==='boarding'?mounted.view.film:null;},
   get screen(){return mounted?.screen??null;},
   dispose(){
    if(disposed)return;disposed=true;unsubscribe();win.removeEventListener('blur',onBlur);win.removeEventListener('focus',onFocus);document.removeEventListener('visibilitychange',rerender);
