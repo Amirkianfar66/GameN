@@ -1,6 +1,6 @@
 # Phone shell: Designer's runtime component
 
-**Version:** `phone-shell-0.3.2`, with `component-kit-0.8.2` and the icon family `phone-ui-icons-1.1.0`. **Status (18 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its three files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
+**Version:** `phone-shell-0.3.3`, with `component-kit-0.8.2` and the icon family `phone-ui-icons-1.1.0`. **Status (18 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its three files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
 
 **What it is:** the match's frame on a phone, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
 
@@ -215,6 +215,50 @@ It is a second departure from sheet 08, which draws line icons in the tabs and a
 - **Larger text:** a tile keeps its 32 px box at every text size.
 - **Not painted:** the private talk's two buttons, the top bar, the target bar, the banners, the sheets' buttons and the kit. The owner's picture is the game's bottom bar.
 - **No picture file:** the tiles are drawn in code, inline. They carry no inline style and reach for no file, so the hosted game's policy has nothing new to allow.
+
+## The toast's place, a squeezed sheet and a long title (0.3.3)
+
+Three changes the Lead Designer proposed for states the pack's sheets leave open. Each was drawn in this component and shown to the owner on the control page as a draft, before any check. **The owner's approval, 18 November 2026,** said in the Lead Designer's session and recorded by the Lead in the [owner decisions](../owner-decisions.md):
+
+> I approve all as your recommendation
+
+The Lead's recommendation on the page was both sheet drafts together: "A gives the content its room, and B gives the title the full width."
+
+### The toast never covers the bar, a banner or an open sheet's head
+
+- **Before:** the toast dropped in 10 px under the top bar, whatever lay there. Over a tall docked sheet it lay across the sheet's head and cut the title and Close through. With the reconnecting banner showing, it lay on the banner.
+- **Now, one rule:** from its own place the toast takes the first free place going down, 8 px clear: under the banner if it would touch the banner, then under an open sheet's head if it would touch that, over the sheet's body. With nothing in its way it keeps its place.
+- A sheet that starts lower down is not in its way, and leaves the toast where it was.
+- The place is read in layout, so a sheet still sliding in counts where it comes to rest.
+- `phone-shell.mjs` `placeToast()`; one rule in the stylesheet, `[data-toast-under] .ms-ps-toast`.
+
+### A squeezed sheet's footer scrolls with its body
+
+- **Before:** a sheet's footer always stayed at its foot. On a 320 × 568 phone at the Largest text, a long title and two stacked footer buttons left the body a line or two, and the sheet's parts were taller than the sheet.
+- **Now:** when the body would get less than a third of the sheet's height and its content needs more, the footer scrolls with the body. The body takes all the room under the head, and the actions follow the content. Everywhere else nothing changes.
+- **What a consumer meets:**
+  - `shell.sheetBody` is the same element as before, and content is mounted in it as before.
+  - The body and the footer share a wrapper, `.ms-ps-sheet-scroll`. It is no box of its own (`display: contents`) until the sheet is squeezed; then it is the element that scrolls, and the body does not.
+  - A part inside the body that calls `scrollIntoView` is brought into view by the wrapper. The probe holds this.
+  - A tap on a footer button that followed the body reports its action as before.
+- **Every consumer was searched** for a read of the body's `scrollTop` or a scroll listener on it: the shell connection (#307), the match screens (#310), Host controls (#295) and the Food surface.
+  - None reads or listens to the shell's sheet body.
+  - `apps/game/hosted/planet/food-render.mjs` keeps a `scrollTop`, but of the Food surface's own frame (`.sheet-body`), which is not the shell's.
+  - `apps/game/hosted/browser-host.js` and `insider-file.mjs` call `scrollIntoView` on their own parts; the second is inside a sheet's content and is served by the wrapper when squeezed.
+  - The game mounts its own `.planet-sheet-body` inside `shell.sheetBody`; it holds content and is not read for its scroll.
+- `phone-shell.mjs` `fitSheet()`, which runs on each update, when the sheet changes size, and one frame after the body's content changes.
+
+### A long title's head stacks
+
+- **Before:** a sheet's title sat beside Back and Close at every size. At the Largest text on a 320 px phone a long title took three lines in that narrow column.
+- **Now:** when the title would take more than two lines beside its buttons, and the head is shorter that way, the head stacks: Back at the left and the other buttons at the right on a row of their own, in the order they are read and focused; then the title and its line on the full width. The text keeps the size the player chose: the Lead ruled out a cap.
+- **How it is decided,** to the Lead's three conditions:
+  - from two measured heights and nothing else: the head as a row, and the head stacked;
+  - off the live layout: each is laid out in a hidden copy in a box that draws nothing, with a stand-in of each button's size, and the copies are taken away at once. The head the player sees is never rearranged to be measured;
+  - again only when what it depends on changes: the head's width, the title's text size, its words, its line or its buttons. A clock tick measures nothing.
+- **At 390 px at the Largest text** the same title takes three lines too, but stacked the head would be 2 px taller, so it stays a row.
+- **Accessibility:** the order in the page is unchanged (Back, the title, Close), so a screen reader and the Tab key meet them as before. A focused button keeps its element and the focus when the head changes its arrangement.
+- `phone-shell.mjs` `fitHead()`; the stylesheet's rules under `.ms-ps-sheet-head[data-stacked]`.
 
 ## Inputs
 

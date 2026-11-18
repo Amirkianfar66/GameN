@@ -35,13 +35,20 @@
 // has the Card tab's amber ring and amber label in place of the filled icon. The Card tab with no character
 // draws the card's tile. The private talk's two buttons, the large-content view and every icon outside the
 // game's tab bar keep the family's line drawings.
+//
+// 0.3.3 (the Lead Designer's proposals, approved by the owner on 18 November 2026: "I approve all as your
+// recommendation"), where the pack's sheets leave a state open:
+// - the toast never covers the bar, a banner or an open sheet's head: it takes the first free place below them;
+// - a squeezed sheet's footer scrolls with its body, when the body would get under a third of the sheet;
+// - a sheet's head stacks, its buttons above its title, when the title would take more than two lines beside them
+//   and the head is shorter that way.
 
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconPaintedSvg, iconTileSvg } from '../icon-paint.mjs';
 import { iconSvg } from '../icons.mjs';
 import { createControlPolicy, createKit, followTextSize } from '../kit/kit.mjs';
 
-export const PHONE_SHELL_VERSION = 'phone-shell-0.3.2';
+export const PHONE_SHELL_VERSION = 'phone-shell-0.3.3';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const KINDS = Object.freeze(['turn', 'phase', 'pair']);
 const HERO_MODES = Object.freeze(['pass', 'vote', 'voted']);
@@ -662,26 +669,61 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     }
   }
 
-  // Draft (18 November, the Lead Designer's proposal; not recorded): beside Back and Close a sheet's title has a
-  // narrow column, and at the Largest text on a narrow phone it breaks into three lines or more. When it would,
-  // and the head is shorter that way, the head stacks: its buttons on a row of their own, then the title and its
-  // line on the full width. Both arrangements are measured afresh, so the answer does not depend on the last one.
+  /**
+   * A sheet's head, stacked when its title needs the room (0.3.3; the Lead Designer's proposal, the owner's approval
+   * of 18 November 2026). Beside Back and Close a title has a narrow column, and at the Largest text on a narrow phone
+   * it breaks into three lines or more. When it would, and the head is shorter that way, the head stacks: its buttons
+   * on a row of their own (Back at the left, the rest at the right, in the order they are read), then the title and
+   * its line on the full width. The text keeps the size the player chose.
+   *
+   * The decision is made from two measured heights and nothing else: the head as a row and the head stacked, each
+   * laid out in a hidden copy that is taken away again at once. So the head the player sees is never rearranged to be
+   * measured, and the answer never depends on the arrangement now showing. It is measured again only when what it
+   * depends on changes: the head's width, the title's text size, its words, its line, or its buttons.
+   */
+  let headKey = null, headFor = null;
   function fitHead() {
     const sheet = parts.sheet?.isConnected ? parts.sheet : null;
-    if (!sheet) return;
-    const head = sheet.querySelector('.ms-ps-sheet-head'), h2 = head.querySelector('h2');
-    const was = sheet.hasAttribute('data-head-stacked');
+    if (!sheet) { headKey = null; headFor = null; return; }
+    const head = sheet.querySelector('.ms-ps-sheet-head'), title = head.querySelector('.ms-ps-sheet-title'), h2 = title.firstChild, sub = title.lastChild;
+    const buttons = [...head.children].filter(node => node !== title);
+    const cs = win.getComputedStyle(h2);
+    const key = [sheet.dataset.sheet, head.clientWidth, cs.fontSize, doc.fonts?.status ?? '', h2.textContent, sub.hidden ? '' : sub.textContent,
+      buttons.map(b => `${b.dataset.intent}:${b.offsetWidth}x${b.offsetHeight}`).join()].join('\u0001');
+    if (key === headKey && head === headFor) return;
+    headKey = key; headFor = head;
     let stacked = false;
-    if (head.children.length > 1) {
-      if (was) sheet.removeAttribute('data-head-stacked');
-      const cs = win.getComputedStyle(h2), line = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.2;
-      if (line > 0 && h2.offsetHeight > line * 2.5) {
-        const asRow = head.offsetHeight;
-        sheet.setAttribute('data-head-stacked', '');
-        stacked = head.offsetHeight < asRow;
-      }
+    if (buttons.length && head.clientWidth > 0) {
+      // Two copies of the head, one a row and one stacked, in a box of the head's own width that draws nothing and
+      // holds no control: each button is a stand-in of the button's size.
+      const copy = isStacked => {
+        const node = el('div', 'ms-ps-sheet-head', { 'data-stacked': isStacked ? '' : null });
+        for (const child of head.children) {
+          if (child === title) {
+            const words = el('div', 'ms-ps-sheet-title'), line = el('p');
+            words.append(el('h2'), line);
+            words.firstChild.textContent = h2.textContent;
+            line.textContent = sub.textContent;
+            line.hidden = sub.hidden;
+            node.append(words);
+          } else {
+            const stand = el('span', 'ms-ps-sheet-stand', { 'data-stand': child.dataset.intent === 'sheet-back' ? 'back' : 'button' });
+            stand.style.width = `${child.offsetWidth}px`;
+            stand.style.height = `${child.offsetHeight}px`;
+            node.append(stand);
+          }
+        }
+        return node;
+      };
+      const box = el('div', 'ms-ps-measure', { 'aria-hidden': 'true', inert: '' }), asRow = copy(false), asStack = copy(true);
+      box.style.width = `${head.offsetWidth}px`;
+      box.append(asRow, asStack);
+      root.append(box);
+      const line = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.2;
+      stacked = line > 0 && asRow.querySelector('h2').offsetHeight > line * 2.5 && asStack.offsetHeight < asRow.offsetHeight;
+      box.remove();
     }
-    if (stacked !== sheet.hasAttribute('data-head-stacked')) sheet.toggleAttribute('data-head-stacked', stacked);
+    if (stacked !== head.hasAttribute('data-stacked')) head.toggleAttribute('data-stacked', stacked);
   }
 
   // ── The docked sheet's frame (ui.mjs sheet) ─────────────────────────
@@ -776,7 +818,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     toastTimer = win.setTimeout(() => { toastTimer = null; if (parts.toast === node) { kit.setToast(node, { ...props, leaving: true }); win.setTimeout(() => { if (parts.toast === node) { observer?.unobserve(node); node.remove(); parts.toast = null; placeToast(); } }, 200); } }, TOAST_MS);
   }
   /**
-   * The toast's place (0.3.2, a draft): it never covers the bar, a banner or an open sheet's head. Its own place is
+   * The toast's place (0.3.3; the Lead Designer's proposal, the owner's approval of 18 November 2026): it never covers the bar, a banner or an open sheet's head. Its own place is
    * 10 px under the bar. From there it takes the first free place going down: 8 px under the banner when it would
    * touch the banner, so the banner's words and Retry stay whole; then 8 px under an open sheet's head when it would
    * touch that, over the sheet's body, so Back, the title and Close stay whole and in reach. A sheet that starts
@@ -802,7 +844,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     root.style.setProperty('--ms-ps-toast-top', `${top - 10}px`);
   }
   /**
-   * The footer of a squeezed sheet (0.3.2, a draft). A sheet's footer stays at its foot, and the body scrolls above
+   * The footer of a squeezed sheet (0.3.3; the Lead Designer's proposal, the owner's approval of 18 November 2026). A sheet's footer stays at its foot, and the body scrolls above
    * it. On a small phone at a large text size, a long title and a footer of stacked buttons can leave the body a
    * line or two. When the body would get less than a third of the sheet's height and its content needs more, the
    * footer scrolls with the body instead: the body takes all the room under the head, and the actions follow the
