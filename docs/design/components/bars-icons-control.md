@@ -30,7 +30,7 @@ The page has three sections. Bars and Icons are divided into sub-parts, each wit
 
 | Section | Sub-parts | What each holds |
 | --- | --- | --- |
-| **Bars** | Card tab · before and after (9 pairs) · Toast over a sheet · draft (5 pairs) · Top bar (20 states) · Bottom bar (15) · Other bars (8: the target bar, the banners, the chip, the toast) · Sheets (8) · Whole phone (3) | Each state is a strip of the phone at the phone's own width, with its name, the size of its bar and the phone pack's sheet number. The first sub-part is [the Card tab's change](#the-card-tab-before-and-after). |
+| **Bars** | Card tab · before and after (9 pairs) · Toast over a sheet · draft (7 pairs) · Long title at the largest text · draft · Top bar (20 states) · Bottom bar (15) · Other bars (8: the target bar, the banners, the chip, the toast) · Sheets (9) · Whole phone (3) | Each state is a strip of the phone at the phone's own width, with its name, the size of its bar and the phone pack's sheet number. The first sub-part is [the Card tab's change](#the-card-tab-before-and-after). |
 | **Icons** | Navigation (8) · Game actions (26) · People and places (8) · Phases (7) · Before the match (3) · Controls (27) · Drawn twice (31) · Other drawings (8) | The icons of `design/phone-ui/components/icons.mjs`, at rest and selected, on dark glass and on paper. The last two list the game's own drawings that are still on screen, beside the icon that replaces each. |
 | **Status** | — | The owner's marks, and the version and pull request of each part. |
 
@@ -67,12 +67,23 @@ So a change of look is shown here first, as a draft:
 
 A change that is more than a look (behaviour, data, privacy, the connection's inputs) keeps the usual order: checks, the Lead's review, then the owner.
 
-**The draft on the page now: the toast over an open sheet** (`#toast-draft`, the second sub-part of Bars).
-- **Today:** the toast drops in 10 px under the top bar. Over a tall sheet it lies across the sheet's head and cuts the title and Close through. The Lead Designer saw it on the Promises sheet's record.
-- **The draft:** when the toast would touch an open sheet's head, it sits 8 px under the head instead, over the sheet's body. With no sheet, or a sheet that starts lower down, it keeps its place.
-- **The view:** five states, each as the bar is today above the draft. "Today" is the shell's own file at `bf95c1a0` (shell 0.3.1), read from git by the build tool, as the Card tab's "before" is.
+**The drafts on the page now.** Both are the Lead Designer's proposals, and each has its own mark.
+
+*The toast over a sheet or a banner* (`#toast-draft`, the second sub-part of Bars).
+- **Today:** the toast drops in 10 px under the top bar. Over a tall sheet it lies across the sheet's head and cuts the title and Close through; with the reconnecting banner showing, it lies on the banner.
+- **The draft, one rule:** the toast never covers the bar, a banner or an open sheet's head. From its own place it takes the first free place going down: 8 px under the banner, then 8 px under a sheet's head, over the sheet's body. With nothing in its way it keeps its place.
+- **The view:** seven states, each as the bar is today above the draft: three with a tall sheet, two with the banner (with and without a sheet), a low sheet, and no sheet.
 - **The owner's mark:** `draft-toast-under-sheet-head`.
-- **Not done yet, on purpose:** the shell's record, its version, its tests for the new place, and the connection's check.
+
+*A long title at the largest text* (`#sheet-draft`, the third sub-part of Bars).
+- **Today:** a sheet's footer stays at its foot. On a 320 × 568 phone at the Largest text, a long title and two stacked footer buttons leave the body a line or two, and its last line is cut by the top button.
+- **The draft:** when the body would get less than a third of the sheet's height and its content needs more, the footer scrolls with the body. The body takes all the room under the head, and the actions follow the content. Everywhere else nothing moves.
+- **The view:** one sheet, "Offer from Fay · Player 6", with a card's stand-in, a note and two buttons, as three stills: today, the draft as it opens, and the draft scrolled to its end. Buttons set the phone and the text size: 320 × 568 at the Largest, and 390 × 844 and 430 × 932 at the Standard, where the three stills are the same. A still can't be scrolled; a Draft still opens the test view, which can.
+- **The owner's mark:** `draft-sheet-footer-scrolls`.
+
+"Today" in both views is the shell's own file at `bf95c1a0` (shell 0.3.1), read from git by the build tool, as the Card tab's "before" is.
+
+**Not done yet, on purpose:** the shell's record, its version, its tests for the two changes, and the connection's check.
 
 ## Sizes, backgrounds and colours
 

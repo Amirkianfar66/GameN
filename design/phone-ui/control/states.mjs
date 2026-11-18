@@ -57,6 +57,7 @@ export const SWITCHES = Object.freeze([
     ['none', 'None'], ['pass', 'Pass your turn? · two buttons'], ['actions', 'Actions'], ['card', 'Your role · a head button'],
     ['block', 'Block movement · tall, two buttons'], ['appoint', 'Choose your Officer · one button'],
     ['navigation', 'Navigation · no Close'], ['host', 'Host controls · Back and a warning button'],
+    ['offer', 'An offer · a long title, a note, two buttons'],
   ] },
   { key: 'status', group: 'Phone', label: 'Connection', options: [['live', 'Live'], ['stale', 'Reconnecting · dimmed'], ['concealed', 'Concealed · the phone put away']] },
   { key: 'edge', group: 'Phone', label: 'Room area', options: [['off', 'Between the bars'], ['on', 'Edge to edge · a film or poster']] },
@@ -133,6 +134,7 @@ export const GROUPS = Object.freeze([
     ['sheet-appoint', 'Choose your Officer · one button', '40', { bar: 'appoint-own', promises: '0', sheet: 'appoint' }],
     ['sheet-navigation', 'Navigation · no Close', '41', { bar: 'course-own', promises: '0', sheet: 'navigation' }],
     ['sheet-host', 'Host controls · Back and a warning button', '15', { sheet: 'host' }],
+    ['sheet-offer', 'An offer · a long title, a note, two buttons', '33', { sheet: 'offer' }],
     ['sheet-lost', 'A sheet while reconnecting · below the banner', '45', { bar: 'reconnecting', promises: '0', status: 'stale', banner: 'reconnecting', sheet: 'host' }],
   ] },
   { id: 'whole', route: 'whole-phone', title: 'Whole phone', note: 'States where the bars leave, or the whole phone changes.', crop: 'whole', presets: [
@@ -153,9 +155,18 @@ export const TOAST_DRAFT = Object.freeze([
   ['role', 'A tall sheet · the receipt after a choice', { ...own, open: 'card', sheet: 'card', toast: 'receipt' }],
   ['host', 'A tall sheet with Back · the receipt', { sheet: 'host', toast: 'receipt' }],
   ['copied', 'A tall sheet · a short toast', { ...own, open: 'card', sheet: 'card', toast: 'short' }],
+  ['lost', 'Connection lost · no sheet · the toast under the banner', { bar: 'reconnecting', promises: '0', status: 'stale', banner: 'reconnecting', toast: 'short' }],
+  ['lost-sheet', 'Connection lost · a tall sheet · the toast under the sheet’s title', { bar: 'reconnecting', promises: '0', status: 'stale', banner: 'reconnecting', sheet: 'host', toast: 'short' }],
   ['low', 'A low sheet · the toast keeps its place', { ...own, sheet: 'pass', toast: 'receipt' }],
   ['none', 'No sheet · the toast keeps its place', { ...own, clock: '0', toast: 'closed' }],
 ].map(([key, label, change]) => Object.freeze({ key, label, sheet: '45', group: 'sheet', groupTitle: 'Sheets', crop: 'toast', controls: Object.freeze({ ...BASE, ...change }) })));
+
+/**
+ * A second draft: a sheet with a long title, a note and two footer buttons. On a small phone at the Largest text its
+ * head and footer leave the body a line or two; in the draft the footer then scrolls with the body.
+ */
+export const SHEET_DRAFT = Object.freeze({ key: 'offer', label: 'An offer · a long title, a note, two buttons', sheet: '33', group: 'sheet', groupTitle: 'Sheets', crop: 'phone',
+  controls: Object.freeze({ ...BASE, sheet: 'offer' }) });
 
 /**
  * Sheet 08's nine states (Bottom navigation), in the sheet's order, for the Card tab's before and after: the
@@ -183,10 +194,17 @@ const SHEETS = Object.freeze({
   block: { frame: { id: 'block', title: 'Block movement', sub: 'Optional · once a round', detent: 'large', close: false, actions: [{ id: 'skip', label: 'Skip' }, { id: 'block', label: 'Block Gus', kind: 'primary', icon: 'block' }] }, content: 'The Officer’s choice · the office decisions component (sheet 40)' },
   appoint: { frame: { id: 'appoint', title: 'Choose your Officer', detent: 'large', close: false, actions: [{ id: 'appoint', label: 'Appoint Cleo', kind: 'primary', icon: 'officer' }] }, content: 'The Captain’s choice · the office decisions component (sheet 40)' },
   navigation: { frame: { id: 'navigation', title: 'Navigation', sub: 'Only the Captain and Officer see this', detent: 'large', close: false }, content: 'The route · the office decisions component (sheet 41)' },
+  // A long title, a line under it, Back and Close, and two footer buttons: at the Largest text on a small phone the head
+  // takes three lines and the buttons a row each. Its content is the Promises component's; here, a card and a note.
+  offer: { frame: { id: 'offer', title: 'Offer from Fay · Player 6', sub: 'A promise · answer before the talk ends', detent: 'large', back: true, close: true,
+    actions: [{ id: 'decline', label: 'Decline' }, { id: 'accept', label: 'Accept', kind: 'primary', icon: 'check' }] },
+    content: 'The offer’s card · the Promises component (sheet 33)', note: 'You can accept one promise this round. An accepted promise can’t be taken back.' },
   host: { frame: { id: 'host', title: 'Host controls', close: true, back: true, detent: 'large', actions: [{ id: 'keep', label: 'Keep playing', local: true }, { id: 'abort', label: 'Abort match', kind: 'warn' }] }, content: 'Host controls · its own component (sheet 15)' },
 });
 /** The labelled stand-in for a sheet's content, which is another builder's component; null when the sheet has none. */
 export const sheetContent = controls => SHEETS[controls.sheet]?.content ?? null;
+/** The words of a note under that stand-in, where the sheet has one: plain text the content's owner would draw. */
+export const sheetNote = controls => SHEETS[controls.sheet]?.note ?? null;
 
 const TARGETS = Object.freeze({
   rescue: { icon: 'rescue', title: 'Rescue', sub: 'Choose a player · in your room' },
