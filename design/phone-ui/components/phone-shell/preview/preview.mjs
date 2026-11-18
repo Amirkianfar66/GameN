@@ -63,7 +63,8 @@ const room = Object.freeze({ room: 'room-b', roster: 9, people, self: SELF, acti
 const person = n => { const p = seatOf(n); return { seat: p.seat, name: p.name, character: p.character }; };
 const seconds = s => ({ remainingMs: s * 1000 });
 const turnBar = (n, extra = {}) => ({ kind: 'turn', who: person(n), self: n === SELF, round: 3, timer: seconds(42), promises: { count: 1 }, menu: {}, ...extra });
-const tabs = (extra = {}) => ({ variant: 'game', view: 'room', hero: { mode: 'pass', enabled: false }, ...extra });
+// The viewer's own person (0.3.0): the Card tab draws their crew portrait.
+const tabs = (extra = {}) => ({ variant: 'game', view: 'room', me: person(SELF), hero: { mode: 'pass', enabled: false }, ...extra });
 const own = { viewer: SELF, versions, bar: turnBar(SELF), tabs: tabs({ hero: { mode: 'pass' } }) };
 // A phase bar on a player's phone (0.2.10): the words come from phase-bars.mjs; Promises and ⋮ are the phone's.
 const player = { promises: { count: 0 }, menu: {} };
@@ -88,6 +89,8 @@ export const PREVIEW_STATES = Object.freeze({
   actions: { caption: 'Actions open · its sheet docked', shell: { ...own, tabs: tabs({ open: 'actions', hero: { mode: 'pass' } }), sheet: { id: 'actions', title: 'Actions', sub: 'Doctor · Round 3' } }, scene: { ...room, active: SELF, control: null }, content: sheetStandIn('The Actions tiles · the next component (sheet 28)') },
   // A head action, as sheet 31's "Hide card", before Close.
   card: { caption: 'Card open · Hide card in the sheet’s head', shell: { ...own, tabs: tabs({ open: 'card', hero: { mode: 'pass' } }), sheet: { id: 'card', title: 'Your role', sub: 'Only on this phone', detent: 'large', head: [{ id: 'hide', icon: 'hide', label: 'Hide card' }] } }, scene: { ...room, active: SELF, control: null }, content: sheetStandIn('The Card sheet · the Gameplay UI builder’s (#270)') },
+  // 0.3.0: before a character is dealt (or with none in the crew bundle), the Card tab keeps the pack's card icon.
+  'card-icon': { caption: 'No character · the Card tab keeps the card icon', shell: { ...own, tabs: tabs({ me: { seat: SELF, name: 'Player 4', character: null }, hero: { mode: 'pass' } }) }, scene: { ...room, active: SELF } },
   talk: { caption: 'Private talk · its own two buttons', shell: { viewer: SELF, versions, bar: { kind: 'pair', pair: [person(1), person(SELF)], round: 3, timer: seconds(47), promises: { count: 0 }, menu: {} }, tabs: { variant: 'talk' } }, scene: null, standIn: 'The private-talk capsule · a later component (sheet 25)' },
   stale: { caption: 'Reconnecting · the last room, dimmed', shell: { viewer: SELF, versions, status: 'stale', bar: reconnectingBar({ round: 3, ...player }), tabs: tabs(), banner: { kind: 'reconnecting' } }, scene: { ...room, status: 'stale' } },
   // An eliminated player's phone (sheet 44's Eliminated frame, 0.2.8): the banner's words without Retry, over the room
