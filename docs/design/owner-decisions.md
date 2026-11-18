@@ -982,6 +982,21 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - The draft is built from the real component, never a mock, so the later checks cover exactly what the owner approved.
 - A change that isn't only a look keeps the usual order: checks, then the Lead's review, then the owner. That covers behaviour, data, privacy and the game's connection.
 
+**One more small edit for view C, half an hour later.**
+- **What was found:** view C's step-3 picture (PV6-C-4) passed every measured check, but failed by eye in two places:
+  - **The jar tops:** the three glass jars on the cart ended in a soft, blurred cut just under the stool's seat. Step 2 had painted them only up to its mask's edge, so the seam showed once the seat was painted behind them. Layering can't fix it: the jar tops are missing from the painting itself.
+  - **The dispenser's left edge:** its left side faded softly into the books instead of having an ink edge.
+- **The Lead asked, in the question dialog:**
+
+> One more small masked edit would repaint just the jar tops and the dispenser's left edge: about $0.06, one call, no re-run. View C would end at about $0.30, about $0.03 over its $0.27 limit. Should we spend it?
+
+- **The owner chose:** "One more small edit (Recommended)".
+
+**What it decides:**
+- **One edit over PV6-C-4,** about $0.06, with no re-run. View C ends at about $0.30.
+- **The shapes:** the three jar tops, each in its own tight shape, whole and in front of the seat; and a narrow band along the dispenser's left side.
+- **The order:** the Rooms builder's sheet (version 8), the Lead's review, then the image builder's one call.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
