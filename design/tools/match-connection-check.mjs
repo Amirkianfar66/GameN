@@ -478,7 +478,7 @@ const STATES = {
       const seen = await page.evaluate(LOOK);
       return { cancelToTiles: seen.model?.action === null && seen.commands.length === 0 && !seen.page.includes('Rescue Crew 3') };
     } },
-  'rescue-after': { page: 'phone', url: 'scenario=doctor', steps: async page => {
+  'rescue-after': { page: 'phone', url: 'scenario=doctor', note: 'The ring on Done is where the script\'s clicks leave the focus, since #307\'s 680237e4 puts it into the sheet that took the place of the one closed. A real key shows it there; a real tap or click leaves none (the Bars & Icons builder\'s measurement in #307\'s app, 18 November).', steps: async page => {
       await STEPS.rescue(page);
       await page.evaluate(tap(PRESS('seat-3')));
       await page.waitFor(SHEET('action-check'), 'the check');
@@ -501,7 +501,7 @@ const STATES = {
       return { doneCloses: seen.actions === null && seen.model?.panel === 'board' };
     } },
   // ── Sheet 45: no answer came back ──
-  unknown: { page: 'phone', url: 'scenario=doctor', steps: async page => {
+  unknown: { page: 'phone', url: 'scenario=doctor', note: 'The ring on "Retry the same" is where the script\'s clicks leave the focus, since #307\'s 680237e4 puts it into the sheet that took the place of the one closed. A real key shows it there; a real tap or click leaves none (the Bars & Icons builder\'s measurement in #307\'s app, 18 November).', steps: async page => {
       await page.evaluate('window.planetHarness.setLost(true)');
       await page.evaluate(tap(TAB('actions')));
       await page.waitFor(PART('tiles'), 'the tiles');
@@ -1087,7 +1087,7 @@ const STATES = {
   // Show: the controller's own draft of the drawing, then confirm; one SHOW_WINDOW with the two strokes. The harness
   // answers every command and changes nothing, so the check plays the server: the next view has the drawing, by this
   // player, at Room A ↔ Room B. Then the shown view: the drawing with its SHOWN stamp, and Done.
-  'windows-shown': { from: 'windows-drawn', steps: async page => {
+  'windows-shown': { from: 'windows-drawn', note: 'The ring on the Panels tab behind the sheet is where the script\'s clicks leave the focus, not where a keyboard player\'s focus goes: windows-keyboard-show is the keyboard\'s case (the Lead, 18 November).', steps: async page => {
       await page.evaluate(tap(FOOT('show')));
       await page.waitFor(`(window.planetHarness?.requests??[]).some(r=>r.operation==='command'&&r.request.command.type==='SHOW_WINDOW')`, 'Show sent');
       await page.evaluate(edit(SHOW_SERVED));
@@ -1101,7 +1101,7 @@ const STATES = {
       // The shown view is the receipt: no toast, and no status line.
       quiet: s.toast === null && s.status === null }) },
   // Done: the station's view again, with a blank box and Show off; the drawing is among this round's.
-  'windows-done': { from: 'windows-shown', steps: async page => {
+  'windows-done': { from: 'windows-shown', note: 'The ring on the Panels tab behind the sheet is where the script\'s clicks leave the focus, not where a keyboard player\'s focus goes: windows-keyboard-show is the keyboard\'s case (the Lead, 18 November).', steps: async page => {
       await page.evaluate(tap(FOOT('done')));
       await page.waitFor(`document.querySelector(${JSON.stringify(WINDOWS + ' .ms-wn-pad')})`, 'the box again');
     },
