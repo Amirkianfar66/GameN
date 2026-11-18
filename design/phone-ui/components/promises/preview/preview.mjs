@@ -24,6 +24,7 @@ import { FIXTURE_LABEL, ROOM_FIXTURES, ROSTER, SELF, board, seatOf } from '../..
 export const PREVIEW_SIZES = Object.freeze({
   '390x844': Object.freeze({ width: 390, height: 844, insets: Object.freeze({ top: 47, bottom: 34 }) }),
   '430x932': Object.freeze({ width: 430, height: 932, insets: Object.freeze({ top: 47, bottom: 34 }) }),
+  '320x568': Object.freeze({ width: 320, height: 568, insets: Object.freeze({ top: 20, bottom: 0 }) }),
 });
 
 // The release's pictures, the room scene's extension and the crew's portraits, on the CSS properties the game's
@@ -109,6 +110,10 @@ export const PREVIEW_STATES = Object.freeze({
   condition: { caption: 'Results · Condition not met · sheet 33.1', input: resultOf('condition'), round: 5 },
   stale: { caption: 'Reconnecting · Offer waits, Back still works', input: inputOf({ view: 'confirm', draft: draft('MEET_A'), status: 'stale' }), shell: { status: 'stale', banner: { kind: 'reconnecting' } } },
   largest: { caption: 'Offer from Ava · Largest text (200 %)', input: inputOf({ view: 'incoming' }), text: 200 },
+  refused: { caption: 'Offer refused · the controller\'s words (R2)', input: inputOf({ view: 'confirm', draft: draft('MEET_A'), error: 'That choice is no longer offered.' }) },
+  'answer-refused': { caption: 'Accept refused · the server\'s words (R2)', input: inputOf({ view: 'incoming', error: 'The server did not allow that command.' }) },
+  'refused-largest': { caption: 'Offer refused · Largest text (200 %)', input: inputOf({ view: 'confirm', draft: draft('MEET_A'), error: 'That choice is no longer offered.' }), text: 200 },
+  'answer-refused-largest': { caption: 'Accept refused · Largest text (200 %)', input: inputOf({ view: 'incoming', error: 'The server did not allow that command.' }), text: 200 },
 });
 
 const intents = [];

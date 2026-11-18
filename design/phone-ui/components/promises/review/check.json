@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/promises-check.mjs",
   "component": "design/phone-ui/components/promises",
-  "sourceCommit": "fb35f381312caf36b05d2192b4cc2fac075ccab7",
+  "sourceCommit": "bc4ebc3bfeaabfd07b921e71e53f1257549083e7",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -38,16 +38,16 @@
   "captures": {
     "390x844/list": {
       "file": "design/phone-ui/components/promises/review/390x844-list.jpg",
-      "sha256": "98aef841db0aa0dcba413b3b660e81006eae5c8ce7478b5cac9afd53fcccab0f",
+      "sha256": "3adb7009acd3b25b7a98a09559c3f5ef28bfde5ab356a45048252b13ce0d5b79",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -68,6 +68,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": false,
       "cardName": null,
       "terms": null,
@@ -78,6 +79,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c8-CfqMt4EQ.svg",
@@ -89,16 +91,16 @@
     },
     "430x932/list": {
       "file": "design/phone-ui/components/promises/review/430x932-list.jpg",
-      "sha256": "79921aa9b1a01c1ff7e0018b244ff621eb33a406a50b851c07c8127e3e034753",
+      "sha256": "1719ae6a61eed345a76f765b049cb254cff08bd007a6f7b4d138d0e7837a02d0",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -119,6 +121,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": false,
       "cardName": null,
       "terms": null,
@@ -129,6 +132,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c8-CfqMt4EQ.svg",
@@ -140,16 +144,16 @@
     },
     "390x844/offered": {
       "file": "design/phone-ui/components/promises/review/390x844-offered.jpg",
-      "sha256": "805b9cfcb2fc4df0616aafcaf44462c417b3b23170f100d641fdae44cb4fb1b5",
+      "sha256": "a2f4119fcb92aad5eb3fa042862d78cc37ee19e3457ef7e36cbdc5bb5c9d925b",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -170,6 +174,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": false,
       "cardName": null,
       "terms": null,
@@ -180,6 +185,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c8-CfqMt4EQ.svg",
@@ -191,16 +197,16 @@
     },
     "430x932/offered": {
       "file": "design/phone-ui/components/promises/review/430x932-offered.jpg",
-      "sha256": "3dffa35a150cb2cadc22d1a46063b31dcdab4d386f5fb49ca4d4b819899eb34f",
+      "sha256": "272804f70d0e2bd001edbf74822233bb665ff6883a5edabf8bedd04f3d53a0a5",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -221,6 +227,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": false,
       "cardName": null,
       "terms": null,
@@ -231,6 +238,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c8-CfqMt4EQ.svg",
@@ -242,16 +250,16 @@
     },
     "390x844/kinds": {
       "file": "design/phone-ui/components/promises/review/390x844-kinds.jpg",
-      "sha256": "db5c806b744a65ca4b433d7aa95407bd072c2556bb5f2ddbd191305b4a3f1094",
+      "sha256": "53439de712e726296b1e5494eb89f83c125753b4432dcaca991e798e140d858f",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -272,6 +280,7 @@
       "across": 3,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": false,
       "cardName": null,
       "terms": null,
@@ -282,6 +291,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c8-CfqMt4EQ.svg",
@@ -293,16 +303,16 @@
     },
     "430x932/kinds": {
       "file": "design/phone-ui/components/promises/review/430x932-kinds.jpg",
-      "sha256": "cc3692a83a46f9ac0f7b56180e24a24ebc7993d25dad575b4308b557e50cfac2",
+      "sha256": "44d73c924b93963506edf6cbfbcad888c6e5181e69980ac1438f952afcef95f0",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -323,6 +333,7 @@
       "across": 3,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": false,
       "cardName": null,
       "terms": null,
@@ -333,6 +344,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c8-CfqMt4EQ.svg",
@@ -351,9 +363,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -374,6 +386,7 @@
       "across": 0,
       "targets": 8,
       "chosen": "2 · Ben",
+      "seatJoined": true,
       "paper": false,
       "cardName": null,
       "terms": null,
@@ -384,6 +397,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c8-CfqMt4EQ.svg",
@@ -409,9 +423,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -432,6 +446,7 @@
       "across": 0,
       "targets": 8,
       "chosen": "2 · Ben",
+      "seatJoined": true,
       "paper": false,
       "cardName": null,
       "terms": null,
@@ -442,6 +457,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c8-CfqMt4EQ.svg",
@@ -460,16 +476,16 @@
     },
     "390x844/confirm": {
       "file": "design/phone-ui/components/promises/review/390x844-confirm.jpg",
-      "sha256": "1dda6e64cbae417419f99b9918da1e181080f20d27b3ac0a3885565189f48e6e",
+      "sha256": "ca6ce14ac3faf7a7d12491caec4f243cc8b871e23b18bd33a36a2bf8fe6b5710",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -490,6 +506,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": true,
       "cardName": "Meet in Room A",
       "terms": "Dev will be in Room A when Round 3’s voting begins.",
@@ -500,6 +517,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c8-CfqMt4EQ.svg",
@@ -511,16 +529,16 @@
     },
     "430x932/confirm": {
       "file": "design/phone-ui/components/promises/review/430x932-confirm.jpg",
-      "sha256": "c3a77d395c50b34a808e076ddf2a37ac9ef6af859f37297663f41f2bfed755ce",
+      "sha256": "c349308b895ba92827d711ae4462333a18c82798c26f08fb811e8a69ad0b3f1d",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -541,6 +559,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": true,
       "cardName": "Meet in Room A",
       "terms": "Dev will be in Room A when Round 3’s voting begins.",
@@ -551,6 +570,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c8-CfqMt4EQ.svg",
@@ -562,16 +582,16 @@
     },
     "390x844/offering": {
       "file": "design/phone-ui/components/promises/review/390x844-offering.jpg",
-      "sha256": "f739343877f983e5bba82189dafd09671c52eec94cd5a08342d4c64cacd578c6",
+      "sha256": "67dc9881618d6311c8089db5cde0254fba376c57d9ec7a4df87a984823e67d5e",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -592,6 +612,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": true,
       "cardName": "Meet in Room A",
       "terms": "Dev will be in Room A when Round 3’s voting begins.",
@@ -602,6 +623,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c8-CfqMt4EQ.svg",
@@ -613,16 +635,16 @@
     },
     "430x932/offering": {
       "file": "design/phone-ui/components/promises/review/430x932-offering.jpg",
-      "sha256": "77e7e979ad5f05bc6faa269ccd8ff6c1c50c8c164b225d244f60fedc0892dd25",
+      "sha256": "60a23c5046346cd29bb29953724ec111c73d53a1386e4983ed4cf69d9ad84ba7",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -643,6 +665,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": true,
       "cardName": "Meet in Room A",
       "terms": "Dev will be in Room A when Round 3’s voting begins.",
@@ -653,6 +676,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c8-CfqMt4EQ.svg",
@@ -664,16 +688,16 @@
     },
     "390x844/incoming": {
       "file": "design/phone-ui/components/promises/review/390x844-incoming.jpg",
-      "sha256": "8bbf0f6ea7c3243376a4bf8e6759a89355dc28def515e5e99b1a071e04727f30",
+      "sha256": "9a6f279ec909a9f669f65b27262d4db8e21e28453a8fd92b5ac0186495449be1",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -694,6 +718,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": true,
       "cardName": "Captain Support",
       "terms": "Ava votes for Dev at the next Captain election: in every ballot of that election in which the recipient is a candidate.",
@@ -704,6 +729,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c8-CfqMt4EQ.svg",
@@ -715,16 +741,16 @@
     },
     "430x932/incoming": {
       "file": "design/phone-ui/components/promises/review/430x932-incoming.jpg",
-      "sha256": "bed6d5dbc4e0cbe41bc6389b5134828d6272f3dcea90e7916a5bf328969ea71e",
+      "sha256": "12d2e0d0fd4351ece1d57a40b429cdd5d05015a37425e39f698fe929232c174f",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -745,6 +771,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": true,
       "cardName": "Captain Support",
       "terms": "Ava votes for Dev at the next Captain election: in every ballot of that election in which the recipient is a candidate.",
@@ -755,6 +782,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c8-CfqMt4EQ.svg",
@@ -766,16 +794,16 @@
     },
     "390x844/pending": {
       "file": "design/phone-ui/components/promises/review/390x844-pending.jpg",
-      "sha256": "603140756698fff476ce91f1c6eb6dcaf30cc005ba7484fcea5e92cdcdcee3dd",
+      "sha256": "38cfd540aa401ef960a688968d784ec7208f2837ba1b0311e5f32e1caa625bcf",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -796,6 +824,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": false,
       "cardName": null,
       "terms": null,
@@ -806,6 +835,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c5-8TWQDiAs.svg",
@@ -817,16 +847,16 @@
     },
     "430x932/pending": {
       "file": "design/phone-ui/components/promises/review/430x932-pending.jpg",
-      "sha256": "935dae82f8d378b291ff965ad761dff5dd7095c375acc0c756580011a544a004",
+      "sha256": "f0f2086cbe276ab49cf4e7ff66b35af0dd478134d5a2d22d49ed6a2bb3cf4fa6",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -847,6 +877,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": false,
       "cardName": null,
       "terms": null,
@@ -857,6 +888,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c5-8TWQDiAs.svg",
@@ -868,16 +900,16 @@
     },
     "390x844/fulfilled": {
       "file": "design/phone-ui/components/promises/review/390x844-fulfilled.jpg",
-      "sha256": "9f908457dd23a48850f3a16a98c09b266250c7389aa7cb31b050948e65ed43a9",
+      "sha256": "ab4cbd5aa118c841ee0446eca4c4a8209d4985fad62f1fe213f44e81305d4bd8",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -898,6 +930,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": false,
       "cardName": null,
       "terms": null,
@@ -908,6 +941,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c5-8TWQDiAs.svg",
@@ -919,16 +953,16 @@
     },
     "430x932/fulfilled": {
       "file": "design/phone-ui/components/promises/review/430x932-fulfilled.jpg",
-      "sha256": "7d19415cfcbe6467bce508a4d411b331fa2f4656d4c91e4f8aa5ef52de0f64eb",
+      "sha256": "edff1caf0f78839813f9900254d8e971d8a6c67f7f6c40752c9124dac45e53ec",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -949,6 +983,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": false,
       "cardName": null,
       "terms": null,
@@ -959,6 +994,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c5-8TWQDiAs.svg",
@@ -970,16 +1006,16 @@
     },
     "390x844/not-fulfilled": {
       "file": "design/phone-ui/components/promises/review/390x844-not-fulfilled.jpg",
-      "sha256": "482f50999bbda2d9ca1a8c74fc83509d7cfdaeccf0cce7c3a65a72d077fc3a74",
+      "sha256": "d107fcadc763c10a1627241ade0851429905af96d8033845fa9754457f9305bf",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1000,6 +1036,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": false,
       "cardName": null,
       "terms": null,
@@ -1010,6 +1047,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c5-8TWQDiAs.svg",
@@ -1021,16 +1059,16 @@
     },
     "430x932/not-fulfilled": {
       "file": "design/phone-ui/components/promises/review/430x932-not-fulfilled.jpg",
-      "sha256": "377d5db1fdf41631eb050c2365d6965d565561d07b231bd190a0eec03b5bd951",
+      "sha256": "aa385e0d269703dec6ca615af3bc9d7c213f418f10034ac4e2a16757fa52b8a7",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1051,6 +1089,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": false,
       "cardName": null,
       "terms": null,
@@ -1061,6 +1100,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c5-8TWQDiAs.svg",
@@ -1072,16 +1112,16 @@
     },
     "390x844/condition": {
       "file": "design/phone-ui/components/promises/review/390x844-condition.jpg",
-      "sha256": "4a2ace2695111d4c8d5307d846e5edbf03f30d1d28e3f7955d214e7632190d75",
+      "sha256": "1a1eeec84801ecd4345feebe822f972c30f0e67f47628f4a1a07ba8b5ddf7bce",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1102,6 +1142,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": false,
       "cardName": null,
       "terms": null,
@@ -1112,6 +1153,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c5-8TWQDiAs.svg",
@@ -1123,16 +1165,16 @@
     },
     "430x932/condition": {
       "file": "design/phone-ui/components/promises/review/430x932-condition.jpg",
-      "sha256": "28fe2e30a04f5c7569f6b15d724e1d16b311f65f0ccac88fea9f374b26e0f6fc",
+      "sha256": "7397a2fb78496b8949242a607f8d2c19de5cec12e9c891821f7979e899782d65",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1153,6 +1195,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": false,
       "cardName": null,
       "terms": null,
@@ -1163,6 +1206,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c5-8TWQDiAs.svg",
@@ -1174,16 +1218,16 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/promises/review/390x844-stale.jpg",
-      "sha256": "88882285c6e42128f0be0ce2d208f71607fa062ebd90ea512d7c5197f520d11c",
+      "sha256": "52d6c68e48171dc56944f913a7417c345b2132826ae2148afb0041b5adca457c",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1204,6 +1248,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": true,
       "cardName": "Meet in Room A",
       "terms": "Dev will be in Room A when Round 3’s voting begins.",
@@ -1214,6 +1259,7 @@
       "offerWaits": "Controls return when the match is current",
       "backRefused": false,
       "banner": true,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c8-CfqMt4EQ.svg",
@@ -1225,16 +1271,16 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/promises/review/430x932-stale.jpg",
-      "sha256": "9bd29db3d45ef694e08a85715ab8a690236dceaa92cdc61fae284acf80ddf2b1",
+      "sha256": "6ef0cfadda7a2cda88a7ed2b8977ce4a2fc54a23d31b68e9259a53c633e700aa",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1255,6 +1301,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": true,
       "cardName": "Meet in Room A",
       "terms": "Dev will be in Room A when Round 3’s voting begins.",
@@ -1265,6 +1312,7 @@
       "offerWaits": "Controls return when the match is current",
       "backRefused": false,
       "banner": true,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c8-CfqMt4EQ.svg",
@@ -1283,9 +1331,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1306,6 +1354,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": true,
       "cardName": "Captain Support",
       "terms": "Ava votes for Dev at the next Captain election: in every ballot of that election in which the recipient is a candidate.",
@@ -1316,6 +1365,7 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
       "cut": [],
       "requests": [
         "assets/portrait-c8-CfqMt4EQ.svg",
@@ -1327,16 +1377,16 @@
     },
     "430x932/largest": {
       "file": "design/phone-ui/components/promises/review/430x932-largest.jpg",
-      "sha256": "86f693e95815e0786df0479d976c2f402ecddace4149cc7093c5367ea25035d1",
+      "sha256": "a10859af56681c798c825aa170e3b65b3984ab51e8ca4e7de3e9f1a8866455c5",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1357,6 +1407,7 @@
       "across": 0,
       "targets": 0,
       "chosen": "",
+      "seatJoined": false,
       "paper": true,
       "cardName": "Captain Support",
       "terms": "Ava votes for Dev at the next Captain election: in every ballot of that election in which the recipient is a candidate.",
@@ -1367,6 +1418,397 @@
       "offerWaits": null,
       "backRefused": false,
       "banner": false,
+      "error": null,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/refused": {
+      "file": "design/phone-ui/components/promises/review/390x844-refused.jpg",
+      "sha256": "08485511e7510edc7b36923082cb65a0392a241a61685d84992ddc6e57782f58",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Ck8u8vcZ.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": true,
+      "title": "Check the terms",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "",
+      "rows": "",
+      "value": "",
+      "badges": "",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "seatJoined": false,
+      "paper": true,
+      "cardName": "Meet in Room A",
+      "terms": "Dev will be in Room A when Round 3’s voting begins.",
+      "portrait": false,
+      "facts": "info:Uses your one given Promise only if Ava accepts|lock:Only you and Ava see it",
+      "foot": "Back|Offer",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "error": "That choice is no longer offered.",
+      "errorRole": "alert",
+      "errorLast": true,
+      "errorStarts": true,
+      "errorWhole": true,
+      "errorWordsWhole": true,
+      "errorBox": {
+        "top": 406,
+        "bottom": 446,
+        "wordsBottom": 436,
+        "bodyTop": 182,
+        "bodyBottom": 663
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/refused": {
+      "file": "design/phone-ui/components/promises/review/430x932-refused.jpg",
+      "sha256": "23e94ca3ba7044e1c4b562d16f7ca8be6fcba8d239fc7233760c1ea097877470",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Ck8u8vcZ.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": true,
+      "title": "Check the terms",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "",
+      "rows": "",
+      "value": "",
+      "badges": "",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "seatJoined": false,
+      "paper": true,
+      "cardName": "Meet in Room A",
+      "terms": "Dev will be in Room A when Round 3’s voting begins.",
+      "portrait": false,
+      "facts": "info:Uses your one given Promise only if Ava accepts|lock:Only you and Ava see it",
+      "foot": "Back|Offer",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "error": "That choice is no longer offered.",
+      "errorRole": "alert",
+      "errorLast": true,
+      "errorStarts": true,
+      "errorWhole": true,
+      "errorWordsWhole": true,
+      "errorBox": {
+        "top": 385,
+        "bottom": 426,
+        "wordsBottom": 416,
+        "bodyTop": 182,
+        "bodyBottom": 751
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/answer-refused": {
+      "file": "design/phone-ui/components/promises/review/390x844-answer-refused.jpg",
+      "sha256": "3972134762465a196396a7adda7d810895cbc9dd4d403b476a57a4ab7a468232",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Ck8u8vcZ.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": false,
+      "title": "Offer from Ava",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "",
+      "rows": "",
+      "value": "",
+      "badges": "",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "seatJoined": false,
+      "paper": true,
+      "cardName": "Captain Support",
+      "terms": "Ava votes for Dev at the next Captain election: in every ballot of that election in which the recipient is a candidate.",
+      "portrait": true,
+      "facts": "info:If Dev is a candidate in no ballot of that election, the result is Condition not met|info:Accepting uses your one received Promise|info:A Promise is never forced: it is checked against real ballots",
+      "foot": "Decline|Accept",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "error": "The server did not allow that command.",
+      "errorRole": "alert",
+      "errorLast": true,
+      "errorStarts": true,
+      "errorWhole": true,
+      "errorWordsWhole": true,
+      "errorBox": {
+        "top": 478,
+        "bottom": 519,
+        "wordsBottom": 509,
+        "bodyTop": 182,
+        "bodyBottom": 663
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/answer-refused": {
+      "file": "design/phone-ui/components/promises/review/430x932-answer-refused.jpg",
+      "sha256": "2d343795b65a31b116f86bc36e891f6a2a80ed36784f99cff254c81731a350b6",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Ck8u8vcZ.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": false,
+      "title": "Offer from Ava",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "",
+      "rows": "",
+      "value": "",
+      "badges": "",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "seatJoined": false,
+      "paper": true,
+      "cardName": "Captain Support",
+      "terms": "Ava votes for Dev at the next Captain election: in every ballot of that election in which the recipient is a candidate.",
+      "portrait": true,
+      "facts": "info:If Dev is a candidate in no ballot of that election, the result is Condition not met|info:Accepting uses your one received Promise|info:A Promise is never forced: it is checked against real ballots",
+      "foot": "Decline|Accept",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "error": "The server did not allow that command.",
+      "errorRole": "alert",
+      "errorLast": true,
+      "errorStarts": true,
+      "errorWhole": true,
+      "errorWordsWhole": true,
+      "errorBox": {
+        "top": 478,
+        "bottom": 519,
+        "wordsBottom": 509,
+        "bodyTop": 182,
+        "bodyBottom": 751
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "320x568/refused-largest": {
+      "file": "design/phone-ui/components/promises/review/320x568-refused-largest.jpg",
+      "sha256": "5804d0a04bb3525bebb47db0fe1aab6de137bec315d710507d453c2dc6774445",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Ck8u8vcZ.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": true,
+      "title": "Check the terms",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "",
+      "rows": "",
+      "value": "",
+      "badges": "",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "seatJoined": false,
+      "paper": true,
+      "cardName": "Meet in Room A",
+      "terms": "Dev will be in Room A when Round 3’s voting begins.",
+      "portrait": false,
+      "facts": "info:Uses your one given Promise only if Ava accepts|lock:Only you and Ava see it",
+      "foot": "Back|Offer",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "error": "That choice is no longer offered.",
+      "errorRole": "alert",
+      "errorLast": true,
+      "errorStarts": true,
+      "errorWhole": false,
+      "errorWordsWhole": false,
+      "errorBox": {
+        "top": 297,
+        "bottom": 438,
+        "wordsBottom": 428,
+        "bodyTop": 297,
+        "bodyBottom": 419
+      },
+      "cut": [],
+      "requests": [
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "320x568/answer-refused-largest": {
+      "file": "design/phone-ui/components/promises/review/320x568-answer-refused-largest.jpg",
+      "sha256": "93bd2997374e952d52e5a275c029b4c7bec0c51b2fe6af104899fc88585addcf",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-Ck8u8vcZ.js",
+          "line": 1,
+          "column": 6048,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "name": "group:Promises",
+      "detent": "large",
+      "back": false,
+      "title": "Offer from Ava",
+      "pair": "Ava + Dev",
+      "promisesOpen": true,
+      "labels": "",
+      "rows": "",
+      "value": "",
+      "badges": "",
+      "notes": "",
+      "tiles": "",
+      "selected": "",
+      "across": 0,
+      "targets": 0,
+      "chosen": "",
+      "seatJoined": false,
+      "paper": true,
+      "cardName": "Captain Support",
+      "terms": "Ava votes for Dev at the next Captain election: in every ballot of that election in which the recipient is a candidate.",
+      "portrait": true,
+      "facts": "info:If Dev is a candidate in no ballot of that election, the result is Condition not met|info:Accepting uses your one received Promise|info:A Promise is never forced: it is checked against real ballots",
+      "foot": "Decline|Accept",
+      "offerBusy": false,
+      "offerWaits": null,
+      "backRefused": false,
+      "banner": false,
+      "error": "The server did not allow that command.",
+      "errorRole": "alert",
+      "errorLast": true,
+      "errorStarts": true,
+      "errorWhole": false,
+      "errorWordsWhole": false,
+      "errorBox": {
+        "top": 248,
+        "bottom": 390,
+        "wordsBottom": 380,
+        "bodyTop": 249,
+        "bodyBottom": 359
+      },
       "cut": [],
       "requests": [
         "assets/portrait-c8-CfqMt4EQ.svg",
@@ -1587,15 +2029,51 @@
           "detail": {
             "ok": true,
             "rows": [
-              "2:2 · Ben:false:false",
-              "6:6 · Fay:true:true",
-              "9:9 · Ike:false:false"
+              "2:2~· Ben:false:false",
+              "6:6~· Fay:true:true",
+              "9:9~· Ike:false:false"
             ],
+            "joined": true,
             "outside": true,
             "after": [
               "2",
               "6"
             ]
+          }
+        },
+        {
+          "id": "refused: Frontend's words for a refused command, as given, in the kit's alert, last in the terms and the partner's offer and nowhere else; gone when cleared, at a new viewer and while concealed, and never back by themselves",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "terms": {
+              "words": "That choice is no longer offered.",
+              "role": "alert",
+              "kit": true,
+              "last": true,
+              "shown": true
+            },
+            "same": true,
+            "replaced": {
+              "words": "The server did not allow that command.",
+              "role": "alert",
+              "kit": true,
+              "last": true,
+              "shown": true
+            },
+            "cleared": true,
+            "list": false,
+            "incoming": {
+              "words": "The server did not allow that command.",
+              "role": "alert",
+              "kit": true,
+              "last": true,
+              "shown": true
+            },
+            "newViewer": false,
+            "before": true,
+            "concealed": false,
+            "back": false
           }
         },
         {
@@ -1809,9 +2287,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1842,9 +2320,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-c_IoFIbt.js",
+          "source": "assets/index-Ck8u8vcZ.js",
           "line": 1,
-          "column": 6049,
+          "column": 6048,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -3947,9 +4425,9 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-c_IoFIbt.js",
+        "source": "assets/index-Ck8u8vcZ.js",
         "line": 1,
-        "column": 6049,
+        "column": 6048,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
       }
     ],

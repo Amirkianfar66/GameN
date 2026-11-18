@@ -11,7 +11,10 @@
 //             with "No Promise …"; an offer of this player's waits under "Waiting for Ava"
 //   words     Frontend's exact terms, condition, when and why drawn exactly as given, never composed or trimmed; no
 //             why, no line; the sheet's frame and footer from promisesSheet() for each view
-//   target    Jail Vote's players are exactly the given targets; the chosen one marked; a player not given is refused
+//   target    Jail Vote's players are exactly the given targets; the chosen one marked; a player not given is refused;
+//             each row's seat keeps its "·" (a no-break space, 0.1.1)
+//   refused   Frontend's words for a refused command (0.1.1, R2), as given, in the kit's alert, last in the terms and
+//             the partner's offer and nowhere else; gone when cleared, at a new viewer and while concealed
 //   privacy   a Promise that doesn't name the viewer as its giver or recipient is refused; the Promises, the draft,
 //             the talk and Jail Vote's players leave the page when the viewer changes and when concealed, and nothing
 //             comes back by itself
@@ -51,7 +54,7 @@ export async function runPromisesProbe({ sizes, mountState, disposeState, inputO
     const root = m.host.element;
     const q = s => root.querySelector(s);
     // As Frontend does: a new viewer's sheet holds nothing of the last viewer's, unless the same update gives the new one's.
-    const OWN = ['talk', 'draft', 'targets', 'given', 'received'];
+    const OWN = ['talk', 'draft', 'targets', 'given', 'received', 'error'];
     const update = (next, extra = {}) => {
       if ('viewer' in next && next.viewer !== current.viewer) current = Object.fromEntries(Object.entries(current).filter(([k]) => !OWN.includes(k) || k in next));
       current = { ...current, ...next };
@@ -186,8 +189,42 @@ export async function runPromisesProbe({ sizes, mountState, disposeState, inputO
       s.update({ targets: few.filter(t => t.seat !== 9) });
       const after = [...s.root.querySelectorAll('[data-intent="target"]')].map(r => r.dataset.value);
       disposeState(s.m);
-      const ok = rows.join('|') === '2:2 · Ben:false:false|6:6 · Fay:true:true|9:9 · Ike:false:false' && outside && after.join() === '2,6';
-      return { ok, rows, outside, after };
+      // Each seat keeps its "·" on its line (a no-break space, 0.1.1): the row draws the words' join exactly.
+      const seat = n => W.seat(n, few.find(t => t.seat === n).name);
+      const joined = W.seat(2, 'Ben') === '2\u00a0· Ben';
+      const ok = rows.join('|') === `2:${seat(2)}:false:false|6:${seat(6)}:true:true|9:${seat(9)}:false:false` && joined && outside && after.join() === '2,6';
+      return { ok, rows: rows.map(r => r.replace(/\u00a0/g, '~')), joined, outside, after };
+    });
+    await check('refused: Frontend\'s words for a refused command, as given, in the kit\'s alert, last in the terms and the partner\'s offer and nowhere else; gone when cleared, at a new viewer and while concealed, and never back by themselves', async () => {
+      const OFFER = 'That choice is no longer offered.', SERVER = 'The server did not allow that command.';
+      const note = s => s.q('.ms-pr-error');
+      const seen = s => { const n = note(s); return n ? { words: n.textContent, role: n.getAttribute('role'), kit: n.classList.contains('ms-k-error'), last: n === s.root.lastElementChild, shown: shown(n) } : null; };
+      const s = mount(inputOf({ view: 'confirm', draft: { kind: 'MEET_A', target: null, terms: TERMS.MEET_A }, error: OFFER }));
+      const terms = seen(s), first = note(s);
+      s.update({ error: OFFER });
+      const same = note(s) === first;
+      s.update({ error: SERVER });
+      const replaced = seen(s);
+      s.update({ error: null });
+      const cleared = note(s) === null && !inPage(OFFER) && !inPage(SERVER);
+      s.update({ view: 'list', error: SERVER });
+      const list = inPage(SERVER);
+      s.update({ view: 'incoming' });
+      const incoming = seen(s);
+      s.update({ viewer: 5 });
+      const newViewer = inPage(SERVER);
+      disposeState(s.m);
+      const c = mount(inputOf({ view: 'incoming', error: SERVER }));
+      const before = inPage(SERVER);
+      c.m.host.update({ status: 'concealed' });
+      const concealed = inPage(SERVER);
+      c.m.host.update({ status: 'live' });
+      const back = inPage(SERVER);
+      disposeState(c.m);
+      const ok = terms?.words === OFFER && terms.role === 'alert' && terms.kit && terms.last && terms.shown && same
+        && replaced?.words === SERVER && replaced.last && cleared && !list && incoming?.words === SERVER && incoming.last && incoming.shown
+        && !newViewer && before && !concealed && !back;
+      return { ok, terms, same, replaced, cleared, list, incoming, newViewer, before, concealed, back };
     });
     await check('privacy: a Promise that doesn\'t name the viewer as its giver or recipient is refused', async () => {
       const BEN = TARGETS.find(t => t.seat === 2);

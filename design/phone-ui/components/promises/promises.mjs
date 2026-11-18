@@ -24,7 +24,7 @@
 
 import { createControlPolicy, createKit } from '../kit/kit.mjs';
 
-export const PROMISES_VERSION = 'promises-0.1.0';
+export const PROMISES_VERSION = 'promises-0.1.1';
 const VIEWS = Object.freeze(['list', 'kinds', 'target', 'confirm', 'incoming']);
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 /** The sheet's id, the same for every view, so the shell keeps its body (and this content) through them. */
@@ -52,7 +52,8 @@ export const PROMISE_WORDS = Object.freeze({
   offered: name => `${name} offered you one`,
   waiting: name => `Waiting for ${name}`, offeredTo: name => `Offered to ${name} · not counted yet`, offeredPill: 'Offered',
   kindsTitle: name => `Offer to ${name}`, kindsNote: name => `Only during your private talk. It counts once ${name} accepts.`, next: 'Next',
-  targetTitle: 'Who will you vote to jail?', seat: (seat, name) => `${seat} · ${name}`,
+  // A seat keeps its separator on its line (a no-break space), so no line starts with "·" (the Lead, 18 November).
+  targetTitle: 'Who will you vote to jail?', seat: (seat, name) => `${seat}\u00a0· ${name}`,
   confirmTitle: 'Check the terms', back: 'Back', offerAction: 'Offer',
   usesGiven: name => `Uses your one given Promise only if ${name} accepts`, onlyPair: name => `Only you and ${name} see it`,
   incomingTitle: name => `Offer from ${name}`,
@@ -69,10 +70,10 @@ export const PROMISES_DEFAULTS = Object.freeze({
   view: 'list', status: 'live', interactive: true, reducedMotion: false, viewer: null, versions: null,
   quota: Object.freeze({ given: false, received: false }), talk: null, offer: null,
   draft: Object.freeze({ kind: null, target: null, terms: null }), targets: Object.freeze([]),
-  given: null, received: null, answer: Object.freeze({ accept: OFF, decline: OFF }),
+  given: null, received: null, answer: Object.freeze({ accept: OFF, decline: OFF }), error: null,
 });
 /** What belongs to this viewer, dropped when the viewer changes or the sheet is concealed (answer 6). */
-const VIEWERS_OWN = Object.freeze(['talk', 'draft', 'targets', 'given', 'received']);
+const VIEWERS_OWN = Object.freeze(['talk', 'draft', 'targets', 'given', 'received', 'error']);
 
 const isText = value => typeof value === 'string' && value.length > 0;
 const isSeat = value => Number.isSafeInteger(value) && value >= 1;
@@ -156,6 +157,8 @@ export function nextPromisesInput(previous, input = {}) {
   const a = next.answer ?? PROMISES_DEFAULTS.answer;
   if (typeof a !== 'object') throw new TypeError('answer is { accept, decline }');
   next.answer = Object.freeze({ accept: checkCommand('answer.accept', a.accept), decline: checkCommand('answer.decline', a.decline) });
+  // A refusal in Frontend's words, drawn in confirm and incoming (0.1.1): given verbatim, never composed here.
+  next.error = optionalText(next.error, 'error');
   return next;
 }
 
@@ -362,10 +365,29 @@ export function mountPromises(host, input = {}, handlers = {}) {
   function paintConfirm() {
     const s = state, name = partnerOf(s);
     paintCard(null, s.draft.kind, s.draft.terms, [W.usesGiven(name), { icon: 'lock', text: W.onlyPair(name) }]);
+    paintError();
   }
   function paintIncoming() {
     const r = state.received?.state === 'offered' ? state.received : null;
     paintCard(r, r?.kind ?? null, r?.terms ?? null, r ? [r.condition, W.usesReceived, W.neverForced].filter(Boolean) : []);
+    paintError();
+  }
+  /**
+   * A refused command (0.1.1): Frontend's words in the kit's inline error, the last thing in the body, so it sits
+   * above the footer's Back and Offer, or Decline and Accept. Brought into view as it appears, so it is whole at the
+   * Largest text on the smallest phone. Its role, alert, says it once.
+   */
+  function paintError() {
+    const p = parts, words = state.error;
+    if (p.errorWords === words) return;
+    p.errorNote?.remove();
+    p.errorNote = null;
+    p.errorWords = words;
+    if (!words) return;
+    p.errorNote = kit.errorNote(words);
+    p.errorNote.classList.add('ms-pr-error');
+    root.append(p.errorNote);
+    p.errorNote.scrollIntoView?.({ block: 'nearest' });
   }
   function build(view) {
     // The view's parts leave with it; a focus in them returns to the content, reported once.
