@@ -1104,6 +1104,19 @@ The Lead then recommended one shared view for each fixed room. The owner:
   - Every other owner test page takes shell 0.3.3 or later when it is next built.
   - The game takes it through #307 and #310 when Integration merges them.
 - **What it doesn't change:** the painted bar itself, as the owner approved it at 17:41 UTC (above). No new look.
+- **Done for the Hacker:** the Gameplay UI builder rebuilt the Hacker test page with shell 0.3.3 at about 21:15 UTC (version 1795036518-1acd). The Lead checked it at 390 × 844 and 430 × 932: the painted tiles, Card last with the player's portrait, no errors and no sideways scroll. #301 itself took shell 0.3.3 at `2101023e`.
+
+**The owner's answer on Room B, that night** (about 23:25 UTC), word for word:
+
+> I am really happy with the result of Room B
+
+- **What it decides:**
+  - Room B's five views are accepted as the page shows them (version 1795033977-0ba3). That covers the painted room, the crew at their stations with their tags and shadows, the skylight and the wall window on one clock, the capsule's light, and the walks and meals.
+  - **Juno in view C keeps her lowered eyes,** as the page shows them. The Lead takes the answer as covering view C as shown, so no "eyes open" sketch is made unless the owner asks for one.
+- **What it leaves open:**
+  - **The other rooms.** The Lead asked whether this is the way to go for the rooms, and the answer is about Room B. The next room's plan goes to the owner before any picture is made or any money is spent.
+  - **The known gap in view E** at 200 % on the 390 phone (one out-of-view tag that can't be placed clear), which the Lead fixes in the room scene component.
+  - **The way into the game.** The views from each place need the observation rule (#222) and Integration's mapping of the five places, as recorded above.
 
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
