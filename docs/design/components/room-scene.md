@@ -1,0 +1,388 @@
+# Room scene: Designer's runtime component
+
+**Version:** `room-scene-0.5.1`. **Status (17 November 2026):** 0.5.1 answers two of Integration's source findings on #4 for the room redesign's first slice (#309): concealment drops the people and the films' marks too, and a Blackout window's held frame survives the Board view. The component was revised earlier for Frontend's source review of `03029b34` and its re-review of `ee691846` on #261, with the owner's "a fifth wider" framing added, and is ready for Frontend to connect. 0.5.0 keeps the name tags whole and apart at the game's Large and Largest text (#222 item 34). It is not in the game yet. Integration first admits its module graph to the hosted build and registers the room art's version. It is not a release.
+
+**What it is:** the room surface of the phone's room view, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
+
+**Covers:**
+- the rooms on sheets 20–24;
+- the Blackout on sheet 30, with the frame held for the whole window and the opened-in-the-dark fallback;
+- the room picture unavailable on sheet 45;
+- the ambient motion on sheet 55 (DSN-REQ-23);
+- the framing, the room's own control and the name tags of #222 items 1 and 34;
+- the approved room pictures, `room-drawing-1.0.0` (DSN-REQ-18), through the art bundles;
+- the owner's "a fifth wider" framing, with the rooms' extension above and below the pictures (11 November).
+
+## What changed in 0.5.1
+
+Integration's review of #284 against this component (#309, and #4) found two lifecycle gaps. Neither is an observed leak between players. Both are fixed in the component, and the second needs the mount's part too.
+
+- **Concealed, nothing this viewer was shown is kept.** The input dropped the offers and the control, but kept the people, `self`, `active`, the films' stand-ins and recoil. A wake that gave the status alone drew them all again.
+  - Now concealment drops them too, so only a fresh input brings the people back. The frame, which is geometry only, stays where it was.
+  - Run against 0.5.0, the probe's new check fails: after a status-only wake, four people, their tags and "you" came back.
+- **A Blackout window's held frame survives a remount.** The game removes the scene for the Board view and mounts a new one on the way back. Its held frame was lost, so a return in the same dark window framed every place (the cold fallback), and the press squares moved.
+  - Now `hold()` gives the held frame, as coordinates only: no seat, no person, no target.
+  - A scene mounted with it as `heldFrame` keeps it while the same window lasts, in the same room and roster. Otherwise it frames afresh.
+  - The mount keeps it across the Board view, with the match, the viewer and the art, and drops it when the window ends. That part is #284's: it lands after the Food pins are reconciled, as Integration asked.
+  - Run against 0.5.0, the probe's new check fails: `hold` is not a function.
+
+## What changed in 0.5.0
+
+#222 item 34 asks for the name tags "whole, and apart from each other" at large text (sheets 21, 26 and 53). At the game's Large (150 %) and Largest (200 %) text, 0.4.0 drew them neither way in Room B, at both phone sizes:
+- the number's disc grew past the pack's 26 px pill;
+- Hana's tag lay over Cleo's name.
+
+| Changed | What it does |
+| --- | --- |
+| The tag's pill | Its height, padding, gap and office badge are the pack's at the standard text (26, 9 and 3, 5, and 18 px), in the tag's own em. The pill grows with its words, so nothing spills out of it |
+| Where the tags go | `layoutTags()` in `../tag-layout.mjs`: the board's tags' rules, moved there from `board-tags-0.1.0` (#298) when the room scene became their second user. Each tag goes where the pack puts it: centred on its press square and 2 px above the square's foot, 4 px inside the scene, and no lower than 34 px above the scene's foot (the 8 px inset and a 26 px tag). Where two would meet, one moves up, or else down, no further than it needs; "You" gives way first. Every tag stays clear of the room's name and its control |
+| When they are placed | Once the room's name and control are drawn, by layout offsets, not boxes on screen, so a transform around the scene (the board's zoom) never moves a tag |
+
+At the standard text, where no two tags meet, each is exactly where 0.4.0 put it. The probe adds three `tags` checks: the standard text, then the Large and Largest text at both phone sizes. With 0.4.0's tag code in place, the same probe passes the first and fails the other two, its tags neither whole nor apart.
+
+## What changed in 0.4.0
+
+The owner decided on 15 November that Designer writes the game's connection for all five rooms ([owner-decisions.md](../owner-decisions.md), #280). The game's room view keeps films that this component does not draw yet: the medical and rescue films, the captain's walk, the Jail's release and eject, the transit, Blackhole and arrival field, "ATTACK BLOCKED" and the Blackout's fade. 0.4.0 adds what they need to sit inside the scene at their own depth:
+
+| Added | What it does |
+| --- | --- |
+| `standIns: [seat]` | Those people's figures are not drawn, because the game's film draws them (a gowned patient, a walk, a release). Their tag, turn mark, press square and place in `layout()` stay |
+| `brace: { seat, dx, dy }` | Moves that person's figure by `dx`, `dy` CSS pixels: the recoil of "ATTACK BLOCKED". The tag, press square and everyone else stay. Updates that change only `brace` or `standIns` redraw nothing else, so a film can send one every frame |
+| `scene.films` | A container for the game's films inside the scene's stacking context, making none of its own, so what the game puts there interleaves with the scene by z-index (see [Films](#films)). Hidden while concealed; `null` after `dispose()` |
+
+Nothing else changes: the same pictures, framing, people, offers, states and records. The probe adds three `films` checks.
+
+## What changed in 0.3.0
+
+The owner's "a fifth wider" (11 November 2026: "approved, go with a fifth wider"), which Frontend's re-review asked for before visual acceptance. It ships with the approved pictures, whose extension it draws:
+
+- **Framing:** a match whose room art is `room-drawing-1.0.0` frames each room a fifth wider. The scale is the filled view's times 0.8, unless the people present already zoomed it out further.
+  - The rest of T1 stands: everyone present is whole, every press square is whole and at least 44 px, and the frame is held through the Blackout.
+  - This is ship life's framing (#230), without its activities and food capsules, which the game does not draw.
+- **Older art:** a match on older art keeps the pack's framing (#229), with no extension. The new input `roomArt` names the room-art release the match's bundles carry.
+- **The extension:** in a wider view, above and below the picture, each room's extension continues its ceiling and deck, lit and with the lights out.
+  - These ten pictures are the component's own (`room-scene/assets/`). They are written by `design/tools/room-scene-extend.mjs` from the approved pictures.
+  - The five lit ones are ship life's drawing, which the owner saw in #230's framing sheets, unchanged.
+  - The five lights-out ones are drawn the same way from the lights-out pictures, by the same night rule those pictures were made by.
+  - Like the room pictures, they load through the art bundles: Integration registers them with DSN-REQ-18.
+- **The preview** frames as a match on the approved pictures. Its new `today` state shows older art.
+
+## What changed in 0.2.1
+
+Frontend's re-review of 0.2.0 (`ee691846`) passed the hold, the viewer's data and the focus, and found one more case of the voyage's time:
+
+| Finding | Now |
+| --- | --- |
+| P2: an update that both rebuilt the pictures (a new size) and stopped the voyage (the clock withdrawn, reconnecting, Reduce motion) lost where it stood: it jumped to 0 s or to the clock | Every update reads where the running voyage stands before it replaces any picture, and a voyage that stops there stands at that moment. That includes a voyage concealed while running, which shows again where it stood |
+
+The probe has four more checks for it: the three changes, each in one update with a resize, and concealment. On `ee691846` all four fail, with the reported jumps (to 0 s, to the clock); on 0.2.1 they pass.
+
+## What changed in 0.2.0
+
+Frontend's four findings on `03029b34`, and what each now does:
+
+| Finding | Now |
+| --- | --- |
+| P1: the held frame reset on a resize | A Blackout window keeps one frame, and the size it was made for, through any change of size, insets, people or lights, lit and dark. The frame and every press square stay put until the window ends or a differently named one begins. `hold` takes the window's id |
+| P1: `layout()` gave who was where in the dark and concealed | `layout().people` is empty unless the lit room shows them. The offers and the room's control are dropped when the scene is concealed or its viewer changes. Concealed, the scene's name is "Room hidden". After `dispose()`, `layout()` is `null` |
+| P2: a still voyage was re-timed on every update | A still voyage samples its moment once and no update moves it, whatever the clock does. It goes back on the clock when it runs again. With no trusted clock ever given, it stands at 0 s |
+| P2: the control and the positions were rebuilt on every update | Every control, position, press square and card is kept by its id and changed in place, so the focus stays with it. Unavailable ones use `aria-disabled` and stay focusable. Only an offer that ends moves the focus: to the scene, then `onFocusReturn` says which one ended |
+
+The browser probe in `preview/probe.mjs` covers each one under the production headers, as listed below. On `03029b34` the same probe fails 15 of its 19 checks.
+
+## Files
+
+Designer's, runtime-safe, in `design/phone-ui/components/`:
+
+| Path | What |
+| --- | --- |
+| `room-scene/room-scene.mjs` | `mountRoomScene()`, `nextRoomSceneInput()`, `roomSceneFrame()`, `roomScenePlaces()`, `seatNumber()`, `ROOM_NAMES`, `ROOM_SCENE_DEFAULTS`, `ROOM_SCENE_VERSION` |
+| `room-scene/room-scene.css` | Every style, scoped under `.ms-room-scene`; it imports `ambient.css` |
+| `room-scene/framing.mjs` | `phoneFrame`, `paintedExtent`, `pressRects`: the pack's framing (T1 as corrected in #229) |
+| `room-scene/figure-extents.mjs` | The measured outlines the framing needs, written by `design/tools/phone-ui-figure-extents.mjs` |
+| `room-scene/ambient.mjs`, `ambient.css` | The ambient layer and its keyframes |
+| `room-scene/room-art.mjs` | `ROOM_ART` and `roomLayers()`: each room's pictures by the CSS property its bundle defines |
+| `room-scene/room-extension.mjs` | `WIDER`, `zoomFor()`, `REACH`, `ROOM_EXTENSION` and `extensionLayer()`: which art is framed a fifth wider, and each room's extension pictures by the CSS property its bundle will define |
+| `room-scene/assets/` | The ten extension pictures, `<room>.extend.svg` and `<room>.extend-dark.svg`, written by `design/tools/room-scene-extend.mjs` |
+| `icons.mjs` | The phone interface's icon family |
+| `tag-layout.mjs` | `layoutTags()` and `TAG_RULES` (0.5.0): where the name tags go, whole and apart, shared with the board's tags (#298). Pure: measured boxes in, places out |
+| `room-scene/preview/` | Development only: the preview on the pack's synthetic fixtures, and the lifecycle probe (`probe.mjs`) |
+| `room-scene/review/` | The check's captures and `check.json` |
+
+**Used unchanged**, already in the hosted graph:
+- `apps/game/hosted/board-v2-drawing/slots-four.mjs`, `fit-four.mjs` and `lighting.mjs`;
+- `apps/game/hosted/scene-drawing/frame.mjs`, `body.mjs` and `gestures.mjs`;
+- `apps/game/hosted/crew-runtime.mjs`: the crew figures, their idle motion and each match's art pins, through `@mothership/contracts`.
+
+**One source:**
+- The pack's prototype re-exports the component's ambient layer and outlines.
+- The pack's `art.mjs` and `icons.mjs` are pinned byte for byte by the frozen Food release (`docs/integration/food-consumer-source-2026-11-13.json`), so they stay as they are for now. The component holds the runtime copy of their framing and icons, and `room-scene.test.mjs` checks that both give exactly the same results: every frame for every room, roster, size and number of people, every outline and every icon.
+- When Integration moves those pins, the pack's two files re-export the component's too.
+
+## Mount, update and dispose
+
+```js
+import { mountRoomScene } from '…/design/phone-ui/components/room-scene/room-scene.mjs';
+import '…/design/phone-ui/components/room-scene/room-scene.css';
+
+const scene = mountRoomScene(host, input, { onSeat, onSlot, onControl, onFocusReturn });
+scene.update({ ...changes });  // any inputs; the rest stay
+scene.suspend();               // backgrounded: every animation stands still
+scene.resume();                // foregrounded: back on the clock
+scene.layout();                // { frame, places, people }: see below
+scene.films;                   // 0.4.0: the container for the game's films, or null after dispose()
+scene.dispose();               // removes the element, its listener and the crew's mounts
+```
+
+- **The host:** an element Frontend places between the app's bars. The component appends one child, `.ms-room-scene`, of exactly `size`.
+- **On update:**
+  - People are kept by seat, so a figure's idle motion carries on. Controls, positions, press squares and cards are kept by their id and changed in place.
+  - The frame is worked out again only when the room, the roster, the room art, the size or the people the lit room shows change, and never during a hold (except a change of room, roster or room art).
+  - `people: []`, `targets: null` and `control: null` replace what was there.
+- **To resize:** `update({ size })`. During a hold, see below.
+- **Lifecycle guarantees:**
+  - `dispose()` is safe to call twice. After it, `update()`, `suspend()` and `resume()` do nothing, `layout()` returns `null`, and no callback fires: the listener is gone and a pending `onFocusReturn` is dropped.
+  - `resume()` follows the current inputs. The voyage runs only while live, in motion and with a clock; the crew moves only while live.
+  - `layout()` returns a new plain snapshot on each call; changing it changes nothing.
+  - Each mount is independent. A new match, seat or art version is a new mount, after disposing the old one, and nothing carries over between mounts.
+- **Ids:**
+  - A seat is the id the presentation model gives (`'seat-4'` or `4`), and `onSeat` returns that same id.
+  - A position is the room's place id (`'B1'`–`'B5'` in Room B), and `onSlot` returns it.
+  - Each person shown in the lit room needs a `character` (a crew id) and a `name`. In the dark the scene needs no one: pass `people: []`.
+
+### The hold: one frame for a whole Blackout window
+
+- **Pass** `hold` as the Blackout window's id, from the app's own Blackout state, for the whole window: its lit seconds and its dark ones. No gameplay field or phase timing is needed. `hold: true` holds a window Frontend does not name. The lights out with no `hold` also holds.
+- **Held:** the frame, the size it was made for and every press square stay exactly where they are, whatever the size, the insets, the people or the lights do. A hold that begins lit frames the room as it is then; one that begins in the dark keeps the last lit frame.
+- **During a resize in a hold:** the scene's element takes the new size at once. The room, the people's places and the press squares keep their pixel positions from the scene's top left. A larger space shows the scene's background at its far edges, and a smaller one clips them, until the window ends. The room's name and its control follow the new size: they are not geometry.
+- **The hold ends**, and the room is framed again in the current size, when `hold` is cleared with the lights on, or when a window with a different id begins. A different room or roster frames afresh.
+- **Opened in the dark** with no frame to keep, it frames the `people` given (Frontend's public pre-Blackout board) or, with none, every place as if occupied: the fallback depends only on the room and the phone.
+- `roomSceneFrame(state, previous)` is the same rule as a plain function, for Frontend's own tests.
+- **Across a remount (0.5.1):** `scene.hold()` gives the held frame as coordinates only: `{ context, window, k, tx, ty, zoom, panel, cold }`, frozen, with no seat, person or target. It is `null` outside a window and after `dispose()`.
+  - Before the mount removes the scene for the Board view, it keeps `hold()` with the match, the viewer, the room and the art.
+  - Mounting this room again in the same window, it passes that as `heldFrame`. The new scene keeps the frame and every press square, in any size.
+  - A different window, room or roster, or the lights on with no window, frames afresh. The mount drops what it keeps when the window ends, the match or the viewer changes, or the art changes.
+  - `heldFrame` takes exactly what `hold()` gives. Anything else, such as a person or a seat, is refused.
+
+### `layout()`
+
+```js
+{
+  frame: { k, tx, ty, panel: { width, height }, held, window, cold },
+  places: [{ slot, left, top, side }],   // each place's press square: the room's neutral geometry
+  people: [{ seat, slot, left, top, side }],  // who is where: only while the lit room shows them
+}
+```
+
+- **Coordinates:** CSS pixels from the scene's top left. `panel` is the size the frame was made for; during a hold it can differ from `size`.
+- **Who is where:** only while the room is lit and not concealed. In the dark and concealed, `people` is empty and the rest is geometry alone: no seat and no person.
+- **After `dispose()`:** `null`.
+- **The text alternative** (the list of people, #222 R3) is Frontend's, built from `layout().people`, so in the dark and concealed it lists nobody.
+
+### Films
+
+`scene.films` is where the game puts the films this component does not draw yet. It is a container in the scene's own stacking context that makes none of its own, so each film interleaves with the scene by its z-index, on the scene's scale:
+
+| Layer | z-index |
+| --- | --- |
+| A room picture at a depth | 2 × depth + 1 |
+| A person's body at a depth | 2 × depth |
+| A person's front parts (a desk, a bench) | 1500 + depth |
+| The turn mark | 3001 |
+| An offered position | 3050 |
+| A press square | 3100 |
+| A tag | 3150 |
+| The room's name and its control | 3200 |
+
+- **Coordinates:** CSS pixels from the scene's top left, as in `layout()`. `layout().frame` (`k`, `tx`, `ty`) places the room's 1024 × 768 drawing.
+- **A film that draws a person itself** names that seat in `standIns`, and the scene leaves the person's figure out. A recoil is `brace`.
+- **The scene never touches** what the game puts in `films`. It hides the container while concealed, and removes it with the scene on `dispose()`.
+
+## Inputs
+
+There are two audiences:
+
+- **The public board:** the room, its art and who is in it, the same for every phone.
+- **This viewer's own:** `self`, `targets` and `control`. These are viewer-authorized: give a phone only its own player's current offers and control. A shared display gets `self: null`, no `targets` and no `control`, and never another player's targeting state.
+  - The component drops `targets` and `control` when the scene is concealed, and does not keep them for when it shows again.
+  - It also drops them when `self` changes, unless the same update gives the new viewer's own.
+
+No input carries a role, a team or any other private fact.
+
+| Input | Audience | Default | What |
+| --- | --- | --- | --- |
+| `room` | Public | `'room-a'` | `'room-a'`, `'room-b'`, `'command-room'`, `'hospital'` or `'jail'` |
+| `roster` | Public | `9` | 7, 8 or 9: which table of places |
+| `size` | Phone | 390 × 640 | `{ width, height }`: the room area between the app's bars, in CSS pixels |
+| `insets` | Phone | `{ top: 46, bottom: 8 }` | The room's name sits in the top inset; the bottom inset keeps the last press square off the tabs |
+| `people` | Public | `[]` | `[{ seat, number?, slot, character, name, health, office }]`: who the lit room shows. `health` is `'Healthy'`, `'Injured'` or `'Eliminated'`; `office` is `'captain'`, `'officer'` or `null`; `number` defaults to the digits of `seat` |
+| `active` | Public | `null` | The seat whose turn it is: the turn mark |
+| `self` | This viewer | `null` | This phone's seat: the tag that reads "You". `null` for a shared display |
+| `lighting` | Public | `'lit'` | `'lit'` or `'dark'` |
+| `hold` | Public | `null` | The Blackout window's id, `true` for one not named, or `null`: see the hold |
+| `targets` | This viewer | `null` | `{ seats, picked }` (people) or `{ slots, picked, icon }` (empty positions): only this viewer's current offers |
+| `control` | This viewer | `null` | `{ id, label, icon, enabled, kind }`: the room's own control, such as "Windows · 2" (`kind: 'button'`), or the Jail's "Detained · you can still vote" (`kind: 'status'`). The label is shown as given; the component infers nothing from it. In the pack, Room B's control opens the Windows panel (sheet 34) and its number counts the windows that panel lists. If that count is not authorized for this viewer, the label carries no number |
+| `status` | Phone | `'live'` | `'live'`, `'stale'` (reconnecting) or `'concealed'` |
+| `artReady` | Phone | `true` | `false` once the room pictures failed to load: sheet 45 |
+| `clock` | Public | `null` | `{ now }`: the match's trusted server time, for the voyage. `null` means no trusted clock |
+| `reducedMotion` | Phone | `false` | The player's Reduce motion; the device's setting is honoured as well |
+| `interactive` | Phone | `true` | Whether this surface takes taps now |
+| `versions` | Public | `null` | The match's pinned art versions, passed to the crew runtime |
+| `label` | Phone | `true` | Show the room's name |
+| `standIns` | Public | `[]` | 0.4.0: seats whose figure the game's film draws instead. Their tag, turn mark, press square and place stay |
+| `brace` | Public | `null` | 0.4.0: `{ seat, dx, dy }`, the recoil: that person's figure moves by `dx`, `dy` CSS pixels |
+| `heldFrame` | Public | `null` | 0.5.1: another scene's `hold()`, given when this room is mounted again in the same Blackout window (Board → Room). Coordinates only; anything else is refused |
+| `roomArt` | Public | `null` | The room-art release the match's bundles carry. `'room-drawing-1.0.0'` frames a fifth wider, with the extension; anything else, or `null`, keeps the pack's framing. A change frames afresh, even within a hold |
+
+## Callbacks
+
+- `onSeat(seat)`: a tap on an offered person.
+- `onSlot(slotId)`: a tap on an offered empty position.
+- `onControl(id)`: a tap on the room's own control.
+- `onFocusReturn({ intent, value })`: the focused offer or control ended (`intent` is `'seat'`, `'slot'` or `'control'`), and the focus is now on the scene itself. It is called after the update has finished, and only if the focus is still on the scene. Frontend may move the focus on, for example to the next step's control.
+
+The first three report intent only, and only while `interactive` and `status: 'live'`. Frontend checks the current offer and sends the command. The component never decides eligibility, spends anything, resolves anything or advances the game.
+
+## States
+
+| State | What shows |
+| --- | --- |
+| Lit | With the approved pictures, the room a fifth wider, its extension continuing ceiling and deck; with older art, the room filling the space. Every present figure is whole (T1): the crew, the tags, the turn mark, the room's name and its control |
+| Targets | A ring on each offered person and a stronger one on the picked person; everyone else is dimmed |
+| Empty positions | A dashed square on each offered position; the picked one turns solid amber |
+| Dark | The dark picture, and in a wider view its lights-out extension, with nobody and no tags. The frame and the press squares are held from the last lit frame, through any resize. Only the windows move, dimmed, and offered positions still show |
+| Opened in the dark | With no lit frame and no `people`, the room is framed as if every place were occupied. With Frontend's public pre-Blackout board as `people`, it is framed from that board |
+| Stale | The last room, dimmed, with no control. Offered people and positions stay where they are but take no taps (`aria-disabled`), so the focus stays on them. The banner belongs to the shell |
+| Concealed | A plain cover. Nothing of the room is drawn or named, no picture is requested, every animation stops, and the offers and control are dropped |
+| Reduce motion | The voyage and the crew stand still where they are |
+| No clock | The voyage stands still at 0 s, the same on every phone |
+| Room picture unavailable | Sheet 45's notice, with each person as a portrait card (number, name, place). Taps and the control still work |
+
+## Art and versions
+
+- **The room pictures:** each is reached by the CSS property its art bundle defines, for example `--bm-scene-room-b-back`, as listed in `room-art.mjs` and in the release manifest. So a phone draws the art its match's bundles carry.
+  - Today's bundles carry the old pictures.
+  - DSN-REQ-18 builds `room-drawing-1.0.0` into new bundles, and a new match then shows the approved rooms, while a pinned match keeps its own.
+  - The preview sets the properties from the release's files.
+- **The extension pictures:** each room's two, lit and lights-out, reached the same way:
+  - `--bm-scene-<room>-extend` and `--bm-scene-<room>-extend-dark`, as listed in `room-extension.mjs`;
+  - drawn only in a wider view, that is, with `roomArt` set to the approved release;
+  - the preview sets the properties from `room-scene/assets/`.
+- **The crew:** drawn by the game's `crew-runtime.mjs` with `versions`. A match pinned to the crew release gets the approved crew, with its idle motion.
+
+## The ambient clock
+
+- **One clock for every phone:** the time since `SKY_EPOCH` (1 November 2026, UTC). In the game, `clock.now()` returns the match's trusted server time in epoch milliseconds, so every phone shows the same moment of the voyage. The component never reads the device's own clock; with no trusted time, Frontend passes `clock: null`.
+- **Running:** while the scene is live, not suspended, in motion (neither the game's nor the device's Reduce motion) and has a trusted clock. It is set to the clock when it starts running and when the room's pictures are rebuilt, and then runs on its own. Frontend's model updates every 250 ms never re-time it.
+- **Standing still:** reduced, reconnecting, suspended or concealed. It samples one moment when it stops: where it stood, read before anything in that update changes, or the clock's moment if it was not running. No update moves it, whatever the clock does, including one that rebuilds the pictures. It goes back on the clock when it runs again.
+- **No trusted clock:** with none ever given, it stands still at 0 s. A clock withdrawn while it runs leaves it standing where it was, with no jump.
+- **Purely decorative:** it shows no game fact, takes no taps, never moves a press square and never times anything in the game.
+
+## Privacy
+
+- **Public inputs:** the room, its art and who is in it; every picture is the same for every phone, and no request depends on a role, a team or an offer.
+- **This viewer's inputs:** `self`, `targets` and `control`, as above. They are dropped when concealed and when the viewer changes.
+- **Concealed (0.5.1):** the people, `self`, `active`, the stand-ins and the recoil are dropped too. Only a fresh input brings them back, and a wake with the status alone shows the room empty. The frame, which is geometry, is kept.
+- **`layout()`:** who is where only while the lit room shows them; geometry alone in the dark and concealed; `null` after `dispose()`.
+- **Concealed:** nothing is requested, drawn or named. The scene is a group named "Room hidden", with no room in its attributes.
+
+## Accessibility
+
+- **Names:**
+  - Each person's press square is a button named "<name>, player <number>", or "You, player <number>".
+  - Each position is "Position <id>".
+  - The control is named by its own label.
+  - The scene is a group named after the room, or "Room hidden" when concealed.
+- **Unavailable controls** (reconnecting, `interactive: false`, a control with `enabled: false`) carry `aria-disabled="true"`. They stay focusable and announce themselves as unavailable; a tap or a key does nothing.
+- **The focus:**
+  - Every control keeps its element across updates, so the focus stays on it.
+  - Only an offer or control that ends moves it: to the scene (`tabindex="-1"`), then `onFocusReturn`.
+  - `dispose()` removes the scene; if the focus was inside, Frontend's next screen places it.
+- **Decorative:** figures and the room's pictures are hidden from assistive technology.
+- **Larger text:** the tags follow the game's text size, whole and apart from each other (0.5.0, #222 item 34).
+- **The text alternative** (#222 R3) is Frontend's, built from `layout()`.
+
+## Frontend's first connection: Room B
+
+1. Measure the room area between the app's bars, and pass it as `size`.
+2. Map the presentation model:
+
+   | Input | From |
+   | --- | --- |
+   | `people` | The board's seats in this room, with the public offices |
+   | `self` | This phone's own seat; `null` on a shared display |
+   | `active` | The active seat |
+   | `targets` | This viewer's current offers only |
+   | `control` | This viewer's room interaction |
+   | `hold` | The Blackout window's id, for its lit and dark seconds |
+   | `status` | The connection and concealment |
+   | `artReady` | The art loader |
+   | `clock` | The trusted server clock |
+   | `reducedMotion` | The preference |
+   | `versions` | The match's versions |
+   | `roomArt` | The room-art release the match's versions select, as Integration registers it |
+
+3. Mount it through the renderer's existing hooks, and dispose of it on exit. Leave none of the old renderer's room targets active.
+4. Capture Room B lit, stale, concealed and with reduced motion, from the deployed candidate or under the production headers, at 390 × 844 and 430 × 932. Designer then gives visual acceptance in the PR.
+
+## Integration's part
+
+- **Admit the graph:** admit the component's files above, the room pictures, the extension pictures (`room-scene/assets/`) and `@mothership/contracts` to the hosted build's source boundary (`apps/game/hosted/vite.config.mjs`). `preview/` and `review/` stay out.
+- **Register the room art (DSN-REQ-18):** build `room-drawing-1.0.0` into new art bundles with the ten extension pictures (`room-scene/assets/`, under the properties in `room-extension.mjs`), and name the art version that selects them. Frontend then passes `roomArt` for a match on it.
+- **#230 (ship life):** it no longer carries the framing for the game. Once it is on `main`, its framing and extension import the component's.
+
+## Not in this version yet
+
+These are listed, not omitted:
+
+| What | Waiting on |
+| --- | --- |
+| The private-talk capsule (sheet 25) | Its component, built in #293 |
+| The board's panels (sheet 26) | Its name tags and the zoom, built in #298 |
+| The Officer's "Blocked" pill (sheet 21) | Its component, next |
+| The room films: rescue, attack, eject, Blackhole | The next components |
+| Ship life (#230) | The gameplay contract |
+| The top bar, the tabs and Pass | The shell, #265, stacked on this PR |
+| Captures of the other rooms | Not taken yet; the component draws all five rooms |
+
+## Checks run on this version
+
+- **Tests:**
+
+  | Check | Result |
+  | --- | --- |
+  | `packages/design-tokens/test/room-scene.test.mjs` | 13 of 13 |
+  | `npm run test:design` | 372 of 372 (on 0.5.1) |
+  | `npm run test:tooling` | 337 of 337 (on 0.3.0) |
+  | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` | Pass |
+  | `node design/tools/check-assets.mjs` | 15 passed |
+  | `node design/tools/phone-ui-figure-extents.mjs --check` | Current |
+  | `node design/tools/room-scene-extend.mjs --check` | Current; the five lit pictures' drawing is byte-identical to #230's |
+
+- **`node design/tools/room-scene-check.mjs`:**
+  - The preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy as it is on `main` after #260.
+  - **Captures:** eleven states at 390 × 844 and 430 × 932: 22 of 22 pass. Ten show the approved pictures a fifth wider; `today` shows older art in the pack's framing.
+  - **The lifecycle probe** (`preview/probe.mjs`), in the same bundle under the same headers: 31 of 31 checks pass.
+    - Held: one window through 390 × 653 → 430 × 741, lit and dark, and new insets, then its end. Across a remount (0.5.1), in the same window and another size, a scene given `hold()` keeps the frame and every press square, and one without it frames every place. `hold()` has the eight keys only, and is `null` outside a window and after `dispose()`.
+    - Private: `layout()` lit, dark and concealed; the offers and the control after concealment and after a change of viewer; after `dispose()`. Concealment drops the people too (0.5.1): a wake with the status alone draws no figure, tag or "you", and a fresh input draws them again.
+    - Run against 0.5.0's component, 29 of the 31 pass: the two 0.5.1 checks fail.
+    - Time: Reduce motion with the clock moving from 1 s to 9 s, as in Frontend's review; eight 250 ms model updates; reconnecting; running again; suspended and resumed; the clock withdrawn; no clock; and, from Frontend's re-review, the clock withdrawn, reconnecting or Reduce motion in the same update as a resize, and concealment while running.
+    - Focus: the control, a position and a press square across updates, reconnecting and their end.
+    - Films (0.4.0):
+      - a stand-in keeps its tag, place and press square without its figure, and only its own;
+      - the recoil moves one figure, and not its tag or anyone else;
+      - the films container interleaves by z-index (under a press square at 3000, over it at 3300), hides while concealed and is gone after `dispose()`.
+    - Tags (0.5.0):
+      - at the standard text, every tag whole and apart, each where the pack puts it;
+      - at the Large (150 %) and Largest (200 %) text, in Room B at both phone sizes, every tag whole, apart, 4 px inside the scene and clear of the room's name and its control.
+    - The device's Reduce motion, emulated.
+  - **On earlier versions:** on `03029b34`, 4 of 0.2.0's 19 checks pass, failing on each of the four findings. On `ee691846` (0.2.0), 19 of these 23 pass: the four new time checks fail.
+  - There are no page errors and no failed requests.
+  - The one policy report is the known one: Zod's eval probe, which Zod catches and which the live game's own bundle also has.
+  - The captures and `check.json`, with each probe check and what it saw, are in `review/`. They were recorded on `28b74a97` (0.5.1), with the source clean; before, on `ad39ee11` (0.5.0). The headers' SHA-256 is `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`.
+  - **At the game's text size:** the preview's root is the browser's 16 px, as the game's (its html sets no size). Until `191700a1` the preview forced 14 px, so the name tags and the room's control drew an eighth small (11.375 px tags against the game's 13 px). At 16 px every tag stays whole and apart in all 22 captures; the probe's checks are unchanged.
+  - 0.5.1's captures differ from 0.5.0's only in the crew's idle motion: 10 of the 22 are unchanged byte for byte, 2 have no pixel more than 32 of 255 apart, and 10 differ in at most 53 pixels. Nothing 0.5.1 changes shows in a capture: it changes what a concealed scene keeps and what a remounted one takes over, which the probe checks.
+  - 0.5.0's captures differ from 0.4.0's only in the crew's idle motion (a blink, a breath; at most 454 of a capture's 1.3 million pixels). At the standard text no two of Room B's tags meet, so each is where 0.4.0 put it.
+  - 0.4.0 draws nothing new until the game uses its new inputs. Its captures differ from 0.3.0's only where the crew's idle motion and the voyage stood at another moment.
+  - 0.3.0's captures show the approved pictures a fifth wider, so they differ from 0.2.1's by design. The new `today` state shows older art in the pack's framing, as 0.2.1's captures showed every state.
+- **Not run:** physical phones, Safari, screen readers, frame rate and the real app's connection.

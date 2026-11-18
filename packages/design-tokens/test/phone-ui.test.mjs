@@ -288,11 +288,14 @@ test('the rooms’ ambient motion covers every room, shows no game fact and is s
   settleAmbient(layer([live]), { live: true, now: SKY_EPOCH + 61000 });
   settleAmbient(layer([held]), { at: 45 });
   assert.deepEqual([live.currentTime, live.paused, held.currentTime, held.paused], [61000, false, 45000, true]);
-  // Drawn from the room alone: the module imports only the night rule, and draws the same markup every time.
-  const source = read('design/phone-ui/prototype/ambient.mjs');
-  assert.deepEqual([...source.matchAll(/^import .* from '([^']+)';$/gm)].map(m => m[1]), ['../../board-v2/scenes/lighting.mjs']);
+  // Drawn from the room alone: the module imports only the night rule (its runtime port), and draws the
+  // same markup every time. Its source is the room scene component's; the pack's files only re-export it.
+  const source = read('design/phone-ui/components/room-scene/ambient.mjs');
+  assert.deepEqual([...source.matchAll(/^import .* from '([^']+)';$/gm)].map(m => m[1]), ['../../../../apps/game/hosted/board-v2-drawing/lighting.mjs']);
+  assert.match(read('design/phone-ui/prototype/ambient.mjs'), /^\/\/ mothership:dev-only\n[\s\S]*export \* from '\.\.\/components\/room-scene\/ambient\.mjs';\n$/);
+  assert.match(read('design/phone-ui/prototype/ambient.css'), /@import url\("\.\.\/components\/room-scene\/ambient\.css"\);/);
   const tokens = JSON.parse(read('packages/design-tokens/src/tokens-0.5.0.json'));
-  const css = read('design/phone-ui/prototype/ambient.css');
+  const css = read('design/phone-ui/components/room-scene/ambient.css');
   for (const hex of Object.values(tokens.color.factionPrivateOrRevealed)) {
     assert.doesNotMatch(source + css, new RegExp(String(hex), 'i'), `no team colour (${hex})`);
   }
@@ -311,7 +314,7 @@ test('the rooms’ ambient motion covers every room, shows no game fact and is s
   } finally {
     globalThis.document = before;
   }
-  assert.match(css, /mothership:dev-only/);
+  assert.doesNotMatch(source + css, /mothership:dev-only/, 'the runtime source carries no development marker');
   assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{ \.amb \* \{ animation-play-state: paused !important; \} \}/, 'still under the system’s Reduce motion');
   assert.match(css, /\[data-motion="reduced"\] \.amb \*/, 'still under the game’s Reduce motion');
   assert.ok(SHEETS.some(s => s.slug === 'ambient-motion'), 'a review sheet shows a moment of each room');
