@@ -414,14 +414,17 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   if(absent.length){const memorial=el('div',null,'planet-offboard');memorial.append(el('span','Off board'));for(const choice of absent)memorial.append(button(choice.label,'choose',choice.value));targets.append(memorial);}
  }
  function render(next){
-  if(disposed)return;model=next;setCrewPictureSurface(root,model.versions);
+  if(disposed)return;model=next;
+  // The crew's pictures are drawn for the match's versions. Without a current state the model has none, so while the
+  // connection isn't live the surface keeps the versions last given: the viewer's own portrait on the Card tab, kept as
+  // last seen, stays the same picture, as the last room stays in the stage. Live, it is the model's own, as before.
+  if(model.connection==='live'&&model.versions)seenVersions=model.versions;
+  setCrewPictureSurface(root,model.versions??(model.connection!=='live'?seenVersions:null));
   root.dataset.planetPanel=model.panel;root.dataset.connection=model.connection;root.dataset.surface=model.surface;root.dataset.mode=model.mode;root.dataset.motion=reduced()?'reduced':'normal';root.dataset.blackout=model.dark?'dark':'none';root.dataset.phase=model.phase?.kind??'';
   root.dataset.ownTurn=String(!model.dark&&model.activeSeatId===model.ownSeatId);
   if(model.connection==='live'&&Number.isSafeInteger(model.round))lastRound=model.round;
   // The viewer's own person as last given, for the Card tab while the connection isn't live (shell-input.mjs ownPersonSeen).
   ownSeen=ownPersonSeen(ownSeen,model);
-  // And the match's versions as last given, so that person's portrait stays the same picture while it is kept.
-  if(model.connection==='live'&&model.versions)seenVersions=model.versions;
   serverClock.observe(model);
   const closed=phaseClosed(before,model);before=model;
   // Only the exact Food tuple supplies these sanitized public facts. Ordinary
