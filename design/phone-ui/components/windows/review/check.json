@@ -1,0 +1,2445 @@
+{
+  "tool": "design/tools/windows-check.mjs",
+  "component": "design/phone-ui/components/windows",
+  "sourceCommit": "dabd6f21997010938b930e29244f0430879df9ee",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": {
+    "390x844/view": {
+      "file": "design/phone-ui/components/windows/review/390x844-view.jpg",
+      "sha256": "cba1b01dac20241daade83162701370e708fe016322eb39ec22e2409b06b7fd8",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B2B4RQoS.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Windows",
+      "detent": "large",
+      "back": true,
+      "title": "Windows",
+      "openTab": "panels",
+      "heads": "Room A ↔ Room B|Ends with the round|Room A ↔ Hospital|Ends with the round",
+      "metas": "1 · Hana · Round 3|Unverified|1 · Eli · Round 3|Unverified",
+      "labels": "",
+      "strokes": 6,
+      "stamp": null,
+      "inks": "",
+      "pad": null,
+      "pen": false,
+      "undoOff": null,
+      "wait": null,
+      "foot": "",
+      "showOn": false,
+      "showBusy": false,
+      "showWaits": null,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/view": {
+      "file": "design/phone-ui/components/windows/review/430x932-view.jpg",
+      "sha256": "d63d76b371424b394c559c5d91677793603dd36b31d574f17de5359ccf2d9492",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B2B4RQoS.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Windows",
+      "detent": "large",
+      "back": true,
+      "title": "Windows",
+      "openTab": "panels",
+      "heads": "Room A ↔ Room B|Ends with the round|Room A ↔ Hospital|Ends with the round",
+      "metas": "1 · Hana · Round 3|Unverified|1 · Eli · Round 3|Unverified",
+      "labels": "",
+      "strokes": 6,
+      "stamp": null,
+      "inks": "",
+      "pad": null,
+      "pen": false,
+      "undoOff": null,
+      "wait": null,
+      "foot": "",
+      "showOn": false,
+      "showBusy": false,
+      "showWaits": null,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/draw": {
+      "file": "design/phone-ui/components/windows/review/390x844-draw.jpg",
+      "sha256": "ebc8efe661cecd30a424fb600154f25d4ea9303b230ece3de9c863007e17e4e3",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B2B4RQoS.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Windows",
+      "detent": "large",
+      "back": true,
+      "title": "Windows",
+      "openTab": "panels",
+      "heads": "Room A ↔ Hospital|Your station · A2",
+      "metas": "1 · Eli · Round 3|Unverified",
+      "labels": "Shown this round",
+      "strokes": 4,
+      "stamp": null,
+      "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "pad": "application:Drawing for Room A ↔ Hospital",
+      "pen": false,
+      "undoOff": false,
+      "wait": null,
+      "foot": "Show",
+      "showOn": true,
+      "showBusy": false,
+      "showWaits": null,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/draw": {
+      "file": "design/phone-ui/components/windows/review/430x932-draw.jpg",
+      "sha256": "e1dbe216cebaef5921ba3ea38de0bcacaf09cc3322697b099ef8b2f20b03edff",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B2B4RQoS.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Windows",
+      "detent": "large",
+      "back": true,
+      "title": "Windows",
+      "openTab": "panels",
+      "heads": "Room A ↔ Hospital|Your station · A2",
+      "metas": "1 · Eli · Round 3|Unverified",
+      "labels": "Shown this round",
+      "strokes": 4,
+      "stamp": null,
+      "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "pad": "application:Drawing for Room A ↔ Hospital",
+      "pen": false,
+      "undoOff": false,
+      "wait": null,
+      "foot": "Show",
+      "showOn": true,
+      "showBusy": false,
+      "showWaits": null,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/shown": {
+      "file": "design/phone-ui/components/windows/review/390x844-shown.jpg",
+      "sha256": "d50a9cfc9617d6f879a20726c7815b8a6acf1e93e0321c7b1784805ef26f2b3c",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B2B4RQoS.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Windows",
+      "detent": "large",
+      "back": true,
+      "title": "Windows",
+      "openTab": "panels",
+      "heads": "Room A ↔ Hospital|Your station · A2",
+      "metas": "2 · Dev · Round 3|Can’t be changed|1 · Eli · Round 3|Unverified",
+      "labels": "Shown this round",
+      "strokes": 5,
+      "stamp": "SHOWN",
+      "inks": "",
+      "pad": null,
+      "pen": false,
+      "undoOff": null,
+      "wait": null,
+      "foot": "Done",
+      "showOn": true,
+      "showBusy": false,
+      "showWaits": null,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/shown": {
+      "file": "design/phone-ui/components/windows/review/430x932-shown.jpg",
+      "sha256": "bd2857e2d5ffaad5a9cf1b3ca2c015d2c9eb1eea55f4a7628fff5bd22ce2c4a0",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B2B4RQoS.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Windows",
+      "detent": "large",
+      "back": true,
+      "title": "Windows",
+      "openTab": "panels",
+      "heads": "Room A ↔ Hospital|Your station · A2",
+      "metas": "2 · Dev · Round 3|Can’t be changed|1 · Eli · Round 3|Unverified",
+      "labels": "Shown this round",
+      "strokes": 5,
+      "stamp": "SHOWN",
+      "inks": "",
+      "pad": null,
+      "pen": false,
+      "undoOff": null,
+      "wait": null,
+      "foot": "Done",
+      "showOn": true,
+      "showBusy": false,
+      "showWaits": null,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/none": {
+      "file": "design/phone-ui/components/windows/review/390x844-none.jpg",
+      "sha256": "c3c96396145d6f49686b4bb7d8950403c7e590eeebf48ff65353873c5dd253e6",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B2B4RQoS.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Windows",
+      "detent": "large",
+      "back": true,
+      "title": "Windows",
+      "openTab": "panels",
+      "heads": "",
+      "metas": "",
+      "labels": "",
+      "strokes": 0,
+      "stamp": null,
+      "inks": "",
+      "pad": null,
+      "pen": false,
+      "undoOff": null,
+      "wait": "No window here|The Command Room has no window",
+      "foot": "",
+      "showOn": false,
+      "showBusy": false,
+      "showWaits": null,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/none": {
+      "file": "design/phone-ui/components/windows/review/430x932-none.jpg",
+      "sha256": "4fe2c5af2b68ae0e199056be2905bbfa5026c5f95bd2be6121407705fcd7841f",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B2B4RQoS.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Windows",
+      "detent": "large",
+      "back": true,
+      "title": "Windows",
+      "openTab": "panels",
+      "heads": "",
+      "metas": "",
+      "labels": "",
+      "strokes": 0,
+      "stamp": null,
+      "inks": "",
+      "pad": null,
+      "pen": false,
+      "undoOff": null,
+      "wait": "No window here|The Command Room has no window",
+      "foot": "",
+      "showOn": false,
+      "showBusy": false,
+      "showWaits": null,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/blank": {
+      "file": "design/phone-ui/components/windows/review/390x844-blank.jpg",
+      "sha256": "9158261590481a54e43a9e6ad7ba8e162169444a2b6787ff9b4bc803d0012bc2",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B2B4RQoS.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Windows",
+      "detent": "large",
+      "back": true,
+      "title": "Windows",
+      "openTab": "panels",
+      "heads": "Room A ↔ Hospital|Your station · A2",
+      "metas": "1 · Eli · Round 3|Unverified",
+      "labels": "Shown this round",
+      "strokes": 2,
+      "stamp": null,
+      "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "pad": "application:Drawing for Room A ↔ Hospital",
+      "pen": false,
+      "undoOff": true,
+      "wait": null,
+      "foot": "Show",
+      "showOn": false,
+      "showBusy": false,
+      "showWaits": null,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/blank": {
+      "file": "design/phone-ui/components/windows/review/430x932-blank.jpg",
+      "sha256": "f827808f5b400c33737dd4cfd25304bcb0f14494f0bb2e485325d89a1ea547b2",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B2B4RQoS.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Windows",
+      "detent": "large",
+      "back": true,
+      "title": "Windows",
+      "openTab": "panels",
+      "heads": "Room A ↔ Hospital|Your station · A2",
+      "metas": "1 · Eli · Round 3|Unverified",
+      "labels": "Shown this round",
+      "strokes": 2,
+      "stamp": null,
+      "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "pad": "application:Drawing for Room A ↔ Hospital",
+      "pen": false,
+      "undoOff": true,
+      "wait": null,
+      "foot": "Show",
+      "showOn": false,
+      "showBusy": false,
+      "showWaits": null,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/showing": {
+      "file": "design/phone-ui/components/windows/review/390x844-showing.jpg",
+      "sha256": "13d3be33e80571dc8f2669937c3c241908e7c520c6d928c6760b01ff831b4108",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B2B4RQoS.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Windows",
+      "detent": "large",
+      "back": true,
+      "title": "Windows",
+      "openTab": "panels",
+      "heads": "Room A ↔ Hospital|Your station · A2",
+      "metas": "1 · Eli · Round 3|Unverified",
+      "labels": "Shown this round",
+      "strokes": 4,
+      "stamp": null,
+      "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "pad": "application:Drawing for Room A ↔ Hospital",
+      "pen": false,
+      "undoOff": false,
+      "wait": null,
+      "foot": "Show",
+      "showOn": true,
+      "showBusy": true,
+      "showWaits": null,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/showing": {
+      "file": "design/phone-ui/components/windows/review/430x932-showing.jpg",
+      "sha256": "2580ec509933414782e27c0450e9ff693b3c13f9b259def528e0d1ffd577d01d",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B2B4RQoS.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Windows",
+      "detent": "large",
+      "back": true,
+      "title": "Windows",
+      "openTab": "panels",
+      "heads": "Room A ↔ Hospital|Your station · A2",
+      "metas": "1 · Eli · Round 3|Unverified",
+      "labels": "Shown this round",
+      "strokes": 4,
+      "stamp": null,
+      "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "pad": "application:Drawing for Room A ↔ Hospital",
+      "pen": false,
+      "undoOff": false,
+      "wait": null,
+      "foot": "Show",
+      "showOn": true,
+      "showBusy": true,
+      "showWaits": null,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/keyboard": {
+      "file": "design/phone-ui/components/windows/review/390x844-keyboard.jpg",
+      "sha256": "f1ec416d2a0f50232c8f20967b12b68b19bf275cb385cf054dadebdb7b968e01",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B2B4RQoS.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Windows",
+      "detent": "large",
+      "back": true,
+      "title": "Windows",
+      "openTab": "panels",
+      "heads": "Room A ↔ Hospital|Your station · A2",
+      "metas": "1 · Eli · Round 3|Unverified",
+      "labels": "Shown this round",
+      "strokes": 5,
+      "stamp": null,
+      "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "pad": "application:Drawing for Room A ↔ Hospital",
+      "pen": true,
+      "undoOff": false,
+      "wait": null,
+      "foot": "Show",
+      "showOn": true,
+      "showBusy": false,
+      "showWaits": null,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/keyboard": {
+      "file": "design/phone-ui/components/windows/review/430x932-keyboard.jpg",
+      "sha256": "a394fd848c801aa6d4726bcd3cc4cb4fae0f3a10f8f0adf8809076da09cfe7b9",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B2B4RQoS.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Windows",
+      "detent": "large",
+      "back": true,
+      "title": "Windows",
+      "openTab": "panels",
+      "heads": "Room A ↔ Hospital|Your station · A2",
+      "metas": "1 · Eli · Round 3|Unverified",
+      "labels": "Shown this round",
+      "strokes": 5,
+      "stamp": null,
+      "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "pad": "application:Drawing for Room A ↔ Hospital",
+      "pen": true,
+      "undoOff": false,
+      "wait": null,
+      "foot": "Show",
+      "showOn": true,
+      "showBusy": false,
+      "showWaits": null,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/stale": {
+      "file": "design/phone-ui/components/windows/review/390x844-stale.jpg",
+      "sha256": "d6a7bd25818f98f88117e64b730b2d2387ae1b6a6ea3700671da13261e7ddb24",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B2B4RQoS.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Windows",
+      "detent": "large",
+      "back": true,
+      "title": "Windows",
+      "openTab": "panels",
+      "heads": "Room A ↔ Hospital|Your station · A2",
+      "metas": "1 · Eli · Round 3|Unverified",
+      "labels": "Shown this round",
+      "strokes": 4,
+      "stamp": null,
+      "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "pad": "application:Drawing for Room A ↔ Hospital",
+      "pen": false,
+      "undoOff": false,
+      "wait": null,
+      "foot": "Show",
+      "showOn": false,
+      "showBusy": false,
+      "showWaits": "Controls return when the match is current",
+      "banner": true,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/stale": {
+      "file": "design/phone-ui/components/windows/review/430x932-stale.jpg",
+      "sha256": "7ce3b3764ca81520430defff6d54c0f8c2f313da33977ad7951057587acca181",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B2B4RQoS.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Windows",
+      "detent": "large",
+      "back": true,
+      "title": "Windows",
+      "openTab": "panels",
+      "heads": "Room A ↔ Hospital|Your station · A2",
+      "metas": "1 · Eli · Round 3|Unverified",
+      "labels": "Shown this round",
+      "strokes": 4,
+      "stamp": null,
+      "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "pad": "application:Drawing for Room A ↔ Hospital",
+      "pen": false,
+      "undoOff": false,
+      "wait": null,
+      "foot": "Show",
+      "showOn": false,
+      "showBusy": false,
+      "showWaits": "Controls return when the match is current",
+      "banner": true,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/largest": {
+      "file": "design/phone-ui/components/windows/review/390x844-largest.jpg",
+      "sha256": "12d00126ad5f229f1a5d27d057975828360ef0a8a623441e37516b414e869715",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B2B4RQoS.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "name": "group:Windows",
+      "detent": "large",
+      "back": true,
+      "title": "Windows",
+      "openTab": "panels",
+      "heads": "Room A ↔ Hospital|Your station · A2",
+      "metas": "1 · Eli · Round 3|Unverified",
+      "labels": "Shown this round",
+      "strokes": 4,
+      "stamp": null,
+      "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "pad": "application:Drawing for Room A ↔ Hospital",
+      "pen": false,
+      "undoOff": false,
+      "wait": null,
+      "foot": "Show",
+      "showOn": true,
+      "showBusy": false,
+      "showWaits": null,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/largest": {
+      "file": "design/phone-ui/components/windows/review/430x932-largest.jpg",
+      "sha256": "532164d7f87052c821fcefb779def8fea4f8bdc3c85017901e410a1d417f174f",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B2B4RQoS.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "name": "group:Windows",
+      "detent": "large",
+      "back": true,
+      "title": "Windows",
+      "openTab": "panels",
+      "heads": "Room A ↔ Hospital|Your station · A2",
+      "metas": "1 · Eli · Round 3|Unverified",
+      "labels": "Shown this round",
+      "strokes": 4,
+      "stamp": null,
+      "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "pad": "application:Drawing for Room A ↔ Hospital",
+      "pen": false,
+      "undoOff": false,
+      "wait": null,
+      "foot": "Show",
+      "showOn": true,
+      "showBusy": false,
+      "showWaits": null,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "draw: a finger draws a stroke, reported once with the whole draft, in the ink at the pack's width; a point alone is a dot",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "before": 2,
+            "during": {
+              "reports": 0,
+              "live": 3
+            },
+            "whole": true,
+            "dot": {
+              "color": "#F7D886",
+              "width": 6,
+              "points": [
+                [
+                  0.3,
+                  0.3
+                ]
+              ]
+            },
+            "drawn": 4
+          }
+        },
+        {
+          "id": "inks: a radio group of the four, Gold first; a tap or the arrows choose one, reported with the draft; the next stroke in it",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "names": [
+              "Gold",
+              "Paper",
+              "Teal",
+              "Pink"
+            ],
+            "first": [
+              [
+                "true",
+                0
+              ],
+              [
+                "false",
+                -1
+              ],
+              [
+                "false",
+                -1
+              ],
+              [
+                "false",
+                -1
+              ]
+            ],
+            "chose": "#57BBA8",
+            "checked": true,
+            "inTeal": true,
+            "arrows": [
+              "#C2408F",
+              "#F7D886"
+            ],
+            "focus": true,
+            "again": true
+          }
+        },
+        {
+          "id": "undo: Undo takes the last stroke, Clear them all, each reported; on an empty draft both dimmed, refused and without words",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "undone": 1,
+            "drawn": 1,
+            "cleared": 0,
+            "empty": {
+              "undo": [
+                true,
+                true,
+                null
+              ],
+              "clear": [
+                true,
+                true,
+                null
+              ],
+              "drawn": 0
+            },
+            "none": true
+          }
+        },
+        {
+          "id": "keyboard: the arrows move the pen, Shift with an arrow draws, Space makes a dot; the pen's mark only while the keyboard draws",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "named": {
+              "role": "application",
+              "name": "Drawing for Room A ↔ Hospital",
+              "keys": "Arrow keys move the pen. Shift with an arrow draws. Space makes a dot.",
+              "tab": 0
+            },
+            "unseen": false,
+            "moved": {
+              "reports": 0,
+              "pen": true,
+              "at": [
+                "276.5",
+                "151.2"
+              ]
+            },
+            "mid": 0,
+            "drew": [
+              [
+                0.54,
+                0.54
+              ],
+              [
+                0.58,
+                0.54
+              ],
+              [
+                0.62,
+                0.54
+              ]
+            ],
+            "dot": [
+              [
+                0.62,
+                0.54
+              ]
+            ],
+            "ended": true,
+            "afterFinger": false,
+            "back": true,
+            "afterBlur": false
+          }
+        },
+        {
+          "id": "limits: a stroke past 512 points or the 4096 ends; none starts past 128 strokes or 4096 points; a drawing beyond them, or not the contract's, is refused",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "ended": true,
+            "last": 12,
+            "total": 4096,
+            "noneAtTotal": true,
+            "noneAtStrokes": true,
+            "refusals": {
+              "strokes129": true,
+              "points513": true,
+              "total4097": true,
+              "none": true,
+              "colour": true,
+              "markup": true,
+              "width": true,
+              "outside": true,
+              "notNumber": true,
+              "projection": true
+            },
+            "fine": true
+          }
+        },
+        {
+          "id": "footer: Show the command, off for an empty draft, busy and refused with Frontend's state; Done this phone's own; each view's frame",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "sameFrame": true,
+            "show": {
+              "id": "show",
+              "label": "Show",
+              "kind": "primary",
+              "icon": "show",
+              "enabled": true,
+              "busy": false,
+              "reason": null
+            },
+            "off": {
+              "refused": true,
+              "dimmed": true,
+              "why": "Not available now"
+            },
+            "sending": true,
+            "got": "show|done"
+          }
+        },
+        {
+          "id": "views: each window with its drawings; at a station that window only; after a Show, the drawing stamped with the others below; Frontend's words for none",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "view": {
+              "heads": [
+                "Room A ↔ Room B|Ends with the round",
+                "Room A ↔ Hospital|Ends with the round"
+              ],
+              "metas": [
+                "1 · Hana · Round 3|Unverified",
+                "1 · Eli · Round 3|Unverified"
+              ],
+              "labels": [],
+              "pad": false
+            },
+            "station": {
+              "heads": [
+                "Room A ↔ Hospital|Your station · A2"
+              ],
+              "metas": [
+                "1 · Eli · Round 3|Unverified"
+              ],
+              "labels": [
+                "Shown this round"
+              ],
+              "pad": true,
+              "otherGone": true
+            },
+            "stamped": {
+              "heads": [
+                "Room A ↔ Hospital|Your station · A2"
+              ],
+              "metas": [
+                "2 · Dev · Round 3|Can’t be changed",
+                "1 · Eli · Round 3|Unverified"
+              ],
+              "labels": [
+                "Shown this round"
+              ],
+              "stamp": "SHOWN",
+              "on": "2 · Dev · Round 3Can’t be changed",
+              "pad": false
+            },
+            "alone": {
+              "labels": [],
+              "metas": []
+            },
+            "none": [
+              "No window here",
+              "The Command Room has no window",
+              true
+            ],
+            "closed": "The windows close until the ship stops",
+            "nothing": 0,
+            "own": [
+              "1 · Hana · Round 3|Unverified",
+              "2 · Dev · Round 3|Can’t be changed"
+            ]
+          }
+        },
+        {
+          "id": "privacy: the windows, the draft and the shown drawing leave the page when the viewer changes and when concealed; nothing comes back by itself; only the strokes' shapes are drawn",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "before": 4,
+            "viewerGone": {
+              "strokes": 0,
+              "eli": false,
+              "pad": false
+            },
+            "stillGone": true,
+            "given": 4,
+            "concealed": {
+              "strokes": 0,
+              "words": "",
+              "foot": 0
+            },
+            "back": {
+              "strokes": 0,
+              "eli": false
+            },
+            "shownGone": {
+              "view": "none",
+              "stamp": false
+            },
+            "notOwn": true,
+            "missing": true,
+            "noStation": true,
+            "twoStations": true,
+            "tags": [
+              "svg",
+              "g",
+              "path"
+            ],
+            "attrs": [
+              "d",
+              "fill",
+              "stroke",
+              "stroke-width",
+              "stroke-linecap",
+              "stroke-linejoin",
+              "class"
+            ]
+          }
+        },
+        {
+          "id": "stroke: a stroke being drawn survives an update and ends with one report; leaving the station, or concealed, ends it unreported",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "survived": {
+              "pad": true,
+              "live": 3
+            },
+            "one": 1,
+            "left": true,
+            "hidden": true
+          }
+        },
+        {
+          "id": "reconnect: drawing, the inks, Undo, Clear and Done still work; Show waits with the banner's words",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "got": [
+              "#F7D886:3",
+              "#C2408F:3",
+              "#C2408F:2",
+              "#C2408F:0",
+              "done"
+            ],
+            "wait": {
+              "refused": true,
+              "dimmed": false,
+              "why": "Controls return when the match is current"
+            },
+            "still": true
+          }
+        },
+        {
+          "id": "focus: the box keeps its element and the focus through updates; a focused Undo that leaves returns the focus once",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "kept": true,
+            "active": true,
+            "returns": [
+              [
+                "onFocusReturn",
+                {
+                  "intent": "undo",
+                  "value": null
+                }
+              ]
+            ]
+          }
+        },
+        {
+          "id": "layout: at 390 × 844, the content 16 px in, the drawing box at 512 × 280, the inks 34 px",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "padIn": [
+              16,
+              16
+            ],
+            "metaIn": [
+              18,
+              18
+            ],
+            "boxes": [
+              [
+                16,
+                16
+              ],
+              [
+                16,
+                16
+              ]
+            ],
+            "ratio": 1.8285714285714285,
+            "inks": [
+              34,
+              34,
+              34,
+              34
+            ]
+          }
+        },
+        {
+          "id": "layout: at 430 × 932, the content 16 px in, the drawing box at 512 × 280, the inks 34 px",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "padIn": [
+              16,
+              16
+            ],
+            "metaIn": [
+              18,
+              18
+            ],
+            "boxes": [
+              [
+                16,
+                16
+              ],
+              [
+                16,
+                16
+              ]
+            ],
+            "ratio": 1.8285714285714285,
+            "inks": [
+              34,
+              34,
+              34,
+              34
+            ]
+          }
+        },
+        {
+          "id": "layout: drawing at the station with the Largest text (200 %): every word whole, the last part reached by scrolling, the footer in view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "parts": 5,
+            "cut": [],
+            "overlap": [],
+            "reachable": true,
+            "foot": true
+          }
+        },
+        {
+          "id": "layout: the shown drawing with the Largest text (200 %): every word whole, the last part reached by scrolling, the footer in view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "parts": 8,
+            "cut": [],
+            "overlap": [],
+            "reachable": true,
+            "foot": true
+          }
+        },
+        {
+          "id": "layout: the room's windows with the Largest text (200 %): every word whole, the last part reached by scrolling, the footer in view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "parts": 8,
+            "cut": [],
+            "overlap": [],
+            "reachable": true,
+            "foot": true
+          }
+        },
+        {
+          "id": "dispose: safe twice; afterwards nothing is left in the sheet and nothing fires",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "body": 0,
+              "calls": 0,
+              "connected": false,
+              "eli": false
+            },
+            "left": []
+          }
+        },
+        {
+          "id": "motion: none of its own, with or without the game's Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": 0,
+            "drawn": 0,
+            "reduced": {
+              "own": 0,
+              "mode": "reduced"
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B2B4RQoS.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "motion: none of its own, with the device's Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": 0,
+            "drawn": 0,
+            "reduced": {
+              "own": 0,
+              "mode": "reduced"
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-B2B4RQoS.js",
+          "line": 1,
+          "column": 6049,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: Windows, the room's two windows, at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer button icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "section heads": {
+              "pack": 2,
+              "screen": 2
+            },
+            "section head rooms": {
+              "pack": 2,
+              "screen": 2
+            },
+            "section head lines": {
+              "pack": 2,
+              "screen": 2
+            },
+            "drawing boxes": {
+              "pack": 2,
+              "screen": 2
+            },
+            "drawing pictures": {
+              "pack": 2,
+              "screen": 2
+            },
+            "strokes": {
+              "pack": 6,
+              "screen": 6
+            },
+            "drawing lines": {
+              "pack": 2,
+              "screen": 2
+            },
+            "drawing line parts": {
+              "pack": 4,
+              "screen": 4
+            },
+            "ink row": {
+              "pack": 0,
+              "screen": 0
+            },
+            "inks": {
+              "pack": 0,
+              "screen": 0
+            },
+            "icon buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "icon button drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stamps": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting block": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting tile drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {}
+        }
+      },
+      {
+        "id": "agree: Windows, the room's two windows, at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer button icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "section heads": {
+              "pack": 2,
+              "screen": 2
+            },
+            "section head rooms": {
+              "pack": 2,
+              "screen": 2
+            },
+            "section head lines": {
+              "pack": 2,
+              "screen": 2
+            },
+            "drawing boxes": {
+              "pack": 2,
+              "screen": 2
+            },
+            "drawing pictures": {
+              "pack": 2,
+              "screen": 2
+            },
+            "strokes": {
+              "pack": 6,
+              "screen": 6
+            },
+            "drawing lines": {
+              "pack": 2,
+              "screen": 2
+            },
+            "drawing line parts": {
+              "pack": 4,
+              "screen": 4
+            },
+            "ink row": {
+              "pack": 0,
+              "screen": 0
+            },
+            "inks": {
+              "pack": 0,
+              "screen": 0
+            },
+            "icon buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "icon button drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stamps": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting block": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting tile drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {}
+        }
+      },
+      {
+        "id": "agree: Draw at your station at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "section heads": {
+              "pack": 1,
+              "screen": 1
+            },
+            "section head rooms": {
+              "pack": 1,
+              "screen": 1
+            },
+            "section head lines": {
+              "pack": 1,
+              "screen": 1
+            },
+            "drawing boxes": {
+              "pack": 2,
+              "screen": 2
+            },
+            "drawing pictures": {
+              "pack": 2,
+              "screen": 2
+            },
+            "strokes": {
+              "pack": 4,
+              "screen": 4
+            },
+            "drawing lines": {
+              "pack": 1,
+              "screen": 1
+            },
+            "drawing line parts": {
+              "pack": 2,
+              "screen": 2
+            },
+            "ink row": {
+              "pack": 1,
+              "screen": 1
+            },
+            "inks": {
+              "pack": 4,
+              "screen": 4
+            },
+            "icon buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "icon button drawings": {
+              "pack": 2,
+              "screen": 2
+            },
+            "stamps": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting block": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting tile drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {
+            "inkGroup": {
+              "pack": [
+                "radiogroup",
+                "Ink",
+                4
+              ],
+              "screen": [
+                "radiogroup",
+                "Ink",
+                4
+              ]
+            },
+            "pressed": {
+              "pack": [
+                "true",
+                "false",
+                "false",
+                "false"
+              ],
+              "screen": [
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: Draw at your station at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "section heads": {
+              "pack": 1,
+              "screen": 1
+            },
+            "section head rooms": {
+              "pack": 1,
+              "screen": 1
+            },
+            "section head lines": {
+              "pack": 1,
+              "screen": 1
+            },
+            "drawing boxes": {
+              "pack": 2,
+              "screen": 2
+            },
+            "drawing pictures": {
+              "pack": 2,
+              "screen": 2
+            },
+            "strokes": {
+              "pack": 4,
+              "screen": 4
+            },
+            "drawing lines": {
+              "pack": 1,
+              "screen": 1
+            },
+            "drawing line parts": {
+              "pack": 2,
+              "screen": 2
+            },
+            "ink row": {
+              "pack": 1,
+              "screen": 1
+            },
+            "inks": {
+              "pack": 4,
+              "screen": 4
+            },
+            "icon buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "icon button drawings": {
+              "pack": 2,
+              "screen": 2
+            },
+            "stamps": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting block": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting tile drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {
+            "inkGroup": {
+              "pack": [
+                "radiogroup",
+                "Ink",
+                4
+              ],
+              "screen": [
+                "radiogroup",
+                "Ink",
+                4
+              ]
+            },
+            "pressed": {
+              "pack": [
+                "true",
+                "false",
+                "false",
+                "false"
+              ],
+              "screen": [
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: Shown at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer button icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "section heads": {
+              "pack": 1,
+              "screen": 1
+            },
+            "section head rooms": {
+              "pack": 1,
+              "screen": 1
+            },
+            "section head lines": {
+              "pack": 1,
+              "screen": 1
+            },
+            "drawing boxes": {
+              "pack": 2,
+              "screen": 2
+            },
+            "drawing pictures": {
+              "pack": 2,
+              "screen": 2
+            },
+            "strokes": {
+              "pack": 5,
+              "screen": 5
+            },
+            "drawing lines": {
+              "pack": 2,
+              "screen": 2
+            },
+            "drawing line parts": {
+              "pack": 4,
+              "screen": 4
+            },
+            "ink row": {
+              "pack": 0,
+              "screen": 0
+            },
+            "inks": {
+              "pack": 0,
+              "screen": 0
+            },
+            "icon buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "icon button drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stamps": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting block": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting tile drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {}
+        }
+      },
+      {
+        "id": "agree: Shown at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer button icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "section heads": {
+              "pack": 1,
+              "screen": 1
+            },
+            "section head rooms": {
+              "pack": 1,
+              "screen": 1
+            },
+            "section head lines": {
+              "pack": 1,
+              "screen": 1
+            },
+            "drawing boxes": {
+              "pack": 2,
+              "screen": 2
+            },
+            "drawing pictures": {
+              "pack": 2,
+              "screen": 2
+            },
+            "strokes": {
+              "pack": 5,
+              "screen": 5
+            },
+            "drawing lines": {
+              "pack": 2,
+              "screen": 2
+            },
+            "drawing line parts": {
+              "pack": 4,
+              "screen": 4
+            },
+            "ink row": {
+              "pack": 0,
+              "screen": 0
+            },
+            "inks": {
+              "pack": 0,
+              "screen": 0
+            },
+            "icon buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "icon button drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stamps": {
+              "pack": 1,
+              "screen": 1
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting block": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting tile drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {}
+        }
+      },
+      {
+        "id": "agree: No window here at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer button icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "section heads": {
+              "pack": 0,
+              "screen": 0
+            },
+            "section head rooms": {
+              "pack": 0,
+              "screen": 0
+            },
+            "section head lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "drawing boxes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "drawing pictures": {
+              "pack": 0,
+              "screen": 0
+            },
+            "strokes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "drawing lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "drawing line parts": {
+              "pack": 0,
+              "screen": 0
+            },
+            "ink row": {
+              "pack": 0,
+              "screen": 0
+            },
+            "inks": {
+              "pack": 0,
+              "screen": 0
+            },
+            "icon buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "icon button drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stamps": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting block": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting tile": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting tile drawing": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting line": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "recorded": {}
+        }
+      },
+      {
+        "id": "agree: No window here at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer button icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "section heads": {
+              "pack": 0,
+              "screen": 0
+            },
+            "section head rooms": {
+              "pack": 0,
+              "screen": 0
+            },
+            "section head lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "drawing boxes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "drawing pictures": {
+              "pack": 0,
+              "screen": 0
+            },
+            "strokes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "drawing lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "drawing line parts": {
+              "pack": 0,
+              "screen": 0
+            },
+            "ink row": {
+              "pack": 0,
+              "screen": 0
+            },
+            "inks": {
+              "pack": 0,
+              "screen": 0
+            },
+            "icon buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "icon button drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "stamps": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting block": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting tile": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting tile drawing": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting line": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "recorded": {}
+        }
+      },
+      {
+        "id": "agree: Draw at your station with the Largest text (200 %) at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer button icons": {
+              "pack": 1,
+              "screen": 1
+            },
+            "section heads": {
+              "pack": 1,
+              "screen": 1
+            },
+            "section head rooms": {
+              "pack": 1,
+              "screen": 1
+            },
+            "section head lines": {
+              "pack": 1,
+              "screen": 1
+            },
+            "drawing boxes": {
+              "pack": 2,
+              "screen": 2
+            },
+            "drawing pictures": {
+              "pack": 2,
+              "screen": 2
+            },
+            "strokes": {
+              "pack": 4,
+              "screen": 4
+            },
+            "drawing lines": {
+              "pack": 1,
+              "screen": 1
+            },
+            "drawing line parts": {
+              "pack": 2,
+              "screen": 2
+            },
+            "ink row": {
+              "pack": 1,
+              "screen": 1
+            },
+            "inks": {
+              "pack": 4,
+              "screen": 4
+            },
+            "icon buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "icon button drawings": {
+              "pack": 2,
+              "screen": 2
+            },
+            "stamps": {
+              "pack": 0,
+              "screen": 0
+            },
+            "group labels": {
+              "pack": 1,
+              "screen": 1
+            },
+            "waiting block": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting tile": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting tile drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "waiting line": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {
+            "inkGroup": {
+              "pack": [
+                "radiogroup",
+                "Ink",
+                4
+              ],
+              "screen": [
+                "radiogroup",
+                "Ink",
+                4
+              ]
+            },
+            "pressed": {
+              "pack": [
+                "true",
+                "false",
+                "false",
+                "false"
+              ],
+              "screen": [
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-B2B4RQoS.js",
+        "line": 1,
+        "column": 6049,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}
