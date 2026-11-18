@@ -1,11 +1,11 @@
 # Room connection: the room view on the room scene
 
-**Status (16 November 2026):** a draft for the Lead Designer's review, then Frontend's. It is not in the game yet. On room scene 0.5.0 (#261 at `bdfe90ee`) since 16 November: its name tags stay whole and apart at the Large and Largest text, laid out by the shared `tag-layout.mjs`.
+**Status (17 November 2026):** a draft for the Lead Designer's review, then Frontend's. It is not in the game yet. On room scene 0.5.1 (#261 at `4955301a`) since 17 November: concealment drops the people too, and a Blackout window's held frame can survive a remount. Before, on 0.5.0 (#261 at `bdfe90ee`) since 16 November: its name tags stay whole and apart at the Large and Largest text, laid out by the shared `tag-layout.mjs`.
 - Integration first approves the source fence's marked hunk and the frozen releases' consumer pins, which refuse the changed Planet files (see [The gates](#the-gates)).
 - This is not a release.
 
 **What it is:**
-- On a player's phone, the Planet app's room view draws all five rooms through Designer's [room scene](room-scene.md) (`room-scene-0.5.0`):
+- On a player's phone, the Planet app's room view draws all five rooms through Designer's [room scene](room-scene.md) (`room-scene-0.5.1`):
   - Room A, Room B, the Command Room, the Hospital and the Jail.
   - The scene replaces the app's own picture, framing, places, tags, targets and Blackout darkness.
 - The owner decided this on 15 November 2026: "Yes lets do it for all 5 rooms nothing related to design should be inside of frontend".
@@ -102,6 +102,12 @@ The scene does not draw the films yet; they are its next components. Until it do
 | Office badges | The scene's tags show each office's icon, so the old "Captain · Officer" text badge is not drawn |
 | The Blackout | As sheet 30. The lit seconds are the ordinary room: the game's film (S1) draws its darkness over the lit scene at the board's depth (z 3000) for the flicker, and again for the lights' return. In the dark, everyone sees the scene's own lights-out picture, which is that darkness, so no layer is drawn over it and its windows still move (z 2802). The lights cut out at the same instant in both (`previewEndsAt`), so the hand-over has no jump. The film's position markers are not drawn in the room view, since sheet 30 has none: the Disabler's positions are the scene's own offered positions. The board view keeps its markers |
 
+**Why 0.5.1.** Room scene 0.5.1 answers two of Integration's lifecycle findings on this connection (#309, and #4).
+- **Concealed:** the scene now drops the people, `self`, `active`, the films' stand-ins and the recoil, as well as the offers and the control.
+- **The held frame:** `hold()` and `heldFrame` carry a Blackout window's held frame across a remount.
+- **The mount's half** is not here yet: keeping `hold()` across the Board view and passing it back as `heldFrame`, in `render.mjs`. It lands after Integration says the Food pins are reconciled.
+- **The captures don't change:** 0.5.1 changes what a concealed scene keeps and what a remounted scene frames.
+
 **Why 0.5.0.** Room scene 0.5.0 keeps the name tags whole and apart at the Large and Largest text (#222 item 34). On 0.4.0, at both phone sizes, Room B's number discs spilled out of their pills and one tag covered another's name. Its tags are laid out by the shared `design/phone-ui/components/tag-layout.mjs` (`tag-layout-0.1.0`, also the board's), which the hosted build now admits. At the standard text the tags do not move.
 
 **Why 0.4.0.** The connection's first version laid the films over the scene, which is its own stacking context. The check's first run showed the problem: the Hospital patient's film figure covered the scene's own figure and its "3 Crew 3 · Injured" tag. The room scene's 0.4.0 (`72c1ae8`) added `standIns`, `brace` and `scene.films` for it.
@@ -161,7 +167,11 @@ These refuse the changed Planet files until Integration approves. Each was found
 - It serves the harness with the hosted game's production headers (`createHostedPreviewHeaders`, headers SHA-256 `424e5dec…`, the same as the room scene's check).
 - It drives the app at 390 × 844 and 430 × 932.
 
-**Result:** 32 of 32 captures pass. Each has no unexpected policy report (only zod's known, caught eval probe), no failed request, no page error and none of the board renderer's rooms, people, targets or night layers in the room view.
+**Result:** 32 of 32 captures pass, recorded on `e2640346` (room scene 0.5.1) with the source clean and the art from `64e55516`.
+- Against `e5b81698`'s record (0.5.0), 4 captures are the same byte for byte.
+- The other 28 differ only inside the room (its moving windows, the Hospital's fan and the crew's idle motion) and at the old header's clock (the harness's time).
+
+Each has no unexpected policy report (only zod's known, caught eval probe), no failed request, no page error and none of the board renderer's rooms, people, targets or night layers in the room view.
 
 | State | What it shows and checks |
 | --- | --- |
