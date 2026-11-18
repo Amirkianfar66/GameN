@@ -1118,6 +1118,16 @@ The Lead then recommended one shared view for each fixed room. The owner:
   - **The known gap in view E** at 200 % on the 390 phone (one out-of-view tag that can't be placed clear), which the Lead fixes in the room scene component.
   - **The way into the game.** The views from each place need the observation rule (#222) and Integration's mapping of the five places, as recorded above.
 
+**Room A next, the same way, minutes later.** The Lead asked whether to plan Room A as Room B was made, the plan and its cost first. The owner (about 23:30 UTC), word for word:
+
+> Yes, plan Room A the same way
+
+- **What it decides:** the Rooms builder drafts Room A's plan and a layout test with stand-ins, with no new pictures:
+  - **unchanged from Room B:** the five places and views (the owner's file), the view's settings, the PV6 look, the shadows, the turned heads, the tags, the furniture placed by code and the room's food capsule;
+  - **Room A's own choices, with the Lead's recommendations:** its code colours, its round window onto a planet (described in words, never from the owner's pictures), the ceiling (the Lead recommends solid), the stations at A to E, and who stands where;
+  - **the steps and the spend:** view A first, then the other four, with a cap proposed from Room B's record (33 pictures, about $2.04).
+- **What it does not decide:** any picture or spend. The Lead checks the plan at 390 × 844 and 430 × 932, then the owner approves the plan and its cap before the image session has a go.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
