@@ -22,7 +22,7 @@ import {outfitFor} from '../scene-drawing/wardrobe.mjs';
 import {mountRoomScene,roomSceneFrame,roomScenePlaces,ROOM_SCENE_DEFAULTS} from '../../../../design/phone-ui/components/room-scene/room-scene.mjs';
 import {roomSceneArtReady,roomSceneHandlers,roomSceneInput,roomSceneInputKey,roomSceneKey,roomSceneLifecycle,roomScenePeople,roomSceneStatus} from './room-scene-input.mjs';
 import {mountPhoneShell} from '../../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
-import {connectShellLifecycle,createServerClock,ownPersonSeen,phaseClosed,shellFocusOrder,shellHandlers,shellHostSheet,shellInput,shellRuns,shellSheetFocus} from './shell-input.mjs';
+import {connectShellLifecycle,createServerClock,ownPersonSeen,phaseClosed,shellFocusOrder,shellHandlers,shellHostSheet,shellInput,shellRuns,shellSheetEntered,shellSheetFocus,SHELL_SHEET_TITLE} from './shell-input.mjs';
 
 const windowNames={A_B:'Room A ↔ Room B',A_HOSPITAL:'Room A ↔ Hospital',B_JAIL:'Room B ↔ Jail'};
 const number=id=>id?`Player ${id.slice(5)}`:'—';
@@ -71,18 +71,18 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  // The shell's state here: its last input, the frame of its open sheet, the board's List, the round last seen
  // live (the reconnecting bar names it), a toast (kept, so it shows its whole time once), its layout, and the
  // model painted before this one (a phase that closed under an open choice is told from the two: phaseClosed()).
- let shellKey=null,shellFrame=null,listOpen=false,listKey=null,lastRound=null,ownSeen=null,seenVersions=null,toast=null,shellRunning=true,shellLayout=null,choosing=false,opener=null,before=null,focusInContent=false;
+ let shellKey=null,shellFrame=null,listOpen=false,listKey=null,lastRound=null,ownSeen=null,seenVersions=null,toast=null,shellRunning=true,shellLayout=null,choosing=false,opener=null,before=null,sheetWas=null,sheetNow=null,sheetEntered=false,confirmWas=false;
  // The match's trusted server time (G18), observed on each model: the round stamp's clock, with shell-input.mjs roundStart().
  const serverClock=createServerClock({monotonic:()=>win.performance.now()});
  // The shell's own element (its mount's `element`) holds its controls: the sheet's footer actions and the controls
  // the focus returns to are found there by their intents.
  const focusConfirm=()=>shell.element?.querySelector('[data-intent="sheet-action"][data-value="confirm"]')?.focus({preventScroll:true});
- // When the shell hands the focus back with a sheet open (`shellFrame`, the frame of the shell's last input), the focus
- // goes into that sheet (shellSheetFocus()): by its Back and Close when it was in the content of the sheet this one
- // replaced (`focusInContent`, looked at just before the shell's change), else by its own controls' order. Otherwise
- // it goes back as before.
- const focusBack=ended=>{const content=ended!==undefined&&focusInContent;if(ended!==undefined)focusInContent=false;
-  const pick=shellFocusOrder(opener,{choosing,sheet:shellSheetFocus(ended,shellFrame?.id??null,{content})}).map(css=>shell.element?.querySelector(css)).find(Boolean);pick?.focus({preventScroll:true});};
+ // Where the focus goes (the Lead Designer, 18 November 2026; shell-input.mjs shellSheetEntered() and shellSheetFocus()).
+ // Another sheet opened or took the place of the one before, whatever was pressed: its title (`focusTitle`, at the
+ // shell's change, below). The same sheet stays and one of its own controls ended: its footer, Close, Back. No sheet
+ // open afterwards: as before. `sheetWas` and `sheetNow` are the open sheet's id before and after the shell's last change.
+ const focusTitle=()=>shell.element?.querySelector(SHELL_SHEET_TITLE)?.focus({preventScroll:true});
+ const focusBack=ended=>{const pick=shellFocusOrder(opener,{choosing,sheet:shellSheetFocus(ended,sheetWas,sheetNow)}).map(css=>shell.element?.querySelector(css)).find(Boolean);pick?.focus({preventScroll:true});};
  const shell=mountPhoneShell(shellHost,{},shellHandlers({
   live:()=>!disposed&&!!model,
   openPanel:panel=>{more=false;controller.openPanel(panel);},
@@ -217,7 +217,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  }
  /** The game's own content for the shell's open sheet (`sheetFrame`, from shellSheet); its title, Back, Close and footer are the shell's. */
  function renderUI(sheetFrame){
-  const focus=document.activeElement?.id;
+  const focus=document.activeElement?.id,onTitle=!!document.activeElement?.matches?.(SHELL_SHEET_TITLE);
   sheetBody.replaceChildren();
   if(model.concealed){more=false;drawings.clear();return;}
   if(!sheetFrame)return;
@@ -256,8 +256,12 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
    if(!offers.length)addText('No action is currently offered.');
   }
   mountSheetBody();
-  if(focus&&root.querySelector(`[id="${CSS.escape(focus)}"]`))root.querySelector(`[id="${CSS.escape(focus)}"]`).focus({preventScroll:true});
-  else if(model.action?.step==='confirm')focusConfirm();
+  // A choice made inside a sheet that stays the same sheet (a name in the ballot) moves on to its confirm action, as
+  // before: from the sheet's title too, once, when that step is reached. A sheet that has just opened keeps the focus
+  // on its title, and so does every later drawing of it.
+  const confirmNow=model.action?.step==='confirm',reached=confirmNow&&!confirmWas&&!sheetEntered;confirmWas=confirmNow;
+  if(focus&&!(onTitle&&reached)&&root.querySelector(`[id="${CSS.escape(focus)}"]`))root.querySelector(`[id="${CSS.escape(focus)}"]`).focus({preventScroll:true});
+  else if(confirmNow)focusConfirm();
  }
  /** The game's content goes in the shell's sheet body; a new sheet (a new id) starts with an empty one. */
  function mountSheetBody(){const body=shell.sheetBody;if(body&&sheetBody.parentNode!==body)body.append(sheetBody);}
@@ -279,7 +283,10 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   if(shellFrame)input.control=null;
   putBox(sceneHost,{left:0,top:0,...size});
   if(!scene){
-   scene=mountRoomScene(sceneHost,input,roomSceneHandlers({choose:value=>controller.choose(value),openPanel:panel=>{more=false;controller.openPanel(panel);},focusNext:focusConfirm}));
+   scene=mountRoomScene(sceneHost,input,roomSceneHandlers({choose:value=>controller.choose(value),openPanel:panel=>{more=false;controller.openPanel(panel);},
+    // A person chosen in the room: the scene hands the focus back. With a sheet open, it goes to that sheet's title
+    // (the sheet the choice opened); the jump to Register is gone.
+    focusNext:focusTitle}));
    sceneKey=roomSceneKey(model);sceneInput=roomSceneInputKey(input);sceneRunning=true;syncSceneActivity();
   }else{const key=roomSceneInputKey(input);if(key!==sceneInput){sceneInput=key;scene.update(input);}}
   return sceneOverlay(input);
@@ -481,11 +488,10 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   // The shared display's status line and a message stay the game's; while the reconnecting banner shows, it says it.
   // Concealed, it hides itself, as everything of this viewer's in the shell does.
   status.textContent=model.dark?'':model.message??'';status.hidden=!status.textContent||model.action?.prompt===model.message||input.banner?.kind==='reconnecting'||input.status==='concealed';
-  const nextShellKey=JSON.stringify(input);if(nextShellKey!==shellKey){shellKey=nextShellKey;
-   // Where the focus is before the shell changes: in the open sheet's content or not. On the shell itself it is on
-   // its way back from an earlier change, and what was seen then stands.
-   const at=document.activeElement;if(at!==shell.element)focusInContent=!!shell.sheetBody?.contains(at);
-   shell.update(input);}
+  const nextShellKey=JSON.stringify(input);sheetEntered=false;
+  if(nextShellKey!==shellKey){shellKey=nextShellKey;sheetWas=sheetNow;sheetNow=input.sheet?.id??null;shell.update(input);
+   // Another sheet opened, or took the place of the one before: the focus goes to its title.
+   if(shellSheetEntered(sheetWas,sheetNow)){sheetEntered=true;focusTitle();}}
   syncShellActivity();mountSheetBody();
   // The bars' heights and the stage come from the shell: its layout() is measured after the update above. The
   // private talk's two buttons cover the stage's foot, which the board's layout keeps clear.

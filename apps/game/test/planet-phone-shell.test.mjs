@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {connectShellLifecycle,createServerClock,ownOut,ownPersonSeen,ownTalk,phaseClosed,roundStart,shellFocusOrder,shellSheetFocus,SHELL_SHEET_ENTRY,SHELL_SHEET_FOCUS,SHELL_SHEET_INTENTS,shellBanner,shellBar,shellChip,shellHandlers,shellHostSheet,shellHero,shellInput,shellPhaseFacts,shellPicking,shellRuns,shellSheet,shellStatus,shellTabs,shellTarget,shellTimer,shellToast,talkButtons,
+import {connectShellLifecycle,createServerClock,ownOut,ownPersonSeen,ownTalk,phaseClosed,roundStart,shellFocusOrder,shellSheetEntered,shellSheetFocus,SHELL_SHEET_FOCUS,SHELL_SHEET_INTENTS,SHELL_SHEET_TITLE,shellBanner,shellBar,shellChip,shellHandlers,shellHostSheet,shellHero,shellInput,shellPhaseFacts,shellPicking,shellRuns,shellSheet,shellStatus,shellTabs,shellTarget,shellTimer,shellToast,talkButtons,
  SHELL_CHOOSING,SHELL_CLOSES_ITSELF,SHELL_PHASE_ICONS,SHELL_PHASE_NAMES} from '../hosted/planet/shell-input.mjs';
 import {checkBar,checkTabs,clockText,nextPhoneShellInput,PHONE_SHELL_DEFAULTS} from '../../../design/phone-ui/components/phone-shell/phone-shell.mjs';
 import {PHASE_BAR_PHASES,PHASE_BAR_REFUSED,PHASE_WORDS,loadingBar,phaseBar,phaseClosedToast,reconnectingBar} from '../../../design/phone-ui/components/phone-shell/phase-bars.mjs';
@@ -446,53 +446,55 @@ test('the focus handed back: Cancel while choosing, else the control that opened
  assert.deepEqual(shellFocusOrder({intent:'sheet-close',value:null}),[first]);
 });
 
-test('the focus handed back while a sheet is open: into the sheet, by its own controls or, from its content, by Back and Close',()=>{
+test('the focus and a sheet: another sheet\'s title takes it; in a sheet that stays, its own controls; with none open, as before',()=>{
  const first='[data-intent="tab"][data-value="switch"]',tab='[data-intent="tab"][data-value="panels"]',opener={intent:'tab',value:'panels'};
- // One of a sheet's own controls ended: the first available footer action, then Close, then Back; then as before.
+ // Another sheet opened, or took the place of the one before, whatever was pressed: the new sheet's title (shell 0.3.4).
+ assert.equal(SHELL_SHEET_TITLE,'.ms-ps-sheet .ms-ps-sheet-title h2');
+ assert.equal(shellSheetEntered(null,'panels'),true,'a tab, a person in the room or a target on the board opened a sheet');
+ assert.equal(shellSheetEntered('panels','navigation'),true,'a row opened its page');
+ assert.equal(shellSheetEntered('navigation','panels'),true,'Back opened Panels in its place');
+ assert.equal(shellSheetEntered('actions','action:SUBMIT_CODE'),true,'a tile opened its sheet');
+ // The same sheet, or none: not entered.
+ assert.equal(shellSheetEntered('windows','windows'),false);assert.equal(shellSheetEntered('action:VOTE','action:VOTE'),false);
+ assert.equal(shellSheetEntered('panels',null),false);assert.equal(shellSheetEntered(null,null),false);
+ for(const not of [undefined,'',0,1,true,{},[]])assert.equal(shellSheetEntered('panels',not),false,JSON.stringify(not)??'undefined');
+
+ // When the shell hands the focus back: which order, from its report and the open sheet's id before and after.
+ assert.deepEqual(SHELL_SHEET_INTENTS,['sheet-action','sheet-local','sheet-head','sheet-close','sheet-back']);
+ // The same sheet stays and one of its own controls ended: Show gives way to Done, Vote goes while the ballot registers.
+ for(const intent of SHELL_SHEET_INTENTS)assert.equal(shellSheetFocus({intent,value:'show'},'windows','windows'),'controls',intent);
+ assert.equal(shellSheetFocus({intent:'sheet-action',value:'confirm'},'action:VOTE','action:VOTE'),'controls');
+ // Another sheet took its place: the title, whatever ended. Never a control of the new sheet.
+ assert.equal(shellSheetFocus({intent:'sheet-back',value:null},'navigation','panels'),'title');
+ assert.equal(shellSheetFocus(null,'panels','navigation'),'title');
+ assert.equal(shellSheetFocus({intent:'open',value:'navigation'},'panels','navigation'),'title');
+ assert.equal(shellSheetFocus({intent:'tile',value:'SUBMIT_CODE'},'actions','action:SUBMIT_CODE'),'title');
+ assert.equal(shellSheetFocus({intent:'sheet-action',value:'confirm'},'pass','actions'),'title');
+ assert.equal(shellSheetFocus({intent:'cancel-target',value:null},null,'action:SCAN'),'title');
+ // The same sheet and something that is not one of its own controls ended: not into the sheet.
+ for(const intent of ['cancel-target','tab','hero','promises','menu','chip','retry','open','tile'])assert.equal(shellSheetFocus({intent,value:null},'actions','actions'),null,intent);
+ assert.equal(shellSheetFocus(null,'actions','actions'),null);assert.equal(shellSheetFocus({},'windows','windows'),null);
+ // No sheet open afterwards: Close, Escape, a choice sent and registered.
+ assert.equal(shellSheetFocus({intent:'sheet-close',value:null},'windows',null),null);
+ assert.equal(shellSheetFocus({intent:'sheet-action',value:'confirm'},'action:VOTE',null),null);
+ // No report at all (a part handing the focus back by itself): never into a sheet.
+ assert.equal(shellSheetFocus(undefined,'windows','windows'),null);assert.equal(shellSheetFocus(undefined,'panels','navigation'),null);
+ // Ids that are not ids.
+ for(const not of [null,undefined,'',0,1,true,{},[]])assert.equal(shellSheetFocus({intent:'sheet-action'},'windows',not),null,JSON.stringify(not)??'undefined');
+
+ // The order for each. In a sheet that stays: its first available footer action, then Close, then Back; then as before.
  assert.deepEqual(SHELL_SHEET_FOCUS,[
   '.ms-ps-sheet-foot :is([data-intent="sheet-action"],[data-intent="sheet-local"]):not([aria-disabled="true"]):not([aria-busy="true"])',
   '.ms-ps-sheet [data-intent="sheet-close"]','.ms-ps-sheet [data-intent="sheet-back"]']);
  assert.deepEqual(shellFocusOrder(opener,{sheet:'controls'}),[...SHELL_SHEET_FOCUS,tab,first]);
  assert.deepEqual(shellFocusOrder(opener,{sheet:'controls',choosing:true}),[...SHELL_SHEET_FOCUS,'[data-intent="cancel-target"]',tab,first]);
- assert.deepEqual(shellFocusOrder(null,{sheet:'controls'}),[...SHELL_SHEET_FOCUS,first]);
- // From a sheet's content into the sheet that took its place: Back, then Close, and never a footer action.
- assert.deepEqual(SHELL_SHEET_ENTRY,['.ms-ps-sheet [data-intent="sheet-back"]','.ms-ps-sheet [data-intent="sheet-close"]']);
- assert.deepEqual(shellFocusOrder(opener,{sheet:'content'}),[...SHELL_SHEET_ENTRY,tab,first]);
- assert.ok(SHELL_SHEET_ENTRY.every(css=>!/sheet-action|sheet-local|sheet-foot/.test(css)),'no footer action: a held Enter can\'t press Register, Vote or Accept');
- assert.deepEqual(shellFocusOrder(opener,{sheet:'content',choosing:true}),[...SHELL_SHEET_ENTRY,'[data-intent="cancel-target"]',tab,first]);
+ // Into another sheet: its title first, and nothing of the sheet's controls: a held Enter presses nothing.
+ assert.deepEqual(shellFocusOrder(opener,{sheet:'title'}),[SHELL_SHEET_TITLE,tab,first]);
+ assert.deepEqual(shellFocusOrder(null,{sheet:'title'}),[SHELL_SHEET_TITLE,first]);
+ assert.ok(!/data-intent/.test(SHELL_SHEET_TITLE),'the title is no control');
  // No sheet to go into, or no word of one: nothing changes. Only the two words count.
  assert.deepEqual(shellFocusOrder(opener,{sheet:null}),[tab,first]);assert.deepEqual(shellFocusOrder(opener),[tab,first]);
- for(const not of [undefined,false,true,0,1,'windows','Controls',{},[]])assert.deepEqual(shellFocusOrder(opener,{sheet:not}),[tab,first],JSON.stringify(not)??'undefined');
-
- // Which of them: told from the shell's report, the open sheet's id, and whether the focus was in the sheet's content.
- assert.deepEqual(SHELL_SHEET_INTENTS,['sheet-action','sheet-local','sheet-head','sheet-close','sheet-back']);
- // A sheet's own control ended and a sheet is open, the same one or the one that took its place.
- for(const intent of SHELL_SHEET_INTENTS)assert.equal(shellSheetFocus({intent,value:'show'},'windows'),'controls',intent);
- assert.equal(shellSheetFocus({intent:'sheet-action',value:'show'},'windows'),'controls','Show gives way to Done');
- assert.equal(shellSheetFocus({intent:'sheet-back',value:null},'panels'),'controls','Back opens Panels in its place');
- // The focus was in the sheet's content, and another sheet is open: a Panels row, an Actions tile, a list's item.
- // The game's own buttons name no intent (the shell reports null); a Designer part's name their own.
- assert.equal(shellSheetFocus(null,'navigation',{content:true}),'content');
- assert.equal(shellSheetFocus({intent:'open',value:'navigation'},'navigation',{content:true}),'content');
- assert.equal(shellSheetFocus({intent:'tile',value:'SUBMIT_CODE'},'action:SUBMIT_CODE',{content:true}),'content');
- // The content wins over the control's name: a part's own control may be named as one of the shell's.
- for(const intent of [...SHELL_SHEET_INTENTS,'retry','tab','menu'])assert.equal(shellSheetFocus({intent,value:null},'actions',{content:true}),'content',intent);
- // Only `true` says the focus was in the content.
- for(const not of [false,null,undefined,0,1,'yes',{}])assert.equal(shellSheetFocus(null,'navigation',{content:not}),null,JSON.stringify(not)??'undefined');
- // The sheet closed with nothing in its place: Close, Escape, a choice sent and registered, a row that closed it.
- assert.equal(shellSheetFocus({intent:'sheet-close',value:null},null),null);
- assert.equal(shellSheetFocus({intent:'sheet-action',value:'confirm'},null),null);
- assert.equal(shellSheetFocus(null,null,{content:true}),null);
- // A control outside a sheet that ended with a sheet open: Cancel on the target bar, a tab, Retry. Not into the sheet.
- for(const intent of ['cancel-target','tab','hero','promises','menu','chip','retry'])assert.equal(shellSheetFocus({intent,value:null},'actions'),null,intent);
- assert.equal(shellSheetFocus(null,'actions'),null);assert.equal(shellSheetFocus({},'windows'),null);
- // No report at all (a part handing the focus back by itself): never into a sheet, whatever else is said.
- assert.equal(shellSheetFocus(undefined,'windows'),null);assert.equal(shellSheetFocus(undefined,'navigation',{content:true}),null);
- // Ids that are not ids.
- for(const not of [null,undefined,'',0,1,true,{},[]]){
-  assert.equal(shellSheetFocus({intent:'sheet-action'},not),null,JSON.stringify(not)??'undefined');
-  assert.equal(shellSheetFocus(null,not,{content:true}),null,JSON.stringify(not)??'undefined');
- }
+ for(const not of [undefined,false,true,0,1,'content','Title',{},[]])assert.deepEqual(shellFocusOrder(opener,{sheet:not}),[tab,first],JSON.stringify(not)??'undefined');
  // The handlers pass the shell's report on, a null one too, so the renderer can tell which control ended.
  const got=[],handlers=shellHandlers({openPanel(){},begin(){},confirm(){},dismiss(){},toggleView(){},showBoard(){},openList(){},closeList(){},focusReturn:ended=>got.push(ended)});
  handlers.onFocusReturn({intent:'sheet-action',value:'show'});handlers.onFocusReturn(null);

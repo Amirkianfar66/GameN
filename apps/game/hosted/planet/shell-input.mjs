@@ -391,44 +391,48 @@ export function shellHandlers({openPanel,begin,confirm,dismiss,toggleView,showBo
 /** A sheet's own controls, by the intent the shell reports for each: its footer and head actions, Close and Back. */
 export const SHELL_SHEET_INTENTS=Object.freeze(['sheet-action','sheet-local','sheet-head','sheet-close','sheet-back']);
 /**
- * Inside an open sheet, where the focus goes: its first available footer action (not unavailable, not
- * busy: the kit's policy marks both), then its Close, then its Back. Selectors inside the shell, tried in order.
+ * Inside a sheet that stays open, where the focus goes when one of its own controls ended: its first available
+ * footer action (not unavailable, not busy: the kit's policy marks both), then its Close, then its Back. Selectors
+ * inside the shell, tried in order.
  */
 export const SHELL_SHEET_FOCUS=Object.freeze([
  '.ms-ps-sheet-foot :is([data-intent="sheet-action"],[data-intent="sheet-local"]):not([aria-disabled="true"]):not([aria-busy="true"])',
  '.ms-ps-sheet [data-intent="sheet-close"]','.ms-ps-sheet [data-intent="sheet-back"]']);
+/** A sheet's title, which takes the focus when another sheet opens or takes the place of the one before (shell 0.3.4). */
+export const SHELL_SHEET_TITLE='.ms-ps-sheet .ms-ps-sheet-title h2';
 /**
- * Into a sheet whose content was left: its Back, then its Close. Never its footer actions, so a key held past its
- * repeat delay on the row or tile that opened it can't press Register, Vote or Accept.
+ * Whether another sheet opened, or took the place of the one before: `was` and `now` are the open sheet's id before
+ * and after the shell's change. Whatever was pressed: a tab, a row, a tile, Back, a person in the room, a target on
+ * the board. The renderer then puts the focus on the new sheet's title (the Lead Designer, 18 November 2026): a screen
+ * reader announces it, a held Enter presses nothing, and Tab moves on to the sheet's controls.
  */
-export const SHELL_SHEET_ENTRY=Object.freeze(['.ms-ps-sheet [data-intent="sheet-back"]','.ms-ps-sheet [data-intent="sheet-close"]']);
+export const shellSheetEntered=(was,now)=>typeof now==='string'&&now!==''&&was!==now;
 /**
- * Where in an open sheet the focus goes when the shell hands it back (the Lead Designer, 18 November 2026), or null
- * when it does not go into a sheet. Nobody is put behind a sheet they are looking at.
- * - `ended` is the shell's report ({ intent, value }, or null for a control that names no intent); `undefined` is no
- *   report at all, as when a part hands the focus back by itself, and gives null.
- * - `now` is the open sheet's id after the shell's change; with no sheet open, null.
- * - `content`: the focus was in the sheet's content when the shell changed (the renderer looks before it updates the
- *   shell). A row, a tile or a list's item that opened another sheet in its place: 'content', the new sheet's Back
- *   and then its Close.
- * - Otherwise, one of a sheet's own controls ended (a footer or head action, Close, Back), in the same sheet or the
- *   one that took its place: 'controls', the first available footer action, then Close, then Back. A footer action
- *   that gives way to another, as a drawing's Show to Done, is the case.
+ * Where in an open sheet the focus goes when the shell hands it back, or null when it does not go into a sheet.
+ * - `ended` is the shell's report ({ intent, value }, or null for what names no control); `undefined` is no report at
+ *   all, as when a part hands the focus back by itself, and gives null.
+ * - `was` and `now` are the open sheet's id before and after the shell's change.
+ * - The same sheet stays open and one of its own controls ended (a footer or head action, Close, Back): 'controls',
+ *   its first available footer action, then Close, then Back. A drawing's Show giving way to Done, and Vote going
+ *   while the ballot registers, are the cases.
+ * - Another sheet took its place: 'title', as shellSheetEntered() says. The renderer has already put the focus there
+ *   when the shell changed; this is the same answer for a report that still comes.
+ * - No sheet open afterwards: null, and the order is as before.
  */
-export function shellSheetFocus(ended,now,{content=false}={}){
+export function shellSheetFocus(ended,was,now){
  if(ended===undefined||typeof now!=='string'||now==='')return null;
- if(content===true)return 'content';
+ if(was!==now)return 'title';
  return SHELL_SHEET_INTENTS.includes(ended?.intent)?'controls':null;
 }
 
 /**
  * Where the focus goes when the shell hands it back (onFocusReturn: the focused control ended, as a sheet closed):
- * into an open sheet first, by `sheet` from shellSheetFocus() ('controls' or 'content'); then Cancel while choosing
- * on the scene; else the control that opened it, as a dialog returns the focus to its opener; else the first tab, as
+ * into an open sheet first, by `sheet` from shellSheetFocus() ('controls' or 'title'); then Cancel while choosing on
+ * the scene; else the control that opened it, as a dialog returns the focus to its opener; else the first tab, as
  * today's Escape did. Each is a selector inside the shell, tried in order.
  */
 export function shellFocusOrder(opener,{choosing=false,sheet=null}={}){
- const order=sheet==='controls'?[...SHELL_SHEET_FOCUS]:sheet==='content'?[...SHELL_SHEET_ENTRY]:[];
+ const order=sheet==='controls'?[...SHELL_SHEET_FOCUS]:sheet==='title'?[SHELL_SHEET_TITLE]:[];
  if(choosing)order.push('[data-intent="cancel-target"]');
  if(opener?.intent==='tab'&&opener.value)order.push(`[data-intent="tab"][data-value="${opener.value}"]`);
  else if(['hero','promises','menu','chip'].includes(opener?.intent))order.push(`[data-intent="${opener.intent}"]`);

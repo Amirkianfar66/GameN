@@ -24,6 +24,8 @@
 //   before, appointment,     the phase bars (shell 0.2.10, phase-bars.mjs): before turns; the Officer's appointment,
 //   course                   everyone's bar and then the Captain's own; setting course, everyone's and then an office's own
 //   display, concealed       a shared display (no tabs or Promises; ⋮ opens Settings); a hidden page
+//   focus                    where the focus goes when a sheet opens: its title, from a tab, a tile, a person and a
+//                            position on the board; and back to the tab when a sheet closes
 // and, at 320 × 568 with the Largest text (200 %, chosen in the game's own Settings), shell 0.3.3's two sheet rules in
 // the real app, on the two sheets of this build that leave their content the least room:
 //   largest-pass             "Pass your turn?": the title on two lines and the two buttons a row each
@@ -226,6 +228,13 @@ const FIT = `(() => {
     content: body.scrollHeight, room: body.clientHeight, inView: s.top >= 0 && s.bottom <= window.innerHeight + 0.5, footInSheet: !f || (f.bottom <= s.bottom + 0.5 && f.top >= r(head).bottom - 0.5),
     aboveTabs: !tabs || tabs.hidden || s.bottom <= r(tabs).top + 0.5 };
 })()`;
+/** Where the focus is: on a sheet's title or on a control, in which sheet, and whether a ring is drawn there. */
+const AT = "(()=>{const a=document.activeElement,s=a?.closest?.('.ms-ps-sheet'),c=a&&a!==document.body?getComputedStyle(a):null;return {title:!!a?.matches?.('.ms-ps-sheet-title h2'),sheet:s?.dataset.sheet??null,intent:a?.dataset?.intent??null,value:a?.dataset?.value??null,outline:c?c.outlineStyle:'none'};})()";
+/** The focus is on the title of the sheet with this id, with no ring drawn there. */
+const onTitle = (at, sheet) => !!at && at.title === true && at.sheet === sheet && at.intent === null && at.outline === 'none';
+/** A control pressed as a keyboard does: it has the focus, then it is activated. */
+const press = async (page, selector) => { await page.evaluate(`document.querySelector(${JSON.stringify(selector)}).focus()`); await page.evaluate(tap(selector)); };
+
 /** A sheet the two rules leave alone, whole: the head a row, the footer at the sheet's foot, the sheet inside the screen. */
 const unsqueezed = fit => !!fit && fit.text === '200%' && !fit.stacked && !fit.footScrolls && fit.titleLines <= 2 && fit.inView && fit.footInSheet;
 
@@ -433,19 +442,18 @@ const STATES = {
       await page.evaluate(tap(ROW));
       await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='navigation'&&document.querySelector('.ms-ps-sub')?.textContent==='Officer · private'", 'the Officer\'s own bar with Navigation open');
       const seen = await page.evaluate(LOOK);
-      // The row that opened the page had the focus, in Panels' content: the focus is now in the page's sheet, on its
-      // Back, and not on the Panels tab behind it (shell-input.mjs shellSheetFocus(), 'content').
-      const forward = await page.evaluate("(()=>{const a=document.activeElement;return {intent:a?.dataset?.intent??null,sheet:a?.closest?.('.ms-ps-sheet')?.dataset.sheet??null};})()");
-      // Back from a panel's page opens Panels, another sheet in its place: the focus goes into that sheet, to its
-      // Close (it has no footer), and not to the Panels tab behind it (shell-input.mjs shellSheetKept()).
+      // The row that opened the page had the focus: the focus is now on the page's title, and not on the Panels tab
+      // behind it or on a control (shell-input.mjs shellSheetEntered(); the Lead Designer, 18 November 2026).
+      const forward = await page.evaluate(AT);
+      // Back from a panel's page opens Panels, another sheet in its place: the focus goes to that sheet's title.
       await page.evaluate("document.querySelector('.ms-ps-sheet [data-intent=\"sheet-back\"]').focus()");
       await page.evaluate(tap('.ms-ps-sheet [data-intent="sheet-back"]'));
       await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='panels'", 'Back to Panels');
       await sleep(200);
-      const where = await page.evaluate("(()=>{const a=document.activeElement;return {intent:a?.dataset?.intent??null,sheet:a?.closest?.('.ms-ps-sheet')?.dataset.sheet??null};})()");
+      const where = await page.evaluate(AT);
       return { ownBar: seen.bar?.name === 'Setting course' && seen.bar.sub === 'Officer · private' && seen.sheet?.title === 'Navigation',
-        forwardIntoPage: forward.intent === 'sheet-back' && forward.sheet === 'navigation',
-        backIntoPanels: where.intent === 'sheet-close' && where.sheet === 'panels' };
+        forwardIntoPage: onTitle(forward, 'navigation'),
+        backIntoPanels: onTitle(where, 'panels') };
     } },
   display: { page: 'phone', url: 'scenario=display', steps: async page => {
       await page.waitFor(`${game}.getModel().surface==='display'&&document.querySelector('.ms-phone-shell')?.dataset.tabs==='none'`, 'the shared display');
@@ -464,6 +472,57 @@ const STATES = {
       await page.waitFor(`${game}.getModel().concealed&&document.querySelector('.ms-phone-shell')?.dataset.status==='concealed'`, 'concealed');
     },
     facts: s => ({ empty: s.bar?.hidden && !s.bar.name && !s.bar.clock && s.bar.controls === 0 && (s.tabs?.buttons.length ?? 0) === 0 && s.tabs?.hidden, shape: s.shell?.tabs === 'game' }) },
+  // Where the focus goes when a sheet opens (shell 0.3.4; shell-input.mjs shellSheetEntered(), the Lead Designer, 18
+  // November 2026): to the new sheet's title, whatever was pressed, and never to one of its controls. Pressed here as a
+  // keyboard does, the control focused and then activated: a tab, a tile, a person, and after the capture a position on
+  // the board (in this build people are chosen on the board; choosing in the room's picture arrives with #310). A sheet closed with nothing in its place hands the focus back to the tab that opened it.
+  focus: { page: 'phone', url: 'scenario=board', steps: async (page, looks) => {
+      const seen = {};
+      await press(page, TAB('actions'));
+      await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='actions'", 'Actions');
+      seen.tab = await page.evaluate(AT);
+      await press(page, '#planet-action-SUBMIT_CODE');
+      await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='action:SUBMIT_CODE'", 'the tile\'s sheet');
+      seen.tile = await page.evaluate(AT);
+      await press(page, '.ms-ps-sheet [data-intent="sheet-close"]');
+      await page.waitFor("!document.querySelector('.ms-ps-sheet')", 'the sheet closed');
+      await sleep(150);
+      seen.closed = await page.evaluate(AT);
+      // A person: Scan from Actions, then Player 2 on the board.
+      await press(page, TAB('actions'));
+      await page.waitFor("document.querySelector('#planet-action-SCAN')", 'Scan offered');
+      await press(page, '#planet-action-SCAN');
+      await page.waitFor("document.querySelector('.ms-ps-target')&&document.querySelector('.bv2-seat-target[data-value=\"seat-2\"]')", 'people offered on the board');
+      await press(page, '.bv2-seat-target[data-value="seat-2"]');
+      await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='action:SCAN'", 'the sheet a person opened');
+      await sleep(250);
+      seen.person = await page.evaluate(AT);
+      looks.focusSeen = seen;
+    },
+    facts: (s, looks) => { const f = looks.focusSeen ?? {}; return {
+      tabOpensOnTitle: onTitle(f.tab, 'actions'), tileOpensOnTitle: onTitle(f.tile, 'action:SUBMIT_CODE'),
+      closedBackToTab: f.closed?.sheet === null && f.closed.intent === 'tab' && f.closed.value === 'actions',
+      personOpensOnTitle: onTitle(f.person, 'action:SCAN') && s.sheet?.title === 'Scan', nothingSent: s.commands.length === 0 }; },
+    after: async page => {
+      // A position on the board: the sheet closed, Room B's heading, then position B5.
+      await press(page, '.ms-ps-sheet [data-intent="sheet-close"]');
+      await page.waitFor("!document.querySelector('.ms-ps-sheet')", 'the Scan sheet closed');
+      if (await page.evaluate("document.querySelector('.planet-stage')?.dataset.view") !== 'board') await press(page, TAB('switch'));
+      await page.waitFor("document.querySelector('.planet-stage')?.dataset.view==='board'&&document.querySelector('[data-move-room]:not([disabled])')", 'the Board');
+      await press(page, '[data-move-room]:not([disabled])');
+      await page.waitFor("document.querySelector('#planet-slot-B5')", 'the offered position on the board');
+      await press(page, '#planet-slot-B5');
+      await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='action:MOVE'", 'the sheet a position opened');
+      await sleep(250);
+      const at = await page.evaluate(AT), seen = await page.evaluate(LOOK);
+      // The sheet is drawn again while it waits (here, another player changes their name): the focus is still
+      // on its title, and has not moved on to Register by itself.
+      await page.evaluate(edit("v.members.find(m=>m.seatId==='seat-2').displayName='Crew Two'"));
+      await sleep(400);
+      const later = await page.evaluate(AT), then = await page.evaluate(LOOK);
+      return { boardTargetOpensOnTitle: onTitle(at, 'action:MOVE') && seen.sheet?.foot.some(b => b.value === 'confirm'),
+        titleKeepsTheFocus: onTitle(later, 'action:MOVE') && then.sheet?.foot.some(b => b.value === 'confirm'), stillNothingSent: then.commands.length === 0 };
+    } },
   // Shell 0.3.3 in the real app, on the smallest phone at the Largest text. No sheet of this build is squeezed there:
   // none has a title of more than two lines, and none leaves its content under a third of the sheet. So the two
   // rules leave both sheets as they were, and nothing is cut. A squeezed sheet in the game comes with release 3's
