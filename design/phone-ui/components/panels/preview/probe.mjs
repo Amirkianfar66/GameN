@@ -190,6 +190,22 @@ export async function runPanelsProbe({ sizes, mountState, disposeState, inputOf,
         && empty.hidden && empty.words === '' && ROUND_STEP_ICONS.navigation === 'course';
       return { ok, rows, note, reordered, noTiming, unknownIsRoundOrders: unknown === rulesIcon, empty };
     });
+    await check('steps: the Round order row says "Phases and timings" only once a step has its timing, else "The phases, in order" (the Lead, 18 November)', async () => {
+      const s = mount();
+      const row = s.row('round-order');
+      const withTimings = line(row);
+      s.update({ steps: STEPS.map(x => ({ ...x, timing: null })) });
+      const without = line(s.row('round-order'));
+      s.update({ steps: [{ ...STEPS[0], timing: null }, STEPS[1]] });
+      const some = line(s.row('round-order'));
+      s.update({ steps: [] });
+      const none = line(s.row('round-order'));
+      const sameRow = s.row('round-order') === row && title(row) === PANELS_WORDS.roundOrder;
+      disposeState(s.m);
+      const ok = withTimings === PANELS_WORDS.roundOrderLine && without === PANELS_WORDS.roundOrderPhases && some === PANELS_WORDS.roundOrderLine
+        && none === PANELS_WORDS.roundOrderPhases && sameRow;
+      return { ok, withTimings, without, some, none, sameRow };
+    });
     await check('focus: each row keeps its element and the focus; a focused destination that leaves returns the focus once', async () => {
       const s = mount(inputOf({ navigation: { enabled: true } }));
       const nav = s.row('navigation');
