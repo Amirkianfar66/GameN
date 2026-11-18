@@ -140,7 +140,10 @@ windows.dispose();                                     // safe twice; afterwards
 - **the probe, 19 checks:** drawing by finger and by keyboard, the inks, Undo and Clear, the limits, the footer, the views, privacy, a stroke through updates, reconnecting, focus, the layout at both sizes and the Largest text, dispose, and motion (also with the device's Reduce motion);
 - **the agreement, 9 cases:** the sheet beside the frozen pack's `windows` in its four states at both sizes, and drawing at the Largest text: the same words, states, look and boxes to within half a pixel, each stroke by its box, ink, width, ends and joins.
 
-**Recorded against** (the check's `sourceCommit`): `96729d1b`, clean: 18 of 18 captures, the probe 19 of 19, the agreement 9 of 9.
+**Recorded against `dabd6f21` (clean, with the shell 0.2.12, kit 0.8.2 and room scene 0.5.1, #265 at `5616928e`):** 18 of 18 captures, the probe 19 of 19, the agreement 9 of 9, with no unexpected policy report and no page problem. The headers' SHA-256 is `424e5dec…`. The record is `review/check.json`.
+- **Against the record on `96729d1b`** (kit 0.7.0, shell 0.2.7): every recorded field of the 18 captures, the probe's 19 checks and the agreement's 9 is the same, but for the bundle's file name in the known Zod report.
+- 14 captures differ only below the noise of the pictures' compression.
+- The other 4 differ in two places outside the sheet: the busy Show button's spinner, at another frame (`showing`, both sizes), and the room behind the sheet's glass, where the crew's name tags are drawn as room scene 0.5.1 draws them (`largest`, both sizes). The sheet itself is unchanged.
 
 ## Not in this version
 
