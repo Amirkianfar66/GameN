@@ -205,8 +205,10 @@
 .ms-phone-shell .ms-ps-hero-label { font: 800 clamp(12px, 0.75rem, 13px)/1 var(--ms-ps-letter); letter-spacing: 0.08em; text-transform: uppercase; }
 .ms-phone-shell .ms-ps-hero-space { margin-top: auto; visibility: hidden; font: 600 clamp(12px, 0.75rem, 14px)/1.15 var(--ms-ps-font); }
 .ms-phone-shell .ms-ps-hero[data-off] { background: var(--ms-ps-surface-4); color: var(--ms-ps-text-2); border-color: #0A0D14; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45); --ic-knock: var(--ms-ps-surface-4); }
-.ms-phone-shell .ms-ps-hero[data-mode="vote"]:not([data-off]) { background: var(--ms-ps-paper); box-shadow: 0 0 0 3px rgba(244, 235, 221, 0.25), 0 8px 20px rgba(0, 0, 0, 0.5); --ic-knock: var(--ms-ps-paper); }
-.ms-phone-shell .ms-ps-hero[data-mode="voted"]:not([data-off]) { background: var(--ms-ps-paper-deep); --ic-knock: var(--ms-ps-paper-deep); }
+/* 0.2.10: the mode rules follow the unavailable rule and win its fill, as the pack's cascade has it (kit.css: .hero[data-mode="vote"]
+   after .hero[aria-disabled="true"]): an unavailable Vote is paper with dimmed words, as sheet 38 draws the result's round button. */
+.ms-phone-shell .ms-ps-hero[data-mode="vote"] { background: var(--ms-ps-paper); box-shadow: 0 0 0 3px rgba(244, 235, 221, 0.25), 0 8px 20px rgba(0, 0, 0, 0.5); --ic-knock: var(--ms-ps-paper); }
+.ms-phone-shell .ms-ps-hero[data-mode="voted"] { background: var(--ms-ps-paper-deep); --ic-knock: var(--ms-ps-paper-deep); }
 .ms-phone-shell .ms-ps-hero[data-mode="voted"]::after { content: ""; position: absolute; right: -4px; top: -4px; width: 22px; height: 22px; border-radius: 50%; background: var(--ms-ps-ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.6 10 16.6 18.4 8' fill='none' stroke='%23F1B84B' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat; }
 .ms-phone-shell .ms-ps-hero[aria-busy="true"] .ms-ps-hero-icon { opacity: 0.35; }
 .ms-phone-shell .ms-ps-hero[aria-busy="true"]::before { content: ""; position: absolute; width: 30px; height: 30px; top: 9px; border-radius: 50%; border: 2.5px solid currentColor; border-right-color: transparent; animation: ms-ps-spin 0.9s linear infinite; }

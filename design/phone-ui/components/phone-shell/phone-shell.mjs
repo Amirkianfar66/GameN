@@ -18,12 +18,15 @@
 // the public match status; the Promises count, the tabs, the target bar, the chip, the sheet, the
 // toast and an eliminated player's banner are this viewer's own, and the shell drops them when it is
 // concealed or its viewer changes.
+//
+// The words of a phase bar are not the shell's to choose: phase-bars.mjs (0.2.10) holds the pack's for
+// each game step, and returns this file's `bar` input from the facts Frontend gives.
 
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
-import { createControlPolicy, createKit } from '../kit/kit.mjs';
+import { createControlPolicy, createKit, followTextSize } from '../kit/kit.mjs';
 
-export const PHONE_SHELL_VERSION = 'phone-shell-0.2.9';
+export const PHONE_SHELL_VERSION = 'phone-shell-0.2.12';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const KINDS = Object.freeze(['turn', 'phase', 'pair']);
 const HERO_MODES = Object.freeze(['pass', 'vote', 'voted']);
@@ -181,8 +184,11 @@ export function nextPhoneShellInput(previous, input) {
   // The tab bar's shape (game, talk or none) is not this viewer's: it stays while concealed, so the
   // stage between the bars keeps its size and nothing on the phone moves.
   next.shape = 'tabs' in input ? (next.tabs ? next.tabs.variant : 'none') : (previous.shape ?? 'none');
-  if (next.target) next.target = { icon: next.target.icon ?? 'actions', title: String(next.target.title ?? ''), sub: optionalText(next.target.sub, 'target.sub') };
-  else next.target = null;
+  if (next.target) {
+    if (next.target.cancel !== undefined && typeof next.target.cancel !== 'boolean') throw new TypeError('target.cancel is true or false');
+    // `cancel: false` (0.2.12): a choice made and final (the Disabler's fixed position): the bar keeps its words, with no Cancel.
+    next.target = { icon: next.target.icon ?? 'actions', title: String(next.target.title ?? ''), sub: optionalText(next.target.sub, 'target.sub'), cancel: next.target.cancel !== false };
+  } else next.target = null;
   if (next.chip) {
     if (!isText(next.chip.label)) throw new TypeError('A chip needs a label');
     next.chip = { id: String(next.chip.id ?? ''), label: next.chip.label, icon: next.chip.icon ?? 'chevronRight', tone: next.chip.tone === 'steel' ? 'steel' : 'paper', enabled: next.chip.enabled !== false };
@@ -268,6 +274,9 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
   root.append(stage, cover, bar, over, guide);
   host.append(root);
   const kit = createKit(doc);
+  // The text size (0.2.11): a part opened after it changes takes the new size's rules, as one open through the change
+  // does (the kit's followTextSize; before, at 200 % a target bar opened afterwards stood side by side).
+  const textSize = followTextSize(root);
 
   let state = nextPhoneShellInput(PHONE_SHELL_DEFAULTS, input);
   let disposed = false, suspended = false, seq = 0, lastLayout = null, toastShown = null, toastTimer = null, press = null;
@@ -537,7 +546,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       const node = el('div', 'ms-ps-target', { role: 'status' });
       const glyph = el('span', 'ms-ps-target-icon'), words = el('div', 'ms-ps-text');
       words.append(el('b'), el('span'));
-      node.append(glyph, words, kit.button({ label: 'Cancel', kind: 'secondary', small: true, intent: 'cancel-target' }));
+      node.append(glyph, words);
       return node;
     });
     if (target) {
@@ -545,7 +554,13 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       text(target.children[1].firstChild, state.target.title);
       text(target.children[1].lastChild, state.target.sub ?? '');
       target.children[1].lastChild.hidden = !state.target.sub;
-      control(target.lastChild, { intent: 'cancel-target' });
+      // Cancel only while the choice can still be left (0.2.12). A final one (`cancel: false`) keeps its words and
+      // drops Cancel, so nothing on the bar reads as undo; if Cancel had the focus, the policy hands it back.
+      let cancel = target.children[2] ?? null;
+      if (state.target.cancel && !cancel) target.append(cancel = kit.button({ label: 'Cancel', kind: 'secondary', small: true, intent: 'cancel-target' }));
+      else if (!state.target.cancel && cancel) { remove(cancel); cancel = null; }
+      if (cancel) control(cancel, { intent: 'cancel-target' });
+      target.toggleAttribute('data-final', !state.target.cancel);
     }
     // A banner is drawn for its kind (BANNERS: its icon, its words, and Retry for reconnecting only), so one of
     // another kind is drawn afresh; the policy returns the focus if Retry had it.
@@ -792,6 +807,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     hideHud();
     if (toastTimer) win.clearTimeout(toastTimer);
     observer?.disconnect();
+    textSize.dispose();
     policy.dispose();
     root.removeEventListener('click', onClick);
     root.removeEventListener('pointerdown', onPointerDown);

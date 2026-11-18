@@ -128,7 +128,20 @@ export async function runActionsAgreement({ sizes, inputsFor }) {
     // While choosing: the target bar and the chip.
     const barA = pack.querySelector('.target-bar'), barB = host.querySelector('.ms-ps-target');
     compare('target bar', 'words', [words(barA?.querySelector('b')), words(barA?.querySelector('.banner-text span'))], [words(barB?.querySelector('.ms-ps-text b')), words(barB?.querySelector('.ms-ps-text span'))]);
-    compareBox('target bar', box(pack, barA), box(host, barB));
+    // Its Cancel, as the pack's (T2), but for the fixed position's (sheet 30): the owner's approval of 17 November 2026
+    // (#280 at f0066a7c) removed it, so there the bar is final and must have none. Without the button the bar is as
+    // tall as its words: its place and width are the pack's, its height is part of the departure.
+    const departures = [];
+    const cancelA = !!barA?.querySelector('button'), cancelB = !!barB?.querySelector('[data-intent="cancel-target"]');
+    if (c.state === 'blackout-fixed') {
+      compare('target bar', 'cancel (none: the owner\'s departure)', false, cancelB);
+      const [a, b] = [box(pack, barA), box(host, barB)];
+      compareBox('target bar (place and width)', a && { ...a, h: 0 }, b && { ...b, h: 0 });
+      departures.push(`target bar: no Cancel, where sheet 30 draws one, so ${b?.h ?? '?'} px tall where the pack's is ${a?.h ?? '?'} px (the owner's approval of 17 November 2026, #280 at f0066a7c)`);
+    } else {
+      compareBox('target bar', box(pack, barA), box(host, barB));
+      compare('target bar', 'cancel', cancelA, cancelB);
+    }
     // Where the pack's chip is the room's own control (roomInteraction(): "Window · Hospital"), it is the room
     // scene's (#261), compared in its agreement; this one says so instead of comparing it.
     const chipA = pack.querySelector('.offroom .btn'), chipB = host.querySelector('.ms-ps-chip-btn');
@@ -198,7 +211,7 @@ export async function runActionsAgreement({ sizes, inputsFor }) {
     compareBox('notice icon', box(noticeA, noticeA?.querySelector('.big-icon .ic')), box(noticeB, noticeB?.querySelector('.ms-k-notice-icon .ms-k-ic')));
     [...(noticeA?.querySelectorAll('p') ?? [])].forEach((p, i) => compareBox(`notice line ${i + 1}`, box(noticeA, p), box(noticeB, noticeB?.querySelectorAll('p')[i] ?? null)));
     checks.push({ id: `agree: ${c.state} (${c.frame}${c.size !== '390x844' ? ` at ${c.size}` : ''}${c.text ? ` at ${c.text}% text` : ''})`, ok: differences.length === 0,
-      detail: { differences, ...(notCompared.length ? { notCompared } : {}) } });
+      detail: { differences, ...(notCompared.length ? { notCompared } : {}), ...(departures.length ? { departures } : {}) } });
     part?.dispose();
     shell.dispose();
     pack.remove();

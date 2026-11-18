@@ -77,7 +77,9 @@ export function inputsFor(stateKey, size) {
   // A move done (Q2) puts the person at their new position, as the board then has them.
   const moved = state.scene.moved ?? null;
   const people = moved ? ROOM.people.map(p => (p.seat === moved.seat ? { ...p, slot: moved.slot } : p)) : ROOM.people;
-  const scene = state.scene.none ? null : { ...ROOM, people, active: state.scene.active ?? SELF, targets: state.scene.targets ?? null, status };
+  // A Blackout's dark room (sheet 30): no one's turn, the people hidden, the positions offered.
+  const scene = state.scene.none ? null : { ...ROOM, people, active: Object.hasOwn(state.scene, 'active') ? state.scene.active : SELF,
+    lighting: state.scene.lighting ?? 'lit', targets: state.scene.targets ?? null, status };
   const part = state.part ? { kind: state.part.kind, input: { viewer: `seat-${SELF}`, versions, status, ...state.part.input } } : null;
   return { state, shell, scene, part };
 }

@@ -13,16 +13,19 @@
 //   list      a row reports its seat as Frontend gave it; each row is kept by its seat; Supply's first pick
 //             is marked; "Dev (you)"; a focused row keeps the focus when the groups change
 //   check     the person, both people (Supply) or the action's icon; "yourself" for this viewer; the facts;
-//             the inline error when not accepted, as an alert, and gone when cleared
+//             the inline error when not accepted, as an alert, and gone when cleared; "Player" with its number
+//             and the seat with its "·" (no-break spaces, 0.2.5); a refusal (0.2.5, R2): the check kept open with
+//             Register off, the words last in the part and brought into view
 //   after     the stamp, its words and tone for each kind; the headline, the detail, the people, the steps;
 //             no time line after a reload; nothing drawn outside the sheet (nothing on the target)
 //   words     the frames and the shell's words: the sheets' ids, titles, subs and buttons; the target bar
-//             (Supply's second pick, the board); the chip; the toast; Pass without a next player
+//             (Supply's second pick, the board; the Disabler's position bar, sheet 30, and its refusals); the chip;
+//             the toast; Pass without a next player
 //   footer    the sheets' buttons in the real shell: live, each is taken; reconnecting, Cancel (the check's and
 //             Pass's) and Done are taken, being this phone's own (local), and Register, Pass, Retry the same and
 //             Check receipt, which stand for commands, are refused, described by the banner's words
 //   unknown   "Outcome unknown" names the action and its people, or the action alone; the Hospital panel's request
-//             with no number, and one given is refused (the Lead's Q3)
+//             with no number, and one given is refused (the Lead's Q3); Pass, and the Disabler's position (A13)
 //   move      Move's bar in each of the Lead's Q3 cases and on the board, none once picked or with no position;
 //             the chip to the Board; no person's bar, list, After Register or toast for Move; in the real shell,
 //             the bar's Cancel and the chip report, and reconnecting only Cancel does; the "Moved to A5" toast;
@@ -40,7 +43,7 @@
 //             device's) is there at once; the sending spinner stands still with Reduce motion
 // With the device's Reduce motion emulated, only the motion check runs (the page's mode says which).
 
-import { ACTION_WORDS, actionsSheet, afterSheet, checkActions, checkAfterRegister, checkSheet, mountActionCheck, mountActions, mountAfterRegister, mountOutcomeUnknown,
+import { ACTION_WORDS, actionsSheet, afterSheet, blackoutBar, checkActions, checkAfterRegister, checkSheet, mountActionCheck, mountActions, mountAfterRegister, mountOutcomeUnknown,
   mountTargetList, moveBar, moveChip, movedToast, passSheet, passedToast, registeredToast, targetBar, targetChip, targetListSheet, unknownSheet } from '../actions.mjs';
 import { mountPhoneShell } from '../../phone-shell/phone-shell.mjs';
 import { ACTIONS_STATES } from './states.mjs';
@@ -159,7 +162,9 @@ export async function runActionsProbe({ sizes, versions }) {
 
     await check('check', async () => {
       const p = phone('check');
-      const read = () => ({ title: p.root.querySelector('.ms-k-who-title').textContent, sub: p.root.querySelector('.ms-k-who-sub').textContent, form: p.root.querySelector('.ms-k-who-lead').dataset.form,
+      // The words compared with a no-break space as a space; the joins themselves are checked on their own (0.2.5).
+      const read = () => ({ title: p.root.querySelector('.ms-k-who-title').textContent, sub: p.root.querySelector('.ms-k-who-sub').textContent.replace(/\u00a0/g, ' '),
+        subRaw: p.root.querySelector('.ms-k-who-sub').textContent, form: p.root.querySelector('.ms-k-who-lead').dataset.form,
         portraits: p.root.querySelectorAll('.ms-k-who-lead .ms-k-pt').length, facts: [...p.root.querySelectorAll('.ms-k-facts li')].map(n => n.textContent), error: p.root.querySelector('.ms-k-error')?.textContent ?? null,
         alert: p.root.querySelector('.ms-k-error')?.getAttribute('role') ?? null });
       const one = read();
@@ -174,10 +179,24 @@ export async function runActionsProbe({ sizes, versions }) {
       p.part.update({ error: null });
       const cleared = read();
       p.dispose();
+      const joins = { one: one.subRaw === 'Player\u00a05\u00a0· Hospital', two: two.subRaw === 'Players\u00a01 and\u00a07' };
+      // A refusal (0.2.5, R2): Frontend's words; the check stays open with Register off (canRegister: false), the
+      // words last in the part and brought into view above the footer.
+      const r = phone('check-refused');
+      const note = r.root.querySelector('.ms-k-error'), register = r.frame.querySelector('.ms-ps-sheet-foot [data-value="register"]');
+      const body = r.frame.querySelector('.ms-ps-sheet-body').getBoundingClientRect(), box = note?.getBoundingClientRect();
+      const following = []; for (let n = note?.nextElementSibling; n; n = n.nextElementSibling) following.push([...n.classList].join('.'));
+      // Last of what is drawn: only the control policy's visually hidden descriptions (.ms-k-vh) may follow it.
+      const held = { words: note?.textContent ?? null, alert: note?.getAttribute('role') ?? null, last: !!note && following.every(c => c.split('.').includes('ms-k-vh')), following,
+        registerOff: !!register && (register.disabled || register.getAttribute('aria-disabled') === 'true'), cancel: !!r.frame.querySelector('.ms-ps-sheet-foot [data-value="cancel"]'),
+        inView: !!box && box.top >= body.top - 0.5 && box.top < body.bottom };
+      r.dispose();
       return { ok: one.title === 'Rescue Eli' && one.sub === 'Player 5 · Hospital' && one.form === 'person' && one.portraits === 1 && one.facts.length === 3
         && self.title === 'Rescue yourself' && two.title === 'Supply Ava and Gus' && two.sub === 'Players 1 and 7' && two.form === 'pair' && two.portraits === 2
         && none.title === 'Request Blackout' && none.sub === 'Only you see this' && none.form === 'icon' && none.portraits === 0 && none.facts.length === 0
-        && error.error === 'The server did not accept Rescue. Register again.' && error.alert === 'alert' && cleared.error === null, one, self, two, none, error, cleared };
+        && error.error === 'The server did not accept Rescue. Register again.' && error.alert === 'alert' && cleared.error === null
+        && joins.one && joins.two && held.words === 'The server did not allow that command.' && held.alert === 'alert' && held.last && held.registerOff && held.cancel && held.inView,
+        one: { ...one, subRaw: one.subRaw.replace(/\u00a0/g, '~') }, self, two: { ...two, subRaw: two.subRaw.replace(/\u00a0/g, '~') }, none, error, cleared, joins, held };
     });
 
     await check('after', async () => {
@@ -202,8 +221,14 @@ export async function runActionsProbe({ sizes, versions }) {
     await check('words', async () => {
       const sheets = [actionsSheet({ role: 'Doctor', room: 'Room A' }), targetListSheet({ type: 'RESCUE' }), checkSheet({ type: 'RESCUE' }), checkSheet({ type: 'REQUEST_HACK', phase: 'sending' }),
         afterSheet({ type: 'PROTECT' }), unknownSheet({ type: 'RESCUE' }), passSheet({ next: { seat: 'seat-5', name: 'Eli' } }), passSheet({})];
-      const said = sheets.map(s => [s.id, s.title, s.sub ?? null, (s.actions ?? []).map(a => `${a.id}:${a.label}${a.busy ? ':busy' : ''}${a.local ? ':local' : ''}`).join('|') || null]);
-      const bars = [targetBar({ type: 'RESCUE' }), targetBar({ type: 'SUPPLY' }), targetBar({ type: 'SUPPLY', picked: ['seat-1'] }), targetBar({ type: 'RESCUE', where: 'board' })].map(b => `${b.icon}|${b.title}|${b.sub}`);
+      // The words compared with a no-break space as a space; the Pass line's joins are checked on their own (0.2.5).
+      const said = sheets.map(s => [s.id, s.title, s.sub?.replace(/\u00a0/g, ' ') ?? null, (s.actions ?? []).map(a => `${a.id}:${a.label}${a.busy ? ':busy' : ''}${a.local ? ':local' : ''}`).join('|') || null]);
+      const joined = { pass: passSheet({ next: { seat: 'seat-5', name: 'Eli' } }).sub === 'The turn goes to Eli\u00a0· Player\u00a05', player: ACTION_WORDS.player(5) === 'Player\u00a05',
+        players: ACTION_WORDS.players(1, 7) === 'Players\u00a01 and\u00a07' };
+      const bars = [targetBar({ type: 'RESCUE' }), targetBar({ type: 'SUPPLY' }), targetBar({ type: 'SUPPLY', picked: ['seat-1'] }), targetBar({ type: 'RESCUE', where: 'board' }),
+        blackoutBar({ room: 'Room A' }), blackoutBar({ room: 'Room A', fixed: 'A3' })].map(b => `${b.icon}|${b.title}|${b.sub}`);
+      // The Disabler's bar (sheet 30) names its room while choosing, and needs one; "fixed" is a position.
+      const refusals = [() => blackoutBar(), () => blackoutBar({ room: 'Room A', fixed: '' })].map(fn => { try { fn(); return null; } catch (e) { return e.message; } });
       const chips = [targetChip({ kind: 'other-rooms', count: 1 }), targetChip({ kind: 'list' })].map(c => `${c.id}|${c.label}|${c.icon}`);
       const toasts = [registeredToast({ type: 'RESCUE', id: 'c-1' }), registeredToast({ type: 'REQUEST_HACK', kind: 'accepted', id: 'c-2' }), registeredToast({ type: 'ACTIVATE_CLONE', kind: 'active', id: 'c-3' }),
         registeredToast({ type: 'ENGINEER_SUPPRESS', kind: 'captured', id: 'c-4' })].map(t => t.text);
@@ -211,9 +236,12 @@ export async function runActionsProbe({ sizes, versions }) {
         ['action-check', 'Check and register', null, 'cancel:Cancel:local|register:Requesting…:busy'], ['action-after', 'Grant Protection', null, 'done:Done:local'], ['action-unknown', 'Outcome unknown', null, 'retry:Retry the same|check:Check receipt'],
         ['pass', 'Pass your turn?', 'The turn goes to Eli · Player 5', 'cancel:Cancel:local|pass:Pass'], ['pass', 'Pass your turn?', null, 'cancel:Cancel:local|pass:Pass']];
       return { ok: JSON.stringify(said) === JSON.stringify(want)
-        && JSON.stringify(bars) === JSON.stringify(['rescue|Rescue|Choose a player', 'supply|Supply|Choose two players', 'supply|Supply|Choose the second player', 'rescue|Rescue|Choose a player · every room'])
+        && JSON.stringify(bars) === JSON.stringify(['rescue|Rescue|Choose a player', 'supply|Supply|Choose two players', 'supply|Supply|Choose the second player', 'rescue|Rescue|Choose a player · every room',
+          'position|Choose a position|Room A · any position, even empty', 'position|Position A3 fixed|Resolves after the window · no effect shown now'])
+        && refusals.every(r => typeof r === 'string')
         && JSON.stringify(chips) === JSON.stringify(['other-rooms|Other rooms · 1|board', 'list|List|players'])
-        && JSON.stringify(toasts) === JSON.stringify(['Rescue registered', 'Private talk accepted', 'Clone active', 'Navigation suppressed']), said, bars, chips, toasts };
+        && JSON.stringify(toasts) === JSON.stringify(['Rescue registered', 'Private talk accepted', 'Clone active', 'Navigation suppressed'])
+        && Object.values(joined).every(Boolean), said, bars, chips, toasts, refusals, joined };
     });
 
     await check('footer', async () => {
@@ -257,11 +285,16 @@ export async function runActionsProbe({ sizes, versions }) {
       try { p.part.update({ targets: [{ seat: 'seat-3', name: 'Cleo' }] }); } catch (error) { refused = error.message; }
       const after = lines();
       const status = p.root.querySelector('.ms-k-notice').getAttribute('role');
+      // Pass and the Disabler's position (0.2.3, A13): Pass alone, and the position as Move's is named.
+      p.part.update({ type: 'PASS_TURN', targets: [] });
+      const pass = lines();
+      p.part.update({ type: 'SELECT_BLACKOUT_SLOT', position: { slot: 'A3', room: 'Room A' } });
+      const position = lines();
       p.dispose();
-      return { ok: JSON.stringify(one) === JSON.stringify(['Rescue Eli was sent, but no answer came back.', 'Check before doing anything else.'])
-        && JSON.stringify(none) === JSON.stringify(['Request Blackout was sent, but no answer came back.', 'Check before doing anything else.'])
-        && JSON.stringify(panel) === JSON.stringify(['Panel request was sent, but no answer came back.', 'Check before doing anything else.'])
-        && typeof refused === 'string' && !/3|Cleo/.test(refused) && JSON.stringify(after) === JSON.stringify(panel) && status === 'status', one, none, panel, refused, after, status };
+      const said = what => JSON.stringify([`${what} was sent, but no answer came back.`, 'Check before doing anything else.']);
+      return { ok: JSON.stringify(one) === said('Rescue Eli') && JSON.stringify(none) === said('Request Blackout') && JSON.stringify(panel) === said('Panel request')
+        && typeof refused === 'string' && !/3|Cleo/.test(refused) && JSON.stringify(after) === JSON.stringify(panel) && status === 'status'
+        && JSON.stringify(pass) === said('Pass') && JSON.stringify(position) === said('Position A3'), one, none, panel, refused, after, status, pass, position };
     });
 
     await check('move', async () => {

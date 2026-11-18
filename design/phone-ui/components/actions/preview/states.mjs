@@ -12,7 +12,7 @@
 
 import { ROOM_FIXTURES, SELF, board, seatOf } from '../../../prototype/fixtures.mjs';
 import { afterRegister } from '../../../prototype/screens-game.mjs';
-import { ACTION_WORDS, actionsSheet, afterSheet, checkSheet, moveBar, moveChip, movedToast, passSheet, passedToast, targetBar, targetChip, targetListSheet, unknownSheet } from '../actions.mjs';
+import { ACTION_WORDS, actionsSheet, afterWords, blackoutBar, afterSheet, checkSheet, moveBar, moveChip, movedToast, passSheet, passedToast, targetBar, targetChip, targetListSheet, unknownSheet } from '../actions.mjs';
 
 const ROOM = 'Room A';
 const seats = board({ place: ROOM_FIXTURES['room-a'].place });
@@ -66,13 +66,22 @@ const FACTS = {
 };
 const ACT = { RESCUE: 'rescue', PROTECT: 'protect', SUPPLY: 'supply', REGISTER_SHOT: 'shoot', REQUEST_HACK: 'talk', REQUEST_BLACKOUT: 'blackout', ENGINEER_SUPPRESS: 'suppress', ACTIVATE_CLONE: 'clone' };
 
-/** After Register's input from the pack's own words for the action (Frontend's en.ts, the handoff's drafts). */
+/**
+ * After Register's input: the stamp, the time line and the pack's own lines from afterWords() (0.2.3), given the
+ * pack's facts (Round 3, a shot's Round 4; the Clone to the end of Round 4; Protection from Round 4; the Engineer's
+ * capture in Room B). Rescue's, Protection's, Supply's and a shot's lines, and a private talk's detail, are
+ * Frontend's (en.ts): the pack's own afterRegister() stands in for them, as for the captured players. For the
+ * private talk's detail the game shows Frontend's "The phase shown at the top of this screen says what happens
+ * next." (the Lead, 17 November); the pack's line here keeps sheet 29.2's frame to compare.
+ */
 function after(type, target) {
   const A = afterRegister(ACT[type], target ? seatOf(Number(target.seat.slice(5))) : null, 'room-a');
-  const kind = { REGISTERED: 'registered', ACCEPTED: 'accepted', ACTIVE: 'active', CAPTURED: 'captured' }[A.stamp];
-  return { type, kind, title: A.title, detail: A.detail,
+  const w = afterWords({ type, round: type === 'REGISTER_SHOT' ? 4 : 3, targets: target ? [target] : [], viewer: SELF,
+    expiresAfterRound: type === 'ACTIVATE_CLONE' ? 4 : null, activeFromRound: type === 'PROTECT' ? 4 : null,
+    capture: type === 'ENGINEER_SUPPRESS' ? { room: 'Room B', count: A.people.length } : null });
+  return { type, kind: w.kind, title: w.title ?? A.title, detail: w.detail ?? A.detail,
     people: A.people ? A.people.map(p => ({ seat: `seat-${p.seat}`, name: p.name, character: p.character, sub: `Player ${p.seat} · in Room B when accepted` })) : null,
-    steps: A.steps.map(([state, title, sub]) => ({ state, title, sub })) };
+    steps: w.steps };
 }
 
 const person = n => { const p = seatOf(n); return { seat: p.seat, name: p.name, character: p.character }; };
@@ -113,6 +122,16 @@ const moveCheckState = (caption, sheetNo, position, { phase = 'ready', error = n
   part: { kind: 'check', input: { type: 'MOVE', position, facts: FACTS.MOVE, error } },
 });
 const MOVE_A = { slot: EMPTY_A[0], room: ROOM };
+/**
+ * The Disabler during a Blackout (sheet 30): the dark room, every position offered (any position, even a taken
+ * one), the Blackout's dark bar, and the position bar (blackoutBar()). No one's turn; Pass is off.
+ */
+const ROOM_A_SLOTS = ['A1', 'A2', 'A3', 'A4', 'A5'];
+const darkBar = seconds => ({ kind: 'phase', icon: 'dark', title: 'Blackout', sub: 'Dark · positions fixed', tone: 'dark', round: 3, timer: { remainingMs: seconds * 1000 }, promises: { count: 0 }, menu: {} });
+const blackoutState = (caption, sheetNo, { fixed = null, seconds = 8 } = {}) => state(caption, sheetNo, {
+  shell: { bar: darkBar(seconds), tabs: tabs({ own: false }), target: blackoutBar({ room: ROOM, fixed }) },
+  scene: { active: null, lighting: 'dark', targets: { slots: ROOM_A_SLOTS, picked: fixed } },
+});
 const MOVE_B = { slot: EMPTY_B[0], room: 'Room B' };
 
 /** Every state, by key: its caption, the sheet it comes from, and its inputs. */
@@ -178,6 +197,12 @@ export const ACTIONS_STATES = Object.freeze({
   'check-shiphack': checkState('Hack Ship · the check (L7)', '27.2+', 'ACTIVATE_SHIP_HACK', []),
   'check-error': checkState('Not accepted · Register again while offered (L6)', '29+', 'RESCUE', [who(5)],
     { error: { text: 'The server did not accept Rescue.', detail: 'Check the target, then register again.' } }),
+  // R2 (the Lead, 18 November): a refused command holds the check with the controller's own words, verbatim, and
+  // Register off, since the controller has dropped the draft; Cancel goes back to the tiles. It partly reverses L6.
+  'check-refused': checkState('Refused · the controller\'s words, Register off (R2)', '29+', 'RESCUE', [who(5)],
+    { error: { text: 'The server did not allow that command.' }, canRegister: false }),
+  'largest-check-refused': { ...checkState('Largest text · refused, Register off (R2)', '29+', 'RESCUE', [who(5)],
+    { error: { text: 'The server did not allow that command.' }, canRegister: false }), sizes: ['320x568'], text: 200 },
   'after-reload': afterState('Accepted, after a reload (L6)', '29+', 'RESCUE', null,
     { input: { type: 'RESCUE', kind: 'registered', title: 'The server accepted your action.', detail: 'This is not a result. Registered actions are resolved at the end of the round.', people: null, steps: [] } }),
   'unknown-blackout': state('Outcome unknown · no person', '45+', {
@@ -190,6 +215,18 @@ export const ACTIONS_STATES = Object.freeze({
     shell: { bar: turnBar(SELF, 19), tabs: tabs({ own: false }), sheet: unknownSheet({ type: 'PANEL_CODE' }) },
     scene: { active: SELF },
     part: { kind: 'unknown', input: { type: 'PANEL_CODE', targets: [] } },
+  }),
+  // Pass and the Disabler's position (0.2.3, A13; the Lead, 17 November): their sheet 45 too. The dark room offers
+  // nothing while the position's answer is unknown.
+  'unknown-pass': state('Outcome unknown · Pass (A13)', '45+', {
+    shell: { bar: turnBar(SELF, 19), tabs: tabs(), sheet: unknownSheet({ type: 'PASS_TURN' }) },
+    scene: { active: SELF },
+    part: { kind: 'unknown', input: { type: 'PASS_TURN' } },
+  }),
+  'unknown-position': state('Outcome unknown · the Disabler’s position (A13)', '45+', {
+    shell: { bar: darkBar(6), tabs: tabs({ own: false }), sheet: unknownSheet({ type: 'SELECT_BLACKOUT_SLOT' }) },
+    scene: { active: null, lighting: 'dark' },
+    part: { kind: 'unknown', input: { type: 'SELECT_BLACKOUT_SLOT', position: { slot: 'A3', room: ROOM } } },
   }),
   // Move (sheets 20, 26 and 27.1), and the steps the pack leaves undrawn, as the Lead answered them (Q1–Q4).
   'move-room': moveState('Move within the room · the bar and the chip', '20'),
@@ -207,6 +244,9 @@ export const ACTIONS_STATES = Object.freeze({
     scene: { active: SELF },
     part: { kind: 'unknown', input: { type: 'MOVE', position: MOVE_A } },
   }),
+  // The Disabler's position during a Blackout (sheet 30; the owner's decision of 16 November gives it to Actions).
+  'blackout-pick': blackoutState('Blackout · the Disabler chooses a position', '30'),
+  'blackout-fixed': blackoutState('Blackout · “Position A3 fixed”', '30', { fixed: 'A3', seconds: 6 }),
   'move-moved': state(`Moved · “Moved to ${MOVE_A.slot}”, this phone’s toast (Q2)`, '20+', {
     shell: { bar: turnBar(SELF, 30), tabs: tabs(), toast: movedToast({ slot: MOVE_A.slot, id: 'move-1' }) },
     // The viewer now stands at the position, which everyone sees (the room scene's people, from the board).
@@ -227,6 +267,7 @@ export const ACTIONS_STATES = Object.freeze({
   'largest-check': { ...checkState('Largest text · the check', '56-like', 'RESCUE', [who(5)]), sizes: ['320x568'], text: 200 },
   'largest-after': { ...afterState('Largest text · registered', '56-like', 'RESCUE', who(5)), sizes: ['320x568'], text: 200 },
   'largest-move': { ...moveState('Largest text · Move within the room', '56-like'), sizes: ['320x568'], text: 200 },
+  'largest-blackout': { ...blackoutState('Largest text · “Position A3 fixed”', '56-like', { fixed: 'A3', seconds: 6 }), sizes: ['320x568'], text: 200 },
   'largest-move-check': { ...moveCheckState('Largest text · Move’s check', '56-like', MOVE_A), sizes: ['320x568'], text: 200 },
 });
 
@@ -260,6 +301,8 @@ export const PACK_FRAMES = Object.freeze({
   'large-tiles': { frame: 'actions&role=Doctor&active=4', text: 150 },
   // Move: sheet 20's bar and chip, the board's bar (26 and 27.1); and 27.3's "Turn passed".
   'move-room': { frame: 'room&room=room-a&state=move' },
+  'blackout-pick': { frame: 'blackout&state=pick' },
+  'blackout-fixed': { frame: 'blackout&state=chosen' },
   'move-board': { frame: 'board&state=move' },
   // The pack's room shows its own control here ("Window · Hospital"): the room scene's (#261), compared in its own
   // agreement, not this component's chip.

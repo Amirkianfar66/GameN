@@ -55,15 +55,21 @@ const EXPECT = {
   'targeting-supply': { part: null, sheet: null, target: 'Supply|Choose the second player', chip: 'Other rooms · 1', offered: 4 },
   list: { part: 'list', sheet: 'Choose from a list', rows: 'Ava|Dev (you)|Gus|Ike|Eli', groups: 'Room A|Hospital' },
   'list-supply': { part: 'list', sheet: 'Choose from a list', rows: 'Ava|Dev (you)|Gus|Ike|Eli', picked: 'Ava' },
-  check: checkOf('Rescue Eli|Player 5 · Hospital', 'Cancel|Register Rescue', { facts: 3 }),
-  'check-ava': checkOf('Rescue Ava|Player 1 · Room A', 'Cancel|Register Rescue', { facts: 3 }),
-  sending: checkOf('Rescue Eli|Player 5 · Hospital', 'Cancel|Registering…', { facts: 3 }),
+  // "Player" keeps its number and the seat its "·" (no-break spaces, 0.2.5): compared as spaces, and the joins checked (whoJoined).
+  check: checkOf('Rescue Eli|Player 5 · Hospital', 'Cancel|Register Rescue', { facts: 3, whoJoined: true }),
+  'check-ava': checkOf('Rescue Ava|Player 1 · Room A', 'Cancel|Register Rescue', { facts: 3, whoJoined: true }),
+  sending: checkOf('Rescue Eli|Player 5 · Hospital', 'Cancel|Registering…', { facts: 3, whoJoined: true }),
   'check-blackout': checkOf('Request Blackout|Only you see this', 'Cancel|Request Blackout', { facts: 3 }),
   'check-clone': checkOf('Activate Clone|Only you see this', 'Cancel|Activate Clone', { facts: 3 }),
   'check-suppress': checkOf('Suppress navigation|Only you see this', 'Cancel|Suppress navigation', { facts: 3 }),
-  'check-supply': checkOf('Supply Ava and Gus|Players 1 and 7', 'Cancel|Register Supply', { facts: 2, portraits: 2 }),
+  'check-supply': checkOf('Supply Ava and Gus|Players 1 and 7', 'Cancel|Register Supply', { facts: 2, portraits: 2, whoJoined: true }),
   'check-shiphack': checkOf('Hack Spaceship|Only you see this', 'Cancel|Hack Spaceship', { facts: 2 }),
-  'check-error': checkOf('Rescue Eli|Player 5 · Hospital', 'Cancel|Register Rescue', { facts: 3, error: 'The server did not accept Rescue. Check the target, then register again.' }),
+  'check-error': checkOf('Rescue Eli|Player 5 · Hospital', 'Cancel|Register Rescue', { facts: 3, error: 'The server did not accept Rescue. Check the target, then register again.', whoJoined: true }),
+  // A refusal (0.2.5, R2): Frontend's words, the check kept open with Register off, the words last in the part and
+  // starting in view; whole at both sizes. At the Largest text on the smallest phone their end may be a scroll away
+  // (errorWhole recorded): the owner accepted the note as drawn there (18 November); the shell's 0.3.3 gives it room.
+  'check-refused': checkOf('Rescue Eli|Player 5 · Hospital', 'Cancel|Register Rescue', { facts: 3, error: 'The server did not allow that command.', registerOff: true, errorLast: true, errorStarts: true, errorWhole: true, whoJoined: true }),
+  'largest-check-refused': checkOf('Rescue Eli|Player 5 · Hospital', 'Cancel|Register Rescue', { facts: 3, error: 'The server did not allow that command.', registerOff: true, errorLast: true, errorStarts: true, whoJoined: true }),
   'after-rescue': afterOf('Rescue', 'REGISTERED', 'Rescue of Eli registered.', { steps: 2 }),
   'after-rescue-ava': afterOf('Rescue', 'REGISTERED', 'Rescue of Ava registered.', { steps: 2 }),
   'after-protect': afterOf('Grant Protection', 'REGISTERED', 'Protection for Gus registered.', { steps: 3 }),
@@ -77,13 +83,16 @@ const EXPECT = {
   unknown: { part: 'unknown', sheet: 'Outcome unknown', notice: 'Rescue Eli was sent, but no answer came back.', footer: 'Retry the same|Check receipt' },
   'unknown-blackout': { part: 'unknown', sheet: 'Outcome unknown', notice: 'Request Blackout was sent, but no answer came back.', footer: 'Retry the same|Check receipt' },
   'unknown-panel': { part: 'unknown', sheet: 'Outcome unknown', notice: 'Panel request was sent, but no answer came back.', footer: 'Retry the same|Check receipt' },
-  pass: { part: 'pass', sheet: 'Pass your turn?', sub: 'The turn goes to Eli · Player 5', note: 'Your move stays open on the other turns this round.', footer: 'Cancel|Pass' },
+  // Pass and the Disabler's position (0.2.3, A13): their sheet 45; the position's in the dark room.
+  'unknown-pass': { part: 'unknown', sheet: 'Outcome unknown', notice: 'Pass was sent, but no answer came back.', footer: 'Retry the same|Check receipt' },
+  'unknown-position': { part: 'unknown', sheet: 'Outcome unknown', notice: 'Position A3 was sent, but no answer came back.', footer: 'Retry the same|Check receipt', lighting: 'dark', dark: true },
+  pass: { part: 'pass', sheet: 'Pass your turn?', sub: 'The turn goes to Eli · Player 5', subJoined: true, note: 'Your move stays open on the other turns this round.', footer: 'Cancel|Pass' },
   stale: tilesOf(DOCTOR, { banner: 'Connection lost', refused: true }),
   concealed: { concealed: true },
   'small-tiles': tilesOf(DOCTOR, { perRow: 3 }),
   'large-tiles': tilesOf(DOCTOR, { perRow: 3 }),
   'largest-tiles': tilesOf('RESCUE:registered,MOVE:available,REQUEST_HACK:spent,REGISTER_SHOT:unavailable', { perRow: 1 }),
-  'largest-check': checkOf('Rescue Eli|Player 5 · Hospital', 'Cancel|Register Rescue', { facts: 3 }),
+  'largest-check': checkOf('Rescue Eli|Player 5 · Hospital', 'Cancel|Register Rescue', { facts: 3, whoJoined: true }),
   'largest-after': afterOf('Rescue', 'REGISTERED', 'Rescue of Eli registered.', { steps: 2 }),
   // Move (sheets 20, 26 and 27.1; the Lead's Q1–Q4). `slots`: the positions the room scene offers, `*` picked.
   // `board`: the stage is the board's drawing (#298's), which this preview does not draw, so no crew there.
@@ -98,14 +107,20 @@ const EXPECT = {
   'move-error': checkOf('Move to A5|Room A', 'Cancel|Register move', { facts: 1, error: 'The server did not accept the move. Choose a position again.' }),
   'move-unknown': { part: 'unknown', sheet: 'Outcome unknown', notice: 'Move to A5 was sent, but no answer came back.', footer: 'Retry the same|Check receipt' },
   'move-moved': { part: null, sheet: null, target: null, toast: 'Moved to A5' },
+  // The Disabler's position during a Blackout (sheet 30). `dark`: the dark room hides its people, so no crew is
+  // expected there; the room is checked to be dark. Choosing keeps Cancel (T2); the fixed bar has none (0.2.4, the
+  // owner's approval of 17 November, #280 at f0066a7c).
+  'blackout-pick': { part: null, sheet: null, target: 'Choose a position|Room A · any position, even empty', targetCancel: true, chip: null, slots: 'A1,A2,A3,A4,A5', lighting: 'dark', dark: true },
+  'blackout-fixed': { part: null, sheet: null, target: 'Position A3 fixed|Resolves after the window · no effect shown now', targetCancel: false, chip: null, slots: 'A1,A2,A3*,A4,A5', lighting: 'dark', dark: true },
   passed: { part: null, sheet: null, toast: 'Turn passed' },
   'move-stale': { part: null, sheet: null, target: 'Move within Room A|Choose an empty position · or another room on the Board', banner: 'Connection lost' },
   'largest-move': { part: null, sheet: null, target: 'Move within Room A|Choose an empty position · or another room on the Board', chip: 'Other rooms on the Board', slots: 'A5' },
+  'largest-blackout': { part: null, sheet: null, target: 'Position A3 fixed|Resolves after the window · no effect shown now', targetCancel: false, chip: null, slots: 'A1,A2,A3*,A4,A5', lighting: 'dark', dark: true },
   'largest-move-check': checkOf('Move to A5|Room A', 'Cancel|Register move', { facts: 1 }),
 };
 /** The text-size states, each at its own size. */
 const OWN_SIZE = { 'small-tiles': '320x568', 'large-tiles': '390x844', 'largest-tiles': '320x568', 'largest-check': '320x568', 'largest-after': '320x568',
-  'largest-move': '320x568', 'largest-move-check': '320x568' };
+  'largest-move': '320x568', 'largest-move-check': '320x568', 'largest-blackout': '320x568', 'largest-check-refused': '320x568' };
 /** The private words that must never be in a concealed page. */
 const PRIVATE = ['Rescue', 'Doctor', 'injections', 'Private talk', 'Your turn', 'Actions ·'];
 
@@ -167,6 +182,7 @@ try {
           refused: tiles.length ? tiles.every(n => n.getAttribute('aria-disabled') === 'true') : null,
           note: t(q('.ms-actions .ms-k-group-note')),
           target: q('.ms-ps-target') ? [t(q('.ms-ps-target .ms-ps-text b')), t(q('.ms-ps-target .ms-ps-text span'))].join('|') : null,
+          targetCancel: q('.ms-ps-target') ? !!q('.ms-ps-target [data-intent="cancel-target"]') : null,
           chip: t(q('.ms-ps-chip-btn')), offered: room ? room.querySelectorAll('.ms-rs-press[data-offered], .ms-rs-press:not([aria-disabled="true"])').length : 0,
           rows: all('.ms-ac-list .ms-k-row-title').map(n => n.textContent).join('|') || null,
           groups: all('.ms-ac-list .ms-k-group-label').map(n => n.textContent).join('|') || null,
@@ -174,10 +190,26 @@ try {
           who: q('.ms-k-who') ? [t(q('.ms-k-who-title')), t(q('.ms-k-who-sub'))].join('|') : null,
           portraits: all('.ms-k-who-lead .ms-k-pt').length, facts: all('.ms-k-facts li').length,
           error: t(q('.ms-actions .ms-k-error')),
+          // The joins themselves (0.2.5): "Player" and its number, and a seat and its "·", with no-break spaces.
+          whoJoined: q('.ms-k-who-sub') ? /Players?\\u00a0[0-9]/.test(q('.ms-k-who-sub').textContent) && !/[0-9] ·/.test(q('.ms-k-who-sub').textContent) : null,
+          subJoined: q('.ms-ps-sheet-title p') ? /\\u00a0· Player\\u00a0[0-9]/.test(q('.ms-ps-sheet-title p').textContent) : null,
+          registerOff: q('.ms-ps-sheet-foot [data-value="register"]') ? (q('.ms-ps-sheet-foot [data-value="register"]').disabled || q('.ms-ps-sheet-foot [data-value="register"]').getAttribute('aria-disabled') === 'true') : null,
+          ...(() => {
+            const note = q('.ms-actions .ms-k-error'), bodyNode = q('.ms-ps-sheet-body');
+            if (!note || !bodyNode) return {};
+            const body = bodyNode.getBoundingClientRect(), footTop = q('.ms-ps-sheet-foot')?.getBoundingClientRect().top ?? body.bottom, bottom = Math.min(body.bottom, footTop);
+            const r = note.getBoundingClientRect(), w = note.querySelector('.ms-k-error-text').getBoundingClientRect();
+            // Last of what is drawn: only the control policy's visually hidden descriptions (.ms-k-vh) may follow it.
+            const after = []; for (let n = note.nextElementSibling; n; n = n.nextElementSibling) after.push([...n.classList].join('.') || n.tagName.toLowerCase());
+            return { errorLast: after.every(c => c.split('.').includes('ms-k-vh')), errorAfter: after, errorStarts: shown(note) && r.top >= body.top - 0.5 && r.top < bottom,
+              errorWhole: shown(note) && r.top >= body.top - 0.5 && r.bottom <= bottom + 0.5, errorWordsWhole: shown(note) && w.top >= body.top - 0.5 && w.bottom <= bottom + 0.5,
+              errorBox: { top: Math.round(r.top), bottom: Math.round(r.bottom), wordsBottom: Math.round(w.bottom), bodyTop: Math.round(body.top), bodyBottom: Math.round(bottom) } };
+          })(),
           stamp: t(q('.ms-ac-after-head .ms-k-stamp')), headline: t(q('.ms-ac-after-head h3')),
           steps: all('.ms-pp-steps li').filter(shown).length, people: all('.ms-ac-after-people .ms-k-row').length,
           notice: t(q('.ms-k-notice p')), banner: t(q('.ms-ps-banner b')), toast: t(q('.ms-k-toast-text')),
           slots: room && room.querySelectorAll('.ms-rs-slot').length ? [...room.querySelectorAll('.ms-rs-slot')].map(n => n.dataset.value + (n.hasAttribute('data-picked') ? '*' : '')).join(',') : null,
+          lighting: room?.dataset.lighting ?? null,
           page: document.body.innerText, figures: room ? room.querySelectorAll('.ms-rs-fig svg').length : 0 };
       })()`);
       const art = page.requests().filter(url => /\.svg$/.test(url)).map(url => url.slice(origin.length + 1));
@@ -189,12 +221,12 @@ try {
       const bytes = Buffer.from(data, 'base64');
       await writeFile(file, bytes);
       // `board`: the stage is the board's drawing, not in this preview, so no crew is expected there.
-      const { board: onBoard = false, ...want } = EXPECT[state];
+      const { board: onBoard = false, dark = false, ...want } = EXPECT[state];
       const leaked = PRIVATE.filter(w => seen.page.includes(w));
       const mismatched = want.concealed
         ? (seen.part !== null && seen.status !== 'concealed') || seen.sheet !== null || leaked.length || seen.figures !== 0 ? ['concealed'] : []
         : Object.entries(want).filter(([key, value]) => (key === 'offered' ? seen.offered < value : seen[key] !== value)).map(([key]) => key);
-      const drawn = mismatched.length === 0 && (want.concealed || onBoard || seen.figures > 0);
+      const drawn = mismatched.length === 0 && (want.concealed || onBoard || (dark && seen.figures === 0) || seen.figures > 0);
       const ok = seen.violations.every(v => v.kind !== 'unexpected') && problems.length === 0 && drawn;
       if (!ok) failed += 1;
       delete seen.page;
