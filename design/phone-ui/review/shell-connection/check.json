@@ -2,7 +2,7 @@
   "tool": "design/tools/shell-connection-check.mjs",
   "what": "The Planet app's match frame drawn by the phone shell (design/phone-ui/components/phone-shell), in Frontend's phone and Food harnesses (apps/game/dev/phone) built from the candidate below",
   "candidate": {
-    "commit": "92849b6b663d25ccb0acf58ffec51166a464529b",
+    "commit": "0fe15dc2bb9ef22972722f25717495ed893c4409",
     "clean": true,
     "dirty": []
   },
@@ -52,10 +52,13 @@
         "policy": true,
         "problems": true,
         "sheet": true,
-        "whole": true
+        "whole": true,
+        "focusOnVote": true,
+        "focusStaysInSheet": true,
+        "voteSent": true
       },
       "file": "design/phone-ui/review/shell-connection/320x568-largest-ballot.jpg",
-      "sha256": "ccec45210c6b3dc1a98fe46de443b445647e1fae4f305552e2a5f0e0ada5a866",
+      "sha256": "dd79a1b41d35c6d577ba3d3644799cd8165b7482b882b23e4427cb853e9279f2",
       "seen": {
         "shell": {
           "status": "live",
@@ -327,7 +330,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -364,7 +367,7 @@
         "whole": true
       },
       "file": "design/phone-ui/review/shell-connection/320x568-largest-pass.jpg",
-      "sha256": "2aaac25caae47a2b7d8840e9ce0d746c79f044108e0125e0205278df68565dec",
+      "sha256": "4bbe8800828fa9bd92c5af21c89913f9579bf047901ccc787be6d48e4e014289",
       "seen": {
         "shell": {
           "status": "live",
@@ -650,7 +653,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -691,7 +694,7 @@
         "focusBack": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-actions.jpg",
-      "sha256": "d1dc34c1a882f36d8e3bb93990c0f5a146dc64c48e0a3661f8f861d4a11300ab",
+      "sha256": "aa4d5096ebc7ffc1d8e433429bd357405848dc250ca3f7c67ae1542b9c6f46f7",
       "seen": {
         "shell": {
           "status": "live",
@@ -948,7 +951,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -969,7 +972,7 @@
         "ownBar": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-appointment.jpg",
-      "sha256": "3d2fa226e8f50cab03603f28c1d4fa0cfd4f19cf57f348fae06d7e53f2f4168c",
+      "sha256": "9b9cc71fb0140df6006e71002b0efe30e723100ffb54d10bd18a49b79395dbdc",
       "seen": {
         "shell": {
           "status": "live",
@@ -1203,7 +1206,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1226,7 +1229,7 @@
         "closed": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-ballot.jpg",
-      "sha256": "2c15165347ef0844a4dca3e36271a0ea253036b8819291498e31a3859bb61436",
+      "sha256": "67a7f518d6a90863b5fbcd7943a9225084c0203c7723ce8b5fe259c59840f2a4",
       "seen": {
         "shell": {
           "status": "live",
@@ -1499,7 +1502,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1521,7 +1524,7 @@
         "noTarget": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-before.jpg",
-      "sha256": "c1c7a7687ca0164c4e68e0461f764190d89dd66cc4a482d65f594fb37908f1a6",
+      "sha256": "e4471a9ea75ca1347bba1ac23a85bb0f1d36598382bbae26008e265183a44736",
       "seen": {
         "shell": {
           "status": "live",
@@ -1755,7 +1758,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1778,7 +1781,7 @@
         "fourTiles": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-blackout.jpg",
-      "sha256": "8c0ce3f39b180ef8456f3a91ef90dfdcd39fb1d4f5821e8468f4a50e56f8e525",
+      "sha256": "39d56e5ac68551eb306122b7f6f165e1fb9c40a00cae88aa12870123c8b741b8",
       "seen": {
         "shell": {
           "status": "live",
@@ -2012,7 +2015,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2039,7 +2042,7 @@
         "nextTurn": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-closed.jpg",
-      "sha256": "869fcbde6bf0b9e7bbaecf3f3eedf4458876158799a2923e7cf2ed53e2fe5d70",
+      "sha256": "30918d581e6daab44a275d72e513f764f1d350258fd73bdfe0b9b630565f2607",
       "seen": {
         "shell": {
           "status": "live",
@@ -2273,7 +2276,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2392,7 +2395,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2413,7 +2416,7 @@
         "ownBar": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-course.jpg",
-      "sha256": "0e9ff980be1625f0bee0a69c88d8eba46d7b56b65e1794d7d8b6d94eaebf008e",
+      "sha256": "f9f288094645a1f09dbec3f1b79a9852959efee16cec85fc08a15d5863f501ac",
       "seen": {
         "shell": {
           "status": "live",
@@ -2647,7 +2650,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2670,7 +2673,7 @@
         "settings": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-display.jpg",
-      "sha256": "937848498b396f744b34feb61ee5e3e792f87847f4212bdfcd2cecab8fc121b8",
+      "sha256": "c68e39458a90afae37eb90457374e2f513d97bda63469a086a40a1e04f5b9f48",
       "seen": {
         "shell": {
           "status": "live",
@@ -2757,7 +2760,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2780,7 +2783,7 @@
         "othersOn": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-eliminated.jpg",
-      "sha256": "fe359842fc795d9a999f06e02e0c27b2e12cf8fbcf6ea49dccecda153043de8f",
+      "sha256": "981e976a56c340c74a4fdfd8102fad1dc90c74461bd833a24b89aebbc0cefc7d",
       "seen": {
         "shell": {
           "status": "live",
@@ -3025,7 +3028,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3048,7 +3051,7 @@
         "foodMatch": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-food-gauge.jpg",
-      "sha256": "51ba297246d06cd508812dfdddd635a6555c836eb479d0042fc489187fb6ccaa",
+      "sha256": "abb802c5a3f286b9755c2493e7ef2238f7383b14103e7fd233cd3df236fcdb36",
       "seen": {
         "shell": {
           "status": "live",
@@ -3282,7 +3285,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3306,7 +3309,7 @@
         "foodTakesTaps": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-food-surface.jpg",
-      "sha256": "f53fdfa0372fa299223c6a1fb17ce5442a279e4fe092648f911a824ea298beca",
+      "sha256": "ce895272f98e9181c69198b3431320a7b70fd35c861ae12646380528eeea3f21",
       "seen": {
         "shell": {
           "status": "concealed",
@@ -3415,7 +3418,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3454,7 +3457,7 @@
         "roomScene": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-own.jpg",
-      "sha256": "d8435368edbd9982cc1652f212c5c651e150fc194754ce094e35853fd5cb87b6",
+      "sha256": "61b724142f5df1480707355597b38dbb3cfada781f4d5f635a9e36b08c2bfc17",
       "seen": {
         "shell": {
           "status": "live",
@@ -3688,7 +3691,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3714,7 +3717,7 @@
         "infoToast": "Registered. Waiting for the authoritative view."
       },
       "file": "design/phone-ui/review/shell-connection/390x844-pass.jpg",
-      "sha256": "1d1e343bca5a11a4e34ae6cc82d8b0cbc877a9e878be0a3ca45e0657ccdd75e6",
+      "sha256": "af55881978a5a682827101b5215e7b13d6263811b2b07783453a0c69bdd1c6b2",
       "seen": {
         "shell": {
           "status": "live",
@@ -4000,7 +4003,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4025,7 +4028,7 @@
         "retryReads": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-reconnecting.jpg",
-      "sha256": "51ec0e393232589428026ccec83f430e25dfa04d8aea1a72ce7ec8271925d10e",
+      "sha256": "5c8c148f7f7858ca02522d2dc3f39b744a37ed8742d32f43ab8541cfcbed5670",
       "seen": {
         "shell": {
           "status": "stale",
@@ -4283,7 +4286,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4305,7 +4308,7 @@
         "sheetOverResult": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-result.jpg",
-      "sha256": "21e3d6e498a220d6e547ab4aa50a01028641dc1750a12c1c550a2d646e74d41a",
+      "sha256": "101736f8f94682e4b5b87740192f5500097364af53aed3c572a04f5729f4b694",
       "seen": {
         "shell": {
           "status": "live",
@@ -4548,7 +4551,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4569,7 +4572,7 @@
         "noGameTabs": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-talk.jpg",
-      "sha256": "0daf97e8e95eab289121c14ac70cb77ec22916c520421ffb212d6717e7dde28f",
+      "sha256": "b5bd9313fa7c656456fc83498ee0e8b573ad17904a37bf1eea1d8a317cea6e67",
       "seen": {
         "shell": {
           "status": "live",
@@ -4685,7 +4688,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4710,7 +4713,7 @@
         "everyonesBar": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-target.jpg",
-      "sha256": "e16b422332c5f62fa274ba501230f9b3a984931faa4c7c5efaae4175db6a99a4",
+      "sha256": "b6d4e0a3cdd38f779402e956e860277e38a8156e18c45878b83bf0254d5127a4",
       "seen": {
         "shell": {
           "status": "live",
@@ -4974,7 +4977,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5000,7 +5003,7 @@
         "tiles": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-turn.jpg",
-      "sha256": "ea8bad425fe355227decf39c2d062275b42eac11aaf96e872244293f30596296",
+      "sha256": "3eabb3f66b2eda10ff6d1ed831187846cbc5cfdd8c1abd5ac8c4053d9d17fb7d",
       "seen": {
         "shell": {
           "status": "live",
@@ -5234,7 +5237,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5254,7 +5257,7 @@
         "bar": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-vote.jpg",
-      "sha256": "3c492563a40ea3320319a98f45a2a7e16d00e86d5fe308e4152285c647558b45",
+      "sha256": "3d632b5ba010fd22448dfdf343bbf6099dc8b3633e984fc861fb665f9f7e7927",
       "seen": {
         "shell": {
           "status": "live",
@@ -5488,7 +5491,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5507,7 +5510,7 @@
         "voted": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-voted.jpg",
-      "sha256": "aa660b514d39c304a02259bbe95585d398c703945a7e9fb10d72a0cd98a0b07b",
+      "sha256": "8d38cba43ec5b755f3de2d4803750d44bdbbdec208a1c515c4dcb10b32489cc6",
       "seen": {
         "shell": {
           "status": "live",
@@ -5741,7 +5744,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5765,7 +5768,7 @@
         "focusBack": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-actions.jpg",
-      "sha256": "266bfb3705ef4a2b6f8ade41943d3bac04ae1f58c0448541036746088d7ba4fd",
+      "sha256": "4bff657277f2ec440a4297fec6c3c170c2c61da19098699c3a6a0df047e31d90",
       "seen": {
         "shell": {
           "status": "live",
@@ -5788,7 +5791,7 @@
           "glyph": null,
           "portrait": true,
           "round": "R6",
-          "clock": "0:58",
+          "clock": "0:59",
           "urgent": false,
           "ring": false,
           "promises": "Promises",
@@ -6022,7 +6025,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6043,7 +6046,7 @@
         "ownBar": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-appointment.jpg",
-      "sha256": "450d0afe70817bf25ce5206e9ff881e844ce28495da0aa217a738d5220f56b3c",
+      "sha256": "44bce6d7df0b774f02fe1ce979ca9ca010226b6edcf30d1d5957dcc867629e9b",
       "seen": {
         "shell": {
           "status": "live",
@@ -6277,7 +6280,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6300,7 +6303,7 @@
         "closed": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-ballot.jpg",
-      "sha256": "edae54e719ec2a52cb27eac5a593d7fa324dbfe1838724cedbace09fed694b7a",
+      "sha256": "7afdb749785016c28286c9aa174c37bf7ce9bcd424fa4579ef1b9a59bcd1af36",
       "seen": {
         "shell": {
           "status": "live",
@@ -6573,7 +6576,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6595,7 +6598,7 @@
         "noTarget": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-before.jpg",
-      "sha256": "39b1bdabe443ac29784760603568cf3ebbc481c79910029bbedeb62bb49771de",
+      "sha256": "c166740c05f62598f366d0fa634e7589ce534d66a29ec821da9d4060b53ad04b",
       "seen": {
         "shell": {
           "status": "live",
@@ -6829,7 +6832,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6852,7 +6855,7 @@
         "fourTiles": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-blackout.jpg",
-      "sha256": "4ec8a3ba3b0bfb1c4fccbfc28ee29ee598cf2803a8460baffdb767432601f2e2",
+      "sha256": "7898524a1f0ad939c083d87cafce6514a44a952c3528178a29ec4a024d51e7bd",
       "seen": {
         "shell": {
           "status": "live",
@@ -7086,7 +7089,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7113,7 +7116,7 @@
         "nextTurn": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-closed.jpg",
-      "sha256": "042e6d06918057032e536241718cc32a6b11d5ab0f89f2d91c9a573b907d58e1",
+      "sha256": "e5a4f1aaadad761bb43495d23069ffc3e7a2e7f10e4e67f087d4b4890b48d1fc",
       "seen": {
         "shell": {
           "status": "live",
@@ -7347,7 +7350,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7466,7 +7469,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7487,7 +7490,7 @@
         "ownBar": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-course.jpg",
-      "sha256": "10baee7ae41b685d1269b1015637678bb8e6663ff09b00bbc73c0bbeef0af677",
+      "sha256": "80d678e698d3d3fc38f452287216eb64dd8e84d43b5f2159aae40bf9a4eb0fb3",
       "seen": {
         "shell": {
           "status": "live",
@@ -7510,7 +7513,7 @@
           "glyph": "plain",
           "portrait": false,
           "round": "R6",
-          "clock": "0:14",
+          "clock": "0:13",
           "urgent": false,
           "ring": false,
           "promises": "Promises",
@@ -7721,7 +7724,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7744,7 +7747,7 @@
         "settings": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-display.jpg",
-      "sha256": "e2cc7b1fd66e646b08d6265688534270bb1d0483db7c59021cbf531db8590cbc",
+      "sha256": "8f4833781d544efc9a5563faab2eb77964f555699343f0183452ef18f9061251",
       "seen": {
         "shell": {
           "status": "live",
@@ -7831,7 +7834,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7854,7 +7857,7 @@
         "othersOn": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-eliminated.jpg",
-      "sha256": "9699a0bdda43e66dc9297f044a7269b4f4b8833f4f01727389272ad651b0b3c8",
+      "sha256": "64fbcde05a8c5e8bef981571a60a236b4023f764c84ab53f4685f5afce9a4b98",
       "seen": {
         "shell": {
           "status": "live",
@@ -8099,7 +8102,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8122,7 +8125,7 @@
         "foodMatch": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-food-gauge.jpg",
-      "sha256": "868109bd83f2ee55fd1357a9a2c7741ff93fdcc3f1f2d48f2b1d066dc6203dca",
+      "sha256": "a2e0b2cb7a122cdbf07ec0ef0062b847889cdf2e50cf018c9e6ef08e61e93470",
       "seen": {
         "shell": {
           "status": "live",
@@ -8356,7 +8359,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8380,7 +8383,7 @@
         "foodTakesTaps": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-food-surface.jpg",
-      "sha256": "b734f3f1f47229b08ad90fb18ab7b25f60e9d6a0be8c34c00543b549bd1fda53",
+      "sha256": "e9766233a5316ac5225b93bae628b9ca57101fceaa88ca93ae154eee3754fc87",
       "seen": {
         "shell": {
           "status": "concealed",
@@ -8489,7 +8492,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8528,7 +8531,7 @@
         "roomScene": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-own.jpg",
-      "sha256": "a747940b5345f0b84fdcc5c102f2e8aee11341527c1dcba26ee89f98252eb722",
+      "sha256": "603ee127bd73be029c371fd34a8c3b0690bcd5cda3164133fa922364d99001aa",
       "seen": {
         "shell": {
           "status": "live",
@@ -8762,7 +8765,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8788,7 +8791,7 @@
         "infoToast": "Registered. Waiting for the authoritative view."
       },
       "file": "design/phone-ui/review/shell-connection/430x932-pass.jpg",
-      "sha256": "9ac26dcfe54539694fcc73606f6a7ceee5847699cdb931cebd0560ec49315bcc",
+      "sha256": "bf428afde8297d71efe0bf1df229cbaa55b25219e1c1568c1479fb97ea3e67b5",
       "seen": {
         "shell": {
           "status": "live",
@@ -9074,7 +9077,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9099,7 +9102,7 @@
         "retryReads": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-reconnecting.jpg",
-      "sha256": "6f509e4ddcc79e2bd2bac79177fd4b1699b81ae1b04b6b3eacfbfcefb8d83f72",
+      "sha256": "3131620956840fa62f248fedf1c43986abcdfc37578223850fc5e5becbcfd29d",
       "seen": {
         "shell": {
           "status": "stale",
@@ -9357,7 +9360,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9379,7 +9382,7 @@
         "sheetOverResult": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-result.jpg",
-      "sha256": "1068a6904f3b3091de2dc18747cc173072cdf4db3c03f2ff32940052758cf820",
+      "sha256": "b9e981cf9f980938147dbc8cf8c1322fc2f6cd05355b6c34d714a8ba9f315ee0",
       "seen": {
         "shell": {
           "status": "live",
@@ -9622,7 +9625,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9643,7 +9646,7 @@
         "noGameTabs": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-talk.jpg",
-      "sha256": "bfb76badcf6e08322f2e008c5b7ed8022c129a2c4e39b7ed812848b23b4300f7",
+      "sha256": "fe9c7bd7321794364055f960b8a9afb63ac958ff427c90edb6cc1712c8a941c1",
       "seen": {
         "shell": {
           "status": "live",
@@ -9759,7 +9762,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9784,7 +9787,7 @@
         "everyonesBar": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-target.jpg",
-      "sha256": "74dd63b787d976f86235baf42f507b322e3b095e2a014ab6fd95f9ed4063a2f4",
+      "sha256": "96eae8f7dda645dffcb5f1fbe11ad10105d6f17e81be324eddc925228b9416ea",
       "seen": {
         "shell": {
           "status": "live",
@@ -10048,7 +10051,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10074,7 +10077,7 @@
         "tiles": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-turn.jpg",
-      "sha256": "1ac46dacb2c4f052b6f92c962d63925016d48572a3f61e6105d44e21da5f1d75",
+      "sha256": "4f6c0c127d06d78177319da20850ac9fdac8e39f1daf1342ec1b388cbec7e30a",
       "seen": {
         "shell": {
           "status": "live",
@@ -10097,7 +10100,7 @@
           "glyph": null,
           "portrait": true,
           "round": "R6",
-          "clock": "0:59",
+          "clock": "0:58",
           "urgent": false,
           "ring": false,
           "promises": "Promises",
@@ -10308,7 +10311,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10328,7 +10331,7 @@
         "bar": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-vote.jpg",
-      "sha256": "a9746657519eab1326919f28a4d807aa59061aa6271af2c30328351e43ac5308",
+      "sha256": "c8abab58d1e36d2623676b37065c358dbb9fa2b36938c785e97ce1cc93acaf45",
       "seen": {
         "shell": {
           "status": "live",
@@ -10562,7 +10565,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10581,7 +10584,7 @@
         "voted": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-voted.jpg",
-      "sha256": "b123ab470bd5049ab1d7f73563ab21e4accdefe30782c5b0096c5fdf90d53b73",
+      "sha256": "96cfafaf37e31b4826e4ae66f1c852b1de515491ac751893d1351ff3a1c9545f",
       "seen": {
         "shell": {
           "status": "live",
@@ -10815,7 +10818,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-1QGbmRHk.js",
+            "source": "assets/app-CDepXs2x.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
