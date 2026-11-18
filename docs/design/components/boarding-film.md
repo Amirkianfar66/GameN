@@ -40,20 +40,24 @@ Designer's, runtime-safe, in `design/phone-ui/components/boarding-film/`:
 
 ## How to connect it
 
-It implements the boarding kind of the pre-game player's scene (`createPregameScene(picture, { kind: 'boarding', options })` in `apps/game/hosted/planet/pregame-scene.mjs`): the same `paint`, `dispose` and `stats`. **It is not mounted by the current consumer.** Inspection on 18 November of #308 at `5f36e3f5` and #314 at `a5a6cdff` found that `mountPregamePresentation()` creates a separate `.pregame-picture-root` overlay and mounts the released SVG scene there. The boarding stage's `stage.film` slot ([#272](https://github.com/Amirkianfar66/GameN/pull/272)) is available, but those consumers do not attach their player to it. Screen Designer and Frontend agree placement before moving the player. The first isolated integration test can keep the existing overlay and substitute only the boarding scene factory, after Integration admits its version and runtime graph.
+Frontend's placement change moves the currently admitted `pregame-boarding-1.0.0` SVG into the canonical boarding stage's `stage.film` slot. The stage provides local Skip on player phones and uses `skip: null` on the shared display. The server owns the Round 1 start. [Integration handoff](https://github.com/Amirkianfar66/GameN/issues/311#issuecomment-6980975772) · [Stage placement contract](https://github.com/Amirkianfar66/GameN/issues/311#issuecomment-6980876366)
+
+The independently versioned `pregame-boarding-2.0.0` canvas candidate targets that same slot in a later adoption. Its scene interface shares `paint`, `dispose` and `stats` with the released player. Integration admits the canvas runtime graph and selects it through the match's approved asset release. Existing pins continue to select the SVG.
 
 ```js
 import { createBoardingScene, prepareBoardingScene } from '…/boarding-film/boarding-film.mjs';
 // and link …/boarding-film/boarding-film.css
 
-const scene = createBoardingScene(holder, { options: { roster } });
-scene.paint(t, { width, height, variant });   // each time the player paints, as today
-scene.dispose();                              // on every exit, as today
+const scene = createBoardingScene(stage.film, { options: { roster, prepared } });
+const size = stage.layout()?.film;
+if (size?.width > 0 && size.height > 0) {
+  scene.paint(elapsedMs, { ...size, variant });
+}
 ```
 
 | Part | What it is |
 | --- | --- |
-| `holder` | The element the film fills. The film appends one element, `.ms-boarding-film` (`aria-hidden="true"`, `pointer-events: none`), sized by `paint`'s `width` and `height` |
+| `holder` | Pass `stage.film` in the playable stage. The film appends one noninteractive element, `.ms-boarding-film` (`aria-hidden="true"`, `pointer-events: none`), sized by the slot's measured CSS width and height. Frontend uses `stage.layout().film` and its `onLayout` updates |
 | `options.roster` | The public roster: 7, 8 or 9 members, each `{ seat, character }` (`c1`–`c9`). It goes through the hosted game's own `publicRoster()`; nothing else of a member is read, and nothing private can reach a picture |
 | `paint(t, { width, height, variant })` | Draws the film at `t` ms after the boarding interval's `startsAt` (server now − `startsAt`), clamped to 0–10,000. `variant` is `'full'` or `'reduced'`. The device's Reduce motion gives the held pictures whatever is asked |
 | Between paints | The scene keeps the picture moving from the last time it was given, at the screen's rate: the player may go on painting 30 times a second. It stops by itself 500 ms after the last paint (`COAST_MS`) and at the film's end |
@@ -65,15 +69,17 @@ scene.dispose();                              // on every exit, as today
 
 **The film never advances the game.** It takes no callback, listens for nothing and tells no one; its end means nothing. Skip stays the stage's and the player's, local.
 
-**Its words stay the player's.** The picture is hidden from a screen reader. The player keeps the dialog's name ("The crew boards the ship") and the status line ("The crew boards the ship."); `BOARDING_TEXT` is the same text.
+**The stage owns accessible text and controls.** Its film group is named “The crew boards the ship.” The canvas is decorative for assistive technology. `BOARDING_TEXT` is available to other hosts that supply their own status line.
 
-**Preparing early (recommended).** `prepareBoardingScene(document, { roster, width, height })` draws the film's pictures ahead of it and returns what `createBoardingScene` takes as `options.prepared` (the same roster and size), with `ready` and `dispose()`. Call it once the roster is public and the page is quiet, for example when the player's own role film has ended. Drawing took 3.8 s on this desktop and 16.7 s with its CPU slowed 4x, in short pieces that leave the page its turns; a phone's time is not known. Without it the film draws its pictures as it opens: it comes up from the night as version 1's held pictures do, each shot's place and one pose of each figure come first, and a figure whose picture is not ready yet holds its nearest pose. If that makes it late, it steps its sharpness down and draws the pictures still to come smaller (below).
+**Preparing early (recommended).** `prepareBoardingScene(document, { roster, width, height })` draws the film's pictures ahead of it and returns what `createBoardingScene` takes as `options.prepared` (the same roster and size), with `ready` and `dispose()`. The historical desktop preparation took 3.8 s at normal speed and 16.7 s with the CPU slowed 4x. Device preparation time remains unmeasured. When the scene prepares its own pictures, each shot's setting and one pose of each figure come first. A figure whose picture is pending holds its nearest pose. If preparation runs late, the scene lowers sharpness and draws the remaining pictures smaller.
 
 **What Frontend and Integration decide:** admitting the film's files to the hosted build; linking its stylesheet; when to prepare; and that a match pinned to `1.0.0` keeps `1.0.0`.
 
 ### Pre-game Animator connection checkpoint — 18 November 2026
 
-Tracking: [#311](https://github.com/Amirkianfar66/GameN/issues/311) and [#316](https://github.com/Amirkianfar66/GameN/issues/316). Implementation base: #285 at `104a285d8250322e4f6f32552828586b44702401`. Released-source inspection: `origin/main` at `7574bfe5ce3d7acd12ed66eb8202187045817a24`. The current ownership is the 18 November roster on that main commit: Pre-game Animator owns this film source; Frontend owns the player and authorized adapters; Screen Designer owns placement; Integration admits the version. No shared visual, released film, release manifest or gameplay rule changes here.
+The Pre-game Animator owns the film source, full and reduced motion, and the scene's disposal. Frontend owns authorized playback, mounting and calling disposal. Screen Designer owns placement. Integration admits the version. [Shared adoption handoff](https://github.com/Amirkianfar66/GameN/issues/311#issuecomment-6980975772)
+
+The canvas playback fix in #318 was based on #285 at `104a285d8250322e4f6f32552828586b44702401` and verified at runtime commit `602ac9693976e2b03a3b64121aa9b3d276aae729`. The released source was inspected on `origin/main` at `7574bfe5ce3d7acd12ed66eb8202187045817a24`. In the earlier #308 (`5f36e3f5`) and #314 (`a5a6cdff`) snapshots, the released SVG was in the `mountPregamePresentation()` overlay. Those snapshots predate the agreed placement change. [Playback fix](https://github.com/Amirkianfar66/GameN/issues/316)
 
 From `apps/game/hosted/planet/pregame-scene.mjs`, the exact canonical imports for an admitted canvas boarding version are:
 
@@ -93,7 +99,7 @@ Preparing after the role film can be too late when everyone becomes Ready immedi
 
 **Timing and disclosure remain the existing contract:** the two-second brand intro is local; saved setup flow 3 uses the private role card for 0–20 seconds and that player's role film for 20–30 seconds; human Ready starts a separate public ten-second boarding interval only once everyone is ready. See [Backend's contract](../../backend/planet-phone-interface-contract.md#reading-and-manual-ready). The controller supplies elapsed server time and valid audiences. All nine roles remain available through uniform static imports (the Disablers share a film); no dealt-role file request, public role film, or role-dependent preparation is introduced. #305 remains parked, the Doctor study remains private, and the menu's brand still at 1,650 ms is unchanged.
 
-**First independently testable Frontend step:** keep `mountPregamePresentation()` and its controller, Skip, captions/status, focus and disposal. In an isolated harness, select `createBoardingScene(picture, {options:{roster, prepared}})` for the admitted candidate boarding version only. Exercise an eight-seat public roster at 390 × 844 and 430 × 932, normal and reduced motion. Then cover 7/9 seats, first entry at 7,400 ms, hidden/return, expired interval, local Skip, a changed roster/size and unmount before preparation finishes. Keep old pinned matches on the SVG factory. New native visual acceptance and source admission remain pending; this source-only fix does not activate the film.
+**First test of the later canvas adoption.** Once Frontend has connected the SVG to `stage.film`, use that stage and controller in an isolated harness with the version selection above. On both 390 × 844 and 430 × 932, mount the canvas with eight public seats and check full and reduced motion, phone Skip, and playback on the shared display. For late entry and return from concealment, verify that an authorized elapsed time of 7,400 ms draws that moment. Verify cleanup on Skip, expiry, a changed roster or size, and unmount before preparation finishes. Extend to seven and nine seats and confirm a previously pinned match still selects the SVG. The later adoption requires the integrated sheet 19 comparison and Claude Lead Designer acceptance. The #318 browser record covers the film component by itself.
 
 **Reproduced source faults and fix:** a controlled 30 Hz scheduler reduced a prepared scene to quality `0.5` even with zero simulated drawing cost. Prepared adaptive quality now uses the scene's own drawing duration rather than the gap between callbacks; sustained work over 22 ms still reduces quality. Unprepared lateness retains the 50 ms gap rule and does not poison the remembered prepared quality. This conservative measurement cannot diagnose GPU/compositor delay or establish a device's refresh rate. The same browser check reproduced adoption of a cancelled queue (`0` held pictures) and deletion of a mounted scene's pictures through its old preparation handle; explicit ownership now prevents both.
 
