@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/windows-check.mjs",
   "component": "design/phone-ui/components/windows",
-  "sourceCommit": "2521fa9961d79fa2321802b5405c305a0a8d1e72",
+  "sourceCommit": "b0cf0e082fcc73a3846b3467374f38c180ed0b46",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -38,7 +38,7 @@
   "captures": {
     "390x844/view": {
       "file": "design/phone-ui/components/windows/review/390x844-view.jpg",
-      "sha256": "41980bd1135a2b6e7966274f5d9f9ae147690bd0aa128da1773acab397a7a65d",
+      "sha256": "0720df65c04c836c13d72c5f90a83e30ada9e8117b65dfe1b4f68546cf971b78",
       "ok": true,
       "drawn": true,
       "violations": [
@@ -82,7 +82,7 @@
     },
     "430x932/view": {
       "file": "design/phone-ui/components/windows/review/430x932-view.jpg",
-      "sha256": "22484346aa2434ac4340c9873bf7c5673ca45d4a9ca42bfd2ba8cc9b8cb29f09",
+      "sha256": "8c42f89f8fb9669dac545d93d8d9b15d23e8a8a164a1f091628c97d6b22f0adf",
       "ok": true,
       "drawn": true,
       "violations": [
@@ -126,7 +126,7 @@
     },
     "390x844/draw": {
       "file": "design/phone-ui/components/windows/review/390x844-draw.jpg",
-      "sha256": "622bf11b0a00478d96a2757331a7a04340b73ec83e798b799d1a676fd1cd3d0e",
+      "sha256": "25e5041ec4124ecb0e569f9e9405e59bf542ea13dedc9949f2f5f7d37c5522f4",
       "ok": true,
       "drawn": true,
       "violations": [
@@ -170,7 +170,7 @@
     },
     "430x932/draw": {
       "file": "design/phone-ui/components/windows/review/430x932-draw.jpg",
-      "sha256": "e1dbe216cebaef5921ba3ea38de0bcacaf09cc3322697b099ef8b2f20b03edff",
+      "sha256": "21df09dd135c6dda0a50412a2e7e3215d7ba03cbb61dedcc4aa9bb61fc69b20b",
       "ok": true,
       "drawn": true,
       "violations": [
@@ -214,7 +214,7 @@
     },
     "390x844/shown": {
       "file": "design/phone-ui/components/windows/review/390x844-shown.jpg",
-      "sha256": "cd02cdbde21ea426f933094480d24e7c946d33df8d6ab8023df5178c4c651d2e",
+      "sha256": "eb321e7f3c1e3d968b7d227666ff60be6d89da42221da8205a1dd93980aa881a",
       "ok": true,
       "drawn": true,
       "violations": [
@@ -346,7 +346,7 @@
     },
     "430x932/none": {
       "file": "design/phone-ui/components/windows/review/430x932-none.jpg",
-      "sha256": "495562f7f617da6d5f1fc48879aeb2c539dcb91b81941fe9f56904fc5613e6ce",
+      "sha256": "853ccdc8a3b7678d2b809da8d2ea5047805badc280deb4a9b640e755cc3dea19",
       "ok": true,
       "drawn": true,
       "violations": [
@@ -390,7 +390,7 @@
     },
     "390x844/blank": {
       "file": "design/phone-ui/components/windows/review/390x844-blank.jpg",
-      "sha256": "ffbfc62b654878c93af7052248be974863c30783de64ddf97077e58765d033e8",
+      "sha256": "3adb4f9e2503cc8fa9706711e2979dfa0ecaa277ee4c172a34d29ac969364c0f",
       "ok": true,
       "drawn": true,
       "violations": [
@@ -434,7 +434,7 @@
     },
     "430x932/blank": {
       "file": "design/phone-ui/components/windows/review/430x932-blank.jpg",
-      "sha256": "3996b3411daad1b02bf574aba89ef234606898a9514106b0233698eff68e8ea8",
+      "sha256": "d2eac0b4cd9fb5d42789abdb30b08dc5c880720a874d9481c8829e87d5fcd247",
       "ok": true,
       "drawn": true,
       "violations": [
@@ -478,7 +478,7 @@
     },
     "390x844/showing": {
       "file": "design/phone-ui/components/windows/review/390x844-showing.jpg",
-      "sha256": "83efc80a5bf6da58629aa1272e8809ac93b59c54d0a51437a6f308995c6f0e7d",
+      "sha256": "46f7f8afef70ae19dc0542e66c3c43cecb3c032c996f54ce1275e4bee2a5faaf",
       "ok": true,
       "drawn": true,
       "violations": [
@@ -522,7 +522,7 @@
     },
     "430x932/showing": {
       "file": "design/phone-ui/components/windows/review/430x932-showing.jpg",
-      "sha256": "f94db73d1b35dc9eec77b182f090fef45a8e9ec541d9e65838a8dcbd2a4db134",
+      "sha256": "291564ba605915a36c601f34a7dc7728b11d289e623f33720e32fa477a59c039",
       "ok": true,
       "drawn": true,
       "violations": [
@@ -566,7 +566,7 @@
     },
     "390x844/keyboard": {
       "file": "design/phone-ui/components/windows/review/390x844-keyboard.jpg",
-      "sha256": "62e56bba2d0b0a73644a82dcb2a9c2a7feba7d20332c1b36df886f6b094c1f89",
+      "sha256": "3be224d3333db7549ed711b5255b34ad4c0c717c797298381117f799ed3cf02e",
       "ok": true,
       "drawn": true,
       "violations": [
@@ -654,7 +654,7 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/windows/review/390x844-stale.jpg",
-      "sha256": "5ad73b5b4a4e2356188131bea85f9a4eb7b2a4e815e110548a7b18c1b8c6477e",
+      "sha256": "77fe55618a6fad8072d69b1bbf8753d946a635a9050001ffef16fc80b935aca9",
       "ok": true,
       "drawn": true,
       "violations": [
@@ -698,7 +698,7 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/windows/review/430x932-stale.jpg",
-      "sha256": "9869af605bfe1bfd3cea2a485637f846abaad2e6860359732cb52e464987c2d7",
+      "sha256": "a4856e2036d6204a4fd0b09b2744fea4b67d5c19413e8f0a99a5e9ef8d7d5b02",
       "ok": true,
       "drawn": true,
       "violations": [
@@ -742,7 +742,7 @@
     },
     "390x844/largest": {
       "file": "design/phone-ui/components/windows/review/390x844-largest.jpg",
-      "sha256": "a74c688040327794f1fb90227d1427a227ae62b943783aed5099fa2085ff92bf",
+      "sha256": "f85e11cf7cdd4003874afc9141e50d13e2cc00dd0c5976f7372b65c644a12fe5",
       "ok": true,
       "drawn": true,
       "violations": [
@@ -786,7 +786,7 @@
     },
     "430x932/largest": {
       "file": "design/phone-ui/components/windows/review/430x932-largest.jpg",
-      "sha256": "4499f2161d4a688b0b4ea5f12bcc87ef273056250fe5d1cde6785745e3fe1dd2",
+      "sha256": "776b0954ec5baa8c53841e57ed61f4beb2ff74e90fa8e4bd7fb99171146606a0",
       "ok": true,
       "drawn": true,
       "violations": [
@@ -2446,49 +2446,71 @@
     "input": "Chrome's own (Input.dispatchTouchEvent, Input.dispatchMouseEvent, Input.dispatchKeyEvent) at 390 x 844",
     "checks": [
       {
-        "id": "ring: a finger draws, no ring",
+        "id": "ring: a finger draws, no ring while drawing or after",
         "ok": true,
         "detail": {
-          "focused": true,
-          "ring": false,
-          "pointerMark": true,
-          "strokes": 3,
+          "looks": [
+            {
+              "label": "while the finger draws",
+              "focused": true,
+              "ring": false,
+              "mark": true,
+              "reports": 0,
+              "want": {
+                "focused": true,
+                "ring": false
+              },
+              "ok": true
+            },
+            {
+              "label": "after the stroke",
+              "focused": true,
+              "ring": false,
+              "mark": true,
+              "reports": 1,
+              "want": {
+                "focused": true,
+                "ring": false,
+                "reports": 1
+              },
+              "ok": true
+            }
+          ],
           "tabs": 0,
           "problems": []
         }
       },
       {
-        "id": "ring: a mouse draws, no ring",
+        "id": "ring: a mouse draws, no ring while drawing or after",
         "ok": true,
         "detail": {
-          "focused": true,
-          "ring": false,
-          "pointerMark": true,
-          "strokes": 3,
-          "tabs": 0,
-          "problems": []
-        }
-      },
-      {
-        "id": "ring: Tab, then a finger draws, no ring",
-        "ok": true,
-        "detail": {
-          "focused": true,
-          "ring": false,
-          "pointerMark": true,
-          "strokes": 3,
-          "tabs": 0,
-          "problems": []
-        }
-      },
-      {
-        "id": "ring: Tab, then a mouse draws, no ring",
-        "ok": true,
-        "detail": {
-          "focused": true,
-          "ring": false,
-          "pointerMark": true,
-          "strokes": 3,
+          "looks": [
+            {
+              "label": "while the mouse draws",
+              "focused": true,
+              "ring": false,
+              "mark": true,
+              "reports": 0,
+              "want": {
+                "focused": true,
+                "ring": false
+              },
+              "ok": true
+            },
+            {
+              "label": "after the stroke",
+              "focused": true,
+              "ring": false,
+              "mark": true,
+              "reports": 1,
+              "want": {
+                "focused": true,
+                "ring": false,
+                "reports": 1
+              },
+              "ok": true
+            }
+          ],
           "tabs": 0,
           "problems": []
         }
@@ -2497,11 +2519,104 @@
         "id": "ring: Tab reaches the box, the ring",
         "ok": true,
         "detail": {
-          "focused": true,
-          "ring": true,
-          "pointerMark": false,
-          "strokes": 2,
+          "looks": [
+            {
+              "label": "Tab reaches the box",
+              "focused": true,
+              "ring": true,
+              "mark": false,
+              "reports": 0,
+              "want": {
+                "focused": true,
+                "ring": true
+              },
+              "ok": true
+            }
+          ],
           "tabs": 4,
+          "problems": []
+        }
+      },
+      {
+        "id": "ring: Tab, then a finger draws, no ring while drawing; the very next key, the ring",
+        "ok": true,
+        "detail": {
+          "looks": [
+            {
+              "label": "while the finger draws",
+              "focused": true,
+              "ring": false,
+              "mark": true,
+              "reports": 0,
+              "want": {
+                "focused": true,
+                "ring": false
+              },
+              "ok": true
+            },
+            {
+              "label": "after the stroke",
+              "focused": true,
+              "ring": false,
+              "mark": true,
+              "reports": 1,
+              "want": {
+                "focused": true,
+                "ring": false,
+                "reports": 1
+              },
+              "ok": true
+            },
+            {
+              "label": "the very next key",
+              "focused": true,
+              "ring": true,
+              "mark": false,
+              "reports": 1,
+              "want": {
+                "focused": true,
+                "ring": true,
+                "reports": 1
+              },
+              "ok": true
+            }
+          ],
+          "tabs": 0,
+          "problems": []
+        }
+      },
+      {
+        "id": "ring: Tab, then a mouse draws, no ring while drawing or after",
+        "ok": true,
+        "detail": {
+          "looks": [
+            {
+              "label": "while the mouse draws",
+              "focused": true,
+              "ring": false,
+              "mark": true,
+              "reports": 0,
+              "want": {
+                "focused": true,
+                "ring": false
+              },
+              "ok": true
+            },
+            {
+              "label": "after the stroke",
+              "focused": true,
+              "ring": false,
+              "mark": true,
+              "reports": 1,
+              "want": {
+                "focused": true,
+                "ring": false,
+                "reports": 1
+              },
+              "ok": true
+            }
+          ],
+          "tabs": 0,
           "problems": []
         }
       },
@@ -2509,11 +2624,190 @@
         "id": "ring: a finger draws, then an arrow key, the ring",
         "ok": true,
         "detail": {
-          "focused": true,
-          "ring": true,
-          "pointerMark": false,
-          "strokes": 3,
+          "looks": [
+            {
+              "label": "while the finger draws",
+              "focused": true,
+              "ring": false,
+              "mark": true,
+              "reports": 0,
+              "want": {
+                "focused": true,
+                "ring": false
+              },
+              "ok": true
+            },
+            {
+              "label": "the next key",
+              "focused": true,
+              "ring": true,
+              "mark": false,
+              "reports": 1,
+              "want": {
+                "focused": true,
+                "ring": true,
+                "reports": 1
+              },
+              "ok": true
+            }
+          ],
           "tabs": 0,
+          "problems": []
+        }
+      },
+      {
+        "id": "ring: a finger draws, a tap away blurs the box, then Tab back in, the ring",
+        "ok": true,
+        "detail": {
+          "looks": [
+            {
+              "label": "while the finger draws",
+              "focused": true,
+              "ring": false,
+              "mark": true,
+              "reports": 0,
+              "want": {
+                "focused": true,
+                "ring": false
+              },
+              "ok": true
+            },
+            {
+              "label": "after the stroke",
+              "focused": true,
+              "ring": false,
+              "mark": true,
+              "reports": 1,
+              "want": {
+                "focused": true,
+                "ring": false,
+                "reports": 1
+              },
+              "ok": true
+            },
+            {
+              "label": "a tap away",
+              "focused": false,
+              "ring": false,
+              "mark": false,
+              "reports": 1,
+              "want": {
+                "focused": false,
+                "mark": false
+              },
+              "ok": true
+            },
+            {
+              "label": "Tab back in",
+              "focused": true,
+              "ring": true,
+              "mark": false,
+              "reports": 1,
+              "want": {
+                "focused": true,
+                "ring": true
+              },
+              "ok": true
+            }
+          ],
+          "tabs": 1,
+          "problems": []
+        }
+      },
+      {
+        "id": "ring: a keyboard-only player always sees it",
+        "ok": true,
+        "detail": {
+          "looks": [
+            {
+              "label": "Tab reaches the box",
+              "focused": true,
+              "ring": true,
+              "mark": false,
+              "reports": 0,
+              "want": {
+                "focused": true,
+                "ring": true
+              },
+              "ok": true
+            },
+            {
+              "label": "an arrow moves the pen",
+              "focused": true,
+              "ring": true,
+              "mark": false,
+              "reports": 0,
+              "want": {
+                "focused": true,
+                "ring": true,
+                "reports": 0
+              },
+              "ok": true
+            },
+            {
+              "label": "while Shift and the arrows draw",
+              "focused": true,
+              "ring": true,
+              "mark": false,
+              "reports": 0,
+              "want": {
+                "focused": true,
+                "ring": true,
+                "reports": 0
+              },
+              "ok": true
+            },
+            {
+              "label": "the line drawn",
+              "focused": true,
+              "ring": true,
+              "mark": false,
+              "reports": 1,
+              "want": {
+                "focused": true,
+                "ring": true,
+                "reports": 1
+              },
+              "ok": true
+            },
+            {
+              "label": "Space draws a dot",
+              "focused": true,
+              "ring": true,
+              "mark": false,
+              "reports": 2,
+              "want": {
+                "focused": true,
+                "ring": true,
+                "reports": 2
+              },
+              "ok": true
+            },
+            {
+              "label": "Shift+Tab leaves the box",
+              "focused": false,
+              "ring": false,
+              "mark": false,
+              "reports": 2,
+              "want": {
+                "focused": false
+              },
+              "ok": true
+            },
+            {
+              "label": "Tab comes back",
+              "focused": true,
+              "ring": true,
+              "mark": false,
+              "reports": 2,
+              "want": {
+                "focused": true,
+                "ring": true
+              },
+              "ok": true
+            }
+          ],
+          "tabs": 5,
           "problems": []
         }
       }
