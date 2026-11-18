@@ -155,6 +155,13 @@ const PART = name => `document.querySelector(${JSON.stringify(ACTIONS)})?.datase
 const PANELS = '.ms-ps-sheet .ms-ps-sheet-body > .ms-panels';
 const OPEN = value => `${PANELS} [data-intent="open"][data-value="${value}"]`;
 const VIEW = view => `document.querySelector(${JSON.stringify(PANELS)})?.dataset.view===${JSON.stringify(view)}`;
+const PROMISES = '.ms-ps-sheet .ms-ps-sheet-body > .ms-promises';
+const PVIEW = view => `document.querySelector(${JSON.stringify(PROMISES)})?.dataset.view===${JSON.stringify(view)}`;
+const PROW = intent => `${PROMISES} .ms-k-row[data-intent="${intent}"]`;
+const KIND = kind => `${PROMISES} [data-intent="kind"][data-value="${kind}"]`;
+const PICK = seat => `${PROMISES} [data-intent="target"][data-value="${seat}"]`;
+const PRESSED = selector => `document.querySelector(${JSON.stringify(selector)})?.getAttribute('aria-pressed')==='true'`;
+const TOP_PROMISES = '.ms-ps-tb [data-intent="promises"]';
 const SHEET_BACK = '.ms-ps-sheet [data-intent="sheet-back"]';
 const SHEET_CLOSE = '.ms-ps-sheet [data-intent="sheet-close"]';
 /** The phone's own turn, in a board scenario: the offers of a scenario, as its view has them, with more. */
@@ -203,6 +210,17 @@ const LOOK = `(() => {
         icon: (n.querySelector('.ms-k-row-icon')?.dataset.icon ?? '').split(':')[0] || null, portrait: n.querySelector('.ms-k-row-lead:not([hidden]) .ms-k-pt')?.className ?? null,
         badges: [...n.querySelectorAll('.ms-pn-badges .ms-k-pill')].map(text), off: n.getAttribute('aria-disabled') === 'true', chevron: !!n.querySelector('.ms-k-row-chev:not([hidden]) svg'), box: box(n) })),
       note: text(p.querySelector('.ms-k-group-note')), text: text(p) } : null)(document.querySelector(${JSON.stringify(PANELS)})),
+    // Promises' part (design/phone-ui/components/promises) in the sheet's body: its view, rows, labels, tiles, card and facts, as shown.
+    promises: (p => p ? { view: p.dataset.view, first: body?.firstElementChild === p, label: p.getAttribute('aria-label'),
+      rows: [...p.querySelectorAll('.ms-k-row')].filter(n => !n.closest('[hidden]')).map(n => ({ intent: n.dataset.intent ?? null, value: n.dataset.value ?? null,
+        title: text(n.querySelector('.ms-k-row-title')), sub: n.querySelector('.ms-k-row-sub')?.hidden ? null : text(n.querySelector('.ms-k-row-sub')),
+        end: text(n.querySelector('.ms-k-row-value')) || null, pressed: n.getAttribute('aria-pressed'), off: n.getAttribute('aria-disabled') === 'true',
+        portrait: !!n.querySelector('.ms-k-row-lead:not([hidden]) .ms-k-pt'), chevron: !!n.querySelector('.ms-k-row-chev:not([hidden]) svg'), mark: n.querySelector('.ms-pr-chosen') ? !n.querySelector('.ms-pr-chosen').hidden : null })),
+      labels: [...p.querySelectorAll('.ms-k-group-label')].filter(n => !n.hidden && !n.closest('[hidden]')).map(text),
+      notes: [...p.querySelectorAll('.ms-k-group-note')].filter(n => !n.hidden && !n.closest('[hidden]')).map(text),
+      tiles: [...p.querySelectorAll('.ms-k-tile')].map(n => ({ value: n.dataset.value, state: n.dataset.state, pressed: n.getAttribute('aria-pressed'), name: text(n.querySelector('.ms-k-tile-name')) })),
+      card: (c => c && !c.hidden ? { name: text(c.querySelector('.ms-pr-card-name')), terms: c.querySelector('.ms-pr-card-terms')?.hidden ? null : text(c.querySelector('.ms-pr-card-terms')), portrait: !!c.querySelector('.ms-k-pt') } : null)(p.querySelector('.ms-pr-card')),
+      facts: [...p.querySelectorAll('.ms-k-facts li')].map(text), text: text(p) } : null)(document.querySelector(${JSON.stringify(PROMISES)})),
     stage: { inShell: !!document.querySelector('.ms-ps-stage > .planet-stage'), scene: document.querySelector('.planet-stage .ms-room-scene')?.dataset.room ?? null, view: document.querySelector('.planet-stage')?.dataset.view ?? null,
       lighting: document.querySelector('.planet-stage .ms-room-scene')?.dataset.lighting ?? null,
       presses: [...document.querySelectorAll('.planet-stage .ms-rs-press')].map(p => p.dataset.value + (p.hasAttribute('data-picked') ? '*' : '')),
@@ -232,6 +250,8 @@ const names = s => (s.actions?.tiles ?? []).map(t => `${t.type}:${t.state}`).joi
 const rows = (s, key) => (s.panels?.rows ?? []).map(r => r[key] ?? '').join('|');
 /** The words of a role or a faction, which the Panels tab never shows (the board scenario's phone is the Hacker's, who knows the Undercover). */
 const PRIVATE_WORDS = /\b(Hacker|Undercover|Insider|Doctor|Supplier|Alien|Engineer|Disabler|Red|Blue)\b/;
+const prow = (s, intent) => s.promises?.rows.find(r => r.intent === intent) ?? null;
+const promiseRows = s => (s.promises?.rows ?? []).map(r => [r.title, r.sub, r.end].filter(Boolean).join(' / ')).join('|');
 const foot = s => (s.sheet?.foot ?? []).map(b => `${b.value}:${b.label}${b.disabled ? ':off' : ''}${b.busy ? ':busy' : ''}`).join('|');
 /** Nothing of this viewer's own action is left in the page: no part, no person picked, no words of the check. */
 const gone = (s, words = []) => s.actions === null && words.every(w => !s.page.includes(w));
@@ -247,6 +267,10 @@ const STEPS = {
     await page.waitFor(PART('tiles'), 'the Doctor\'s tiles');
     await page.evaluate(tap(TILE('RESCUE')));
     await page.waitFor(`document.querySelector('.ms-ps-target')&&document.querySelector(${JSON.stringify(PRESS('seat-3'))})`, 'the target bar and Crew 3 offered');
+  },
+  promises: async page => {
+    await page.evaluate(tap(TOP_PROMISES));
+    await page.waitFor(`${SHEET('promises')}&&${PVIEW('list')}`, 'Promises');
   },
   move: async page => {
     await page.evaluate(offers([offer('PASS_TURN'), offer('MOVE', [], ['B5', 'C1']), offer('SCAN', ['seat-1', 'seat-2']), offer('SUBMIT_CODE', ['seat-1', 'seat-2'])]));
@@ -618,8 +642,132 @@ const STATES = {
       const seen = await page.evaluate(LOOK);
       return { backToList: seen.sheet?.title === 'Panels' && seen.panels?.view === 'list' && seen.sheet.game?.buttons.join() === 'Tasks' };
     } },
+  // ── Promises (sheets 33 and 33.1): the Hacker (Crew 6) in a private talk with Crew 1, who has offered Meet in Room A ──
+  promises: { page: 'phone', url: 'scenario=promises', steps: STEPS.promises,
+    facts: s => ({ frame: s.sheet?.id === 'promises' && s.sheet.title === 'Promises' && s.sheet.sub === null && s.sheet.close && !s.sheet.back && !s.sheet.foot.length,
+      partOnly: !!s.promises?.first && s.sheet.children.join() === 'ms-promises' && s.sheet.game === null, view: s.promises?.view === 'list',
+      // The quota, then the talk's group: Offer a Promise, and Crew 1's offer. In a talk, Received and Given only for an accepted Promise (answer 5).
+      rows: promiseRows(s) === 'Your quota / Given 0/1 · Received 0/1|Offer a Promise / Six kinds · exact terms|Crew 1 offered you one / Meet in Room A',
+      labels: s.promises?.labels.join('|') === 'With Crew 1 · talking now', offerOn: !prow(s, 'offer')?.off && !!prow(s, 'offer')?.chevron && !!prow(s, 'incoming')?.chevron,
+      noCommand: s.commands.length === 0, infoScene: s.stage.scene }) },
+  'promise-kinds': { from: 'promises', steps: async page => {
+      await page.evaluate(tap(PROW('offer')));
+      await page.waitFor(PVIEW('kinds'), 'the six kinds');
+    },
+    facts: s => ({ frame: s.sheet?.id === 'promises' && s.sheet.title === 'Offer to Crew 1' && s.sheet.back && s.sheet.close, next: foot(s) === 'next:Next:off',
+      note: s.promises?.notes.join('|') === 'Only during your private talk. It counts once Crew 1 accepts.',
+      tiles: s.promises?.tiles.map(t => `${t.value}:${t.state}:${t.pressed}`).join() === ['CAPTAIN_SUPPORT', 'OFFICER_SELECTION', 'JAIL_VOTE', 'NO_JAIL_VOTE', 'MEET_A', 'MEET_B'].map(k => `${k}:available:false`).join(),
+      names: s.promises?.tiles.map(t => t.name).join('|') === 'Captain Support|Officer Selection|Jail Vote|No Jail Vote|Meet in Room A|Meet in Room B',
+      noTarget: s.target === null && s.chip === null, noCommand: s.commands.length === 0 }),
+    after: async page => {
+      // A kind is this phone's own choice: amber and pressed, and Next waits for it. Nothing is sent.
+      await page.evaluate(tap(KIND('CAPTAIN_SUPPORT')));
+      await page.waitFor(PRESSED(KIND('CAPTAIN_SUPPORT')), 'Captain Support chosen');
+      const seen = await page.evaluate(LOOK);
+      return { kindChosen: seen.promises?.tiles.find(t => t.value === 'CAPTAIN_SUPPORT')?.state === 'selected' && foot(seen) === 'next:Next', kindLocal: seen.commands.length === 0 && seen.model?.action === null };
+    } },
+  'promise-target': { from: 'promise-kinds', steps: async page => {
+      await page.evaluate(tap(KIND('JAIL_VOTE')));
+      await page.waitFor(PRESSED(KIND('JAIL_VOTE')), 'Jail Vote chosen');
+      await page.evaluate(tap(FOOT('next')));
+      await page.waitFor(PVIEW('target'), 'Jail Vote\'s player');
+      await page.evaluate(tap(PICK(3)));
+      await page.waitFor(PRESSED(PICK(3)), 'Crew 3 chosen');
+    },
+    // Exactly the offer's promiseTargetSeatIds (answer 4): here every seat, this phone's own among them.
+    facts: s => ({ frame: s.sheet?.id === 'promises' && s.sheet.title === 'Who will you vote to jail?' && s.sheet.back && s.sheet.close, next: foot(s) === 'next:Next',
+      rows: s.promises?.rows.map(r => r.title).join('|') === [1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => `${n} · Crew ${n}`).join('|'),
+      chosen: s.promises?.rows.filter(r => r.pressed === 'true').map(r => r.value).join() === '3' && s.promises.rows.filter(r => r.mark).length === 1,
+      portraits: s.promises?.rows.every(r => r.portrait), noTarget: s.target === null && s.chip === null, noCommand: s.commands.length === 0 }) },
+  'promise-confirm': { from: 'promise-target', steps: async page => {
+      await page.evaluate(tap(FOOT('next')));
+      await page.waitFor(PVIEW('confirm'), 'the terms');
+    },
+    facts: s => ({ frame: s.sheet?.id === 'promises' && s.sheet.title === 'Check the terms' && s.sheet.back && s.sheet.close, foot: foot(s) === 'back:Back|offer:Offer',
+      // Frontend's exact terms, as the controller's own check words them (planetPromiseTerms).
+      card: s.promises?.card?.name === 'Jail Vote' && s.promises.card.terms === 'Player 6 votes for Player 3 at the next Jail vote of Round 6; admission is not required.' && !s.promises.card.portrait,
+      facts: s.promises?.facts.join('|') === 'Uses your one given Promise only if Crew 1 accepts|Only you and Crew 1 see it', noCommand: s.commands.length === 0 && s.model?.action === null }),
+    after: async page => {
+      // The footer's Back returns to Jail Vote's player, still chosen; Next comes back to the terms.
+      await page.evaluate(tap(FOOT('back')));
+      await page.waitFor(`${PVIEW('target')}&&${PRESSED(PICK(3))}`, 'back to Crew 3, chosen');
+      await page.evaluate(tap(FOOT('next')));
+      await page.waitFor(PVIEW('confirm'), 'the terms again');
+      const seen = await page.evaluate(LOOK);
+      return { backKeeps: seen.promises?.card?.terms?.includes('Player 3') && seen.commands.length === 0 };
+    } },
+  // Offer, with Jail Vote and Crew 3: the controller makes its own draft (the partner, the kind, the player) and
+  // its own check refuses it ("That choice is no longer offered."): it looks for the Jail Vote's player among the
+  // offer's recipients (apps/game/src/planet/controller.ts commandAllowed), so nothing is sent. Frontend's, recorded
+  // as a gap; the sheet keeps the terms, and no draft or target bar is left behind.
+  'promise-refused': { from: 'promise-confirm', steps: async page => {
+      await page.evaluate(tap(FOOT('offer')));
+      await page.waitFor(`${game}.getModel().message!==null&&${game}.getModel().action===null`, 'the controller\'s answer');
+    },
+    facts: (s, looks) => ({ terms: s.promises?.view === 'confirm' && s.sheet?.title === 'Check the terms' && foot(s) === 'back:Back|offer:Offer',
+      noCommand: s.commands.length === 0, noDraft: s.model?.action === null, noTarget: s.target === null && s.chip === null,
+      sameRoom: s.stage.scene === looks.promises?.stage.scene, infoStatus: s.status }) },
+  'promise-sent': { from: 'promise-refused', steps: async page => {
+      // Back to the kinds (the footer's Back, then the head's), Meet in Room B, Next, Offer.
+      await page.evaluate(tap(FOOT('back')));
+      await page.waitFor(PVIEW('target'), 'Jail Vote\'s player');
+      await page.evaluate(tap(SHEET_BACK));
+      await page.waitFor(PVIEW('kinds'), 'the kinds');
+      await page.evaluate(tap(KIND('MEET_B')));
+      await page.waitFor(PRESSED(KIND('MEET_B')), 'Meet in Room B chosen');
+      await page.evaluate(tap(FOOT('next')));
+      await page.waitFor(`${PVIEW('confirm')}&&document.querySelector(${JSON.stringify(PROMISES)})?.textContent.includes('Room B')`, 'its terms');
+      await page.evaluate(tap(FOOT('offer')));
+      await page.waitFor(`document.querySelector('.ms-ps-toast')&&${PVIEW('list')}`, 'the receipt and the list');
+    },
+    // One OFFER_PROMISE, the controller's own, with the talk's partner and the kind; its receipt in the toast in
+    // Frontend's words, once (the status line hides under it). Nothing chose on the scene: no target bar, and the room
+    // stays the talk's.
+    facts: (s, looks) => ({ command: JSON.stringify(s.commands) === JSON.stringify([{ type: 'OFFER_PROMISE', recipientSeatId: 'seat-1', kind: 'MEET_B', targetSeatId: null }]),
+      toast: s.toast === 'Registered. Waiting for the authoritative view.' && s.status === null, list: s.promises?.view === 'list' && s.sheet?.title === 'Promises',
+      noTarget: s.target === null && s.chip === null, sameRoom: s.stage.scene === looks.promises?.stage.scene }) },
+  'promise-waiting': { from: 'promise-sent', steps: async page => {
+      await page.evaluate(edit("p.promises.push({id:'given-offer',giverSeatId:'seat-6',recipientSeatId:'seat-1',kind:'MEET_B',targetSeatId:null,round:6,electionId:null,accepted:false,status:'Pending',offerStatus:'offered'})"));
+      await page.waitFor(`document.querySelector(${JSON.stringify(PROMISES)})?.textContent.includes('Waiting for Crew 1')`, 'the offer waiting');
+    },
+    // The next view has the offer: "Waiting for Crew 1" (sheet 33's offered list), not counted yet.
+    facts: s => ({ labels: s.promises?.labels.join('|') === 'Waiting for Crew 1|With Crew 1 · talking now',
+      rows: promiseRows(s) === 'Your quota / Given 0/1 · Received 0/1|Meet in Room B / Offered to Crew 1 · not counted yet / Offered|Offer a Promise / Six kinds · exact terms|Crew 1 offered you one / Meet in Room A',
+      portrait: !!s.promises?.rows[1]?.portrait, oneCommand: s.commands.length === 1 }) },
+  'promise-incoming': { page: 'phone', url: 'scenario=promises', steps: async page => {
+      await STEPS.promises(page);
+      await page.evaluate(tap(PROW('incoming')));
+      await page.waitFor(PVIEW('incoming'), 'Crew 1\'s offer');
+    },
+    facts: s => ({ frame: s.sheet?.id === 'promises' && s.sheet.title === 'Offer from Crew 1' && !s.sheet.back && s.sheet.close, foot: foot(s) === 'decline:Decline|accept:Accept',
+      card: s.promises?.card?.name === 'Meet in Room A' && s.promises.card.terms === 'Player 1 will be in Room A when Round 6\'s voting begins, after Sync.' && s.promises.card.portrait,
+      facts: s.promises?.facts.join('|') === 'Accepting uses your one received Promise|A Promise is never forced: it is checked against real ballots', noCommand: s.commands.length === 0 }) },
+  'promise-accepted': { from: 'promise-incoming', steps: async page => {
+      await page.evaluate(tap(FOOT('accept')));
+      await page.waitFor(`document.querySelector('.ms-ps-toast')&&${PVIEW('list')}`, 'the receipt and the list');
+      await page.evaluate("window.__matchBefore={toast:document.querySelector('.ms-ps-toast')?.textContent.trim()??null}");
+      await page.evaluate(edit("const x=p.promises.find(x=>x.id==='incoming-promise');Object.assign(x,{accepted:true,offerStatus:'accepted'});p.promiseQuota={given:false,received:true};p.offers=p.offers.filter(o=>o.type==='OFFER_PROMISE')"));
+      await page.waitFor(`document.querySelector(${JSON.stringify(PROMISES)})?.textContent.includes('Received')`, 'the Promise received');
+    },
+    // One ACCEPT_PROMISE for that offer, its receipt in the toast; then the view has it accepted: in the talk, Received
+    // shows it (answer 5), with Crew 1's portrait and its status.
+    facts: s => ({ command: JSON.stringify(s.commands) === JSON.stringify([{ type: 'ACCEPT_PROMISE', promiseId: 'incoming-promise' }]),
+      toast: s.before?.toast === 'Registered. Waiting for the authoritative view.', labels: s.promises?.labels.join('|') === 'With Crew 1 · talking now|Received',
+      rows: promiseRows(s) === 'Your quota / Given 0/1 · Received 1/1|Offer a Promise / Six kinds · exact terms|Meet in Room A / From Crew 1 / Pending',
+      note: s.promises?.notes.at(-1) === '“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.' }) },
+  // The results (sheet 33.1), after the talk: Received and Given with their status, names and portraits.
+  'promise-results': { page: 'phone', url: 'scenario=promise-results', steps: async page => {
+      await page.evaluate(edit("p.phase={id:'after-talk',kind:'ORDINARY_TURN',startedAt:now,endsAt:now+60000};p.hackSession=null;p.activeSeatId='seat-2'"));
+      await page.waitFor(`${game}.getModel().phase?.kind==='ORDINARY_TURN'&&${game}.getModel().phase.trusted`, 'the turn after the talk');
+      await STEPS.promises(page);
+    },
+    facts: s => ({ frame: s.sheet?.title === 'Promises' && !s.sheet.back, labels: s.promises?.labels.join('|') === 'Received|Given',
+      rows: promiseRows(s) === 'Your quota / Given 1/1 · Received 1/1|Jail Vote / From Crew 3 / Not fulfilled|Meet in Room B / To Crew 1 / Pending',
+      portraits: s.promises?.rows.slice(1).every(r => r.portrait), note: s.promises?.notes.join('|') === '“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.',
+      noTalk: !s.promises?.text.includes('talking now'), noCommand: s.commands.length === 0 }) },
 };
 /** The record so far, when this run adds to it: the same candidate, art and headers. */
+
 async function earlier(candidate, artHead) {
   if (!only) return null;
   const record = await readFile(join(REVIEW, 'check.json'), 'utf8').then(JSON.parse).catch(() => null);
@@ -709,7 +857,7 @@ const before = await earlier(candidate, art.head);
 if (before) console.log(`added to the record of ${Object.keys(before.captures).length} captures on the same candidate`);
 const record = {
   tool: 'design/tools/match-connection-check.mjs',
-  what: 'The Planet app\'s match screens drawn by Designer\'s components (release 3: Actions, design/phone-ui/components/actions; the Panels tab, design/phone-ui/components/panels) in the phone shell, in Frontend\'s phone harness (apps/game/dev/phone) built from the candidate below',
+  what: 'The Planet app\'s match screens drawn by Designer\'s components (release 3: Actions, design/phone-ui/components/actions; the Panels tab, design/phone-ui/components/panels; Promises, design/phone-ui/components/promises) in the phone shell, in Frontend\'s phone harness (apps/game/dev/phone) built from the candidate below',
   candidate,
   art: { base: art.head, originMain: art.main, note: 'The harnesses\' art plugins over a clean worktree of origin/main; the harnesses and their asset tooling are byte for byte that commit\'s' },
   environment: 'Desktop Chromium (headless), each phone size at 2x pixels, focus emulated, no safe areas; the harnesses bundled by Vite and served with the production headers below. Not a phone, not Safari, not a live match.',

@@ -31,7 +31,12 @@ const actionsSources = ['design/phone-ui/components/actions/actions.mjs', 'desig
 // (it uses the kit, admitted above); never its preview/ or review/.
 const panelsSources = ['design/phone-ui/components/panels/panels.mjs', 'design/phone-ui/components/panels/panels.css'];
 // END Panels connection
-const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contracts/dist/', 'packages/presentation/dist/', 'packages/design-tokens/dist/', ...designSources, ...shellSources, ...actionsSources, ...panelsSources];
+// BEGIN Promises connection, for Integration's approval (the owner's plan of 16 November 2026, release 3, step 2, the
+// Lead's order of 18 November: Promises are Designer's promises component as it is). Exactly its two runtime files
+// (it uses the kit, admitted above); never its preview/ or review/.
+const promisesSources = ['design/phone-ui/components/promises/promises.mjs', 'design/phone-ui/components/promises/promises.css'];
+// END Promises connection
+const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contracts/dist/', 'packages/presentation/dist/', 'packages/design-tokens/dist/', ...designSources, ...shellSources, ...actionsSources, ...panelsSources, ...promisesSources];
 
 export default {
   root: fileURLToPath(new URL('.', import.meta.url)),

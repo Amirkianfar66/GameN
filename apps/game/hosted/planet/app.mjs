@@ -28,6 +28,8 @@ import '../../../../design/phone-ui/components/phone-shell/phone-shell.css';
 import '../../../../design/phone-ui/components/actions/actions.css';
 // The Panels tab, Designer's panels component (design/phone-ui/components/panels): its styles, scoped under .ms-panels.
 import '../../../../design/phone-ui/components/panels/panels.css';
+// Promises, Designer's promises component (design/phone-ui/components/promises): its styles, scoped under .ms-promises.
+import '../../../../design/phone-ui/components/promises/promises.css';
 
 /** Both production and the explicit development harness mount this same consumer. */
 export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=false,ports:injectedPorts=null,stores:injectedStores=null}={}){

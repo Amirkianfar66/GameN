@@ -1,5 +1,5 @@
 import {crewPortraitVariable,disposeCrewMounts,setCrewMountActivity,setCrewPictureSurface} from '../crew-runtime.mjs';
-import {PLANET_ACTION_LABELS,PLANET_PROMISE_LABELS,planetPromiseTerms,planetBlackholePresentation,planetTerminalArrival,planetPanelRequestText,planetHasPrivateFeedback} from '@mothership/presentation';
+import {PLANET_ACTION_LABELS,planetBlackholePresentation,planetTerminalArrival,planetPanelRequestText,planetHasPrivateFeedback} from '@mothership/presentation';
 import {PlanetDrawingSchema} from '@mothership/contracts';
 import {slotRects} from '../board-v2-drawing/fit-four.mjs';
 import {BOARD_ROOMS,sceneOf,slotsOf,LOCATION_OF} from '../board-v2-drawing/slots-four.mjs';
@@ -27,6 +27,8 @@ import {mountActionCheck,mountActions,mountAfterRegister,mountOutcomeUnknown,mou
 import {EVERY_ROLE_TILES,ROLE_TILES,actionsCancel,actionsFlow,actionsHandlers,actionsHeard,actionsPart,holdActionsPick} from './actions-input.mjs';
 import {mountPanels} from '../../../../design/phone-ui/components/panels/panels.mjs';
 import {panelsHandlers,panelsPart,panelsView} from './panels-input.mjs';
+import {mountPromises} from '../../../../design/phone-ui/components/promises/promises.mjs';
+import {PROMISE_COMMANDS,promisesFlow,promisesHandlers,promisesPart} from './promises-input.mjs';
 
 const windowNames={A_B:'Room A ↔ Room B',A_HOSPITAL:'Room A ↔ Hospital',B_JAIL:'Room B ↔ Jail'};
 const number=id=>id?`Player ${id.slice(5)}`:'—';
@@ -86,6 +88,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  // Actions (release 3): this phone's own pick in its action (actions-input.mjs actionsFlow), and the part mounted
  // in the shell's sheet body for Actions' sheet ({ name, key, host, input, mount }).
  let flow=null,part=null;
+ // Promises (release 3): this phone's own view and draft in the promises component's sheet (promises-input.mjs promisesFlow).
+ let promises=null;
  // The shell's own element (its mount's `element`) holds its controls: the sheet's footer actions and the controls
  // the focus returns to are found there by their intents.
  const focusConfirm=()=>shell.element?.querySelector('[data-intent="sheet-action"]:is([data-value="register"],[data-value="confirm"])')?.focus({preventScroll:true});
@@ -99,6 +103,10 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   hold:pick=>{flow=holdActionsPick(flow,controller.getModel(),pick);},focusReturn:()=>focusBack(),live:()=>!disposed&&!!model});
  // The Panels tab's rows open the game's own panels, as its buttons did (panels-input.mjs panelsHandlers).
  const panelTaps=panelsHandlers({openPanel,focusReturn:()=>focusBack(),live:()=>!disposed&&!!model});
+ // The Promises sheet's taps change this phone's view and draft, then paint; Offer, Accept and Decline make the
+ // controller's own draft and confirm it (promises-input.mjs promisesHandlers).
+ const promiseTaps=promisesHandlers({model:()=>controller.getModel(),flow:()=>promises,setFlow:next=>{promises=next;render(controller.getModel());},
+  begin,choose:value=>controller.choose(value),confirm:()=>controller.confirm(),focusReturn:()=>focusBack(),live:()=>!disposed&&!!model});
  const choose=value=>actions.choose(value);
  // Cancel: back to the tiles, a move back to choosing, or only closed (actionsCancel); the rest as before.
  const cancel=where=>{const next=actionsCancel(controller.getModel(),{where});if(next==='tiles')openPanel('actions');else if(next==='restart')actions.onTile('MOVE');else dismiss();};
@@ -122,6 +130,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   // The host sheet (hostSheet: { frame(), mount(body), action(id), back(), close(), toast() }), while it is the open sheet.
   host:hostSheet&&{open:()=>shellFrame?.kind==='host',action:id=>{hostSheet.action(id);if(model)render(controller.getModel());},
    back:()=>{hostSheet.back();uiKey=null;if(model)render(controller.getModel());},close:()=>hostSheet.close()},
+  // The Promises sheet's footer (Next, Back, Offer, Accept, Decline) and the Back in its head (release 3).
+  promises:{action:id=>promiseTaps.action(id),back:()=>promiseTaps.back()},
  }));
  shell.stage.append(stage);
  // The game's own result window and status line lie over the room in the shell's cover: under its bars, target
@@ -177,15 +187,6 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   if(role.name==='Alien')addText(`Blackhole ${a.blackholeSpent?'spent':'unused'}.`);
   for(const grant of a?.protectionGrants??[])addText(`Protection for ${number(grant.targetSeatId)} from Round ${grant.activeFromRound}: ${grant.consumed?'consumed':'registered'}.`);
   const file=library.roleFile(model,p);if(file)sheetBody.append(file);
- }
- function renderPromises(p){
-  if(!p?.promiseQuota)return;
-  addText(`Accepted given: ${p.promiseQuota.given?'1 / 1':'0 / 1'} · Accepted received: ${p.promiseQuota.received?'1 / 1':'0 / 1'}`);
-  for(const promise of p.promises??[]){
-   const card=el('article',null,'planet-promise');card.append(el('h3',PLANET_PROMISE_LABELS[promise.kind]),el('p',planetPromiseTerms(promise)),el('strong',promise.accepted?promise.status:promise.offerStatus??'Offered'));
-   library.decoratePromise(card,promise);sheetBody.append(card);
-  }
-  for(const o of p.offers??[])sheetBody.append(beginButton(o.type));
  }
  function paintDrawing(canvas,drawing){
   const c=canvas.getContext('2d');c.clearRect(0,0,canvas.width,canvas.height);c.lineCap='round';c.lineJoin='round';
@@ -261,7 +262,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
    if(view==='players'&&model.food?.step?.kind==='AWAY')for(const seat of model.board?.seats??[]){const who=model.identities.find(i=>i.seatId===seat.seatId);addText(`${number(seat.seatId)} · ${who?.displayName??''} · ${model.food.step.awaySeatIds.includes(seat.seatId)?'Away on the Food Supply Task':`${seat.location??'Off board'} · ${seat.health}${seat.jailed?' · Detained':''}`}`);}
   }
   else if(sheetFrame.kind==='card')renderCard(p);
-  else if(sheetFrame.kind==='promises')renderPromises(p);
+  // Promises are the promises component's alone (syncSheetPart): the list, the six kinds, Jail Vote's player, the terms and an incoming offer.
+  else if(sheetFrame.kind==='promises'){/* Nothing of the game's. */}
   else if(sheetFrame.kind==='windows')renderWindows(p);
   else if(sheetFrame.kind==='navigation'){
    const setting=planetHasPrivateFeedback(model.versions)&&model.phase?.kind==='NAV_SETTING';if(setting)addText('The course is being set.');if(p?.navigation){const picture=library.route(p.navigation);if(picture)sheetBody.append(picture);addText(`Position: ${p.navigation.position}`);if(!setting)addText(`Final direction: ${p.navigation.direction??'awaiting resolution'}`);if(p.offers?.some(o=>o.type==='CHOOSE_NAV_DIRECTION'))sheetBody.append(beginButton('CHOOSE_NAV_DIRECTION'));if(p.offers?.some(o=>o.type==='CONFIRM_NAVIGATION'))sheetBody.append(beginButton('CONFIRM_NAVIGATION'));}
@@ -289,18 +291,21 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  /** The game's content goes in the shell's sheet body, after the sheet's Designer part; with none, it leaves. A new sheet (a new id) starts with an empty body. */
  function mountSheetBody(){const body=shell.sheetBody;if(body&&sheetBody.childNodes.length){if(sheetBody.parentNode!==body)body.append(sheetBody);}else sheetBody.remove();}
  /**
-  * The open sheet's Designer part: Actions' for Actions' sheet (actions-input.mjs actionsPart), or the panels
-  * component for the Panels tab (panels-input.mjs panelsPart). Mounted in the shell's sheet body, first, on entering
+  * The open sheet's Designer part: Actions' for Actions' sheet (actions-input.mjs actionsPart), the panels
+  * component for the Panels tab (panels-input.mjs panelsPart), or the promises component for Promises
+  * (promises-input.mjs promisesPart). Mounted in the shell's sheet body, first, on entering
   * its sheet or step; updated on its input; disposed on another step, another sheet, or when the sheet closes, as it
   * does when concealed or reconnecting, since the model then withholds the panel and the action.
   */
  function syncSheetPart(status){
-  const want=actionsPart(model,{frame:shellFrame,flow,reducedMotion:reduced()})??panelsPart(model,{frame:shellFrame,status,reducedMotion:reduced()}),host=shell.sheetBody;
+  const want=actionsPart(model,{frame:shellFrame,flow,reducedMotion:reduced()})??panelsPart(model,{frame:shellFrame,status,reducedMotion:reduced()})
+   ??promisesPart(model,{frame:shellFrame,flow:promises,status,reducedMotion:reduced()}),host=shell.sheetBody;
   if(part&&(!want||!host||part.name!==want.name||part.key!==want.key||part.host!==host))closeSheetPart();
   if(!want||!host)return;
   const key=JSON.stringify(want.input);
   if(!part){
-   part={name:want.name,key:want.key,host,input:key,mount:want.name==='panels'?mountPanels(host,want.input,panelTaps):ACTIONS_PARTS[want.name](host,want.input,actions)};
+   const mount=want.name==='panels'?mountPanels(host,want.input,panelTaps):want.name==='promises'?mountPromises(host,want.input,promiseTaps):ACTIONS_PARTS[want.name](host,want.input,actions);
+   part={name:want.name,key:want.key,host,input:key,mount};
    host.prepend(part.mount.element);if(!shellRunning)part.mount.suspend?.();
   }else if(key!==part.input){part.input=key;part.mount.update(want.input);}
  }
@@ -496,7 +501,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   const ownTalk=!model.dark&&['HACK_DECLARE','HACK_RESULT','HACK'].includes(model.phase?.kind)&&model.ownSeatId&&[model.talk?.actorSeatId,model.talk?.targetSeatId].includes(model.ownSeatId)?model.talk.id:null;
   if(ownTalk!==lastOwnTalk){currentRoom=ownTalk?'capsule':ownRoom??lastOwnRoom??currentRoom;if(ownTalk)sceneMode='room';lastOwnTalk=ownTalk;}
   if(model.surface==='display')sceneMode='board';
-  const targeting=model.action&&['targets','slots'].includes(model.action.step)&&!['VOTE','SUBMIT_CODE','PANEL_CODE'].includes(model.action.type);
+  // Promises choose in their own sheet (release 3): their commands never choose on the scene or the board.
+  const targeting=model.action&&['targets','slots'].includes(model.action.step)&&!['VOTE','SUBMIT_CODE','PANEL_CODE',...PROMISE_COMMANDS].includes(model.action.type);
   const nextTargetKey=targeting?`${model.phase.id}:${model.action.type}:${model.action.step}:${model.action.selected.join(',')}`:null;
   if(nextTargetKey&&targetKey!==nextTargetKey){
    // A move: the viewer's own room's positions in the room view (sheet 20; Actions' Move tile chooses it), or the
@@ -511,8 +517,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   // The shell: this phone's input (shell-input.mjs). While the Food surface owns the chrome (active, or its
   // Task over the whole screen) the shell is concealed under it: its bars keep their shape as empty material,
   // with no name, time or control, as today's header and nav were hidden and inert.
-  flow=actionsFlow(flow,model);
-  const input=shellInput(model,{view:sceneMode,room:currentRoom,food:foodSurface,reducedMotion:reduced(),lastRound,listOpen,closed,flow});
+  flow=actionsFlow(flow,model);promises=promisesFlow(promises,model);
+  const input=shellInput(model,{view:sceneMode,room:currentRoom,food:foodSurface,reducedMotion:reduced(),lastRound,listOpen,closed,flow,promises});
   input.sheet=shellHostSheet(input.sheet,hostSheet?.frame()??null);
   // The host sheet's own toast (Copied, a receipt), once, when the game gives none.
   const nextToast=input.toast??hostSheet?.toast?.()??null;if(nextToast)toast=nextToast;
