@@ -2,13 +2,13 @@
   "tool": "design/tools/match-connection-check.mjs",
   "what": "The Planet app's match screens drawn by Designer's components (release 3: Actions, design/phone-ui/components/actions; the Panels tab, design/phone-ui/components/panels; Promises, design/phone-ui/components/promises) in the phone shell, in Frontend's phone harness (apps/game/dev/phone) built from the candidate below",
   "candidate": {
-    "commit": "bfd458eae5b0369db41097a0f903fced9a5730dc",
+    "commit": "755820d81bc4bef49d0e7a8c556b1617beefbb64",
     "clean": true,
     "dirty": []
   },
   "art": {
     "base": "64e55516d2f0026842c5c2a675f2eccda20e0a9e",
-    "originMain": "7574bfe5ce3d7acd12ed66eb8202187045817a24",
+    "originMain": "7d18ac0f25d81713b0b000b317f4da36fd016ff2",
     "note": "The harnesses' art plugins over a clean worktree of origin/main; the harnesses and their asset tooling are byte for byte that commit's"
   },
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels, focus emulated, no safe areas; the harnesses bundled by Vite and served with the production headers below. Not a phone, not Safari, not a live match.",
@@ -59,7 +59,7 @@
         "noAfter": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-blackhole.jpg",
-      "sha256": "e717e734909155107b4df1cd79d4f64a99ecc1e5ee17bc58d6436b8a1aa6e611",
+      "sha256": "f71c584117f66448b79ee9ea04a8fb1359914d1293a7dcd69b31c5603e86d5f7",
       "seen": {
         "shell": {
           "status": "live",
@@ -280,7 +280,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -307,7 +307,7 @@
         "noSheetSending": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-blackout.jpg",
-      "sha256": "1b342a941f91e7f190f473060a988339a4ca0fac1ae5f54e1c6562bf3803e60b",
+      "sha256": "569d27ae938c6d2ef07bff7e5d71fb988edeace7d5c26a02fd7e6e040998b79e",
       "seen": {
         "shell": {
           "status": "live",
@@ -324,7 +324,7 @@
           "tone": "dark",
           "name": "Blackout",
           "sub": "Dark · positions fixed",
-          "clock": "0:08",
+          "clock": "0:09",
           "controls": 2
         },
         "tabs": {
@@ -459,7 +459,7 @@
         },
         "old": 0,
         "status": null,
-        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } Room ABlackoutDark · positions fixedPromisesR60:08Choose a positionRoom A · any position, even emptyCancelBoardActionsPassPassPanelsCard",
+        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } Room ABlackoutDark · positions fixedPromisesR60:09Choose a positionRoom A · any position, even emptyCancelBoardActionsPassPassPanelsCard",
         "hiddenStep": "Choose a fixed position in your bound room.",
         "hiddenCheckpoint": "Choose a fixed position in your bound room.",
         "before": null,
@@ -480,12 +480,12 @@
           "food": null
         },
         "commands": [],
-        "page": "ROOM A\nBlackout\nDark · positions fixed\nR6\n0:08\nChoose a position\nRoom A · any position, even empty\nCancel\nBoard\nActions\nPASS\nPanels\nCard\n\nChoose a fixed position in your bound room.\n\nChoose a fixed position in your bound room.",
+        "page": "ROOM A\nBlackout\nDark · positions fixed\nR6\n0:09\nChoose a position\nRoom A · any position, even empty\nCancel\nBoard\nActions\nPASS\nPanels\nCard\n\nChoose a fixed position in your bound room.\n\nChoose a fixed position in your bound room.",
         "violations": [
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -507,7 +507,7 @@
         "noSheet": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-blackout-fixed.jpg",
-      "sha256": "31f8fb5711b09bff1bb662d31649ab315a0a6cde062c3ab9150ef3e91862bd18",
+      "sha256": "26042e870ed57893a218fa50e9adc6d4b064b97dd28883e02b56c59fa642e1b1",
       "seen": {
         "shell": {
           "status": "live",
@@ -674,7 +674,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -760,7 +760,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -783,7 +783,7 @@
         "rowToCheck": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-list.jpg",
-      "sha256": "e1dbabacc111bdc8164927caff4e66e7256987eaa0f7e5090265676b6e27253c",
+      "sha256": "36a752c7f1ac9387ccc3d95a2ba93e49943f7069546f66e0956c843fe8d5ccfd",
       "seen": {
         "shell": {
           "status": "live",
@@ -1013,7 +1013,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1037,7 +1037,7 @@
         "roomChosen": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-move.jpg",
-      "sha256": "d232f76ef0b19131638bee167493d0ba06c9b78a9b3158125137b8737a4725ba",
+      "sha256": "8d75dc9238a786ed4c5e97c4c9b753bbc1af92f9aaa89e85b75f6474a105b7d9",
       "seen": {
         "shell": {
           "status": "live",
@@ -1226,7 +1226,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1249,7 +1249,7 @@
         "otherRoom": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-move-board.jpg",
-      "sha256": "b61ab720b53f51954ddefab1ea1f838d16058415d04eb344f8fa5e24aa356c19",
+      "sha256": "eecde806d63c58c62b7e142dabe38db940e9428307ebedeb0fe1a2a3cde01ab0",
       "seen": {
         "shell": {
           "status": "live",
@@ -1428,7 +1428,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1452,7 +1452,7 @@
         "cancelToChoosing": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-move-check.jpg",
-      "sha256": "1c0a4f2f3fe1b24dd392cbc76b31afd6459053ef8b480259509d410161e6dcb4",
+      "sha256": "62ca24a70162602bcbbf56a196b624960ce55c79ae07c1b3af4c4230a6a7c20d",
       "seen": {
         "shell": {
           "status": "live",
@@ -1677,7 +1677,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1700,7 +1700,7 @@
         "youThere": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-moved.jpg",
-      "sha256": "10bc5cac428a45cc214031637dd03d561bdd1d8c1692cb03809c1aee918955bb",
+      "sha256": "4189e60ae94de0833f78d2cb651f04a1edeb91a13b52ecde8cc162ec09471622",
       "seen": {
         "shell": {
           "status": "live",
@@ -1860,7 +1860,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1882,7 +1882,7 @@
         "chipToBoard": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-other-rooms.jpg",
-      "sha256": "7ce9f2327f20c07589571143469fd354abf9a01edffd91553c20f9f19f8ee9c2",
+      "sha256": "29b13aa5f300d84a0804fd1cd31c2019027afea86e4ec4deb593d850db9a86f6",
       "seen": {
         "shell": {
           "status": "live",
@@ -2069,7 +2069,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2099,7 +2099,7 @@
         "backToPanels": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-panels.jpg",
-      "sha256": "4d7beaad791e648d2e3dc0037480c4acd084d435e629f756ab2ed626e28ce9a7",
+      "sha256": "902aa448bffcde522c70bc0870041e6c36b7ecd39cdca49b1710006aa6420568",
       "seen": {
         "shell": {
           "status": "live",
@@ -2366,7 +2366,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2389,7 +2389,7 @@
         "order": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-panels-food.jpg",
-      "sha256": "aa40a77f7c823488145dd31d784153e32899ccfb45aa9350b517156f05b7103b",
+      "sha256": "0046748f5f9858053e62fea3a01dcdc7e0cf6a9cc7985342cf0e551c1b40b93b",
       "seen": {
         "shell": {
           "status": "live",
@@ -2669,7 +2669,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2695,7 +2695,7 @@
         "sheetClosed": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-pass.jpg",
-      "sha256": "b537f54bd45bbd72350166bf1aa3d0f9c3ae61649a03f17ce63cf89abd8a8ebd",
+      "sha256": "910e721727f4133e98f6dc970264f48235fea2a3dd88ac5f31f5c70c8b88ed12",
       "seen": {
         "shell": {
           "status": "live",
@@ -2914,7 +2914,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2944,7 +2944,7 @@
         "backToList": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-players.jpg",
-      "sha256": "47f8b580191ea74e57f6bb9aba337c50cb780603e2da0a90c7438a6ccaced906",
+      "sha256": "02743056a12ddd19e88d8bdf6a1191ef34441d7979ea4641ecd03ee86dbb7016",
       "seen": {
         "shell": {
           "status": "live",
@@ -3287,7 +3287,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3311,7 +3311,7 @@
         "backToList": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-players-away.jpg",
-      "sha256": "b0658cc45b233568a6acc5ca49596bd88a1b42254ca87d6d1e0dfeb521d9bc10",
+      "sha256": "e7b401dce0cc8c4ca314c5c5c8dc0f409b5f5a9dfc772a1fc890edc32d662aea",
       "seen": {
         "shell": {
           "status": "live",
@@ -3499,7 +3499,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3522,7 +3522,7 @@
         "note": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-promise-accepted.jpg",
-      "sha256": "48ca357b90535b37aa90fa6524ef6c5a509f0aa0bc70b53d1bb58d1e86483260",
+      "sha256": "25b1ff1025d6d212328475af32cc97d4e37b4b547157e8075328652bfeea99a8",
       "seen": {
         "shell": {
           "status": "live",
@@ -3663,7 +3663,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3687,7 +3687,7 @@
         "backKeeps": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-promise-confirm.jpg",
-      "sha256": "c575fa864f251eeee5fc66e6a7a63b3eb4d32d33e5f5637e2084e99edee413dc",
+      "sha256": "e3f7e047fb6252bb843e6d4de1fda3afb94f8d2bd8c627f104d0390404c07c20",
       "seen": {
         "shell": {
           "status": "live",
@@ -3815,7 +3815,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3838,7 +3838,7 @@
         "noCommand": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-promise-incoming.jpg",
-      "sha256": "ab313af89d7d4fae307ece54a9f94fa7169395df5f2cb54a1f0154d3eae17c0c",
+      "sha256": "1195d970a1f6661a062a1c929391c5b3de8a1b3e31f1386c7de9e7cdc5dfd194",
       "seen": {
         "shell": {
           "status": "live",
@@ -3966,7 +3966,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -3993,7 +3993,7 @@
         "kindLocal": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-promise-kinds.jpg",
-      "sha256": "73fa9169e7c5690e9d6ff96ef098ac5588166ecaee64740392b5f038c8e7ee60",
+      "sha256": "5685c57561e7eabc6ee01ef50da63f879f903bd6a7a11713f13330c797e1248a",
       "seen": {
         "shell": {
           "status": "live",
@@ -4139,7 +4139,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4165,7 +4165,7 @@
         "infoStatus": "That choice is no longer offered."
       },
       "file": "design/phone-ui/review/match-connection/390x844-promise-refused.jpg",
-      "sha256": "e8a760c7684a2b2baa586c0ff40f6c12ce0d00263f7ce90362852a582d391c3a",
+      "sha256": "f6abe6722e7c81643d624fde64cb015d856cc384926e0a00b30fe6f82a9d1759",
       "seen": {
         "shell": {
           "status": "live",
@@ -4293,7 +4293,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4318,7 +4318,7 @@
         "noCommand": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-promise-results.jpg",
-      "sha256": "fc7751f34d519308006a7452fc4ea74d48ea9f02a553ee36af74a751be16dab4",
+      "sha256": "1e1b81b85d95e1266e2dba53366d656900b7a08d7358d2097b61fdace72b4880",
       "seen": {
         "shell": {
           "status": "live",
@@ -4539,7 +4539,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4562,7 +4562,7 @@
         "sameRoom": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-promise-sent.jpg",
-      "sha256": "4f10206a2e97682aead73d81c8cf42cda1f67c80d54be3b95c759ca8c61df3f6",
+      "sha256": "8dc6910024778b7b896c03eca8fd05dac53f16d152c4dfb61682ed6767dd3c97",
       "seen": {
         "shell": {
           "status": "live",
@@ -4579,7 +4579,7 @@
           "tone": null,
           "name": "Crew 6 + Crew 1",
           "sub": "Private talk",
-          "clock": "0:52",
+          "clock": "0:53",
           "controls": 2
         },
         "tabs": null,
@@ -4671,7 +4671,7 @@
         },
         "old": 0,
         "status": null,
-        "shown": "Private talk1Crew 16YouCrew 6 + Crew 1Private talkPromises1R60:52PromisesNot available nowYour quotaGiven 0/1 · Received 0/1With Crew 1 · talking nowOffer a PromiseSix kinds · exact termsCrew 1 offered you oneMeet in Room APromisesMy cardRegistered. Waiting for the authoritative view.",
+        "shown": "Private talk1Crew 16YouCrew 6 + Crew 1Private talkPromises1R60:53PromisesNot available nowYour quotaGiven 0/1 · Received 0/1With Crew 1 · talking nowOffer a PromiseSix kinds · exact termsCrew 1 offered you oneMeet in Room APromisesMy cardRegistered. Waiting for the authoritative view.",
         "hiddenStep": "Registered. Waiting for the authoritative view.",
         "hiddenCheckpoint": "Registered. Waiting for the authoritative view.",
         "before": null,
@@ -4699,12 +4699,12 @@
             "targetSeatId": null
           }
         ],
-        "page": "The ship\nPRIVATE TALK\n1\nCrew 1\n6\nYou\nCrew 6 + Crew 1\nPrivate talk\n1\nR6\n0:52\nPromises\nNot available now\nYour quota\nGiven 0/1 · Received 0/1\n\nWITH CREW 1 · TALKING NOW\n\nOffer a Promise\nSix kinds · exact terms\nCrew 1 offered you one\nMeet in Room A\nPromises\nMy card\nRegistered. Waiting for the authoritative view.\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Registered. Waiting for the authoritative view.\n\nRegistered. Waiting for the authoritative view.",
+        "page": "The ship\nPRIVATE TALK\n1\nCrew 1\n6\nYou\nCrew 6 + Crew 1\nPrivate talk\n1\nR6\n0:53\nPromises\nNot available now\nYour quota\nGiven 0/1 · Received 0/1\n\nWITH CREW 1 · TALKING NOW\n\nOffer a Promise\nSix kinds · exact terms\nCrew 1 offered you one\nMeet in Room A\nPromises\nMy card\nRegistered. Waiting for the authoritative view.\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Registered. Waiting for the authoritative view.\n\nRegistered. Waiting for the authoritative view.",
         "violations": [
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4945,7 +4945,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -4967,7 +4967,7 @@
         "oneCommand": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-promise-waiting.jpg",
-      "sha256": "024d8d78da569e3e2f998994f5728955ff2537c377b4a3588b0cc5db8082647b",
+      "sha256": "e3cc99b5153e1d23288d11757faf0782633c8c6612362a5469e96a7d0a760407",
       "seen": {
         "shell": {
           "status": "live",
@@ -4984,7 +4984,7 @@
           "tone": null,
           "name": "Crew 6 + Crew 1",
           "sub": "Private talk",
-          "clock": "0:51",
+          "clock": "0:52",
           "controls": 2
         },
         "tabs": null,
@@ -5089,7 +5089,7 @@
         },
         "old": 0,
         "status": null,
-        "shown": "Private talk1Crew 16YouCrew 6 + Crew 1Private talkPromises1R60:51PromisesYour quotaGiven 0/1 · Received 0/1Waiting for Crew 1Meet in Room BOffered to Crew 1 · not counted yetOfferedWith Crew 1 · talking nowOffer a PromiseSix kinds · exact termsCrew 1 offered you oneMeet in Room APromisesMy cardRegistered. Waiting for the authoritative view.",
+        "shown": "Private talk1Crew 16YouCrew 6 + Crew 1Private talkPromises1R60:52PromisesYour quotaGiven 0/1 · Received 0/1Waiting for Crew 1Meet in Room BOffered to Crew 1 · not counted yetOfferedWith Crew 1 · talking nowOffer a PromiseSix kinds · exact termsCrew 1 offered you oneMeet in Room APromisesMy cardRegistered. Waiting for the authoritative view.",
         "hiddenStep": "",
         "hiddenCheckpoint": "Current board · shared: Round 5 complete",
         "before": null,
@@ -5113,12 +5113,12 @@
             "targetSeatId": null
           }
         ],
-        "page": "The ship\nPRIVATE TALK\n1\nCrew 1\n6\nYou\nCrew 6 + Crew 1\nPrivate talk\n1\nR6\n0:51\nPromises\nYour quota\nGiven 0/1 · Received 0/1\n\nWAITING FOR CREW 1\n\nMeet in Room B\nOffered to Crew 1 · not counted yet\nOffered\n\nWITH CREW 1 · TALKING NOW\n\nOffer a Promise\nSix kinds · exact terms\nCrew 1 offered you one\nMeet in Room A\nPromises\nMy card\nRegistered. Waiting for the authoritative view.\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
+        "page": "The ship\nPRIVATE TALK\n1\nCrew 1\n6\nYou\nCrew 6 + Crew 1\nPrivate talk\n1\nR6\n0:52\nPromises\nYour quota\nGiven 0/1 · Received 0/1\n\nWAITING FOR CREW 1\n\nMeet in Room B\nOffered to Crew 1 · not counted yet\nOffered\n\nWITH CREW 1 · TALKING NOW\n\nOffer a Promise\nSix kinds · exact terms\nCrew 1 offered you one\nMeet in Room A\nPromises\nMy card\nRegistered. Waiting for the authoritative view.\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
         "violations": [
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5146,7 +5146,7 @@
         "infoScene": null
       },
       "file": "design/phone-ui/review/match-connection/390x844-promises.jpg",
-      "sha256": "98261cff3a4f826aa3c1fdb6cccd9e24e29edbb296da9eb076d86bda869f06d0",
+      "sha256": "242dc8ba264f319b0c9c59b92a32380723bc2759f2402ebafe946214b80fceff",
       "seen": {
         "shell": {
           "status": "live",
@@ -5277,7 +5277,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5298,7 +5298,7 @@
         "noTiles": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-reconnecting.jpg",
-      "sha256": "fd2ee7b6d99f0e95a98bc78f30c19fbe0050b50a0e9d0b0e1949acd581faa135",
+      "sha256": "46799de59842929795cf78fcbe339d6c6de886ec55af540c70c18c9e2abb676e",
       "seen": {
         "shell": {
           "status": "stale",
@@ -5452,7 +5452,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5476,7 +5476,7 @@
         "heroStays": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-rescue.jpg",
-      "sha256": "b518ef45e242d622a6428029496d9acbd720c9ff84f68a7871b681e98bd4e85b",
+      "sha256": "7de91bae2b7c5cb6ab9b6988220902dac0de73f428c8c58eb34eebca8c4975f1",
       "seen": {
         "shell": {
           "status": "live",
@@ -5650,7 +5650,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5678,7 +5678,7 @@
         "doneCloses": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-rescue-after.jpg",
-      "sha256": "50c6f52ae24c8b64704affd6dc6df0fade62e225b0d47441713d0f13c1820637",
+      "sha256": "9c97a97af74748f4fdcceb2d4c90da962c384a437d2064d0ee1a2280bbb01597",
       "seen": {
         "shell": {
           "status": "live",
@@ -5891,7 +5891,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -5916,7 +5916,7 @@
         "cancelToTiles": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-rescue-check.jpg",
-      "sha256": "6eb88779d217cab329adadd66205ba01fd17ce3c2ddf4d0ec6940abb17738d04",
+      "sha256": "3d403aad86ae289c53b9416bf57a8ab7c774e8d650b1682f592ffaa4edee53b8",
       "seen": {
         "shell": {
           "status": "live",
@@ -6137,7 +6137,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6163,7 +6163,7 @@
         "closes": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-round-order.jpg",
-      "sha256": "7dc846581a41657b6d4332e6a339708179470da657d2b109306073287c6779c7",
+      "sha256": "89a965043ae1dffc09b2f8ece868e84f61a8272261581c32c57f0a27cea45ecb",
       "seen": {
         "shell": {
           "status": "live",
@@ -6502,7 +6502,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6527,7 +6527,7 @@
         "heard": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-suppress.jpg",
-      "sha256": "c76d789c08318bb73dc99ecf4e8422039f4c7b32529d00fe3a115b7f2df682dd",
+      "sha256": "e16ef6c7b83f95902c3dd0fd3c20923fbffce1320e759f34a39e1604cea3a6d0",
       "seen": {
         "shell": {
           "status": "live",
@@ -6746,7 +6746,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -6772,7 +6772,7 @@
         "unavailableRefused": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-tiles.jpg",
-      "sha256": "296e43ef2d6442ce8ef84dc6c38335c583bfcecbec1316e02950800f6072541d",
+      "sha256": "141556c4d2635c5309dd3915a533715420906b0a23b5e940cab8d15139377ca9",
       "seen": {
         "shell": {
           "status": "live",
@@ -6994,7 +6994,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7018,7 +7018,7 @@
         "afterRetry": true
       },
       "file": "design/phone-ui/review/match-connection/390x844-unknown.jpg",
-      "sha256": "bf733dda197a58bd9b5e12b104464ff50cdc34ba1dcf259b30c48126c1ef119b",
+      "sha256": "744d746fef6b618fba9fa3690e0f318a6f97bf3648675c0265ef68c0c8ef4583",
       "seen": {
         "shell": {
           "status": "live",
@@ -7245,7 +7245,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7269,7 +7269,7 @@
         "noAfter": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-blackhole.jpg",
-      "sha256": "171e5e55c3d47779c900987457c7dbc35099c6530f7788e94c1844c2760de1fa",
+      "sha256": "04f3f99674ba6074203ffc8fe42c4f5ed6624a056ed0912cdf42bac482027687",
       "seen": {
         "shell": {
           "status": "live",
@@ -7490,7 +7490,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7517,7 +7517,7 @@
         "noSheetSending": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-blackout.jpg",
-      "sha256": "3beb5c643dd2eed33fb50333528312603d8f77c4c74a0e0756e159519b6b5a89",
+      "sha256": "e1e6cbee602459101d27e3dbc9c91ba99918ce8aa78e9b8232b3c2f4a409de15",
       "seen": {
         "shell": {
           "status": "live",
@@ -7534,7 +7534,7 @@
           "tone": "dark",
           "name": "Blackout",
           "sub": "Dark · positions fixed",
-          "clock": "0:08",
+          "clock": "0:09",
           "controls": 2
         },
         "tabs": {
@@ -7669,7 +7669,7 @@
         },
         "old": 0,
         "status": null,
-        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } Room ABlackoutDark · positions fixedPromisesR60:08Choose a positionRoom A · any position, even emptyCancelBoardActionsPassPassPanelsCard",
+        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } Room ABlackoutDark · positions fixedPromisesR60:09Choose a positionRoom A · any position, even emptyCancelBoardActionsPassPassPanelsCard",
         "hiddenStep": "Choose a fixed position in your bound room.",
         "hiddenCheckpoint": "Choose a fixed position in your bound room.",
         "before": null,
@@ -7690,12 +7690,12 @@
           "food": null
         },
         "commands": [],
-        "page": "ROOM A\nBlackout\nDark · positions fixed\nR6\n0:08\nChoose a position\nRoom A · any position, even empty\nCancel\nBoard\nActions\nPASS\nPanels\nCard\n\nChoose a fixed position in your bound room.\n\nChoose a fixed position in your bound room.",
+        "page": "ROOM A\nBlackout\nDark · positions fixed\nR6\n0:09\nChoose a position\nRoom A · any position, even empty\nCancel\nBoard\nActions\nPASS\nPanels\nCard\n\nChoose a fixed position in your bound room.\n\nChoose a fixed position in your bound room.",
         "violations": [
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7717,7 +7717,7 @@
         "noSheet": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-blackout-fixed.jpg",
-      "sha256": "4f5d164845e3d677a67ac7f0a0ceb0599bb521a272bc7cdc4d06d0dd8566c445",
+      "sha256": "c838d45526b5128ab802a794ef83377094ab6f0d6f7a12f15f5222ddaf0e9cac",
       "seen": {
         "shell": {
           "status": "live",
@@ -7734,7 +7734,7 @@
           "tone": "dark",
           "name": "Blackout",
           "sub": "Dark · positions fixed",
-          "clock": "0:07",
+          "clock": "0:08",
           "controls": 2
         },
         "tabs": {
@@ -7856,7 +7856,7 @@
         },
         "old": 0,
         "status": null,
-        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } Room ABlackoutDark · positions fixedPromisesR60:07Position A3 fixedResolves after the window · no effect shown nowBoardActionsPassPassPanelsCard",
+        "shown": "@keyframes amb1-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb1-w0-home { animation: amb1-w0-home 240s linear infinite; }@keyframes amb1-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } } .amb .amb1-w0-fly0 { animation: amb1-w0-fly0 240s linear infinite; }@keyframes amb1-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly1 { animation: amb1-w0-fly1 240s linear infinite; }@keyframes amb1-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } } .amb .amb1-w0-fly2 { animation: amb1-w0-fly2 240s linear infinite; }@keyframes amb1-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb1-w0-fly3 { animation: amb1-w0-fly3 240s linear infinite; }@keyframes amb1-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } } .amb .amb1-w0-fly4 { animation: amb1-w0-fly4 240s linear infinite; }@keyframes amb1-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } } .amb .amb1-w0-fly5 { animation: amb1-w0-fly5 240s linear infinite; }@keyframes amb1-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } } .amb .amb1-w0-fly6 { animation: amb1-w0-fly6 240s linear infinite; }@keyframes amb1-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } } .amb .amb1-w0-fly7 { animation: amb1-w0-fly7 240s linear infinite; }@keyframes amb1-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } } .amb .amb1-w0-fly8 { animation: amb1-w0-fly8 240s linear infinite; } Room ABlackoutDark · positions fixedPromisesR60:08Position A3 fixedResolves after the window · no effect shown nowBoardActionsPassPassPanelsCard",
         "hiddenStep": "Blackout",
         "hiddenCheckpoint": "Blackout",
         "before": null,
@@ -7879,12 +7879,12 @@
             "slotId": "A3"
           }
         ],
-        "page": "ROOM A\nBlackout\nDark · positions fixed\nR6\n0:07\nPosition A3 fixed\nResolves after the window · no effect shown now\nBoard\nActions\nPASS\nPanels\nCard\n\nBlackout\n\nBlackout",
+        "page": "ROOM A\nBlackout\nDark · positions fixed\nR6\n0:08\nPosition A3 fixed\nResolves after the window · no effect shown now\nBoard\nActions\nPASS\nPanels\nCard\n\nBlackout\n\nBlackout",
         "violations": [
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7970,7 +7970,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -7993,7 +7993,7 @@
         "rowToCheck": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-list.jpg",
-      "sha256": "464ecbe7f60a167c42257f2345943507361508ca658c34a60db748d74fd9396b",
+      "sha256": "b30035ca4a5fdae7de048a54090ee9bb3f36648042c7be0f7b83fc795c639727",
       "seen": {
         "shell": {
           "status": "live",
@@ -8223,7 +8223,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8247,7 +8247,7 @@
         "roomChosen": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-move.jpg",
-      "sha256": "ba1f7c3270d97ef11a70169ce6048b40b574c35201dadd665db1b5c1616943cd",
+      "sha256": "a32aea9d4cac00daf1489d131d70333e957e6570719d85e697a72bce4d21f990",
       "seen": {
         "shell": {
           "status": "live",
@@ -8436,7 +8436,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8459,7 +8459,7 @@
         "otherRoom": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-move-board.jpg",
-      "sha256": "481e8070736d2e5aca4348569dd462efa9d553866a5fbf8343082337a82c133f",
+      "sha256": "26859c889346d01c2da3ceb2e16ba0009097c9e4a1dade2b34f64b3cd424f7d4",
       "seen": {
         "shell": {
           "status": "live",
@@ -8638,7 +8638,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8662,7 +8662,7 @@
         "cancelToChoosing": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-move-check.jpg",
-      "sha256": "145b054fbcefc8cf05bec038e0a54e8061c747379b34c5a4012ecc137c07f43b",
+      "sha256": "e39e1686eb1e851dcf4a5a2b345eda23e6c17b0940b51ab49b4c4c25fafabffe",
       "seen": {
         "shell": {
           "status": "live",
@@ -8887,7 +8887,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -8910,7 +8910,7 @@
         "youThere": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-moved.jpg",
-      "sha256": "2f79fa0bce74fdb78a957f209f95a7dcc4189b40199d57d7cd95d55f1a59d702",
+      "sha256": "0be312c5a12e27881fd452eeaa2b5e40b0f38df8ab8bc6b625fb6509094c8a26",
       "seen": {
         "shell": {
           "status": "live",
@@ -8927,7 +8927,7 @@
           "tone": null,
           "name": "Your turn",
           "sub": "Player 6 · Crew 6",
-          "clock": "0:55",
+          "clock": "0:56",
           "controls": 2
         },
         "tabs": {
@@ -9039,7 +9039,7 @@
         },
         "old": 0,
         "status": null,
-        "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BWindowsYour turnPlayer 6 · Crew 6PromisesR60:55BoardActionsPassPassPanelsCardMoved to B5",
+        "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BWindowsYour turnPlayer 6 · Crew 6PromisesR60:56BoardActionsPassPassPanelsCardMoved to B5",
         "hiddenStep": "",
         "hiddenCheckpoint": "Current board · shared: Round 5 complete",
         "before": {
@@ -9065,12 +9065,12 @@
             "slotId": "B5"
           }
         ],
-        "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nWindows\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:55\nBoard\nActions\nPASS\nPanels\nCard\nMoved to B5\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B5.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
+        "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nWindows\nYour turn\nPlayer 6 · Crew 6\nPromises\nR6\n0:56\nBoard\nActions\nPASS\nPanels\nCard\nMoved to B5\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B5.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
         "violations": [
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9092,7 +9092,7 @@
         "chipToBoard": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-other-rooms.jpg",
-      "sha256": "a86b3276d11d664f2fa5cfd31db4cd7c75fbffa89df6de41ccd0eb4bcd757df3",
+      "sha256": "595e7664daeae7eccda45ae4a060225df3e6f266e7cd2604b44d838e73d4e33c",
       "seen": {
         "shell": {
           "status": "live",
@@ -9109,7 +9109,7 @@
           "tone": null,
           "name": "Your turn",
           "sub": "Player 2 · Crew 2",
-          "clock": "0:57",
+          "clock": "0:58",
           "controls": 2
         },
         "tabs": {
@@ -9253,7 +9253,7 @@
         },
         "old": 0,
         "status": null,
-        "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } 1Crew 12You4Crew 45Crew 5Room AYour turnPlayer 2 · Crew 2PromisesR60:57RescueChoose a playerCancelOther rooms · 2BoardActionsPassPassPanelsCard",
+        "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 140px); } 90% { transform: translate(0px, 140px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 11.69% { transform: translate(174.8px, -34.96px); } 18.31%, 100% { transform: translate(-174.8px, 34.96px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 20.1% { transform: translate(141.8px, 0px); } 33.23%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 30.01% { transform: translate(107.8px, 0px); } 44.99%, 100% { transform: translate(-107.8px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 37.65% { transform: translate(141.8px, 0px); } 57.35%, 100% { transform: translate(-141.8px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 51.89% { transform: translate(264.8px, 0px); } 59.77%, 100% { transform: translate(-264.8px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 56.86% { transform: translate(139.8px, 0px); } 69.81%, 100% { transform: translate(-139.8px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 66.95% { transform: translate(119.8px, 0px); } 78.05%, 100% { transform: translate(-119.8px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 75.1% { transform: translate(105.8px, 0px); } 84.9%, 100% { transform: translate(-105.8px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 80.56% { transform: translate(113.8px, 0px); } 91.1%, 100% { transform: translate(-113.8px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } 1Crew 12You4Crew 45Crew 5Room AYour turnPlayer 2 · Crew 2PromisesR60:58RescueChoose a playerCancelOther rooms · 2BoardActionsPassPassPanelsCard",
         "hiddenStep": "Choose an offered character on the board.",
         "hiddenCheckpoint": "Choose an offered character on the board.",
         "before": null,
@@ -9274,12 +9274,12 @@
           "food": null
         },
         "commands": [],
-        "page": "1\nCrew 1\n2\nYou\n4\nCrew 4\n5\nCrew 5\nROOM A\nYour turn\nPlayer 2 · Crew 2\nPromises\nR6\n0:57\nRescue\nChoose a player\nCancel\nOther rooms · 2\nBoard\nActions\nPASS\nPanels\nCard\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Injured, Hospital, H1, Rescue possible through Round 6.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Choose an offered character on the board.\n\nChoose an offered character on the board.",
+        "page": "1\nCrew 1\n2\nYou\n4\nCrew 4\n5\nCrew 5\nROOM A\nYour turn\nPlayer 2 · Crew 2\nPromises\nR6\n0:58\nRescue\nChoose a player\nCancel\nOther rooms · 2\nBoard\nActions\nPASS\nPanels\nCard\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Injured, Hospital, H1, Rescue possible through Round 6.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Choose an offered character on the board.\n\nChoose an offered character on the board.",
         "violations": [
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9309,7 +9309,7 @@
         "backToPanels": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-panels.jpg",
-      "sha256": "d939bb8831558073d0550b5f79b7c1c476a8284179d533ef77e02e3a68f2fe80",
+      "sha256": "59eef577f211e0201a7af03ecc335985db53935552c79b5ecc2e972cd414013b",
       "seen": {
         "shell": {
           "status": "live",
@@ -9576,7 +9576,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9599,7 +9599,7 @@
         "order": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-panels-food.jpg",
-      "sha256": "7e75690d991baa5ef0b656c7638d5a2c9b792210f7a8d9a705201df2647cd981",
+      "sha256": "a4eaaa129eb51c37650fe2a084191597f43a428c49f1a14959329fd982e69b43",
       "seen": {
         "shell": {
           "status": "live",
@@ -9879,7 +9879,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -9905,7 +9905,7 @@
         "sheetClosed": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-pass.jpg",
-      "sha256": "926482103162ed71c6d86cc053818a0c9d28aa3160ae923b58dd4ef7124cf76e",
+      "sha256": "c651e0d8dc6d9802cbb342290f2f9d156da920d40bdea2501c9afb366a50437b",
       "seen": {
         "shell": {
           "status": "live",
@@ -10124,7 +10124,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10154,7 +10154,7 @@
         "backToList": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-players.jpg",
-      "sha256": "bb0696c9b76cc58ff7db5f7a1c22b0960632d5bf058392f796851752fb04a416",
+      "sha256": "881699f61efea4847a48341e663310a0f47da75c611b025489b3b563c95550a9",
       "seen": {
         "shell": {
           "status": "live",
@@ -10497,7 +10497,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10521,7 +10521,7 @@
         "backToList": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-players-away.jpg",
-      "sha256": "17da14c5abdc252e74cdec94d68ec72a3ea09245b0a3393372babb744287ef39",
+      "sha256": "c7ff6b831fa5b6e776d6dc98c83973b3c0c630cf014ce19dffd94e3443c91bdf",
       "seen": {
         "shell": {
           "status": "live",
@@ -10709,7 +10709,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10732,7 +10732,7 @@
         "note": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-promise-accepted.jpg",
-      "sha256": "47e445cd7f706c6b90b4a7c746bc87612fad47efc478b9134431f7922351e348",
+      "sha256": "062ed21dfb0585151c83ce20e3b0fb496cb47ce5fb76f5563f38ce35f269587d",
       "seen": {
         "shell": {
           "status": "live",
@@ -10873,7 +10873,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -10897,7 +10897,7 @@
         "backKeeps": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-promise-confirm.jpg",
-      "sha256": "04f285d54d3b4542dc0a90c39d14686ba2b3ed79e9d3fa4e2d4f1ca973812901",
+      "sha256": "0734369d7340b1006a1f9538f46772f73d8cb099ed13b3755445e87022e1adeb",
       "seen": {
         "shell": {
           "status": "live",
@@ -11025,7 +11025,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -11048,7 +11048,7 @@
         "noCommand": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-promise-incoming.jpg",
-      "sha256": "e83a261ae1187005c81cb075dd260f073cb3e7141f292fa895e536d5938cc9ac",
+      "sha256": "6dc6c0336dfd9fa8b714e861b26ff6467f4dd56784c383e6a2b640ffc1becd82",
       "seen": {
         "shell": {
           "status": "live",
@@ -11176,7 +11176,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -11203,7 +11203,7 @@
         "kindLocal": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-promise-kinds.jpg",
-      "sha256": "01f7b0576b51da97a2b166890e4d134322ebe4909fc114eb264889081fa2a2db",
+      "sha256": "905268f3922856a08c940adcbc7e7000127dd2899745650c9e9adfa7f351f733",
       "seen": {
         "shell": {
           "status": "live",
@@ -11349,7 +11349,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -11375,7 +11375,7 @@
         "infoStatus": "That choice is no longer offered."
       },
       "file": "design/phone-ui/review/match-connection/430x932-promise-refused.jpg",
-      "sha256": "302ff22e1ddae854196258943a6b2defcef8c602c2969e1408a74045d5ac7ae4",
+      "sha256": "cbe56d6704dd2854063ef29de99921e627e667b1700afed9b351028f8aafc646",
       "seen": {
         "shell": {
           "status": "live",
@@ -11503,7 +11503,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -11528,7 +11528,7 @@
         "noCommand": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-promise-results.jpg",
-      "sha256": "3d615f9c73df6ac4daf134ddee13a8be70b96f3046f6b988ecba083284796927",
+      "sha256": "9db1b5488cfc992aaa500ac7d0f8040d96a32f7d3491384f527bdb9bbc60cd4d",
       "seen": {
         "shell": {
           "status": "live",
@@ -11545,7 +11545,7 @@
           "tone": null,
           "name": "Crew 2",
           "sub": "Player 2 · Turn",
-          "clock": "0:59",
+          "clock": "1:00",
           "controls": 2
         },
         "tabs": {
@@ -11727,7 +11727,7 @@
         },
         "old": 0,
         "status": null,
-        "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BCrew 2Player 2 · TurnPromisesR60:59PromisesYour quotaGiven 1/1 · Received 1/1ReceivedJail VoteFrom Crew 3Not fulfilledGivenMeet in Room BTo Crew 1Pending“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.BoardActionsPassPassPanelsCard",
+        "shown": "@keyframes amb2-w0-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } 10% { transform: translate(0px, 90px); } 90% { transform: translate(0px, 90px); animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } } .amb .amb2-w0-home { animation: amb2-w0-home 240s linear infinite; }@keyframes amb2-w0-fly0 { 0%, 13.43% { transform: translate(215px, -43px); } 21.57%, 100% { transform: translate(-215px, 43px); } } .amb .amb2-w0-fly0 { animation: amb2-w0-fly0 240s linear infinite; }@keyframes amb2-w0-fly1 { 0%, 20.74% { transform: translate(182px, 0px); } 37.59%, 100% { transform: translate(-182px, 0px); } } .amb .amb2-w0-fly1 { animation: amb2-w0-fly1 240s linear infinite; }@keyframes amb2-w0-fly2 { 0%, 29.72% { transform: translate(148px, 0px); } 50.28%, 100% { transform: translate(-148px, 0px); } } .amb .amb2-w0-fly2 { animation: amb2-w0-fly2 240s linear infinite; }@keyframes amb2-w0-fly3 { 0%, 37.36% { transform: translate(182px, 0px); } 62.64%, 100% { transform: translate(-182px, 0px); } } .amb .amb2-w0-fly3 { animation: amb2-w0-fly3 240s linear infinite; }@keyframes amb2-w0-fly4 { 0%, 53.79% { transform: translate(305px, 0px); } 62.87%, 100% { transform: translate(-305px, 0px); } } .amb .amb2-w0-fly4 { animation: amb2-w0-fly4 240s linear infinite; }@keyframes amb2-w0-fly5 { 0%, 57.5% { transform: translate(180px, 0px); } 74.17%, 100% { transform: translate(-180px, 0px); } } .amb .amb2-w0-fly5 { animation: amb2-w0-fly5 240s linear infinite; }@keyframes amb2-w0-fly6 { 0%, 67.59% { transform: translate(160px, 0px); } 82.41%, 100% { transform: translate(-160px, 0px); } } .amb .amb2-w0-fly6 { animation: amb2-w0-fly6 240s linear infinite; }@keyframes amb2-w0-fly7 { 0%, 75.74% { transform: translate(146px, 0px); } 89.26%, 100% { transform: translate(-146px, 0px); } } .amb .amb2-w0-fly7 { animation: amb2-w0-fly7 240s linear infinite; }@keyframes amb2-w0-fly8 { 0%, 81.2% { transform: translate(154px, 0px); } 95.46%, 100% { transform: translate(-154px, 0px); } } .amb .amb2-w0-fly8 { animation: amb2-w0-fly8 240s linear infinite; } 6You7Crew 78Crew 89Crew 9Room BCrew 2Player 2 · TurnPromisesR61:00PromisesYour quotaGiven 1/1 · Received 1/1ReceivedJail VoteFrom Crew 3Not fulfilledGivenMeet in Room BTo Crew 1Pending“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.BoardActionsPassPassPanelsCard",
         "hiddenStep": "",
         "hiddenCheckpoint": "Current board · shared: Round 5 complete",
         "before": null,
@@ -11744,12 +11744,12 @@
           "food": null
         },
         "commands": [],
-        "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nCrew 2\nPlayer 2 · Turn\nPromises\nR6\n0:59\nPromises\nYour quota\nGiven 1/1 · Received 1/1\n\nRECEIVED\n\nJail Vote\nFrom Crew 3\nNot fulfilled\n\nGIVEN\n\nMeet in Room B\nTo Crew 1\nPending\n\n“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.\n\nBoard\nActions\nPASS\nPanels\nCard\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
+        "page": "6\nYou\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nROOM B\nCrew 2\nPlayer 2 · Turn\nPromises\nR6\n1:00\nPromises\nYour quota\nGiven 1/1 · Received 1/1\n\nRECEIVED\n\nJail Vote\nFrom Crew 3\nNot fulfilled\n\nGIVEN\n\nMeet in Room B\nTo Crew 1\nPending\n\n“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.\n\nBoard\nActions\nPASS\nPanels\nCard\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.\nCaptain — · Officer —Current board · shared: Round 5 complete",
         "violations": [
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -11772,7 +11772,7 @@
         "sameRoom": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-promise-sent.jpg",
-      "sha256": "72d474e8e5e1b6e9e3243567c0c230d4710834c2bb88bb2de7ed6191dce12fa0",
+      "sha256": "2f567c84ff07b3047b7cc1459ec5b593bd35985dade42686a8c306f71dc37bf8",
       "seen": {
         "shell": {
           "status": "live",
@@ -11914,7 +11914,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -11939,7 +11939,7 @@
         "noCommand": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-promise-target.jpg",
-      "sha256": "b1274d4ea23771c7fdd42e8da0e298273e9780e4babe0b6e905d2bb98c4d3ed8",
+      "sha256": "92614c78b921f711c4c466d04e572a3e732775726446f902e82b09eda5cee6a2",
       "seen": {
         "shell": {
           "status": "live",
@@ -12155,7 +12155,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -12177,7 +12177,7 @@
         "oneCommand": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-promise-waiting.jpg",
-      "sha256": "38a5193145bbbb08a53c9a0b9edbc6e020d5289fc82a43be25f472b9fa4d2f17",
+      "sha256": "1ff2a3ff99f7f339f71999764e4fd3d5c9fdf0f52d6d700b05914ddb589081cc",
       "seen": {
         "shell": {
           "status": "live",
@@ -12328,7 +12328,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -12356,7 +12356,7 @@
         "infoScene": null
       },
       "file": "design/phone-ui/review/match-connection/430x932-promises.jpg",
-      "sha256": "759b2c9d3b9f306b45dc85c045696db590f77f0682efdd9fc275d11d7d52ad7e",
+      "sha256": "89227d141774fd68a25ebc7a7ab92d31f618500cf89840329caee8ad58b7b77b",
       "seen": {
         "shell": {
           "status": "live",
@@ -12487,7 +12487,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -12508,7 +12508,7 @@
         "noTiles": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-reconnecting.jpg",
-      "sha256": "53f5e3dfd8b4d35e6d5ac89e23beee5f343352d9fb9cfd6ee2e226afe749a989",
+      "sha256": "052a18776e0ff782aad2c87ff35cd3f22b44b5fe7a607a0bf89fc12cc5adf263",
       "seen": {
         "shell": {
           "status": "stale",
@@ -12662,7 +12662,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -12686,7 +12686,7 @@
         "heroStays": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-rescue.jpg",
-      "sha256": "9fce13b252ea3f56ea40335f18ffe2b3320e15113eee4d39f2dcf091a461670b",
+      "sha256": "fd7a6be0fad37ed74c57648e22bcfe150b304cdb84832a875996b146a81c88e1",
       "seen": {
         "shell": {
           "status": "live",
@@ -12860,7 +12860,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -12888,7 +12888,7 @@
         "doneCloses": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-rescue-after.jpg",
-      "sha256": "1a186bcc5990561954907ab71a0d466abe0a634274bd31ac1bf92f774e04a66e",
+      "sha256": "3731217c4e291ff41909a208bfd293039e07b320d51553c73719b68dc284cde0",
       "seen": {
         "shell": {
           "status": "live",
@@ -13101,7 +13101,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -13126,7 +13126,7 @@
         "cancelToTiles": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-rescue-check.jpg",
-      "sha256": "df393ed8d1005a7ddc62855ab5634da2394018b49f383c8ef8ba129315fac94e",
+      "sha256": "4ee066356e59dbf7d66fedc5bb23c54ca8c5cf0c8290b59b119efd44f0061c25",
       "seen": {
         "shell": {
           "status": "live",
@@ -13347,7 +13347,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -13373,7 +13373,7 @@
         "closes": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-round-order.jpg",
-      "sha256": "f8177a31f6cbeae5381b059571fc9c4d7c5467c91fb32b63ead542bc5a6fee52",
+      "sha256": "bd9367efedd8fd1aac2fd53893881a4bb3a68ed2fe2360bf5da3b935082c6250",
       "seen": {
         "shell": {
           "status": "live",
@@ -13712,7 +13712,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -13737,7 +13737,7 @@
         "heard": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-suppress.jpg",
-      "sha256": "f0fa2703c2dd83b6232a141c3b30044be82c244684bef6ee39f187e89ee9c684",
+      "sha256": "75941262249bb3a52f04e14388c0be11bf87ebce69bda6bb1d331461001e2c6e",
       "seen": {
         "shell": {
           "status": "live",
@@ -13956,7 +13956,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -13982,7 +13982,7 @@
         "unavailableRefused": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-tiles.jpg",
-      "sha256": "dc838f2716d7f76674076f5798a9d4e16d577e5d38b1b657860dfc24ae10fd6c",
+      "sha256": "cc60f2d7c6765ddac60a7b7b6ea0671d180ba0ec707b042c6e0194c1bae6db2a",
       "seen": {
         "shell": {
           "status": "live",
@@ -14204,7 +14204,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -14228,7 +14228,7 @@
         "afterRetry": true
       },
       "file": "design/phone-ui/review/match-connection/430x932-unknown.jpg",
-      "sha256": "def0224871d9536420e13ef44ebd34ab9c0f0c8cc5b67c63964cbe8649d9b299",
+      "sha256": "fa5731b0ed8bce55b4432e79ba1db0cbbb71376fcea1ff27052e684cbe7ecd0c",
       "seen": {
         "shell": {
           "status": "live",
@@ -14455,7 +14455,7 @@
           {
             "directive": "script-src",
             "blocked": "eval",
-            "source": "assets/app-BJ2Xm9Hk.js",
+            "source": "assets/app-BKLUVzg6.js",
             "line": 1,
             "column": 3180,
             "kind": "known: zod eval probe, caught; the live game bundle has it too"
