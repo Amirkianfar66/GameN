@@ -10,6 +10,10 @@ And, the same day, after the first version:
 
 > I need the control system to be more organized for example the bar tab devide to bottom bar and Top bar or other bars if we have , also Icons devide to sub parts , also I need the Size of them the background of them if they have everything should readable related to them
 
+And, the same day, after the second version, a change to the bottom bar itself (shell 0.3.0, [the Card tab](phone-shell.md#the-card-tab)), which the page shows before and after:
+
+> So I need to update the bottom bar I want on the card icon move to right and become the rightest icon of bar then instead of it its Icon card show the character icon
+
 - **The page:** [Bars & Icons Control](https://claude.ai/artifact/NxRTWzpGGTqnZ2Sv86ovvq). It is private: only the owner, and people the owner shares it with, can open it.
 - **Its source:** `design/phone-ui/control/`, dev-only. It is not the game and not a release.
 - **Owner of the page:** Designer, the Bars & Icons builder.
@@ -22,7 +26,7 @@ The page has three sections. Bars and Icons are divided into sub-parts, each wit
 
 | Section | Sub-parts | What each holds |
 | --- | --- | --- |
-| **Bars** | Top bar (20 states) · Bottom bar (14) · Other bars (8: the target bar, the banners, the chip, the toast) · Sheets (8) · Whole phone (3) | Each state is a strip of the phone at the phone's own width, with its name, the size of its bar and the phone pack's sheet number. |
+| **Bars** | Card tab · before and after (9 pairs) · Top bar (20 states) · Bottom bar (15) · Other bars (8: the target bar, the banners, the chip, the toast) · Sheets (8) · Whole phone (3) | Each state is a strip of the phone at the phone's own width, with its name, the size of its bar and the phone pack's sheet number. The first sub-part is [the Card tab's change](#the-card-tab-before-and-after). |
 | **Icons** | Navigation (8) · Game actions (26) · People and places (8) · Phases (7) · Before the match (3) · Controls (27) · Drawn twice (31) · Other drawings (8) | The icons of `design/phone-ui/components/icons.mjs`, at rest and selected, on dark glass and on paper. The last two list the game's own drawings that are still on screen, beside the icon that replaces each. |
 | **Status** | — | The owner's marks, and the version and pull request of each part. |
 
@@ -31,6 +35,18 @@ The page has three sections. Bars and Icons are divided into sub-parts, each wit
 **The text size** switch sets the page root's font size, as the game does, so every phone on the page takes the Large (150 %) or Largest (200 %) text, and every size on the page is read again.
 
 **What is a stand-in:** a sheet's content, the private talk's capsule and the films are other builders' components. The page labels each one and draws only its frame.
+
+## The Card tab, before and after
+
+The first sub-part of Bars, where the page opens. It shows the owner's 18 November change to sheet 08: Card is the last tab and shows the player's own character.
+
+- **The pairs:** sheet 08's nine states, in the sheet's order. Each is the bottom bar twice, "Before" above "After", at the same width and text size. A tenth card shows the new bar with no character yet, where the Card tab keeps the card icon.
+- **Both are the component.** "After" is today's shell. "Before" is the shell's own file at `5616928e` (shell 0.2.12, #265's head before the change), which the build tool reads from git and bundles beside today's. Nothing is redrawn and no copy is kept in the repository.
+  - Today's stylesheet draws both. The build first checks that every line of the stylesheet at `5616928e` is still in today's, and stops if one is gone.
+  - Built without the tool, the page has no "before" and says so, rather than show the new bar twice.
+- **Phone width:** this screen's, or 320, 390 or 430 px. A bar wider than the screen is drawn smaller, and its strip says by how much.
+- **The owner's mark:** one for the whole change, `change-card-tab`, at the top of the view.
+- **The test view** opens from the view's button, and from any "After" strip whose state is one of the presets.
 
 ## Sizes, backgrounds and colours
 
@@ -48,12 +64,13 @@ Every number on the page is measured from the live component (its box and its co
 | Corners | The radius, or "A circle", or "Fully round ends" |
 | Text | The words, their size and weight, and their colour |
 | Icon | Which icon of the one source, its form, its drawn size and its colour |
+| Picture, Ring | For the Card tab's portrait: what the picture is, and its ring's width and colour |
 
 The test view's control has the same list for everything it shows.
 
 **For an icon.** Each icons sub-part states what every icon shares: a 24 × 24 px grid with 2 px kept clear, a 1.8 px round line, the colour of its control, and no background of its own. Under the grid, "Where the bars draw them" lists each place a bar draws one of those icons: drawn as the bar draws it, with its size, its colour and the ground behind it. An icon's own view adds its line width, its selected form, its line in the source and the components that use it.
 
-**How the icons' places are found:** each of the 53 states is mounted once, off screen, and its icons are read. A still phone is brought to rest first, so a sheet or a toast is read arrived, not part-way in.
+**How the icons' places are found:** each of the 54 states is mounted once, off screen, and its icons are read. A still phone is brought to rest first, so a sheet or a toast is read arrived, not part-way in.
 
 ## The owner's marks
 
@@ -82,6 +99,8 @@ The file is the page's content for the host, which adds the document around it. 
 
 Build from a committed tree: the page names the commit it was built from.
 
+The build needs commit `5616928e` in the clone, for the Card tab's "before". If it is missing: `git fetch origin claude/designer-phone-shell`.
+
 ## Checks
 
 On `d0139b11`, in desktop Chromium, the built page inside the host's document skeleton:
@@ -99,6 +118,16 @@ On `d0139b11`, in desktop Chromium, the built page inside the host's document sk
 - a strip's size and its parts' readouts match the bar drawn above them, and change with the text size;
 - each icons sub-part lists the places the bars draw its icons, each drawn in its own colour on its own ground;
 - no page error, no console error and no sideways scroll.
+
+**The third version** (the Card tab's change, 18 November), built with shell 0.3.0:
+- **The before and after,** at 390 × 844, 430 × 932 and 320 × 568, each at the Standard and the Largest text, and at 1440 × 900 in the dark theme:
+  - all 19 strips draw: nine pairs and the card with no character;
+  - every "Before" draws Board · Actions · Pass · Card · Panels, and every "After" Board · Actions · Pass · Panels · Card with the portrait;
+  - the bar is the same size in both: 58 px tall at the Standard text and 60.2 px at the Largest, at every width;
+  - no page error, no console error and no sideways scroll.
+- **Every address,** 18 of them, loads at 390 × 844 with no page error and no sideways scroll.
+- **The readout** of Bottom bar's "Card open" gives the portrait as 26 × 26 px, a circle, with a 2 px ring in amber.
+- **The test view,** opened from the new view, draws the new order with the portrait, and has the Card tab's switch.
 
 **Not checked:** a physical phone, Safari, a screen reader. The page's own controls on the real page with the owner signed in are for the owner's first look.
 

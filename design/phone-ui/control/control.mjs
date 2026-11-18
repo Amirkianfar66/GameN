@@ -1,7 +1,9 @@
 // mothership:dev-only
 //
 // The bars and icons control: one page for the owner's review of every bar and every icon, on a phone.
-//   Bars     in sub-parts: the top bar, the bottom bar, the other bars (what lies over the room), the sheets and
+//   Bars     first, the Card tab's before and after (the owner's 18 November 2026 change): sheet 08's nine states,
+//            each drawn by the shell as it was (the component at an earlier commit, which the build gives the page)
+//            and as it is now. Then, in sub-parts: the top bar, the bottom bar, the other bars (what lies over the room), the sheets and
 //            the whole phone. Each state is a true-size strip of the phone, drawn by the runtime component itself
 //            (../components/phone-shell), with its size, and each part's size, background, border, corners, text
 //            and icon read from the live component (specs.mjs)
@@ -19,11 +21,15 @@ import '../components/phone-shell/phone-shell.css';
 import '../components/room-scene/room-scene.css';
 import './control.css';
 import { PHONE_SHELL_VERSION, mountPhoneShell } from '../components/phone-shell/phone-shell.mjs';
+// The shell as it was before the Card tab's change: the same file at an earlier commit, which the build tool
+// serves for this query (design/tools/bars-icons-control.mjs). Without that tool it is today's shell again,
+// and the page says the before is missing rather than show the new bar twice.
+import { PHONE_SHELL_VERSION as BEFORE_VERSION, mountPhoneShell as mountShellBefore } from '../components/phone-shell/phone-shell.mjs?before';
 import { COMPONENT_KIT_VERSION } from '../components/kit/kit.mjs';
 import { ICONS, ICON_FAMILY_VERSION, ICON_NAMES, iconSvg } from '../components/icons.mjs';
 import { ROOM_SCENE_VERSION, mountRoomScene } from '../components/room-scene/room-scene.mjs';
 import { phoneIcon } from '../../../apps/game/hosted/planet/phone-controls.mjs';
-import { BASE, GROUPS, PRESETS, SWITCHES, clockSeconds, matchPreset, presetOf, sceneInput, sheetContent, shellInput } from './states.mjs';
+import { BASE, GROUPS, PRESETS, SHEET_08, SWITCHES, clockSeconds, matchPreset, presetOf, sceneInput, sheetContent, shellInput } from './states.mjs';
 import { mainSize, readIcons, readParts } from './specs.mjs';
 
 const doc = document, root = doc.documentElement;
@@ -84,6 +90,8 @@ function specList(parts) {
       part.dimmed !== null ? line('Shown at', `${part.dimmed} % strength: dimmed`) : null,
       part.tap ? line('Tap area', `${part.tap.width} × ${part.tap.height} px`) : null,
       part.ground ? line('Background', groundLine(part.ground)) : null,
+      part.picture ? line('Picture', part.picture) : null,
+      part.ring ? line('Ring', `${part.ring.width} px, inside the box · `, colourLine(part.ring.colour)) : null,
       part.border ? line('Border', `${part.border.width} px, ${part.border.sides === 'all' ? 'all round' : part.border.sides} · `, colourLine(part.border.colour)) : null,
       part.corners ? line('Corners', part.corners) : null,
       part.words ? line('Text', `“${part.words.said}” · ${part.words.size} px, weight ${part.words.weight}`, part.words.colour ? [' · ', colourLine(part.words.colour)] : '') : null,
@@ -192,36 +200,43 @@ const CROPS = Object.freeze({
 });
 function standIn(text, className = 'bc-standin') { return h('div', { class: className }, text); }
 
-function makeStrip(preset, first = false) {
+/**
+ * A strip. By default it is one of the presets: today's shell, opened in the test view by a tap, with its mark.
+ * `mount` draws it with another shell (the Card tab's before), `width` gives its phone's width, `opens` is the
+ * preset a tap opens (null: none), `title`, `tags` and `mark` say what its card shows.
+ */
+function makeStrip(preset, first = false, { mount = mountPhoneShell, width = stripWidth, opens = preset.key, title = preset.label, tags = [`Sheet ${preset.sheet}`], mark = true, specs: withSpecs = true } = {}) {
   const phone = h('div', { class: 'bc-phone', inert: true });
   const scaler = h('div', { class: 'bc-scaler' }, phone);
-  const open = () => openTest(preset.key);
-  const windowEl = h('div', { class: 'bc-window', 'data-crop': preset.crop, role: 'button', tabindex: '0', 'aria-label': `Open “${preset.label}” in the test view`,
-    onclick: open, onkeydown: event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } } }, scaler);
+  const open = () => openTest(opens);
+  const windowEl = opens
+    ? h('div', { class: 'bc-window', 'data-crop': preset.crop, role: 'button', tabindex: '0', 'aria-label': `Open “${preset.label}” in the test view`,
+      onclick: open, onkeydown: event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } } }, scaler)
+    : h('div', { class: 'bc-window', 'data-crop': preset.crop, 'data-still': '' }, scaler);
   const sizeTag = h('span', { class: 'bc-tag bc-tag-size', title: 'The size of this bar' }, '…');
   const specs = h('div', { class: 'bc-specs' });
   // The first state of a sub-part shows its sizes and colours at once; the others on a tap.
-  const details = h('details', { class: 'bc-specs-box', open: first, ontoggle: () => paintStrip(strip) }, h('summary', {}, 'Sizes and colours'), specs);
+  const details = h('details', { class: 'bc-specs-box', open: first, hidden: !withSpecs, ontoggle: () => paintStrip(strip) }, h('summary', {}, 'Sizes and colours'), specs);
   const card = h('article', { class: 'bc-strip', id: `bc-strip-${preset.key}` },
     h('header', { class: 'bc-strip-head' },
-      h('h3', { class: 'bc-strip-title' }, preset.label),
-      h('span', { class: 'bc-tags' }, sizeTag, h('span', { class: 'bc-tag' }, `Sheet ${preset.sheet}`))),
+      h('h3', { class: 'bc-strip-title' }, title),
+      h('span', { class: 'bc-tags' }, sizeTag, tags.map(tag => h('span', { class: 'bc-tag' }, tag)))),
     windowEl,
     preset.crop === 'whole' ? h('p', { class: 'bc-strip-note' }, 'The whole phone, small. Tap it to open it at full size.') : null,
     details,
-    h('div', { class: 'bc-strip-foot' }, markControl(`bar-${preset.key}`, { label: preset.label, group: preset.groupTitle })));
-  const strip = { preset, card, phone, scaler, windowEl, sizeTag, specs, details, shell: null, toast: 0, timer: null };
+    mark ? h('div', { class: 'bc-strip-foot' }, markControl(`bar-${preset.key}`, { label: preset.label, group: preset.groupTitle })) : null);
+  const strip = { preset, card, phone, scaler, windowEl, sizeTag, specs, details, mount, width, shell: null, toast: 0, timer: null };
   strips.push(strip);
   return strip;
 }
 function mountStrip(strip) {
   if (strip.shell) return;
   const { preset, phone } = strip;
-  phone.style.width = `${stripWidth()}px`;
+  phone.style.width = `${strip.width()}px`;
   phone.style.height = `${STRIP_HEIGHT}px`;
   // A strip is a still: with motion reduced, a sheet or a toast is read at rest, not part-way through arriving.
   const input = () => ({ ...shellInput(preset.controls, { toastId: `strip-${preset.key}-${strip.toast}` }), insets: { top: 0, bottom: 0 }, reducedMotion: true });
-  strip.shell = mountPhoneShell(phone, input(), { onLayout: () => cropStrip(strip) });
+  strip.shell = strip.mount(phone, input(), { onLayout: () => cropStrip(strip) });
   const words = sheetContent(preset.controls);
   if (words && strip.shell.sheetBody) strip.shell.sheetBody.append(standIn(words, 'bc-standin-sheet'));
   if (preset.crop === 'whole') strip.shell.stage.append(standIn(sceneInput(preset.controls, { clock: null }).standIn
@@ -261,25 +276,80 @@ function paintStrip(strip) {
   settle(strip.shell.element);
   const { preset } = strip, size = mainSize(strip.shell.element, preset.crop === 'chip' ? 'chip' : preset.group);
   strip.sizeTag.textContent = size ? `${size.width} × ${size.height} px` : `${strip.phone.offsetWidth} × ${STRIP_HEIGHT} px`;
-  if (strip.details.open) paintSpecs(strip.specs, readParts(strip.shell.element, preset.group === 'whole' ? null : [preset.group]));
+  if (strip.details.open && !strip.details.hidden) paintSpecs(strip.specs, readParts(strip.shell.element, preset.group === 'whole' ? null : [preset.group]));
 }
 let lazyStrips = null;
 const recrop = () => frames(3).then(() => { for (const strip of strips) cropStrip(strip); });
+/** Every mounted strip takes its phone's width again (the window's, or the Card tab view's own choice). */
+const rewidth = () => { for (const strip of strips) if (strip.shell) strip.phone.style.width = `${strip.width()}px`; recrop(); };
+function startStrips() {
+  if (lazyStrips) return;
+  lazyStrips = new IntersectionObserver(entries => {
+    for (const entry of entries) if (entry.isIntersecting) { lazyStrips.unobserve(entry.target); mountStrip(strips.find(s => s.card === entry.target)); }
+  }, { rootMargin: '900px 0px' });
+  textListeners.add(recrop);
+  let resize = null;
+  window.addEventListener('resize', () => { clearTimeout(resize); resize = setTimeout(rewidth, 160); });
+}
+/** The text size choice, kept in step with every other one on the page. */
+function textSizeChoice() {
+  const choice = segmented('Text size', TEXT_SIZES.map(([value, text]) => [value, text]), page.text, setTextSize);
+  textListeners.add(percent => choice.choose(percent));
+  return choice;
+}
+
+// ── Bars: the Card tab, before and after ─────────────────────────────
+// The owner's 18 November 2026 change to sheet 08: Card is the last tab and shows the player's own character.
+// Before is the shell at the commit the build names (shell 0.2.12), after is today's; both are the component.
+const CARD_TAB = Object.freeze({ route: 'card-tab', title: 'Card tab · before and after',
+  words: 'So I need to update the bottom bar I want on the card icon move to right and become the rightest icon of bar then instead of it its Icon card show the character icon' });
+const cardTab = { width: 'auto' };
+const cardTabWidth = () => (cardTab.width === 'auto' ? stripWidth() : Number(cardTab.width));
+function buildCardTabPart(view) {
+  startStrips();
+  const hasBefore = BEFORE_VERSION !== PHONE_SHELL_VERSION;
+  const pair = state => {
+    const sides = [];
+    if (hasBefore) sides.push(makeStrip({ ...state, key: `card-tab-before-${state.key}` }, false,
+      { mount: mountShellBefore, width: cardTabWidth, opens: null, title: 'Before', tags: ['Sheet 08'], mark: false, specs: false }));
+    sides.push(makeStrip({ ...state, key: `card-tab-after-${state.key}` }, false,
+      { width: cardTabWidth, opens: matchPreset(state.controls)?.key ?? null, title: 'After', tags: ['New'], mark: false }));
+    for (const strip of sides) lazyStrips.observe(strip.card);
+    return h('section', { class: 'bc-pair', 'aria-label': state.label }, h('h3', { class: 'bc-pair-title' }, state.label), sides.map(strip => strip.card));
+  };
+  const pairs = h('div', { class: 'bc-pairs' });
+  const fit = () => pairs.style.setProperty('--bc-pair-w', `${cardTabWidth()}px`);
+  const widths = segmented('Phone width', [['auto', 'This screen'], ['320', '320'], ['390', '390'], ['430', '430']], cardTab.width, value => { cardTab.width = value; fit(); rewidth(); });
+  fit();
+  window.addEventListener('resize', fit);
+  const noCharacter = makeStrip(presetOf('card-icon'), false, { width: cardTabWidth, title: 'After', tags: ['New'], mark: false });
+  lazyStrips.observe(noCharacter.card);
+  view.append(
+    h('div', { class: 'bc-wrap bc-group-head' },
+      h('h2', {}, 'The Card tab, before and after', h('span', { class: 'bc-count' }, `${SHEET_08.length} states`)),
+      h('p', {}, 'You asked for this on 18 November:'),
+      h('blockquote', { class: 'bc-quote' }, `“${CARD_TAB.words}”`),
+      h('ul', { class: 'bc-change' },
+        h('li', {}, h('b', {}, 'The order. '), 'Before: Board · Actions · Pass · Card · Panels. After: Board · Actions · Pass · Panels · Card.'),
+        h('li', {}, h('b', {}, 'The icon. '), 'The Card tab shows your own character in place of the card icon.'),
+        h('li', {}, h('b', {}, 'Open. '), 'A picture can’t be filled in as an icon is, so an amber ring and the amber word show that Card is open.'))),
+    h('div', { class: 'bc-wrap bc-tools' },
+      h('button', { type: 'button', class: 'bc-primary', onclick: () => openTest('pass') }, icon('phone', { filled: true }), 'Try the new bar on the whole phone'),
+      textSizeChoice(), widths,
+      h('p', { class: 'bc-hint' }, hasBefore
+        ? 'Each pair is the real bar twice: as it was, then as it is now. The nine states are sheet 08’s, in its order. Open “Sizes and colours” under an After for the portrait’s size and its ring.'
+        : 'This build has no copy of the bar as it was, so only the new bar is shown.')),
+    h('div', { class: 'bc-wrap' }, h('div', { class: 'bc-verdict' },
+      h('p', {}, h('b', {}, 'Is the new Card tab right?'), ' Mark it here. A Change comes back to the Designer team with your note.'),
+      markControl('change-card-tab', { label: 'The Card tab: last, with the player’s own character', group: 'Bottom bar · change' }))),
+    pairs);
+  pairs.append(...SHEET_08.map(pair),
+    h('section', { class: 'bc-pair', 'aria-label': 'No character yet' }, h('h3', { class: 'bc-pair-title' }, 'No character yet · the Card tab keeps the card icon'), noCharacter.card));
+}
+
 function buildBarsPart(view, group) {
-  if (!lazyStrips) {
-    lazyStrips = new IntersectionObserver(entries => {
-      for (const entry of entries) if (entry.isIntersecting) { lazyStrips.unobserve(entry.target); mountStrip(strips.find(s => s.card === entry.target)); }
-    }, { rootMargin: '900px 0px' });
-    textListeners.add(recrop);
-    let resize = null;
-    window.addEventListener('resize', () => { clearTimeout(resize); resize = setTimeout(() => {
-      const width = stripWidth();
-      for (const strip of strips) if (strip.shell) strip.phone.style.width = `${width}px`;
-      recrop();
-    }, 160); });
-  }
-  const textChoice = segmented('Text size', TEXT_SIZES.map(([value, text]) => [value, text]), page.text, setTextSize);
-  textListeners.add(percent => textChoice.choose(percent));
+  startStrips();
+  const textChoice = textSizeChoice();
   view.append(
     h('div', { class: 'bc-wrap bc-group-head' }, h('h2', {}, group.title, h('span', { class: 'bc-count' }, `${group.presets.length} states`)), h('p', {}, group.note)),
     h('div', { class: 'bc-wrap bc-tools' },
@@ -707,7 +777,8 @@ function buildStatus(view) {
     h('h2', {}, 'What this page draws'),
     h('p', { class: 'bc-hint' }, 'Every bar and icon here is the same file the game imports. Nothing is redrawn for this page, so what you approve here is what the game gets.'),
     h('ul', { class: 'bc-parts' },
-      row('Top bar, bottom bar, sheet frame, target bar, banners, toast', PHONE_SHELL_VERSION, 'PR #265', 'Frontend’s review'),
+      row('Top bar, bottom bar, sheet frame, target bar, banners, toast', PHONE_SHELL_VERSION, 'PR #265, with the Card tab’s change in PR #321', 'your look at the Card tab, then Frontend’s review'),
+      BEFORE_VERSION !== PHONE_SHELL_VERSION ? row('The bottom bar as it was, in the Card tab’s before and after', BEFORE_VERSION, `the same file at commit ${(DATA.before?.commit ?? '').slice(0, 8)}`, 'nothing: it is there to compare') : null,
       row('Buttons, rows, pills and the other shared controls', COMPONENT_KIT_VERSION, 'PR #265', 'Frontend’s review'),
       row('Every icon', ICON_FAMILY_VERSION, 'PR #313, with its page and test', 'the Lead Designer’s review'),
       row('The bars connected in the game', 'test release 2', 'PR #307', 'Frontend’s review and Integration’s approval'),
@@ -726,7 +797,8 @@ function build() {
   const app = doc.getElementById('bc-app') ?? doc.body.appendChild(h('div', { id: 'bc-app' }));
   // Three sections; Bars and Icons are divided into sub-parts, each its own view with its own address.
   const sections = [
-    { id: 'bars', title: 'Bars', parts: GROUPS.map(group => ({ route: group.route, title: group.title, count: group.presets.length, build: view => buildBarsPart(view, group) })) },
+    { id: 'bars', title: 'Bars', parts: [{ route: CARD_TAB.route, title: CARD_TAB.title, count: SHEET_08.length, build: buildCardTabPart },
+      ...GROUPS.map(group => ({ route: group.route, title: group.title, count: group.presets.length, build: view => buildBarsPart(view, group) }))] },
     { id: 'icons', title: 'Icons', parts: ICON_PARTS.map(part => ({ route: part.route, title: part.title, count: iconsCount(part), build: view => buildIconsPart(view, part) })) },
     { id: 'status', title: 'Status', parts: [{ route: 'status', title: 'Status', build: buildStatus }] },
   ];
