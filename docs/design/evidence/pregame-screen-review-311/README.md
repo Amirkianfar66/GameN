@@ -8,6 +8,8 @@ I found no new blocking visual discrepancy in the five reviewed parts at **390 Ã
 
 [Open all ten pack/app pairs](index.html) Â· [comparison and image provenance](compare.json). This supplements the original comparison using its existing page renderer and the reused app images. The pack's reference screens were rendered at both sizes without changing the frozen prototype. The pack has no exact server-refusal or Ready-pending fixture; the closest existing states and those limits are labeled in each pair.
 
+**Boarding follow-up:** [placement handoff and refreshed canonical-component evidence](boarding.md) confirm that the existing stage already supplies phone-only Skip, display without Skip, concealed/holding/waiting states and pack margins. Its 20 captures, 9 lifecycle checks and 6 pack comparisons passed against the current component dependencies. Frontend owns the separate adapter change; the integrated candidate still needs the Lead's review.
+
 ## Candidate and evidence limits
 
 - PR #314 head: `a5a6cdffa913c8a08248f7e02f5f48fc1944ced6`; runtime: `39961a807d811aa2efb177f888302da17f0c2431`.

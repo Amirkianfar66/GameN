@@ -1,0 +1,1701 @@
+{
+  "tool": "design/tools/boarding-stage-check.mjs",
+  "toolSha256": "076a876f917b4e5c788e997f5bed0afa56c9a0a1d780276c6a578e5da7e4c1ae",
+  "createdAt": "2026-11-18T14:06:35.485Z",
+  "component": "design/phone-ui/components/boarding-stage",
+  "sourceCommit": "b0af09ac881b9e7ed3b50b8837a6678bc5a4d227",
+  "sourceClean": true,
+  "sourceTrees": {
+    "design/phone-ui/components": "eeed57ed4236a45d07fe20a546b50626920f4108",
+    "design/phone-ui/prototype": "3761981f2794b66f25fdb889e838fa36e2295a81",
+    "design/crew-drawing": "ccdb0a96dd7b35c717e4f3f52f780fec6e32a9ad",
+    "design/pregame-films": "dd8dffc8cd156fbc17800dc57306bd87813b22ef",
+    "design/tools/lib": "4677623fc753ccf1b04cabdfabfb42969b1566a4"
+  },
+  "browser": "Google Chrome 157.0.8103.80",
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "responseHeaders": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "captures": {
+    "390x844/film15": {
+      "file": "390x844-film15.jpg",
+      "url": "http://127.0.0.1:59908/index.html?single=1&size=390x844&state=film15",
+      "sha256": "e4b0d2972897fd293f3e6d4f18285012f592e5eb1601a51dfe8348d08f6700b1",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "film",
+      "motion": "full",
+      "name": "The crew boards the ship",
+      "filmShown": true,
+      "film": 1,
+      "skip": "Skip",
+      "skipBottom": 48,
+      "title": null,
+      "line": null,
+      "role": "timer",
+      "spinner": false,
+      "canvas": true,
+      "covered": false,
+      "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "film": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/film15": {
+      "file": "430x932-film15.jpg",
+      "url": "http://127.0.0.1:59908/index.html?single=1&size=430x932&state=film15",
+      "sha256": "ae7f83bc61ad7e7f0ec763f700be64ec52613a90da0f67ca47215e8274d3522d",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "film",
+      "motion": "full",
+      "name": "The crew boards the ship",
+      "filmShown": true,
+      "film": 1,
+      "skip": "Skip",
+      "skipBottom": 48,
+      "title": null,
+      "line": null,
+      "role": "timer",
+      "spinner": false,
+      "canvas": true,
+      "covered": false,
+      "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "film": {
+          "width": 430,
+          "height": 932
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/film6": {
+      "file": "390x844-film6.jpg",
+      "url": "http://127.0.0.1:59908/index.html?single=1&size=390x844&state=film6",
+      "sha256": "96044ce1ea07482b507dd86b332583f748aead2bec28b995cc45ea519c6022d2",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "film",
+      "motion": "full",
+      "name": "The crew boards the ship",
+      "filmShown": true,
+      "film": 1,
+      "skip": "Skip",
+      "skipBottom": 48,
+      "title": null,
+      "line": null,
+      "role": "timer",
+      "spinner": false,
+      "canvas": true,
+      "covered": false,
+      "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "film": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/film6": {
+      "file": "430x932-film6.jpg",
+      "url": "http://127.0.0.1:59908/index.html?single=1&size=430x932&state=film6",
+      "sha256": "c6071393a9d560f77e060dfb92e7409d212b34e3e138c53816e3e9694f152b51",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "film",
+      "motion": "full",
+      "name": "The crew boards the ship",
+      "filmShown": true,
+      "film": 1,
+      "skip": "Skip",
+      "skipBottom": 48,
+      "title": null,
+      "line": null,
+      "role": "timer",
+      "spinner": false,
+      "canvas": true,
+      "covered": false,
+      "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "film": {
+          "width": 430,
+          "height": 932
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/holding": {
+      "file": "390x844-holding.jpg",
+      "url": "http://127.0.0.1:59908/index.html?single=1&size=390x844&state=holding",
+      "sha256": "fe749b0032b17fef7044dd0e1870638747ecb97bd9f413474aa80894670aa7f7",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "holding",
+      "motion": "full",
+      "name": "Boarding",
+      "filmShown": false,
+      "film": 0,
+      "skip": null,
+      "skipBottom": 844,
+      "title": "Boarding",
+      "line": "Round 1 in 0:04",
+      "role": "timer",
+      "spinner": false,
+      "canvas": true,
+      "covered": false,
+      "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "film": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/holding": {
+      "file": "430x932-holding.jpg",
+      "url": "http://127.0.0.1:59908/index.html?single=1&size=430x932&state=holding",
+      "sha256": "e786497231e90a666431122f606170e9476ee93c2401f8dea826464d10699981",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "holding",
+      "motion": "full",
+      "name": "Boarding",
+      "filmShown": false,
+      "film": 0,
+      "skip": null,
+      "skipBottom": 932,
+      "title": "Boarding",
+      "line": "Round 1 in 0:04",
+      "role": "timer",
+      "spinner": false,
+      "canvas": true,
+      "covered": false,
+      "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "film": {
+          "width": 430,
+          "height": 932
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/waiting": {
+      "file": "390x844-waiting.jpg",
+      "url": "http://127.0.0.1:59908/index.html?single=1&size=390x844&state=waiting",
+      "sha256": "06b18f238d628780f46e73003e8b1803c9497bf0ea811c7eb717bcd3442a4716",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "waiting",
+      "motion": "full",
+      "name": "Starting Round 1",
+      "filmShown": false,
+      "film": 0,
+      "skip": null,
+      "skipBottom": 844,
+      "title": "Starting Round 1",
+      "line": "Waiting for the ship",
+      "role": "status",
+      "spinner": true,
+      "canvas": true,
+      "covered": false,
+      "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "film": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/waiting": {
+      "file": "430x932-waiting.jpg",
+      "url": "http://127.0.0.1:59908/index.html?single=1&size=430x932&state=waiting",
+      "sha256": "82c84aab6c05289b3bd5c7cb45a7b830e24ac1440edf268c85b8e6297a7290e6",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "waiting",
+      "motion": "full",
+      "name": "Starting Round 1",
+      "filmShown": false,
+      "film": 0,
+      "skip": null,
+      "skipBottom": 932,
+      "title": "Starting Round 1",
+      "line": "Waiting for the ship",
+      "role": "status",
+      "spinner": true,
+      "canvas": true,
+      "covered": false,
+      "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "film": {
+          "width": 430,
+          "height": 932
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/display": {
+      "file": "390x844-display.jpg",
+      "url": "http://127.0.0.1:59908/index.html?single=1&size=390x844&state=display",
+      "sha256": "3ad995e07cb973f928132e7e380e5d4f5f214c6fde964610b0eb6c29639b942f",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "film",
+      "motion": "full",
+      "name": "The crew boards the ship",
+      "filmShown": true,
+      "film": 1,
+      "skip": null,
+      "skipBottom": 844,
+      "title": null,
+      "line": null,
+      "role": "timer",
+      "spinner": false,
+      "canvas": true,
+      "covered": false,
+      "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "film": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/display": {
+      "file": "430x932-display.jpg",
+      "url": "http://127.0.0.1:59908/index.html?single=1&size=430x932&state=display",
+      "sha256": "137a38e5c72a34ca9b0c53650e673a5da161a06c31242164c9337458ecd84a27",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "film",
+      "motion": "full",
+      "name": "The crew boards the ship",
+      "filmShown": true,
+      "film": 1,
+      "skip": null,
+      "skipBottom": 932,
+      "title": null,
+      "line": null,
+      "role": "timer",
+      "spinner": false,
+      "canvas": true,
+      "covered": false,
+      "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "film": {
+          "width": 430,
+          "height": 932
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/reduced": {
+      "file": "390x844-reduced.jpg",
+      "url": "http://127.0.0.1:59908/index.html?single=1&size=390x844&state=reduced",
+      "sha256": "75a5b79a7c5864de2405e90710dfd1953617fd54fcc8fc3b600bb15b5e119f10",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "film",
+      "motion": "reduced",
+      "name": "The crew boards the ship",
+      "filmShown": true,
+      "film": 1,
+      "skip": "Skip",
+      "skipBottom": 48,
+      "title": null,
+      "line": null,
+      "role": "timer",
+      "spinner": false,
+      "canvas": true,
+      "covered": false,
+      "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "film": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/reduced": {
+      "file": "430x932-reduced.jpg",
+      "url": "http://127.0.0.1:59908/index.html?single=1&size=430x932&state=reduced",
+      "sha256": "1f803fdc8372ff31887bf049e844b11aa22dafe9128181b353bf43e5d934092c",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "film",
+      "motion": "reduced",
+      "name": "The crew boards the ship",
+      "filmShown": true,
+      "film": 1,
+      "skip": "Skip",
+      "skipBottom": 48,
+      "title": null,
+      "line": null,
+      "role": "timer",
+      "spinner": false,
+      "canvas": true,
+      "covered": false,
+      "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "film": {
+          "width": 430,
+          "height": 932
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/noclock": {
+      "file": "390x844-noclock.jpg",
+      "url": "http://127.0.0.1:59908/index.html?single=1&size=390x844&state=noclock",
+      "sha256": "41f2c52aba7e854b325eb6836882db6b20dd2f28b4db498b5c9f40f159cfc6bd",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "holding",
+      "motion": "full",
+      "name": "Boarding",
+      "filmShown": false,
+      "film": 0,
+      "skip": null,
+      "skipBottom": 844,
+      "title": "Boarding",
+      "line": null,
+      "role": "timer",
+      "spinner": false,
+      "canvas": true,
+      "covered": false,
+      "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "film": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/noclock": {
+      "file": "430x932-noclock.jpg",
+      "url": "http://127.0.0.1:59908/index.html?single=1&size=430x932&state=noclock",
+      "sha256": "e673c23149211757fb9a6a66712bd7855d89e5e4f0f8b054551734304e208142",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "holding",
+      "motion": "full",
+      "name": "Boarding",
+      "filmShown": false,
+      "film": 0,
+      "skip": null,
+      "skipBottom": 932,
+      "title": "Boarding",
+      "line": null,
+      "role": "timer",
+      "spinner": false,
+      "canvas": true,
+      "covered": false,
+      "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "film": {
+          "width": 430,
+          "height": 932
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/stale": {
+      "file": "390x844-stale.jpg",
+      "url": "http://127.0.0.1:59908/index.html?single=1&size=390x844&state=stale",
+      "sha256": "fe7067a0260ba508e07dafcd0e07f8a1ccb6936611fb4c5b3784ab4fd0ef3761",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "stale",
+      "view": "holding",
+      "motion": "full",
+      "name": "Boarding",
+      "filmShown": false,
+      "film": 0,
+      "skip": null,
+      "skipBottom": 844,
+      "title": "Boarding",
+      "line": "Round 1 in 0:03",
+      "role": "timer",
+      "spinner": false,
+      "canvas": true,
+      "covered": false,
+      "banner": "Connection lost",
+      "backdrop": "rgb(16, 20, 28)",
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "film": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/stale": {
+      "file": "430x932-stale.jpg",
+      "url": "http://127.0.0.1:59908/index.html?single=1&size=430x932&state=stale",
+      "sha256": "ca3b452293eaf1e468109f562e0e1bdcad3be0c505ead6dbc82ce36c4a02e867",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "stale",
+      "view": "holding",
+      "motion": "full",
+      "name": "Boarding",
+      "filmShown": false,
+      "film": 0,
+      "skip": null,
+      "skipBottom": 932,
+      "title": "Boarding",
+      "line": "Round 1 in 0:03",
+      "role": "timer",
+      "spinner": false,
+      "canvas": true,
+      "covered": false,
+      "banner": "Connection lost",
+      "backdrop": "rgb(16, 20, 28)",
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "film": {
+          "width": 430,
+          "height": 932
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/concealed": {
+      "file": "390x844-concealed.jpg",
+      "url": "http://127.0.0.1:59908/index.html?single=1&size=390x844&state=concealed",
+      "sha256": "a73ac0c7df5f7c618ef0b1859b0263907c1394a72d76c2524a64841b56ebbb75",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "concealed",
+      "view": "film",
+      "motion": "full",
+      "name": "Hidden",
+      "filmShown": false,
+      "film": 1,
+      "skip": null,
+      "skipBottom": 48,
+      "title": "Boarding",
+      "line": null,
+      "role": "timer",
+      "spinner": false,
+      "canvas": true,
+      "covered": true,
+      "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "film": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/concealed": {
+      "file": "430x932-concealed.jpg",
+      "url": "http://127.0.0.1:59908/index.html?single=1&size=430x932&state=concealed",
+      "sha256": "29ba4049b19daf0b8a69264a428f90fc8ca2365b18b7b714ba3411077d2186af",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "concealed",
+      "view": "film",
+      "motion": "full",
+      "name": "Hidden",
+      "filmShown": false,
+      "film": 1,
+      "skip": null,
+      "skipBottom": 48,
+      "title": "Boarding",
+      "line": null,
+      "role": "timer",
+      "spinner": false,
+      "canvas": true,
+      "covered": true,
+      "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "film": {
+          "width": 430,
+          "height": 932
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "390x844/large": {
+      "file": "390x844-large.jpg",
+      "url": "http://127.0.0.1:59908/index.html?single=1&size=390x844&state=large",
+      "sha256": "3f67eb862c9bbd71eca52dd020657523892c424a65fedf2c63fbaba5c36a36a1",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "waiting",
+      "motion": "full",
+      "name": "Starting Round 1",
+      "filmShown": false,
+      "film": 0,
+      "skip": null,
+      "skipBottom": 844,
+      "title": "Starting Round 1",
+      "line": "Waiting for the ship",
+      "role": "status",
+      "spinner": true,
+      "canvas": true,
+      "covered": false,
+      "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
+      "layout": {
+        "size": {
+          "width": 390,
+          "height": 844
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "film": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "requests": [],
+      "problems": []
+    },
+    "430x932/large": {
+      "file": "430x932-large.jpg",
+      "url": "http://127.0.0.1:59908/index.html?single=1&size=430x932&state=large",
+      "sha256": "7838c3441316a34b248a8c8c614f4f315280fe266d278a74e92e575f6f741fc9",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "status": "live",
+      "view": "waiting",
+      "motion": "full",
+      "name": "Starting Round 1",
+      "filmShown": false,
+      "film": 0,
+      "skip": null,
+      "skipBottom": 932,
+      "title": "Starting Round 1",
+      "line": "Waiting for the ship",
+      "role": "status",
+      "spinner": true,
+      "canvas": true,
+      "covered": false,
+      "banner": null,
+      "backdrop": "rgb(16, 20, 28)",
+      "layout": {
+        "size": {
+          "width": 430,
+          "height": 932
+        },
+        "safe": {
+          "top": 47,
+          "bottom": 34
+        },
+        "film": {
+          "width": 430,
+          "height": 932
+        }
+      },
+      "requests": [],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "url": "http://127.0.0.1:59908/index.html?single=1&probe=1",
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "focus: Skip keeps its element and the focus through eight clock ticks; one tap, one onSkip",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "same": true,
+            "focused": true,
+            "skips": 1
+          }
+        },
+        {
+          "id": "focus: Skip ending with the film moves the focus to the stage, then onFocusReturn once",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "onStage": true,
+            "returned": [
+              [
+                "onFocusReturn",
+                {
+                  "intent": "skip",
+                  "value": null
+                }
+              ]
+            ]
+          }
+        },
+        {
+          "id": "refused: Skip unavailable, reconnecting, concealed or not interactive takes no tap and says why; the display has none",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "taps": 0,
+            "seen": [
+              {
+                "label": "unavailable",
+                "disabled": "true",
+                "off": true,
+                "why": "Not available now"
+              },
+              {
+                "label": "stale",
+                "disabled": "true",
+                "off": false,
+                "why": "Controls return when the match is current"
+              },
+              {
+                "label": "concealed",
+                "disabled": "true",
+                "off": false,
+                "why": null
+              },
+              {
+                "label": "not interactive",
+                "disabled": "true",
+                "off": false,
+                "why": null
+              },
+              {
+                "label": "offered",
+                "disabled": null,
+                "off": false,
+                "why": null
+              }
+            ],
+            "banner": "Connection lost",
+            "display": true
+          }
+        },
+        {
+          "id": "time: the countdown shows what it is given and does not count by itself; no trusted clock, no countdown; waiting, the spinner and its status",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": {
+              "title": "Boarding",
+              "line": "Round 1 in 0:04",
+              "role": "timer",
+              "spinner": false
+            },
+            "later": {
+              "title": "Boarding",
+              "line": "Round 1 in 0:04",
+              "role": "timer",
+              "spinner": false
+            },
+            "rounded": {
+              "title": "Boarding",
+              "line": "Round 1 in 0:04",
+              "role": "timer",
+              "spinner": false
+            },
+            "untrusted": {
+              "title": "Boarding",
+              "line": null,
+              "role": "timer",
+              "spinner": false
+            },
+            "waiting": {
+              "title": "Starting Round 1",
+              "line": "Waiting for the ship",
+              "role": "status",
+              "spinner": true,
+              "live": "polite"
+            }
+          }
+        },
+        {
+          "id": "conceal: a plain cover, nothing drawn or named, Skip refused; shown again, the current view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "hidden": {
+              "name": "Hidden",
+              "covered": true,
+              "full": true,
+              "filmHidden": true,
+              "holdHidden": true
+            },
+            "again": {
+              "name": "Boarding",
+              "cover": false,
+              "line": "Round 1 in 0:03"
+            }
+          }
+        },
+        {
+          "id": "film: its element stays for the stage's life, edge to edge, with Skip 14 px above the bottom safe area",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "box": {
+              "top": 0,
+              "height": 844,
+              "width": 390,
+              "skipBottom": 48,
+              "skipRight": 14
+            },
+            "kept": true,
+            "layout": {
+              "size": {
+                "width": 390,
+                "height": 844
+              },
+              "safe": {
+                "top": 47,
+                "bottom": 34
+              },
+              "film": {
+                "width": 390,
+                "height": 844
+              }
+            }
+          }
+        },
+        {
+          "id": "dispose: nothing is left, nothing fires, and every method is safe after it",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "left": 0
+          }
+        },
+        {
+          "id": "motion: the crossfade is 220 ms, and 80 ms with the game's Reduce motion; the spinner stands still with Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "results": [
+              {
+                "reducedMotion": false,
+                "duration": "0.22s",
+                "spin": "ms-k-spin"
+              },
+              {
+                "reducedMotion": true,
+                "duration": "0.08s",
+                "spin": "none"
+              }
+            ]
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "url": "http://127.0.0.1:59908/index.html?single=1&probe=1",
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "motion: the crossfade is 80 ms (the device's Reduce motion, emulated); the spinner stands still with Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "results": [
+              {
+                "reducedMotion": false,
+                "duration": "0.08s",
+                "spin": "none"
+              }
+            ]
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CQ3PmF3w.js",
+          "line": 1,
+          "column": 3180,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "url": "http://127.0.0.1:59908/index.html?single=1&agree=1",
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: film · Skip at 0:01.5 at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "skip": {
+              "pack": {
+                "x": 291.234375,
+                "y": 760,
+                "w": 84.765625,
+                "h": 36
+              },
+              "stage": {
+                "x": 291.234375,
+                "y": 760,
+                "w": 84.765625,
+                "h": 36
+              },
+              "words": "Skip"
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: skipped locally · Round 1 in 0:04 at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "wait": {
+              "pack": {
+                "x": 16,
+                "y": 327.90625,
+                "w": 358,
+                "h": 193.1875
+              },
+              "stage": {
+                "x": 16,
+                "y": 327.90625,
+                "w": 358,
+                "h": 193.1875
+              },
+              "words": null
+            },
+            "tile": {
+              "pack": {
+                "x": 157,
+                "y": 355.90625,
+                "w": 76,
+                "h": 76
+              },
+              "stage": {
+                "x": 157,
+                "y": 355.90625,
+                "w": 76,
+                "h": 76
+              },
+              "words": null
+            },
+            "title": {
+              "pack": {
+                "x": 145.40625,
+                "y": 449.90625,
+                "w": 99.171875,
+                "h": 28.796875
+              },
+              "stage": {
+                "x": 145.40625,
+                "y": 449.90625,
+                "w": 99.171875,
+                "h": 28.796875
+              },
+              "words": "Boarding"
+            },
+            "line": {
+              "pack": {
+                "x": 137.359375,
+                "y": 490.703125,
+                "w": 115.265625,
+                "h": 22.390625
+              },
+              "stage": {
+                "x": 137.359375,
+                "y": 490.703125,
+                "w": 115.265625,
+                "h": 22.390625
+              },
+              "words": "Round 1 in 0:04"
+            },
+            "spinner": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "skip": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: waiting for the server at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "wait": {
+              "pack": {
+                "x": 16,
+                "y": 327.90625,
+                "w": 358,
+                "h": 193.1875
+              },
+              "stage": {
+                "x": 16,
+                "y": 327.90625,
+                "w": 358,
+                "h": 193.1875
+              },
+              "words": null
+            },
+            "tile": {
+              "pack": {
+                "x": 157,
+                "y": 355.90625,
+                "w": 76,
+                "h": 76
+              },
+              "stage": {
+                "x": 157,
+                "y": 355.90625,
+                "w": 76,
+                "h": 76
+              },
+              "words": null
+            },
+            "title": {
+              "pack": {
+                "x": 104.46875,
+                "y": 449.90625,
+                "w": 181.046875,
+                "h": 28.796875
+              },
+              "stage": {
+                "x": 104.46875,
+                "y": 449.90625,
+                "w": 181.046875,
+                "h": 28.796875
+              },
+              "words": "Starting Round 1"
+            },
+            "line": {
+              "pack": {
+                "x": 113.0625,
+                "y": 490.703125,
+                "w": 163.859375,
+                "h": 22.390625
+              },
+              "stage": {
+                "x": 113.0625,
+                "y": 490.703125,
+                "w": 163.859375,
+                "h": 22.390625
+              },
+              "words": "Waiting for the ship"
+            },
+            "spinner": {
+              "pack": {
+                "x": 111.26509094238281,
+                "y": 492.90570068359375,
+                "w": 19.594818115234375,
+                "h": 19.5948486328125
+              },
+              "stage": {
+                "x": 111.26507568359375,
+                "y": 492.90570068359375,
+                "w": 19.5948486328125,
+                "h": 19.5948486328125
+              },
+              "words": null
+            },
+            "skip": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: skipped locally at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "wait": {
+              "pack": {
+                "x": 16,
+                "y": 371.90625,
+                "w": 398,
+                "h": 193.1875
+              },
+              "stage": {
+                "x": 16,
+                "y": 371.90625,
+                "w": 398,
+                "h": 193.1875
+              },
+              "words": null
+            },
+            "tile": {
+              "pack": {
+                "x": 177,
+                "y": 399.90625,
+                "w": 76,
+                "h": 76
+              },
+              "stage": {
+                "x": 177,
+                "y": 399.90625,
+                "w": 76,
+                "h": 76
+              },
+              "words": null
+            },
+            "title": {
+              "pack": {
+                "x": 165.40625,
+                "y": 493.90625,
+                "w": 99.171875,
+                "h": 28.796875
+              },
+              "stage": {
+                "x": 165.40625,
+                "y": 493.90625,
+                "w": 99.171875,
+                "h": 28.796875
+              },
+              "words": "Boarding"
+            },
+            "line": {
+              "pack": {
+                "x": 157.6875,
+                "y": 534.703125,
+                "w": 114.609375,
+                "h": 22.390625
+              },
+              "stage": {
+                "x": 157.6875,
+                "y": 534.703125,
+                "w": 114.609375,
+                "h": 22.390625
+              },
+              "words": "Round 1 in 0:02"
+            },
+            "spinner": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            },
+            "skip": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: waiting at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "wait": {
+              "pack": {
+                "x": 16,
+                "y": 371.90625,
+                "w": 398,
+                "h": 193.1875
+              },
+              "stage": {
+                "x": 16,
+                "y": 371.90625,
+                "w": 398,
+                "h": 193.1875
+              },
+              "words": null
+            },
+            "tile": {
+              "pack": {
+                "x": 177,
+                "y": 399.90625,
+                "w": 76,
+                "h": 76
+              },
+              "stage": {
+                "x": 177,
+                "y": 399.90625,
+                "w": 76,
+                "h": 76
+              },
+              "words": null
+            },
+            "title": {
+              "pack": {
+                "x": 124.46875,
+                "y": 493.90625,
+                "w": 181.046875,
+                "h": 28.796875
+              },
+              "stage": {
+                "x": 124.46875,
+                "y": 493.90625,
+                "w": 181.046875,
+                "h": 28.796875
+              },
+              "words": "Starting Round 1"
+            },
+            "line": {
+              "pack": {
+                "x": 133.0625,
+                "y": 534.703125,
+                "w": 163.859375,
+                "h": 22.390625
+              },
+              "stage": {
+                "x": 133.0625,
+                "y": 534.703125,
+                "w": 163.859375,
+                "h": 22.390625
+              },
+              "words": "Waiting for the ship"
+            },
+            "spinner": {
+              "pack": {
+                "x": 131.26348876953125,
+                "y": 536.9041137695312,
+                "w": 19.5980224609375,
+                "h": 19.5980224609375
+              },
+              "stage": {
+                "x": 131.26348876953125,
+                "y": 536.9041137695312,
+                "w": 19.5980224609375,
+                "h": 19.5980224609375
+              },
+              "words": null
+            },
+            "skip": {
+              "pack": null,
+              "stage": null,
+              "words": null
+            }
+          }
+        }
+      },
+      {
+        "id": "agree: film · Skip at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "skip": {
+              "pack": {
+                "x": 331.234375,
+                "y": 848,
+                "w": 84.765625,
+                "h": 36
+              },
+              "stage": {
+                "x": 331.234375,
+                "y": 848,
+                "w": 84.765625,
+                "h": 36
+              },
+              "words": "Skip"
+            }
+          }
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-CQ3PmF3w.js",
+        "line": 1,
+        "column": 3180,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}
