@@ -2,15 +2,17 @@
 globalThis[Symbol.for('mothership:dev-only')]=true;
 import assert from 'node:assert/strict';
 import {createServer} from 'node:http';
+import {createHostedPreviewHeaders,applyHostedPreviewHeaders} from '../../../../scripts/hosted-preview-policy.mjs';
+const previewHeaders=createHostedPreviewHeaders('gamen-mothership-staging');
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {resolve,extname,sep} from 'node:path';
 import {launchBrowser,connect,openPage} from '../capture/browser.mjs';
 import {touchRenderedPanel} from './food-connected-panel.mjs';
 const directory='/private/tmp/gamen-food-preview',out=process.env.GAMEN_FOOD_PANEL_TOUCH_OUT??'/private/tmp/gamen-food-panel-touch-smoke';await mkdir(out,{recursive:true});
-const server=createServer(async(req,res)=>{try{const name=new URL(req.url,'http://local').pathname,path=resolve(directory,'.'+(name==='/'?'/app.html':name));if(!path.startsWith(directory+sep))throw Error('path');
+const server=createServer(async(req,res)=>{applyHostedPreviewHeaders(res,'gamen-mothership-staging');try{const name=new URL(req.url,'http://local').pathname,path=resolve(directory,'.'+(name==='/'?'/app.html':name));if(!path.startsWith(directory+sep))throw Error('path');
  res.setHeader('content-type',({'.js':'text/javascript','.css':'text/css','.html':'text/html','.svg':'image/svg+xml','.mp4':'video/mp4','.webp':'image/webp'})[extname(path)]??'application/octet-stream');res.end(await readFile(path));}catch{res.statusCode=404;res.end();}});
 await new Promise(r=>server.listen(0,'127.0.0.1',r));const origin=`http://127.0.0.1:${server.address().port}`,chrome=await launchBrowser(),browser=await connect(chrome.endpoint);
-const facts={scope:'Synthetic full native app, actual rendered control/hit guard and physical PANEL touch. No API, gameplay-history, device or new visual approval claim.',cases:[],errors:[]};
+const facts={headerProvenance:{kind:'production',projectId:'gamen-mothership-staging',headers:previewHeaders},scope:'Synthetic full native app, actual rendered control/hit guard and physical PANEL touch. No API, gameplay-history, device or new visual approval claim.',cases:[],errors:[]};
 try{
  for(const [width,height,text,safe]of[[390,844,1,'47,34'],[320,568,2,'20,0']])for(const motion of['normal','reduced']){
   const page=await openPage(browser,{width,height,mobile:true,ownContext:true}),record={profile:`${width}-${height}-text${text}-${motion}`};facts.cases.push(record);

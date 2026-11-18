@@ -1,6 +1,6 @@
 # Role stage and role card: Designer's runtime component
 
-**Version:** `role-stage-0.1.0` and `role-card-0.1.0`. **Status (15 November 2026):** the interface is approved by the Lead Designer with the decisions below, and built: the component, its preview, probe, agreement with the pack, check and test, on the shared kit (`component-kit-0.2.0`) and the phone shell. It waits for the Lead's last review, then Frontend's on #4. It is not in the game yet: Integration first admits its files with the shell's graph. It is not a release.
+**Version:** `role-stage-0.1.0` and `role-card-0.1.0`. **Status (15 November 2026):** the interface is approved by the Lead Designer with the decisions below, and built: the component, its preview, probe, agreement with the pack, check and test, on the shared kit (`component-kit-0.2.0`) and the phone shell, now merged to kit 0.8.0 and shell 0.2.8 (#265 at `0e5a0b8a`). It waits for the Lead's last review, then Frontend's on #4. It is not in the game yet: Integration first admits its files with the shell's graph. It is not a release.
 - **Controls:** Ready, Skip film and Show role are kit buttons under the kit's control policy; the Ready stamp is the kit's accent pill.
 - **The film:** Frontend's existing player plays it in `stage.film`. In the film's view the shell draws no bar and runs its stage edge to edge, so the shell's toast and banner sit over the film.
 - **The canvas:** the shell's `backdrop: 'canvas'` in every view, so behind the bar's glass and below the stage the screen is the pack's phone canvas (`#10141C`), as sheets 17 and 18 sample it. The check reads a pixel outside the art in every card view.
@@ -118,7 +118,7 @@ Controls follow the shell's rules: one delegated listener; refused when unavaila
 | Missing film | The card stays through 0:30, "Film unavailable · your card stays up until Ready" |
 | Skipped | The card, "Film skipped on this phone · the stage keeps time" |
 | Stale | The shell's banner and Retry; Ready refused, described by "Controls return when the match is current" |
-| Larger text | The card scales with container units; facts drop to one line, then none, as the pack's container queries |
+| Larger text | The card scales with container units; facts drop to one line, then none, as the pack's container queries. The card area ends where the foot begins: the pack's 120 px over the bottom at the Standard text, higher as larger text grows the note and Ready, so the note never runs into the card (measured from the foot; the fix of 16 November). At 390 × 844 with the Largest text the bar is under 12 rem, and the shell follows the pack's rule there (`prototype/kit.css`, the bar under 12 rem): the title takes two lines in place of "Only on this phone", which screen readers still read. At 430 × 932 the bar is wider and keeps the line. It is the shell's rule, not this stage's; whether the role's privacy cue should outrank the title's second line there is the shell's question |
 
 ## Frontend's connection
 
@@ -141,12 +141,18 @@ The interface is approved with these decisions:
 
 Also approved: the card's `device` from Frontend's `planetRoleLook(...).device` (one table), the `.ms-own-card` root, and Show's 44 px eye in the card's own part.
 
-## Checks run on the first build
+## Checks run on this version
 
-On `405edce8`, clean (the shell and kit at `05e2d1d0`, kit 0.3.0, with the shell's `backdrop`; the check on the shared `component-check.mjs`):
+**The fix of 16 November:** at the Largest text (200 %), the note under the card ran 16 px into the card's bottom, at both sizes; at the Large text (150 %) it touched it. The card area's bottom was the pack's fixed 120 px while the foot grew with the text. It now follows the foot, measured (`role-stage.mjs placeCard`): the larger of 120 px and the foot's top. At the Standard text nothing moves, and the agreement with the pack still holds to half a pixel. The check adds the 0:12 card at the Large and Largest text, and every card view asserts the note starts at or below the card.
+
+On `dc6d292e`, clean: #265 merged at `0e5a0b8a` (kit 0.8.0, shell 0.2.8); the check on the shared `component-check.mjs`. 30 of 30 captures, the probe 16 of 16 and the agreement 9 of 9 pass.
+- **Against `f9b2d282`'s record:** 14 captures are byte-identical. The other 16 differ only in the top bar's glyph, which shell 0.2.2 draws at the pack's 24 px where 0.1.0 drew 22 px (a 16 × 19 px box). The agreement compares the glyph with the pack's and agrees.
+- **The check itself:** the kit's toast (kit 0.8.0) takes no tap, so the "late" state's toast-on-top test reads its paint order with its pointer events on for that one measurement (`dc6d292e`), as the shell's layers probe does.
+
+Before, on `f9b2d282`, clean (the shell and kit at `05e2d1d0`, kit 0.3.0, with the shell's `backdrop`; the check on the shared `component-check.mjs`):
 - **Tests:** `packages/design-tokens/test/role-stage.test.mjs` 9 of 9 (the check's record; the runtime-safe graph with the kit, scoped styles that place kit controls only through their own parts, the pack's words, the art's properties and Frontend's device map, the inputs' refusals, privacy, the line under the card); `test:design` 391 of 391; `test:tooling` 337 of 337; `check:toolchain`, `check:workspace`, `check:sources`, `typecheck` pass; `check-assets.mjs` 15 passed.
 - **`node design/tools/role-stage-check.mjs`:** the preview bundled by Vite and served with the hosted game's production headers (SHA-256 `424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb`, the same as the shell's and the room scene's).
-  - **Captures:** twelve states of sheets 17 and 18 at 390 × 844 and 430 × 932, and sheet 31's card face up and hidden: **26 of 26 pass**. In the film's view the stage gives the shell `bar: null`, `tabs: null` and `edge: true`: the film runs edge to edge, as sheet 17 draws it, and the rejoined toast sits over it, under the film's clock chip, as sheet 18 does (decision 5).
+  - **Captures:** twelve states of sheets 17 and 18, and the 0:12 card at the Large and Largest text, at 390 × 844 and 430 × 932, and sheet 31's card face up and hidden: **30 of 30 pass**. The card area's bottom is 120 px at the Standard text, 142 px at the Large and 164 px at the Largest, with the note below the card in every card view. In the film's view the stage gives the shell `bar: null`, `tabs: null` and `edge: true`: the film runs edge to edge, as sheet 17 draws it, and the rejoined toast sits over it, under the film's clock chip, as sheet 18 does (decision 5).
   - **The lifecycle probe:** 16 of 16 (15 as the page comes, 1 with the device's Reduce motion): focus (Show ending returns the focus to the card), refused taps, reconnecting, privacy, the clock and an 18/12 split, the film's element, the shell's bar leaving only under an opaque film and returning before it fades with the card held still, layout, dispose and motion. Deliberate breaks fail it: concealment keeping the card, a new viewer keeping the last one's, a hard-coded 20/10 split, the bar leaving before the film is opaque.
   - **The agreement with the frozen pack** (`screens-pregame.mjs`'s role screen beside the stage, the same moment): **9 of 9 cases** agree to within half a pixel in every part (the bar, the clock, the strip, the card, its picture, person and device, its words, the card back, the line, Ready's place and availability, the stamp).
   - **Page health:** no page errors, no failed requests, no unexpected policy report.

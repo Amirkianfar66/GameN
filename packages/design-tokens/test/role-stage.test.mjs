@@ -229,7 +229,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   assert.match(csp, /default-src 'none'/);
   assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
   const captures = Object.entries(record.captures);
-  assert.equal(captures.length, 26, 'twelve states of sheets 17 and 18 at two sizes, and sheet 31\'s card face up and hidden');
+  assert.equal(captures.length, 30, 'twelve states of sheets 17 and 18 and the 0:12 card at the Large and Largest text, at two sizes, and sheet 31\'s card face up and hidden');
   for (const [key, c] of captures) {
     assert.ok(c.ok && c.drawn, `${key} passed and drew what its state asks`);
     assert.deepEqual(c.problems, [], `${key}: no page error or failed request`);
@@ -241,7 +241,16 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.equal(c.backdrop, 'rgb(16, 20, 28)', `${key}: the shell's backdrop is the canvas`);
     if (c.canvasPixel) assert.ok(c.canvasPixel.every((v, i) => Math.abs(v - [16, 20, 28][i]) <= 2), `${key}: a pixel outside the art is the canvas (${c.canvasPixel})`);
   }
-  assert.equal(captures.filter(([, c]) => c.canvasPixel).length, 14, 'the canvas sampled in every card view: 0:01, 0:12, 0:30, missing, waiting, skipped and stale, at two sizes');
+  assert.equal(captures.filter(([, c]) => c.canvasPixel).length, 18, 'the canvas sampled in every card view: 0:01, 0:12, 0:30, missing, waiting, skipped, stale, Large and Largest, at two sizes');
+  // The card ends where the foot begins: the pack's 120 px at the Standard text, higher as larger text grows the foot.
+  for (const [key, c] of captures.filter(([, c]) => c.clear !== null && c.clear !== undefined)) assert.equal(c.clear, true, `${key}: the note never runs into the card`);
+  for (const size of ['390x844', '430x932']) {
+    assert.equal(record.captures[`${size}/t12`].cardBottom, 120, `${size}: at the Standard text, the pack's 120 px`);
+    for (const [state, root] of [['large', 24], ['largest', 32]]) {
+      const c = record.captures[`${size}/${state}`];
+      assert.ok(c.root === root && c.clear === true && c.cardBottom > 120, `${size}/${state}: the card above the note at ${root} px text (${c.cardBottom} px)`);
+    }
+  }
   for (const size of ['390x844', '430x932']) {
     assert.ok(record.captures[`${size}/late`].toastOnTop && record.captures[`${size}/late`].toastClearOfChip, `${size}: the rejoined toast over the film, under its clock chip (sheet 18)`);
     assert.equal(record.captures[`${size}/concealed`].name, null, `${size}: concealed, no role`);

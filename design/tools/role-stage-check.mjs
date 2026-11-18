@@ -32,7 +32,7 @@ const COMPONENT = join(REPO, 'design/phone-ui/components/role-stage');
 const REVIEW = join(COMPONENT, 'review');
 const SIZES = { '390x844': [390, 844], '430x932': [430, 932], card: [358, 440] };
 /** Each stage state at the two development sizes (preview.mjs STAGE_STATES); sheet 31's card alone (CARD_STATES). */
-const STATES = { t01: 2, t12: 2, t20: 2, t26: 2, t30: 2, concealed: 2, reduced: 2, missing: 2, late: 2, waiting: 2, skipped: 2, stale: 2, 'card-sheet': ['card'], 'card-sheet-down': ['card'] };
+const STATES = { t01: 2, t12: 2, t20: 2, t26: 2, t30: 2, concealed: 2, reduced: 2, missing: 2, late: 2, waiting: 2, skipped: 2, stale: 2, large: 2, largest: 2, 'card-sheet': ['card'], 'card-sheet-down': ['card'] };
 
 /**
  * The preview bundled as the game bundles the component (component-check.mjs). The preview and the agreement
@@ -74,6 +74,9 @@ const EXPECT = {
   waiting: s => s.view === 'after' && cardUp(s) && s.stamp === 'Ready' && s.note === '6 of 9 ready' && s.readyMode === 'done',
   skipped: s => s.view === 'card' && cardUp(s) && s.note === 'Film skipped on this phone · the stage keeps time',
   stale: s => s.banner === 'Connection lost' && s.status === 'stale' && cardUp(s),
+  // The same moment at the Large (150 %) and Largest (200 %) text: the card ends above the note.
+  large: s => s.view === 'card' && cardUp(s) && s.note === 'Your film starts in 0:08' && s.root === 24 && s.clear === true && s.cardBottom > 120,
+  largest: s => s.view === 'card' && cardUp(s) && s.note === 'Your film starts in 0:08' && s.root === 32 && s.clear === true && s.cardBottom > 120,
   'card-sheet': s => cardUp(s),
   'card-sheet-down': s => s.back === 'Hidden' && s.name === null,
 };
@@ -99,11 +102,17 @@ try {
           skip: !!q('.ms-rst-film[data-shown=""] .ms-rst-skip'), film: q('.ms-rst-picture')?.childElementCount ?? 0,
           readyOff: !!q('.ms-rst-ready[data-off]'), readyMode: q('.ms-rst-ready')?.dataset.mode ?? null,
           toast: t('.ms-ps-toast > span:last-child'), banner: t('.ms-ps-banner b'), pictures,
-          // A toast counts only where it is on top, not hidden under the film.
-          toastOnTop: (() => { const n = q('.ms-ps-toast'); if (!n) return false; const r = n.getBoundingClientRect(); return n.contains(document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2)); })(),
+          // A toast counts only where it is on top, not hidden under the film. The kit's toast takes no tap (kit 0.8.0),
+          // so a hit test passes through it: its paint order is read with its pointer events on for this one measurement.
+          toastOnTop: (() => { const n = q('.ms-ps-toast'); if (!n) return false; const r = n.getBoundingClientRect(); n.style.pointerEvents = 'auto'; const on = n.contains(document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2)); n.style.pointerEvents = ''; return on; })(),
           // Sheet 18 draws the toast under the film's clock chip, never across it.
           toastClearOfChip: (() => { const a = q('.ms-ps-toast')?.getBoundingClientRect(), b = q('.ms-rst-chip')?.getBoundingClientRect(); return !!a && !!b && (a.top >= b.bottom || a.right <= b.left); })(),
           picturesDrawn: pictures.every(p => p.startsWith('url(')), layout: window.__roleStage.mounted[0]?.layout?.() ?? null,
+          root: parseFloat(getComputedStyle(document.documentElement).fontSize),
+          // The note never runs into the card: where both are drawn, the note's text starts at or below the card's bottom.
+          clear: (() => { const c = q('.ms-own-card'), n = q('.ms-rst-note'); if (!c || !n || n.hidden || !c.getClientRects().length || !n.getClientRects().length || root.dataset.view === 'film') return null; return n.getBoundingClientRect().top >= c.getBoundingClientRect().bottom; })(),
+          // The card area's bottom, from the bottom of the space between the bars (the pack's 120 px at the Standard text).
+          cardBottom: (() => { const a = q('.ms-rst-card'), b = q('.ms-rst-body'); return a && b ? Math.round((b.getBoundingClientRect().bottom - a.getBoundingClientRect().bottom) * 100) / 100 : null; })(),
           // The pack's phone canvas (#10141C) behind and beside the art: the shell's backdrop, read at its root.
           backdrop: getComputedStyle(document.querySelector('.ms-phone-shell') ?? root).backgroundColor };
       })()`);
@@ -115,7 +124,8 @@ try {
       const { data } = await page.send('Page.captureScreenshot', { format: 'jpeg', quality: 82, clip: { x: 0, y: 0, width, height, scale: 1 } });
       const bytes = Buffer.from(data, 'base64');
       await writeFile(file, bytes);
-      const drawn = EXPECT[state](seen);
+      // Every state with the card and its note keeps them apart; at the Standard text, the card area keeps the pack's 120 px.
+      const drawn = EXPECT[state](seen) && seen.clear !== false && (seen.root !== 16 || seen.cardBottom === null || seen.cardBottom === 120);
       // Outside the art (left of the card, below the foot) the screen is the canvas, as sheets 17 and 18 sample it.
       const canvasPixel = sizeKey === 'card' || seen.view === 'film' || seen.status === 'concealed' ? null
         : await page.evaluate(`(() => { const r = document.querySelector('.ms-role-stage').getBoundingClientRect(); return [r.left + 6, r.bottom - 8]; })()`);

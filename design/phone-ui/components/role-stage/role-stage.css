@@ -18,6 +18,8 @@
   /* Where the film's chip and Skip sit in the film's frame: role-stage.mjs measures them from the shell. */
   --ms-rst-chip-top: 8px;
   --ms-rst-skip-bottom: 14px;
+  /* The card area's bottom: 120 px, or the foot's top once larger text makes it taller (role-stage.mjs measures it). */
+  --ms-rst-card-bottom: 120px;
   /* The crossfade's length: role-stage.mjs sets it, 700 ms, or 80 ms with Reduce motion (the game's or the device's). */
   --ms-rst-fade: 700ms;
   position: absolute; inset: 0; overflow: hidden; isolation: isolate;
@@ -35,7 +37,7 @@
 .ms-role-stage .ms-rst-seg { flex: 1 1 0; height: 4px; border-radius: 3px; background: var(--ms-rst-surface-3); overflow: hidden; }
 .ms-role-stage .ms-rst-seg i { display: block; height: 100%; border-radius: 3px; background: var(--ms-rst-accent); }
 .ms-role-stage .ms-rst-seg:first-child i { background: var(--ms-rst-paper); }
-.ms-role-stage .ms-rst-card { position: absolute; left: 16px; right: 16px; top: 20px; bottom: 120px; }
+.ms-role-stage .ms-rst-card { position: absolute; left: 16px; right: 16px; top: 20px; bottom: var(--ms-rst-card-bottom); }
 .ms-role-stage .ms-rst-foot {
   position: absolute; left: 16px; right: 16px; bottom: 14px;
   display: flex; flex-direction: column; gap: 8px; align-items: stretch;
