@@ -16,8 +16,9 @@
 //   the agreement (preview/agree.mjs): the sheet beside the frozen pack's windows screen in each of its states, the
 //   same words, states, look and boxes to within half a pixel;
 //   the drawing box's focus ring with Chrome's own input (touch, mouse and keys, not the page's events): none while a
-//   finger or a mouse draws, even after the keyboard was used; the keyboard's own focus shows it, and so does a key
-//   after a finger's stroke (the Lead, 18 November).
+//   finger or a mouse draws, even after the keyboard was used; the keyboard's own focus shows it, the very next key
+//   after a finger's stroke shows it again, Tab back in after a blur shows it, and a keyboard-only player who never
+//   touches the box always sees it (the Lead, 18 November).
 // Every check must pass. It writes design/phone-ui/components/windows/review/: one JPEG per state and size, and
 // check.json (the headers and their SHA-256, the source commit, what each capture drew and its SHA-256, and each
 // probe and agreement check with what it saw).
@@ -141,58 +142,105 @@ try {
     if (outcome.error) console.log(`FAIL ${mode}: ${outcome.error}`);
   }
   // The drawing box's focus ring, with Chrome's own input rather than the page's events, as a finger and a keyboard
-  // give it: never while a finger or a mouse draws, even after Tab; the keyboard shows it (the Lead, 18 November).
+  // give it (the Lead, 18 November): never while a finger or a mouse draws, even after Tab; the keyboard's own focus
+  // shows it; the very next key after a finger's stroke shows it again; a blur takes the pointer's mark away, so Tab
+  // back in shows it; and a keyboard-only player, who never touches the box with a pointer, always sees it. Each case
+  // runs its steps on a fresh page and looks at the box where it says.
   const PAD = '.ms-windows .ms-wn-pad';
+  /** A plain line of the sheet away from the box, not a control: the station's heading. */
+  const AWAY = '.ms-windows .ms-wn-station > :first-child';
+  const look = (label, want) => ['look', label, want];
+  const stroke = (input, ring) => [['down', input], look(`while the ${input === 'touch' ? 'finger' : 'mouse'} draws`, { ring }), ['up', input]];
   const ringCases = [
-    { id: 'ring: a finger draws, no ring', input: 'touch' },
-    { id: 'ring: a mouse draws, no ring', input: 'mouse' },
-    { id: 'ring: Tab, then a finger draws, no ring', input: 'touch', tab: true },
-    { id: 'ring: Tab, then a mouse draws, no ring', input: 'mouse', tab: true },
-    { id: 'ring: Tab reaches the box, the ring', input: 'keys' },
-    { id: 'ring: a finger draws, then an arrow key, the ring', input: 'touch', after: 'arrow' },
+    { id: 'ring: a finger draws, no ring while drawing or after', steps: [...stroke('touch', false), look('after the stroke', { ring: false, reports: 1 })] },
+    { id: 'ring: a mouse draws, no ring while drawing or after', steps: [...stroke('mouse', false), look('after the stroke', { ring: false, reports: 1 })] },
+    { id: 'ring: Tab reaches the box, the ring', steps: [['tab-to-box'], look('Tab reaches the box', { ring: true })] },
+    { id: 'ring: Tab, then a finger draws, no ring while drawing; the very next key, the ring', steps: [['tab'], ...stroke('touch', false), look('after the stroke', { ring: false, reports: 1 }), ['key', 'ArrowRight'], look('the very next key', { ring: true, reports: 1 })] },
+    { id: 'ring: Tab, then a mouse draws, no ring while drawing or after', steps: [['tab'], ...stroke('mouse', false), look('after the stroke', { ring: false, reports: 1 })] },
+    { id: 'ring: a finger draws, then an arrow key, the ring', steps: [...stroke('touch', false), ['key', 'ArrowRight'], look('the next key', { ring: true, reports: 1 })] },
+    { id: 'ring: a finger draws, a tap away blurs the box, then Tab back in, the ring', steps: [...stroke('touch', false), look('after the stroke', { ring: false, reports: 1 }), ['tap-away'], look('a tap away', { focused: false, mark: false }), ['tab-to-box'], look('Tab back in', { ring: true })] },
+    { id: 'ring: a keyboard-only player always sees it', steps: [
+      ['tab-to-box'], look('Tab reaches the box', { ring: true }),
+      ['key', 'ArrowRight'], look('an arrow moves the pen', { ring: true, reports: 0 }),
+      ['shift', 'down'], ['key', 'ArrowDown', true], ['key', 'ArrowDown', true], look('while Shift and the arrows draw', { ring: true, reports: 0 }),
+      ['key', 'ArrowRight', true], ['shift', 'up'], look('the line drawn', { ring: true, reports: 1 }),
+      ['key', ' '], look('Space draws a dot', { ring: true, reports: 2 }),
+      ['shift-tab'], look('Shift+Tab leaves the box', { focused: false }),
+      ['tab-to-box'], look('Tab comes back', { ring: true }),
+    ] },
   ];
+  const KEYS = { Tab: ['Tab', 9], ArrowRight: ['ArrowRight', 39], ArrowDown: ['ArrowDown', 40], ' ': ['Space', 32], Shift: ['ShiftLeft', 16] };
+  const SEEN = `(p => { const st = getComputedStyle(p); return { focused: document.activeElement === p, ring: st.outlineStyle !== 'none' && parseFloat(st.outlineWidth) > 0, mark: p.hasAttribute('data-pointer'), reports: window.__windows.intents.filter(i => i[0] === 'onDraft').length }; })(document.querySelector(${JSON.stringify(PAD)}))`;
   const ringChecks = [];
   for (const c of ringCases) {
+    const touch = c.steps.some(([kind, input]) => kind === 'tap-away' || ((kind === 'down' || kind === 'up') && input === 'touch'));
     const page = await openPage(browser, { width: 390, height: 844, scale: 1 });
     await page.send('Page.addScriptToEvaluateOnNewDocument', { source: POLICY_LISTENER });
-    if (c.input === 'touch') await page.send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 });
+    if (touch) await page.send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 });
     await page.goto(`${origin}/index.html?single=1&size=390x844&state=draw`, 'window.__windows !== undefined');
     await page.evaluate('window.__windows.ready');
     await sleep(400);
-    const key = async (k, code, vk) => {
-      await page.send('Input.dispatchKeyEvent', { type: 'keyDown', key: k, code, windowsVirtualKeyCode: vk });
-      await page.send('Input.dispatchKeyEvent', { type: 'keyUp', key: k, code, windowsVirtualKeyCode: vk });
+    let shift = false;
+    const key = async (k, { up = true, down = true } = {}) => {
+      const [code, vk] = KEYS[k];
+      const modifiers = shift ? 8 : 0;
+      if (down) await page.send('Input.dispatchKeyEvent', { type: 'keyDown', key: k, code, windowsVirtualKeyCode: vk, modifiers, ...(k === ' ' ? { text: ' ' } : {}) });
+      if (up) await page.send('Input.dispatchKeyEvent', { type: 'keyUp', key: k, code, windowsVirtualKeyCode: vk, modifiers });
     };
     const onPad = `document.activeElement === document.querySelector(${JSON.stringify(PAD)})`;
-    if (c.tab) await key('Tab', 'Tab', 9);
-    let tabs = 0;
-    if (c.input === 'keys') {
-      while (tabs < 40 && !(await page.evaluate(onPad))) { await key('Tab', 'Tab', 9); tabs += 1; }
-    } else {
-      await page.evaluate(`document.querySelector(${JSON.stringify(PAD)}).scrollIntoView({ block: 'center' })`);
+    const rectOf = async selector => {
+      await page.evaluate(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({ block: 'center' })`);
       await sleep(150);
-      const b = await page.evaluate(`(r => ({ x: r.x, y: r.y, w: r.width, h: r.height }))(document.querySelector(${JSON.stringify(PAD)}).getBoundingClientRect())`);
-      const at = (u, v) => ({ x: b.x + u * b.w, y: b.y + v * b.h });
-      if (c.input === 'touch') {
-        await page.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [at(0.2, 0.3)] });
-        for (let i = 1; i <= 8; i++) await page.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [at(0.2 + 0.05 * i, 0.3 + 0.04 * i)] });
+      return page.evaluate(`(r => ({ x: r.x, y: r.y, w: r.width, h: r.height }))(document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect())`);
+    };
+    let box = null, tabs = 0;
+    const at = (u, v) => ({ x: box.x + u * box.w, y: box.y + v * box.h });
+    const along = i => at(0.2 + 0.05 * i, 0.3 + 0.04 * i);
+    const looks = [];
+    for (const [kind, arg, extra] of c.steps) {
+      if (kind === 'tab') await key('Tab');
+      else if (kind === 'tab-to-box') { let n = 0; do { await key('Tab'); n += 1; } while (n < 40 && !(await page.evaluate(onPad))); tabs += n; }
+      else if (kind === 'shift-tab') { shift = true; await key('Shift', { up: false }); await key('Tab'); shift = false; await key('Shift', { down: false }); }
+      else if (kind === 'shift') { if (arg === 'down') { shift = true; await key('Shift', { up: false }); } else { shift = false; await key('Shift', { down: false }); } }
+      else if (kind === 'key') { const held = shift; shift = held || extra === true; await key(arg); shift = held; }
+      else if (kind === 'down') {
+        box = await rectOf(PAD);
+        if (arg === 'touch') {
+          await page.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [along(0)] });
+          for (let i = 1; i <= 4; i++) await page.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [along(i)] });
+        } else {
+          const a = along(0);
+          await page.send('Input.dispatchMouseEvent', { type: 'mousePressed', x: a.x, y: a.y, button: 'left', buttons: 1, clickCount: 1 });
+          for (let i = 1; i <= 4; i++) { const q = along(i); await page.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: q.x, y: q.y, button: 'left', buttons: 1 }); }
+        }
+      } else if (kind === 'up') {
+        if (arg === 'touch') {
+          for (let i = 5; i <= 8; i++) await page.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [along(i)] });
+          await page.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+        } else {
+          for (let i = 5; i <= 8; i++) { const q = along(i); await page.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: q.x, y: q.y, button: 'left', buttons: 1 }); }
+          const z = along(8);
+          await page.send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: z.x, y: z.y, button: 'left', buttons: 0, clickCount: 1 });
+        }
+      } else if (kind === 'tap-away') {
+        const r = await rectOf(AWAY);
+        const point = { x: r.x + r.w / 2, y: r.y + r.h / 2 };
+        await page.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [point] });
         await page.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
-      } else {
-        const a = at(0.2, 0.3), z = at(0.6, 0.62);
-        await page.send('Input.dispatchMouseEvent', { type: 'mousePressed', x: a.x, y: a.y, button: 'left', buttons: 1, clickCount: 1 });
-        for (let i = 1; i <= 8; i++) { const q = at(0.2 + 0.05 * i, 0.3 + 0.04 * i); await page.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: q.x, y: q.y, button: 'left', buttons: 1 }); }
-        await page.send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: z.x, y: z.y, button: 'left', buttons: 0, clickCount: 1 });
+        await sleep(500);
+      } else if (kind === 'look') {
+        await sleep(200);
+        const seen = await page.evaluate(SEEN);
+        const want = { focused: true, ...extra };
+        const ok = Object.entries(want).every(([k, v]) => seen[k] === v);
+        looks.push({ label: arg, ...seen, want, ok });
       }
-      if (c.after === 'arrow') await key('ArrowRight', 'ArrowRight', 39);
     }
-    await sleep(200);
-    const seen = await page.evaluate(`(p => { const st = getComputedStyle(p); return { focused: document.activeElement === p, ring: st.outlineStyle !== 'none' && parseFloat(st.outlineWidth) > 0, pointerMark: p.hasAttribute('data-pointer'), strokes: p.querySelectorAll('.ms-wn-stroke').length }; })(document.querySelector(${JSON.stringify(PAD)}))`);
-    const wantRing = c.input === 'keys' || c.after === 'arrow';
     const problems = page.problems().filter(p => !/\/favicon\.ico$/.test(p));
-    const ok = seen.focused && seen.ring === wantRing && problems.length === 0;
+    const ok = looks.length > 0 && looks.every(l => l.ok) && problems.length === 0;
     if (!ok) failed += 1;
-    ringChecks.push({ id: c.id, ok, detail: { ...seen, tabs, problems } });
-    console.log(`${ok ? 'ok  ' : 'FAIL'} ${c.id}${ok ? '' : ` ${JSON.stringify(seen)}`}`);
+    ringChecks.push({ id: c.id, ok, detail: { looks, tabs, problems } });
+    console.log(`${ok ? 'ok  ' : 'FAIL'} ${c.id}${ok ? '' : ` ${JSON.stringify({ looks: looks.filter(l => !l.ok), problems })}`}`);
     await page.close();
   }
   ring = { input: 'Chrome\'s own (Input.dispatchTouchEvent, Input.dispatchMouseEvent, Input.dispatchKeyEvent) at 390 x 844', checks: ringChecks, ok: ringChecks.every(c => c.ok) };
