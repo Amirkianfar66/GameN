@@ -862,6 +862,19 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - **The cost:** about $0.27 for B in all and about $0.20 for C, at most $0.34 and $0.27 with one re-run.
 - **The capsule stays painted,** like the furniture. Code draws its light and its moving parts over it.
 
+**View E's stool painted in its own step, minutes later.**
+- **What happened:** view E's empty room (step 1) passed every gate. Its furniture pass painted one long three-shelf cart across both the laptop cart's outline and Juno's stool's, and left out the stool. That is the same failure as the capsule: two pieces in one connected masked shape.
+- **The Lead asked, in the question dialog:**
+
+> The fix is the same as for the capsule: paint the stool in its own small step. That brings E to about $0.27 in all, or $0.34 at most if a step needs its one re-run, against its $0.18 limit. View C's stool gets the same fix inside its capsule step, at no extra cost. Approve E's extra step?
+
+- **The owner chose:** "Yes, fix E", the Lead's recommendation.
+
+**What it decides:**
+- **View E:** step 2 is painted again without the stool, and step 3 paints the stool alone in its own tight shape. That is about $0.14 more, about $0.27 for E in all.
+- **View C:** its stool joins the capsule in its step 3, as a separate shape, at no extra cost.
+- **The rule for the sheets:** two pieces never share one masked shape. A small piece is painted in its own step.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
