@@ -334,10 +334,12 @@ export function shellSheet(model,{listOpen=false}={}){
  * bars keep their shape and the stage its size. A shared display takes taps: it has no tabs, Promises, target bar
  * or chip, so its only controls are ⋮, the Settings sheet's Close and Retry.
  */
-export function shellInput(model,{view='room',room=null,food=null,reducedMotion=false,lastRound=null,listOpen=false,closed=null,seen=null}={}){
+export function shellInput(model,{view='room',room=null,food=null,reducedMotion=false,lastRound=null,listOpen=false,closed=null,seen=null,seenVersions=null}={}){
  const display=model.surface!=='player',status=shellStatus(model,{food}),hidden=status==='concealed';
  return {
-  status,interactive:true,reducedMotion:!!reducedMotion,viewer:display?null:model.ownSeatId??null,versions:model.versions??null,
+  // Without a current state the model has no versions either. The person kept as last seen is drawn with the versions
+  // last seen with them (`seenVersions`), so their portrait stays the same picture and never falls back to older art.
+  status,interactive:true,reducedMotion:!!reducedMotion,viewer:display?null:model.ownSeatId??null,versions:model.versions??(model.connection!=='live'?seenVersions:null)??null,
   bar:shellBar(model,{lastRound}),tabs:display?null:shellTabs(model,{view,seen}),
   target:hidden?null:shellTarget(model),chip:hidden?null:shellChip(model,{view,room}),banner:hidden?null:shellBanner(model,{lastRound}),
   toast:hidden?null:shellToast(model,{closed}),sheet:hidden?null:shellSheet(model,{listOpen}),

@@ -71,7 +71,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  // The shell's state here: its last input, the frame of its open sheet, the board's List, the round last seen
  // live (the reconnecting bar names it), a toast (kept, so it shows its whole time once), its layout, and the
  // model painted before this one (a phase that closed under an open choice is told from the two: phaseClosed()).
- let shellKey=null,shellFrame=null,listOpen=false,listKey=null,lastRound=null,ownSeen=null,toast=null,shellRunning=true,shellLayout=null,choosing=false,opener=null,before=null;
+ let shellKey=null,shellFrame=null,listOpen=false,listKey=null,lastRound=null,ownSeen=null,seenVersions=null,toast=null,shellRunning=true,shellLayout=null,choosing=false,opener=null,before=null;
  // The match's trusted server time (G18), observed on each model: the round stamp's clock, with shell-input.mjs roundStart().
  const serverClock=createServerClock({monotonic:()=>win.performance.now()});
  // The shell's own element (its mount's `element`) holds its controls: the sheet's footer actions and the controls
@@ -420,6 +420,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   if(model.connection==='live'&&Number.isSafeInteger(model.round))lastRound=model.round;
   // The viewer's own person as last given, for the Card tab while the connection isn't live (shell-input.mjs ownPersonSeen).
   ownSeen=ownPersonSeen(ownSeen,model);
+  // And the match's versions as last given, so that person's portrait stays the same picture while it is kept.
+  if(model.connection==='live'&&model.versions)seenVersions=model.versions;
   serverClock.observe(model);
   const closed=phaseClosed(before,model);before=model;
   // Only the exact Food tuple supplies these sanitized public facts. Ordinary
@@ -462,7 +464,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   // The shell: this phone's input (shell-input.mjs). While the Food surface owns the chrome (active, or its
   // Task over the whole screen) the shell is concealed under it: its bars keep their shape as empty material,
   // with no name, time or control, as today's header and nav were hidden and inert.
-  const input=shellInput(model,{view:sceneMode,room:currentRoom,food:foodSurface,reducedMotion:reduced(),lastRound,listOpen,closed,seen:ownSeen});
+  const input=shellInput(model,{view:sceneMode,room:currentRoom,food:foodSurface,reducedMotion:reduced(),lastRound,listOpen,closed,seen:ownSeen,seenVersions});
   input.sheet=shellHostSheet(input.sheet,hostSheet?.frame()??null);
   // The host sheet's own toast (Copied, a receipt), once, when the game gives none.
   const nextToast=input.toast??hostSheet?.toast?.()??null;if(nextToast)toast=nextToast;

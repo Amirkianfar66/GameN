@@ -219,6 +219,13 @@ test('the tabs: the view, the open tab and the round button\'s modes, usable onl
  // shellInput hands it on to the tabs, and to nothing else.
  assert.deepEqual(shellInput(lost(),{seen:mine}).tabs.me,mine);
  assert.deepEqual({...shellInput(lost(),{seen:mine}),tabs:null},{...shellInput(lost()),tabs:null});
+ // Without a current state the model has no versions either, and the shell would draw the kept person with older
+ // art. The versions last seen go with the person, only while the connection isn't live and the model gives none.
+ const pins={assetManifestVersion:'design-0.9.0'};
+ assert.equal(shellInput(lost({versions:null}),{seen:mine,seenVersions:pins}).versions,pins,'not live, no versions: the ones last seen');
+ assert.equal(shellInput(lost({versions:null}),{seen:mine}).versions,null,'none seen: none');
+ assert.deepEqual(shellInput(model(),{seen:mine,seenVersions:pins}).versions,{assetManifestVersion:'design-0.8.0'},'live: the model\'s own');
+ assert.equal(shellInput(model({versions:null}),{seenVersions:pins}).versions,null,'live with none: none, never the kept ones');
  // No availability or reason is given beside the offers, so every tab keeps the shell's default.
  const checked=checkTabs(tabs);
  assert.deepEqual(checked.enabled,{switch:true,actions:true,card:true,panels:true});assert.deepEqual(checked.reasons,{switch:null,actions:null,card:null,panels:null});

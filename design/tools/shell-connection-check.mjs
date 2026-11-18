@@ -208,7 +208,7 @@ const STATES = {
     facts: s => ({ yourTurn: s.bar?.kind === 'turn' && s.bar.name === 'Your turn' && s.bar.sub === 'Player 6 · Crew 6', passOn: s.hero?.mode === 'pass' && !s.hero.disabled && s.model?.canPass === true,
       // Shell 0.3.0: Card is the last tab and draws this viewer's own portrait (Player 6's); the tab keeps its word.
       // Shell 0.3.1: at the top bar's 32 px.
-      cardTab: values(s) === 'switch,actions,hero:pass,panels,card' && s.tabs.card?.portrait === true && s.tabs.card.picture === true && /-c6$/.test(s.tabs.card.property ?? '') && s.tabs.card.size.join() === '32,32'
+      cardTab: values(s) === 'switch,actions,hero:pass,panels,card' && s.tabs.card?.portrait === true && s.tabs.card.picture === true && s.tabs.card.property === '--ms-asset-crew-portrait-c6' && s.tabs.card.size.join() === '32,32'
         && !s.tabs.card.icon && s.tabs.card.words === 'Card' && s.tabs.card.name === null,
       roomScene: s.stage.scene === 'room-b' && s.stage.view === 'room' }) },
   pass: { from: 'own', steps: async page => {
@@ -289,7 +289,8 @@ const STATES = {
     facts: s => ({ banner: s.banner?.kind === 'reconnecting' && s.banner.title === 'Connection lost' && !!s.banner.retry, bar: s.bar?.name === 'Reconnecting…' && s.bar.sub === 'Showing Round 6 as last seen',
       stale: s.shell?.status === 'stale', refused: s.tabs?.buttons.every(b => b.disabled) && s.hero?.disabled, noOldStatus: s.status === null,
       // The Card tab keeps this viewer's own portrait as last seen (Player 6's), as the bar keeps the round: the model has no identities now.
-      ownAsLastSeen: s.tabs?.card?.portrait === true && /-c6$/.test(s.tabs.card.property ?? '') && s.model?.identities === 0 }),
+      // The same picture: the crew's portrait, not the older art the shell falls back to without the match's versions.
+      ownAsLastSeen: s.tabs?.card?.portrait === true && s.tabs.card.property === '--ms-asset-crew-portrait-c6' && s.tabs.card.picture === true && s.model?.identities === 0 }),
     after: async (page, seen) => {
       await page.evaluate(tap('.ms-ps-banner [data-intent="retry"]'));
       await sleep(400);
