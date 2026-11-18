@@ -1,15 +1,15 @@
 {
   "tool": "design/tools/phone-ui-native-compare.mjs",
-  "createdAt": "2026-11-18T20:19:13.924Z",
+  "createdAt": "2026-11-18T22:07:35.124Z",
   "browser": "Google Chrome for Testing 153.0.8010.12",
   "view": "Drawn at each part's phone size, 1.5× pixels",
   "pack": {
-    "commit": "15f7862490ca12c0716251c9d79e7b133c097301",
+    "commit": "2102bbad38e7f76d8dc81cf0a4599bba52f989a9",
     "dirty": false
   },
   "build": {
-    "folder": "/dev/shm/match-connection-check-L0K6A1",
-    "head": "15f7862490ca12c0716251c9d79e7b133c097301",
+    "folder": "/dev/shm/match-connection-check-SVWkPJ",
+    "head": "2102bbad38e7f76d8dc81cf0a4599bba52f989a9",
     "dirty": false,
     "artwork": "64e55516d2f0026842c5c2a675f2eccda20e0a9e"
   },
@@ -478,6 +478,58 @@
         "date": "2026-11-11",
         "verdict": "differs",
         "note": "One long sentence. The design lists each phase on its own row with its timing."
+      },
+      "now": null
+    },
+    {
+      "id": "windows",
+      "stage": "panels",
+      "title": "Windows",
+      "sheet": "34",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=windows&state=view&safe=47%2C34",
+        "image": "img/windows-pack.jpg",
+        "width": 585,
+        "height": 1266,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=windows&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-nav-panels, .ms-ps-tabs [data-intent=\"tab\"][data-value=\"panels\"]"
+          ],
+          [
+            "wait",
+            500
+          ],
+          [
+            "tapText",
+            "^Windows"
+          ],
+          [
+            "wait",
+            700
+          ]
+        ],
+        "image": "img/windows-build.jpg",
+        "width": 585,
+        "height": 1266,
+        "log": [
+          "tap: Panels",
+          "tapText: WindowsRoom A ↔ Room B · Room B ↔ Jail"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "close",
+        "note": "Window pairs, the drawings and “Unverified” match. Player numbers instead of names."
       },
       "now": null
     },

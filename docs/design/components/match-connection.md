@@ -320,6 +320,9 @@ Today's Windows sheet: its sub "Unverified claims · Expires after Round 3", its
 - **The Promises hunk.** Marked `BEGIN Promises connection` / `END Promises connection`, after the Panels tab's. It adds two entries: `promises/promises.mjs` and `promises/promises.css`. The kit is admitted by the shell's hunk; the component's `preview/` and `review/` are never imported. Checked the same way, on `df255e8a`:
   - with the hunk, the hosted Planet entry builds;
   - without the `promises.mjs` entry, the fence refuses `promises.mjs`; without `promises.css`'s, it refuses `promises.css`, which `app.mjs` imports directly.
+- **The Windows hunk.** Marked `BEGIN Windows connection` / `END Windows connection`, after Promises'. It adds two entries: `windows/windows.mjs` and `windows/windows.css`. The kit is admitted by the shell's hunk; the component's `preview/` and `review/` are never imported. Checked the same way, on `2102bbad`:
+  - with the hunk, the hosted Planet entry builds;
+  - without the `windows.mjs` entry, the fence refuses `windows.mjs`; without `windows.css`'s, it refuses `windows.css`, which `app.mjs` imports directly.
 
 ## The gates
 
@@ -327,6 +330,14 @@ Today's Windows sheet: its sub "Unverified claims · Expires after Round 3", its
   - It was also run on throwaway copies of `4367f7e0` and of `9ba0858e` with `app.mjs`, `render.mjs`, `phone.css` and `planet.css` back at `origin/main`, the four files the base's pins name. There it passes.
   - So this change pins no new file: `check:sources` accepts the new hunk, `actions-input.mjs`, the changed mappers, the tests and the check.
 - **The other pins** the shell connection's page names fall on the same files: the hosted build's `reviewed-crew-drawing-release` on `app.mjs`, and the drawing-port fence on `vite.config.mjs`, which the room and shell connections' hunks already changed. They were not re-run here.
+- **On `d270003b` (Windows with the Lead's rulings; #307's `680237e4` merged at `336369cf`; #299's `f9b3f064` and `a42d56fd` merged at `91a9e51b` and `06f64b14`), and its record `2102bbad`:**
+  - `typecheck`, `build`, `check:toolchain`, `check:workspace` and `node design/tools/check-assets.mjs` (15 of 15) pass;
+  - the game's tests pass 906 of 906 (Windows' 7 among them), with the production-exclusion scan;
+  - `check:sources` refuses `app.mjs` first, and passes with the same four pinned files back at `origin/main`, each then written back: nothing new is pinned, `windows-input.mjs` included;
+  - the design and tooling suites fail only on the Food pin: every failure, 25 of 451 and 68 of 356, is "Food consumer source: content differs: apps/game/hosted/planet/app.mjs"; the windows component's own tests pass in the design suite;
+  - the fence builds the hosted Planet entry with the four hunks;
+  - #307's own check passes 44 of 44, with its record put back;
+  - the mutation run's 197 changes are all caught.
 - **On `4f23375b` (a Promise being drafted gets the phase-closed toast, with #307's `1013ddeb` merged at `dc61e055`), and its record `15f78624`:**
   - `typecheck`, `build`, `check:toolchain`, `check:workspace` and `node design/tools/check-assets.mjs` (15 of 15) pass;
   - the game's tests pass 898 of 898 (#307's drafting test and Promises' 9 among them), with the production-exclusion scan;
@@ -417,7 +428,19 @@ Today's Windows sheet: its sub "Unverified claims · Expires after Round 3", its
 - the status line: still while the sheet shows the words, and after while the message is still those words in that view, for that match and seat; saying them again once the message, the view or the viewer has moved on, as for a Pass refused with the same words;
 - a blur over a held refused check, in the renderer's order (`calm()`, `said` forgotten, then `dismiss()`): no sheet is left, and the status line would say the words while the controller still has them.
 
-**A mutation run** made 161 changes to the connection's source, each restored from its saved bytes. Every one is caught by the six connection test files (the refusals', Actions', Panels', Promises', the shell's and the room scene's), on `4f23375b`'s tree.
+**A mutation run** made 197 changes to the connection's source, each restored from its saved bytes. Every one is caught by the seven connection test files (the refusals', Actions', Panels', Promises', Windows', the shell's and the room scene's), on `d270003b`'s tree.
+- It adds 36 on Windows:
+  - when the sheet is Windows': Show drafted or under way, and the dark;
+  - the rooms' order, the station, the authors' names (the identities, and the no-break space), and drawings by a seat that isn't one;
+  - the Lead's rulings: a drawing outside the contract left out (the schema's guard), and the round's end (its reset, the draft kept through it, and the round read from the key);
+  - this phone's flow: the display, another viewer, the sheet shut (the view and a Show dropped, and the draft with a Show under way, three ways), and a new round, window or place;
+  - Show's progress: a drawing there before the send, the acceptance, the wait for the next view, and the shown view's guard;
+  - Show's state: busy until the view has the drawing, and the offer's window;
+  - the input: the shown view's author, the draft for the station's window only, and the no-window block;
+  - the taps: the controller's readiness, a Show under way, the view, the draft's window, drafts while a Show is under way, and Done;
+  - the shell connection: the flow into the sheet, the frame, and the footer's route.
+- Two earlier mutations were run on their new text: the Promises flow into the shell's sheet, which also passes `windows`, and the seat's guard, now beside the schema's.
+- The earlier 161 were caught on `4f23375b`'s tree.
 - It adds 7 on the drafting rule (`promisesDrafting`): always false, a send counted, a refusal counted, the partner's offer counted, Jail Vote's player dropped, the list counted, and the flow itself returned for `true`.
 - Three more, on the drafting rule's wiring, are each caught by the match check: no draft passed (`promise-draft-closed`), this paint's flow instead of the paint before's, which is gone at 0:00 (`promise-draft-closed`), and a refused draft counted (`refused-phase-closed`).
 - The earlier 154 were caught on `516bbfc1` with R2's changes, the Bars & Icons builder's review included; the earlier 121 by the other five files on `df255e8a`, again on `bfd458ea`, and on `7a9112ff`.
@@ -448,9 +471,19 @@ Today's Windows sheet: its sub "Unverified claims · Expires after Round 3", its
 - It serves it with the hosted game's production headers (`createHostedPreviewHeaders`, headers SHA-256 `424e5dec…`, the shell's and the room scene's).
 - It drives the real app at 390 × 844 and 430 × 932, and two states at 320 × 568 with the Largest text.
 
-**Result:** 94 of 94 captures pass: forty-six states at both sizes and two at 320 × 568 with the Largest text, recorded in one run on `ac5c8d82`, with the source clean and the art from `64e55516`. That commit is Windows, with #299's `55fcfa6b` merged at `4f7b5f1b`. `concealed` was drawn a second time on the record's commit for the comparison's bundle, with the record put back after. Origin/main is `7d18ac0f`, which changes only `AGENTS.md` and the roster since the art base; the art base is in its history.
-- **Against the record on `4f23375b`:** every recorded field of its 82 captures is the same, but for the bundle's file name in the known Zod report, the new `windows` fact (none, in each), and four clocks, each one second off: `blackout` and `moved` at both sizes. Twelve pictures are byte for byte the same.
-- **The new states:** Windows' six at both sizes, as the table says. The known Zod report is in each, as in every capture.
+**Result:** 100 of 100 captures pass: forty-nine states at both sizes and two at 320 × 568 with the Largest text, recorded in one run on `d270003b`, with the source clean and the art from `64e55516`. That commit is Windows with the Lead's rulings, with #307's `680237e4` merged at `336369cf` and #299's `a42d56fd` at `06f64b14`. `concealed` was drawn a second time on the record's commit for the comparison's bundle, with the record put back after. Origin/main is `7d18ac0f`, which changes only `AGENTS.md` and the roster since the art base; the art base is in its history.
+- **Against the record on `ac5c8d82`** (`d46b8643`): every recorded field of its 94 captures is the same, but for:
+  - the bundle's file name in the known Zod report;
+  - four clocks, each one second off: `blackout`, `moved`, `windows-shown` and `windows-done`, at 390 × 844;
+  - `windows-drawn`'s new fact (no ring), its focus (the box) and its note, at both sizes.
+
+  Twelve pictures are byte for byte the same.
+- **In the pictures:**
+  - `windows-drawn`, at both sizes: the ring gone from the drawing box (`windows-0.1.1`);
+  - `rescue-after` and `unknown`, at both sizes: the focus ring on Done and on "Retry the same", where it was on the Actions tab. That is #307's focus rule (`680237e4`): the focus goes into the sheet that took the place of the one closed. The check's taps are the script's clicks, so Chrome draws the keyboard's ring there;
+  - every other change is the room's motion, its windows' sky and its small lights, behind the sheets' glass or in the open stage.
+- **The new states:** `windows-finger`, `windows-keyboard-show` and `panels-back-focus` at both sizes, as the table says. The known Zod report is in each, as in every capture.
+- **The record on `ac5c8d82`** (94 of 94, Windows first), **against the one on `4f23375b`:** every recorded field of its 82 captures is the same, but for the bundle's file name in the known Zod report, the new `windows` fact (none, in each), and four clocks, each one second off: `blackout` and `moved` at both sizes. Twelve pictures are byte for byte the same. Its new states were Windows' six at both sizes.
 - **The record on `4f23375b`** (82 of 82, the drafting step), **against the one on `fd4aace9`:** every recorded field of its 80 captures is the same, but for the bundle's file name in the known Zod report and three clocks, each one second off: `390x844-blackout`, and `moved` at both sizes. Nine pictures are byte for byte the same. Its new state was `promise-draft-closed` at both sizes, and `refused-phase-closed`'s no toast became one of its facts.
 - **The record on `fd4aace9`** (80 of 80, R2 with A3 and its review), **against the one on `834dcef0`:** every recorded field of its 76 captures is the same, but for the bundle's file name in the known Zod report and three clocks, each one second off: `390x844-blackout`, `430x932-blackout` and `430x932-moved`. Six pictures are byte for byte the same.
 - **The new states:** `refused-blur` at both sizes, and `promise-incoming-largest` and `promise-incoming-largest-accept` at 320 × 568, as the table says.
@@ -566,9 +599,11 @@ The harness answers a command at once, so "Registering…" is not drawn here; th
 
 ### The merge gate's comparison
 
-`design/tools/phone-ui-native-compare.mjs --only pass,actions,targeting,target-check,registered,clone,blackout,reconnecting,panels,players,round-order,promise-offer,promise-incoming,promise-results`:
-- The build is the check's own bundle (`--keep`, from a run of `concealed` alone on the record's commit, with the record put back after): it names `15f78624`, the record of `4f23375b`, clean, with art from `64e55516`. The pack is read at `15f78624`, clean.
-- **Against the comparison on `9e3255be`,** all fourteen parts are field for field the same; only the build's folder and commit, the pack's commit and the time differ. The drafting toast is drawn by the check alone: no compared part has it.
+`design/tools/phone-ui-native-compare.mjs --only pass,actions,targeting,target-check,registered,clone,blackout,reconnecting,panels,players,round-order,promise-offer,promise-incoming,promise-results,windows`:
+- The build is the check's own bundle (`--keep`, from a run of `concealed` alone on the record's commit, with the record put back after): it names `2102bbad`, the record of `d270003b`, clean, with art from `64e55516`. The pack is read at `2102bbad`, clean.
+- **Fifteen parts:** `windows` (sheet 34) is new, drawn with no problem met. The pack's `windows` is sheet 34's view, away from a station; the harness's Windows scenario puts this player at a station (B1), so the build's picture is the station's state of the same sheet. The check draws both (`windows`, `windows-view`).
+- **Against the comparison on `15f78624`,** the fourteen earlier parts are field for field the same; only the build's folder and commit, the pack's commit and the time differ.
+- **The comparison on `15f78624`** (its build named `15f78624`, the record of `4f23375b`, read at `15f78624`, clean), **against the one on `9e3255be`:** all fourteen parts were field for field the same; only the build's folder and commit, the pack's commit and the time differ. The drafting toast is drawn by the check alone: no compared part has it.
 - **The comparison on `9e3255be`** (its build named `9e3255be`, the record of `fd4aace9`, read at `9e3255be`, clean), **against the one on `aa7e7bcf`:** all fourteen parts are field for field the same; only the build's folder and commit, the pack's commit and the time differ.
 - **The comparison on `aa7e7bcf`** (its build named `aa7e7bcf`, the record of `834dcef0`, read at `aa7e7bcf`, clean), **against the one on `f15b8129`:** all fourteen parts are field for field the same; only the build's folder and commit, the pack's commit and the time differ. R2 and shell 0.3.3 change no part's recorded field. In the pictures, the tab bar has shell 0.3.2's painted tiles.
 - **The comparison on `f15b8129`** (its build named `f15b8129`, the record of `755820d8`, read at `f15b8129`, clean), **against the one on `bfd458ea`:** all fourteen parts are field for field the same; only the build's folder and commit, the pack's commit and the time differ. Shell 0.3.1's portrait changes no part's recorded field.
