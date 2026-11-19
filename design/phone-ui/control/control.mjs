@@ -29,12 +29,14 @@ import { PHONE_SHELL_VERSION as BEFORE_VERSION, mountPhoneShell as mountShellBef
 import { mountPhoneShell as mountShellBeforeToast } from '../components/phone-shell/phone-shell.mjs?before-toast';
 // And the shell as it was before 0.3.3's toast and sheet changes: shell 0.3.2, at the commit the build names for it.
 import { mountPhoneShell as mountShellBeforeSheet } from '../components/phone-shell/phone-shell.mjs?before-sheet';
+// And the shell as it is before the bar's fit, a draft: shell 0.3.3, at the commit the build names for it.
+import { mountPhoneShell as mountShellBeforeFit } from '../components/phone-shell/phone-shell.mjs?before-fit';
 import { COMPONENT_KIT_VERSION } from '../components/kit/kit.mjs';
 import { ICONS, ICON_FAMILY_VERSION, ICON_NAMES, iconSvg } from '../components/icons.mjs';
 import { iconPaintedSvg, iconTileSvg } from '../components/icon-paint.mjs';
 import { ROOM_SCENE_VERSION, mountRoomScene } from '../components/room-scene/room-scene.mjs';
 import { phoneIcon } from '../../../apps/game/hosted/planet/phone-controls.mjs';
-import { BASE, GROUPS, PRESETS, SHEET_08, SHEET_DRAFT, SWITCHES, TILES_DRAFT, TOAST_DRAFT, clockSeconds, gamePageOf, gameStateOf, matchPreset, presetOf, sceneInput, sheetContent, sheetNote, shellInput } from './states.mjs';
+import { BAR_FIT_DRAFT, BASE, GROUPS, PRESETS, SHEET_08, SHEET_DRAFT, SWITCHES, TILES_DRAFT, TOAST_DRAFT, clockSeconds, gamePageOf, gameStateOf, matchPreset, presetOf, sceneInput, sheetContent, sheetNote, shellInput } from './states.mjs';
 import { mainSize, readIcons, readParts } from './specs.mjs';
 
 const doc = document, root = doc.documentElement;
@@ -232,7 +234,8 @@ function sheetFill(controls) {
  * preset a tap opens (null: none), `title`, `tags` and `mark` say what its card shows.
  */
 function makeStrip(preset, first = false, { mount = mountPhoneShell, width = stripWidth, opens = preset.key, title = preset.label, tags = [`Sheet ${preset.sheet}`], mark = true, specs: withSpecs = true, route = null, height = () => STRIP_HEIGHT, rest = null, game = false } = {}) {
-  const phone = h('div', { class: 'bc-phone', inert: true });
+  // An earlier shell is marked: the page gives it the top bar's styles as they were until 0.3.4 (control.css).
+  const phone = h('div', { class: 'bc-phone', inert: true, 'data-bc-before': mount === mountPhoneShell ? null : '' });
   const scaler = h('div', { class: 'bc-scaler' }, phone);
   const open = () => openTest(opens);
   const windowEl = opens
@@ -326,6 +329,55 @@ function textSizeChoice() {
   const choice = segmented('Text size', TEXT_SIZES.map(([value, text]) => [value, text]), page.text, setTextSize);
   textListeners.add(percent => choice.choose(percent));
   return choice;
+}
+
+// ── Bars: the top bar's words, never cut, before and after ──────────
+// Shown first as a draft before any check (the owner, 18 November 2026: "Before you run tests let me see the design
+// first"), with two options. The owner chose on 19 November 2026, in the Lead Designer's session: "Icon is enough for
+// promises". It is shell 0.3.5 with its record. Before is the shell at the commit the build names (0.3.4); after is
+// today's. Both are the component.
+const FIT = Object.freeze({ route: 'bar-fit-draft', title: 'Names cut in the top bar', approval: 'Icon is enough for promises',
+  status: 'Approved by you on 19 November, checked (99 of 99 recorded pictures and 37 of 37 checks pass) and accepted by the Lead Designer. In the game’s own build it passes 56 of 56 pictures; it is not deployed yet.' });
+function buildBarFitDraftPart(view) {
+  startStrips();
+  const hasBefore = !!DATA.fitBefore, own = { width: cardTabWidth, opens: null, mark: false, specs: false, route: FIT.route };
+  const pair = state => {
+    const sides = [];
+    if (hasBefore) sides.push(makeStrip({ ...state, key: `fit-before-${state.key}` }, false, { ...own, mount: mountShellBeforeFit, title: 'Before', tags: ['Sheet 07'] }));
+    sides.push(makeStrip({ ...state, key: `fit-after-${state.key}` }, false, { ...own, title: 'After', tags: ['New'] }));
+    for (const strip of sides) lazyStrips.observe(strip.card);
+    // Said on the bars it is about (the Lead Designer, 18 November 2026): each note quotes its own bar's seat line.
+    const seatLine = state.label.match(/“([^”]+)”/)?.[1] ?? '';
+    const note = state.controls.bar === 'own' ? h('p', { class: 'bc-pair-note' }, h('b', {}, 'At 320 with the Large text: '),
+      `“Your turn” takes both lines here. Your seat line (“${seatLine}”) is read aloud by a screen reader but not drawn.`) : null;
+    return h('section', { class: 'bc-pair', 'aria-label': state.label }, h('h3', { class: 'bc-pair-title' }, state.label), note, sides.map(strip => strip.card));
+  };
+  const pairs = h('div', { class: 'bc-pairs' });
+  const fit = () => pairs.style.setProperty('--bc-pair-w', `${cardTabWidth()}px`);
+  const widths = segmented('Phone width', [['auto', 'This screen'], ['320', '320'], ['390', '390'], ['430', '430']], cardTab.width, setWidth);
+  widthSyncs.add(value => { widths.choose(value); fit(); });
+  fit();
+  window.addEventListener('resize', fit);
+  view.append(
+    h('div', { class: 'bc-wrap bc-group-head' },
+      h('h2', {}, 'Names cut in the top bar', h('span', { class: 'bc-count bc-count-ok' }, 'Approved')),
+      h('p', { class: 'bc-ok-line' }, FIT.status),
+      h('p', {}, 'With the names the game gives when a player has chosen none, the top bar cut its words. In a private talk “Crew 6 + Crew 1” showed as “Crew 6 + Cre…”. On your turn “Player 6 · Crew 6” showed as “Player 6 · Cr…”, on a 390 px phone at the Standard text. Under a vote’s title the board’s caption showed as “Current board · shared: A…”. The Lead Designer’s rule: the bar’s words are never cut. Your answer on the two ways to do it: “',
+        FIT.approval, '”.'),
+      h('ul', { class: 'bc-change' },
+        h('li', {}, h('b', {}, 'Before. '), 'A line that does not fit ends in “…”. The partner’s name, your own, or the caption can’t be read.'),
+        h('li', {}, h('b', {}, 'After: Promises is the handshake and its count, on every phone. '), 'No word beside it and no lines around it. A screen reader still says “Promises”. On phones up to about 424 px wide the clock has no small icon either.'),
+        h('li', {}, h('b', {}, 'After: where the words still don’t fit, in this order, stopping at the first that fits. '),
+          'The name takes two lines in place of the line under it (that line is still read out by a screen reader), or the line under it wraps to a second line. Last, Promises, the round, the clock and ⋮ move to a row of their own, together at the right, and the words get the full width. The text keeps the size the player chose.'),
+        h('li', {}, h('b', {}, 'How a line breaks. '), 'Never inside a name, and never between a word and its number: “Round 12” stays whole. Where a line breaks at a “·”, the break takes the dot’s place (“Player 6” over “Crew 6”).'),
+        h('li', {}, h('b', {}, 'A departure from the approved sheet. '), 'Sheet 07 draws the word “Promises” on a turn’s bar. Now no phone shows that word. Your answer covers this departure, and the Lead Designer has recorded it.'),
+        h('li', {}, h('b', {}, 'What it costs. '), 'A taller top bar in a few cases, most on a 320 px phone at the Large and the Largest text, and 7 px under a vote’s title while the game puts the board’s caption there. Where the name takes two lines, the line under it is not drawn.'))),
+    h('div', { class: 'bc-wrap bc-tools' }, textSizeChoice(), widths,
+      h('p', { class: 'bc-hint' }, hasBefore
+        ? 'Each pair is the real bar twice: as it was, and as it is now. Choose a phone width and a text size: the trouble was at 320 and 390, and at the Large and Largest text.'
+        : 'This build has no copy of the bar as it was, so only the bar as it is now is shown.')),
+    pairs);
+  pairs.append(...BAR_FIT_DRAFT.map(pair));
 }
 
 // ── Bars: the toast over a sheet or a banner, before and after ──────
@@ -1033,7 +1085,8 @@ function build() {
   const app = doc.getElementById('bc-app') ?? doc.body.appendChild(h('div', { id: 'bc-app' }));
   // Three sections; Bars and Icons are divided into sub-parts, each its own view with its own address.
   const sections = [
-    { id: 'bars', title: 'Bars', parts: [{ route: TILES.route, title: TILES.title, count: TILES_DRAFT.length, build: buildTilesDraftPart },
+    { id: 'bars', title: 'Bars', parts: [{ route: FIT.route, title: FIT.title, count: BAR_FIT_DRAFT.length, build: buildBarFitDraftPart },
+      { route: TILES.route, title: TILES.title, count: TILES_DRAFT.length, build: buildTilesDraftPart },
       { route: CARD_TAB.route, title: CARD_TAB.title, count: SHEET_08.length, build: buildCardTabPart },
       { route: TOAST.route, title: TOAST.title, count: TOAST_DRAFT.length, build: buildToastDraftPart },
       { route: SQUEEZE.route, title: SQUEEZE.title, count: 1, build: buildSheetDraftPart },
@@ -1055,7 +1108,9 @@ function build() {
       h('p', { class: 'bc-eyebrow' }, 'Game N · phone'),
       h('h1', {}, 'Bars & Icons Control'),
       h('p', { class: 'bc-lede' }, 'Every bar and every icon, drawn by the game’s own files and sorted into parts. Each one shows its size, its background and its colours. Look, try, then mark it OK or Change.'))),
-    // What changed lately, at the top: the owner's approvals of 18 November 2026, each checked. No draft is on the page now.
+    // What is new, at the top: the owner's approvals, each checked. No draft is on the page.
+    h('div', { class: 'bc-wrap' }, h('p', { class: 'bc-approved', role: 'note' }, h('b', {}, 'Approved by you on 19 November: '),
+      h('a', { href: `#${FIT.route}` }, 'the top bar’s names are never cut, with the icon for Promises'), '. Checked, and accepted by the Lead Designer.')),
     h('div', { class: 'bc-wrap' }, h('p', { class: 'bc-approved', role: 'note' }, h('b', {}, 'Approved by you on 18 November: '),
       h('a', { href: `#${TILES.route}` }, 'the bottom bar with painted icons'), ', ',
       h('a', { href: `#${TOAST.route}` }, 'the toast over a sheet or a banner'), ' and ', h('a', { href: `#${SQUEEZE.route}` }, 'a long title at the largest text'),

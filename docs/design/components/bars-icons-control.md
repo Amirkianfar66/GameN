@@ -88,7 +88,23 @@ So a change of look is shown here first, as a draft:
 
 A change that is more than a look (behaviour, data, privacy, the connection's inputs) keeps the usual order: checks, the Lead's review, then the owner.
 
-**No draft is on the page now.** The three that were, all the Lead Designer's proposals, were approved by the owner on 18 November 2026, in the Lead's session ("I approve all as your recommendation"), and are shell 0.3.3 with its record ([the shell's page](phone-shell.md#the-toasts-place-a-squeezed-sheet-and-a-long-title-033)). Their views stay, as before and after.
+**No draft is on the page now. The last one, names cut in the top bar, is approved** (route `bar-fit-draft`, shell 0.3.5, [the shell's page](phone-shell.md#the-bars-words-are-never-cut-035)).
+
+- **How it went.** With the names the game gives when none is chosen, the top bar cut its words. The view first showed a draft with two options, before any check. The owner wrote "Top bar it is not clear for me the options to compare."; the two marks had stood together with no words beside them, so the view was changed to open on the one bar where the options differed, each with its line and its own mark. The owner then chose in the Lead Designer's session, on 19 November 2026: **"Icon is enough for promises"**.
+- **The view now:** seven bars, each drawn twice by the component: **Before** (shell 0.3.4 at `89fa5d18`, read from git by the build as `?before-fit`) and **After** (today's, 0.3.5). The Phone width and Text size switches choose where: 320, 390 and 430 px, at the Standard, the Large and the Largest text.
+  - A private talk with "Crew 6 + Crew 1" and with "Player 6 + Player 10".
+  - Your turn with "Player 6 · Crew 6", with "Player 10 · Crew 10", and with a short name.
+  - Another player's turn, "Crew 10" over "Player 10 · Turn".
+  - A vote with the shared board's caption under its title, as the game draws it until the ballot's component connects (the control `caption: 'board'`).
+- **It has no marks.** The two the draft had (`draft-top-bar-steady`, `draft-top-bar-measured`) are no longer drawn; the store never held either.
+- **The `names` switch** (the test view, Top bar): the cast's names, or the game's own longer ones.
+
+**An earlier shell's top bar, from 0.3.5 on.** Shell 0.3.5 took nine lines out of the component's stylesheet: the word "Promises" in its pill, the two hairlines, and the clock's icon from 22.5 rem. An earlier shell's own script still makes those parts. So:
+- every strip that draws an earlier shell is marked `data-bc-before`, and the page's own stylesheet gives it those lines back and undoes for it the two rules 0.3.5 put in their place;
+- the build still refuses when an earlier stylesheet has any other line that today's lacks;
+- **checked:** all 111 "before" strips of the five before-and-after views, at 320, 390 and 430 px, have every part of their bar (the name, the line under it, Promises, its pill, its word, the hairlines, the round, the clock, its icon, ⋮) in the same place and size as on the page built before 0.3.5, to a tenth of a pixel.
+
+The three drafts before it, all the Lead Designer's proposals, were approved by the owner on 18 November 2026, in the Lead's session ("I approve all as your recommendation"), and are shell 0.3.3 with its record ([the shell's page](phone-shell.md#the-toasts-place-a-squeezed-sheet-and-a-long-title-033)). Their views stay, as before and after.
 
 *The toast over a sheet or a banner* (`#toast-draft`).
 - **Before:** the toast dropped in 10 px under the top bar, across a tall sheet's head or on the reconnecting banner.

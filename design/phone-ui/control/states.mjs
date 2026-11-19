@@ -35,6 +35,8 @@ export const SWITCHES = Object.freeze([
     ['course', 'Setting course'], ['course-own', 'Setting course · the Captain’s own'], ['moved', 'The ship moved'],
     ['talk', 'Private talk'], ['loading', 'Loading the ship'], ['reconnecting', 'Reconnecting'], ['none', 'No top bar'],
   ] },
+  // The names in the bar: the cast's own, or the names the game gives when none is chosen (the bar's fit, draft).
+  { key: 'names', group: 'Top bar', label: 'Names', options: [['cast', 'The cast’s names'], ['crew', '“Crew 6”, “Crew 1”'], ['player', '“Player 10”, “Crew 10”']] },
   { key: 'clock', group: 'Top bar', label: 'Clock', options: [['42', '0:42'], ['8', '0:08 · the last 10 s'], ['0', '0:00'], ['run', 'Counting down']] },
   { key: 'promises', group: 'Top bar', label: 'Promises', options: [['1', '1 waiting'], ['0', 'None waiting'], ['3', '3 waiting'], ['off', 'Not shown']] },
   { key: 'tabs', group: 'Bottom bar', label: 'Bottom bar', options: [['game', 'Game tabs'], ['talk', 'Private talk’s two buttons'], ['none', 'None']] },
@@ -65,7 +67,7 @@ export const SWITCHES = Object.freeze([
 
 /** Each switch's value before a preset changes it: another player's turn, in the room view. */
 export const BASE = Object.freeze({
-  bar: 'turn', clock: '42', promises: '1', tabs: 'game', hero: 'pass-off', open: 'none', me: 'portrait', view: 'room', actionsTab: 'on', badge: 'none',
+  bar: 'turn', names: 'cast', clock: '42', promises: '1', tabs: 'game', hero: 'pass-off', open: 'none', me: 'portrait', view: 'room', actionsTab: 'on', badge: 'none',
   talkOpen: 'none', target: 'none', chip: 'off', banner: 'none', toast: 'none', sheet: 'none', status: 'live', edge: 'off',
 });
 
@@ -151,6 +153,20 @@ export const PRESETS = Object.freeze(GROUPS.flatMap(group => group.presets));
  * A draft of a look, for the owner's look before anything is checked: the toast over an open sheet. Today it lies
  * across a tall sheet's head; in the draft it sits under the head. The last two states are ones where it keeps its place.
  */
+/**
+ * Shell 0.3.5: the top bar's words, which were cut with the game's own names and its own caption. Seven bars, each
+ * drawn at the width and the text size the view's switches choose.
+ */
+export const BAR_FIT_DRAFT = Object.freeze([
+  ['pair-crew', 'A private talk · “Crew 6 + Crew 1”', { bar: 'talk', promises: '0', tabs: 'talk', names: 'crew' }],
+  ['pair-player', 'A private talk · “Player 6 + Player 10”', { bar: 'talk', promises: '0', tabs: 'talk', names: 'player' }],
+  ['own-crew', 'Your turn · “Player 6 · Crew 6”', { ...own, names: 'crew' }],
+  ['own-player', 'Your turn · “Player 10 · Crew 10”', { ...own, names: 'player' }],
+  ['turn-player', 'Another player’s turn · “Crew 10” over “Player 10 · Turn”', { names: 'player' }],
+  ['own-short', 'Your turn · a short name, “Player 4 · Dev”', { ...own }],
+  ['phase-caption', 'A vote · “Current board · shared: After Blackout · Round 3”', { bar: 'vote', promises: '0', hero: 'vote', caption: 'board' }],
+].map(([key, label, change]) => Object.freeze({ key, label, sheet: '07', group: 'top', groupTitle: 'Top bar', crop: 'top', controls: Object.freeze({ ...BASE, ...change }) })));
+
 export const TOAST_DRAFT = Object.freeze([
   ['role', 'A tall sheet · the receipt after a choice', { ...own, open: 'card', sheet: 'card', toast: 'receipt' }],
   ['host', 'A tall sheet with Back · the receipt', { sheet: 'host', toast: 'receipt' }],
@@ -259,14 +275,23 @@ const HEROES = Object.freeze({
 /** The clock's seconds for a set of switches: the fixed choice, or `running`, the control's own countdown. */
 export const clockSeconds = (controls, running = 42) => (controls.clock === 'run' ? running : Number(controls.clock));
 
+/** A person under a name the game gives when none is chosen, with a character's portrait and, for seat 10, its seat. */
+const named = (n, name, seat = null) => ({ ...person(n), name, ...(seat ? { seat } : {}) });
+/** The bar's people under the game's own longer names (the `names` switch): a pair, the viewer on their turn, another player on theirs. */
+const NAMED = Object.freeze({
+  crew: { pair: [named(6, 'Crew 6'), named(1, 'Crew 1')], own: named(6, 'Crew 6'), turn: named(1, 'Crew 1') },
+  player: { pair: [named(6, 'Player\u00a06'), named(2, 'Player\u00a010', 'seat-10')], own: named(2, 'Crew 10', 'seat-10'), turn: named(2, 'Crew 10', 'seat-10') },
+});
+
 function barInput(c, seconds) {
   const ms = seconds * 1000;
   const mine = { promises: c.promises === 'off' ? null : { count: Number(c.promises) }, menu: {} };
   const phase = (kind, facts = {}) => phaseBar({ phase: kind, round: 3, remainingMs: ms, ...mine, ...facts });
   switch (c.bar) {
-    case 'turn': return { kind: 'turn', who: person(fixture.active), self: false, round: 3, timer: { remainingMs: ms }, ...mine };
-    case 'own': return { kind: 'turn', who: person(SELF), self: true, round: 3, timer: { remainingMs: ms }, ...mine };
-    case 'vote': return { kind: 'phase', icon: 'jail', title: 'Jail vote', sub: c.hero === 'voted' ? 'Your ballot is in' : 'Choose who goes to Jail', round: 3, timer: { remainingMs: ms }, ...mine };
+    case 'turn': return { kind: 'turn', who: NAMED[c.names]?.turn ?? person(fixture.active), self: false, round: 3, timer: { remainingMs: ms }, ...mine };
+    case 'own': return { kind: 'turn', who: NAMED[c.names]?.own ?? person(SELF), self: true, round: 3, timer: { remainingMs: ms }, ...mine };
+    // `caption: 'board'` is the game's own line there until the ballot's component connects: the shared board's caption.
+    case 'vote': return { kind: 'phase', icon: 'jail', title: 'Jail vote', sub: c.caption === 'board' ? 'Current board · shared: After Blackout · Round 3' : c.hero === 'voted' ? 'Your ballot is in' : 'Choose who goes to Jail', round: 3, timer: { remainingMs: ms }, ...mine };
     case 'result': return { kind: 'phase', icon: 'jail', title: 'Jail vote · result', short: 'Vote result', round: 3, timer: { remainingMs: 3000, ring: 0.6 }, menu: {} };
     case 'before': return phase('PRE_TURN', { hasOfficer: true });
     case 'before-start': return phase('PRE_TURN', { hasOfficer: true, blocked: true });
@@ -279,7 +304,7 @@ function barInput(c, seconds) {
     case 'course': return phase('NAV_SETTING');
     case 'course-own': return phase('NAV_SETTING', { office: 'captain' });
     case 'moved': return movedBar({ round: 3, ...mine });
-    case 'talk': return { kind: 'pair', pair: [person(1), person(SELF)], round: 3, timer: { remainingMs: ms }, ...mine };
+    case 'talk': return { kind: 'pair', pair: NAMED[c.names]?.pair ?? [person(1), person(SELF)], round: 3, timer: { remainingMs: ms }, ...mine };
     case 'loading': return loadingBar({ index: 3, total: 5 });
     case 'reconnecting': return reconnectingBar({ round: 3, ...mine });
     case 'none': return null;

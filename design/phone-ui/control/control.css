@@ -145,7 +145,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .bc-window[data-still] { cursor: default; }
 @media (max-width: 460px) {
   .bc-pairs { padding-left: 0; padding-right: 0; grid-template-columns: minmax(0, 1fr); }
-  .bc-pair-title { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .bc-pair-title, .bc-pair-note { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 }
 @media (max-width: 460px) {
   /* On a phone a strip runs edge to edge, so the bar is exactly as wide as on this phone. */
@@ -276,6 +276,24 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 /* A still's own measure (the sheet drafts): the room its content gets, under the still. */
 .bc-room b { color: var(--bc-ink); font-weight: 600; }
 .bc-pair-note { margin: 0; color: var(--bc-ink-2); font-size: 13px; }
+/* FOR THIS PAGE'S EARLIER-SHELL STRIPS ONLY. These lines are never shipped and are not part of the component: the game
+   and every other consumer take the phone shell's own stylesheet, which no longer has them.
+   The top bar as it was until shell 0.3.4, for the page's "before" shells (a shell in [data-bc-before]). Shell 0.3.5
+   took nine lines out of the component's stylesheet: the word "Promises" in its pill, the two hairlines, and the
+   clock's icon from 22.5 rem. An earlier shell's own script still makes those parts, so the page gives it those
+   lines back here, and undoes for it the two rules 0.3.5 put in their place (the pill's fixed width, and no clock
+   icon up to 25 rem). The build checks that these nine lines are all an earlier stylesheet has that today's lacks. */
+[data-bc-before] .ms-phone-shell .ms-ps-div { flex: none; width: 1px; height: 24px; background: var(--ms-ps-hairline); }
+[data-bc-before] .ms-phone-shell .ms-ps-pill { width: auto; min-width: 36px; gap: 4px; padding: 0 10px 0 7px; font: 600 0.75rem/1 var(--ms-ps-font); letter-spacing: -0.005em; white-space: nowrap; }
+[data-bc-before] .ms-phone-shell .ms-ps-tb:not([data-kind="turn"]) .ms-ps-pill { padding: 0; width: 36px; }
+[data-bc-before] .ms-phone-shell .ms-ps-tb:not([data-kind="turn"]) :is(.ms-ps-pill-label, .ms-ps-div) { display: none; }
+@container ms-ps-bar (max-width: 22.5rem) {
+  [data-bc-before] .ms-phone-shell .ms-ps-tb .ms-ps-pill { padding: 0; width: 36px; }
+  [data-bc-before] .ms-phone-shell .ms-ps-tb :is(.ms-ps-pill-label, .ms-ps-div) { display: none; }
+}
+@container ms-ps-bar (min-width: 22.5001rem) and (max-width: 25rem) {
+  [data-bc-before] .ms-phone-shell .ms-ps-timer-mark:not(.ms-ps-ring) { display: inline; }
+}
 .bc-advice { margin: 16px 0 0; max-width: 720px; color: var(--bc-ink-2); }
 .bc-advice b { color: var(--bc-ink); font-weight: 600; }
 /* A change the owner approved: its status line and its badge, in the page's OK green. */

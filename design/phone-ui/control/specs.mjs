@@ -17,7 +17,7 @@ export const PARTS = Object.freeze([
   { area: 'top', sel: '.ms-ps-tb .ms-ps-glyph', name: 'Phase icon tile', icon: true },
   { area: 'top', sel: '.ms-ps-tb .ms-ps-name, .ms-ps-tb .ms-ps-long', name: 'Title', text: true },
   { area: 'top', sel: '.ms-ps-tb .ms-ps-sub', name: 'Line under the title', text: true },
-  { area: 'top', sel: '.ms-ps-tb .ms-ps-pill', name: 'Promises button', words: '.ms-ps-pill-label', icon: true, tap: '.ms-ps-promises' },
+  { area: 'top', sel: '.ms-ps-tb .ms-ps-pill', name: 'Promises button', icon: true, tap: '.ms-ps-promises' },
   { area: 'top', sel: '.ms-ps-tb .ms-ps-badge', name: 'Promises count', text: true },
   { area: 'top', sel: '.ms-ps-tb .ms-ps-round', name: 'Round', text: true },
   { area: 'top', sel: '.ms-ps-tb .ms-ps-timer', name: 'Clock', words: '.ms-ps-timer-text', icon: true },
