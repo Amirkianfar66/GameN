@@ -3,9 +3,9 @@ html:has(.planet-app),body:has(.planet-app){margin:0;overflow:hidden;background:
 .planet-app{--bv2-ink:#151923;--bv2-canvas:#10141C;--bv2-paper:#F4EBDD;position:fixed;inset:0;overflow:hidden;background:#060C1C;color:#F4EBDD}
 .planet-app *{box-sizing:border-box}
 .planet-app [hidden]{display:none!important}
-.planet-app button:not(:where(.ms-k-btn,.ms-k-icon-btn,.ms-k-seg-btn,.ms-k-stepper-btn,.ms-k-switch,.ms-k-row,.ms-k-cell,[class^="ms-ps-"],[class*=" ms-ps-"])){font:700 13px system-ui,sans-serif;min-width:44px;min-height:44px;cursor:pointer;color:#F7D886;background:#132447;border:1px solid #A7771E;border-radius:4px;padding:6px 10px}
+.planet-app button:not(:where(.ms-k-btn,.ms-k-icon-btn,.ms-k-seg-btn,.ms-k-stepper-btn,.ms-k-switch,.ms-k-row,.ms-k-cell,.ms-k-tile,.ms-wn-swatch,[class^="ms-ps-"],[class*=" ms-ps-"])){font:700 13px system-ui,sans-serif;min-width:44px;min-height:44px;cursor:pointer;color:#F7D886;background:#132447;border:1px solid #A7771E;border-radius:4px;padding:6px 10px}
 .planet-app button:disabled{cursor:default;color:#A7B6D3;opacity:.75;border-style:dashed}
-.planet-app button:not(:where(.ms-k-btn,.ms-k-icon-btn,.ms-k-seg-btn,.ms-k-stepper-btn,.ms-k-switch,.ms-k-row,.ms-k-cell,[class^="ms-ps-"],[class*=" ms-ps-"])):focus-visible,.planet-app canvas:focus-visible{outline:3px solid #F7D886;outline-offset:2px}
+.planet-app button:not(:where(.ms-k-btn,.ms-k-icon-btn,.ms-k-seg-btn,.ms-k-stepper-btn,.ms-k-switch,.ms-k-row,.ms-k-cell,.ms-k-tile,.ms-wn-swatch,[class^="ms-ps-"],[class*=" ms-ps-"])):focus-visible,.planet-app canvas:focus-visible{outline:3px solid #F7D886;outline-offset:2px}
 .planet-board{position:absolute;inset:0}
 .planet-sheet-body>h2{font-size:16px;margin:0 0 6px}.planet-sheet-body>h3{font-size:14px;margin:8px 0}
 .planet-sheet-body p:not(:where(.planet-sheet-body .ms-kit *)){font-size:13px;line-height:1.4;margin:6px 0}.planet-sheet-body>button{margin:3px;max-width:100%}

@@ -116,7 +116,7 @@ test('its words, inks and pen are the pack\'s (sheet 34); why there is no window
   // Decision 6: the box's name and keys, the Lead's (not drawn).
   assert.equal(W.box(['Room A', 'Hospital']), 'Drawing for Room A ↔ Hospital');
   assert.equal(W.keys, 'Arrow keys move the pen. Shift with an arrow draws. Space makes a dot.');
-  assert.equal(WINDOWS_VERSION, 'windows-0.1.1');
+  assert.equal(WINDOWS_VERSION, 'windows-0.1.2');
 });
 
 test('the limits are the contract\'s (PlanetDrawingSchema), kept here and read from the contract\'s source', () => {
