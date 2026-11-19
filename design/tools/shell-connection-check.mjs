@@ -7,7 +7,7 @@
 //   index.html      the phone harness (apps/game/dev/phone): the real Planet app, controller and renderer
 //   food/app.html   the Food harness (apps/game/dev/phone/food): the same app on the frozen Food release's packets
 // and serves them with the hosted game's production response headers (scripts/hosted-preview-policy.mjs,
-// the Content Security Policy included). It drives the real app at 390 × 844 and 430 × 932, in desktop
+// the Content Security Policy included). It drives the real app at 390 × 844 and 430 × 932 (and the bar's own states at 402 × 742, the owner's view, 0.3.5), in desktop
 // Chromium at 2× pixels:
 //   turn, own                another player's turn; your turn, Pass ready
 //   pass                     "Pass your turn?" (then Pass sends PASS_TURN and its registration shows once)
@@ -62,9 +62,15 @@ import { connect, launchBrowser, openPage, sleep } from './lib/chrome.mjs';
 
 const REPO = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const REVIEW = join(REPO, 'design/phone-ui/review/shell-connection');
-const SIZES = { '390x844': [390, 844], '430x932': [430, 932], '320x568': [320, 568] };
+// The order matters: the small phone's two states choose the Largest text, which the app keeps for the browser's next
+// pages. So it is drawn last, and every capture checks the text size it was drawn at (`textSize`).
+const SIZES = { '390x844': [390, 844], '430x932': [430, 932], '402x742': [402, 742], '320x568': [320, 568] };
 // Every state is drawn at the two phones; a state that names its own `sizes` is drawn at those alone.
 const PHONES = ['390x844', '430x932'];
+// Shell 0.3.5: the bar's words are never cut. The states whose subject is the bar are also drawn at 402 × 742, the
+// game as the owner reads it on their phone inside the Claude app: a turn, your turn, a private talk, the Jail vote
+// (the shared board's caption), the Blackout, Before turns, the appointment and Setting course.
+const OWNER_VIEW = '402x742', AT_OWNER_VIEW = new Set(['turn', 'own', 'talk', 'vote', 'blackout', 'before', 'appointment', 'course']);
 const PROJECT = 'gamen-mothership-staging';
 const HEADERS = createHostedPreviewHeaders(PROJECT);
 // The asset tooling the harnesses serve their art with: it must be main's, so the art is main's too.
@@ -164,11 +170,20 @@ const LOOK = `(() => {
   const bar = q('.ms-ps-tb'), tabs = q('.ms-ps-tabs'), talk = q('.ms-ps-talk'), hero = q('.ms-ps-hero'), sheet = q('.ms-ps-sheet'), target = q('.ms-ps-target'), banner = q('.ms-ps-banner');
   const harness = window.planetHarness ?? window.foodAppHarness, model = harness?.app.game?.getModel() ?? null;
   return {
+    text: document.documentElement.style.fontSize || '100%',
     shell: shell ? { status: shell.dataset.status, tabs: shell.dataset.tabs, bar: shell.dataset.bar, focusInside: shell.contains(document.activeElement), box: box(shell) } : null,
     bar: bar ? { kind: bar.dataset.kind, tone: bar.getAttribute('data-tone'), hidden: bar.getAttribute('aria-hidden') === 'true', name: text(q('.ms-ps-name', bar)), sub: text(q('.ms-ps-sub', bar)),
       glyph: q('.ms-ps-glyph', bar)?.getAttribute('data-tone') ?? (q('.ms-ps-glyph', bar) ? 'plain' : null), portrait: !!q('.ms-ps-pt', bar), round: text(q('.ms-ps-round', bar)), clock: text(q('.ms-ps-timer', bar)),
       urgent: !!q('.ms-ps-timer[data-urgent]', bar), ring: !!q('.ms-ps-ring', bar), promises: q('.ms-ps-promises', bar)?.getAttribute('aria-label') ?? null, menu: !!q('.ms-ps-menu', bar),
-      gauge: q('.ms-ps-slot .fs-food', bar)?.getAttribute('aria-label') ?? null, controls: all('button', bar).length, box: box(bar) } : null,
+      gauge: q('.ms-ps-slot .fs-food', bar)?.getAttribute('aria-label') ?? null, controls: all('button', bar).length, box: box(bar),
+      // Shell 0.3.5: how the bar is fitted, which drawn words are cut (none), Promises' drawing (the handshake alone: a 36 px pill
+      // with no word, no hairlines), whether the clock's icon is drawn, the bar's inside in rem, and the dots that gave way to a break.
+      fit: bar.getAttribute('data-fit') ?? '', cut: ['.ms-ps-name', '.ms-ps-sub'].filter(sel => { const n = q(sel, bar); if (!n || n.offsetWidth <= 1) return false; const line = parseFloat(getComputedStyle(n).lineHeight) || n.clientHeight; return n.scrollWidth > n.clientWidth + 1 || n.scrollHeight > n.clientHeight + line / 2; }),
+      pill: q('.ms-ps-pill', bar) ? { width: Math.round(q('.ms-ps-pill', bar).getBoundingClientRect().width * 100) / 100, words: q('.ms-ps-pill', bar).textContent, old: all('.ms-ps-pill-label, .ms-ps-div', bar).length } : null,
+      clockIcon: (() => { const mark = q('.ms-ps-timer-mark', bar); return mark ? mark.getClientRects().length > 0 && !mark.classList.contains('ms-ps-ring') : null; })(),
+      rem: (() => { const cs = getComputedStyle(bar); return Math.round((bar.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)) / parseFloat(getComputedStyle(document.documentElement).fontSize) * 100) / 100; })(),
+      breaks: all('.ms-ps-sub .ms-ps-dot', bar).map(n => n.hasAttribute('data-break')),
+      below: (() => { const stage = q('.ms-ps-stage'); return stage ? Math.round((stage.getBoundingClientRect().top - bar.getBoundingClientRect().bottom) * 100) / 100 : null; })() } : null,
     tabs: tabs ? { hidden: tabs.getAttribute('aria-hidden') === 'true', buttons: all('button[data-intent]', tabs).map(control), box: box(tabs),
       // Shell 0.3.0: the Card tab's picture, this viewer's own crew portrait: whether it is drawn, with which picture, and its box.
       // Shell 0.3.2: the portrait is the tab's picture that is not a painted tile; with no portrait the tab draws the card's tile.
@@ -664,7 +679,7 @@ try {
     let page = null;
     for (const [name, state] of Object.entries(STATES)) {
       if (wanted && !wanted.has(name)) continue;
-      if (!(state.sizes ?? PHONES).includes(sizeKey)) continue;
+      if (!(state.sizes ?? PHONES).includes(sizeKey) && !(sizeKey === OWNER_VIEW && AT_OWNER_VIEW.has(name))) continue;
       const result = { ok: false };
       try {
         if (!state.from) {
@@ -691,6 +706,13 @@ try {
           noOldChrome: seen.old === 0,
           policy: seen.violations.every(v => v.kind !== 'unexpected'),
           problems: problems.length === 0,
+          // The text size the capture was drawn at: the Standard, but for the two states that choose the Largest.
+          textSize: seen.text === (name.startsWith('largest-') ? '200%' : '100%'),
+          // Shell 0.3.5, in every capture that draws a bar: no word cut; Promises the handshake alone; the clock's icon only in a
+          // bar wider than 25 rem; and the stage beginning where the bar ends (an edge-to-edge stage lies under it).
+          ...(seen.bar && !seen.bar.hidden && seen.bar.name !== null ? { barWords: seen.bar.cut.length === 0,
+            promisesIcon: !seen.bar.pill || (seen.bar.pill.width === 36 && seen.bar.pill.words === '' && seen.bar.pill.old === 0),
+            clockIcon: seen.bar.clockIcon === null || seen.bar.ring || seen.bar.clockIcon === (seen.bar.rem > 25) } : {}),
           ...Object.fromEntries(Object.entries(own).filter(([key]) => !key.startsWith('info'))),
         };
         const file = join(REVIEW, `${sizeKey}-${name}.jpg`);

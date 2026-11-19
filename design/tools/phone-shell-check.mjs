@@ -7,6 +7,8 @@
 // state at the two development phone sizes, 390 × 844 and 430 × 932, and the Largest text (200%) at
 // 320 × 568, in desktop Chromium at 2× pixels. The room scene draws the stage, as in the game.
 // The phase bars' states (0.2.10) draw what ../phone-ui/components/phone-shell/phase-bars.mjs returns.
+// The fit's states (0.3.5) are captured at 320 × 568, the two development sizes and 402 × 742, the game as
+// the owner reads it on their phone inside the Claude app.
 // A capture passes with no policy violation, no failed or refused request and no page error, with the
 // shell's bars drawn as the state asks and, where the stage shows a room, the room's crew drawn.
 // It then runs, in the same bundle under the same headers:
@@ -32,15 +34,19 @@ import { POLICY_LISTENER, bundlePreview, classify, recordedHeaders, serve, sha25
 const REPO = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const COMPONENT = join(REPO, 'design/phone-ui/components/phone-shell');
 const REVIEW = join(COMPONENT, 'review');
-const SIZES = { '390x844': [390, 844], '430x932': [430, 932], '320x568': [320, 568] };
+const SIZES = { '390x844': [390, 844], '430x932': [430, 932], '320x568': [320, 568], '402x742': [402, 742] };
+/** 0.3.5: the fit's states at the small phone, the two development phones and the owner's own view (their phone inside the Claude app). */
+const FIT = ['320x568', '390x844', '402x742', '430x932'];
 /** Each state at the two development sizes; the Largest text at 320 × 568 (preview.mjs PREVIEW_STATES). */
 const STATES = { turn: 2, own: 2, urgent: 2, vote: 2, voted: 2, result: 2, dark: 2, target: 2, pass: 2, actions: 2, card: 2, 'card-icon': 2, talk: 2, stale: 2, out: 2, concealed: 2, film: 2, poster: 2, large: ['320x568'], 'target-stale': 2, 'target-large': ['390x844', '430x932'],
   // 0.2.10, the phase bars: each row of the words table (phase-bars.mjs), and one at the Largest text.
   before: 2, 'before-start': 2, block: 2, appointment: 2, appoint: 2, lit: 2, 'lit-next': 2, synchronized: 2, 'course-own': 2, moved: 2, loading: 2, closed: 2, 'phase-large': ['320x568'],
   // 0.3.3: the toast under a tall sheet's head and under the banner; a sheet with a long title, and the same at the Largest text on the small phone.
-  'toast-sheet': 2, 'toast-banner': 2, offer: 2, 'offer-large': ['320x568'] };
+  'toast-sheet': 2, 'toast-banner': 2, offer: 2, 'offer-large': ['320x568'],
+  // 0.3.5: the bar's words with the game's own longer names and its longest line, never cut; one at the Large text and one at the Largest.
+  'fit-pair-crew': FIT, 'fit-pair-player': FIT, 'fit-own-crew': FIT, 'fit-own-player': FIT, 'fit-turn': FIT, 'fit-phase': FIT, 'fit-own-large': ['320x568'], 'fit-phase-large': ['430x932'] };
 /** The states whose stage holds no room (a film, a poster, the talk's capsule) or whose room shows no one. */
-const NO_CREW = ['dark', 'talk', 'concealed', 'film', 'poster', 'synchronized', 'moved', 'loading'];
+const NO_CREW = ['dark', 'talk', 'concealed', 'film', 'poster', 'synchronized', 'moved', 'loading', 'fit-pair-crew', 'fit-pair-player'];
 // The moment of the voyage the captures hold, as the pack's sheet 55 does (2:10).
 const AT = 130;
 
@@ -62,6 +68,9 @@ let failed = 0;
 /** 0.3.2: `count` of the game's tabs draw a painted tile, each drawn, in the portrait's 32 px box. */
 const tiled = (s, count) => s.tiles.filter(t => t.tile).length === count && s.tiles.every(t => t.box && t.box.join() === '32,32' && (!t.tile || t.drawn));
 const tileOf = (s, tab) => s.tiles.find(t => t.tab === tab) ?? {};
+/** 0.3.5: no drawn word of the bar cut, Promises a 36 px pill with no word, the clock's icon only in a bar wider than 25 rem, the bar inside the phone. */
+const whole = s => !!s.fit && s.fit.cut.length === 0 && (!s.fit.pill || (s.fit.pill.width === 36 && s.fit.pill.words === '')) && (s.fit.clockIcon === null || s.ring || s.fit.clockIcon === (s.fit.rem > 25)) && s.bar.right <= s.layout.size.width
+  && (!s.fit.row || (s.fit.row.level && (s.fit.row.gap === null || (s.fit.row.gap >= 0 && s.fit.row.gap <= 12))));
 /** What a state must show, from the shell's own DOM (and the room scene's crew where a room is drawn). */
 const EXPECT = {
   // 0.3.0: Card is the last tab and draws this viewer's own portrait, its ring the tab's colour, not amber.
@@ -109,6 +118,17 @@ const EXPECT = {
   offer: s => s.sheet === 'Offer from Fay · Player 6' && s.sheetActions === 2 && !s.sheetFit.follows && !s.sheetFit.stacked && s.sheetFit.cut <= 1,
   // 0.3.3: on the small phone at 200 %, the head stacked and the footer following the body: the content has the room under the head, and nothing is cut.
   'offer-large': s => s.sheet === 'Offer from Fay · Player 6' && s.sheetFit.follows && s.sheetFit.stacked && s.sheetFit.cut <= 1 && s.sheetFit.room >= s.sheetFit.height - s.sheetFit.head - 14,
+  // 0.3.5, the fit: every word whole and all of it in the page, Promises the handshake alone (a 36 px pill with no word), the
+  // clock's icon only in a bar wider than 25 rem. Where the bar is fitted, how: the name on two lines, the line under it
+  // on two, or the controls on a row of their own.
+  'fit-pair-crew': s => whole(s) && s.kind === 'pair' && s.fit.read.join('|') === 'Crew 6 + Crew 1|Private talk' && s.talk === 2,
+  'fit-pair-player': s => whole(s) && s.kind === 'pair' && s.fit.read.join('|') === 'Player\u00a06 + Player\u00a010|Private talk',
+  'fit-own-crew': s => whole(s) && s.fit.read.join('|') === 'Your turn|Player 6 · Crew 6',
+  'fit-own-player': s => whole(s) && s.fit.read.join('|') === 'Your turn|Player 10 · Crew 10',
+  'fit-turn': s => whole(s) && s.fit.read.join('|') === 'Crew 10|Player 10 · Turn',
+  'fit-phase': s => whole(s) && s.kind === 'phase' && s.fit.read.join('|') === 'Captain vote|Current board · shared: After Food Supply · Round 12' && s.fit.how !== '',
+  'fit-own-large': s => whole(s) && s.fit.how === 'name2' && s.fit.read.join('|') === 'Your turn|Player 6 · Crew 6',
+  'fit-phase-large': s => whole(s) && s.fit.how === 'stack sub2' && s.fit.read[1] === 'Current board · shared: After Blackout · Round 3',
   before: s => s.kind === 'phase' && s.name === 'Before turns' && s.sub === 'Officer block · Blackhole' && s.timer === '0:12' && !s.urgent && s.round === 'R3' && s.promises === 'Promises' && s.menu,
   'before-start': s => s.name === 'Before turns' && s.sub === 'Turns start at 0:00' && s.timer === '0:09' && s.urgent,
   block: s => s.name === 'Block a move' && s.sub === 'Before turns · Officer' && s.sheet === 'Block movement' && s.sheetActions === 2,
@@ -169,6 +189,17 @@ try {
             const name = q('.ms-ps-name'), lineHeight = name ? parseFloat(getComputedStyle(name).lineHeight) : NaN;
             return { box: box('.ms-ps-tb'), promises: box('.ms-ps-promises'), round: box('.ms-ps-round'), timer: box('.ms-ps-timer'), menu: box('.ms-ps-menu'), right: q('.ms-ps-tb') ? Math.round(q('.ms-ps-tb').getBoundingClientRect().right - base.left) : null,
               nameLines: name && lineHeight ? Math.round(name.getBoundingClientRect().height / lineHeight) : null, nameWhole: name ? name.scrollWidth <= name.clientWidth + 1 && name.scrollHeight <= name.clientHeight + 1 : null }; })(),
+          // 0.3.5: how the bar is fitted, whether a drawn word is cut, Promises' drawing (its pill's width and words) and whether the clock's icon is drawn.
+          fit: (() => { const tb = q('.ms-ps-tb'); if (!tb || !q('.ms-ps-name')) return null;
+            const cut = n => { if (!n || n.offsetWidth <= 1) return false; const line = parseFloat(getComputedStyle(n).lineHeight) || n.clientHeight; return n.scrollWidth > n.clientWidth + 1 || n.scrollHeight > n.clientHeight + line / 2; };
+            const pill = q('.ms-ps-pill'), mark = q('.ms-ps-timer-mark'), style = getComputedStyle(tb), rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+            return { how: tb.getAttribute('data-fit') ?? '', cut: ['.ms-ps-name', '.ms-ps-sub'].filter(s => cut(q(s))), read: [t('.ms-ps-name'), t('.ms-ps-sub')], height: Math.round(tb.getBoundingClientRect().height * 100) / 100,
+              pill: pill ? { width: Math.round(pill.getBoundingClientRect().width * 100) / 100, words: pill.textContent } : null, clockIcon: mark ? mark.getClientRects().length > 0 && !mark.classList.contains('ms-ps-ring') : null,
+              rem: Math.round((tb.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight)) / rem * 100) / 100,
+              // On a row of their own: the gap from Promises to the round, the clock and the menu beside it, and whether the two are level. The dots that gave way to a break.
+              row: (() => { if (!(tb.getAttribute('data-fit') ?? '').includes('stack')) return null; const p = q('.ms-ps-promises')?.getBoundingClientRect() ?? null, r = q('.ms-ps-right').getBoundingClientRect();
+                return { gap: p ? Math.round((r.left - p.right) * 100) / 100 : null, level: p ? Math.abs((p.top + p.bottom) / 2 - (r.top + r.bottom) / 2) <= 1 : true, right: Math.round((tb.getBoundingClientRect().right - r.right) * 100) / 100 }; })(),
+              breaks: [...tb.querySelectorAll('.ms-ps-sub .ms-ps-dot')].map(n => n.hasAttribute('data-break')) }; })(),
           bannerButtons: q('.ms-ps-banner') ? q('.ms-ps-banner').querySelectorAll('button').length : null, sheet: t('.ms-ps-sheet h2'),
           sheetActions: root.querySelectorAll('.ms-ps-sheet-foot button').length, head: q('.ms-ps-sheet-head [data-intent="sheet-head"]')?.getAttribute('aria-label') ?? null, buttons: root.querySelectorAll('.ms-ps-tb button, .ms-ps-tabs button, .ms-ps-talk button, .ms-ps-over button, .ms-ps-sheet button').length,
           figures: room ? room.querySelectorAll('.ms-rs-fig svg').length : 0, cover: q('.ms-ps-cover')?.children.length ?? 0,

@@ -1,6 +1,6 @@
 # Phone shell: Designer's runtime component
 
-**Version:** `phone-shell-0.3.4`, with `component-kit-0.8.2` and the icon family `phone-ui-icons-1.1.0`. **Status (18 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its three files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
+**Version:** `phone-shell-0.3.5`, with `component-kit-0.8.2` and the icon family `phone-ui-icons-1.1.0`. **Status (18 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its three files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
 
 **What it is:** the match's frame on a phone, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
 
@@ -9,6 +9,7 @@
   - a turn, your turn, a phase, a private talk, and the Blackout's dark;
   - the words of each game step with no active player, from Before turns to "The ship moved" (0.2.10, [below](#the-phase-bars-words));
   - Promises with its count, ⋮, the round, and the clock (amber in the last 10 s, a ring for the 5 s result and the 6 s presentation);
+  - its words are never cut, and Promises is the handshake and its count on every phone (0.3.5, the owner's 19 November decision, [below](#the-bars-words-are-never-cut-035));
   - a place beside the clock for Food's gauge;
   - at larger text, the round leaves, a short title, and the two-line title with the clock and ⋮ beside it (#222 item 3).
 - **The tabs** (sheets 08, 27 and 56):
@@ -273,6 +274,31 @@ The Lead's recommendation on the page was both sheet drafts together: "A gives t
 - A new title in the same sheet keeps the focus where it is.
 - `phone-shell.mjs`, where the sheet is made; one added rule in the stylesheet.
 
+## The bar's words are never cut (0.3.5)
+
+**The owner's decision, 19 November 2026: "Icon is enough for promises".** It answers a draft shown before any check, as the owner asked. The rule is the Lead Designer's, of 18 November 2026: the top bar's words are never cut, in any kind of bar.
+
+- **What was wrong.** With the names the game gives when a player has chosen none, the bar cut its words on the commonest phones:
+  - a private talk's "Crew 6 + Crew 1" showed as "Crew 6 + Cre…";
+  - your turn's "Player 6 · Crew 6" showed as "Player 6 · Cr…", on a 390 px phone at the Standard text;
+  - a phase's line under its title, the shared board's caption, showed as "Current board · shared: A…".
+- **Promises is the handshake and its count,** in every bar, on every phone and at every text size. No word beside it, and no hairlines around it. Its name for a screen reader is still "Promises", or "Promises, 1 new".
+  - **This departs from sheet 07,** which draws the word "Promises" between two hairlines on a turn's bar from 390 px. The owner approved it with the words above, and the Lead Designer records it.
+  - The pack already drew Promises this way in every bar that is not a turn's, and in a turn's under 22.5 rem.
+- **The clock has no icon in a bar up to 25 rem wide.** A 390 px phone's bar is 22.9 rem inside at the Standard text, a 402 px phone's 23.6 rem and a 430 px phone's 25.4 rem, so the 430 px phone keeps the icon and the others don't. A ring stays: it is the clock's own drawing. Until 0.3.4 this began under 22.5 rem.
+- **Then the bar is fitted** (`fitBar()`), by the first step that makes every word whole:
+  1. As it is.
+  2. The name takes the place of the line under it, on two lines (`data-fit="name2"`). The line under it is still in the page and read by a screen reader. Or, where the line under it is the one cut, that line wraps to a second line (`sub2`).
+  3. Promises, the round, the clock and ⋮ move to a row of their own and the words get the full width (`stack`). Then step 2 again there. On their row the controls keep together at its right, in the one-row bar's order, so they read as the same controls moved down and stay where a thumb finds them (the Lead Designer's review of 19 November; first they stood apart, Promises at the left).
+- **A line breaks between its parts, never inside one.** "Player 6" and a person's name each stay together. A "+" stays at its break: it means "and".
+- **Under the name, a number stays with the word before it,** so "Round 12" never parts and no number stands alone on a line. A phase's caption is otherwise free to wrap at any space: it is not split into parts at its dots, which at 402 px would cost a third line.
+- **Where the line under the name breaks at a "·", the dot gives way to the break** ("Player 6" over "Crew 6"; "Current board · shared: After Food Supply" over "Round 12"). The dot is still in the page and read. A dot that is not at a break is drawn. `fitBar()` finds them, one at a time, since a dot that goes moves the words after it.
+- **The text keeps the size the player chose.** Nothing shrinks.
+- **The bar grows where it must,** and the stage begins under it: `layout().bars.top` and `--ms-ps-top` follow, so the stage, the banner, the target bar, the toast and a sheet stay under the bar. Most bars keep their height: of the 156 measured (below), 96 are as they were.
+- **How it decides.** From a hidden copy of the bar, taken away at once, and only when what it depends on changes: the bar's width, the text size, the words, or what stands beside them. A clock tick does not refit the bar.
+- **Against the pack.** The agreement now draws the pack's half with the pack's own narrow-bar Promises and clock at the widths the shell draws them, and still compares every box to within half a pixel. Where the shell refits a bar, the case must show that the pack cuts a word there and the shell cuts none. One case does: "Ship synchronized" at the Largest text on 320 × 568, which the pack cuts.
+- `phone-shell.mjs` (`paintWho()`, `paintBar()`, `fitBar()`) and the stylesheet's top bar rules. The draft's switch for the other option (`data-ms-draft-bar`) is gone.
+
 ## Inputs
 
 | Input | Audience | What |
@@ -358,7 +384,7 @@ Each reports a tap, and only that.
 | Reconnecting | The phase bar "Reconnecting… · Showing Round n as last seen" from `reconnectingBar()`, the banner with Retry, the controls refused. The room scene dims itself (`status: 'stale'`) |
 | Eliminated | `banner: { kind: 'out' }`: "You're out · You can watch. Your role stays private.", words only, over the room the player watches, where they lie down in their place. The controls are as Frontend gives them: Actions and Pass unavailable (sheet 44) |
 | Concealed | The bars' empty material only: no name, number, time or control, and nothing for a screen reader |
-| Largest text | The pack's container queries: the handshake alone, no clock icon, the round out of the bar, a phase's short title, the two-line title |
+| Largest text | The pack's container queries: no clock icon, the round out of the bar, a phase's short title, the two-line title. From 0.3.5 the bar is then fitted so no word is cut ([below](#the-bars-words-are-never-cut-035)) |
 
 **Motion:**
 - A sheet slides in (220 ms) and a toast drops in.
@@ -495,6 +521,15 @@ Listed, not omitted:
   | `node design/tools/check-assets.mjs` | 15 passed |
 
 - **`node design/tools/phone-shell-check.mjs`:**
+  - **0.3.5's record:** the commit, the counts and the comparison with 0.3.4 are in the record's own commit message and in `review/check.json`.
+    - **Twenty-six new captures, the fit's:** six bars with the game's own longer names and its longest line (`fit-pair-crew`, `fit-pair-player`, `fit-own-crew`, `fit-own-player`, `fit-turn`, `fit-phase`) at 320 × 568, 390 × 844, 430 × 932 and **402 × 742, the game as the owner reads it on their phone inside the Claude app**; `fit-own-large` at the Large text on 320 × 568; `fit-phase-large` at the Largest text on 430 × 932. Each must draw every word whole, Promises as a 36 px pill with no word, and the clock's icon only in a bar wider than 25 rem.
+    - **One new probe check, `fit`:** thirteen bars (the six above, a short name, and seven of the game's phase bars with the shared board's caption) on 320, 390, 402 and 430 px phones at the Standard, Large and Largest text: 156 bars.
+      - No drawn word is cut in any. 96 are as they were, 20 put the name on two lines, 32 wrap the line under it, and 17 give the controls a row of their own.
+      - In each: Promises has no word and no hairline, is 36 px wide in a 44 px target and is named "Promises" for a screen reader; the clock's icon is drawn only in a bar wider than 25 rem; a line the name displaces is still in the page; every word is in the page; the bar is inside the phone and holds all it draws; the stage begins where the bar ends; controls on a row of their own are together at its right, level, the bar's gap apart, the menu where a one-row bar has it; every number under the name is in one part with the word before it, on one line; and each dot is drawn unless its line breaks at it (11 bars have a dot that gave way).
+      - For each fitted bar the check takes the fit away and sees a word cut: so the check can see a cut, and the fit was needed.
+      - **Five faults put in by hand, each caught by this check:** the clock's rule back at 22.5 rem (20 bars fail); the line under the name never wrapping (15); the controls never taking a row of their own (17); the word "Promises" back (132); and a grown bar's height not handed on (27). The last was not caught at first: the check then gained "holds all it draws".
+      - **Three more, for the review's two changes, each caught:** Promises back at the left of the controls' row (14 bars fail), a number free to part from its word (35), and a dot at a break still drawn (11).
+    - **The agreement, 29 of 29,** with the departure drawn in the pack's half as above; "Ship synchronized" at the Largest text on 320 × 568 is the one refitted case, where the pack cuts its name.
   - **0.3.4's record,** on `7c93eabc`, a clean source: **73 of 73 captures, the probe 36 of 36, the agreement 29 of 29.**
     - **No change of look.** Against 0.3.3's 73 captures: 20 the same bytes, 20 with no pixel more than 32 of 255 apart, and 33 differing by 1 to 27 pixels each, all in the middle of the stage, where the crew moves (rows 627 to 1,006 of 1,688 at 390 wide, 672 to 1,116 of 1,864 at 430). No bar, tab or sheet frame moved.
     - **One new probe check, `title`:** a sheet's title takes the focus by script, with `tabindex="-1"`; it is not among the controls Tab reaches; its outline and shadow are none; the sheet, its head and the title keep their places to the pixel; a new title in the same sheet keeps the focus; and a sheet that goes with the focus on its title hands it back once, with no control named.
