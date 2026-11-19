@@ -2,7 +2,7 @@
   "tool": "design/tools/kit-check.mjs",
   "component": "design/phone-ui/components/kit",
   "version": "component-kit-0.9.0",
-  "sourceCommit": "94afdf8ae601cd3fe68bce8a47c6e7c9d8856af8",
+  "sourceCommit": "a842e488ae6b38f962f5cb9c59be8e9e118d754d",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), 390 px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.",
   "headers": [
@@ -379,10 +379,10 @@
     },
     "kit-100": {
       "file": "design/phone-ui/components/kit/review/kit-100.jpg",
-      "sha256": "65488940861921e44870f5576127dedbe5af1022a4ab28d5a3b8357928276abe",
+      "sha256": "d25362a97c27c76d786ffdbbc571161d2f7987b6480a8e58bb8099a36c7c447b",
       "size": {
         "width": 390,
-        "height": 12025
+        "height": 12027
       },
       "ok": true,
       "violations": [
@@ -396,7 +396,7 @@
         }
       ],
       "problems": [],
-      "measurementSha256": "7668fb6a931e3e61d3d32b34e8298842343c4389f4fdd6487217873614d01dc6"
+      "measurementSha256": "b7c9ee3a8dfd737018206a607bbb18b1d03c5e10f9b70c4d65c1591832e5798d"
     },
     "pack-200": {
       "file": "design/phone-ui/components/kit/review/pack-200.jpg",
@@ -421,10 +421,10 @@
     },
     "kit-200": {
       "file": "design/phone-ui/components/kit/review/kit-200.jpg",
-      "sha256": "d102d17359cf0219fbbcbffd9af476f69ead6e2ea1252fe26c602a0bc059cc68",
+      "sha256": "a3075d851e585fd6476dabb392365c94011cd573ab0f553299f32385a2f88770",
       "size": {
         "width": 390,
-        "height": 17602
+        "height": 17603
       },
       "ok": true,
       "violations": [
@@ -438,7 +438,7 @@
         }
       ],
       "problems": [],
-      "measurementSha256": "a993d00fe566b326fe1cb79aaff12516cd17bb3f84da59c3be1f2419e2ddceb2"
+      "measurementSha256": "36b6a85e45157297049cc00f8cc26cd71dc786d72cb655d2d4b32634dc9a46db"
     }
   },
   "agreement": {
