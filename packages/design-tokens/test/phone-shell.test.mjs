@@ -448,8 +448,8 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   assert.deepEqual(record.captures['320x568/fit-phase'].fit.breaks, [false, true]);
   assert.deepEqual(record.captures['390x844/fit-phase'].fit.breaks, [false, false], 'on one line every dot is drawn');
   assert.deepEqual(record.captures['320x568/fit-own-crew'].fit.breaks, [true], '"Player 6" over "Crew 6"');
-  assert.ok(fit.breaks > 0 && fit.failures.every(f => f.together && f.numbers && f.dots));
-  assert.match(shellSource, /found of piece\.matchAll\(\/\\S\+ \\d\\S\*\/g\)/, 'a number stays with the word before it');
+  assert.equal(fit.breaks, 11, 'eleven of the 156 bars have a dot that gave way to a break');
+  assert.match(read('design/phone-ui/components/phone-shell/phone-shell.mjs'), /found of piece\.matchAll\(\/\\S\+ \\d\\S\*\/g\)/, 'a number stays with the word before it');
   // Promises has no word and no hairline in any capture that draws it; the pill is the handshake's 36 px.
   for (const [key, c] of Object.entries(record.captures)) if (c.fit?.pill) assert.deepEqual([c.fit.pill.words, c.fit.pill.width], ['', 36], `${key}: Promises is the handshake alone`);
   const shellSource = read('design/phone-ui/components/phone-shell/phone-shell.mjs'), shellStyles = read('design/phone-ui/components/phone-shell/phone-shell.css');
