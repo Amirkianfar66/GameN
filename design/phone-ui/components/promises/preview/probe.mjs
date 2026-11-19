@@ -120,7 +120,7 @@ export async function runPromisesProbe({ sizes, mountState, disposeState, inputO
       const s = mount(inputOf({ offer: { enabled: false, reason: 'You have given your one Promise' } }));
       const row = s.q('[data-intent="offer"]');
       tap(row);
-      const seen = { refused: refused(row), dimmed: dimmed(row), why: describedBy(row), line: row.querySelector('.ms-k-row-sub').textContent };
+      const seen = { refused: refused(row), dimmed: dimmed(row), why: describedBy(row), line: row.querySelector('.ms-k-tile-note').textContent };
       s.update({ offer: ON });
       tap(row);
       const got = reports(s.calls);
@@ -135,11 +135,14 @@ export async function runPromisesProbe({ sizes, mountState, disposeState, inputO
       s.update({ talk: null, offer: null, received: null });
       const outside = { labels: labels(s.root), words: words(s.root).filter(w => w.startsWith('No Promise') || w.startsWith('“Not')) };
       s.update({ talk: AVA, offer: ON, given: OFFERED, received: INCOMING });
-      const waiting = { labels: labels(s.root), row: words(s.root).filter(w => w.startsWith('Offered')) };
+      // In the talk, the cells (the Actions grid): Offer a Promise, then the offer to answer with the amber dot.
+      const cells = [...s.root.querySelectorAll('.ms-pr-talk > .ms-k-tile')].map(t => [t.dataset.intent, t.querySelector('.ms-k-tile-name').textContent, t.querySelector('.ms-k-tile-note').textContent, t.querySelector('.ms-k-tile-icon').hasAttribute('data-waiting')].join(':'));
+      const waiting = { labels: labels(s.root), row: words(s.root).filter(w => w.startsWith('Offered')), cells };
       disposeState(s.m);
       const ok = talk.join('|') === 'With Ava · talking now' && talkAccepted.labels.join('|') === 'With Ava · talking now|Received' && !talkAccepted.incoming
         && outside.labels.join('|') === 'Received|Given' && outside.words.join('|') === `No Promise received.|No Promise given.|${W.notProof}`
-        && waiting.labels.join('|') === 'Waiting for Ava|With Ava · talking now' && waiting.row.join('|') === 'Offered to Ava · not counted yet|Offered';
+        && waiting.labels.join('|') === 'Waiting for Ava|With Ava · talking now' && waiting.row.join('|') === 'Offered to Ava · not counted yet|Offered'
+        && waiting.cells.join('|') === `offer:${W.offer}:${W.offerLine}:false|incoming:${W.offered('Ava')}:${PROMISE_KINDS[INCOMING.kind].name}:true`;
       return { ok, talk, talkAccepted, outside, waiting };
     });
     await check('words: Frontend\'s exact terms, condition, when and why drawn exactly as given, never composed or trimmed; no why, no line', async () => {
@@ -252,7 +255,7 @@ export async function runPromisesProbe({ sizes, mountState, disposeState, inputO
       const ELI = { seat: 5, name: 'Eli', character: TARGETS.find(t => t.seat === 5).character };
       s.update({ viewer: 4 });
       s.update({ viewer: 5, received: { ...INCOMING, recipient: ELI }, talk: AVA, offer: ON });
-      const kept = { incoming: !!s.q('[data-intent="incoming"]'), line: s.q('[data-intent="incoming"] .ms-k-row-title')?.textContent };
+      const kept = { incoming: !!s.q('[data-intent="incoming"]'), line: s.q('[data-intent="incoming"] .ms-k-tile-name')?.textContent };
       disposeState(s.m);
       const ok = before.terms && before.card && !dropped.terms && !dropped.card && !list.why && list.labels.join('|') === 'Received|Given' && !list.talk && kept.incoming && kept.line === 'Ava offered you one';
       return { ok, before, dropped, list, kept };

@@ -3,9 +3,9 @@
 // November 2026: Designer builds each visual component once, in design/; the game and the preview use it as it is).
 //
 // The split (the Lead's review of #296, answer 1, as Host controls):
-//   mountPanels   the body of the phone shell's sheet, for its three views: the Panels list (each destination with
-//                 what it shows or who can use it), Players (a row per seat, public facts only) and Round order (a
-//                 row per phase, in the ruleset's order)
+//   mountPanels   the body of the phone shell's sheet, for its three views: the Panels list (each destination a cell
+//                 with what it shows or who can use it), Players (a row per seat, public facts only) and Round order
+//                 (a row per phase, in the ruleset's order)
 //   panelsSheet   the shell's sheet for the view: "Panels" with ✕ at the shell's own height; "Players" and "Round
 //                 order" with Back and ✕, large
 // The view is Frontend's, from the taps and Back. The sheet's frame is the shell's.
@@ -15,6 +15,11 @@
 // the component never decides from them). Where each player is, their health and offices are Frontend's, from the
 // projection; the round's phases, their names and their timings are Frontend's, from the ruleset, in its order; the
 // component holds no step words and never the order (answer 5). Each row reports a tap, and only that.
+//
+// The Panels list is one grid of the kit's tiles, as Actions' (the owner, 19 November 2026: "Actions follow the 3
+// column matrix order but the panel is like a row and wrong i want all follow a shared system"; on draft 4, "As you
+// recommended"; the Lead's option A, in code): each destination a cell, its icon over its name, its line as the note,
+// up to five in one grid with nothing between them. Players and Round order themselves stay lines.
 //
 // The Round order row's line says what the view will show (the Lead's review of the game's Panels, 18 November):
 // "Phases and timings" once a step has its timing, "The phases, in order" while none has. It follows the steps given,
@@ -198,50 +203,40 @@ export function mountPanels(host, input = {}, handlers = {}) {
 
   // ── The views' parts, made as a view is shown ───────────────────────
   let parts = {};
-  const DESTINATION_ROWS = [
-    ['windows', { icon: 'window', tint: 'paper', title: W.windows }],
-    ['navigation', { icon: 'course', tint: 'slate', title: W.navigation, sub: W.navigationLine }],
-    ['hospital', { icon: 'panel', tint: 'teal', title: W.hospital, sub: W.hospitalLine }],
-  ];
-  // The Round order row: its line follows the steps given (roundOrderLine).
-  const ORDER_ROW = steps => ({ icon: 'rules', tint: 'steel', title: W.roundOrder, sub: roundOrderLine(steps) });
-  const destinationRow = (value, props) => {
-    const row = kit.row({ ...props, chevron: true, intent: 'open', data: value });
-    row.dataset.value = value;
-    return row;
+  // Each destination's cell: its icon, its name and its line. The Windows line and the Round order line follow what
+  // Frontend gives (paintList); the other lines are the owner-approved words of item 29.
+  const CELLS = {
+    windows: { icon: 'window', name: W.windows },
+    navigation: { icon: 'course', name: W.navigation, note: W.navigationLine },
+    hospital: { icon: 'panel', name: W.hospital, note: W.hospitalLine },
+    players: { icon: 'players', name: W.players, note: W.playersLine },
+    'round-order': { icon: 'rules', name: W.roundOrder },
   };
+  /** Players and Round order are this sheet's own views: always offered, refused only as everything is. */
+  const OWN_VIEWS = new Set(['players', 'round-order']);
   function buildList() {
-    const first = kit.h('ul', 'ms-k-list ms-pn-destinations');
-    const rows = new Map();
-    for (const [value, props] of DESTINATION_ROWS) {
-      const item = kit.h('li', 'ms-k-list-item');
-      item.append(destinationRow(value, props));
-      rows.set(value, item);
-    }
-    const gap = kit.h('div', 'ms-pn-gap', { 'aria-hidden': 'true' });
-    const players = destinationRow('players', { icon: 'players', tint: 'steel', title: W.players, sub: W.playersLine });
-    const order = destinationRow('round-order', ORDER_ROW(state.steps));
-    root.append(first, gap, kit.list(players, order));
-    parts = { first, rows, gap, views: [players, order] };
+    const grid = kit.tiles();
+    grid.classList.add('ms-pn-tiles');
+    const cells = new Map(PANEL_DESTINATIONS.map(value => [value, kit.tile({ ...CELLS[value], intent: 'open', value })]));
+    root.append(grid);
+    parts = { grid, cells };
   }
   function paintList() {
     const p = parts, s = state;
     let i = 0;
-    for (const [value, props] of DESTINATION_ROWS) {
-      const item = p.rows.get(value), given = s[value];
-      if (!given) { if (item.isConnected) policy.remove(item); continue; }
+    for (const value of PANEL_DESTINATIONS) {
+      const cell = p.cells.get(value), own = OWN_VIEWS.has(value), given = own ? null : s[value];
+      if (!own && !given) { if (cell.isConnected) policy.remove(cell); continue; }
       // The Windows line: the windows of this player's room, as Frontend gives them; none, "No window here" (answer 3).
-      const sub = value === 'windows' ? (given.rooms.length ? given.rooms.map(([a, b]) => W.pair(a, b)).join(W.join) : W.noWindow) : props.sub;
-      kit.setRow(item.firstChild, { ...props, sub, chevron: true, intent: 'open', data: value });
+      const note = value === 'windows' ? (given.rooms.length ? given.rooms.map(([a, b]) => W.pair(a, b)).join(W.join) : W.noWindow)
+        : value === 'round-order' ? roundOrderLine(s.steps) : CELLS[value].note;
       // Only Frontend's `enabled` dims and refuses it; its line stays, and Frontend's reason is its description (answer 2).
-      policy.control(item.firstChild, { off: !given.enabled, reason: given.enabled ? null : given.reason });
-      if (p.first.children[i] !== item) p.first.insertBefore(item, p.first.children[i] ?? null);
+      const enabled = own || given.enabled;
+      kit.setTile(cell, { ...CELLS[value], note, state: enabled ? 'available' : 'unavailable', intent: 'open', value });
+      policy.control(cell, own ? {} : { off: !enabled, reason: enabled ? null : given.reason });
+      if (p.grid.children[i] !== cell) p.grid.insertBefore(cell, p.grid.children[i] ?? null);
       i += 1;
     }
-    p.first.hidden = p.gap.hidden = i === 0;
-    kit.setRow(p.views[1], { ...ORDER_ROW(s.steps), chevron: true, intent: 'open', data: 'round-order' });
-    // Players and Round order are this sheet's own views: always offered, refused only as everything is.
-    for (const row of p.views) policy.control(row, {});
   }
   function buildPlayers() {
     const list = kit.h('ul', 'ms-k-list ms-pn-players');

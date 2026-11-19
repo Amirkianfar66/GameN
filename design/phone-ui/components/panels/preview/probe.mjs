@@ -58,8 +58,9 @@ export async function runPanelsProbe({ sizes, mountState, disposeState, inputOf,
   const key = node => { node.focus(); node.click(); };
   const refused = node => node.getAttribute('aria-disabled') === 'true';
   const dimmed = node => node.hasAttribute('data-off');
-  const line = node => { const sub = node?.querySelector('.ms-k-row-sub'); return sub && !sub.hidden ? sub.textContent : null; };
-  const title = node => node?.querySelector('.ms-k-row-title')?.textContent ?? null;
+  // A destination is a cell (the kit's tile: its name and note); Players' seats and Round order's steps are rows.
+  const line = node => { const sub = node?.querySelector('.ms-k-tile-note, .ms-k-row-sub'); return sub && !sub.hidden ? sub.textContent : null; };
+  const title = node => node?.querySelector('.ms-k-tile-name, .ms-k-row-title')?.textContent ?? null;
   const ALL = ['windows', 'navigation', 'hospital', 'players', 'round-order'];
 
   if (mode === 'full') {
@@ -94,12 +95,13 @@ export async function runPanelsProbe({ sizes, mountState, disposeState, inputOf,
       s.update({ navigation: null, hospital: null });
       const gone = { navigation: !!s.row('navigation'), hospital: !!s.row('hospital'), windows: !!s.row('windows') };
       s.update({ windows: null });
-      const none = { first: s.q('.ms-pn-destinations').hidden, gap: s.q('.ms-pn-gap').hidden, rows: [...s.root.querySelectorAll('[data-intent="open"]')].map(n => n.dataset.value) };
+      // One grid of cells (the owner, 19 November): with none of the three given, it holds Players and Round order alone.
+      const none = { cells: [...s.q('.ms-pn-tiles').children].map(n => n.dataset.value), rows: [...s.root.querySelectorAll('[data-intent="open"]')].map(n => n.dataset.value) };
       s.update({ windows: { enabled: true, rooms: [['Room A', 'Room B']] }, navigation: { enabled: false } });
       const back = [...s.root.querySelectorAll('[data-intent="open"]')].map(n => n.dataset.value);
       disposeState(s.m);
       const ok = open.every(o => !o.refused) && open[0].line === W.navigationLine && open[1].line === W.hospitalLine && !gone.navigation && !gone.hospital && gone.windows
-        && none.first && none.gap && none.rows.join() === 'players,round-order' && back.join() === 'windows,navigation,players,round-order';
+        && none.cells.join() === 'players,round-order' && none.rows.join() === 'players,round-order' && back.join() === 'windows,navigation,players,round-order';
       return { ok, open, gone, none, back };
     });
     await check('windows: the windows as given; none, "No window here", still enabled and opening Windows; dimmed only when Frontend says', async () => {
@@ -171,7 +173,7 @@ export async function runPanelsProbe({ sizes, mountState, disposeState, inputOf,
     await check('steps: the ruleset\'s steps in Frontend\'s order and words, the icon by kind, an unknown kind the Round order icon; no note, no words of its own', async () => {
       const s = mount();
       // The Round order icon, from the Panels list's own Round order row.
-      const rulesIcon = s.row('round-order').querySelector('.ms-k-row-icon').dataset.icon; // the icon's name: a painted drawing carries its own ids (kit 0.9.0)
+      const rulesIcon = s.row('round-order').querySelector('.ms-k-tile-icon').dataset.icon; // the icon's name: a painted drawing carries its own ids (kit 0.9.0)
       s.update({ view: 'round-order' });
       const rows = [...s.q('.ms-pn-steps').children].map(li => ({ kind: li.firstChild.dataset.kind, title: title(li.firstChild), line: line(li.firstChild) }));
       const pack = rows.map((r, i) => r.title === STEPS[i].title && r.line === STEPS[i].timing && r.kind === STEPS[i].kind).every(Boolean);
@@ -253,7 +255,8 @@ export async function runPanelsProbe({ sizes, mountState, disposeState, inputOf,
       await check(`layout: at ${sizeKey.replace('x', ' × ')}, the lists 16 px in, in each view`, async () => {
         size = sizeTo(sizeKey);
         const s = mount();
-        const inset = () => { const r = frame.getBoundingClientRect(); return [...s.root.querySelectorAll('.ms-k-list')].filter(n => !n.hidden).map(n => { const b = n.getBoundingClientRect(); return [b.left - r.left, r.right - b.right]; }); };
+        // The Panels list's one grid of cells, and Players' and Round order's lists.
+        const inset = () => { const r = frame.getBoundingClientRect(); return [...s.root.querySelectorAll('.ms-k-list, .ms-k-tiles')].filter(n => !n.hidden).map(n => { const b = n.getBoundingClientRect(); return [b.left - r.left, r.right - b.right]; }); };
         await frames();
         const list = inset();
         s.update({ view: 'players' });
@@ -264,7 +267,7 @@ export async function runPanelsProbe({ sizes, mountState, disposeState, inputOf,
         const order = inset();
         disposeState(s.m);
         const all = [...list, ...players, ...order];
-        return { ok: list.length === 2 && players.length === 1 && order.length === 1 && all.every(([l, r]) => Math.abs(l - 16) < 0.5 && Math.abs(r - 16) < 0.5), list, players, order };
+        return { ok: list.length === 1 && players.length === 1 && order.length === 1 && all.every(([l, r]) => Math.abs(l - 16) < 0.5 && Math.abs(r - 16) < 0.5), list, players, order };
       });
     }
     size = sizeTo('390x844');
@@ -273,7 +276,7 @@ export async function runPanelsProbe({ sizes, mountState, disposeState, inputOf,
         document.documentElement.style.fontSize = '200%';
         const s = mount(input);
         await frames();
-        const words = [...s.root.querySelectorAll('.ms-k-row-title, .ms-k-row-sub, .ms-k-group-note, .ms-k-pill')].filter(n => n.getClientRects().length);
+        const words = [...s.root.querySelectorAll('.ms-k-tile-name, .ms-k-tile-note, .ms-k-row-title, .ms-k-row-sub, .ms-k-group-note, .ms-k-pill')].filter(n => n.getClientRects().length);
         const cut = words.filter(n => n.scrollWidth > n.clientWidth + 0.5).map(n => n.textContent);
         const pills = [...s.root.querySelectorAll('.ms-k-pill')].map(p => { const b = p.getBoundingClientRect(), r = frame.getBoundingClientRect(); return b.right <= r.right + 0.5 && b.left >= r.left - 0.5; });
         const body = s.m.shell.sheetBody, last = [...s.root.children].filter(n => !n.hidden && !n.classList.contains('ms-k-vh')).pop();

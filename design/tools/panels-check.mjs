@@ -53,7 +53,8 @@ let agreement = null;
 let failed = 0;
 /** What every state shows, and what each one adds, from the sheet's own DOM. */
 const common = s => s.cut.length === 0 && s.buttons === s.opens && s.foot === '' && s.openTab === 'panels';
-const list = s => common(s) && s.name === 'group:Panels' && s.title === 'Panels' && !s.back && s.detent === 'auto' && s.rows === DESTINATIONS && s.lists === 2;
+// The Panels list is one grid of five cells, no list (the owner, 19 November 2026: the Actions grid).
+const list = s => common(s) && s.name === 'group:Panels' && s.title === 'Panels' && !s.back && s.detent === 'auto' && s.rows === DESTINATIONS && s.lists === 0 && s.grids === 1 && s.cells === 5;
 const players = s => common(s) && s.name === 'group:Players' && s.title === 'Players' && s.back && s.detent === 'large' && s.rows === PLAYERS && s.note === NOTE && s.opens === 0;
 const EXPECT = {
   list: s => list(s) && s.lines === LINES && s.refused.join() === 'navigation,hospital' && s.dimmed.join() === 'navigation,hospital' && s.root === 16,
@@ -83,18 +84,20 @@ try {
         const shell = document.querySelector('.ms-phone-shell'), sheet = shell.querySelector('.ms-ps-sheet');
         const shown = n => !!n && !n.hidden && n.getClientRects().length > 0 && !n.closest('[hidden]');
         const words = n => shown(n) ? n.innerText.replace(/\\s+/g, ' ').trim() : null;
-        const rows = qa('.ms-k-row').filter(shown);
+        // A destination is a cell (the kit's tile); Players' seats and Round order's steps are rows.
+        const rows = qa('.ms-k-row, .ms-k-tile').filter(shown);
         return { violations: window.__policy, root: parseFloat(getComputedStyle(document.documentElement).fontSize),
           name: [root.getAttribute('role'), root.getAttribute('aria-label')].join(':'), detent: sheet.dataset.detent, back: !!sheet.querySelector('[data-intent="sheet-back"]'),
           title: sheet.querySelector('.ms-ps-sheet-title h2').textContent, lists: qa('.ms-k-list').filter(shown).length,
-          rows: rows.map(n => n.querySelector('.ms-k-row-title').textContent).join('|'),
-          lines: rows.map(n => { const sub = n.querySelector('.ms-k-row-sub'); return shown(sub) ? sub.textContent : ''; }).join('|'),
+          grids: qa('.ms-k-tiles').filter(shown).length, cells: qa('.ms-k-tile').filter(shown).length,
+          rows: rows.map(n => n.querySelector('.ms-k-row-title, .ms-k-tile-name').textContent).join('|'),
+          lines: rows.map(n => { const sub = n.querySelector('.ms-k-row-sub, .ms-k-tile-note'); return shown(sub) ? sub.textContent : ''; }).join('|'),
           kinds: rows.map(n => n.dataset.kind ?? '').join('|'), badges: qa('.ms-k-pill').filter(shown).map(n => n.textContent).join('|'),
           opens: qa('[data-intent="open"]').length, buttons: qa('button').length,
           refused: qa('[data-intent][aria-disabled="true"]').map(n => n.dataset.value), dimmed: qa('[data-intent][data-off]').map(n => n.dataset.value),
           note: words(q('.ms-k-group-note')), foot: [...sheet.querySelectorAll('.ms-ps-sheet-foot .ms-k-btn')].map(b => b.textContent.trim()).join('|'),
           banner: shown(shell.querySelector('.ms-ps-banner')), openTab: shell.querySelector('[data-intent="tab"][aria-expanded="true"]')?.dataset.value ?? null,
-          cut: qa('.ms-k-row-title, .ms-k-row-sub, .ms-k-group-note, .ms-k-pill').filter(shown).filter(n => n.scrollWidth > n.clientWidth + 0.5).map(n => n.textContent) };
+          cut: qa('.ms-k-tile-name, .ms-k-tile-note, .ms-k-row-title, .ms-k-row-sub, .ms-k-group-note, .ms-k-pill').filter(shown).filter(n => n.scrollWidth > n.clientWidth + 0.5).map(n => n.textContent) };
       })()`);
       const requests = page.requests().filter(url => /\.svg$/.test(url)).map(url => url.slice(origin.length + 1));
       // The browser asks for /favicon.ico by itself; the preview has none, as the live site has none.
