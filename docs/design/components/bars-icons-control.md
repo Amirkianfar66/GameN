@@ -90,9 +90,14 @@ A change that is more than a look (behaviour, data, privacy, the connection's in
 
 **One draft is on the page: names cut in the top bar** (route `bar-fit-draft`, shell 0.3.4 as a draft, not checked). With the names the game gives when none is chosen, the top bar cut its words: "Crew 6 + Cre…" in a private talk, "Player 6 · Cr…" on a turn at 390 px with the Standard text. The Lead Designer's rule for the draft: the bar's words are never cut.
 
-- **Six bars,** each drawn three times: today (shell 0.3.3 at `241e5aa8`, read from git by the build as `?before-fit`), the draft, and the alternative. The Phone width and Text size switches choose where: 320, 390 and 430 px, at the Standard, the Large and the Largest text.
-- **The draft and the alternative differ in one thing.** In the draft every bar whose inside is up to 25 rem wide always has the slim controls (Promises the handshake with its count, the clock without its icon). In the alternative they slim only where a line would be cut; the page asks the shell for it with `data-ms-draft-bar="measured"` on the strip. The last bar, a short name, shows the difference at 390.
-- **Two marks:** `draft-top-bar-steady` and `draft-top-bar-measured`. The owner marks OK on the one they choose.
+- **It opens on "Choose 1 or 2".** The owner, 19 November 2026: "Top bar it is not clear for me the options to compare." So the first thing in the view is the one bar where the two options differ: your turn with the short name "Player 4 · Dev", drawn twice at this screen's width (up to 402 px, whatever the Phone width switch says). Each has one line and its own mark under it:
+  1. The Promises button is always the handshake and its count on phones up to about 424 px wide, so the bar looks the same with every name.
+  2. The word "Promises" stays whenever it fits, and shrinks to the icon only when a name would be cut.
+
+  Then: with a long name the two are the same. Before this, the two marks stood together with no words beside them.
+- **Six bars,** each drawn three times: today (shell 0.3.3 at `241e5aa8`, read from git by the build as `?before-fit`), option 1 and option 2. The Phone width and Text size switches choose where: 320, 390 and 430 px, at the Standard, the Large and the Largest text.
+- **Options 1 and 2 differ in one thing.** In option 1 every bar whose inside is up to 25 rem wide always has the slim controls (Promises the handshake with its count, the clock without its icon). In option 2 they slim only where a line would be cut; the page asks the shell for it with `data-ms-draft-bar="measured"` on the strip.
+- **Two marks:** `draft-top-bar-steady` (option 1) and `draft-top-bar-measured` (option 2), each under its own bar. The owner marks OK on the one they choose.
 - **The `names` switch** (the test view, Top bar): the cast's names, or the game's own longer ones.
 
 The three earlier drafts are approved, below. **Before this one, no draft was on the page:** The three that were, all the Lead Designer's proposals, were approved by the owner on 18 November 2026, in the Lead's session ("I approve all as your recommendation"), and are shell 0.3.3 with its record ([the shell's page](phone-shell.md#the-toasts-place-a-squeezed-sheet-and-a-long-title-033)). Their views stay, as before and after.

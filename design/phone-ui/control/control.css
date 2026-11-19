@@ -145,7 +145,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .bc-window[data-still] { cursor: default; }
 @media (max-width: 460px) {
   .bc-pairs { padding-left: 0; padding-right: 0; grid-template-columns: minmax(0, 1fr); }
-  .bc-pair-title { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .bc-pair-title, .bc-choice-lead { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 }
 @media (max-width: 460px) {
   /* On a phone a strip runs edge to edge, so the bar is exactly as wide as on this phone. */
@@ -276,6 +276,14 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 /* A still's own measure (the sheet drafts): the room its content gets, under the still. */
 .bc-room b { color: var(--bc-ink); font-weight: 600; }
 .bc-pair-note { margin: 0; color: var(--bc-ink-2); font-size: 13px; }
+/* The owner's choice between two options: first in its view, each option with its one line and its own mark. */
+.bc-choice { margin-top: 16px; }
+.bc-choice + .bc-group-head { margin-top: 28px; }
+.bc-choice-title { font: 700 26px/1.1 var(--bc-display); letter-spacing: 0.02em; text-transform: uppercase; }
+.bc-choice .bc-choice-line { color: var(--bc-ink); font-size: 15px; }
+.bc-choice-line b { color: var(--bc-accent-text); }
+.bc-choice .bc-choice-lead { font-size: 15px; }
+.bc-choice-lead b { color: var(--bc-ink); font-weight: 600; }
 .bc-advice { margin: 16px 0 0; max-width: 720px; color: var(--bc-ink-2); }
 .bc-advice b { color: var(--bc-ink); font-weight: 600; }
 /* A change the owner approved: its status line and its badge, in the page's OK green. */
