@@ -32,7 +32,8 @@ test('the bar: another player\'s turn, your turn, a phase, the pair, the Blackou
  const own=shellBar(model({activeSeatId:'seat-4',canPass:true}));
  assert.equal(own.kind,'turn');assert.equal(own.self,true);assert.deepEqual(own.who,{seat:'seat-4',name:'Crew 4',character:'c4'});
  // A seat without a display name keeps the bar's "Player n", as the header did; no character, no portrait.
- assert.deepEqual(shellBar(model({identities:[]})).who,{seat:'seat-5',name:'Player 5',character:null});
+ // A seat the identities don't name is "Player 5", the number kept with its word by a no-break space (the owner's approval, 18 November).
+ assert.deepEqual(shellBar(model({identities:[]})).who,{seat:'seat-5',name:'Player\u00a05',character:null});
  // The game's own phase bars (the votes, Food Supply, the talk for those not in it): today's names, the pack's
  // icons, the board's label as the line under the name.
  const vote=shellBar(model({phase:phase('JAIL_VOTE'),activeSeatId:null,boardLabel:'After Blackout · Round 3'}));
@@ -88,7 +89,7 @@ test('a phase with no active player: Designer\'s words (phase-bars.mjs), from fa
  // appointment open, keeps the amber.
  const others=bar({phase:phase('OFFICER_APPOINTMENT',{endsAt:30000,remainingMs:9000})});
  assert.deepEqual(others,{kind:'phase',icon:'officer',title:'New Officer',sub:'Crew 5 chooses',round:3,timer:{remainingMs:9000,urgentAtMs:-1},...player});
- assert.equal(bar({phase:phase('OFFICER_APPOINTMENT'),identities:[]}).sub,'Player 5 chooses');
+ assert.equal(bar({phase:phase('OFFICER_APPOINTMENT'),identities:[]}).sub,'Player\u00a05 chooses');
  assert.equal(bar({phase:phase('OFFICER_APPOINTMENT'),offices:{captainSeatId:null,officerSeatId:null,blockedSeatId:null}}).sub,undefined,'no Captain named, the title alone');
  const appoint=action('APPOINT_OFFICER','targets',['seat-1','seat-2'],{label:'Appoint Officer'});
  const captain=bar({phase:phase('OFFICER_APPOINTMENT',{endsAt:30000,remainingMs:9000}),ownSeatId:'seat-5',action:appoint});
@@ -193,7 +194,7 @@ test('the tabs: the view, the open tab and the round button\'s modes, usable onl
  assert.deepEqual(checkTabs(tabs).me,{seat:'seat-4',number:null,name:'Crew 4',character:'c4'});
  // Before a character is chosen the person has none, and the shell keeps the card icon; with no seat, no person.
  assert.deepEqual(shellTabs(model({identities:identities.map(i=>i.seatId==='seat-4'?{...i,characterId:null}:i)})).me,{seat:'seat-4',name:'Crew 4',character:null});
- assert.deepEqual(shellTabs(model({identities:[]})).me,{seat:'seat-4',name:'Player 4',character:null});
+ assert.deepEqual(shellTabs(model({identities:[]})).me,{seat:'seat-4',name:'Player\u00a04',character:null});
  assert.equal(shellTabs(model({ownSeatId:null})).me,null);
  // It is the viewer's own, never the active player's: here seat 5 has the turn.
  assert.equal(shellTabs(model({activeSeatId:'seat-5'})).me.seat,'seat-4');
@@ -205,15 +206,15 @@ test('the tabs: the view, the open tab and the round button\'s modes, usable onl
   assert.deepEqual(ownPersonSeen(mine,lost({connection})),mine,`${connection}: the one kept`);
   assert.deepEqual(shellTabs(lost({connection}),{seen:mine}).me,mine,`${connection}: the tab draws it`);
  }
- assert.deepEqual(shellTabs(lost()).me,{seat:'seat-4',name:'Player 4',character:null},'none kept: the card icon');
+ assert.deepEqual(shellTabs(lost()).me,{seat:'seat-4',name:'Player\u00a04',character:null},'none kept: the card icon');
  assert.equal(ownPersonSeen(null,lost()),null,'nothing seen before the connection was lost: nothing kept');
  // Live again, the model's own person is drawn, never the kept one.
  assert.deepEqual(shellTabs(model(),{seen:{seat:'seat-4',name:'Old name',character:'c9'}}).me,mine);
  // In the dark the model gives no identities: that is what is kept, so no portrait from before the dark comes back.
- assert.deepEqual(ownPersonSeen(mine,model({dark:true,identities:[]})),{seat:'seat-4',name:'Player 4',character:null});
+ assert.deepEqual(ownPersonSeen(mine,model({dark:true,identities:[]})),{seat:'seat-4',name:'Player\u00a04',character:null});
  // Another seat never takes the kept person, and a shared display keeps none.
  assert.equal(ownPersonSeen(mine,lost({ownSeatId:'seat-5'})),null);
- assert.deepEqual(shellTabs(lost({ownSeatId:'seat-5'}),{seen:mine}).me,{seat:'seat-5',name:'Player 5',character:null});
+ assert.deepEqual(shellTabs(lost({ownSeatId:'seat-5'}),{seen:mine}).me,{seat:'seat-5',name:'Player\u00a05',character:null});
  assert.equal(ownPersonSeen(mine,model({surface:'display',ownSeatId:null})),null);
  assert.equal(ownPersonSeen(mine,model({ownSeatId:null})),null);
  // shellInput hands it on to the tabs, and to nothing else.
@@ -261,9 +262,12 @@ test('the target bar and the chip, from this viewer\'s own action only',()=>{
  const block=action('BLOCK_MOVE','targets',['seat-1','seat-5'],{label:'Block movement'});
  assert.ok(shellPicking(block));
  assert.deepEqual(shellTarget(model({action:block})),{icon:'block',title:'Block movement',sub:'Choose an offered character on the board.'});
- // A move's room or position, and the Blackout's fixed position in the dark (sheet 30), are chosen on the scene too.
- assert.deepEqual(shellTarget(model({action:action('MOVE','slots',['B5'],{label:'Move',prompt:'Choose an empty position in Room B.'})})),{icon:'move',title:'Move',sub:'Choose an empty position in Room B.'});
+ // A move's room or position, and the Blackout's fixed position in the dark (sheet 30), are chosen on the scene too:
+ // their bars are Actions' (release 3; planet-actions.test.mjs), from the viewer's room and the model's moveRooms.
+ assert.deepEqual(shellTarget(model({moveRooms:['Room B'],action:action('MOVE','slots',['B5'],{label:'Move',prompt:'Choose an empty position in Room B.'})})),{icon:'move',title:'Move within Room B',sub:'Choose an empty position'});
  assert.equal(shellTarget(model({dark:true,action:action('SELECT_BLACKOUT_SLOT','slots',['A1'],{label:'Choose fixed slot'})})).icon,'position');
+ assert.deepEqual(shellTarget(model({dark:true,panel:'actions',privateArea:{blackoutTargeting:{windowId:'w',boundRoom:'Room A',selectable:true,selectedSlotId:null,slotIds:['A1']}},action:action('SELECT_BLACKOUT_SLOT','slots',['A1'])})),
+  {icon:'position',title:'Choose a position',sub:'Room A · any position, even empty'});
  // A ballot, a code and the panel's number are chosen in a sheet, not on the scene.
  for(const type of ['VOTE','SUBMIT_CODE','PANEL_CODE'])assert.equal(shellTarget(model({action:action(type,'targets',['seat-1'])})),null,type);
  // At the check, the target bar gives way to the sheet.
@@ -272,8 +276,9 @@ test('the target bar and the chip, from this viewer\'s own action only',()=>{
  assert.deepEqual(shellChip(model({action:block}),{view:'room',room:'room-b'}),{id:'board',label:'Other rooms · 1',icon:'board',tone:'paper'});
  assert.equal(shellChip(model({action:action('BLOCK_MOVE','targets',['seat-5','seat-6'])}),{view:'room',room:'room-b'}),null);
  assert.deepEqual(shellChip(model({action:block}),{view:'board',room:'room-b'}),{id:'list',label:'List',icon:'players',tone:'paper'});
- assert.equal(shellChip(model({action:action('MOVE','slots',['B5'])}),{view:'room',room:'room-b'}).label,'Other rooms on the Board');
- assert.equal(shellChip(model({action:action('MOVE','slots',['B5'])}),{view:'board'}),null);
+ assert.deepEqual(shellChip(model({moveRooms:['Room A','Room B'],action:action('MOVE','slots',['B5'])}),{view:'room',room:'room-b'}),{id:'move-board',label:'Other rooms on the Board',icon:'board',tone:'paper'});
+ assert.equal(shellChip(model({moveRooms:['Room B'],action:action('MOVE','slots',['B5'])}),{view:'room',room:'room-b'}),null);
+ assert.equal(shellChip(model({moveRooms:['Room A','Room B'],action:action('MOVE','slots',['B5'])}),{view:'board'}),null);
  assert.equal(shellChip(model({dark:true,action:action('SELECT_BLACKOUT_SLOT','slots',['A1'])}),{view:'room',room:'room-a'}),null);
  // Someone off the board is offered in the stage's own list (Off board), not counted in another room.
  assert.equal(shellChip(model({action:action('BLOCK_MOVE','targets',['seat-5','seat-9'])}),{view:'room',room:'room-b'}),null);
@@ -308,46 +313,61 @@ test('banners: reconnecting, the phone\'s (busy while a receipt is checked); an 
  assert.deepEqual(checkTabs(shellInput(model({ownSeatId:'seat-1',board:out.board})).tabs).enabled,{switch:true,actions:true,card:true,panels:true});
 });
 
-test('a pass: "Pass your turn?" with Cancel and Pass, then the registration once, as a toast',()=>{
+test('a pass: "Pass your turn?" with Cancel and Pass, then "Turn passed" once, as a toast (Actions\' passSheet and passedToast)',()=>{
  const confirm=model({activeSeatId:'seat-4',action:action('PASS_TURN','confirm',[],{label:'Pass',confirmation:'Pass?',canConfirm:true,prompt:'Pass'})});
  const sheet=shellSheet(confirm);
  assert.deepEqual(sheet,{id:'pass',kind:'pass',title:'Pass your turn?',sub:null,back:false,close:false,detent:'auto',
-  actions:[{id:'cancel',label:'Cancel',kind:'secondary',local:true},{id:'confirm',label:'Pass',kind:'primary',icon:'pass',enabled:true,busy:false}]});
+  actions:[{id:'cancel',label:'Cancel',kind:'secondary',local:true,enabled:true},{id:'pass',label:'Pass',kind:'primary',icon:'pass',enabled:true,busy:false}]});
  assert.equal(kept({viewer:'seat-4',sheet}).sheet.actions[0].local,true);
+ // Usable only as the controller can confirm it.
+ assert.equal(shellSheet(model({action:action('PASS_TURN','confirm',[],{canConfirm:false})})).actions[1].enabled,false);
  const sending=shellSheet(model({action:action('PASS_TURN','sending',[],{prompt:'Registering…'})}));
- assert.deepEqual(sending.actions[1],{id:'confirm',label:'Pass',kind:'primary',icon:'pass',enabled:true,busy:true});
+ assert.deepEqual(sending.actions[1],{id:'pass',label:'Pass',kind:'primary',icon:'pass',enabled:true,busy:true});
+ assert.equal(sending.actions[0].enabled,false);
  const accepted=model({action:action('PASS_TURN','accepted',[],{prompt:'Registered. Waiting for the authoritative view.'})});
  assert.equal(shellSheet(accepted),null);
- assert.deepEqual(shellToast(accepted),{id:'pass:turn-1',text:'Registered. Waiting for the authoritative view.',icon:'info'});
- assert.equal(shellToast(confirm),null);assert.equal(shellToast({...accepted,surface:'display'}),null);
+ // "Turn passed" comes with the view that shows the turn has moved on, through this phone's own pass (actions-input.mjs
+ // actionsFlow; planet-actions.test.mjs holds its orderings), not at the accepted step alone.
+ assert.equal(shellToast(accepted),null);
+ const passFlow={match:accepted.matchId,viewer:'seat-4',type:'PASS_TURN',phase:'turn-1',seats:[],slot:null,room:null,stage:'passed',seen:'turn-2'};
+ const nextTurn=model({phase:{...turn,id:'turn-2'},activeSeatId:'seat-5'});
+ assert.deepEqual(shellToast(nextTurn,{flow:passFlow}),{id:'pass:turn-1',text:'Turn passed',icon:'info'});
+ assert.equal(shellToast(confirm),null);assert.equal(shellToast({...nextTurn,surface:'display'},{flow:passFlow}),null);
 });
 
 test('the sheet\'s frame for each open panel and action; the body stays the game\'s',()=>{
  assert.equal(shellSheet(model()),null);
  const titles={actions:'Actions',card:'Your role',panels:'Panels',promises:'Promises',windows:'Windows',navigation:'Navigation',hospital:'Hospital panel',players:'Players','round-order':'Round order',settings:'Settings'};
- for(const [panel,title]of Object.entries(titles)){const f=shellSheet(model({panel}));assert.equal(f.title,title,panel);assert.equal(f.id,panel);assert.equal(f.close,true);assert.ok(kept({viewer:'seat-4',sheet:f}).sheet);}
+ // The Panels tab's three views are one sheet, the panels component's (release 3; planet-panels.test.mjs).
+ const sheetId=panel=>['players','round-order'].includes(panel)?'panels':panel;
+ for(const [panel,title]of Object.entries(titles)){const f=shellSheet(model({panel}));assert.equal(f.title,title,panel);assert.equal(f.id,sheetId(panel));assert.equal(f.close,true);assert.ok(kept({viewer:'seat-4',sheet:f}).sheet);}
  // Panels' own pages go back to Panels (sheet 27.5).
  for(const panel of ['windows','navigation','hospital','players','round-order'])assert.equal(shellSheet(model({panel})).back,true,panel);
  for(const panel of ['actions','card','panels','promises','settings'])assert.equal(shellSheet(model({panel})).back,false,panel);
  assert.equal(shellSheet(model({panel:'card'})).sub,'Only on this phone');assert.equal(shellSheet(model({panel:'card'})).detent,'large');
- assert.equal(shellSheet(model({panel:'windows'})).sub,'Unverified claims · Expires after Round 3');
+ // Windows are the windows component's one sheet (release 3; planet-windows.test.mjs): its frame has no sub, as sheet
+ // 34 draws it; each window's head says it ends with the round.
+ assert.equal(shellSheet(model({panel:'windows'})).sub,null);assert.equal(shellSheet(model({panel:'windows'})).detent,'large');
  // The dark, a closed phase and an unknown outcome, as today's sheet titled them.
  assert.equal(shellSheet(model({panel:'actions',dark:true})).title,'Blackout');
  assert.equal(shellSheet(model({panel:'card',phase:{...turn,expired:true}})).title,'Waiting for the server');
  assert.equal(shellSheet(model({recovery:{status:'unknown',canCheck:true,canRetry:false}})).title,'Outcome unknown');
- // An action at its check: its name, and the controller's own confirmation as the footer's Register.
+ // Actions' check (release 3; planet-actions.test.mjs): "Check and register", Cancel (this phone's own) and Register.
  const check=shellSheet(model({panel:'actions',action:action('RESCUE','confirm',[],{label:'Rescue',canConfirm:true})}));
- assert.deepEqual([check.id,check.title,check.actions],['action:RESCUE','Rescue',[{id:'confirm',label:'Register',kind:'primary'}]]);
- assert.deepEqual(shellSheet(model({action:action('RESCUE','confirm',[],{label:'Rescue',canConfirm:false})})).actions,[]);
+ assert.deepEqual([check.id,check.title,check.actions.map(a=>[a.id,a.label,a.enabled!==false])],['action-check','Check and register',[['cancel','Cancel',true],['register','Register Rescue',true]]]);
+ assert.equal(shellSheet(model({action:action('RESCUE','confirm',[],{label:'Rescue',canConfirm:false})})).actions[1].enabled,false);
+ // The other actions' checks stay the game's: the controller's confirmation as the footer's Register.
+ const block=shellSheet(model({action:action('BLOCK_MOVE','confirm',[],{label:'Block movement',canConfirm:true})}));
+ assert.deepEqual([block.id,block.title,block.actions],['action:BLOCK_MOVE','Block movement',[{id:'confirm',label:'Register',kind:'primary'}]]);
  const ballotSheet=shellSheet(model({phase:phase('JAIL_VOTE'),action:action('VOTE','targets',['seat-1','abstain'],{label:'Vote'})}));
  // The ballot is titled by its vote (sheet 35), large; its choices are the game's own body until the ballot's component.
  assert.deepEqual([ballotSheet.title,ballotSheet.detent,ballotSheet.actions],['Jail vote','large',[]]);
  assert.equal(shellSheet(model({phase:phase('CAPTAIN_ELECTION'),action:action('VOTE','targets',['seat-1'],{label:'Vote'})})).title,'Captain vote');
  assert.equal(shellSheet(model({action:action('VOTE','confirm',[],{label:'Vote',canConfirm:true})})).actions[0].label,'Vote');
  // Choosing on the scene shows no sheet, unless the board's List is open.
- const block=action('BLOCK_MOVE','targets',['seat-1'],{label:'Block movement'});
- assert.equal(shellSheet(model({action:block})),null);
- assert.deepEqual((({id,kind,title})=>({id,kind,title}))(shellSheet(model({action:block}),{listOpen:true})),{id:'target-list',kind:'target-list',title:'Block movement'});
+ const blocking=action('BLOCK_MOVE','targets',['seat-1'],{label:'Block movement'});
+ assert.equal(shellSheet(model({action:blocking})),null);
+ assert.deepEqual((({id,kind,title})=>({id,kind,title}))(shellSheet(model({action:blocking}),{listOpen:true})),{id:'target-list',kind:'target-list',title:'Block movement'});
 });
 
 test('concealed, and under the Food surface: the shell keeps its shape and drops this viewer\'s inputs',()=>{

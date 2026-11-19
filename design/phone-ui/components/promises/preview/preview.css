@@ -1,0 +1,14 @@
+/* mothership:dev-only · Promises preview's page: frames and captions. */
+/* The root text stays the browser's 16 px, as in the game at Standard and in the pack: the components size in rem. */
+html, body { margin: 0; background: #0B0E14; }
+body { color: #F4EBDD; font: 400 14px/1.4 -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif; }
+.pv-head { padding: 20px 24px 4px; }
+.pv-head h1 { margin: 0 0 4px; font-size: 20px; }
+.pv-head p { margin: 0; color: #B9C4D3; max-width: 900px; }
+.pv-grid { display: flex; flex-wrap: wrap; gap: 28px; padding: 20px 24px 40px; align-items: flex-start; }
+.pv-cell { margin: 0; }
+.pv-cell figcaption { margin: 0 0 8px; font-weight: 600; font-size: 14px; }
+.pv-cell figcaption small { display: block; font-weight: 400; color: #8696AE; }
+.pv-phone { position: relative; overflow: hidden; border-radius: 28px; background: #07090F; box-shadow: 0 0 0 2px #2A3346; }
+body.pv-single { background: #07090F; }
+body.pv-single .pv-phone { border-radius: 0; box-shadow: none; }

@@ -1,7 +1,7 @@
 /* Native phone shell over the existing pinned artwork. No prototype assets. */
 .planet-app{--phone-top:64px;--phone-text:#F4EBDD;--phone-secondary:#DCE3EC;--phone-glass-halo:0 0 1px rgba(8,11,18,.85),0 0 3px rgba(8,11,18,.7),0 0 8px rgba(8,11,18,.45);font:1rem/1.4 system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--phone-text);background:#10141C;container-type:inline-size}
-/* The phone shell and its kit style their own controls (phone-shell.css, kit.css): the game's button rules keep off them. Its stage and sheet body hold the game's own content, which keeps these. */
-.planet-app button:not(:where(.ms-k-btn,.ms-k-icon-btn,.ms-k-seg-btn,.ms-k-stepper-btn,.ms-k-switch,.ms-k-row,.ms-k-cell,[class^="ms-ps-"],[class*=" ms-ps-"])){font:600 .875rem/1.3 system-ui,sans-serif;padding:10px 12px;border-radius:12px;color:var(--phone-text);background:#202837;border:1px solid #9DAABA66;min-height:44px;min-width:44px;overflow-wrap:anywhere}
+/* The phone shell, its kit and Designer's parts style their own controls (phone-shell.css, kit.css, windows.css): the game's button rules keep off them. Its stage and sheet body hold the game's own content, which keeps these. */
+.planet-app button:not(:where(.ms-k-btn,.ms-k-icon-btn,.ms-k-seg-btn,.ms-k-stepper-btn,.ms-k-switch,.ms-k-row,.ms-k-cell,.ms-k-tile,.ms-wn-swatch,[class^="ms-ps-"],[class*=" ms-ps-"])){font:600 .875rem/1.3 system-ui,sans-serif;padding:10px 12px;border-radius:12px;color:var(--phone-text);background:#202837;border:1px solid #9DAABA66;min-height:44px;min-width:44px;overflow-wrap:anywhere}
 .planet-app button:disabled{opacity:1;color:#B7C1CF;background:#202837;border-style:dashed;cursor:default}
 .planet-icon{display:block;flex:none;width:24px;height:24px}
 /* The match's frame is Designer's phone shell, which fills the app; the stage fills the shell's stage. */

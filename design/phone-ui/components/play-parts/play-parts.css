@@ -1,0 +1,30 @@
+@import url("../kit/kit.css");
+/*
+ * The pack's gameplay part that is still drawn here: the time line. The tile, who, the facts and the notice are
+ * the kit's (component-kit-0.6.0 and 0.7.0), so their styles are in kit.css. Runtime source, Designer's. The
+ * pack's own values (design/phone-ui/prototype/screens.css .steps), on the kit's tokens (../kit/kit.css).
+ *
+ * Scope and weight, as the kit's: everything applies inside a component's .ms-kit root and styles only ms-pp-
+ * elements (or a kit element inside one of them); every rule weighs one class (.ms-kit :where(…)), so a
+ * component's own rule (two classes) outranks a part, whatever order the stylesheets load in. Order alone
+ * decides between the parts' own rules, and this file is ordered as the pack's cascade resolves.
+ * It takes no taps and does not move.
+ */
+
+/* ── The part ────────────────────────────────────────────────────────── */
+/* As the pack's `* { box-sizing: border-box }`. */
+.ms-kit :where([class^="ms-pp-"], [class*=" ms-pp-"], .ms-pp-steps li, .ms-pp-steps li > div) { box-sizing: border-box; }
+
+/* ── The time line (screens.css .steps) ──────────────────────────────── */
+.ms-kit :where(.ms-pp-steps) { list-style: none; margin: 2px 0 0; padding: 0; }
+.ms-kit :where(.ms-pp-steps li) { position: relative; display: grid; grid-template-columns: 28px minmax(0, 1fr); column-gap: 12px; padding-bottom: 14px; }
+.ms-kit :where(.ms-pp-steps li:last-child) { padding-bottom: 0; }
+.ms-kit :where(.ms-pp-steps li:not(:last-child))::before { content: ""; position: absolute; left: 13px; top: 30px; bottom: 2px; width: 2px; border-radius: 1px; background: var(--ms-k-steel-mid); }
+.ms-kit :where(.ms-pp-step-dot) { box-sizing: border-box; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; }
+.ms-kit :where(.ms-pp-step-dot .ms-k-ic) { width: 16px; height: 16px; }
+.ms-kit :where(.ms-pp-steps [data-step="done"] .ms-pp-step-dot) { background: var(--ms-k-accent); color: var(--ms-k-ink); --ic-knock: var(--ms-k-accent); }
+/* The pack's steel-pale (#B9C4D3), which stays itself on glass where the secondary words grow lighter. */
+.ms-kit :where(.ms-pp-steps li:not([data-step="done"]) .ms-pp-step-dot) { border: 2px dashed #B9C4D3; color: var(--ms-k-text-2); }
+.ms-kit :where(.ms-pp-steps li > div > b) { display: block; font: 700 0.9375rem/1.3 var(--ms-k-font); color: var(--ms-k-text); }
+.ms-kit :where(.ms-pp-steps li > div > span) { display: block; font: 500 0.875rem/1.35 var(--ms-k-font); color: var(--ms-k-text-2); }
+.ms-kit :where(.ms-pp-steps[hidden], .ms-pp-steps [hidden]) { display: none; }
