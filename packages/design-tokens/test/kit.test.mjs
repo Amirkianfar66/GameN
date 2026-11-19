@@ -252,3 +252,15 @@ test('a panel\'s icon is the painted line drawing at one size with nothing behin
   assert.match(css, /:where\(\.ms-k-tile:focus-visible\) \{ outline: 3px solid #FFD36D; outline-offset: 2px; \}/, 'the focus outline is the cell\'s');
   assert.match(css, /\.ms-k-tile\) \{\n\s+position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; min-height: 104px;/, 'the press area is the whole cell');
 });
+
+test('0.9.0: a tile can wait for an answer; the dark button has an edge and the weighty button a paper fill', () => {
+  const css = readFileSync(join(REPO, 'design/phone-ui/components/kit/kit.css'), 'utf8');
+  const source = readFileSync(join(REPO, 'design/phone-ui/components/kit/kit.mjs'), 'utf8');
+  assert.match(source, /glyph\.toggleAttribute\('data-waiting', props\.waiting === true\);/);
+  assert.match(css, /\.ms-k-tile-icon\[data-paint\]\[data-waiting\]:not\(\[data-paint="off"\]\)\)::after \{ content: ""; position: absolute;/);
+  assert.match(css, /:where\(\.ms-k-btn-secondary\) \{ box-shadow: inset 0 0 0 1\.5px rgba\(255, 255, 255, 0\.34\); \}/);
+  assert.match(css, /:where\(\[data-ms-surface="glass"\] \.ms-k-btn-secondary\) \{ background: rgba\(8, 11, 18, 0\.42\); box-shadow: inset 0 0 0 1\.5px rgba\(255, 255, 255, 0\.62\); \}/);
+  assert.match(css, /:where\(\.ms-k-btn-warn\) \{ background: var\(--ms-k-paper\); color: var\(--ms-k-ink\);/);
+  // The glass itself is as the owner set it on 10 November: nothing here changes it.
+  assert.doesNotMatch(css.slice(css.indexOf('The panels\' painted icons')), /--ms-k-glass-fill\s*:/);
+});

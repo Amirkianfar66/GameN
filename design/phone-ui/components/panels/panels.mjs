@@ -30,7 +30,7 @@
 
 import { createControlPolicy, createKit } from '../kit/kit.mjs';
 
-export const PANELS_VERSION = 'panels-0.1.1';
+export const PANELS_VERSION = 'panels-0.2.0';
 const VIEWS = Object.freeze(['list', 'players', 'round-order']);
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 /** The sheet's id, the same for the three views, so the shell keeps its body (and this content) through them. */
