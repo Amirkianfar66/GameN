@@ -1123,7 +1123,7 @@ The Lead then recommended one shared view for each fixed room. The owner:
 > Yes, plan Room A the same way
 
 - **What it decides:** the Rooms builder drafts Room A's plan and a layout test with stand-ins, with no new pictures:
-  - **unchanged from Room B:** the five places and views (the owner's file), the view's settings, the PV6 look, the shadows, the turned heads, the tags, the furniture placed by code and the room's food capsule;
+  - **unchanged from Room B:** the five places and views (the owner's file); the camera as Room B's five views have it (straight lines, about 70° across, eye level, 5° down, as "The level to reach" above set it, which replaced the 95° slice); the PV6 look, the shadows, the turned heads, the tags, the furniture placed by code and the room's food capsule;
   - **Room A's own choices, with the Lead's recommendations:** its code colours, its round window onto a planet (described in words, never from the owner's pictures), the ceiling (the Lead recommends solid), the stations at A to E, and who stands where;
   - **the steps and the spend:** view A first, then the other four, with a cap proposed from Room B's record (33 pictures, about $2.04).
 - **What it does not decide:** any picture or spend. The Lead checks the plan at 390 × 844 and 430 × 932, then the owner approves the plan and its cap before the image session has a go.
