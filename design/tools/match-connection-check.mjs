@@ -336,6 +336,26 @@ const LOOK = `(() => {
     commands: (window.planetHarness?.requests ?? window.foodAppHarness?.sent ?? []).filter(r => r.operation === 'command').map(r => ({ type: r.request.command.type, ...r.request.command })),
     page: document.body.innerText,
     violations: window.__policy,
+    // Windows' inks (the Lead, 19 November): each round's drawn size, and its press area, measured where a press lands on
+    // it: how far from its centre along each axis, and whether every point of a 43 px square around the centre does.
+    // Chrome's elementFromPoint names the top element over the CSS pixel from (x, y) to (x + 1, y + 1), so each point is
+    // read through the pixel centred on it: an edge then reads within half a pixel of where it is drawn. The rounds are
+    // 44 px apart and each hit ring meets its neighbour's halfway, so the later ink takes the pixel across that edge.
+    swatches: (() => {
+      const all = [...document.querySelectorAll('.ms-wn-swatch')];
+      if (!all.length) return undefined;
+      const round = v => Math.round(v * 100) / 100;
+      return all.map(s => {
+        const r = s.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+        const at = (x, y) => document.elementFromPoint(x - 0.5, y - 0.5);
+        const hits = (x, y) => { const h = at(x, y); return !!h && (h === s || s.contains(h)); };
+        const reach = (dx, dy) => { let d = 0; while (d < 40 && hits(cx + dx * (d + 0.25), cy + dy * (d + 0.25))) d += 0.25; return d + 0.125; };
+        const missed = [-21.5, 0, 21.5].flatMap(x => [-21.5, 0, 21.5].filter(y => !hits(cx + x, cy + y)).map(y => {
+          const h = at(cx + x, cy + y); return x + ',' + y + ':' + (h ? (h.dataset?.ink ?? h.className ?? h.tagName) : 'none'); }));
+        return { ink: s.dataset.ink, circle: { width: round(r.width), height: round(r.height) }, centre: { x: round(cx), y: round(cy) },
+          press: { width: round(reach(-1, 0) + reach(1, 0)), height: round(reach(0, -1) + reach(0, 1)), inner: !missed.length, missed } };
+      });
+    })(),
   };
 })()`;
 
@@ -1467,6 +1487,8 @@ try {
           textSize: seen.text === (name.includes('-largest') ? '200%' : '100%'),
           // The owner's view: an open sheet's footer whole on the screen, and where the sheet scrolls, its edge.
           ...(ownerFit ? { footShown: !ownerFit.foot || ownerFit.foot.shown, scrollEdge: !ownerFit.scrolls || ownerFit.edge.visible } : {}),
+          // Windows' inks keep the kit's 44 px press area around their 34 px rounds (the Lead, 19 November).
+          ...(seen.swatches ? { swatchPress: seen.swatches.every(s => s.press.inner && s.press.width >= 43.5 && s.press.height >= 43.5) } : {}),
           ...Object.fromEntries(Object.entries(own).filter(([key]) => !key.startsWith('info'))),
         };
         const file = join(REVIEW, `${sizeKey}-${name}.jpg`);
