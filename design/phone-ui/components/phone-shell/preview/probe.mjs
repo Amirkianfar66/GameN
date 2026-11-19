@@ -1257,7 +1257,7 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
     // 0.3.5: the bar's words are never cut (the Lead Designer's rule of 18 November 2026; the owner, 19 November 2026:
     // "Icon is enough for promises"). Every kind of bar with the game's own longest words, on four phones at the
     // three text sizes: the phone the owner reads the game on in the Claude app (402 px wide) beside 320, 390 and 430.
-    await check('fit: no word of the top bar is cut, with the game\'s own names and its longest lines, on 320, 390, 402 and 430 px phones at the Standard, Large and Largest text; Promises is the handshake and its count everywhere, named for a screen reader; the clock has its icon only in a bar wider than 25 rem; a line the name displaces is still read; the bar stays inside the phone and the stage begins under it; and without the fit the same bars do cut', async () => {
+    await check('fit: no word of the top bar is cut, with the game\'s own names and its longest lines, on 320, 390, 402 and 430 px phones at the Standard, Large and Largest text; Promises is the handshake and its count everywhere, named for a screen reader; the clock has its icon only in a bar wider than 25 rem; a line the name displaces is still read; the bar stays inside the phone, holds all it draws and the stage begins under it; and without the fit the same bars do cut', async () => {
       const who = (n, name, seat = null) => ({ ...person(n), name, ...(seat ? { seat } : {}) });
       const base = { round: 3, timer: { remainingMs: 42000 }, promises: { count: 1 }, menu: {} };
       const bars = {
@@ -1302,6 +1302,8 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
               const mark = s.q('.ms-ps-timer-mark'), ring = !!mark?.classList.contains('ms-ps-ring');
               const markDrawn = !!mark && mark.getClientRects().length > 0;
               const inside = [...tb.children].every(node => { const r = node.getBoundingClientRect(); return r.width === 0 || (r.left >= phone.left - 0.5 && r.right <= phone.right + 0.5); });
+              // The bar holds all it draws: its parts and both lines of words lie between its top and its foot, so a bar that grew is as tall as its words.
+              const holds = [...tb.children, name, sub].every(node => { if (!node || node.offsetWidth <= 1) return true; const r = node.getBoundingClientRect(); return r.height === 0 || (r.top >= box.top - 0.5 && r.bottom <= box.bottom + 0.5); });
               const seat = Number(String(bar.who?.seat ?? '').replace(/\D/g, ''));
               const want = (bar.kind === 'turn' ? [bar.self ? 'Your turn' : bar.who.name, bar.self ? `Player ${seat} · ${bar.who.name}` : `Player ${seat} · Turn`]
                 : bar.kind === 'pair' ? [bar.pair.map(q => q.name).join(' + '), bar.sub] : [bar.title, bar.sub ?? null]);
@@ -1310,7 +1312,7 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
               // The words are all in the page for a screen reader, whatever is drawn: the name (a phase's short form apart) and the line under it.
               const said = (bar.kind === 'phase' && bar.short ? read(s.q('.ms-ps-long')) : read(name)) === plain(want[0]) && (want[1] === null ? !sub : read(sub) === plain(want[1]));
               const row = { phone: `${width} × ${height}`, text, bar: id, fit: fit || 'as it is', height: px(box.height), inner: px(inner / rem),
-                whole: !cut(name) && !cut(sub), inside: inside && box.right <= phone.right + 0.5 && box.bottom <= phone.bottom,
+                whole: !cut(name) && !cut(sub), inside: inside && holds && box.right <= phone.right + 0.5 && box.bottom <= phone.bottom,
                 stage: Math.abs(stage.top - box.bottom) <= 0.5,
                 pill: promises ? (pill.textContent === '' && Math.abs(pill.getBoundingClientRect().width - 36) <= 0.5 && /^Promises/.test(promises.getAttribute('aria-label') ?? '') && promises.getBoundingClientRect().width >= 44 && s.qa('.ms-ps-div, .ms-ps-pill-label').length === 0) : true,
                 clock: !mark || ring ? markDrawn === !!mark : markDrawn === (inner / rem > 25),
