@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/promises-check.mjs",
   "component": "design/phone-ui/components/promises",
-  "sourceCommit": "bc4ebc3bfeaabfd07b921e71e53f1257549083e7",
+  "sourceCommit": "28cbb54c625d1a7005a28f8439412e5fa280283c",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -38,16 +38,16 @@
   "captures": {
     "390x844/list": {
       "file": "design/phone-ui/components/promises/review/390x844-list.jpg",
-      "sha256": "3adb7009acd3b25b7a98a09559c3f5ef28bfde5ab356a45048252b13ce0d5b79",
+      "sha256": "69b601fa36fc55e434b7c8bcc5e83819285aae1509924a3d542e52b675664bbd",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -59,13 +59,15 @@
       "pair": "Ava + Dev",
       "promisesOpen": true,
       "labels": "With Ava · talking now",
-      "rows": "Your quota|Offer a Promise|Six kinds · exact terms|Ava offered you one|Captain Support",
+      "rows": "Your quota",
       "value": "Given 0/1 · Received 0/1",
       "badges": "",
       "notes": "",
-      "tiles": "",
+      "tiles": "Offer a Promise|Ava offered you one",
       "selected": "",
-      "across": 0,
+      "tileNotes": "Six kinds · exact terms|Captain Support",
+      "waiting": "Ava offered you one",
+      "across": 1,
       "targets": 0,
       "chosen": "",
       "seatJoined": false,
@@ -91,16 +93,16 @@
     },
     "430x932/list": {
       "file": "design/phone-ui/components/promises/review/430x932-list.jpg",
-      "sha256": "1719ae6a61eed345a76f765b049cb254cff08bd007a6f7b4d138d0e7837a02d0",
+      "sha256": "70fff718478305d5597a83b27f95b50c9aa4ac9c85f02a14c0ca7c24e4c72520",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -112,13 +114,15 @@
       "pair": "Ava + Dev",
       "promisesOpen": true,
       "labels": "With Ava · talking now",
-      "rows": "Your quota|Offer a Promise|Six kinds · exact terms|Ava offered you one|Captain Support",
+      "rows": "Your quota",
       "value": "Given 0/1 · Received 0/1",
       "badges": "",
       "notes": "",
-      "tiles": "",
+      "tiles": "Offer a Promise|Ava offered you one",
       "selected": "",
-      "across": 0,
+      "tileNotes": "Six kinds · exact terms|Captain Support",
+      "waiting": "Ava offered you one",
+      "across": 1,
       "targets": 0,
       "chosen": "",
       "seatJoined": false,
@@ -144,16 +148,16 @@
     },
     "390x844/offered": {
       "file": "design/phone-ui/components/promises/review/390x844-offered.jpg",
-      "sha256": "a2f4119fcb92aad5eb3fa042862d78cc37ee19e3457ef7e36cbdc5bb5c9d925b",
+      "sha256": "58a0ed7520ea5a7dfcd2ff9485b89f957f6093567848adb28bfb49ee91d7305a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -165,13 +169,15 @@
       "pair": "Ava + Dev",
       "promisesOpen": true,
       "labels": "Waiting for Ava|With Ava · talking now",
-      "rows": "Your quota|Meet in Room A|Offered to Ava · not counted yet|Offer a Promise|Six kinds · exact terms|Ava offered you one|Captain Support",
+      "rows": "Your quota|Meet in Room A|Offered to Ava · not counted yet",
       "value": "Given 0/1 · Received 0/1|Offered",
       "badges": "Offered",
       "notes": "",
-      "tiles": "",
+      "tiles": "Offer a Promise|Ava offered you one",
       "selected": "",
-      "across": 0,
+      "tileNotes": "Six kinds · exact terms|Captain Support",
+      "waiting": "Ava offered you one",
+      "across": 1,
       "targets": 0,
       "chosen": "",
       "seatJoined": false,
@@ -197,16 +203,16 @@
     },
     "430x932/offered": {
       "file": "design/phone-ui/components/promises/review/430x932-offered.jpg",
-      "sha256": "272804f70d0e2bd001edbf74822233bb665ff6883a5edabf8bedd04f3d53a0a5",
+      "sha256": "7a6fbed02fa48cab2e9fa083fd557aff4cd2ad6e13e72315bdcc019885efbdd1",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -218,13 +224,15 @@
       "pair": "Ava + Dev",
       "promisesOpen": true,
       "labels": "Waiting for Ava|With Ava · talking now",
-      "rows": "Your quota|Meet in Room A|Offered to Ava · not counted yet|Offer a Promise|Six kinds · exact terms|Ava offered you one|Captain Support",
+      "rows": "Your quota|Meet in Room A|Offered to Ava · not counted yet",
       "value": "Given 0/1 · Received 0/1|Offered",
       "badges": "Offered",
       "notes": "",
-      "tiles": "",
+      "tiles": "Offer a Promise|Ava offered you one",
       "selected": "",
-      "across": 0,
+      "tileNotes": "Six kinds · exact terms|Captain Support",
+      "waiting": "Ava offered you one",
+      "across": 1,
       "targets": 0,
       "chosen": "",
       "seatJoined": false,
@@ -250,16 +258,16 @@
     },
     "390x844/kinds": {
       "file": "design/phone-ui/components/promises/review/390x844-kinds.jpg",
-      "sha256": "53439de712e726296b1e5494eb89f83c125753b4432dcaca991e798e140d858f",
+      "sha256": "689ada09e8e6a7e1447f40d46e6626612285deebcdde35595d3a00b32dad6111",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -277,6 +285,8 @@
       "notes": "Only during your private talk. It counts once Ava accepts.",
       "tiles": "Captain Support|Officer Selection|Jail Vote|No Jail Vote|Meet in Room A|Meet in Room B",
       "selected": "Meet in Room A",
+      "tileNotes": "Next election: every ballot in which they are a candidate|If you win the next election, appoint them|Vote to jail a player you name at the next Jail vote|Don’t vote to jail them at the next Jail vote|Be in Room A when voting starts|Be in Room B when voting starts",
+      "waiting": "",
       "across": 3,
       "targets": 0,
       "chosen": "",
@@ -303,16 +313,16 @@
     },
     "430x932/kinds": {
       "file": "design/phone-ui/components/promises/review/430x932-kinds.jpg",
-      "sha256": "44d73c924b93963506edf6cbfbcad888c6e5181e69980ac1438f952afcef95f0",
+      "sha256": "7aa5274af244b797f5bc3db51c8dcc2c0c417f958f3e29518db6f2bd277dabc3",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -330,6 +340,8 @@
       "notes": "Only during your private talk. It counts once Ava accepts.",
       "tiles": "Captain Support|Officer Selection|Jail Vote|No Jail Vote|Meet in Room A|Meet in Room B",
       "selected": "Meet in Room A",
+      "tileNotes": "Next election: every ballot in which they are a candidate|If you win the next election, appoint them|Vote to jail a player you name at the next Jail vote|Don’t vote to jail them at the next Jail vote|Be in Room A when voting starts|Be in Room B when voting starts",
+      "waiting": "",
       "across": 3,
       "targets": 0,
       "chosen": "",
@@ -356,16 +368,16 @@
     },
     "390x844/target": {
       "file": "design/phone-ui/components/promises/review/390x844-target.jpg",
-      "sha256": "513ffdfb13bd3dbff42a757ffe588ea8af555a1014da6478ad546fb497ff4223",
+      "sha256": "cb01c70aef20e74634ef973d9af36e714908a8c3692002a18be9535313dc04ff",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -383,6 +395,8 @@
       "notes": "",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 8,
       "chosen": "2 · Ben",
@@ -416,16 +430,16 @@
     },
     "430x932/target": {
       "file": "design/phone-ui/components/promises/review/430x932-target.jpg",
-      "sha256": "7f05ba944fe44038bae16e95c520cb9d2a7c49090bb8e47af5a82963978804a4",
+      "sha256": "beac1f2afc367067e676da2963d5a7fe8167fdd045c54edb99b582a8bf3247dd",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -443,6 +457,8 @@
       "notes": "",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 8,
       "chosen": "2 · Ben",
@@ -476,16 +492,16 @@
     },
     "390x844/confirm": {
       "file": "design/phone-ui/components/promises/review/390x844-confirm.jpg",
-      "sha256": "ca6ce14ac3faf7a7d12491caec4f243cc8b871e23b18bd33a36a2bf8fe6b5710",
+      "sha256": "c5818c552925dc3061f289c173ddbeb89717a9b31041b4e10d1726e8c79ac1a5",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -503,6 +519,8 @@
       "notes": "",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -529,16 +547,16 @@
     },
     "430x932/confirm": {
       "file": "design/phone-ui/components/promises/review/430x932-confirm.jpg",
-      "sha256": "c349308b895ba92827d711ae4462333a18c82798c26f08fb811e8a69ad0b3f1d",
+      "sha256": "e8c240ead807242a4c5b5cadf728a41d7b6c8e5553e37e1dc8acda40d9d6e56c",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -556,6 +574,8 @@
       "notes": "",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -582,16 +602,16 @@
     },
     "390x844/offering": {
       "file": "design/phone-ui/components/promises/review/390x844-offering.jpg",
-      "sha256": "67dc9881618d6311c8089db5cde0254fba376c57d9ec7a4df87a984823e67d5e",
+      "sha256": "975380f704d0eb811a3cda0be701436f660da6a26d968d5cd94539e0c974d8fb",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -609,6 +629,8 @@
       "notes": "",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -635,16 +657,16 @@
     },
     "430x932/offering": {
       "file": "design/phone-ui/components/promises/review/430x932-offering.jpg",
-      "sha256": "60a23c5046346cd29bb29953724ec111c73d53a1386e4983ed4cf69d9ad84ba7",
+      "sha256": "acda360da5ff6094b8749ff80703265c30763be29b349830ff56049fa44e90c0",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -662,6 +684,8 @@
       "notes": "",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -688,16 +712,16 @@
     },
     "390x844/incoming": {
       "file": "design/phone-ui/components/promises/review/390x844-incoming.jpg",
-      "sha256": "9a6f279ec909a9f669f65b27262d4db8e21e28453a8fd92b5ac0186495449be1",
+      "sha256": "33aa8cb06822f27932eb0815b80e44f126609eee6c150a874814d804e0a701fe",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -715,6 +739,8 @@
       "notes": "",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -741,16 +767,16 @@
     },
     "430x932/incoming": {
       "file": "design/phone-ui/components/promises/review/430x932-incoming.jpg",
-      "sha256": "12d2e0d0fd4351ece1d57a40b429cdd5d05015a37425e39f698fe929232c174f",
+      "sha256": "f1437303ea6a78f644cce3b25d8d4397e0cfa00fe11a8981b6bcc558a768f0a3",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -768,6 +794,8 @@
       "notes": "",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -794,16 +822,16 @@
     },
     "390x844/pending": {
       "file": "design/phone-ui/components/promises/review/390x844-pending.jpg",
-      "sha256": "38cfd540aa401ef960a688968d784ec7208f2837ba1b0311e5f32e1caa625bcf",
+      "sha256": "fc8672c7be9773ecf9b2682b07ecc8be74c973bf37bb183d06f559a7b8906865",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -821,6 +849,8 @@
       "notes": "Checked when that election is held.|No Promise given.|“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -847,16 +877,16 @@
     },
     "430x932/pending": {
       "file": "design/phone-ui/components/promises/review/430x932-pending.jpg",
-      "sha256": "f0f2086cbe276ab49cf4e7ff66b35af0dd478134d5a2d22d49ed6a2bb3cf4fa6",
+      "sha256": "095db1f0eaf99f81a1a8b0b691aa4119cfec64efaa7f6c0a5f33529c7de80ce4",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -874,6 +904,8 @@
       "notes": "Checked when that election is held.|No Promise given.|“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -900,16 +932,16 @@
     },
     "390x844/fulfilled": {
       "file": "design/phone-ui/components/promises/review/390x844-fulfilled.jpg",
-      "sha256": "ab4cbd5aa118c841ee0446eca4c4a8209d4985fad62f1fe213f44e81305d4bd8",
+      "sha256": "ff46fcfe9304259069ac75af3029bf25b99784a4b9885615644dc87c24af5a6c",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -927,6 +959,8 @@
       "notes": "No Promise received.|Dev was in Room A when Round 3’s voting began.|“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -953,16 +987,16 @@
     },
     "430x932/fulfilled": {
       "file": "design/phone-ui/components/promises/review/430x932-fulfilled.jpg",
-      "sha256": "edff1caf0f78839813f9900254d8e971d8a6c67f7f6c40752c9124dac45e53ec",
+      "sha256": "977268bca865ca85e28eb2e529d5c9bb4970c3c9b1e9eab616e73482977e626d",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -980,6 +1014,8 @@
       "notes": "No Promise received.|Dev was in Room A when Round 3’s voting began.|“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -1006,16 +1042,16 @@
     },
     "390x844/not-fulfilled": {
       "file": "design/phone-ui/components/promises/review/390x844-not-fulfilled.jpg",
-      "sha256": "d107fcadc763c10a1627241ade0851429905af96d8033845fa9754457f9305bf",
+      "sha256": "1750e175283fa2394e1fc4b7078cbc28f0ed13873acf365fc908bc580232c580",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1033,6 +1069,8 @@
       "notes": "In the runoff, a ballot in which Dev was a candidate, Ava voted for Ben.|No Promise given.|“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -1059,16 +1097,16 @@
     },
     "430x932/not-fulfilled": {
       "file": "design/phone-ui/components/promises/review/430x932-not-fulfilled.jpg",
-      "sha256": "aa385e0d269703dec6ca615af3bc9d7c213f418f10034ac4e2a16757fa52b8a7",
+      "sha256": "303adf0cf7e48d6bd769409bbd2ac9843c6f168264e2c2b5642e54cbb80addcb",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1086,6 +1124,8 @@
       "notes": "In the runoff, a ballot in which Dev was a candidate, Ava voted for Ben.|No Promise given.|“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -1112,16 +1152,16 @@
     },
     "390x844/condition": {
       "file": "design/phone-ui/components/promises/review/390x844-condition.jpg",
-      "sha256": "1a1eeec84801ecd4345feebe822f972c30f0e67f47628f4a1a07ba8b5ddf7bce",
+      "sha256": "aaf4f1a332f887304bd10b32216132e596323a962d3054931c7c3cd3639d7b21",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1139,6 +1179,8 @@
       "notes": "Dev was a candidate in no ballot of that election.|No Promise given.|“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -1165,16 +1207,16 @@
     },
     "430x932/condition": {
       "file": "design/phone-ui/components/promises/review/430x932-condition.jpg",
-      "sha256": "7397a2fb78496b8949242a607f8d2c19de5cec12e9c891821f7979e899782d65",
+      "sha256": "1f9fb56594dc900b17af4648054b07cb4bd2f35a40178b7d0d6c08cd171a4d73",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1192,6 +1234,8 @@
       "notes": "Dev was a candidate in no ballot of that election.|No Promise given.|“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -1218,16 +1262,16 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/promises/review/390x844-stale.jpg",
-      "sha256": "52d6c68e48171dc56944f913a7417c345b2132826ae2148afb0041b5adca457c",
+      "sha256": "c384eed127337271dd8479ddd8687b6f8c6e4ae6f02f1109336c7a2bdc8b632a",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1245,6 +1289,8 @@
       "notes": "",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -1271,16 +1317,16 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/promises/review/430x932-stale.jpg",
-      "sha256": "6ef0cfadda7a2cda88a7ed2b8977ce4a2fc54a23d31b68e9259a53c633e700aa",
+      "sha256": "35fdae31a7b166ff59959b39009f1016e82ace8a6006882f9d8835af898f53df",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1298,6 +1344,8 @@
       "notes": "",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -1324,16 +1372,16 @@
     },
     "390x844/largest": {
       "file": "design/phone-ui/components/promises/review/390x844-largest.jpg",
-      "sha256": "7602e813994fa80765d7a024ad4c8a1f7a65c0419cf5f5716b49295dfdc2fafb",
+      "sha256": "e84f3fb990475569176f766469c3c8b45ad065d167ca54ff600c9bfef0db8cfa",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1351,6 +1399,8 @@
       "notes": "",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -1377,16 +1427,16 @@
     },
     "430x932/largest": {
       "file": "design/phone-ui/components/promises/review/430x932-largest.jpg",
-      "sha256": "a10859af56681c798c825aa170e3b65b3984ab51e8ca4e7de3e9f1a8866455c5",
+      "sha256": "4b204d4fac4a5c8620e62b18f4c9e1987d0ea6c3365cf99301ab239ae6bb7204",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1404,6 +1454,8 @@
       "notes": "",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -1430,16 +1482,16 @@
     },
     "390x844/refused": {
       "file": "design/phone-ui/components/promises/review/390x844-refused.jpg",
-      "sha256": "08485511e7510edc7b36923082cb65a0392a241a61685d84992ddc6e57782f58",
+      "sha256": "c07021a6a75ad5c74b2b88ef107c4da2271dc643d1cf99eb875cc6b6100775e7",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1457,6 +1509,8 @@
       "notes": "",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -1495,16 +1549,16 @@
     },
     "430x932/refused": {
       "file": "design/phone-ui/components/promises/review/430x932-refused.jpg",
-      "sha256": "23e94ca3ba7044e1c4b562d16f7ca8be6fcba8d239fc7233760c1ea097877470",
+      "sha256": "9a61c7d631942062bf9073ffb213ad945749ddb9f5f9536e23100db9c4d35a72",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1522,6 +1576,8 @@
       "notes": "",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -1560,16 +1616,16 @@
     },
     "390x844/answer-refused": {
       "file": "design/phone-ui/components/promises/review/390x844-answer-refused.jpg",
-      "sha256": "3972134762465a196396a7adda7d810895cbc9dd4d403b476a57a4ab7a468232",
+      "sha256": "6fbf2f6179247d64407ac77629f105d27fcfbff00f7f0142c0a64f540ec45886",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1587,6 +1643,8 @@
       "notes": "",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -1625,16 +1683,16 @@
     },
     "430x932/answer-refused": {
       "file": "design/phone-ui/components/promises/review/430x932-answer-refused.jpg",
-      "sha256": "2d343795b65a31b116f86bc36e891f6a2a80ed36784f99cff254c81731a350b6",
+      "sha256": "3e5e1ab3fa863cc0ec0248bb28af3c533ca4e297d99a567e9a1491d0cc02ddb1",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1652,6 +1710,8 @@
       "notes": "",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -1690,16 +1750,16 @@
     },
     "320x568/refused-largest": {
       "file": "design/phone-ui/components/promises/review/320x568-refused-largest.jpg",
-      "sha256": "5804d0a04bb3525bebb47db0fe1aab6de137bec315d710507d453c2dc6774445",
+      "sha256": "ce05e476c6dee19a27c170e68b701945f1550e4a1a7daf9f48791c9390a5ef29",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1717,6 +1777,8 @@
       "notes": "",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -1735,14 +1797,14 @@
       "errorRole": "alert",
       "errorLast": true,
       "errorStarts": true,
-      "errorWhole": false,
-      "errorWordsWhole": false,
+      "errorWhole": true,
+      "errorWordsWhole": true,
       "errorBox": {
-        "top": 297,
-        "bottom": 438,
-        "wordsBottom": 428,
+        "top": 875,
+        "bottom": 1016,
+        "wordsBottom": 1006,
         "bodyTop": 297,
-        "bodyBottom": 419
+        "bodyBottom": 1032
       },
       "cut": [],
       "requests": [
@@ -1755,16 +1817,16 @@
     },
     "320x568/answer-refused-largest": {
       "file": "design/phone-ui/components/promises/review/320x568-answer-refused-largest.jpg",
-      "sha256": "93bd2997374e952d52e5a275c029b4c7bec0c51b2fe6af104899fc88585addcf",
+      "sha256": "4039eb63366e542e67453e83513362229fac7a80652bd0e5ea28b1d5e207cf56",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -1782,6 +1844,8 @@
       "notes": "",
       "tiles": "",
       "selected": "",
+      "tileNotes": "",
+      "waiting": "",
       "across": 0,
       "targets": 0,
       "chosen": "",
@@ -1800,14 +1864,14 @@
       "errorRole": "alert",
       "errorLast": true,
       "errorStarts": true,
-      "errorWhole": false,
-      "errorWordsWhole": false,
+      "errorWhole": true,
+      "errorWordsWhole": true,
       "errorBox": {
-        "top": 248,
-        "bottom": 390,
-        "wordsBottom": 380,
+        "top": 1342,
+        "bottom": 1484,
+        "wordsBottom": 1474,
         "bodyTop": 249,
-        "bodyBottom": 359
+        "bodyBottom": 1500
       },
       "cut": [],
       "requests": [
@@ -1936,6 +2000,10 @@
               "row": [
                 "Offered to Ava · not counted yet",
                 "Offered"
+              ],
+              "cells": [
+                "offer:Offer a Promise:Six kinds · exact terms:false",
+                "incoming:Ava offered you one:Captain Support:true"
               ]
             }
           }
@@ -2226,6 +2294,121 @@
           }
         },
         {
+          "id": "notes: at 390 × 844 with the Standard text, the talk's cells' notes within two lines, for each kind offered",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "font": "16px",
+            "over": [],
+            "seen": [
+              {
+                "kind": "CAPTAIN_SUPPORT",
+                "intent": "offer",
+                "note": "Six kinds · exact terms",
+                "lines": 2
+              },
+              {
+                "kind": "CAPTAIN_SUPPORT",
+                "intent": "incoming",
+                "note": "Captain Support",
+                "lines": 1
+              },
+              {
+                "kind": "OFFICER_SELECTION",
+                "intent": "offer",
+                "note": "Six kinds · exact terms",
+                "lines": 2
+              },
+              {
+                "kind": "OFFICER_SELECTION",
+                "intent": "incoming",
+                "note": "Officer Selection",
+                "lines": 1
+              },
+              {
+                "kind": "JAIL_VOTE",
+                "intent": "offer",
+                "note": "Six kinds · exact terms",
+                "lines": 2
+              },
+              {
+                "kind": "JAIL_VOTE",
+                "intent": "incoming",
+                "note": "Jail Vote",
+                "lines": 1
+              },
+              {
+                "kind": "NO_JAIL_VOTE",
+                "intent": "offer",
+                "note": "Six kinds · exact terms",
+                "lines": 2
+              },
+              {
+                "kind": "NO_JAIL_VOTE",
+                "intent": "incoming",
+                "note": "No Jail Vote",
+                "lines": 1
+              },
+              {
+                "kind": "MEET_A",
+                "intent": "offer",
+                "note": "Six kinds · exact terms",
+                "lines": 2
+              },
+              {
+                "kind": "MEET_A",
+                "intent": "incoming",
+                "note": "Meet in Room A",
+                "lines": 1
+              },
+              {
+                "kind": "MEET_B",
+                "intent": "offer",
+                "note": "Six kinds · exact terms",
+                "lines": 2
+              },
+              {
+                "kind": "MEET_B",
+                "intent": "incoming",
+                "note": "Meet in Room B",
+                "lines": 1
+              }
+            ],
+            "kinds": [
+              {
+                "kind": "CAPTAIN_SUPPORT",
+                "note": "Next election: every ballot in which they are a candidate",
+                "lines": 3
+              },
+              {
+                "kind": "OFFICER_SELECTION",
+                "note": "If you win the next election, appoint them",
+                "lines": 2
+              },
+              {
+                "kind": "JAIL_VOTE",
+                "note": "Vote to jail a player you name at the next Jail vote",
+                "lines": 2
+              },
+              {
+                "kind": "NO_JAIL_VOTE",
+                "note": "Don’t vote to jail them at the next Jail vote",
+                "lines": 2
+              },
+              {
+                "kind": "MEET_A",
+                "note": "Be in Room A when voting starts",
+                "lines": 2
+              },
+              {
+                "kind": "MEET_B",
+                "note": "Be in Room B when voting starts",
+                "lines": 2
+              }
+            ]
+          }
+        },
+        {
           "id": "layout: the kinds with the Largest text (200 %): every word whole, the last part reached by scrolling, the footer in view",
           "ok": true,
           "detail": {
@@ -2287,9 +2470,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -2320,9 +2503,9 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-Ck8u8vcZ.js",
+          "source": "assets/index-B_ICadhI.js",
           "line": 1,
-          "column": 6048,
+          "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
@@ -2339,6 +2522,11 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "look090": {
+            "A row's icon is 46 px with no chip behind it": 2,
+            "The icon is the painted line drawing, at the one panel size (46 px)": 2,
+            "Beside the 46 px icon a row's words start 6 px further right; the row keeps its height": 1
+          },
           "parts": {
             "sheet": {
               "pack": 1,
@@ -2369,44 +2557,44 @@
               "screen": 1
             },
             "lists": {
-              "pack": 2,
-              "screen": 2
+              "pack": 1,
+              "screen": 1
             },
             "rows": {
-              "pack": 3,
-              "screen": 3
+              "pack": 1,
+              "screen": 1
             },
             "row icons": {
-              "pack": 3,
-              "screen": 3
+              "pack": 1,
+              "screen": 1
             },
             "row icon drawings": {
-              "pack": 3,
-              "screen": 3
+              "pack": 1,
+              "screen": 1
             },
             "row portraits": {
               "pack": 0,
               "screen": 0
             },
             "row titles": {
-              "pack": 3,
-              "screen": 3
+              "pack": 1,
+              "screen": 1
             },
             "row lines": {
-              "pack": 2,
-              "screen": 2
+              "pack": 0,
+              "screen": 0
             },
             "row values": {
               "pack": 1,
               "screen": 1
             },
             "row chevrons": {
-              "pack": 2,
-              "screen": 2
+              "pack": 0,
+              "screen": 0
             },
             "row chevron drawings": {
-              "pack": 2,
-              "screen": 2
+              "pack": 0,
+              "screen": 0
             },
             "badges": {
               "pack": 0,
@@ -2480,6 +2668,12 @@
               "pack": 0,
               "screen": 0
             }
+          },
+          "departure": {
+            "what": "Offer a Promise and the offer to answer are cells on the Actions grid, not rows (the owner, 19 November 2026, draft 4; the Lead's option A)",
+            "rows": 2,
+            "cells": 2,
+            "movedVertically": 0
           }
         }
       },
@@ -2488,6 +2682,11 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "look090": {
+            "A row's icon is 46 px with no chip behind it": 2,
+            "The icon is the painted line drawing, at the one panel size (46 px)": 2,
+            "Beside the 46 px icon a row's words start 6 px further right; the row keeps its height": 1
+          },
           "parts": {
             "sheet": {
               "pack": 1,
@@ -2518,44 +2717,44 @@
               "screen": 1
             },
             "lists": {
-              "pack": 2,
-              "screen": 2
+              "pack": 1,
+              "screen": 1
             },
             "rows": {
-              "pack": 3,
-              "screen": 3
+              "pack": 1,
+              "screen": 1
             },
             "row icons": {
-              "pack": 3,
-              "screen": 3
+              "pack": 1,
+              "screen": 1
             },
             "row icon drawings": {
-              "pack": 3,
-              "screen": 3
+              "pack": 1,
+              "screen": 1
             },
             "row portraits": {
               "pack": 0,
               "screen": 0
             },
             "row titles": {
-              "pack": 3,
-              "screen": 3
+              "pack": 1,
+              "screen": 1
             },
             "row lines": {
-              "pack": 2,
-              "screen": 2
+              "pack": 0,
+              "screen": 0
             },
             "row values": {
               "pack": 1,
               "screen": 1
             },
             "row chevrons": {
-              "pack": 2,
-              "screen": 2
+              "pack": 0,
+              "screen": 0
             },
             "row chevron drawings": {
-              "pack": 2,
-              "screen": 2
+              "pack": 0,
+              "screen": 0
             },
             "badges": {
               "pack": 0,
@@ -2629,6 +2828,12 @@
               "pack": 0,
               "screen": 0
             }
+          },
+          "departure": {
+            "what": "Offer a Promise and the offer to answer are cells on the Actions grid, not rows (the owner, 19 November 2026, draft 4; the Lead's option A)",
+            "rows": 2,
+            "cells": 2,
+            "movedVertically": 0
           }
         }
       },
@@ -2637,6 +2842,11 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "look090": {
+            "A row's icon is 46 px with no chip behind it": 2,
+            "The icon is the painted line drawing, at the one panel size (46 px)": 2,
+            "Beside the 46 px icon a row's words start 6 px further right; the row keeps its height": 1
+          },
           "parts": {
             "sheet": {
               "pack": 1,
@@ -2667,44 +2877,44 @@
               "screen": 2
             },
             "lists": {
-              "pack": 3,
-              "screen": 3
+              "pack": 2,
+              "screen": 2
             },
             "rows": {
-              "pack": 4,
-              "screen": 4
+              "pack": 2,
+              "screen": 2
             },
             "row icons": {
-              "pack": 3,
-              "screen": 3
+              "pack": 1,
+              "screen": 1
             },
             "row icon drawings": {
-              "pack": 3,
-              "screen": 3
+              "pack": 1,
+              "screen": 1
             },
             "row portraits": {
               "pack": 1,
               "screen": 1
             },
             "row titles": {
-              "pack": 4,
-              "screen": 4
+              "pack": 2,
+              "screen": 2
             },
             "row lines": {
-              "pack": 3,
-              "screen": 3
+              "pack": 1,
+              "screen": 1
             },
             "row values": {
               "pack": 2,
               "screen": 2
             },
             "row chevrons": {
-              "pack": 2,
-              "screen": 2
+              "pack": 0,
+              "screen": 0
             },
             "row chevron drawings": {
-              "pack": 2,
-              "screen": 2
+              "pack": 0,
+              "screen": 0
             },
             "badges": {
               "pack": 1,
@@ -2778,6 +2988,12 @@
               "pack": 0,
               "screen": 0
             }
+          },
+          "departure": {
+            "what": "Offer a Promise and the offer to answer are cells on the Actions grid, not rows (the owner, 19 November 2026, draft 4; the Lead's option A)",
+            "rows": 2,
+            "cells": 2,
+            "movedVertically": 0
           }
         }
       },
@@ -2786,6 +3002,12 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "look090": {
+            "An Actions cell has no frame: its icon and words stand on the sheet": 6,
+            "The icon has no tile behind it": 6,
+            "The icon is the painted line drawing, at the one panel size (46 px)": 12,
+            "With no frame, a chosen cell says so in its name": 1
+          },
           "parts": {
             "sheet": {
               "pack": 1,
@@ -2927,7 +3149,8 @@
               "pack": 1,
               "screen": 1
             }
-          }
+          },
+          "departure": null
         }
       },
       {
@@ -2935,6 +3158,12 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "look090": {
+            "An Actions cell has no frame: its icon and words stand on the sheet": 6,
+            "The icon has no tile behind it": 6,
+            "The icon is the painted line drawing, at the one panel size (46 px)": 12,
+            "With no frame, a chosen cell says so in its name": 1
+          },
           "parts": {
             "sheet": {
               "pack": 1,
@@ -3076,7 +3305,8 @@
               "pack": 1,
               "screen": 1
             }
-          }
+          },
+          "departure": null
         }
       },
       {
@@ -3084,6 +3314,9 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "look090": {
+            "The dark button carries a light edge that stands 3 : 1 from the glass, over a darker fill": 1
+          },
           "parts": {
             "sheet": {
               "pack": 1,
@@ -3225,7 +3458,8 @@
               "pack": 0,
               "screen": 0
             }
-          }
+          },
+          "departure": null
         }
       },
       {
@@ -3233,6 +3467,9 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "look090": {
+            "The dark button carries a light edge that stands 3 : 1 from the glass, over a darker fill": 1
+          },
           "parts": {
             "sheet": {
               "pack": 1,
@@ -3374,7 +3611,8 @@
               "pack": 0,
               "screen": 0
             }
-          }
+          },
+          "departure": null
         }
       },
       {
@@ -3382,6 +3620,9 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "look090": {
+            "The dark button carries a light edge that stands 3 : 1 from the glass, over a darker fill": 1
+          },
           "parts": {
             "sheet": {
               "pack": 1,
@@ -3523,7 +3764,8 @@
               "pack": 0,
               "screen": 0
             }
-          }
+          },
+          "departure": null
         }
       },
       {
@@ -3531,6 +3773,9 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "look090": {
+            "The dark button carries a light edge that stands 3 : 1 from the glass, over a darker fill": 1
+          },
           "parts": {
             "sheet": {
               "pack": 1,
@@ -3672,7 +3917,8 @@
               "pack": 0,
               "screen": 0
             }
-          }
+          },
+          "departure": null
         }
       },
       {
@@ -3680,6 +3926,11 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "look090": {
+            "A row's icon is 46 px with no chip behind it": 2,
+            "The icon is the painted line drawing, at the one panel size (46 px)": 2,
+            "Beside the 46 px icon a row's words start 6 px further right; the row keeps its height": 1
+          },
           "parts": {
             "sheet": {
               "pack": 1,
@@ -3821,7 +4072,8 @@
               "pack": 3,
               "screen": 3
             }
-          }
+          },
+          "departure": null
         }
       },
       {
@@ -3829,6 +4081,11 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "look090": {
+            "A row's icon is 46 px with no chip behind it": 2,
+            "The icon is the painted line drawing, at the one panel size (46 px)": 2,
+            "Beside the 46 px icon a row's words start 6 px further right; the row keeps its height": 1
+          },
           "parts": {
             "sheet": {
               "pack": 1,
@@ -3970,7 +4227,8 @@
               "pack": 3,
               "screen": 3
             }
-          }
+          },
+          "departure": null
         }
       },
       {
@@ -3978,6 +4236,11 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "look090": {
+            "A row's icon is 46 px with no chip behind it": 2,
+            "The icon is the painted line drawing, at the one panel size (46 px)": 2,
+            "Beside the 46 px icon a row's words start 6 px further right; the row keeps its height": 1
+          },
           "parts": {
             "sheet": {
               "pack": 1,
@@ -4119,7 +4382,8 @@
               "pack": 3,
               "screen": 3
             }
-          }
+          },
+          "departure": null
         }
       },
       {
@@ -4127,6 +4391,11 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "look090": {
+            "A row's icon is 46 px with no chip behind it": 2,
+            "The icon is the painted line drawing, at the one panel size (46 px)": 2,
+            "Beside the 46 px icon a row's words start 6 px further right; the row keeps its height": 1
+          },
           "parts": {
             "sheet": {
               "pack": 1,
@@ -4268,7 +4537,8 @@
               "pack": 3,
               "screen": 3
             }
-          }
+          },
+          "departure": null
         }
       },
       {
@@ -4276,6 +4546,9 @@
         "ok": true,
         "detail": {
           "differences": [],
+          "look090": {
+            "The dark button carries a light edge that stands 3 : 1 from the glass, over a darker fill": 1
+          },
           "parts": {
             "sheet": {
               "pack": 1,
@@ -4417,7 +4690,8 @@
               "pack": 0,
               "screen": 0
             }
-          }
+          },
+          "departure": null
         }
       }
     ],
@@ -4425,9 +4699,9 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-Ck8u8vcZ.js",
+        "source": "assets/index-B_ICadhI.js",
         "line": 1,
-        "column": 6048,
+        "column": 6047,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
       }
     ],

@@ -13,8 +13,16 @@
 //
 // A result's badge sits in the row's value, in the pack (.row-value > .pill) as in the kit (0.6.1: a row's value takes
 // a node), so the values are compared as they are, and the badges by their own boxes, words and looks too.
+//
+// One named departure, in a talk (the owner, 19 November 2026: "i want all follow a shared system"; on draft 4, "As you
+// recommended"; the Lead's option A): Offer a Promise and the offer to answer, which the pack draws as rows, are cells
+// on the Actions grid. Each such row is compared with its cell by its words, in order (its title as the cell's name, its
+// line as the note), and is left out of the rows' and lists' own comparison, as the cells are out of everything else;
+// where the content is shorter for it, a part that only moved up or down is counted under the departure. Everything
+// else is compared as usual.
 
 import { MORE_SCREENS } from '../../../prototype/screens-more.mjs';
+import { splitLook090 } from '../../kit/preview/look-0-9-0.mjs';
 
 const TOLERANCE = 0.5;
 
@@ -72,9 +80,9 @@ const BODY = [
 
 /** Each case: the pack's parameters, the preview's state, a size, and the text size if not the Standard. */
 const CASES = [
-  { id: 'Promises in a talk at 390 × 844', pack: { state: 'list' }, state: 'list', size: '390x844' },
-  { id: 'Promises in a talk at 430 × 932', pack: { state: 'list' }, state: 'list', size: '430x932' },
-  { id: 'Promises with Dev\'s offer waiting at 390 × 844', pack: { state: 'offered' }, state: 'offered', size: '390x844' },
+  { id: 'Promises in a talk at 390 × 844', pack: { state: 'list' }, state: 'list', size: '390x844', cells: true },
+  { id: 'Promises in a talk at 430 × 932', pack: { state: 'list' }, state: 'list', size: '430x932', cells: true },
+  { id: 'Promises with Dev\'s offer waiting at 390 × 844', pack: { state: 'offered' }, state: 'offered', size: '390x844', cells: true },
   { id: 'Offer to Ava, the six kinds, at 390 × 844', pack: { state: 'kinds' }, state: 'kinds', size: '390x844' },
   { id: 'Offer to Ava, the six kinds, at 430 × 932', pack: { state: 'kinds' }, state: 'kinds', size: '430x932' },
   { id: 'Check the terms at 390 × 844', pack: { state: 'confirm' }, state: 'confirm', size: '390x844' },
@@ -89,6 +97,29 @@ const CASES = [
 ];
 
 const visible = node => !!node && node.getClientRects().length > 0 && getComputedStyle(node).visibility !== 'hidden' && !node.closest('[hidden]');
+/** A box that only moved up or down, or grew or shrank in height. */
+const movedVertically = (a, b) => Math.abs(a.x - b.x) <= TOLERANCE && Math.abs(a.w - b.w) <= TOLERANCE;
+const DEPARTURE = 'Offer a Promise and the offer to answer are cells on the Actions grid, not rows (the owner, 19 November 2026, draft 4; the Lead\'s option A)';
+/**
+ * The owner's cells: the component's cells in `grid`, and the pack's rows whose titles are those cells' names, in
+ * order. A row whose words differ stays a row, and fails as one.
+ */
+function cellsOf(pack, host, grid) {
+  const node = host.querySelector(grid);
+  const cells = node ? [...node.querySelectorAll(':scope > .ms-k-tile')].filter(visible) : [];
+  if (!cells.length) return null;
+  const names = new Set(cells.map(c => textOf(c.querySelector('.ms-k-tile-name'))));
+  const rows = [...pack.querySelectorAll('.sheet .row')].filter(visible).filter(r => names.has(textOf(r.querySelector('.row-title'))));
+  const words = (n, title, line) => { const l = n.querySelector(line); return { title: textOf(n.querySelector(title)), line: l && visible(l) ? textOf(l) : null }; };
+  return {
+    grid: node, cells, rows,
+    inRows: n => rows.some(r => r === n || r.contains(n)),
+    // A list all of whose rows are now cells: it has no counterpart.
+    listGone: n => n.matches('.list') && (() => { const kept = [...n.querySelectorAll('.row')].filter(visible); return kept.length > 0 && kept.every(r => rows.includes(r)); })(),
+    inGrid: n => node === n || node.contains(n),
+    pairs: { pack: rows.map(r => words(r, '.row-title', '.row-sub')), screen: cells.map(c => words(c, '.ms-k-tile-name', '.ms-k-tile-note')) },
+  };
+}
 function box(frame, node) {
   const f = frame.getBoundingClientRect(), r = node.getBoundingClientRect();
   return { x: r.left - f.left, y: r.top - f.top, w: r.width, h: r.height };
@@ -132,13 +163,25 @@ export async function runPromisesAgreement({ sizes, mountState, disposeState }) 
     }
     await frames();
     const differences = [], parts = {};
+    // The owner's cells (the departure above): the rows they were, compared by their words; out of the rest.
+    const own = cellsOf(pack, host, '.ms-pr-talk');
+    let departure = null;
+    if (own) {
+      if (JSON.stringify(own.pairs.pack) !== JSON.stringify(own.pairs.screen)) differences.push({ part: 'cells', what: 'words', pack: own.pairs.pack, screen: own.pairs.screen });
+      departure = { what: DEPARTURE, rows: own.rows.length, cells: own.cells.length, movedVertically: 0 };
+    }
     for (const [name, packSel, mineSel, compareWords, props] of [...FRAME, ...BODY]) {
-      const a = [...pack.querySelectorAll(packSel)].filter(visible), b = [...host.querySelectorAll(mineSel)].filter(visible);
+      let a = [...pack.querySelectorAll(packSel)].filter(visible), b = [...host.querySelectorAll(mineSel)].filter(visible);
+      if (own) { a = a.filter(n => !own.inRows(n) && !own.listGone(n)); b = b.filter(n => !own.inGrid(n)); }
       parts[name] = { pack: a.length, screen: b.length };
       if (a.length !== b.length) { differences.push({ part: name, what: 'count', pack: a.length, screen: b.length }); continue; }
       a.forEach((na, i) => {
         const nb = b[i], pa = box(pack, na), pb = box(host, nb);
-        if (!near(pa, pb)) differences.push({ part: `${name} ${i + 1}`, what: 'box', pack: pa, screen: pb });
+        if (!near(pa, pb)) {
+          // With the cells the content is shorter: what only moved up or down, the sheet with it, is the departure's.
+          if (departure && movedVertically(pa, pb)) departure.movedVertically += 1;
+          else differences.push({ part: `${name} ${i + 1}`, what: 'box', pack: pa, screen: pb });
+        }
         if (compareWords && textOf(na) !== textOf(nb)) differences.push({ part: `${name} ${i + 1}`, what: 'words', pack: textOf(na), screen: textOf(nb) });
         if (props) { const la = looks(na, props), lb = looks(nb, props); if (JSON.stringify(la) !== JSON.stringify(lb)) differences.push({ part: `${name} ${i + 1}`, what: 'look', pack: la, screen: lb }); }
         if (na.tagName === 'svg' && drawing(na) !== drawing(nb)) differences.push({ part: `${name} ${i + 1}`, what: 'drawing', pack: drawing(na).slice(0, 160), screen: drawing(nb).slice(0, 160) });
@@ -154,7 +197,7 @@ export async function runPromisesAgreement({ sizes, mountState, disposeState }) 
     const pictureOf = node => (node.tagName === 'IMG' ? node.src.replace(/^.*\//, '') : (getComputedStyle(node).backgroundImage.match(/([^/"]+\.svg)/)?.[1]?.replace(/-[A-Za-z0-9_-]{8}\.svg$/, '.svg') ?? null));
     const packPictures = [...pack.querySelectorAll('.sheet .row > .pt, .sheet .comic .pt')].map(pictureOf), minePictures = [...host.querySelectorAll('.ms-promises .ms-k-pt')].map(pictureOf);
     if (JSON.stringify(packPictures) !== JSON.stringify(minePictures)) differences.push({ part: 'portraits', what: 'files', pack: packPictures, screen: minePictures });
-    checks.push({ id: `agree: ${c.id}`, ok: differences.length === 0, detail: { differences, parts } });
+    checks.push({ id: `agree: ${c.id}`, ok: splitLook090(differences).kept.length === 0 && (!c.cells || departure !== null), detail: { differences: splitLook090(differences).kept, look090: splitLook090(differences).look, parts, departure } });
     disposeState(mounted);
     pack.remove();
     host.remove();

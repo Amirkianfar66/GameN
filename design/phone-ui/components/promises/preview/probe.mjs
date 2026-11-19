@@ -22,6 +22,8 @@
 //   focus     each row and tile keeps its element and the focus; a focus in what ends returns to the content, once
 //   layout    the content 16 px in at both sizes, the kinds two across; at the Largest text every word whole, the last
 //             part reached by scrolling and the footer in view
+//   notes     at 390 × 844 with the Standard text, the talk's cells' notes within two lines, for each kind offered (the
+//             Lead, 19 November); the six kinds' own lines, sheet 33's, are recorded
 //   dispose   after dispose(), nothing is left and nothing fires
 //   motion    none of its own, with or without Reduce motion
 // With the device's Reduce motion emulated, only the motion check runs (the page's mode says which).
@@ -74,6 +76,15 @@ export async function runPromisesProbe({ sizes, mountState, disposeState, inputO
   const dimmed = node => node?.hasAttribute('data-off');
   const shown = node => !!node && !node.hidden && node.getClientRects().length > 0 && !node.closest('[hidden]');
   const words = root => [...root.querySelectorAll('.ms-k-group-label, .ms-k-row-title, .ms-k-row-sub, .ms-k-row-value:not(:has(.ms-k-pill)), .ms-k-pill, .ms-k-group-note, .ms-pr-card-name, .ms-pr-card-terms, .ms-k-fact-text, .ms-k-tile-name, .ms-k-tile-note')].filter(shown).map(n => n.textContent);
+  /** How many lines a note's words take: its text's distinct line boxes. */
+  const linesOf = node => {
+    if (!node) return 0;
+    const range = document.createRange();
+    range.selectNodeContents(node);
+    const tops = [];
+    for (const b of range.getClientRects()) if (b.width > 0 && !tops.some(top => Math.abs(top - b.top) < 2)) tops.push(b.top);
+    return tops.length;
+  };
   const labels = root => [...root.querySelectorAll('.ms-k-group-label')].filter(shown).map(n => n.textContent);
   const frameOf = s => { const sheet = s.m.shell.element.querySelector('.ms-ps-sheet'); return { title: sheet.querySelector('.ms-ps-sheet-title h2').textContent, back: !!sheet.querySelector('[data-intent="sheet-back"]'), detent: sheet.dataset.detent, foot: s.footer().map(b => b.textContent.trim()).join('|') }; };
   const inPage = text => document.documentElement.outerHTML.includes(text);
@@ -120,7 +131,7 @@ export async function runPromisesProbe({ sizes, mountState, disposeState, inputO
       const s = mount(inputOf({ offer: { enabled: false, reason: 'You have given your one Promise' } }));
       const row = s.q('[data-intent="offer"]');
       tap(row);
-      const seen = { refused: refused(row), dimmed: dimmed(row), why: describedBy(row), line: row.querySelector('.ms-k-row-sub').textContent };
+      const seen = { refused: refused(row), dimmed: dimmed(row), why: describedBy(row), line: row.querySelector('.ms-k-tile-note').textContent };
       s.update({ offer: ON });
       tap(row);
       const got = reports(s.calls);
@@ -135,11 +146,14 @@ export async function runPromisesProbe({ sizes, mountState, disposeState, inputO
       s.update({ talk: null, offer: null, received: null });
       const outside = { labels: labels(s.root), words: words(s.root).filter(w => w.startsWith('No Promise') || w.startsWith('“Not')) };
       s.update({ talk: AVA, offer: ON, given: OFFERED, received: INCOMING });
-      const waiting = { labels: labels(s.root), row: words(s.root).filter(w => w.startsWith('Offered')) };
+      // In the talk, the cells (the Actions grid): Offer a Promise, then the offer to answer with the amber dot.
+      const cells = [...s.root.querySelectorAll('.ms-pr-talk > .ms-k-tile')].map(t => [t.dataset.intent, t.querySelector('.ms-k-tile-name').textContent, t.querySelector('.ms-k-tile-note').textContent, t.querySelector('.ms-k-tile-icon').hasAttribute('data-waiting')].join(':'));
+      const waiting = { labels: labels(s.root), row: words(s.root).filter(w => w.startsWith('Offered')), cells };
       disposeState(s.m);
       const ok = talk.join('|') === 'With Ava · talking now' && talkAccepted.labels.join('|') === 'With Ava · talking now|Received' && !talkAccepted.incoming
         && outside.labels.join('|') === 'Received|Given' && outside.words.join('|') === `No Promise received.|No Promise given.|${W.notProof}`
-        && waiting.labels.join('|') === 'Waiting for Ava|With Ava · talking now' && waiting.row.join('|') === 'Offered to Ava · not counted yet|Offered';
+        && waiting.labels.join('|') === 'Waiting for Ava|With Ava · talking now' && waiting.row.join('|') === 'Offered to Ava · not counted yet|Offered'
+        && waiting.cells.join('|') === `offer:${W.offer}:${W.offerLine}:false|incoming:${W.offered('Ava')}:${PROMISE_KINDS[INCOMING.kind].name}:true`;
       return { ok, talk, talkAccepted, outside, waiting };
     });
     await check('words: Frontend\'s exact terms, condition, when and why drawn exactly as given, never composed or trimmed; no why, no line', async () => {
@@ -252,7 +266,7 @@ export async function runPromisesProbe({ sizes, mountState, disposeState, inputO
       const ELI = { seat: 5, name: 'Eli', character: TARGETS.find(t => t.seat === 5).character };
       s.update({ viewer: 4 });
       s.update({ viewer: 5, received: { ...INCOMING, recipient: ELI }, talk: AVA, offer: ON });
-      const kept = { incoming: !!s.q('[data-intent="incoming"]'), line: s.q('[data-intent="incoming"] .ms-k-row-title')?.textContent };
+      const kept = { incoming: !!s.q('[data-intent="incoming"]'), line: s.q('[data-intent="incoming"] .ms-k-tile-name')?.textContent };
       disposeState(s.m);
       const ok = before.terms && before.card && !dropped.terms && !dropped.card && !list.why && list.labels.join('|') === 'Received|Given' && !list.talk && kept.incoming && kept.line === 'Ava offered you one';
       return { ok, before, dropped, list, kept };
@@ -332,6 +346,25 @@ export async function runPromisesProbe({ sizes, mountState, disposeState, inputO
       });
     }
     size = sizeTo('390x844');
+    // The Lead, 19 November: a cell's note fits two lines at 390 × 844 at the Standard text; where it wouldn't, it is
+    // shorter, not taller. The talk's cells: Offer a Promise, and the offer to answer with each kind's name. The six
+    // kinds' tiles say sheet 33's own lines: recorded here, not held to the rule.
+    await check('notes: at 390 × 844 with the Standard text, the talk\'s cells\' notes within two lines, for each kind offered', async () => {
+      const s = mount();
+      const seen = [];
+      for (const kind of Object.keys(PROMISE_KINDS)) {
+        s.update({ received: { ...INCOMING, kind } });
+        await frames();
+        for (const cell of s.root.querySelectorAll('.ms-pr-talk > .ms-k-tile')) seen.push({ kind, intent: cell.dataset.intent, note: cell.querySelector('.ms-k-tile-note')?.textContent ?? null, lines: linesOf(cell.querySelector('.ms-k-tile-note')) });
+      }
+      s.update({ view: 'kinds' });
+      await frames();
+      const kinds = [...s.root.querySelectorAll('.ms-k-tile')].map(t => ({ kind: t.dataset.value, note: t.querySelector('.ms-k-tile-note')?.textContent ?? null, lines: linesOf(t.querySelector('.ms-k-tile-note')) }));
+      disposeState(s.m);
+      const font = getComputedStyle(document.documentElement).fontSize;
+      const ok = font === '16px' && seen.length === 2 * Object.keys(PROMISE_KINDS).length && seen.every(n => n.lines >= 1 && n.lines <= 2);
+      return { ok, font, over: seen.filter(n => n.lines > 2), seen, kinds };
+    });
     for (const [which, input] of [['the kinds', inputOf({ view: 'kinds', draft: { kind: 'MEET_A', target: null, terms: null } })], ['the incoming offer', inputOf({ view: 'incoming' })], ['a result', { view: 'list', viewer: 4, quota: RESULTS['not-fulfilled'].quota, received: RESULTS['not-fulfilled'].received }]]) {
       await check(`layout: ${which} with the Largest text (200 %): every word whole, the last part reached by scrolling, the footer in view`, async () => {
         document.documentElement.style.fontSize = '200%';

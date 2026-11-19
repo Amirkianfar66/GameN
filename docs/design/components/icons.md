@@ -16,7 +16,7 @@ The decision is recorded in [owner-decisions.md](../owner-decisions.md). This pa
 The test `packages/design-tokens/test/icons.test.mjs` keeps this page, the copies and the components honest.
 
 - **Owner of the source:** Designer, the Bars & Icons builder. The Lead Designer reviews each change, and the owner approves every look.
-- **Version:** `phone-ui-icons-1.1.0`, 79 icons. The icons are unchanged since the phone pack of 9 November 2026; 1.1.0 adds [a painted form](#the-painted-form) of them (the owner, 18 November 2026).
+- **Version:** `phone-ui-icons-1.2.0`, 79 icons. 1.2.0 adds the open painted form for the panels (`iconPaintedSvg(name, { open: true })`: the line drawing itself painted, nothing filled but a dot; the owner, 19 November 2026: "No background now, go ahead"), and changes no icon and neither earlier painted form. Before it: `phone-ui-icons-1.1.0`. The icons are unchanged since the phone pack of 9 November 2026; 1.1.0 adds [a painted form](#the-painted-form) of them (the owner, 18 November 2026).
 
 ## What counts as an icon
 
@@ -309,8 +309,8 @@ On each screen, every visible picture was listed and named by the custom propert
 - **A planted inline icon fails:** a 24 × 24 viewBox in markup, in `setAttribute`, in a CSS data-URI or in an SVG file under `assets/`, or a family path string. Art and the Voted badge pass, and so does a preview.
 - **This page's table** has one row per icon, in the family's order, with its group, accessible name and line.
 
-`packages/design-tokens/test/icon-paint.test.mjs`, in the same run (1.1.0):
-- **The family is 1.1.0** with the same 79 icons, and the bottom bar's icons are drawn as the pinned pack draws them.
+`packages/design-tokens/test/icon-paint.test.mjs`, in the same run (1.2.0; six tests, the sixth for the open form: every path is a line, only dots are filled, every part of the line drawing is there):
+- **The family is 1.2.0** with the same 79 icons, and the bottom bar's icons are drawn as the pinned pack draws them.
 - **The tile's frame is the crew portrait's own:** the same box and half-size, the path the crew drawing builds from its own numbers, and the frame, rim and shadow as three shipped portraits carry them.
 - **Every icon paints** as a decorative drawing with its own ids, the same each time, with no inline style, script, link or outside picture.
 - **A tile's ground is one fixed colour** and takes none from its caller. Every colour in a painted drawing is the tile's ground, its frame, or one of the two paints.

@@ -1,4 +1,4 @@
-// The painted form of the phone interface's icons (phone-ui-icons-1.1.0). The owner, 18 November 2026, with a
+// The painted form of the phone interface's icons (phone-ui-icons-1.2.0). The owner, 18 November 2026, with a
 // picture of the bottom bar: "This is what i am thinking of bottom bar"; and on its draft: "I am ok with this
 // new bar". Every tab's icon is a small painted tile like the character's portrait, and the round button's icon
 // is painted too. Runtime source, Designer's, beside the family it paints.
@@ -58,18 +58,19 @@ const shape = (part, attrs) => part.c
   : `<path d="${part.d}" ${attrs} stroke-linecap="round" stroke-linejoin="round"/>`;
 
 /** The drawing on the 24 grid: a soft shadow, the brown line, the paint, the inner lines. `fill` maps a tone to a paint. */
-function drawing(name, paint, fill) {
+function drawing(name, paint, fill, open = false) {
   const icon = ICONS[name];
   if (!icon) throw new Error(`No icon ${JSON.stringify(name)}`);
   const line = paint.line;
-  const stacked = STACKED[name];
+  const stacked = !open && STACKED[name];
   if (stacked) {
     const under = stacked.map(part => shape(part, `fill="${line}" stroke="${line}" stroke-width="${num(1.8 + LINE)}"`)).join('');
     const sheets = stacked.map(part => shape(part, `fill="${line}" stroke="${line}" stroke-width="${num(1.8 + LINE)}"`) + shape(part, `fill="${fill(part.tone)}" stroke="${fill(part.tone)}" stroke-width="1.8"`)).join('');
     return `<g transform="translate(0.5 0.9)" opacity="0.3">${under}</g>${sheets}`;
   }
-  const outer = icon.parts.filter(part => !part.knock), inner = icon.parts.filter(part => part.knock);
-  const closed = part => part.dot || part.fill;
+  // `open`: the line drawing itself is painted. Nothing is filled but a dot, so no icon is a plate with marks on it.
+  const outer = icon.parts.filter(part => open || !part.knock), inner = icon.parts.filter(part => !open && part.knock);
+  const closed = part => part.dot || (!open && part.fill);
   const dash = part => (part.dash ? ' stroke-dasharray="2.2 2.2"' : '');
   const under = outer.map(part => shape(part, `fill="${closed(part) ? line : 'none'}" stroke="${line}" stroke-width="${num((part.dot ? 0 : part.width ?? 1.8) + LINE)}"${dash(part)}`)).join('');
   const over = outer.map(part => shape(part, `fill="${closed(part) ? fill('main') : 'none'}" stroke="${fill('main')}" stroke-width="${part.dot ? 0 : part.width ?? 1.8}"${dash(part)}`)).join('');
@@ -110,11 +111,16 @@ export function iconTileSvg(name, { className = 'ic-tile', id = nextId(), paint 
     + `<path d="${FRAME}" fill="none" stroke="#FFFFFF" stroke-width="1.2" opacity="0.65"/></svg>`;
 }
 
-/** An icon's drawing alone, painted, as an inline SVG on the icons' own 24 grid with room for its line. Decorative. */
-export function iconPaintedSvg(name, { className = 'ic-paint', id = nextId(), paint = 'ember' } = {}) {
+/**
+ * An icon's drawing alone, painted, as an inline SVG on the icons' own 24 grid with room for its line. Decorative.
+ * `open` (1.2.0, the panels' icons; the owner, 19 November 2026: "I like painted icons but I dont want them to have
+ * any  background", "Still they  have a background", then "No background now, go ahead"): the family's line drawing
+ * itself is painted and nothing is filled but a dot, so no icon is a plate with marks on it.
+ */
+export function iconPaintedSvg(name, { className = 'ic-paint', id = nextId(), paint = 'ember', open = false } = {}) {
   const p = PAINTS[paint];
   if (!p) throw new Error(`No paint ${JSON.stringify(paint)}`);
   const f = `${id}-paint`;
   return `<svg class="${className}" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="-1.5 -1.5 27 27">`
-    + `<defs>${gradient(f, p)}</defs>${drawing(name, p, fills(f, p, !!STACKED[name]))}</svg>`;
+    + `<defs>${gradient(f, p)}</defs>${drawing(name, p, fills(f, p, !open && !!STACKED[name]), open)}</svg>`;
 }

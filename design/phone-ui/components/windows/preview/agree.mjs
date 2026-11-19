@@ -20,6 +20,7 @@
 //   - the inks are radios with aria-checked only (the pack also sets aria-pressed, which a radio doesn't take).
 
 import { MORE_SCREENS } from '../../../prototype/screens-more.mjs';
+import { splitLook090 } from '../../kit/preview/look-0-9-0.mjs';
 
 const TOLERANCE = 0.5;
 
@@ -148,7 +149,7 @@ export async function runWindowsAgreement({ sizes, mountState, disposeState }) {
       if (JSON.stringify(recorded.inkGroup.pack) !== JSON.stringify(recorded.inkGroup.screen)) differences.push({ part: 'ink group', what: 'role, name and radios', ...recorded.inkGroup });
       recorded.pressed = { pack: [...pack.querySelectorAll('.swatch')].map(s => s.getAttribute('aria-pressed')), screen: [...host.querySelectorAll('.ms-wn-swatch')].map(s => s.getAttribute('aria-pressed')) };
     }
-    checks.push({ id: `agree: ${c.id}`, ok: differences.length === 0, detail: { differences, parts, recorded } });
+    checks.push({ id: `agree: ${c.id}`, ok: splitLook090(differences).kept.length === 0, detail: { differences: splitLook090(differences).kept, look090: splitLook090(differences).look, parts, recorded } });
     disposeState(mounted);
     pack.remove();
     host.remove();
