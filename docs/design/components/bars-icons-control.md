@@ -172,7 +172,7 @@ node design/tools/bars-icons-control.mjs --out <file.html> --game <the game page
 ```
 
 - **Bars** gets "Open the game" at its top.
-- A bar's card gets "Open it in the game" when the game page has that bar's situation: the bar on your turn (`#your-turn`), on another player's turn (`#their-turn`), in the Jail vote (`#jail-vote`) and in the private talk (`#private-talk`). The link names the situation it opens. A card whose bar the game page can't show has no link.
+- A bar's card gets "Open it in the game" when the game page has that bar's situation: the bar on your turn (`#your-turn`), on another player's turn (`#their-turn`), in the Jail vote (`#jail-vote`) and in the private talk (`#private-talk`). The link names the situation it opens. A card whose bar the game page can't show has no link. The before-and-after views and the drafts have no link either: a draft, or a bar as it was, is not what the game page shows.
 - The link opens a new tab. The game page keeps its address when it is republished.
 - The address is given at the build and is in no file here: it is one person's private page. Without `--game` the page has no link. Only a claude.ai artifact address is taken.
 

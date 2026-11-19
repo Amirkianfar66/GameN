@@ -233,7 +233,7 @@ function sheetFill(controls) {
  * `mount` draws it with another shell (the Card tab's before), `width` gives its phone's width, `opens` is the
  * preset a tap opens (null: none), `title`, `tags` and `mark` say what its card shows.
  */
-function makeStrip(preset, first = false, { mount = mountPhoneShell, width = stripWidth, opens = preset.key, title = preset.label, tags = [`Sheet ${preset.sheet}`], mark = true, specs: withSpecs = true, route = null, height = () => STRIP_HEIGHT, rest = null } = {}) {
+function makeStrip(preset, first = false, { mount = mountPhoneShell, width = stripWidth, opens = preset.key, title = preset.label, tags = [`Sheet ${preset.sheet}`], mark = true, specs: withSpecs = true, route = null, height = () => STRIP_HEIGHT, rest = null, game = false } = {}) {
   const phone = h('div', { class: 'bc-phone', inert: true });
   const scaler = h('div', { class: 'bc-scaler' }, phone);
   const open = () => openTest(opens);
@@ -253,7 +253,8 @@ function makeStrip(preset, first = false, { mount = mountPhoneShell, width = str
     preset.crop === 'whole' ? h('p', { class: 'bc-strip-note' }, 'The whole phone, small. Tap it to open it at full size.') : null,
     details,
     mark ? h('div', { class: 'bc-strip-foot' }, markControl(`bar-${preset.key}`, { label: preset.label, group: preset.groupTitle })) : null,
-    gameLink(gameStateOf(preset.controls)));
+    // Only the bars' own views link to the game: a draft, or a bar as it was, is not what the game page shows.
+    game ? gameLink(gameStateOf(preset.controls)) : null);
   const strip = { preset, card, phone, scaler, windowEl, sizeTag, specs, details, mount, width, height, rest, route: route ?? GROUPS.find(g => g.id === preset.group)?.route ?? null, shell: null, toast: 0, timer: null };
   strips.push(strip);
   return strip;
@@ -636,7 +637,7 @@ function buildBarsPart(view, group) {
       gameLink(null, { lead: true }),
       GAME_PAGE ? h('p', { class: 'bc-hint' }, 'The game is the real game with a practice match and made-up players: press a bar’s icons there to see what the phone opens. Nothing is sent.') : null,
       h('p', { class: 'bc-hint' }, 'Each strip is the real bar, at this phone’s size, with its size beside its name. Open “Sizes and colours” for every part’s size, background, text and icon. Tap a strip to see it on the whole phone.')),
-    h('div', { class: 'bc-strips' }, group.presets.map((preset, i) => { const strip = makeStrip(preset, i === 0); lazyStrips.observe(strip.card); return strip.card; })));
+    h('div', { class: 'bc-strips' }, group.presets.map((preset, i) => { const strip = makeStrip(preset, i === 0, { game: true }); lazyStrips.observe(strip.card); return strip.card; })));
 }
 
 // ── The test view: the whole phone, live ─────────────────────────────
