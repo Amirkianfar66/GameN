@@ -6,6 +6,25 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 19 November 2026: the panels' icons are painted, with no background
+
+**Recorded by the Lead Designer from the owner's message in the Bars & Icons builder's session** (about 13:19 UTC), as that builder relayed it word for word. The owner was answering the panels' look draft (draft PR #333), which had three questions: a light edge for the dark buttons, painted icons in the panels, and what a tile's colour means. The owner, word for word:
+
+> I like painted icons but I dont want them to have any  background
+
+- **What it decides:** the icons in the panels opened from the two bars are painted, in the bottom bar's family, **with no ground behind them**. The draft's tiles under the icons go.
+- **What follows from it,** as the Lead reads it:
+  - **What a tile's colour means moves to the icon itself,** because the ground that said it is gone. Full colour means it can be pressed now. Greyed means not now, or that it only tells something. The amber dot still means it's waiting for the player's answer.
+  - **The words stay.** A greyed icon keeps its line, such as "Not available now", so the meaning is never colour alone.
+  - Each tile or row keeps its press area, at least 44 px, and its focus outline.
+- **A departure from sheets 28, 32 and 33** where they draw the panels' tiles, approved in these words.
+- **Still open:**
+  - The draft's first question, the dark buttons' light edge and the weighty buttons' paper fill. The owner hasn't spoken to it.
+  - Whether the bottom bar's painted tiles, approved with their ground on 18 November, lose it too. Bars & Icons is asking the owner that one question, and the bottom bar is unchanged until then.
+- **Next:**
+  - Bars & Icons draws draft 2 of the look, painted icons on no ground, and shows it to the owner as a draft.
+  - The Lead reviews it before it's built.
+
 ## 19 November 2026: the top bar's Promises button is its icon
 
 **Recorded by the Lead Designer from the owner's message to the Lead** (about 10:50 UTC). The owner had found the top bar draft's two options hard to compare. The Lead then sent the one bar where they differ: a short name at the owner's phone width, with today's bar, option 1 (the Promises button always the handshake and its count) and option 2 (the word "Promises" kept wherever it fits). The owner, word for word:
