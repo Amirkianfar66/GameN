@@ -42,13 +42,17 @@
 // - a squeezed sheet's footer scrolls with its body, when the body would get under a third of the sheet;
 // - a sheet's head stacks, its buttons above its title, when the title would take more than two lines beside them
 //   and the head is shorter that way.
+// 0.3.4 (the Lead Designer, 18 November 2026; no change of look): a sheet's title can take the focus. It is not in
+// the tab order and draws no ring, since nothing can be pressed there. When another sheet opens, the consumer puts
+// the focus on its title: a screen reader announces it, a held Enter presses nothing, and Tab moves on to the
+// sheet's controls.
 
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconPaintedSvg, iconTileSvg } from '../icon-paint.mjs';
 import { iconSvg } from '../icons.mjs';
 import { createControlPolicy, createKit, followTextSize } from '../kit/kit.mjs';
 
-export const PHONE_SHELL_VERSION = 'phone-shell-0.3.3';
+export const PHONE_SHELL_VERSION = 'phone-shell-0.3.5';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const KINDS = Object.freeze(['turn', 'phase', 'pair']);
 const HERO_MODES = Object.freeze(['pass', 'vote', 'voted']);
@@ -410,12 +414,27 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     const who = el('div', 'ms-ps-who');
     const lines = el('div', 'ms-ps-lines');
     const name = el('span', 'ms-ps-name'), sub = el('span', 'ms-ps-sub');
-    // DRAFT (0.3.4): a part of a line that stays together when the line wraps ("Player 6", a person's name), so a
+    // 0.3.5: a part of a line that stays together when the line wraps ("Player 6", a person's name), so a
     // line breaks at its "·" or "+" and never inside a name. The line's words are the same.
     const part = text => { const node = el('span', 'ms-ps-part'); node.textContent = text; return node; };
     // The "·" between two parts of a second line. Where that line wraps, the break takes the dot's place ("Player 6"
     // over "Crew 6"); the line's words, and what a screen reader reads, keep it.
     const dot = () => { const node = el('span', 'ms-ps-dot'); node.textContent = ' · '; return node; };
+    // A line under the name, from its words (a talk's, a phase's): a number stays with the word before it ("Round 12",
+    // "in 0:03"), and each "·" is a dot of its own, which gives way where the line breaks at it (fitBar()). The line
+    // is not split into parts at its dots: it wraps at any space. Its words are the same.
+    const fill = (node, words) => {
+      words.split(' · ').forEach((piece, i) => {
+        if (i) node.append(dot());
+        let at = 0;
+        for (const found of piece.matchAll(/\S+ \d\S*/g)) {
+          if (found.index > at) node.append(piece.slice(at, found.index));
+          node.append(part(found[0]));
+          at = found.index + found[0].length;
+        }
+        if (at < piece.length) node.append(piece.slice(at));
+      });
+    };
     if (b.kind === 'turn') {
       const n = seatNumber(b.who), face = portrait(b.who);
       if (face) who.append(face);
@@ -427,7 +446,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       const faces = b.pair.map(portrait).filter(Boolean);
       if (faces.length) { const pair = el('span', 'ms-ps-pair'); pair.append(...faces); who.append(pair); }
       b.pair.forEach((p, i) => name.append(...(i ? [' + '] : []), part(p.name)));
-      sub.textContent = b.sub ?? 'Private talk';
+      fill(sub, b.sub ?? 'Private talk');
       lines.append(name, sub);
     } else {
       const glyph = el('span', 'ms-ps-glyph', { 'data-tone': b.tone });
@@ -440,7 +459,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
         name.append(long, short);
       } else name.textContent = b.title;
       lines.append(name);
-      if (b.sub) { sub.textContent = b.sub; lines.append(sub); }
+      if (b.sub) { fill(sub, b.sub); lines.append(sub); }
     }
     who.append(lines);
     if (parts.who) parts.who.replaceWith(who); else bar.prepend(who);
@@ -469,18 +488,17 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     if (concealed || !b) {
       // The bars' empty material only (or no bar): no name, number, time or control for anyone to read.
       for (const name of ['who', 'promises', 'round', 'timer', 'menu']) { remove(parts[name]); parts[name] = null; }
-      for (const d of parts.divs ?? []) d.remove();
-      parts.divs = null; parts.whoKey = null;
+      parts.whoKey = null;
       return;
     }
     paintWho(b);
-    // Promises after the name, between two dividers (the owner, 9 November).
+    // Promises after the name (the owner, 9 November). 0.3.5: the handshake and its count on every phone and in
+    // every bar, with no word and no hairlines beside it (the owner, 19 November 2026: "Icon is enough for
+    // promises"). Its name for a screen reader is still "Promises".
     const pr = keep('promises', !!b.promises, () => {
       const node = button('ms-ps-promises', 'promises');
       const pill = el('span', 'ms-ps-pill');
-      const glyph = el('span', 'ms-ps-pill-icon'), label = el('span', 'ms-ps-pill-label');
-      label.textContent = 'Promises';
-      pill.append(glyph, label);
+      pill.append(el('span', 'ms-ps-pill-icon'));
       node.append(pill, el('b', 'ms-ps-badge', { 'aria-hidden': 'true' }));
       return node;
     }, bar, parts.right);
@@ -493,9 +511,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       attr(pr, 'aria-label', p.count ? `Promises, ${p.count} new` : 'Promises');
       attr(pr, 'aria-expanded', String(p.open));
       control(pr, { intent: 'promises', off: !p.enabled, reason: p.reason });
-      if (!parts.divs) { parts.divs = [el('span', 'ms-ps-div', { 'aria-hidden': 'true' }), el('span', 'ms-ps-div', { 'aria-hidden': 'true' })]; }
-      pr.before(parts.divs[0]); pr.after(parts.divs[1]);
-    } else if (parts.divs) { for (const d of parts.divs) d.remove(); parts.divs = null; }
+    }
     if (right !== bar.lastElementChild) bar.append(right);
     const round = keep('round', b.round !== null, () => el('span', 'ms-ps-round'), right, clock);
     if (round) { text(round, `R${b.round}`); attr(round, 'aria-label', `Round ${b.round}`); }
@@ -733,26 +749,21 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
   }
 
   /**
-   * DRAFT, the look only, not checked yet (shell 0.3.4): the bar's words are never cut. In a private talk the pair's
-   * name was cut ("Crew 6 + Cre…"), and on a turn the second line ("Player 6 · Cr…"), on the commonest phones.
-   * The Lead Designer's rule, 18 November 2026, for every kind of bar. The first step that makes the words whole:
-   *   a. as it is;
-   *   b. the slim controls: Promises the handshake alone with its count, the clock without its icon. Steady: every
-   *      bar up to 25 rem wide has them always (the stylesheet), so two phones of one size look the same whatever
-   *      the names. The owner's alternative, measured: only where a line would be cut (`slim`);
-   *   c. the name takes its second line's place, on two lines, the second line kept for screen readers (`name2`);
+   * 0.3.5: the bar's words are never cut. In a private talk the pair's name was cut ("Crew 6 + Cre…"), on a turn
+   * the second line ("Player 6 · Cr…"), and a phase's line under its title, on the commonest phones. The Lead
+   * Designer's rule, 18 November 2026, for every kind of bar. The first step that makes the words whole:
+   *   a. as it is. The controls are already at their least: Promises is the handshake and its count on every
+   *      phone, and the clock has no icon in a bar up to 25 rem wide (the stylesheet);
+   *   b. the name takes its second line's place, on two lines, the second line kept for screen readers (`name2`);
    *      or, when the second line is the one cut, that line wraps to a line of its own (`sub2`);
-   *   d. the controls take a row of their own and the words the full width (`stack`), then c again there.
+   *   c. the controls take a row of their own, together at its right as in the one-row bar, and the words the
+   *      full width (`stack`), then b again there.
    * The text keeps the size the player chose. Decided from a hidden copy of the bar, taken away at once, and only
    * when what it depends on changes: the bar's width, the text size, the words, or what stands beside them.
    */
   let barKey = null;
   function fitBar() {
     const who = parts.who;
-    // The owner's alternative, for the draft's comparison only: an ancestor asks for the measured slim controls.
-    // The root says which, so the stylesheet's steady step holds for this shell and for no earlier one drawn beside it.
-    const measured = !!root.closest('[data-ms-draft-bar="measured"]'), slimBy = measured ? 'measured' : 'steady';
-    if (root.dataset.barFit !== slimBy) root.dataset.barFit = slimBy;
     if (!state.bar || state.status === 'concealed' || !who?.isConnected || bar.clientWidth <= 0) {
       barKey = null;
       if (bar.hasAttribute('data-fit')) bar.removeAttribute('data-fit');
@@ -760,7 +771,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       return;
     }
     const name = who.querySelector('.ms-ps-name'), cs = win.getComputedStyle(name);
-    const key = [bar.clientWidth, cs.fontSize, doc.fonts?.status ?? '', parts.whoKey, measured, !!parts.promises, parts.promises?.textContent ?? '',
+    const key = [bar.clientWidth, cs.fontSize, doc.fonts?.status ?? '', parts.whoKey, !!parts.promises, parts.promises?.textContent ?? '',
       (parts.right?.textContent ?? '').length, root.style.getPropertyValue('--ms-ps-safe-t')].join('\u0001');
     if (key === barKey) return;
     barKey = key;
@@ -784,7 +795,6 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     let fit = [];
     const settle = () => {
       if (whole(fit)) return;
-      if (measured) { fit = ['slim']; if (whole(fit)) return; }
       const c = lines(fit);
       if (c && whole(c)) { fit = c; return; }
       const d = [...fit, 'stack'];
@@ -793,6 +803,20 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     };
     settle();
     set(fit);
+    // Where the line under the name breaks at a "·", the dot gives way to the break: the break says what the dot said.
+    // Found one dot at a time, in order, since a dot that goes moves the words after it.
+    const breaks = [], under = words[1];
+    if (under && under.offsetWidth > 1) {
+      const range = doc.createRange(), drawn = r => r.width > 0;
+      for (const [i, mark] of [...under.querySelectorAll('.ms-ps-dot')].entries()) {
+        range.setStart(under, 0); range.setEndBefore(mark);
+        const before = [...range.getClientRects()].filter(drawn).pop();
+        range.setStartAfter(mark); range.setEnd(under, under.childNodes.length);
+        const after = [...range.getClientRects()].find(drawn);
+        if (before && after && after.top > before.top + before.height / 2) { mark.setAttribute('data-break', ''); breaks.push(i); }
+      }
+    }
+    [...bar.querySelectorAll('.ms-ps-sub .ms-ps-dot')].forEach((mark, i) => { if (mark.hasAttribute('data-break') !== breaks.includes(i)) mark.toggleAttribute('data-break', breaks.includes(i)); });
     const style = win.getComputedStyle(copy), least = parseFloat(style.minHeight) || 0, tall = copy.offsetHeight;
     box.remove();
     const value = fit.join(' ');
@@ -813,7 +837,8 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       node.dataset.sheet = s.id;
       const head = el('div', 'ms-ps-sheet-head');
       const title = el('div', 'ms-ps-sheet-title');
-      const h2 = el('h2', null, { id: `${uid}-t${(seq += 1)}` });
+      // The title can take the focus (0.3.4): by script only, never by Tab.
+      const h2 = el('h2', null, { id: `${uid}-t${(seq += 1)}`, tabindex: '-1' });
       title.append(h2, el('p'));
       head.append(title);
       node.setAttribute('aria-labelledby', h2.id);
