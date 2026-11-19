@@ -13,7 +13,9 @@
 //     at that commit, not a copy kept in the repository. Today's stylesheet draws both, so the build first checks
 //     that every line of the stylesheet at BEFORE is still in it.
 // The page is content for a host that adds its own document skeleton: no doctype, head or body here.
-//   node design/tools/bars-icons-control.mjs --out <file.html>
+//   node design/tools/bars-icons-control.mjs --out <file.html> [--game <the game page's address>]
+// With --game the page links each bar to the game page (the real game with a practice match) at that bar's
+// situation. The address is given at the build and is in no file here: it is one person's private page.
 // It writes nothing in the repository, and nothing it writes is a release or a record.
 
 import { execFileSync } from 'node:child_process';
@@ -31,6 +33,9 @@ const git = (...args) => execFileSync('git', ['-C', REPO, ...args], { encoding: 
 const outAt = process.argv.indexOf('--out');
 if (outAt === -1 || !process.argv[outAt + 1]) throw new Error('Usage: node design/tools/bars-icons-control.mjs --out <file.html>');
 const OUT = resolve(process.argv[outAt + 1]);
+const gameAt = process.argv.indexOf('--game');
+const GAME = gameAt === -1 ? null : process.argv[gameAt + 1];
+if (gameAt !== -1 && !/^https:\/\/claude\.ai\/artifact\/[A-Za-z0-9]{8,64}$/.test(GAME ?? '')) throw new Error('--game takes a claude.ai artifact address');
 
 /** The shell before the Card tab's change: #265's head, shell 0.2.12. */
 const BEFORE = '5616928e891babfe35b78dc0a19e1fa552f6d7a3';
@@ -110,7 +115,7 @@ try {
     built: new Date().toISOString().replace(/\.\d+Z$/, 'Z'), icons: await iconFacts(), before: { commit: BEFORE, version: before.version },
     toastBefore: { commit: git('rev-parse', BEFORE_TOAST), version: beforeToast.version },
     sheetBefore: { commit: BEFORE_SHEET, version: beforeSheet.version },
-    fitBefore: { commit: BEFORE_FIT, version: beforeFit.version } };
+    fitBefore: { commit: BEFORE_FIT, version: beforeFit.version }, ...(GAME ? { gamePage: GAME } : {}) };
   const page = [
     '<title>Bars &amp; Icons Control</title>',
     '<meta name="claude:viewport-fit-sides" content="cover">',

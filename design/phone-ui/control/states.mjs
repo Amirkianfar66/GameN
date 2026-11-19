@@ -221,6 +221,24 @@ export const SHEET_08 = Object.freeze([
   ['out', 'Eliminated · Actions unavailable', { actionsTab: 'off' }],
 ].map(([key, label, change]) => Object.freeze({ key, label, sheet: '08', group: 'bottom', groupTitle: 'Bottom bar', crop: 'bottom', controls: Object.freeze({ ...BASE, ...change }) })));
 export const presetOf = key => PRESETS.find(p => p.key === key) ?? null;
+
+/**
+ * The game page's situations (the real Planet app with a practice match; the Gameplay UI builder's page), by the
+ * name its address takes after "#". A bar opens the situation it is drawn in, and none where the game page has no
+ * such situation: a phase bar, a lost connection, a phone put away, an eliminated player.
+ */
+export const GAME_STATES = Object.freeze({
+  'your-turn': 'Your turn', 'their-turn': 'Another player’s turn', 'jail-vote': 'The Jail vote', 'private-talk': 'The private talk',
+});
+const GAME_STATE_OF_BAR = Object.freeze({ own: 'your-turn', turn: 'their-turn', vote: 'jail-vote', talk: 'private-talk' });
+/** The game page's situation for these controls: { hash, label }, or null. */
+export function gameStateOf(controls) {
+  if (!controls || controls.status !== 'live' || controls.banner !== 'none') return null;
+  const hash = GAME_STATE_OF_BAR[controls.bar] ?? null;
+  return hash ? { hash, label: GAME_STATES[hash] } : null;
+}
+/** The game page's address, as the build was given it: only a claude.ai artifact's own address is taken. */
+export const gamePageOf = value => (typeof value === 'string' && /^https:\/\/claude\.ai\/artifact\/[A-Za-z0-9]{8,64}$/.test(value) ? value : null);
 /** The preset whose switches are exactly these, or null: a custom combination. */
 export const matchPreset = controls => PRESETS.find(p => Object.keys(BASE).every(k => p.controls[k] === controls[k])) ?? null;
 
