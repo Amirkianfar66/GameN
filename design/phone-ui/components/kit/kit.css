@@ -381,18 +381,18 @@
 @media (prefers-reduced-motion: reduce) { .ms-kit :where(.ms-k-toast) { animation: ms-k-fade 80ms linear both; } }
 @keyframes ms-k-fade { from { opacity: 0; } }
 
-/* ── DRAFT, not approved: the panels' painted icons and what a tile's ground means ─────────────────────────
-   A painted tile fills its holder and brings its own ground, rim and shadow, so the holder's fill goes. */
+/* ── DRAFT 2, not approved: the panels' painted icons, with nothing behind them ─────────────────────────────
+   The owner, 19 November 2026: "I like painted icons but I dont want them to have any  background". The icon is
+   painted in the bottom bar's family and stands on the sheet itself: its holder has no fill, edge or shadow.
+   In colour: it can be pressed now. Greyed, as the round button's icon is: it cannot now. */
 .ms-kit :where(.ms-k-tile-icon[data-paint], .ms-k-row-icon[data-paint], .ms-k-who-lead[data-form="icon"][data-paint], .ms-k-btn-icon[data-paint]) { background: none; border-radius: 0; box-shadow: none; }
 .ms-kit :where([data-paint] > .ms-k-paint) { display: block; width: 100%; height: 100%; overflow: visible; }
-.ms-kit :where(.ms-k-tile-icon[data-paint]) { width: 50px; height: 50px; margin: -2px; }
-.ms-kit :where(.ms-k-row-icon[data-paint]) { width: 36px; height: 36px; margin: -3px; }
-.ms-kit :where(.ms-k-who-lead[data-form="icon"][data-paint]) { width: 68px; height: 68px; margin: 0 -2px; }
-.ms-kit :where(.ms-k-btn-icon[data-paint]) { display: block; flex: none; width: 32px; height: 32px; margin-block: -4px; }
-.ms-kit :where(.ms-k-tile[data-state="selected"] .ms-k-tile-icon[data-paint]) { background: none; filter: drop-shadow(0 0 0 var(--ms-k-accent)) drop-shadow(0 0 3px var(--ms-k-accent)); }
-.ms-kit :where(.ms-k-tile:is([data-state="unavailable"], [data-state="spent"]) .ms-k-tile-icon[data-paint]) { background: none; opacity: 0.72; }
-/* A row that only tells: one flat steel tile, whatever tint its part names. */
-.ms-kit :where(.ms-k-row-icon:not([data-paint])) { background: var(--ms-k-steel-light); --ic-knock: var(--ms-k-steel-light); }
+.ms-kit :where([data-paint="off"] > .ms-k-paint) { filter: grayscale(1); opacity: 0.55; }
+.ms-kit :where(.ms-k-row-icon[data-paint]) { width: 32px; height: 32px; margin: -1px; }
+.ms-kit :where(.ms-k-who-lead[data-form="icon"][data-paint]) { width: 60px; height: 60px; margin: 2px; }
+.ms-kit :where(.ms-k-btn-icon[data-paint]) { display: block; flex: none; width: 28px; height: 28px; margin-block: -3px; }
+.ms-kit :where(.ms-k-tile[data-state="selected"] .ms-k-tile-icon[data-paint]) { background: none; filter: drop-shadow(0 0 3px var(--ms-k-accent)); }
+.ms-kit :where(.ms-k-tile:is([data-state="unavailable"], [data-state="spent"]) .ms-k-tile-icon[data-paint]) { background: none; }
 /* DRAFT, not approved: the dark button on glass. Its edge stood 1.0 to 1.2 : 1 from the glass (measured in Room B,
    the Hospital and over the board), so beside the amber button it read as words, not as a button. A light edge at
    62 % stands 3.4 to 4.3 : 1 in the same three rooms. The glass itself stays as the owner set it (56 %, 10 November). */

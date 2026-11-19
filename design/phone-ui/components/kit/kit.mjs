@@ -11,7 +11,7 @@
 
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
-import { iconTileSvg } from '../icon-paint.mjs';
+import { iconPaintedSvg } from '../icon-paint.mjs';
 
 export const COMPONENT_KIT_VERSION = 'component-kit-0.8.2';
 export const BUTTON_KINDS = Object.freeze(['primary', 'secondary', 'tinted', 'plain', 'outline', 'warn']);
@@ -53,18 +53,19 @@ export function createKit(doc) {
     return t.content.firstChild;
   };
   /**
-   * DRAFT (the panels' style, not approved): an icon as a painted tile, in the bottom bar's family, on a `warm`
-   * ground (it can be pressed now) or a `steel` one (it cannot, or it only tells). Redrawn only when it changes.
+   * DRAFT 2 (the panels' style, not approved): an icon painted, in the bottom bar's family, with nothing behind it
+   * (the owner, 19 November 2026: "I like painted icons but I dont want them to have any  background"). `on`: in
+   * colour, it can be pressed now. `off`: the same icon greyed, it cannot now. Redrawn only when the icon changes.
    */
-  const setPaint = (holder, name, ground) => {
-    const key = `paint:${name}:${ground}`;
+  const setPaint = (holder, name, mood) => {
+    const key = `paint:${name}`;
     if (holder.dataset.icon !== key) {
       const t = doc.createElement('template');
-      t.innerHTML = iconTileSvg(name, { className: 'ms-k-paint', ground }).trim();
+      t.innerHTML = iconPaintedSvg(name, { className: 'ms-k-paint' }).trim();
       holder.replaceChildren(t.content.firstChild);
       holder.dataset.icon = key;
     }
-    holder.dataset.paint = ground;
+    holder.dataset.paint = mood;
     holder.hidden = false;
     return holder;
   };
@@ -88,7 +89,7 @@ export function createKit(doc) {
     if (node.className !== cls) node.className = cls;
     if (!node.firstChild) node.append(h('span', 'ms-k-btn-icon'), h('span', 'ms-k-btn-label'));
     // The pack fills a primary button's icon; a floating chip's (filled) too.
-    if (props.painted && props.icon) setPaint(node.firstChild, props.icon, 'warm');
+    if (props.painted && props.icon) setPaint(node.firstChild, props.icon, 'on');
     else setIcon(noPaint(node.firstChild), props.icon ?? null, props.filled ?? kind === 'primary');
     text(node.lastChild, props.label);
     attr(node, 'aria-label', props.aria ?? null);
@@ -135,12 +136,13 @@ export function createKit(doc) {
       lead.hidden = false;
     } else if (props.icon) {
       if (lead.className !== 'ms-k-row-icon') { lead.replaceChildren(); lead.dataset.icon = ''; lead.className = 'ms-k-row-icon'; }
-      // DRAFT: a row that opens or does something (a button, a chevron, an intent) carries a painted tile; a row
-      // that only tells keeps its flat icon, on steel whatever tint the part names.
+      // DRAFT 2: a row that opens or does something (a button, a chevron, an intent) carries a painted icon with
+      // nothing behind it; a row that only tells keeps today's drawing and the tint its part names. An amber tint on
+      // a row that opens is read as "it waits for your answer" (the part names that itself in a later push).
       const opens = props.tag !== 'div' && (!!props.chevron || !!props.intent);
       // A row that waits for the player's answer (for this draft: an amber tint on a row that opens, as the incoming
       // Promise names it) carries an amber dot at its tile's corner; the part will name it itself later.
-      if (opens) { lead.removeAttribute('data-tint'); setPaint(lead, props.icon, 'warm'); lead.toggleAttribute('data-waiting', props.tint === 'amber'); }
+      if (opens) { lead.removeAttribute('data-tint'); setPaint(lead, props.icon, 'on'); lead.toggleAttribute('data-waiting', props.tint === 'amber'); }
       else { lead.removeAttribute('data-waiting'); attr(lead, 'data-tint', props.tint ?? null); setIcon(noPaint(lead), props.icon, true); }
     } else { lead.replaceChildren(); lead.dataset.icon = ''; lead.hidden = true; }
     text(main.firstChild, props.title);
@@ -399,10 +401,10 @@ export function createKit(doc) {
     } else {
       if (glyph.className !== 'ms-k-tile-icon') { glyph.className = 'ms-k-tile-icon'; glyph.removeAttribute('aria-hidden'); glyph.removeAttribute('data-node'); tileArt.delete(glyph); glyph.replaceChildren(); glyph.dataset.icon = ''; }
       // The pack fills the icon, but not on an unavailable or a spent tile.
-      // DRAFT: painted, warm when it can be pressed and steel when it cannot. A registered or a sending tile keeps
-      // today's drawing until the rest of the set follows.
-      if (state === 'available' || state === 'selected') setPaint(glyph, props.icon, 'warm');
-      else if (state === 'unavailable' || state === 'spent') setPaint(glyph, props.icon, 'steel');
+      // DRAFT 2: painted with nothing behind it, in colour when it can be pressed and greyed when it cannot. A
+      // registered or a sending tile keeps today's drawing.
+      if (state === 'available' || state === 'selected') setPaint(glyph, props.icon, 'on');
+      else if (state === 'unavailable' || state === 'spent') setPaint(glyph, props.icon, 'off');
       else setIcon(noPaint(glyph), props.icon, true);
     }
     text(name, props.name);
@@ -449,7 +451,7 @@ export function createKit(doc) {
     const [lead, words] = node.children;
     const form = people.length === 2 ? 'pair' : people.length === 1 ? 'person' : 'icon';
     if (lead.dataset.form !== form) { lead.replaceChildren(); lead.dataset.form = form; lead.dataset.icon = ''; lead.hidden = false; }
-    if (form === 'icon') setPaint(lead, props.icon, 'warm'); // DRAFT: the head tile painted, as the tile that led here
+    if (form === 'icon') setPaint(lead, props.icon, 'on'); // DRAFT 2: the head's icon painted, as the tile that led here
     else {
       while (lead.children.length > people.length) lead.lastChild.remove();
       while (lead.children.length < people.length) lead.append(h('span'));
