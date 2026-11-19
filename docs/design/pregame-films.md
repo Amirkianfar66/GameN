@@ -1,6 +1,6 @@
 # The pre-game films, made again as AAA animation
 
-**App entry, 19 November 2026.** The owner requested a still page graphic. The entry candidate displays the complete released “Game N” lettering and “by Plan B” credit together on black for the existing two seconds. Both motion settings use the same image. It mounts on fresh entry and yields directly to the menu. The brand film described below is the earlier design. [Title artwork](../../design/phone-ui/components/main-menu/entry-title.svg) · [Lead review request](https://github.com/Amirkianfar66/GameN/issues/311#issuecomment-6994912104)
+**App entry, 19 November 2026.** The owner specified a very light two-second opening with white “Game N” and “by Plan B” on black. In the entry candidate, the title types in over 360 ms and the smaller credit types in from 400 to 760 ms. Both lines then hold until the menu opens at two seconds. Reduce Motion shows the complete label immediately. The browser renders system text and CSS. The historical brand film below records the earlier treatment. [Entry component](../../design/phone-ui/components/main-menu/entry-title.mjs) · [Owner clarification and Lead review request](https://github.com/Amirkianfar66/GameN/issues/311#issuecomment-6995272884)
 
 **Status: the owner approved the Doctor's film and the boarding (8 November 2026). The other seven role films are drawn from them. Integration accepted their designs on 8 November, and they await the owner's review. Nothing here is adopted, mounted or deployed.**
 

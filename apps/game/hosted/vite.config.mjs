@@ -24,7 +24,7 @@ const shellSources = ['design/phone-ui/components/phone-shell/phone-shell.mjs', 
 // the match, the phone draws Designer's pre-game components as they are). Exactly each component's runtime files,
 // with the entry screens' shared parts (entry-parts); never a preview/ or review/. The kit, the shell and the icon
 // family are admitted above.
-const pregameSources = ['main-menu/main-menu.mjs', 'main-menu/main-menu.css', 'main-menu/entry-title.svg', 'entry-parts/entry-parts.mjs', 'entry-parts/entry-parts.css',
+const pregameSources = ['main-menu/main-menu.mjs', 'main-menu/main-menu.css', 'main-menu/entry-title.mjs', 'main-menu/entry-title.css', 'entry-parts/entry-parts.mjs', 'entry-parts/entry-parts.css',
   'display-settings/display-settings.mjs', 'display-settings/display-settings.css', 'host-room/host-setup.mjs', 'host-room/host-lobby.mjs', 'host-room/host-room.css',
   'join-room/join-form.mjs', 'join-room/join-wait.mjs', 'join-room/join-room.css', 'recover/recover.mjs', 'recover/recover.css',
   'character-select/character-select.mjs', 'character-select/character-select.css', 'role-stage/role-stage.mjs', 'role-stage/role-card.mjs',

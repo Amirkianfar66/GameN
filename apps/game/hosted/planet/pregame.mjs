@@ -1,6 +1,7 @@
 import {roleCaptions,rolePageText} from '../pregame-films/roles/film.mjs';
 import {createPregameScene} from './pregame-scene.mjs';
-import entryTitle from '../../../../design/phone-ui/components/main-menu/entry-title.svg?inline';
+import {ENTRY_TITLE_MARKUP} from '../../../../design/phone-ui/components/main-menu/entry-title.mjs';
+import '../../../../design/phone-ui/components/main-menu/entry-title.css';
 import './pregame.css';
 
 /** One presentation surface; every exit destroys the private scene, captions and retained bindings. */
@@ -33,10 +34,8 @@ export function mountPregamePresentation(root,controller,{
   overlay=el('section','pregame-overlay');overlay.dataset.pregame=film.kind;
   if(film.kind==='brand'){
    overlay.setAttribute('role','status');
-   const title=el('img','pregame-entry-title');
-   title.alt='Game N, by Plan B';
-   title.src=entryTitle;
-   overlay.append(title);
+   overlay.dataset.entryMotion=preferences().reduced||media.matches?'reduced':'full';
+   overlay.innerHTML=ENTRY_TITLE_MARKUP;
    root.after(overlay);
    return;
   }
@@ -82,7 +81,8 @@ export function mountPregamePresentation(root,controller,{
   try{
    if(key!==film.key||(slot?picture!==slot:!overlay))mount(film,slot);
    if(film.kind==='brand'){
-    // The page paints once. Wake at the existing entry deadline, also honoring an early dismissal.
+    // A preference change can finish the reveal. Keep the original entry deadline.
+    if(overlay.dataset.entryMotion==='full'&&(preferences().reduced||media.matches))overlay.dataset.entryMotion='reduced';
     if(entryTimer===null)entryTimer=win.setTimeout(()=>{
      entryTimer=null;
      sync();
