@@ -1,0 +1,97 @@
+{
+ "page": "https://gamen-mothership-staging.web.app/planet/",
+ "bundle": "/assets/planet-DhC_VvK7.js (contains the #259 change; main 0d4fde64)",
+ "capturedAt": "2026-11-14T19:37Z",
+ "browser": "Playwright 1.63 Chromium, headless, isMobile + hasTouch, deviceScaleFactor 2",
+ "note": "Times are seconds after navigation. Rects are CSS pixels. No tokens, headers or response bodies were recorded.",
+ "viewports": {
+  "390x844": {
+   "times": {
+    "shell": 0.8,
+    "connecting": 2.21,
+    "refused": 4.26,
+    "reconnect": 6.02,
+    "after": 16.02
+   },
+   "appCheckExchange": [
+    {
+     "t": 4.25,
+     "status": 403
+    }
+   ],
+   "statusText": "Authentication or saved session recovery could not be verified.",
+   "afterReconnectText": "Mothership | Settings | Authentication or saved session recovery could not be verified. | Reconnect",
+   "reduceMotion": {
+    "input": {
+     "x": 33,
+     "y": 154.8,
+     "w": 239.2,
+     "h": 44
+    },
+    "label": {
+     "x": 29,
+     "y": 151.8,
+     "w": 332,
+     "h": 50
+    },
+    "text": {
+     "x": 287.2,
+     "y": 158.2,
+     "w": 51.5,
+     "h": 36.6
+    },
+    "inputWidthRule": "239.219px",
+    "panel": {
+     "x": 16,
+     "y": 68,
+     "w": 358,
+     "h": 218.8
+    }
+   }
+  },
+  "430x932": {
+   "times": {
+    "shell": 0.69,
+    "connecting": 2.19,
+    "refused": 4.3,
+    "reconnect": 6.13,
+    "after": 16.13
+   },
+   "appCheckExchange": [
+    {
+     "t": 4.29,
+     "status": 403
+    }
+   ],
+   "statusText": "Authentication or saved session recovery could not be verified.",
+   "afterReconnectText": "Mothership | Settings | Authentication or saved session recovery could not be verified. | Reconnect",
+   "reduceMotion": {
+    "input": {
+     "x": 33,
+     "y": 154.8,
+     "w": 276.8,
+     "h": 44
+    },
+    "label": {
+     "x": 29,
+     "y": 151.8,
+     "w": 372,
+     "h": 50
+    },
+    "text": {
+     "x": 324.8,
+     "y": 158.2,
+     "w": 51.5,
+     "h": 36.6
+    },
+    "inputWidthRule": "276.812px",
+    "panel": {
+     "x": 16,
+     "y": 68,
+     "w": 398,
+     "h": 218.8
+    }
+   }
+  }
+ }
+}

@@ -6,6 +6,1664 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 19 November 2026: the panels' icons are painted, with no background
+
+**Recorded by the Lead Designer from the owner's message in the Bars & Icons builder's session** (about 13:19 UTC), as that builder relayed it word for word. The owner was answering the panels' look draft (draft PR #333), which had three questions: a light edge for the dark buttons, painted icons in the panels, and what a tile's colour means. The owner, word for word:
+
+> I like painted icons but I dont want them to have any  background
+
+- **What it decides:** the icons in the panels opened from the two bars are painted, in the bottom bar's family, **with no ground behind them**. The draft's tiles under the icons go.
+- **What follows from it,** as the Lead reads it:
+  - **What a tile's colour means moves to the icon itself,** because the ground that said it is gone. Full colour means it can be pressed now. Greyed means not now, or that it only tells something. The amber dot still means it's waiting for the player's answer.
+  - **The words stay.** A greyed icon keeps its line, such as "Not available now", so the meaning is never colour alone.
+  - Each tile or row keeps its press area, at least 44 px, and its focus outline.
+- **A departure from sheets 28, 32 and 33** where they draw the panels' tiles, approved in these words.
+- **Still open:**
+  - The draft's first question, the dark buttons' light edge and the weighty buttons' paper fill. The owner hasn't spoken to it.
+  - Whether the bottom bar's painted tiles, approved with their ground on 18 November, lose it too. Bars & Icons is asking the owner that one question, and the bottom bar is unchanged until then.
+- **Next:**
+  - Bars & Icons draws draft 2 of the look, painted icons on no ground, and shows it to the owner as a draft.
+  - The Lead reviews it before it's built.
+- **The owner's answer to draft 2** (about 13:32 UTC, in the Bars & Icons builder's session, relayed word for word):
+
+  > Before going forward show me the screenshot images
+  >
+  > I want all size of Icons on these panels to be the same follow the size of action panel 3 column matrix
+  >
+  > Still they  have a background
+
+  - **Screenshots first:** the owner sees the pictures themselves in the chat before the look goes forward.
+  - **One icon size in every panel:** the size of the icons in the Actions grid (three columns). Rows, buttons and the check's head take it too.
+  - **What still reads as a background goes in draft 3,** as the Lead reads it:
+    - the plates inside the painted icons, such as Final Code's square and Scan's disc, so each icon is the painted symbol alone;
+    - the chips that stayed, such as "Your quota" and Round order;
+    - the Actions tiles' frames. Each cell keeps its press area and focus outline, invisible until focused.
+- **The owner's answer to draft 3** (about 13:47 UTC, in the Bars & Icons builder's session, relayed word for word):
+
+  > No background now, go ahead
+
+  - **What it approves:** draft 3's look, as shown in its five pictures at 402 × 742 (#333 at `45f6406c`):
+    - line-painted icons on nothing;
+    - one 46 px size in every panel;
+    - no chips;
+    - no frame around the Actions cells, which keep their press area and focus outline.
+  - **The draft's first question, the dark buttons' light edge,** was in those pictures on the private talk's two buttons, and the owner said go ahead. Eject's paper fill was on draft 1's page and wasn't objected to. Both are built as drafted, and the owner sees them again in the built look.
+  - **Next:**
+    - Bars & Icons draws the frameless cells' states (pressed, chosen, sending and registered, focused) with a cue that isn't a ground.
+    - It checks the greyed icon's contrast and the look at 390 and 430, then builds and checks it on #333.
+    - In the game, the cells need `.ms-k-tile` in the stylesheets' exclusion lists to draw as designed. That's a fix for #310.
+  - **Still open:** whether the bottom bar's tiles lose their ground too. Bars & Icons has asked the owner.
+- **How the pictures are shown** (shortly before 14:30 UTC, in the Bars & Icons builder's session, relayed word for word). The builder was sending the owner the panels one at a time when the owner stopped it and asked:
+
+  > Why you are sharing with me 1 by 1 each panel ?
+
+  - **What follows from it,** as the Lead reads it: a review goes to the owner as **one combined sheet** with every part in it, never part by part. This holds for every Designer builder, not only Bars & Icons.
+  - Bars & Icons answered that it should have been one combined picture. It has stopped until the owner tells it to continue.
+  - **Next:** the built look goes to the owner as one image at 402 × 742, before the game takes it.
+- **One shared system for the panels** (in the Bars & Icons builder's session, relayed word for word). Before going on, the owner said:
+
+  > I should see some of your work example first to decide
+
+  Bars & Icons sent the built look as one combined sheet: six panels at 402 × 742, from #333 at `70ec9a46`. The owner answered shortly before 14:48 UTC:
+
+  > Actions follow the 3 column matrix order but the panel is like a row and wrong i want all follow a shared system
+
+  - **What it decides:** the Actions sheet's three-column grid of cells, an icon over its name with a note under it, is the shared system. Every panel opened from the two bars that offers a choice uses it.
+    - The Panels sheet's five destinations become cells.
+    - So do Promises' two rows that open: Offer a Promise, and a waiting offer with its amber dot.
+    - Each row's line becomes its cell's note.
+  - **Draft 4** showed that as one combined sheet. Bars & Icons asked whether "Your quota" and the inner lists follow it too. The owner asked "What is your quata and the inner list?", was told what they are, and answered (shortly before 14:53 UTC):
+
+    > As you recommended
+
+    - "Your quota" is the line in Promises that only tells.
+    - The inner lists are Players' people and Round order's steps.
+    - All three stay lines, because none of them offers a choice.
+  - **How it's read:** the owner didn't say "approved" for draft 4's grid in so many words. They asked for it, raised nothing against the picture and were told the work was going on, so the Lead takes it as accepted.
+  - **A departure from sheets 28, 32 and 33,** which draw these choices as rows, approved in these words.
+  - **In code** (the Lead's ruling), on #333:
+    - panels.mjs and promises.mjs build the cells as kit tiles. They are the Gameplay UI builder's files.
+    - Bars & Icons does the kit, the styles and the records.
+    - The checked build goes to the owner as one sheet before the game takes it.
+  - **The cells' notes** (the Lead's ruling):
+    - A cell's note fits two lines at 390 × 844 with 100 % text. A note that wouldn't gets shorter words, never a taller cell. At larger text sizes a note may wrap further, and words are never cut.
+    - The Windows cell names one window by its two rooms and counts two or more ("2 windows"). The pairs are named inside the panel. This replaces sheet 32's list of pairs on that cell, as part of the same departure.
+    - The six kinds of Promise keep their tiles two across, and their exact terms stay whole.
+
+## 19 November 2026: the top bar's Promises button is its icon
+
+**Recorded by the Lead Designer from the owner's message to the Lead** (about 10:50 UTC). The owner had found the top bar draft's two options hard to compare. The Lead then sent the one bar where they differ: a short name at the owner's phone width, with today's bar, option 1 (the Promises button always the handshake and its count) and option 2 (the word "Promises" kept wherever it fits). The owner, word for word:
+
+> Icon is enough for promises
+
+- **What it decides:** the top bar draft (shell 0.3.4's draft, "the bar's words are never cut") goes ahead as option 1, the draft the Lead recommended.
+  - **The Promises button is the handshake icon with its count, on every phone.** The Lead reads the owner's words as covering the largest phones too, so the word "Promises" is not drawn even where it would fit.
+  - **The clock follows option 1:** it drops its small icon on phones up to about 424 px wide.
+  - **Names in the bar are never cut.** Where they still don't fit, the name takes two lines in place of the line under it. If that isn't enough, the line under it wraps. Last, the controls move to a row of their own.
+- **A departure from sheet 07**, which draws the word "Promises" on a turn's bar at 390 px. It is approved in these words.
+- **Next:**
+  - Bars & Icons builds it as shell 0.3.5, with the phase bars measured and checked at 390 × 844, 402 × 742 and 430 × 932.
+  - The Lead reviews it before it reaches the game through #307.
+
+## 19 November 2026: Room A's go with a cap under $5; Codex's typing intro; Rooms A and B saved together
+
+**Recorded by the Lead Designer from the owner's message to the Lead** (about 10:45 UTC). The Lead had asked four things: Room A's three choices, a mark on the top bar draft, A or B for the app's two-second intro, and a line to save Room B's tools and records to GitHub. The owner, word for word:
+
+> 1. For room A All as you recommend" you have the authority to spend under 5 $ for room A as cap, 2. Top bar it is not clear for me the options to compare. 3.	App-start intro: B the codex one , 4.	Save Room B's work to GitHub : lets save both A and B together when A is done!
+
+- **Room A: the plan is approved as the Lead recommended** (the Room A plan page, version `1795050100-be2f`).
+  - **The ceiling is solid.** Room A's sky comes only through its round window, in views B and D.
+  - **The walks:** anyone seen between 100° and 118° on the way to the capsule uses the back view, as Vega does in Room B.
+  - **The cap is under $5 for Room A.** The plan proposed $1.25; the owner raised it.
+  - **The order:** the Lead gives each image go and names the reviewed sheet's version and hashes. View A comes first and goes to the owner before anything else is painted. The work stops and asks before it would pass the cap.
+- **The top bar draft: not decided.** The owner found the two options hard to compare. The Lead sent a side-by-side of the one bar where they differ, a short name at the owner's phone width.
+- **The app's two-second intro is Codex's typing version (B)** on #331: white words in the phone's own monospace font, typed on black. It replaces the approved intro's lettering (sheet 10). The menu after it shows no wordmark (the decision below), so the two no longer need to match.
+- **Rooms A and B are saved to GitHub together when Room A is done.** Until then Room B's tools and records stay in the Rooms and Motion & Cinematics builders' sessions, and its pictures stay on their published pages.
+
+## 19 November 2026: the main menu shows no wordmark; the name belongs to the intro
+
+**Recorded by the Lead Designer from the owner's words as Codex quoted them on #332** ([7003576315](https://github.com/Amirkianfar66/GameN/issues/332#issuecomment-7003576315), 08:14 UTC). The owner gave them in a Codex session, which the Lead cannot read. The quote is Codex's, word for word:
+
+> On main menu we dont need Game N by plan B text that was just for intro
+
+- **What it decides:** a departure from sheet 10, approved in the owner's own words.
+  - The main menu no longer shows "Game N / by Plan B". The hero's wordmark goes: the brand film's frame at 1.65 s, and its fade.
+  - The two-second opening alone carries the name and the credit.
+  - The menu shows the ship film the owner asked for (#332), or its poster under Reduce Motion or when the film can't load. Settings, Join, Host and "Recover my seat" stay.
+- **What stays:**
+  - The menu keeps "Game N" as its accessible name for screen readers.
+  - The controls keep their places, sizes and contrast over the film.
+- **Who does what:** the Pre-game Screen Designer (Codex) changes the main-menu component, and Frontend adopts it. The Lead accepts the integrated menu in its PR, as confirmed on #332 ([7003635111](https://github.com/Amirkianfar66/GameN/issues/332#issuecomment-7003635111)).
+- **What it leaves open:**
+  - **The ship film itself.** The ship, and the asteroids through the loop's wrap, wait for the Lead's review once the film's files are on a branch (#332).
+  - **The intro's lettering (#331).** With no wordmark on the menu, nothing at the cut needs the brand lettering any more. The Lead still recommends it, as the approved intro on sheet 10 has it, and has asked the owner to choose.
+  - **Finding 3 of the live staging review,** "Mothership" where sheet 10 says "Game N", now concerns the intro only.
+
+## 17 November 2026: every room redesigned in one cyber-comic-noir style, room by room, with who builds what
+
+**Recorded by the Lead Designer from the owner's message to the Lead.**
+
+**What was given.** Four pictures and a written brief:
+- **Two room pictures from the owner:** Room A in blue steel, with a round window onto a planet, and Room B, a violet laboratory. Each fills a phone, under bars like the game's.
+- **Two frames from an outside artist's animation:** a city street and a ship among asteroids. Like the two frames of 17 November [below](#17-november-2026-generated-backgrounds-and-one-noir-filter-for-the-pre-game-animation-test), they are mood references, described in words. They are not given to a tool as pictures, and the team names no artist in a prompt.
+- **A description of the look the owner wants,** which begins: "The most useful description is **illustrative 3D science-fiction animation with an inked graphic-novel finish**." It ends with the same direction for the Designer that the owner gave on 16 November, quoted [below](#16-november-2026-a-hand-inked-graphic-novel-world-for-the-pre-game-animation-test).
+
+**The brief,** as written:
+
+> Consider Frontend agent should not rebuild the Designer agent work at all, so some connects should be by designer for easier integration and avoid future issues, The goal is to **redesign all GameN rooms in a consistent cyber-comic-noir style, with visual depth, animation and clearly defined interactive elements**. This includes Room A, Room B, Command Room, Hospital, Jail, Supply Room and Private Room.
+>
+> Each room needs both a **layer map** and an **item-by-item specification**. These form the shared reference for Claude Designer and the Frontend agent.
+>
+> Each scene has three main depth groups:
+>
+> - **Far:** animated exterior views through windows, such as stars, planets and other space elements. These animations appear within the window openings. Rooms without exterior windows do not need an artificial exterior layer.
+> - **Middle:** the room’s structure, including walls, floor, ceiling, window frames and fixed equipment.
+> - **Foreground:** elements such as table edges, pipes and furniture fronts that create depth and partially overlap characters.
+>
+> These groups can contain multiple assets. For example, a desk may need separate back, surface and front pieces so a character’s body appears behind it while their hands rest on top.
+>
+> For **every item**, define:
+>
+> - Its position, depth and relationship to surrounding objects.
+> - Which parts are still artwork and which require separate movable pieces.
+> - Its animation: what moves, what triggers it, whether it loops and when it stops.
+> - Its interaction: whether players can use it, how they use it and what feedback they receive.
+> - Its possible states, such as open/closed, active/inactive or full/empty.
+> - Whether its behaviour is decorative, automatic or driven by an authorized gameplay event.
+>
+> An item can be **both animated and interactive**. A Hospital panel combines a static housing, changing display content and player input.
+>
+> **Image generation** supplies environment artwork, prop components and character appearance references. Moving objects can use generated image parts, with their movement controlled by code. Characters remain separate from backgrounds and perform activities appropriate to their positions, such as working at a computer or handling boxes. Decorative activities make the environment feel alive; gameplay outcomes follow the authoritative game state.
+>
+> **A shared visual finishing filter** unifies backgrounds, props and characters. Harmonize exposure, contrast, colour, ink-like shadows and subtle halftone textures while preserving each location’s atmosphere and keeping faces and interactive objects readable. Use adjustments for different rooms and depth layers. Keep UI, team colours and meaningful status indicators outside the environmental filter.
+>
+> Bake static finishing effects into artwork where practical, and match animated elements to that appearance. Support **Reduce Motion** for decorative animation and camera movement. The underlying artwork must also agree on perspective, scale and lighting.
+>
+> **Implementation responsibilities are divided as follows:**
+>
+> - **Claude Designer owns the visual implementation:** artwork, reusable visual components, layout, styles, character rigs and acting, visual effects, exterior animations, filter treatment and visual states. Claude also writes the specifically assigned connections that mount these components in the game.
+> - **Frontend owns the application’s functional integration:** authorized data, server communication, commands, navigation, recovery, accessibility behaviour and runtime performance. Frontend reviews Claude’s game-side connections against these responsibilities.
+> - **Backend owns gameplay authority:** rules, permissions, outcomes, timing and information visibility.
+> - **Integration coordinates compatible versions, review, merge and deployment.**
+>
+> **Using code does not automatically make a task the Frontend agent’s responsibility.** Visual and animation code belongs to Claude Designer. Each integration task must have one named implementation owner, with the other agent reviewing it.
+>
+> The preview and the actual game must consume the **same canonical visual components**. Frontend should connect those components rather than recreate their appearance. Required visual corrections go back into Claude’s canonical source.
+>
+> The handoff includes registered assets, masks, contact points, animation pivots, interaction areas, component inputs and callbacks, and reference compositions for mobile Room and Board views—with enough margins for planned camera movement.
+
+**What it decides:**
+- **Which rooms:** all seven are redesigned in one style: Room A, Room B, the Command Room, the Hospital, the Jail, the Supply Room (Food Supply's) and the Private Room (the private talk's).
+- **What each room gets:**
+  - a layer map, in the three depth groups (far, middle, foreground);
+  - an item-by-item specification, with the six points above for every item;
+  - a handoff with the parts the last paragraph lists.
+
+  Designer and Frontend both work from them.
+- **Where the pictures come from:**
+  - Image generation makes the environments, the props' parts and references for how the characters look.
+  - Code moves whatever moves.
+  - The characters stay apart from the backgrounds and act at their places.
+  - What players see happen in the game comes from the authoritative game state.
+- **The finish:** one shared filter, tuned for each room and depth, and baked into still pictures where it can be. The UI, the teams' colours and any status that means something stay outside it.
+- **Who builds what:**
+  - Designer owns the look in code as well as in pictures, and writes the connections it is given that mount its components in the game.
+  - Frontend owns the game's functional side and reviews those connections.
+  - Backend owns the rules, and Integration owns versions, review, merge and deployment.
+  - Every integration task has one named implementation owner, and the other side reviews it.
+  - This confirms and widens the owner's 15 November decision that Designer connects its parts.
+- **One source:** the preview and the game use the same canonical components. Visual fixes go back into Designer's source, not into a copy.
+
+**What it changes:** the 17 November record below kept generated pictures out of the game's rooms and left open whether the method would go beyond the Doctor test. It now goes to every room. The rules recorded there apply to every room picture:
+- the tool's terms allow commercial use;
+- each picture is kept with its tool, its prompt and its date;
+- outside frames are references in words only.
+
+**What stays the same until the owner approves the new rooms:**
+- The approved rooms (`room-drawing-1.0.0`) stay in the game.
+- Each room keeps its five places (the 11 October hard rule).
+- The characters are the nine approved crew (`design-0.9.0`), as separate rigs. Any change to their drawing for the new finish is shown to the owner before it is used.
+- Components show authorized state and send the player's intent. They decide no outcome.
+
+**The human test:** the Lead recommends that it ships on today's rooms, so nothing in it waits for the redesign; the owner has not answered yet. The game mounts the room scene component, so the new rooms can come later inside it with no change to the game.
+
+**The owner's answers, the same day,** to the Lead's two questions (Room B's rear wall, and which image tool):
+
+> Keep the window as we have animated integrated space sky for all game  move the atom screen to the right wall. my image tool can be 1 agent session here it on Codex,
+
+and, correcting how the Lead first read the second half:
+
+> sorry i did not say codex agent to be image creator , I said it can be session here for images or an agent in codex , as you suggest
+
+- **Room B keeps its exterior window,** with the shared animated sky every window shows. The owner's own picture had put an instrument screen there. The atom display goes on the small screen on the right wall, as #309's B03 has it.
+- **Who makes the pictures:** a session in the Designer team, or an agent in Codex, as the Lead suggests. It is not decided until the owner answers the Lead's suggestion.
+- **The terms, for OpenAI's image model.** A Codex agent would use it, and the Lead suggests it for a session here too. The Lead checked [OpenAI's Terms of Use](https://openai.com/policies/row-terms-of-use/):
+  - the user owns the output, and OpenAI assigns to the user any rights it has in it;
+  - AI output must not be presented as made by a person, so each plate's record says it was generated, with its tool, its prompt and its date.
+
+  Whether purely generated pictures can be protected by copyright is a separate question, which these terms don't settle.
+
+**What it leaves open:**
+- Who makes the pictures (above).
+- Each room's composition and camera. Room B is the first slice (#309), for the owner to see first.
+
+**The owner's style text and three answers, the same day,** in the Designer team's image session ("Designer: room images"), at 10:18 and 10:20 UTC. The Lead read both in that session's own transcript, not from a summary.
+
+The style text, word for word. It is the owner's draft with the three lines under "For our game", which the Lead suggested and the owner kept. The image session saved it with sha256 `f21ffeec2e282454b9370fbcaf78d517d50e7f648ae5ef74740b14d78bdc78d6`.
+
+> Overall :Style and art for every GameN room
+>
+> Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair.
+>
+> Organize dense detail around clear focal points. Use controlled colour palettes with selective luminous accents, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame: drifting smoke, changing displays, operating machinery, passing objects and layered depth, while the composition stays clear.
+>
+> For cosmic events, extend this language into saturated colour, orbital geometry, swirling forms and mysterious changes of scale.
+>
+> Overall: dark, cyber, noir, illustrated science fiction.
+>
+> For our game:
+>
+> * These are still pictures; code adds the motion. Paint smoke, screens and moving machinery cleanly, as separate pieces, with no motion blur.
+> * The crew stand in these rooms on a phone screen. Put dense detail on the walls and edges, and keep the floor where people stand calm and readable.
+> * No people, and no words, letters or logos. Leave screens plain for the game to fill.
+
+The three answers, each with the question and the option text the owner saw:
+
+| Question | The owner's answer | Its option text |
+| --- | --- | --- |
+| "Camera for the room pictures: should the rooms be seen from above, which keeps every crew member where they stand today, or at eye level, which means moving them?" | **Eye level** | "Camera at head height. The rooms feel more cinematic, but crew positions move, and the sheet and guides have to be redone before any generation." |
+| "Room B (the lab) is currently described as "calm, clinical, slightly worn" in dusky grey-violet. Your text says "dark, cyber, noir" overall. How should Room B feel?" | **Darker, more noir** | "Keep the lab's grey-violet family but push it darker and moodier, with deeper shadows and stronger contrast around the few lit accents." |
+| ""Leave screens plain for the game to fill": what should a screen opening look like in the still picture?" | **Flat black, empty** | "Each screen is a flat black opening that the game draws into, as the current sheet does." |
+
+The other camera option was "From above": "High three-quarter view looking down about 15–20°. Today's crew positions stay as they are. This is what the current Room B sheet is built for." The Lead had recommended it.
+
+**What it decides:**
+- **The room pictures are drawn at eye level,** Room B first.
+- **The places move.** In a room drawn at eye level, the five places get new feet, sizes and x positions to suit the camera.
+  - Each room keeps its five places, their ids and their order: the 11 October hard rule, and the order the entry rule reads (an entrant takes the lowest free place).
+  - A room's new layout goes to the owner before any picture for it is generated.
+- **Room B is darker and more noir,** in its grey-violet family.
+- **Screens are flat black, empty openings,** which the game draws into.
+- **Who makes the pictures:** the Designer team's image session, with OpenAI's image model, as the Lead suggested. The owner gave it their key in the environment's settings.
+- **Not generated:** the Room B sheet's versions 5 and 6, both drawn for the high camera. Nothing has been generated.
+
+**What it means for the work:**
+- **The Pre-game Animation builder** proposes the eye-level camera and Room B's five places on a test page. The page shows faces and targets at both phone sizes and in the Board's tile. The Lead reviews it, then the owner.
+- **After the owner's yes:**
+  - the sheet's version 7, with new guides and the darker Room B, and the Lead's go naming it;
+  - the in-game animation builder measures the bench's hand contacts again;
+  - ship life's walk paths (#230) and the Board's framing follow the new places.
+- **Who changes what:**
+  - **Designer:** the places' coordinates, in the reviewed room scenes.
+  - **Integration:** their runtime ports in `apps/game/hosted/board-v2-drawing/`, the review records in `design/releases/` and the pins.
+  - **Frontend:** reviews.
+- **Until then,** the approved rooms and today's places stay in the game, as above.
+
+**The owner's idea of a view from each place, and their notes, the same day,** in the Lead's session, word for word:
+
+> for images we can consider each person view , for example anywhere you seat in the room you can see based on your position other players on that room , however the Board-game view can stay simple 2d , what do you think of this idea?
+
+The Lead answered with its costs: a picture per place instead of per room, the crew seen from other sides, the Blackout's shared picture, and fitting four people on a phone. The Lead recommended testing it before deciding. The owner's notes on that answer:
+
+> First note : Hospital and Jail Maximum should be 4 , Room A and Room B : 5 , Task Food : 2 , Command room:1  , inside Board simple view no action available  note 2:  we should consider from each View you can see at Max 4 other user ( can we handle it?)  3 - I did not get what is the issue of Blackout 4 - small screens are not out issue as I told you we are considering just Iphone above 15 and Iphone max size as our first release
+
+After the Pre-game Animation builder's blockout comparison of a shared eye-level view and views from two places (its eye-level page), the owner wrote:
+
+> also private meeting room just need 2 view, we can apply this in 1 of the room to see the result it could be 5 image for 5 view , positions
+
+**What it decides:**
+- **A test with real pictures:** Room B drawn from each of its five places, five generated pictures, one per place, lit only. The owner judges the result before the rooms' camera is settled. The Private Room would need two views.
+- **Each view shows at most four others.** With these room sizes, that is Room A and Room B; the Hospital, the Jail and the Private Room show fewer, and the Command Room nobody.
+- **The first release's phones:** iPhone 15 and later, and the Pro Max size. Designer checks at 390 × 844 and 430 × 932, as AGENTS.md has it.
+- **The room sizes as the owner states them:** Room A and Room B five, Hospital four, Command Room one, the Food task two. These match the rules already recorded (CAPACITY-01 on 11 October; HOSPITAL-4 on 18 October; the Food task, 12 November).
+
+**Asked back, and the owner's answers the same day:**
+
+> Jail: 4 , Board can be as it is without change for  now, what do you mean by Blackout remove? also private meeting room just need 2 , explain me more about Option 1, one shared eye-level view per room. and Option 2, each player sees the room from their own place
+
+- **The Jail holds four.** This changes the rule: CAPACITY-01 and CAPACITY-06 (11 October) hold five.
+  - It is for Integration and Backend, in a new ruleset version, with Balance's audit.
+  - It needs a rule for a Jail vote when the Jail already holds four, which Backend and Balance propose and the owner chooses.
+  - Posted on #96, the capacity issue.
+- **The Board stays as it is for now.** Release 3 (#310) keeps choosing Move and Rescue across rooms on the Board. "No action" on the Board's simple view belongs to the new room design, not the test release.
+- **The Private Room has two places,** so two views.
+- **The Blackout's fixed position (sheet 30): answered below.**
+
+**The owner's approval of a departure from sheet 30, the same day,** after the Lead explained the question step by step. Word for word:
+
+> remove the Cancel in Blackout
+
+| Record | |
+| --- | --- |
+| **Sheet and state** | Sheet 30, the Blackout. The target bar after the Disabler has fixed a position: "Position A3 fixed · Resolves after the window · no effect shown now" |
+| **The departure** | That bar has no Cancel (shell 0.2.12's `target.cancel: false`, given by Actions' `blackoutBar({ fixed: true })`). Its words stay |
+| **Not changed** | The Cancel while a position is still being chosen ("Choose a position · …"), as T2 has it: "While a target is chosen, Cancel is in the target bar" |
+| **Why** | The rule makes a fixed position final, so the sheet's Cancel could not return to choosing. A Cancel that only hides the bar reads as undo. The Gameplay UI builder found the conflict on #310 |
+| **Approvals** | Designer's agreement: the Lead Designer recommended it on 17 November 2026. The owner's explicit approval: the message above, the same day (AGENTS.md, the phone gate's item 4) |
+| **Scope** | The Blackout's fixed-position bar only, from release 3 (#310), through Actions 0.2.4 on #273 |
+| **Date** | 17 November 2026 |
+
+**The owner's arrangement for the per-place test, the same day,** after the Lead explained both options. Word for word:
+
+> We can test on 1 room option B as a test so For **Option 2**, I suggest arranging the player stations around the room's perimeter, with **their backs toward the walls and their faces toward the open centre**.
+>
+> This would make the room layout support each player's personal viewpoint:
+>
+> - **Keep the centre open.** Avoid tall equipment or large furniture blocking the view between players.
+> - **Place cameras near each player's eye or shoulder position**, with enough clearance from the wall to keep the camera inside the room.
+> - **Use low or angled workstations.** Players should be able to operate their equipment while facing inward or slightly sideways. A computer mounted directly on the wall would make its user turn their back to the others again.
+> - **Position equipment carefully around faces and hands.** The workstation should communicate what the character is doing without hiding them.
+>
+> From these positions, other characters should mostly appear from the front, at a three-quarter angle or from the side. This should reduce the need for full rear views and help avoid the weak "camera behind the back wall" composition.
+>
+> It will still require multiple viewpoints and some side-facing character artwork. Distant characters, name tags and interactive targets also need to remain readable.
+>
+> **Please try this arrangement in the five-view Room B prototype.** Check every viewpoint at actual mobile size, particularly the most difficult station. The aim is to preserve Option 2's sense of being inside the room while keeping the people and required interactions clearly visible.
+
+**What it sets for the Room B test:**
+- **The layout:** the five stations around the walls, facing an open centre, at low or angled workstations, with each camera at the player's eye or shoulder, inside the room.
+- **The order:**
+  - a blockout of the five views first, checked at 390 × 844 and 430 × 932;
+  - then the five generated pictures.
+- **The Lead's point for the test:** from a station on a ring, the two nearest neighbours stand far to either side. The blockout measures the field of view each station needs, and compares ways to fit all four others: an uneven ring, a slightly wider lens, or a view the player can drag a little.
+- **The crew in the test:** the approved drawings as stand-in cut-outs. New side or three-quarter drawings of the crew go to the owner before anyone draws them.
+
+**Four positions and four views, the same day,** answering the Lead's question after the five-station ring blockout. Word for word:
+
+> Lets for simplicity say 4 positions in each room and 4 view ,always 1 player can not see 1 position if it filled as a test
+
+**What the five-station blockout had shown** ([the ring page](https://claude.ai/artifact/UoYoz7fdGb7i1xtmGZy3CR), version 1):
+- From every station, holding all four others needed about 126°, drawn as a curved panorama.
+- Everyone was seen from the front or at three-quarter, never from behind, and every tag and tap passed at both phone sizes.
+- The people were small: 71–79 px tall across the room and 115–131 px beside you at 390 × 844, against about 330 px in today's room view. Floor lines bent.
+
+**The owner's correction, minutes later,** after the Lead read the message above as two people per view. Word for word:
+
+> Sorry i was saying for test we can see 3 people per view not 2
+
+**What it sets for the Room B test:**
+- **Four places, B1–B4,** around the walls, facing the open centre. B5 is left out of the test.
+- **Each view shows all three others.** The one place a player can't see is their own: the camera is at their eye, and their own body isn't drawn.
+- **The lens:** on a ring of four, each station takes in about 90° plus the people's widths. The blockout measures a straight lens and a curved panorama, and the one that keeps the people largest without visibly stretching them is used.
+- **The order:** a blockout of the four views, the Lead's check, then the four generated pictures and a test page for the owner, with today's Room B view beside them for scale.
+
+**What it does not settle:** the game's room capacities stay as recorded above (Room A and Room B hold five) unless the owner changes them. If per-place views are chosen for the game, a room of five needs either a fifth view or a limit of four.
+
+**A third option, asked the same day,** after the Option 1 example ([the test page](https://claude.ai/artifact/PbhNtcYhaDjrNMsFcrL12M), version 1794921470-5f56) and a side-by-side picture of both options. Word for word:
+
+> Do we have a 3rd option as 2.5D eye view of character? Is it something possible to test?
+
+The Lead answered that a 2.5D room can be built and tested:
+- **What it is:** one simple 3D set per room, with the crew standing in it as the approved flat drawings, drawn live from any camera.
+- **What it needs:** a 3D renderer that the game doesn't have. `three` is an unreviewed dependency in `apps/game` today.
+- **The Lead's recommendation:** keep it out of the first human test.
+
+A test that cost nothing was started.
+
+**The owner's choice, minutes later.** Word for word:
+
+> ok so for now we can confirm Option 1 with image generation but I want each image generation integrated with the code one  keep the ambient color of it for example in Room B is feeling Purple so lets more integrate the image and code design to have something feel same, we can test 1 image together
+
+**What it decides:**
+- **Option 1, for now.**
+  - Each room is one shared eye-level picture, the same for every player in it, made with the image tool.
+  - Room B's camera is "Deep, raised back".
+  - Per-place views, sideways phones and 2.5D are not chosen for now.
+- **Each picture keeps its room's colours from the code.**
+  - For Room B, that is its family in tokens 0.5.0: `#2A1446`, `#4B2079`, `#7A3CAD`, `#AE6CD3`, `#DCB6EE`. The source is `color.room.roomB`, also `FAMILIES['room-b']` in `design/room-pilot/rooms.mjs`.
+  - Every other room keeps its own family the same way.
+  - This refines the earlier "Darker, more noir" answer: Room B stays dark and moody, but purple. The first Option 1 picture drifted to grey-brown.
+- **The picture and the code are made to feel like one.**
+  - The code's own ambient fills the picture's openings: the window's voyage, the screens, the lights and the tank's bubbles.
+  - The crew take the room's light and a floor shadow.
+- **One picture first.**
+  - Room B is tested together with the owner before any other room is generated.
+  - This is the owner's approval for that one picture, and for one re-run if it fails the sheet's checks.
+
+**What it means for the work:**
+- **The Pre-game Animation builder** makes the shared-view sheet's next version, with the guide coloured in Room B's family and the palette in the prompt. After the picture, it builds a test page:
+  - the picture with the code's ambient and all five crew;
+  - live, at 390 × 844 and 430 × 932;
+  - beside today's Room B.
+- **The Lead** reviews the sheet and names it in the go.
+- **The image session** makes the picture and records it.
+- **The 2.5D test is paused.** It stays a later option.
+- **The places.**
+  - Room B keeps its five places, their ids and their order (the 11 October hard rule).
+  - Option 1's coordinates go to the owner with the picture.
+  - Then they go into Designer's reviewed room scenes, and into Integration's runtime ports and pins.
+
+**What it does not settle:**
+- **The human test.** The Lead's recommendation that it ships on today's rooms still waits for the owner's answer.
+- **The other rooms' pictures.** They wait for the Room B test.
+- **The game's rooms.** Until the owner approves a new room, today's approved rooms and places stay in the game.
+
+**The owner's approval of the colour, the same day,** after seeing the one Room B test picture beside the first Option 1 picture and today's code-drawn Room B. Word for word:
+
+> First let me comment on adding color to rooms ambient I really like the new color more vivid I approve it completely
+
+**The picture:** PV1-P.
+- It is on [the records page](https://claude.ai/artifact/DktwvLiaiYHRKTMpQLR97h), version 1794933523-24c0, sha256 `1f24a2cc4eefa6f982bff43612aa03c7327ba744a4aca61a61a9c20e7cb2ed0d`.
+- It is AI-generated from the shared-view sheet's version 2 (pv1-shared, version 1794932851-a70e).
+- It passed every check on the first attempt. In the colour check, 97% of its walls and deck are in Room B's family, at a median hue of 307°.
+
+**What it decides:**
+- **Room pictures are painted in their room's own colour family from the code,** as vivid as this picture. The approval covers the colour of every room's pictures, not only Room B's.
+- **How the colour is held:**
+  - each picture's guide is painted as the room's colour plan, in the family's five values;
+  - the prompt names those values;
+  - the colour check confirms the picture before it is used.
+- **The reference for strength:** PV1-P is the reference for how strong the colour is.
+
+**What it does not settle:**
+- **The camera.** The owner wrote this as their first comment. Whether the rooms use Option 1 or a view from each place comes next.
+- **The code's ambient in the picture's openings.** That test page is on hold until the camera is settled.
+
+**A view from each place in Rooms A and B, the same day.** After the colour, the owner returned to the camera. Word for word:
+
+> Honestly, I think the the idea of each player eye is better Idea because it helps game concept as each player can see Minimum 1 and Maximum 3  , because then some actions are not visible on some players and you should trust other players  what they saw inside room, what do you think before you act?
+
+The Lead agreed, on one condition: the picture alone hides nothing. A rule must say who sees whom, and the server must do the hiding. The owner then wrote:
+
+> About the option consider each room A and B can have maximum of 5 players . Each user can see 3 players.  What do you think?
+
+> In your opinion what is the best angle for each person vision control 90 degree or 80 or something else
+
+The Lead recommended about 90°. The owner then gave a design file, with a summary that begins:
+
+> Check this and give me your feedback : This design gives each player a **personal, fixed view of Room A or Room B**, with one consistent blind spot when all five places are occupied.
+
+The file is kept byte for byte at [room-visibility/gamen-room-visibility-design-v1.json](room-visibility/gamen-room-visibility-design-v1.json), sha256 `36edd4c7ade15cab02dbdfa64cd799edb27e9c3ee338cfb6aea35397ac1ba3df`. The Lead recomputed it from its coordinates, and everything matches:
+- every list of who sees whom;
+- all 32 combinations of occupied places;
+- the margins, 7.6° inside the view for the nearest seen person and 25.3° outside it for the nearest unseen one.
+
+[room-visibility/README.md](room-visibility/README.md) has the checks and the phone sizes. The Lead recommended adopting it with additions, and asked whether the Hospital and the Jail also need blind places. The owner answered:
+
+> Because in Hospital and jail locations are fixed and defined by app and they are limited to 4 and private meeting room and task room they are fixed and limited to 2
+
+The Lead then recommended one shared view for each fixed room. The owner:
+
+> Yes go as your recommendation
+
+**What it decides:**
+- **Rooms A and B get a view from each place.** This replaces "Option 1, for now" (recorded above) for these two rooms. The geometry is the owner's file, layout `perimeter-five-v1`:
+  - five places on the walls, each with a fixed view 90° across;
+  - in a full room, each player sees three of the other four and is seen by three;
+  - each player's blind place is just off their right shoulder, and nobody is seen from behind.
+- **The Lead's additions, adopted with it:**
+  - **Entry order:** B1 → A, B2 → B, B3 → C, B4 → D, B5 → E, and the same for Room A. Two players entering an empty room see each other, and any three see at least one other. Integration maps the places, keeping each place's functions.
+  - **Presence is public:** the person in a player's blind place shows as a chip on the right edge, for example "Juno · out of view". That chip is also how they are targeted where the rules allow it.
+  - **Compact rooms,** about 4–4.5 m across, so people stay near today's size.
+  - **The picture may be drawn a little wider than the rule** (about 96–100°), so the people at the sides and their tags clear the screen's edges. The rule stays 90°, and the layout test decides.
+  - **The camera** sits at eye height, about 1.6 m, looking level or a little down.
+- **The fixed rooms get one shared view each, with no blind places.** Everyone in the room sees everyone:
+  - the Hospital and the Jail have four fixed places;
+  - the Private Room and the Task Room have two;
+  - the Command Room has one.
+- **Pictures:** 15 in all, five each for Rooms A and B and one for each of the other five rooms. Each is in its room's colour family from the code (the colour approval above). They are made after the owner sees the layout test.
+- **New crew drawings:** each crew member is seen from the front and from about 35° and about 72° on their right. That makes two new angles each, 18 in all, shown to the owner before anyone draws them.
+
+**What it means for the work:**
+- **The Pre-game Animation builder** makes a layout test of Room B with exactly this geometry, with no new pictures:
+  - the five views;
+  - room sizes of 4, 4.5 and 5 m;
+  - the 90° rule against a slightly wider picture;
+  - the stand-in crew and the out-of-view chip;
+  - tags and press areas at both phone sizes and at 100% and 200% text;
+  - nobody half visible.
+  - The Lead checks it, then the owner sees it.
+- **Backend and Balance,** through Integration ([#222](https://github.com/Amirkianfar66/GameN/issues/222)), propose the observation rule for the owner's approval:
+  - what a player who didn't see an action is told;
+  - what the Board and the shared display show of it.
+  - The server sends each player only what they saw.
+- **Integration** maps the five places and the per-player projection. The Jail's four places are already with it ([#96](https://github.com/Amirkianfar66/GameN/issues/96)).
+- **The image session** waits for a go after the layout test.
+
+**What it does not settle:**
+- **The observation rule.** Until it exists, the blind places hide nothing.
+- **The human test.** The Lead's recommendation that it ships on today's rooms still waits for the owner's own answer.
+- **Other rules.** Capacities, movement, targeting, the Blackout and private information stay as they are, except the Jail at four, which is with Integration.
+
+**The view's settings, the same day,** after the layout test of Room B ([the test page](https://claude.ai/artifact/PyijGrLQSDyFa5zfVjNeac), version 1794956824-0ec9). It used stand-in crew and generated no pictures.
+- The Lead had recommended a 100° picture in a 4 m room, looking 5° down.
+- The owner asked, word for word:
+
+> But why not 4 m 90 degrees or 95? One arm is not a big deal? Also we can little bit fake the perspective by some tricks?
+
+- The test then measured 90° and 95° with the side-on drawings' width, and the two far people drawn 10%, 15% and 20% larger.
+- The owner chose, word for word:
+
+> Lets go with 4 m room, 95° slice, far two people 10% bigger and camera 5° down. Then I want to check with you the ratio Height and width , compare it with  in instagram ratio
+
+**What it decides:**
+- **Rooms A and B's views:**
+  - a 4 m square room;
+  - each phone shows a 95° slice of the view, while the rule of who sees whom stays 90°;
+  - the camera sits at 1.6 m and looks 5° down, drawn as a raised horizon so that walls stay upright;
+  - in each view the two far people are drawn 10% larger than true perspective, standing on their places, and the near one at true size. Who sees whom doesn't change.
+- **The edge rule:** a person's face, name tag and tap area are always fully on screen. A hand or an elbow may cross the edge.
+- **The paintings:**
+  - each view is painted 120° across on the image tool's 1024 × 1536, with the horizon 747 px from the top;
+  - any slice from 90° to 100°, level or 5° down, then fits both phones;
+  - the slice and the size trick stay adjustable later, with no new pictures.
+- **Room B's five pictures are approved:** in the approved purple, with one re-run each only if a check fails.
+
+**What it means for the work:**
+1. The Pre-game Animation builder makes the sheet for the five views from the layout test's geometry: colour-plan guides, the purple palette, flat black openings and a colour check.
+2. The Lead reviews it and names it in the go.
+3. The image session makes the pictures and records them.
+4. Then comes a test page with the game's ambient and the stand-in crew, for the owner.
+
+**What it does not settle:**
+- **The 18 new crew angles.** They go to the owner before anyone draws them.
+- **The observation rule** ([#222](https://github.com/Amirkianfar66/GameN/issues/222)).
+- **The human test.**
+- **Room A,** which follows Room B.
+- **The height-to-width ratio,** compared with Instagram's. It is next.
+
+**The ceiling, the same evening.**
+- The owner asked to compare the room view's height and width with Instagram's. The room view is 390 × 653 on the 390 × 844 phone (1 : 1.67) and 430 × 741 on the 430 × 932 phone (1 : 1.72), close to Instagram's Stories shape (9 : 16, 1 : 1.78).
+- The owner then explained, word for word:
+
+> The reason i want to study it is because I feel now user view see a lot of ceiling and floor portion without that much use, i dont know how can we change the view or camera or ratio to make it better
+
+- **What the Lead measured** in Mira's view on the 390 × 844 phone:
+  - 44% of the room view is above the heads, 30% is people and 25% is below the feet;
+  - a 95° slice on a screen this tall sees about 108° from top to bottom, so tilting the camera only trades ceiling for floor;
+  - a narrower slice cuts the people at the edges.
+- **The Lead offered three options,** drawn on the layout test picture:
+  - A, a glass ceiling onto space, recommended;
+  - B, a shorter 4 : 5 room with a strip for the action buttons;
+  - C, bigger people, advised against: they would be too tall for the doors and benches, and their hands would miss the benches.
+- The owner answered, word for word:
+
+> Lets generate the image based on option A and ceiling be space Glass but not completely lets say partially we can see the image and then decide
+
+**What it decides:**
+- **A test of option A in Room B:** part of the ceiling is glass onto space.
+  - The Lead reads "partially" as a round skylight over the room's open centre, about 2.2 m across (about a quarter of the ceiling), in a frame. The rest of the ceiling stays solid, with a ring of small lights around the skylight.
+  - The glass is painted as a flat opening. The game draws the moving voyage in it, as it does in the windows.
+- **One picture first:** Mira's view (place A), from Room B's five approved pictures. The owner decides after seeing it.
+
+**What it means for the work:**
+1. The Pre-game Animation builder adds the skylight to the five-view sheet's geometry, guides, region maps and prompts.
+2. The Lead reviews the sheet and names it in the go for Mira's view only.
+3. The image session makes that picture and records it.
+4. A test page shows it with the voyage in the skylight and the stand-in crew, for the owner.
+
+**What it does not settle:**
+- **Whether the glass ceiling stays,** and its size: the owner decides after seeing the picture.
+- **The other four pictures:** they follow that decision.
+- **Option B,** a shorter room with a strip for the buttons. It is not part of this test.
+- **Room A's ceiling.**
+
+**The glass ceiling kept, the next morning.**
+- PV5-A, Mira's view, was painted with the skylight in two attempts, the one allowed re-run included.
+  - Both pass colour-check v3: the glass and the window are flat black (p95 lightness 0.067).
+  - The room's shell, the skylight, its frame, the cross and the ring of lights match the guide.
+  - Both moved the near furniture:
+    - the near bench is drawn bigger and closer;
+    - the console is wider;
+    - Juno's stool is about 30 px left on the phone;
+    - an empty panel was added on the north wall.
+- The owner saw the second attempt (PV5-A-2) with still stars in the glass, beside the phone's view of it.
+- The Lead asked two things:
+  - whether to keep the glass ceiling;
+  - whether a masked edit of about $0.06 may fix the furniture in this picture and in each later view that needs it.
+- The owner answered, word for word:
+
+> Yes keep the glass ceiling, go ahead with the fix you can spend it
+
+**What it decides:**
+- **Room B keeps the partly glass ceiling:** the round skylight over the open centre, as in PV5-A.
+- **The furniture fix is approved:** a masked edit that puts the furniture back where the guide has it, about $0.06 each, for PV5-A and for each later view that needs it.
+- **The other four views go ahead:** PV5-B to PV5-E, with one re-run each only if a check fails, and a masked edit where the furniture drifts.
+
+**What it means for the work:**
+1. The Lead makes the mask for PV5-A-2 (the near bench, the console, the stool and the extra wall panel) and gives the image session the go for one edit.
+2. When the fixed picture checks out, the go for PV5-B to PV5-E.
+3. The test page takes the fixed picture, and later all five views.
+
+**What it does not settle:**
+- **Room A's ceiling.**
+- **The 18 new crew angles.** They go to the owner before anyone draws them.
+- **The observation rule** ([#222](https://github.com/Amirkianfar66/GameN/issues/222)).
+
+**Furniture placed by code, the same morning.**
+- The owner looked at the Mira test page with the fixed picture (PV5-A-3) and the stand-in crew, and said, word for word:
+
+> The position of the characters are totally wrong and not good
+
+- The Lead sent the furniture before and after the fix, and asked what still felt wrong. The owner then asked, word for word:
+
+> What if for furnitures which are in the area of room not attached to wall, we can use the code? What do you think? We can define a perimeter
+
+- **What the Lead measured** on Room B's plan (`room-b-places.json`, sha256 `5ce20bc4…2d90e99b`). The room is 4 m across, and every place stands 0.32 m from its wall.
+  - Four pieces stand by the walls, within 0.7 m:
+    - Mira's tablet console, 0.19 to 0.59 m from the wall;
+    - Juno's stool, 0.07 to 0.41 m;
+    - Juno's laptop cart, 0.17 to 0.59 m;
+    - Lyra's console, 0.27 to 0.67 m.
+  - Two stand out into the room:
+    - Atlas's bench, 0.20 to 1.25 m;
+    - Vega's bench with its microscope, 0.43 to 0.94 m.
+  - In PV5-A the picture model drew three pieces wrong, and two of them stand by the walls: Lyra's console and Juno's stool.
+- **The Lead agreed, with two rules:**
+  1. Anything inside a line about 0.7 m in from the walls is placed by code.
+  2. So is any piece a crew member sits on, leans on or works at, wherever it stands. In Room B that is all seven pieces.
+  - Everything else stays in the painting: walls, pipes, shelves, window, screen, skylight, lights and floor.
+- **The pieces stay painted,** in the room's own style and light. The code only places them and decides what is in front. Plain shapes drawn by code would look stuck on.
+- **Shown without generating anything:** Mira's view taken apart.
+  - It uses PV5-A-3 and the empty-room picture from its own fix (`PV5-A-3-s1.png`, sha256 `096735ea…07df4c89`).
+  - Their difference inside the fix's outlines gives three pieces on their own: Vega's bench with the microscope, Lyra's console and Juno's stool.
+  - Put back over PV5-A-3-s1, the pieces rebuild PV5-A-3, with a mean difference of 0.045 out of 255.
+- **The other views,** each in two steps:
+  - the empty room first;
+  - then one masked edit that paints its pieces inside their exact outlines, the step that fixed PV5-A.
+  - This costs about $0.12 a view instead of $0.18. It is within the approval above: one picture, one re-run only if a check fails, and one masked edit a view.
+- The owner answered, word for word:
+
+> Yes we can test
+
+**What it decides:**
+- **A test of furniture placed by code in Room B,** by the Lead's two rules.
+  - The painting keeps the room. The code places the pieces and the crew from the one plan.
+  - A piece is drawn over a person only where the piece is nearer.
+  - The pieces are painted, never plain shapes.
+- **Mira's view is the test,** with the three pieces lifted from PV5-A-3. It needs no new picture.
+
+**What it means for the work:**
+1. The Pre-game Animation builder makes the next version of the Mira test page:
+   - PV5-A-3-s1 as the room and the three pieces as layers;
+   - each person in front of or behind the pieces by distance;
+   - a report of which pieces cover whom.
+2. The Lead checks the published page at 390 × 844 and 430 × 932 and sends it to the owner.
+3. The builder reworks the kit for PV5-B to PV5-E (held by the owner; see below):
+   - an empty-room guide for each view, drawn from the plan;
+   - one edit's outlines and prompt for every piece the view holds;
+   - no removal edits.
+4. The other four views follow once the owner has seen the Mira test, within the approval above (held by the owner; see below).
+
+**What it does not settle:**
+- **The crew's facing.** The stand-ins still face the camera. The 18 new crew angles go to the owner before anyone draws them.
+- **The line's distance in the other rooms.** Each room's sheet sets it.
+- **The room view in the game.** The room scene takes the pieces as layers only after the test.
+- **Room A's ceiling and the observation rule** ([#222](https://github.com/Amirkianfar66/GameN/issues/222)).
+
+**The other views held, minutes later.**
+- The Lead told the owner the other four views would start after the Mira test, about $0.12 a view. The owner answered, word for word:
+
+> For now do not create other views
+
+**What it decides:**
+- **PV5-B to PV5-E are on hold:** no pictures, and the builder stops preparing their kit. The approval above stays, unused, until the owner asks for them.
+- **Only the Mira test goes ahead.** It needs no new picture.
+
+**The level to reach, an hour later.**
+- The owner sent four pictures of Room B with the crew in it, painted together in one style, and asked, word for word:
+
+> How we can reach this level? Explain me without applying
+
+- The four pictures are on the reference page (https://claude.ai/artifact/2sTvJ2J2rYNWLFXaLanUbY, version 1794968151-5de5), with their sha256:
+  - ref-1 `62d3e40c…cacc4d07`;
+  - ref-2 `c5468def…edfa3cba`;
+  - ref-3 `885842a9…1cb966c6`;
+  - ref-4 `c874e430…cbf2f88a`.
+- **The Lead's answer, applying nothing:**
+  - **Why they look better.** The people are painted into the room, so the room's light and shadow fall on them, and they turn toward their work. The camera has straight lines. One person is near, one in the middle, one far. Warm orange lamps play against purple. Screens and props tell a story.
+  - **Why the game can't use such pictures.** Any of the nine characters can stand at any place, and people move, eat, get hurt or leave, so frozen pictures would mean thousands of them.
+  - **The way there:**
+    - the room painted to this standard;
+    - the people as layers, either painted per view or painted once per angle and lit by code;
+    - the code's finishing: depth order, shadows, the room's light on the people, reflections.
+  - **One rule stays:** a pose or prop comes from the place or the character, never from a secret role.
+- The owner then answered, word for word:
+
+> Lets test 1 view ,  1the camera  as you explained but we can cheat a little bir about characters to fit ,  2. Colors and lights as you recommended to improve 3. People's should be code because we need them in different status and action but we can test 1 view improving the code to be more close to the image more AAA quality also adding shadow effect and detail .What do you think?
+
+**What it decides:**
+- **A one-view test toward the owner's four pictures,** in Mira's view (place A) of Room B.
+- **The camera.**
+  - Straight lines, a normal camera, about 70° across, at eye level, with the 5° down kept as a raised horizon.
+  - The crew's places on screen may be cheated a little so the three in view fit, near, middle and far.
+  - Who can see whom does not change.
+- **Colour and light,** as in the owner's pictures:
+  - purple stays the base;
+  - warm orange lamps and their glow, cream lamp cores, a little rust on worn edges, blue-green screens.
+  - For this test this departs from Room B's approved colour family and from the colour check's limits (no brown; accents only teal, gold and paper).
+- **People drawn by code,** because the game needs them in many states and actions. For this view they are raised toward the pictures:
+  - turned toward their work;
+  - the room's light on them;
+  - shadows;
+  - more detail.
+
+**What it means for the work:**
+1. The Pre-game Animation builder makes the test's sheet:
+   - the straight camera and the cheated places;
+   - the new colour plan, measured from the owner's pictures, with its colour check;
+   - an empty-room guide, the furniture's outlines and the prompts.
+2. The Motion & Cinematics builder draws the three people in view (Vega, Lyra and Juno) turned toward their stations. Sketches go to the owner before they are drawn in full. Then comes the code's light and shadow.
+3. The Lead reviews both. One new room picture and one furniture edit (about $0.12, at most $0.18 with one re-run) wait for the owner's yes on the spend.
+
+**What it does not settle:**
+- **The spend** for the new picture: asked, and approved below.
+- **Room B's glass ceiling** stays (decided above); its ring of lights becomes warm.
+- **The colour family and the camera for the game.** Only the test changes; the tokens and the room scene change only if the owner adopts the result.
+- **The other four views,** still held.
+
+**The spend approved, minutes later.**
+- The Lead asked whether to spend about $0.12 (at most $0.18 with one re-run) on one new room picture and one furniture edit. The owner answered, word for word:
+
+> I approve
+
+**What it decides:**
+- **The test's two pictures are approved:** the empty room in the new camera and colours, and one masked edit for its furniture. One re-run only if a check fails.
+- **The go comes after review.** The Lead reviews sheet PV6-A first, then gives the image session the go, naming the sheet's version and its hashes.
+
+**The people chosen, about four hours later.**
+- The two pictures passed their checks, and the room half of the test page was checked on phones. The Lead then sent the owner the people sketches (https://claude.ai/artifact/VQjScvvYG3DpQf7dGmNXE2, version 1794975865-38fc). With them went four questions, three with a recommendation:
+  1. **Lyra:** A, seen from behind as she types (recommended), or B, looking back over her shoulder.
+  2. **Juno:** A, a new side view looking down at her laptop (recommended), or B, the approved face looking up toward us.
+  3. **Body shape:** keep the crew's current build (recommended), or try the taller build from the owner's pictures.
+  4. **The go:** may the builder draw the three in full, with light and shadows?
+- The Lead also told the owner the cost of the finish. It takes about 1.5 times as long to draw as today's people. That was measured on a test computer without a graphics chip, so phone speed is checked later, in the game.
+- The owner answered, word for word:
+
+> As you recommended
+
+**What it decides:**
+- **Vega, as sketched:**
+  - the approved face, with the test tube held up before her eyes;
+  - her far hand on the bench's near corner, fitted to the painted bench.
+- **Lyra: A.** Seen from behind as she types at the console. The back of her head is a new view, drawn by code.
+- **Juno: A.** A new side view, looking down at the laptop on her cart.
+- **Body shape:** the crew's current build stays. Only these views and poses are new.
+- **The go.** The fourth question had no options. The Lead reads the answer as yes: drawing the people in full, with the room's light and shadow, is the plan the owner set in "Lets test 1 view" above.
+
+**What it means for the work:**
+1. The Motion & Cinematics builder draws the three in full, with the light and shadow finish, against the real room. That means the furnished picture and the test page's layers. It publishes them on a test page for the Lead's review at 390 × 844 and 430 × 932.
+2. After that review, the Pre-game Animation builder puts them in the test page's three places, in the same depth order, and the checks run again.
+3. The Lead reviews the whole page, then sends it to the owner.
+
+**What it does not settle:**
+- **The other views:** PV5-B to PV5-E stay held.
+- **Phone speed:** the finish's cost is measured on a phone, in the game, before anything is adopted.
+- **The game's crew drawing.** Lyra's back view, Juno's side view and the finish stay in the test until the owner adopts the result.
+
+**The test accepted, about three hours later.**
+- The Lead sent the owner the finished test page: https://claude.ai/artifact/J6bLyir4qCZkutcC94HvUK, version 1794991147-9a35.
+  - It shows the painted room, with Vega, Lyra and Juno drawn by code and lit by the room's lamps.
+  - It asks one question: name tags at the people's feet (the Lead's recommendation, since there they cover none of the people), or where the game puts them now.
+- The owner answered, word for word:
+
+> I happy with the result this way to go. The labels as you recommended, the only thing i would add is a shadow
+
+- The Lead asked two follow-up questions in the session's question dialog, each with its options. The owner chose:
+  - for the shadow: **"Stronger people shadows"**, offered as "Make each person's shadow on the floor darker and clearer, so it shows on a phone";
+  - for the next step: **"Start the other views"**, offered as "Begin the four other Room B views in this look, about $0.12 each for pictures (at most $0.18 with one re-run)".
+
+**What it decides:**
+- **Room B goes this way.** The test is the direction for Room B:
+  - the straight camera with the owner's colour and light;
+  - the painted room, with the furniture placed by code from the painting;
+  - the people drawn by code, with the room's light and shadows on them.
+- **Name tags sit at the people's feet.** Where there is no room there at the larger text sizes, a tag goes above the person's head and never over a face. This replaces the pack's place in this look.
+- **The people's floor shadows get stronger,** darker and clearer at phone size.
+- **The other four Room B views start in this look.**
+  - The spend is approved: about $0.12 a view, at most $0.18 with one re-run, so at most $0.72 for the four.
+  - This lifts the hold on PV5-B to PV5-E recorded above. They are now made the way the Mira test was made.
+- **The rules stay:**
+  - each new crew angle goes to the owner as a sketch before it is drawn in full;
+  - each picture's go names a reviewed sheet and its hashes;
+  - every picture is recorded as AI-generated.
+
+**What it does not settle:**
+- **The other rooms** still go room by room, as planned on 17 November, each with the owner's go.
+- **The game.** The look reaches the game through Designer's room scene, with Frontend's and Integration's review. A check of the drawing's speed on a phone comes first.
+- **The tokens and the room scene** change through Designer's PRs. This record approves the direction, not a release.
+
+**The food capsule kept, minutes later.**
+- The owner added, word for word:
+
+> Just don't forget in each room you have a food capsule characters eating from eat like past
+
+**What it decides:**
+- **Every room in the new look keeps its food capsule and its eating visits**, as the ship-life package has them (#230). The owner approved that package on 11 November ("approved, go with a fifth wider"). It covers:
+  - the capsule: a steel housing, a paper hatch, a tray, a vent and a light;
+  - its three states: a warm glow when stocked, dark glass when empty, a steel shutter when not known;
+  - the visit: after a turn, walk over, open, eat facing the room, put the wrapper back and walk home, in 6.5 to 7.7 s.
+  - The Hospital has none, as approved then.
+- **In Room B,** the Pre-game Animation builder gives the capsule a counter place in the new layout, as in view as it can be from the five places.
+  - It is painted like the other furniture in every view that shows it.
+  - Its light and shutter are drawn by code.
+  - The people's visits are drawn by code with the new people.
+- **Mira's view (A) was painted without it.** If the capsule falls in that frame, view A needs one more masked edit, and the Lead asks the owner for that spend first.
+
+**What it does not settle:**
+- **The capsule's exact place.** It comes with the staging of the four views, for the Lead's review.
+- **The food contract.** The visits play in the game only once Integration and Backend give each room's food availability, with its audience, and the turn endings, as the ship-life package's adoption requirements say.
+
+**One capsule for Room B, about an hour later.**
+- The Pre-game Animation builder measured where the capsule could go in the five views. It tried counters and every 10 cm of the four walls, on both phones.
+  - One unit is in view from at most two of the five places.
+  - Two wall units, on the north and the west walls, reach all four new views.
+  - All five would need a third unit, which means one more edit to Mira's view.
+- The Lead asked in the session's question dialog: "Room B's food capsule: a single capsule can be seen from at most 2 of the room's 5 places, so most players would never see anyone eat. The 11 November design had one capsule per room. How many should Room B have?" The options were:
+  - two capsules (recommended): on the north and west walls, each new view showing one, Mira's not, no extra cost;
+  - three capsules: one more on the east wall so Mira's view shows one too, with one more edit of that picture, about $0.06, at most $0.12 with one re-run;
+  - one capsule: "As designed on 11 November: one on Atlas's bench. Only Juno's and Lyra's views show it; elsewhere people walk out of view to eat. Atlas walks about 3 m around his bench to reach it."
+- The owner chose **"One capsule"**.
+
+**What it decides:**
+- **Room B keeps one capsule, as the ship-life package has it:** a counter unit on Atlas's bench, at its north-west end, with its hatch facing into the room.
+- **Only Juno's view (B) and Lyra's view (C) paint it.** Mira's view (A) needs no edit.
+- **In the other views,** a visitor walks out of view to the capsule and back.
+- **No extra cost.**
+
+**What it means for the work:**
+- **The staging for the four views,** set by the Lead under the owner's "we can cheat a little bit about characters to fit":
+  - in D and E, the furniture is the same as in Mira's view;
+  - in B and C, a station moves with its person where the view needs it, by up to 0.85 m (Juno's stool and cart in C);
+  - every move is listed in the view's sheet.
+- **The eating visit** is drawn by code with the new people, as the record above says. The staging carries each walk's path, including where the walker leaves and re-enters a view.
+
+**The pre-game moves to Codex, about half an hour later.**
+- The owner asked, word for word:
+
+> I want the agent who responsible for Top bar and bottom bar work on , which is responsible for it? and what do you think if I handle the pregame & Global UI via Codex agents , because I feel the work of Claude is too heavy and Codex agents are free also the work of pregame UI is more related to server and front-end compare the in game , what do you think?
+
+- **The Lead answered:**
+  - The top and bottom bars are the Lead's: Designer's phone shell (#265), whose connection in the game is still under way.
+  - Moving the pre-game screens to Codex fits, on three conditions:
+    1. Codex builds from the approved phone pack, and the shared kit, the bars, the toasts and the banners stay one shared design.
+    2. The Lead accepts each pre-game screen's look before it merges.
+    3. The pre-game films stay with Designer.
+- **The owner answered:**
+
+> I agree but just Lets also path them animations pre game to have one source of truth for pregame , what do you think?
+
+- **The Lead recommended** that Codex own the whole pre-game flow, including when each film plays, while Designer draws the films. Codex owning the films outright would also work, with one rule. The owner answered:
+
+> As you recommended butI would  rather Codex owns the films outright, that works too, with one rule: Codex uses the characters, rooms and style exactly as Designer releases them, and any change to how they look comes to me first.
+
+**What it decides:**
+- **Codex agents own the pre-game, end to end:**
+  - the pre-game and global screens: main menu and entry, host setup and lobby, join and waiting, recover, character selection, role stage and card, boarding, host controls and display settings;
+  - their connection in the game;
+  - the pre-game films, outright: the brand intro, the role films and the boarding film, with the paused pre-game animation test.
+- **The rule,** in the owner's words: Codex uses the characters, rooms and style exactly as Designer releases them, and any change to how they look comes to "me" first. The owner quoted the Lead's wording, where "me" is the Lead Designer, and the owner approves any look as always. In practice:
+  - the crew drawing, the rooms, the tokens, the shared kit, the shell's bars, the toasts and the banners are used as Designer releases them;
+  - a change to any of them, or a new look, goes to the Lead first.
+- **Codex builds the screens from the approved phone pack,** and the Lead accepts each pre-game screen's look before it merges, as for Frontend today.
+- **The Designer builders hand over:**
+  - the Pre-game & Global UI builder hands over its open work and stops;
+  - the Pre-game Animation builder hands over its paused film test and keeps working on the rooms.
+- **The integration owner (Codex Astra)** records the new split in AGENTS.md and the agent roster.
+- **The handover is issue #311,** posted the same day. It lists the PRs with their order and state, the splits the Lead decided, the agreements Codex must keep, Designer's acceptance state and the builder's warnings. A comment on it says how the pre-game films are made. The Pre-game & Global UI builder stopped once it was up.
+
+**What it does not settle:**
+- **Which Codex agent** takes the work, and when.
+- **The top and bottom bars:** they stay with the Lead. The owner's first question also asked for them to be worked on; what they want changed is still to be asked.
+- **The open choices of the paused film test,** such as the ship through the window and whether its look goes beyond the Doctor test. They stay the owner's and pass to Codex with the test.
+
+**A builder for the bars and the icons, and the Lead leads, minutes later.**
+- Asked what they wanted done on the bars, the owner answered, word for word:
+
+> I want to have a specific agent for the top , bot bar and icons , Icons means all Icons , because I want you to be responsible to handle the design lead not to build
+
+**What it decides:**
+- **A new Designer builder, "Designer · Bars & Icons",** owns:
+  - the phone shell, which is the top bar, the bottom tab bar, the sheet frame, target bar, banners and toast, and the shared kit they are built from (#265);
+  - the shell's connection in the game (#307);
+  - every icon in the game, as their one source of truth.
+- **The Lead leads and does not build.** The Lead's remaining building work goes to builders:
+  - the bars and the kit to the Bars & Icons builder;
+  - the room scene component and the room connection (#261, #284) to the rooms builder (until today, the Pre-game Animation builder).
+- **The Lead keeps:**
+  - the reviews at 390 × 844 and 430 × 932 before the owner sees anything;
+  - the briefs and the coordination;
+  - this record;
+  - the posts on #4 and #222.
+
+**What it does not settle:** the icons' single style. The new builder first inventories every icon and proposes one source. A change to how an icon looks goes to the owner through the Lead.
+
+**The film test's source kept for Codex, about an hour later.**
+- **The situation:** the source of the paused Doctor film test was only in one builder's session. That is 26 files under `design/pregame-animation/doctor-test/`: the face and hand drawings, the timing, the sets, the panels, the plates and the noir prototype. Its builder is the Rooms builder, until today the Pre-game Animation builder. The source was never pushed, as the owner's 16 November rule said: no branch until the owner likes a direction. Without it, Codex would have only the test pages' finished pictures.
+- **The Lead asked, in the question dialog:**
+
+> May the Rooms builder save it to GitHub as one branch, with no PR, so Codex can build on it?
+
+- **The owner chose:** "Yes, one branch", the Lead's recommendation.
+
+**What it decides:**
+- **The branch:** the source goes to one branch, `claude/designer-pregame-doctor-test`, with no PR. Nothing in the game changes, and the test pages stay test pages.
+- **The rule:** the 16 November rule is lifted for this handover only. The film test's direction is still the owner's choice.
+- **What goes in:** the briefing-room prompts go in the branch as text, so Codex can read them. The owner's own pictures stay out, as they stay out of every image tool.
+
+**What it does not settle:** whether Codex carries on with the test, and the test's open choices, which #311 lists.
+
+**Room B's view D tried again from its plan alone, minutes later.**
+- **What happened:** the go for view D (Atlas's view) gave two step-1 pictures. Both were painted well, and both failed the same-room check "every lamp in view lit at its place". The walls were off the plan's lines: the north-east corner sat about 90 px right of the guide's, and the east wall's lamp about 250 px off. Both pictures put the corner near where PV6-A-2 has its own corner. PV6-A-2 is the earlier picture sent with D's guide as the style reference. PV6-A's own first step, sent with its guide alone, had kept its walls on the guide's lines.
+- **The spend:** the work stopped within the owner's limit, at about $0.14 of the $0.18 cap. Step 2 was not run.
+- **The Lead asked, in the question dialog:**
+
+> May we try D again from its plan alone, at about $0.12 more for D ($0.19 at most with one re-run)? B, C and E would be made the same way, within the spend you already approved.
+
+- **The owner chose:** "Yes, plan alone", the Lead's recommendation.
+
+**What it decides:**
+- **D's retry:** step 1 is sent with D's guide alone (the sheet's one-picture prompt, s1-one), then step 2 runs as the sheet has it. That is about $0.12 more for D, $0.19 at most with one re-run.
+- **B, C and E** take the same plan-alone first step once D passes, within the owner's earlier approval of about $0.12 a view, at most $0.18 with one re-run.
+- **The checks are unchanged.** Each picture is checked against PV6-A for being the same room, and the Lead reviews it before the owner sees it.
+
+**View B's capsule fixed, minutes later.**
+- **What happened:** view D's retry passed and was accepted. View B then passed every gate, but its food dispenser came out about twice the approved counter unit's size in each direction. The sheet's capsule shape was about twice the closed housing's outline, and the edit fills each shape. The Lead held view C and asked for corrected sheets.
+- **The Lead asked, in the question dialog:**
+
+> Fixing it means one more furniture pass for B, about $0.07. That brings B to about $0.20, about $0.02 over its $0.18 limit. View C will use the corrected plan from the start, within its limit. May we do B's extra pass?
+
+- **The owner chose:** "Yes, fix B", the Lead's recommendation.
+
+**What it decides:**
+- **B:** one more furniture pass (step 2) from B's accepted empty room, with the capsule's shape cut to the closed housing's own outline. That is about $0.07, about $0.20 for B in all.
+- **C:** made from the corrected sheet, within its earlier limit.
+- **The capsule** keeps its approved size, 0.24 × 0.40 × 0.22 m, so the light and hatch that code draws line up with it.
+
+**One complete room to review, minutes later.**
+- **The owner asked:** "When the First room test finish?"
+- **The Lead answered:** the four new pictures in about an hour; the five views with the crew at their places in the afternoon; the walks and eating in the evening.
+- **The owner wrote, word for word:**
+
+> I would like to see 1 complete room with all possible views to review it
+
+**What it decides:**
+- **One page:** the owner reviews Room B as one page with all five of its views (A to E, each from one person's place), each complete. That means the painted room, the crew at their places with tags at their feet and their shadows, the food capsule with its light in the views that show it, and the walks to the capsule and the eating visits.
+- **No in-between page** goes to the owner.
+- **The Lead reviews every view** at 390 × 844 and 430 × 932 before the owner sees the page.
+
+**The capsule painted in its own step, minutes later.**
+- **What was found:** the Rooms builder measured view B's rejected picture. The capsule's shape had not been twice the housing; it was the housing plus the same 6 px as every piece. But the capsule and the bench were one connected masked shape. The model stood the dispenser on the bench top's near edge and stretched it up to the capsule's shape, so a tighter capsule shape alone would not stop a repeat.
+- **The Lead asked, in the question dialog:**
+
+> To get the food dispenser the right size in views B and C, it needs its own small painting step after the furniture, inside a tight outline. Painted together with Atlas's bench, the image model stretched it. That adds about $0.07 per view: B would be about $0.27 in all, C about $0.20, or at most $0.34 and $0.27 if a step needs its one re-run. Approve the extra step?
+
+- **The owner chose:** "Yes, paint it separately", the Lead's recommendation, over drawing the dispenser in code.
+
+**What it decides:**
+- **Two steps for the furniture** in views B and C. Step 2 paints the furniture without the capsule. Step 3 paints only the capsule, in its own tight shape on the painted bench, at its approved size and place.
+- **The cost:** about $0.27 for B in all and about $0.20 for C, at most $0.34 and $0.27 with one re-run.
+- **The capsule stays painted,** like the furniture. Code draws its light and its moving parts over it.
+
+**View E's stool painted in its own step, minutes later.**
+- **What happened:** view E's empty room (step 1) passed every gate. Its furniture pass painted one long three-shelf cart across both the laptop cart's outline and Juno's stool's, and left out the stool. That is the same failure as the capsule: two pieces in one connected masked shape.
+- **The Lead asked, in the question dialog:**
+
+> The fix is the same as for the capsule: paint the stool in its own small step. That brings E to about $0.27 in all, or $0.34 at most if a step needs its one re-run, against its $0.18 limit. View C's stool gets the same fix inside its capsule step, at no extra cost. Approve E's extra step?
+
+- **The owner chose:** "Yes, fix E", the Lead's recommendation.
+
+**What it decides:**
+- **View E:** step 2 is painted again without the stool, and step 3 paints the stool alone in its own tight shape. That is about $0.14 more, about $0.27 for E in all.
+- **View C:** its stool joins the capsule in its step 3, as a separate shape, at no extra cost.
+- **The rule for the sheets:** two pieces never share one masked shape. A small piece is painted in its own step.
+
+**Two branches pushed, early that afternoon.**
+- **The situation:** two pushes were waiting in the Rooms builder's session:
+  - the film test's source, approved by the owner above;
+  - the Room B sheet tools, which existed only in that session.
+  - That session's safety check refuses an approval passed on by another session. It takes only the owner's own words there.
+- **The owner wrote to the Lead:**
+
+> Approve them instead of me
+
+- **The Lead does not pass an approval into another session's check.** The Lead offered to push both branches from this session instead.
+- **The owner's word then reached the Rooms builder's session directly.**
+  - The builder reports the owner's message there: push both branches with no PR, with none of the owner's pictures, no generated pictures and no keys.
+  - Its check still refused the tools commit, which holds 56 pictures drawn by the kit's own code. It asked the owner in its question dialog, and the owner chose "Include them (Recommended)".
+
+**What it decides:**
+- **The film test's source:** `claude/designer-pregame-doctor-test` at `85100444`, with no PR, on top of #285's `104a285d`. It is handed to Codex on #311.
+- **The Room B sheet tools:** `claude/designer-room-b-sheets` at `c82dc861`, with no PR, one commit on `main`. Everything is under `design/room-b-sheets/`:
+  - the generators and the make and verify scripts;
+  - the guides, masks, split maps and plans;
+  - the camera reports, staging and visits.
+- **The 56 pictures in the tools are drawn by its own code.** None is generated and none is the owner's. That was checked by hash, and by the Lead on a contact sheet. To rebuild, the two generated reference pictures are placed from the records page and checked by their hashes.
+
+**The Card tab moves to the right and shows the player's own character, minutes later.**
+- **Where the Lead read it:** the owner's message in the Bars & Icons builder's session, in that session's own transcript (14:35 UTC). Word for word:
+
+> So I need to update the bottom bar I want on the card icon move to right and become the rightest icon of bar then instead of it its Icon card show the character icon
+
+**What it decides:**
+- **The order:** the bottom bar becomes Board/Room · Actions · Pass/Vote · Panels · Card. The round button stays in the middle, and Card is the rightmost tab.
+- **The Card tab's picture:** the player's own character, as the crew portrait the top bar already draws, in place of the card icon.
+  - Designer reads "the character icon" this way. The owner is asked to correct it if they meant a drawn icon.
+  - It is the viewer's own character, which every player can see, so nothing private shows.
+  - Before characters are dealt, or with no portrait, the tab keeps the card icon. It is never empty.
+- **It departs from** sheet 08 in all nine states, from 27 and 27.4–27.5, and from every sheet that draws the tab bar.
+
+**Designer's proposals, for what the owner's words leave open.** The owner sees them on the Bars & Icons control page before the build is accepted:
+- **Selected:** an amber ring round the portrait and the amber label, where the other tabs fill their icon.
+- **Unavailable:** 38 %, as every tab.
+- **Size:** the portrait round, in the icon's 26 px box.
+- **The label** stays "Card", and so does the tab's accessible name. The portrait is decoration.
+- **The private talk's "My card" button** (sheet 25) stays as it is. The owner spoke of the bottom bar.
+
+**How it is built:**
+- the Bars & Icons builder makes a new shell version on #265;
+- the game's connection on #307 passes the viewer's own person;
+- the Lead reviews it at 390 × 844 and 430 × 932.
+
+**Turned heads for Atlas and Lyra as they walk away, that afternoon.**
+- **What was found:** in Room B's walks, a walker seen from about 100° to 118° round showed the crew's straight back view on a side-on body. At phone size Atlas's read as a mask: a dark dome over a crescent of skin. Lyra's read better, thanks to her bun. Only approved heads were in use, so no new angle could go in without the owner.
+- **The In-game animation builder drew a sheet:** each head beside today's, on a walking body at the phone's own size, three drawings each.
+  - Atlas's is a new turned head: his quiff, the ear, the line of brow and jaw, the end of his moustache.
+  - Lyra's is the side view already in the accepted module, never shown before.
+- **The Lead asked, in the question dialog, with the sheet's link:**
+
+> Room B walks: when Atlas or Lyra walk away at a slant (about 100°–118°), today's back-of-head drawing looks like a mask at phone size, especially Atlas's. The builder drew a turned head for each: a new side-on head for Atlas, and Lyra's existing side view. […] Which should the room page use?
+
+- **The owner chose:** "Turned heads for both", the Lead's recommendation.
+
+**What it decides:**
+- **The angles:** Atlas's turned head and Lyra's side view are used from about 100° to 118° round while walking away. That is five of Atlas's drawings and 23 of Lyra's across the five views. The sheet counted 21 of Lyra's; the build counts 23.
+- **Everywhere else, nothing changes:** the approved face nearer the front and the back view farther round.
+- **Built and checked:** the In-game animation builder built both into all five views of the Room B page (1795016511-67f0). The Lead checked the band's edges:
+  - Atlas: the approved face at 97°, his turned head at 101°, the back view at 119°;
+  - Lyra: the approved face at 99°, her side view from 102° to 116°, the back view at 119°;
+  - no drawing flickers between heads.
+- **The rule for new angles stands:** a head the owner hasn't seen goes to them as a sketch first.
+- **Lyra at her console in view E** stands, rather than walks, and is seen 97.5° round. The In-game animation builder showed two heads in place on both phones:
+  - her side view, eyes on her console;
+  - the approved face with its eyes down, turned towards the camera.
+
+  The Lead chose her side view:
+  - 97.5° is within the owner's "about 100°";
+  - it is the owner's own choice for her turned head;
+  - her eyes stay on her work.
+
+  The other head read as a sleepy face turned over her shoulder. Both are drawings the crew already has, so nothing new was drawn.
+
+**The Card tab's portrait is square, like the top bar's, at the same size, minutes later.**
+- **Where the Lead read it:** the owner's message in the Bars & Icons builder's session, in that session's own transcript (15:07 UTC). Word for word:
+
+> The shape of it should be similar to the top character icon not circular but cubic same size
+
+**What it decides:**
+- **The shape:** the portrait's own square tile, as the top bar draws it. This replaces Designer's round portrait above.
+- **The size:** the top bar's, 32 px. This replaces the icon's 26 px box.
+- **What stays:**
+  - Card is still the rightmost tab.
+  - The label is still "Card", and so is the accessible name.
+  - With no character the tab shows the card icon, and at 38 % it is unavailable, as every tab.
+- **In the Blackout's dark the tab shows the card icon.** The game gives no identities in the dark, so the portrait returns with the lights. Designer keeps that.
+
+**Designer's proposal, for what the words leave open:** an amber outline round the tile, only while Card is open. The soft ring at rest goes, since the top bar's tile has none. The Lead reviews it at 390 × 844 and 430 × 932 before the owner sees it on the Bars & Icons control page.
+
+**How it is built:**
+- The Bars & Icons builder made it as shell 0.3.1 on #321 (`f0d52240`, its check recorded at `ebb2b869`: 66 of 66).
+- The Lead accepted it at `bf95c1a0`:
+  - in all 66 captures, only the Card place changes in the bottom bar;
+  - the labels keep their level, and the tile is whole;
+  - with no character, the tab is exactly as before.
+- The game's connection on #307 takes it next, and the Lead reviews that again.
+- The Lead accepted #307 at `68c9a296`. It has the square portrait, and keeps the player's own portrait while reconnecting.
+
+**See the design before the tests, minutes later.**
+- **Where the Lead read it:** the owner's message in the Bars & Icons builder's session, in that session's own transcript (15:22 UTC). Word for word:
+
+> Before you run tests let me see the design first
+
+**What it decides:** for any change of look, whether the owner asked for it or the Lead did, the owner sees the drawing before anyone spends time on checks. The order is:
+1. The builder makes the change in the component itself. No recorded check and no test suite yet.
+2. The control page goes to the owner's link as a draft. It says so at the top: the look only, not checked yet, and it may still change.
+3. The Lead gets the same draft at the same moment and looks at it in parallel.
+4. After the owner's OK come the recorded check, the test suites, the PR, the game's connection and its check, and the Lead's acceptance of the checked build.
+
+**What stays as before:**
+- The draft is built from the real component, never a mock, so the later checks cover exactly what the owner approved.
+- A change that isn't only a look keeps the usual order: checks, then the Lead's review, then the owner. That covers behaviour, data, privacy and the game's connection.
+
+**How a draft is kept, the same afternoon** (the Lead's rule for the builders, so a draft runs no tests):
+- A draft stays uncommitted where the builder can keep it so.
+- A builder's session may have to save and push every change. A draft pushed that way is committed with `[skip ci]`, and its draft PR says "Draft look: checks skipped until the owner's OK". The repository's checks run on pull requests, and GitHub skips them for a head commit that carries those words.
+- The first commit after the owner's OK goes without `[skip ci]`, so the full checks run then.
+- `[skip ci]` is never used on anything but a draft of a look. A fix that changes nothing drawn, such as moving a drawing into the one icon source, runs its checks at once.
+
+**One more small edit for view C, half an hour later.**
+- **What was found:** view C's step-3 picture (PV6-C-4) passed every measured check, but failed by eye in two places:
+  - **The jar tops:** the three glass jars on the cart ended in a soft, blurred cut just under the stool's seat. Step 2 had painted them only up to its mask's edge, so the seam showed once the seat was painted behind them. Layering can't fix it: the jar tops are missing from the painting itself.
+  - **The dispenser's left edge:** its left side faded softly into the books instead of having an ink edge.
+- **The Lead asked, in the question dialog:**
+
+> One more small masked edit would repaint just the jar tops and the dispenser's left edge: about $0.06, one call, no re-run. View C would end at about $0.30, about $0.03 over its $0.27 limit. Should we spend it?
+
+- **The owner chose:** "One more small edit (Recommended)".
+
+**What it decides:**
+- **One edit over PV6-C-4,** about $0.06, with no re-run. View C ends at about $0.30.
+- **The shapes:** the three jar tops, each in its own tight shape, whole and in front of the seat; and a narrow band along the dispenser's left side.
+- **The order:** the Rooms builder's sheet (version 8), the Lead's review, then the image builder's one call.
+
+**The bottom bar's icons painted, as the owner drew it, that afternoon.**
+- **Where the Lead read it:** the owner's message in the Bars & Icons builder's session, in that session's own transcript (16:28 UTC), with a picture of the bar. Word for word:
+
+> This is what i am thinking of bottom bar
+
+- **The picture** is the owner's own. It stays in that session; it is not in the repository and is not published.
+- **The draft:** the builder drew it in the real shell (#325) and put it on the Bars & Icons control page (version 8) for the owner and the Lead at the same moment, under the order above. The Lead checked it at 390 × 844 and 430 × 932 in all 14 states.
+- **The owner's answer** in the same session (17:41 UTC). Word for word:
+
+> I am ok with this new bar
+
+**What it decides:**
+- **Board, Actions and Panels are small painted tiles:**
+  - the crew portrait's own frame, at its size (32 px) and in its place;
+  - a warm orange ground, with the drawing in cream and a brown line.
+- **The Card tab** keeps the player's own portrait. With no character, or in the Blackout's dark, it shows the card's tile.
+- **The round button's icon** (Pass or Vote) is painted in orange. It turns grey when the button is unavailable.
+- **An open tab** has an amber ring round its tile and an amber label. **An unavailable tab's** tile fades with its label.
+- **Unchanged:** the words, the order of the tabs, the bar's height and where you tap.
+- **One orange for every player,** as in the owner's picture. The page put the choice beside it: a player with a teal character, whose tiles stay orange. The owner asked for no change.
+- **It departs from** sheet 08's line icons, in all its states and in every sheet that draws the tab bar.
+- **Measured,** as tokens 0.5.0 measures (CIE76): the tile's ground `#EE8B3A` is
+  - 40 from Red's accent `#FF8C8C` (the rooms were approved at 16–20),
+  - 25 from the amber of interaction `#F1B84B`,
+  - 20 from crew c1's accent `#B45A16`.
+
+  The ground is fixed: it says nothing about a player, a team or a role.
+- **Scope:** only the game's tab bar and the round button. Rows, sheets, the top bar and the kit keep their line icons.
+
+**How it is built:**
+- **Shell 0.3.2 on #325:** a change of look only, with no new input.
+- **Icons 1.1.0:** the painted form sits beside the family in the one icon source, and the tiles read it from there. #325 is stacked on #313 for the source's guard, page and test.
+- **The checks add:**
+  - the tiles, the open ring and the faded tile;
+  - the Blackout's card tile in the privacy check;
+  - a test that the tile's frame is the portrait's own.
+- **Then** #307's re-record and the Lead's review of the checked build.
+
+**Not answered yet,** on the same page: the toast's place, and the two drafts for a long title at the largest text.
+
+**The open drafts approved as the Lead recommended, minutes later.** The owner wrote to the Lead, in the Lead's session (about 17:50 UTC). Word for word:
+
+> I approve all as your recommendation, I just want to see 1 room all the views to see its the way to go or not
+
+**What it approves,** each as the Lead recommended:
+- **The toast's place** (the Lead's proposal on the Bars & Icons control page). The toast never covers the top bar, the "Connection lost" banner or an open sheet's title. It takes the first free place below them. With nothing in its way it stays where it is today.
+- **A long title at the largest text: both drafts together.**
+  - **A:** a squeezed sheet's buttons scroll with its content.
+  - **B:** when a title would take more than two lines beside Back and ✕, those two move to a row of their own and the title takes the full width, but only where that makes the head shorter.
+  - Measured at 320 × 568 with the Largest text, the content's room goes from 16 px to 162 px. At 390 and 430 with the Standard text nothing moves.
+- **The refused command's note** (R2 and A3, on the Promises page), accepted as drawn: a refused command's own words show in the open sheet, above its buttons.
+- **The no-break polish** (on the same page): "Player 6" and a name with its seat no longer break across lines in the Pass line and the Promises rows. Promises' "name · time" lines keep today's breaks, which would otherwise add a line at 320.
+
+**How they are built:** the bottom bar's tiles first, as shell 0.3.2. Then the toast, A and B as shell 0.3.3. Then Promises 0.1.1 and Actions 0.2.5 with the refused note and the joins. These change behaviour as well as look, so each keeps the usual order: checks, then the Lead's review, then the owner sees the checked build.
+
+**What the owner wants next:** one room with all its views, to judge whether this is the way to go. That is Room B's page with its five views, which the Lead sends when it is whole.
+
+**Room B, all five views, sent to the owner that evening** (about 20:04 UTC).
+- **The page:** https://claude.ai/artifact/KsyaYkrFdS1qdgwQ6v3Fmp, version 1795032082-0b3d. The Lead reviewed it at 390 × 844 and 430 × 932 before sending it, and the builder holds it unchanged while the owner looks.
+- **In every view:**
+  - the painted room;
+  - the crew at their stations, with name tags at their feet and the stronger shadows;
+  - the skylight's sky, on one clock for every view;
+  - the capsule's light;
+  - the walks to the capsule and the meals.
+- **Where a view's picture shows them:**
+  - the wall window's sky in views C and E, with no home world. Its clock runs ahead of the skylight's, so nothing the ship passes is in both openings at once;
+  - Room B's atom diagram on the wall screen in views B and C.
+- **The controls:** the view, the phone, Live or Held, 100 % or 200 % text, the capsule's state, each visit alone, and "as in a match".
+- **The Lead's checks,** on both phones:
+  - every view passes, with no errors and no sideways scroll, and Held is still;
+  - one known gap is left. At 200 % on the 390 phone, while Atlas walks out of view E, the accepted tag layout reports that one tag can't be placed clear (drawings 28 to 31 of 112). It comes from the room scene's tag rule for out-of-view chips, which the Lead fixes in the component.
+- **Found and fixed in the Lead's review:** in view C, the laptop Juno leaves on the cart was drawn over the jars while Juno was away. It now keeps its place in the room's order, so the jars cover it as when Juno sits there.
+- **Corrected after sending:** the page's top label still read "For the Lead · all five views · not for the owner yet". Version 1795033977-0ba3 changes only those words, to "For the owner · 18 November · all five views". The code and the rooms' files are the same, file for file.
+- **View C's last fixes:**
+  - the jar tops come from PV6-C-5;
+  - the dispenser's left edge is drawn by code, in its own layer just after the capsule's, because the edit did not take there;
+  - no further picture. View C ended at about $0.30, as approved.
+- **Juno in view C** faces the camera, so the head is the approved face, looking down at the laptop as the owner chose for Juno in view A. At that size the lowered eyes can read as closed. The Lead asked the owner whether to keep it or have a "looking down, eyes open" face drawn, with a sketch first.
+- **The question to the owner:** is this the way to go for the rooms?
+
+**The painted bar everywhere, that evening.** The owner wrote to the Bars & Icons builder, in that session's own transcript (20:28:56 UTC), word for word:
+
+> We should use the new painted bar
+
+- **What came before it:** about two minutes earlier the Lead had sent the owner the rebuilt Hacker test page. That page still drew shell 0.2.12's bottom bar: line icons, with Card not last. The Room B page draws no game bars.
+- **What it decides:** every bottom bar the owner sees is the painted one, shell 0.3.2 or later.
+  - The Hacker test page is rebuilt with shell 0.3.3 at once.
+  - Every other owner test page takes shell 0.3.3 or later when it is next built.
+  - The game takes it through #307 and #310 when Integration merges them.
+- **What it doesn't change:** the painted bar itself, as the owner approved it at 17:41 UTC (above). No new look.
+- **Done for the Hacker:** the Gameplay UI builder rebuilt the Hacker test page with shell 0.3.3 at about 21:15 UTC (version 1795036518-1acd). The Lead checked it at 390 × 844 and 430 × 932: the painted tiles, Card last with the player's portrait, no errors and no sideways scroll. #301 itself took shell 0.3.3 at `2101023e`.
+
+**The owner's answer on Room B, that night** (about 23:25 UTC), word for word:
+
+> I am really happy with the result of Room B
+
+- **What it decides:**
+  - Room B's five views are accepted as the page shows them (version 1795033977-0ba3). That covers the painted room, the crew at their stations with their tags and shadows, the skylight and the wall window on one clock, the capsule's light, and the walks and meals.
+  - **Juno in view C keeps her lowered eyes,** as the page shows them. The Lead takes the answer as covering view C as shown, so no "eyes open" sketch is made unless the owner asks for one.
+- **What it leaves open:**
+  - **The other rooms.** The Lead asked whether this is the way to go for the rooms, and the answer is about Room B. The next room's plan goes to the owner before any picture is made or any money is spent.
+  - **The known gap in view E** at 200 % on the 390 phone (one out-of-view tag that can't be placed clear), which the Lead fixes in the room scene component.
+  - **The way into the game.** The views from each place need the observation rule (#222) and Integration's mapping of the five places, as recorded above.
+
+**Room A next, the same way, minutes later.** The Lead asked whether to plan Room A as Room B was made, the plan and its cost first. The owner (about 23:30 UTC), word for word:
+
+> Yes, plan Room A the same way
+
+- **What it decides:** the Rooms builder drafts Room A's plan and a layout test with stand-ins, with no new pictures:
+  - **unchanged from Room B:** the five places and views (the owner's file); the camera as Room B's five views have it (straight lines, about 70° across, eye level, 5° down, as "The level to reach" above set it, which replaced the 95° slice); the PV6 look, the shadows, the turned heads, the tags, the furniture placed by code and the room's food capsule;
+  - **Room A's own choices, with the Lead's recommendations:** its code colours, its round window onto a planet (described in words, never from the owner's pictures), the ceiling (the Lead recommends solid), the stations at A to E, and who stands where;
+  - **the steps and the spend:** view A first, then the other four, with a cap proposed from Room B's record (33 pictures, about $2.04).
+- **What it does not decide:** any picture or spend. The Lead checks the plan at 390 × 844 and 430 × 932, then the owner approves the plan and its cap before the image session has a go.
+
+**Every bar icon opens what the phone shows, after midnight (19 November).** The owner wrote in the Bars & Icons builder's session, from their iPhone (00:00:42 UTC), word for word:
+
+> When I click on each bar icon, I want to see what I can see on my mobile
+
+- **How the Lead and the builder read it:** on the owner's test pages, pressing a control of the bars (Board, Actions, the round button, Panels, Card, Promises, ⋮) opens what the phone opens: the real sheet with its real content, not a still picture of the bar.
+- **The Lead's direction:** an owner test page that runs the real Planet app in Frontend's harness with the sample match (invented players), as #310's match check does.
+  - Where a part isn't connected in the game yet, the page shows what the game shows today and says so in one line. Nothing is mocked.
+  - It works on an iPhone: taps, no hover, at 390 and 430 wide.
+- **Settled by the Lead minutes later:**
+  - **Who builds it:** the Gameplay UI builder builds the page from #310's accepted head, and the Bars & Icons control page links to it ("Open it in the game").
+  - **The match states:** four, from a short list: this player's turn (the Hacker), another player's turn, the Jail vote, and the private talk.
+  - **Two lines at the top:** "A practice match with made-up players. Nothing is sent." and "The next version of the game, before it reaches your phone."
+  - **The order:** a private test that the game runs inside the page with no request leaving it, then the build and its checks at 390 and 430 with touch, then the Lead's review, then the owner.
+
+**The panels' look and icons go to the Bars & Icons builder, about half an hour later.** The Lead had answered the owner's question of who makes each panel, and recommended keeping the split between the bars (Bars & Icons) and what is inside each button (the Gameplay UI builder). The owner wrote to the Lead, word for word, in two messages (about 00:30 UTC):
+
+> At least the panel styles and icons on them should be by  Bars and Icons to design
+
+> At least the panel styles and icons on 2 bottom and top bar should be by  Bars and Icons to design
+
+- **What it decides, as the Lead reads it:**
+  - **Bars & Icons designs the look of every panel opened from the bottom bar and the top bar, and every icon on them.** That covers the kit and each panel's stylesheet: colours, type, spacing, surfaces, tiles, rows, cards, stamps and the icons' art.
+    - From the bottom bar: Actions with its tiles, checks and results, the Hacker's Scan and Code, the Hospital panel, Panels and its pages (Windows, Navigation, Players, Round order), Card, Pass and the ballot, the office decisions and the Captain console.
+    - From the top bar: Promises, and ⋮ Settings, which Codex builds with these styles.
+  - **The Gameplay UI builder keeps each panel's content,** structure, states, words, behaviour and game connection (#310). It builds with Bars & Icons' styles and adds none of its own.
+  - **Files:** a panel's stylesheet is Bars & Icons' to change, and its logic the Gameplay UI builder's. A change that touches both is agreed first and pushed once.
+- **What does not change:** the work in flight (#310's push, the game page, the top bar draft). Bars & Icons then reviews the existing panels against the kit and the painted bar. Any change of look goes to the owner as a draft before tests.
+
+## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
+
+**Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
+
+**What was said.** The owner asked the Pre-game Animation builder:
+
+> But why not work backgrounds we using  image generation, a mix method of images and code ( for parts with interactive and motion graphics)? What is your opinion ?
+
+The builder agreed, with code kept for everything that moves or is the player's own. The owner answered:
+
+> Yes , Then we can use a layer filter on all of them to give feeling of cyber comic Noir style and match 3 layer? What do you think?
+
+**How the builder applies it,** as it told the Lead:
+- **Who makes what.** The owner generates the background layers in their own image tool, from prompts the builder writes. Nothing in the builder's session can generate pictures.
+- **Code keeps** everything that moves or is the player's own: the crew's acting, the lights, smoke and screens, the cosmic events, the card's mark, the gadget, the player's character and the seat.
+- **The first location** is the briefing room, the Doctor test's first 3 s, in three layers: the view through the window, the room and the foreground.
+- **The filter** is the same steps on every layer, tuned by depth, with a colour script for each location (steel, rust, cosmos).
+  - It runs once, offline, on the plates, and Mira's drawings take the same grade.
+  - Only the grain, the halftone and the vignette run on each frame, as layers of the page.
+- **The teams' colours.** The filter pulls blues to teal, reds to amber and violets to magenta. Every plate is checked against each team's colour; its four test results are each at least 39.9 from every one.
+- A prototype is on the builder's test page: the owner's Room A picture and three of its plates, before and after.
+
+**What it covers:** the Doctor test's backgrounds and its finish, within the scope the 16 November direction [below](#16-november-2026-a-hand-inked-graphic-novel-world-for-the-pre-game-animation-test) set.
+
+**What stays the same,** as for that direction:
+- No sound on players' phones.
+- The test's length, timing and privacy.
+- Test pages only, with no branch or PR until the owner likes a direction.
+- It is not part of the human test's deploy, and nothing in the deploy waits for it.
+
+**What it doesn't change:** the game's approved crew (`design-0.9.0`) and rooms (`room-drawing-1.0.0`), the phone pack, and the art releases. No generated picture enters any of them.
+
+**Before a generated picture goes beyond a test page** (the builder's advice, which the Lead keeps as the rule):
+- The image tool's terms allow commercial use.
+- Each picture is kept with its tool, its prompt and its date.
+- The owner's two outside example frames are mood references, described in words. They are not given to a tool as pictures.
+
+**What it leaves open:**
+- **The ship through the window.** A generated Mothership would be a new design, which the boarding film would then have to match. The builder offered the owner today's ship, drawn in code. The owner chooses.
+- Whether the method goes beyond the Doctor test, as for the direction below.
+
+## 16 November 2026: a hand-inked graphic-novel world for the pre-game animation test
+
+**Recorded by the Lead Designer from the owner's message in the Pre-game Animation builder's session.** The Lead read the message there, in that session's own transcript (23:46 UTC), not from a summary.
+
+**What was said.** The owner wrote to the Pre-game Animation builder:
+
+> Use our characters but redefine them into Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows, and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels, and objects that suggest everyday use and repair.
+>
+> Organize dense detail around clear focal points. Use controlled colour palettes with selective luminous accents, giving each location its own atmosphere. Animate the world through drifting smoke, changing displays, operating machinery, passing objects, and layered depth. Preserve the clarity of the composition while making the environment feel active, inhabited, and larger than the visible frame.
+>
+> For cosmic events, extend this language into saturated colour, orbital geometry, swirling forms, and mysterious changes of scale.
+
+**How the builder applies it,** as it told the Lead:
+- To the ~4 s Doctor test only, which is its own scope.
+- The same nine characters, redrawn in the new graphic-novel finish.
+- New environments for the briefing room and Colony Nine, each with its own palette.
+- The memory cut at 3,000 ms becomes a small cosmic event.
+- The acting, the timing and the beats stay as they are.
+- The rough pass in today's look stays on the test page, behind a switch beside the new one.
+
+**What it covers:** the Doctor test's look. For this test, the new look replaces the approved characters' look, which the decision [below](#16-november-2026-no-animation-clips-for-the-test-the-pre-game-films-tried-as-pure-animation-the-animation-work-in-two) had kept.
+
+**What stays the same:**
+- No sound on players' phones.
+- The film's length, timing and privacy.
+- Test pages only, with no branch or PR until the owner likes a direction.
+- It is not part of the human test's deploy, and nothing in the deploy waits for it.
+
+**What it doesn't change:**
+- The game's approved crew (`design-0.9.0`) and rooms (`room-drawing-1.0.0`).
+- The phone pack, and every part being connected for the human test.
+- The art releases. Nothing in `design/releases/**` or the crew's rig changes; the new drawings stay with the test.
+
+**What it leaves open:** whether the direction goes beyond the Doctor test. That covers the other role films, boarding and the brand intro, and the game's own crew and rooms. The owner chooses after seeing the test.
+
+**A minute later, story images first.** The owner sent the same direction again (23:47 UTC), ending:
+
+> Before creating the animation let's create some images as story telling of. Doctor role imagine a dark story
+
+So the builder drew "The Last Two Doses": eight still panels of the Doctor's dark story in the new finish, ahead of any further animation.
+- Mira plays the Doctor. Everyone else is a faceless shape.
+- The pictures carry no words.
+- Every panel stays at least 30 (CIE76) from each team's colour.
+- Panel 5 never shows what she chose.
+- The 4 s animation test it had already started is on its own test page, with today's look behind a switch.
+- Both are test pages for the owner, not in the game. Which panels the 10-second film tells is the owner's choice.
+
+## 16 November 2026: no animation clips for the test; the pre-game films tried as pure animation; the animation work in two
+
+**Recorded by the Lead Designer from the owner's answers in the Lead's session.**
+
+**What was said.** The owner wrote:
+
+> As I told you we can stop building animation clips for test, it is not something really needed for the game test, also I want to restyled the game
+
+Before the Lead had answered, the owner wrote again:
+
+> As I told you we can stop building animation clips for test, it is not something really needed for the game test, also I want to test some restyled game animations , because maybe for animations of pre-game we can use pure animations not motion graphic,  this is just for pregame animation parts and not related to test even we can divide animation agent to 2 , one working one in game animations the other pre game animation which feels more like pure animation.wjat do you think?
+
+The Lead recommended three things.
+1. **Stop the animation clips for the test.**
+   - The brand intro 2.0.0 had just been pushed as a draft (#305). It stays parked.
+   - The role films 2.0.0 were never started.
+2. **Try pure character animation for the pre-game films,** starting with one short test: about 4 seconds of the Doctor's role film.
+   - It goes on a test page for the owner, and is not part of the game test.
+   - It keeps the approved characters' look, the 10-second length, no sound on phones, and the role films' privacy.
+   - The brand intro stays as it is, since it is typing by nature.
+3. **Split the animation work in two:**
+   - the Motion & Cinematics builder takes the in-game animations, and until the test is out helps with screens the test needs;
+   - a new Pre-game Animation builder takes the brand intro, the role films and boarding. It explores through test pages first, and opens PRs only once the owner likes a direction.
+
+The owner answered:
+
+> Yes let's go with your recommendation
+
+**What it covers:**
+- **No animation clip is built for the game test.**
+  - #305, the brand intro 2.0.0, is parked: marked paused and not for review, with its branch kept.
+  - #285, the boarding film 2.0.0, stays as accepted.
+- **The pre-game films are tried as pure animation,** starting with the ~4 s Doctor test, by a new Designer session: the Pre-game Animation builder. Test pages come first, with no branch or PR until the owner likes a direction.
+- **The Motion & Cinematics builder becomes the in-game animation builder.**
+- **The earlier film decision is reopened for the pre-game films.** The boarding pilot's direction ([earlier the same day](#16-november-2026-the-films-follow-the-boarding-pilot-with-no-sound-on-phones)) stands until the owner chooses after the test.
+
+**What stays the same:**
+- No sound on players' phones.
+- Each film's length, timing and privacy.
+- The approved characters' look.
+- No film holds a test release.
+
+**What it leaves open:**
+- The pre-game films' direction after the test.
+- Whether #305 and #285 continue.
+
+**Later the same evening.** The Pre-game Animation builder had sent its plan for the Doctor test: 0–4,000 ms, with Mira acting, on twos, from the rig and new face and hand drawings. The owner then wrote:
+
+> Preanimations for now are not our concern for deploy human test
+
+The Lead read that as a pause, and told the builder to stop. The owner corrected it:
+
+> I would not say pause it it can work in parallel but as I told before pregame animations can continue the work and I review them but I don't need them for this deploy
+
+So:
+- **The pre-game animation work continues in parallel.** The owner reviews it through the Lead.
+- **It is not part of the human test's deploy,** and nothing in the deploy waits for it.
+- **The builder's approved plan stands,** with its test pages only and no PR.
+
+## 16 November 2026: Designer connects its parts in the game, in four test releases; the films don't hold them
+
+**Recorded by the Lead Designer from the owner's answer in the Lead's session.**
+
+**What was asked.** The owner asked when a playable test deploy will carry the new work ([below](#16-november-2026-three-new-branches-for-the-hospital-panel-and-the-next-films)). The Lead explained the three steps after Designer finishes a part:
+1. Integration reviews and merges it.
+2. It is connected into the game.
+3. Integration deploys it.
+
+The Lead added that the connection is the slowest of the three. The owner asked:
+
+> What is your recommendation
+
+The Lead recommended:
+
+> Let the Designer builders connect their own parts in the game, and release them as four test versions instead of thirty separate ones.
+
+The order the Lead gave:
+1. the five rooms (#261 and #284);
+2. the top bar and tabs (#265, connected by the Lead) and Food (connected by Frontend);
+3. the match screens;
+4. before the match, with the new brand intro and role films.
+
+The owner answered:
+
+> Yes as you recommend, just I prefer I have a test playable without role movies, role movies can be created in parallel but they should not hold the test because these are pre game animations,
+
+**What it covers:**
+- **Designer writes the game-side connections for the parts it built,** as the Lead did for the rooms (#284).
+  - This answers the [15 November](#15-november-2026-designer-connects-the-five-rooms-nothing-related-to-design-inside-the-frontend) decision's open item: who writes each connection.
+  - Frontend reviews each connection, and keeps the game's data, commands, navigation and lifecycle.
+  - Nothing Designer writes decides what happens in a match.
+- **Four test releases, in the order above.** Integration reviews, merges and deploys each one as a single step. The writers:
+  - release 2's shell connection: the Lead;
+  - release 3: the Gameplay UI builder;
+  - release 4: the Pre-game & Global UI builder.
+
+  One writer per release keeps two sessions from changing the same game files at once.
+- **The films never hold a test release.**
+  - The role films are built in parallel, and each new version joins the game once it is accepted. Until then the game keeps today's films.
+  - The owner named the role films. The reason given, that they are pre-game animations, also covers the brand intro and the boarding film's new version (#285), so the Lead applies it to them too.
+- **Branches:** each connection is a draft PR on a new branch. This answer covers three:
+  - `claude/designer-connect-shell`: release 2, the Lead;
+  - `claude/designer-connect-match`: release 3;
+  - `claude/designer-connect-pregame`: release 4.
+
+**What stays the same:**
+- Integration owns admission, merge and deployment, and sets the dates.
+- The approved sheets govern the look, and a departure still needs the owner's approval.
+- Each film keeps its length, timing and privacy.
+
+**What it leaves open:**
+- The dates. Integration sets them; the Lead asked on #222.
+- Frontend's and Integration's agreement to Designer writing the connections. The plan is posted on #222.
+
+## 16 November 2026: three new branches, for the Hospital panel and the next films
+
+**Recorded by the Lead Designer from the owner's answers in the Lead's session.**
+
+**What was asked.** On 16 November the Lead asked:
+
+> May the builders create these three new branches?
+> - `claude/designer-hospital-panel`: the Hospital panel.
+> - `claude/designer-brand-film`: the brand intro.
+> - `claude/designer-role-films-2`: the role films. The plain name already belongs to the role films you merged earlier.
+
+The owner asked:
+
+> Why we need new branches
+
+The Lead explained three things:
+- Each separately reviewable change gets its own branch and pull request (`AGENTS.md`).
+- The existing branches hold accepted work that is waiting to be merged, and adding new work to one would reopen its review.
+- The two films could share one branch, but the Lead recommended keeping them apart: the 2 s intro could be accepted quickly, while the eight role films take longer.
+
+The owner answered:
+
+> All three branches, when can I have the work to have a test deploy playable
+
+**What it covers:**
+- **`claude/designer-hospital-panel`:** the Gameplay builder's Hospital panel (sheets 23 and 43). It comes after Move (`actions-0.2.0` on #273), and its interface comes to the Lead before the build.
+- **`claude/designer-brand-film`:** the brand intro 2.0.0, by the Motion & Cinematics builder, from #285's head.
+- **`claude/designer-role-films-2`:** the role films 2.0.0, by the same builder, with the Doctor first, from #285's head.
+- Each one is a stacked draft PR.
+
+**What stays the same:**
+- The interface comes before each build.
+- The films keep their length, timing and privacy (the [film decision](#16-november-2026-the-films-follow-the-boarding-pilot-with-no-sound-on-phones) below).
+- Integration owns merge and publication.
+
+**What it leaves open:** when a playable test deploy will carry this work. That depends on Integration's merges and deploys, and on the game-side connections. The Lead asked Integration for its plan and dates on #222 ([6930095114](https://github.com/Amirkianfar66/GameN/issues/222#issuecomment-6930095114)).
+
+## 16 November 2026: the films follow the boarding pilot, with no sound on phones
+
+**Recorded by the Lead Designer from the owner's answer in the Lead's session.**
+
+**What was asked.** On 16 November the Lead sent the owner the Motion & Cinematics builder's new boarding film: #285, the pilot for the owner's AAA bar of [8 November](#8-november-2026-the-pre-game-films-again-as-aaa-animation), renewed on 15 November. The Lead asked:
+
+> Is this the direction you want for all the films? The brand intro and the nine role films would come next.
+
+> Sound: I recommend none on players' phones, because 7–9 phones playing in one room would never be in sync. Sound could come later on the shared display only. Is that OK?
+
+Later the same day, the Lead listed the owner's open questions, among them "the direction and sound for the films". The owner answered:
+
+> All as your recommendation
+
+**What it covers:**
+- **Direction.** Every pre-game film follows the boarding pilot's direction: its camera, its light, its impacts and its faster drawing method. The 2 s brand intro and the nine role films come next, each as a new version.
+- **Sound.** None on players' phones. Sound on the shared display, for public moments only (boarding and ship travel), may come later. It is not started.
+
+**What stays the same:**
+- Each film's length and timing, and the approved style.
+- The role films' privacy: nothing another player could read over a shoulder or hear.
+- Reduce motion.
+- Nothing live changes until a new version is accepted.
+
+**What it leaves open:**
+- The shared display's sound.
+- The order of the films. The Motion & Cinematics builder proposes it, and the Lead approves.
+
+The same reply answered three other questions:
+- the rule question recorded [below](#16-november-2026-the-hacker-keeps-scan-after-a-wrong-final-code);
+- a new branch for the end screen's Roles list;
+- publishing the Pre-game builder's test pages.
+
+The last two are not recorded here.
+
+## 16 November 2026: the Hacker keeps Scan after a wrong final Code
+
+**Recorded by the Lead Designer from the owner's answer in the Lead's session.** This is a rule answer. Integration records rules in the rule overlays, and Backend implements them. It is recorded here because it was given to Designer, with the screen it changes.
+
+**What was asked.** On 16 November, with the Hacker's screens (#301, sheet 42), the Lead asked the owner:
+
+> One rule question for you: **after a wrong final Code, can the Hacker still use Scan?** The design's prototype said "Scan stays available", but the rules record lists this as undecided.
+
+The rules record is CODE-OPEN-02 in `rules/overlays/planet-navigation-code-owner-decisions-2026-10-25.json`: "Define Scan/button behavior after the one final Code submission fails. The failed submission cannot be retried and never unlocks Hack Spaceship; continued Scan availability was not decided."
+
+The owner answered, with the questions above:
+
+> All as your recommendation
+
+The Lead had not yet given a recommendation on this question. It gave one in its reply to that message: keep Scan.
+
+**What it covers:**
+- After a wrong final Code, the Hacker keeps Scan, under its usual cooldown and limits.
+- Unchanged: the wrong Code can't be retried, and it never unlocks Hack Spaceship.
+- No new exception, limit or reset.
+- On the phone, the Hacker's CODE WRONG card (#301) again says "Scan stays available", as the pack's prototype draws it. The Scan button's state still comes only from the projection's offers.
+
+**Why the Lead recommended it:**
+- No confirmed rule takes Scan away. The overlay closes only the Code and Hack Spaceship, so keeping Scan adds nothing, and taking it away would be a new restriction.
+- The match has no round limit. Without Scan, a Hacker whose Code failed would have nothing of their own to do for the rest of it.
+- It is what the approved pack's prototype draws.
+
+**What it leaves open:**
+- Integration's record of it in the rule overlay, and Backend's implementation and tests.
+- Game Design and Balance (#5) may weigh its effect on what the Hacker can learn, and propose otherwise to the owner.
+
+## 16 November 2026: Designer builds every part without waiting for Frontend
+
+**Recorded by the Lead Designer from the owner's message in the Lead's session.**
+- **The limit:** when the Designer team began on 15 November, the Lead set a limit on waiting work, stated in the team's set-up on #4. Each builder keeps at most one finished component waiting for Frontend. It writes the next one's interface, but doesn't build it until Frontend reviews or connects one.
+- **What prompted the question:** on 16 November the owner asked for test pages of each part. The Lead explained that the main menu (#278) and Actions (#273) had only their interfaces, because their builders had reached that limit. The Lead then asked whether to lift it for those two.
+
+The owner answered:
+
+> But did not we aree on Designer Build the design ?
+
+**What it covers:**
+- **The limit is lifted, for every builder.** Designer builds each part as soon as the Lead approves its interface. It doesn't wait for Frontend to review or connect earlier parts.
+- **The interface still comes first.** The builder writes it, and the Lead reviews it and posts it on #4 so that Frontend sees it. Then the build starts.
+- **Each built part gets a test page** for the owner: a private claude.ai page, as the owner asked on 16 November.
+- It follows the [15 November](#15-november-2026-designer-connects-the-five-rooms-nothing-related-to-design-inside-the-frontend) decision: nothing related to design inside the frontend.
+
+**What stays the same:**
+- Frontend reviews the code. Integration owns admission, merge and publication.
+- Each builder works on one component at a time, in Designer's paths, on draft PRs.
+
+**What it leaves open:** the order of the game-side connections for the new parts. They change the same game files as the room connection (#284), so the Lead sequences them after it.
+
+## 15 November 2026: Designer connects the five rooms; nothing related to design inside the frontend
+
+**Recorded by the Lead Designer from the owner's answer in the Lead's session.**
+- The owner had played the deployed build and found that the room windows still don't move.
+- The Lead explained that the room scene (#261) draws all five rooms, and that connecting it in the game was Frontend's work.
+
+The Lead then asked:
+
+> Still open for you: should I write the game-side connection for all five rooms myself, with Frontend reviewing it?
+
+The owner answered:
+
+> Yes lets do it for all 5 rooms nothing related to design should be inside of frontend
+
+**What it covers:**
+- **Designer writes the room connection.**
+  - The game's room view draws Room A, Room B, the Command Room, the Hospital and the Jail through the room scene (#261), all in one release.
+  - Frontend reviews it.
+  - Integration admits it to the hosted build, adds `room-drawing-1.0.0` to the art bundles (DSN-REQ-18) and publishes.
+- **Nothing related to design stays inside the frontend.**
+  - The look and motion come from Designer's source in `design/`. The frontend keeps the data, the commands and the lifecycle.
+  - A design that the game draws today in `apps/game` moves into Designer's components, and is replaced there rather than kept beside them.
+  - This builds on the [14 November](#14-november-2026-one-visual-source-and-clear-ownership) decision.
+
+**What it leaves open:**
+- The order in which the rest of the frontend's design code moves: the room films, the private-talk capsule, the board's panels, the shell and the Designer team's screens.
+- Who writes each of those connections.
+- Designer proposes both on #222.
+
+## 15 November 2026: the Card's empty Knowledge line
+
+**Recorded by the Lead Designer from the owner's answer in the Lead's session.** The Lead asked:
+
+> Should the Card's empty Knowledge line read "You have no knowledge of other players."?
+
+The owner answered:
+
+> As you recommended
+
+The same reply answered one other question, about publishing evidence, which this record does not cover.
+
+**What it covers:** when a player knows nothing about the other players, the Card's Knowledge view reads "You have no knowledge of other players."
+- It is `CARD_SHEET_WORDS.noKnowledge` in the Card sheet: [#270](https://github.com/Amirkianfar66/GameN/pull/270), whose handoff is `docs/design/components/card.md`.
+- It departs from sheet 31's words, "Your role starts with no knowledge of other players.", which state a rule about the role that the phone can't know.
+- It follows T3's principle ([11 November](#11-november-2026-the-build-follows-the-pack)): the phone never works out from the rules what it is not given.
+
+**What it leaves open:** nothing.
+
 ## 15 November 2026: Designer delivers the usable visual component
 
 **Recorded by Integration from the owner's Integration chat.** The owner clarified the purpose of the direct-component workflow:
