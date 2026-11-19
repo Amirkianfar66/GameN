@@ -3,11 +3,11 @@ import {createHash} from 'node:crypto';
 import {dirname, join} from 'node:path';
 import {PREGAME_PRODUCTION_DRAWING_POLICY, PHONE_UI_PRODUCTION_DRAWING_POLICY, HOST_ABORT_DRAWING_POLICY, FOOD_SOURCE_DRAWING_POLICY,
   RELEASE_PRESERVATION_DRAWING_POLICY, RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY,
-  FOOD_INPUT_CONSUMER_DRAWING_POLICY} from '../../../design/tools/lib/drawing-port-fence.mjs';
+  FOOD_INPUT_CONSUMER_DRAWING_POLICY, PREGAME_CONNECTION_DRAWING_POLICY} from '../../../design/tools/lib/drawing-port-fence.mjs';
 import {PREGAME_PRODUCTION_CONSUMER_APPROVAL, readPregameConsumerApproval} from '../../../scripts/pregame-consumer-approval.mjs';
 import {PHONE_UI_CONSUMER_APPROVAL, readPhoneUiConsumerApproval, HOST_ABORT_CONSUMER_APPROVAL,
   readHostAbortConsumerApproval} from '../../../scripts/phone-ui-consumer-approval.mjs';
-import {FOOD_CONSUMER_SOURCE, readFoodConsumerSource} from '../../../scripts/food-consumer-source.mjs';
+import {FOOD_CONSUMER_SOURCE, readFoodConsumerSource, PREGAME_CONNECTION_SOURCE, readPregameConnectionSource} from '../../../scripts/food-consumer-source.mjs';
 import {RELEASE_PRESERVATION_APPROVAL, readReleasePreservationApproval} from '../../../scripts/release-preservation-consumer.mjs';
 import {FOOD_INPUT_CONSUMER_APPROVAL, readFoodInputConsumerApproval} from '../../../scripts/food-input-consumer-approval.mjs';
 
@@ -74,11 +74,42 @@ export function pregameProductionFixturePaths(root) {
     for (const reference of [...input.parents, input.designerAcceptance, input.captureReport,
       ...input.captures, ...Object.values(input.files).flatMap(entry => entry.predecessors)]) paths.add(reference.path);
   }
+  const connection = readPregameConnectionSource(root);
+  if (connection) {
+    paths.add(PREGAME_CONNECTION_SOURCE);
+    paths.add(PREGAME_CONNECTION_DRAWING_POLICY);
+    const policy = JSON.parse(readFileSync(join(root, PREGAME_CONNECTION_DRAWING_POLICY)));
+    for (const path of [...Object.keys(connection.inputs), ...Object.keys(connection.evidence),
+      ...Object.keys(policy.requiredFiles)]) paths.add(path);
+    for (const [path, entry] of Object.entries(connection.files)) {
+      paths.add(path);
+      for (const prior of [entry.previous, ...entry.earlier]) paths.add(prior.path);
+    }
+  }
   return paths;
+}
+
+export function restoreBeforePregameConnectionFixture(root, destination) {
+  const connection = readPregameConnectionSource(root);
+  if (!connection) return;
+  const policy = JSON.parse(readFileSync(join(root, PREGAME_CONNECTION_DRAWING_POLICY)));
+  for (const path of [PREGAME_CONNECTION_SOURCE, PREGAME_CONNECTION_DRAWING_POLICY]) {
+    rmSync(join(destination, path), {force: true});
+  }
+  const restore = (path, blob) => {
+    mkdirSync(dirname(join(destination, path)), {recursive: true});
+    cpSync(join(root, blob), join(destination, path));
+  };
+  for (const [path, entry] of Object.entries(connection.files)) restore(path, entry.previous.path);
+  for (const [path, entry] of Object.entries(policy.predecessorTooling)) restore(path, entry.blob);
+  for (const path of Object.keys(policy.metadataFiles)) {
+    if (!Object.hasOwn(connection.files, path)) rmSync(join(destination, path), {force: true});
+  }
 }
 
 /** Isolate predecessor tests using preserved bytes, never fabricated acceptance. */
 export function restoreBeforeFoodFixture(root, destination) {
+  restoreBeforePregameConnectionFixture(root, destination);
   rmSync(join(destination, FOOD_INPUT_CONSUMER_APPROVAL), {force:true});
   if (existsSync(join(root, FOOD_INPUT_CONSUMER_DRAWING_POLICY))) {
     const tooling = JSON.parse(readFileSync(join(root, FOOD_INPUT_CONSUMER_DRAWING_POLICY)));
