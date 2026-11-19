@@ -38,6 +38,21 @@ The owner's messages are quoted as written.
     - the plates inside the painted icons, such as Final Code's square and Scan's disc, so each icon is the painted symbol alone;
     - the chips that stayed, such as "Your quota" and Round order;
     - the Actions tiles' frames. Each cell keeps its press area and focus outline, invisible until focused.
+- **The owner's answer to draft 3** (about 13:47 UTC, in the Bars & Icons builder's session, relayed word for word):
+
+  > No background now, go ahead
+
+  - **What it approves:** draft 3's look, as shown in its five pictures at 402 × 742 (#333 at `45f6406c`):
+    - line-painted icons on nothing;
+    - one 46 px size in every panel;
+    - no chips;
+    - no frame around the Actions cells, which keep their press area and focus outline.
+  - **The draft's first question, the dark buttons' light edge,** was in those pictures on the private talk's two buttons, and the owner said go ahead. Eject's paper fill was on draft 1's page and wasn't objected to. Both are built as drafted, and the owner sees them again in the built look.
+  - **Next:**
+    - Bars & Icons draws the frameless cells' states (pressed, chosen, sending and registered, focused) with a cue that isn't a ground.
+    - It checks the greyed icon's contrast and the look at 390 and 430, then builds and checks it on #333.
+    - In the game, the cells need `.ms-k-tile` in the stylesheets' exclusion lists to draw as designed. That's a fix for #310.
+  - **Still open:** whether the bottom bar's tiles lose their ground too. Bars & Icons has asked the owner.
 
 ## 19 November 2026: the top bar's Promises button is its icon
 
