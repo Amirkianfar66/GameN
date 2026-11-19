@@ -104,7 +104,7 @@ A change that is more than a look (behaviour, data, privacy, the connection's in
 - the build still refuses when an earlier stylesheet has any other line that today's lacks;
 - **checked:** all 111 "before" strips of the five before-and-after views, at 320, 390 and 430 px, have every part of their bar (the name, the line under it, Promises, its pill, its word, the hairlines, the round, the clock, its icon, ⋮) in the same place and size as on the page built before 0.3.5, to a tenth of a pixel.
 
-The three drafts before it, all the Lead Designer's proposals, all the Lead Designer's proposals, were approved by the owner on 18 November 2026, in the Lead's session ("I approve all as your recommendation"), and are shell 0.3.3 with its record ([the shell's page](phone-shell.md#the-toasts-place-a-squeezed-sheet-and-a-long-title-033)). Their views stay, as before and after.
+The three drafts before it, all the Lead Designer's proposals, were approved by the owner on 18 November 2026, in the Lead's session ("I approve all as your recommendation"), and are shell 0.3.3 with its record ([the shell's page](phone-shell.md#the-toasts-place-a-squeezed-sheet-and-a-long-title-033)). Their views stay, as before and after.
 
 *The toast over a sheet or a banner* (`#toast-draft`).
 - **Before:** the toast dropped in 10 px under the top bar, across a tall sheet's head or on the reconnecting banner.
