@@ -6,6 +6,21 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 19 November 2026: Room A's go with a cap under $5; Codex's typing intro; Rooms A and B saved together
+
+**Recorded by the Lead Designer from the owner's message to the Lead** (about 10:45 UTC). The Lead had asked four things: Room A's three choices, a mark on the top bar draft, A or B for the app's two-second intro, and a line to save Room B's tools and records to GitHub. The owner, word for word:
+
+> 1. For room A All as you recommend" you have the authority to spend under 5 $ for room A as cap, 2. Top bar it is not clear for me the options to compare. 3.	App-start intro: B the codex one , 4.	Save Room B's work to GitHub : lets save both A and B together when A is done!
+
+- **Room A: the plan is approved as the Lead recommended** (the Room A plan page, version `1795050100-be2f`).
+  - **The ceiling is solid.** Room A's sky comes only through its round window, in views B and D.
+  - **The walks:** anyone seen between 100° and 118° on the way to the capsule uses the back view, as Vega does in Room B.
+  - **The cap is under $5 for Room A.** The plan proposed $1.25; the owner raised it.
+  - **The order:** the Lead gives each image go and names the reviewed sheet's version and hashes. View A comes first and goes to the owner before anything else is painted. The work stops and asks before it would pass the cap.
+- **The top bar draft: not decided.** The owner found the two options hard to compare. The Lead sent a side-by-side of the one bar where they differ, a short name at the owner's phone width.
+- **The app's two-second intro is Codex's typing version (B)** on #331: white words in the phone's own monospace font, typed on black. It replaces the approved intro's lettering (sheet 10). The menu after it shows no wordmark (the decision below), so the two no longer need to match.
+- **Rooms A and B are saved to GitHub together when Room A is done.** Until then Room B's tools and records stay in the Rooms and Motion & Cinematics builders' sessions, and its pictures stay on their published pages.
+
 ## 19 November 2026: the main menu shows no wordmark; the name belongs to the intro
 
 **Recorded by the Lead Designer from the owner's words as Codex quoted them on #332** ([7003576315](https://github.com/Amirkianfar66/GameN/issues/332#issuecomment-7003576315), 08:14 UTC). The owner gave them in a Codex session, which the Lead cannot read. The quote is Codex's, word for word:
