@@ -64,18 +64,19 @@ const shape = (part, attrs) => part.c
   : `<path d="${part.d}" ${attrs} stroke-linecap="round" stroke-linejoin="round"/>`;
 
 /** The drawing on the 24 grid: a soft shadow, the brown line, the paint, the inner lines. `fill` maps a tone to a paint. */
-function drawing(name, paint, fill) {
+function drawing(name, paint, fill, open = false) {
   const icon = ICONS[name];
   if (!icon) throw new Error(`No icon ${JSON.stringify(name)}`);
   const line = paint.line;
-  const stacked = STACKED[name];
+  const stacked = !open && STACKED[name];
   if (stacked) {
     const under = stacked.map(part => shape(part, `fill="${line}" stroke="${line}" stroke-width="${num(1.8 + LINE)}"`)).join('');
     const sheets = stacked.map(part => shape(part, `fill="${line}" stroke="${line}" stroke-width="${num(1.8 + LINE)}"`) + shape(part, `fill="${fill(part.tone)}" stroke="${fill(part.tone)}" stroke-width="1.8"`)).join('');
     return `<g transform="translate(0.5 0.9)" opacity="0.3">${under}</g>${sheets}`;
   }
-  const outer = icon.parts.filter(part => !part.knock), inner = icon.parts.filter(part => part.knock);
-  const closed = part => part.dot || part.fill;
+  // `open`: the line drawing itself is painted. Nothing is filled but a dot, so no icon is a plate with marks on it.
+  const outer = icon.parts.filter(part => open || !part.knock), inner = icon.parts.filter(part => !open && part.knock);
+  const closed = part => part.dot || (!open && part.fill);
   const dash = part => (part.dash ? ' stroke-dasharray="2.2 2.2"' : '');
   const under = outer.map(part => shape(part, `fill="${closed(part) ? line : 'none'}" stroke="${line}" stroke-width="${num((part.dot ? 0 : part.width ?? 1.8) + LINE)}"${dash(part)}`)).join('');
   const over = outer.map(part => shape(part, `fill="${closed(part) ? fill('main') : 'none'}" stroke="${fill('main')}" stroke-width="${part.dot ? 0 : part.width ?? 1.8}"${dash(part)}`)).join('');
@@ -119,10 +120,10 @@ export function iconTileSvg(name, { className = 'ic-tile', id = nextId(), paint 
 }
 
 /** An icon's drawing alone, painted, as an inline SVG on the icons' own 24 grid with room for its line. Decorative. */
-export function iconPaintedSvg(name, { className = 'ic-paint', id = nextId(), paint = 'ember' } = {}) {
+export function iconPaintedSvg(name, { className = 'ic-paint', id = nextId(), paint = 'ember', open = false } = {}) {
   const p = PAINTS[paint];
   if (!p) throw new Error(`No paint ${JSON.stringify(paint)}`);
   const f = `${id}-paint`;
   return `<svg class="${className}" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="-1.5 -1.5 27 27">`
-    + `<defs>${gradient(f, p)}</defs>${drawing(name, p, fills(f, p, !!STACKED[name]))}</svg>`;
+    + `<defs>${gradient(f, p)}</defs>${drawing(name, p, fills(f, p, !open && !!STACKED[name]), open)}</svg>`;
 }

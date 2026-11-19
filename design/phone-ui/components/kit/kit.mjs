@@ -53,15 +53,17 @@ export function createKit(doc) {
     return t.content.firstChild;
   };
   /**
-   * DRAFT 2 (the panels' style, not approved): an icon painted, in the bottom bar's family, with nothing behind it
-   * (the owner, 19 November 2026: "I like painted icons but I dont want them to have any  background"). `on`: in
-   * colour, it can be pressed now. `off`: the same icon greyed, it cannot now. Redrawn only when the icon changes.
+   * DRAFT 3 (the panels' style, not approved): an icon painted, in the bottom bar's family, with nothing behind it
+   * (the owner, 19 November 2026: "I like painted icons but I dont want them to have any  background", then, on
+   * draft 2, "Still they  have a background"). The line drawing itself is painted (`open`): no icon is a plate with
+   * marks on it, and no holder has a tile. `on`: in colour. `off`: the same icon greyed, it cannot be pressed now.
+   * Redrawn only when the icon changes.
    */
   const setPaint = (holder, name, mood) => {
     const key = `paint:${name}`;
     if (holder.dataset.icon !== key) {
       const t = doc.createElement('template');
-      t.innerHTML = iconPaintedSvg(name, { className: 'ms-k-paint' }).trim();
+      t.innerHTML = iconPaintedSvg(name, { className: 'ms-k-paint', open: true }).trim();
       holder.replaceChildren(t.content.firstChild);
       holder.dataset.icon = key;
     }
@@ -136,14 +138,13 @@ export function createKit(doc) {
       lead.hidden = false;
     } else if (props.icon) {
       if (lead.className !== 'ms-k-row-icon') { lead.replaceChildren(); lead.dataset.icon = ''; lead.className = 'ms-k-row-icon'; }
-      // DRAFT 2: a row that opens or does something (a button, a chevron, an intent) carries a painted icon with
-      // nothing behind it; a row that only tells keeps today's drawing and the tint its part names. An amber tint on
-      // a row that opens is read as "it waits for your answer" (the part names that itself in a later push).
+      // DRAFT 3: every row's icon is painted with nothing behind it, whether the row opens or only tells: no tinted
+      // tile is left. A row that waits for the player's answer (for this draft: an amber tint on a row that opens, as
+      // the incoming Promise names it) carries an amber dot at its icon's corner; the part will name it itself later.
       const opens = props.tag !== 'div' && (!!props.chevron || !!props.intent);
-      // A row that waits for the player's answer (for this draft: an amber tint on a row that opens, as the incoming
-      // Promise names it) carries an amber dot at its tile's corner; the part will name it itself later.
-      if (opens) { lead.removeAttribute('data-tint'); setPaint(lead, props.icon, 'on'); lead.toggleAttribute('data-waiting', props.tint === 'amber'); }
-      else { lead.removeAttribute('data-waiting'); attr(lead, 'data-tint', props.tint ?? null); setIcon(noPaint(lead), props.icon, true); }
+      lead.removeAttribute('data-tint');
+      setPaint(lead, props.icon, 'on');
+      lead.toggleAttribute('data-waiting', opens && props.tint === 'amber');
     } else { lead.replaceChildren(); lead.dataset.icon = ''; lead.hidden = true; }
     text(main.firstChild, props.title);
     text(main.lastChild, props.sub ?? '');
@@ -401,11 +402,9 @@ export function createKit(doc) {
     } else {
       if (glyph.className !== 'ms-k-tile-icon') { glyph.className = 'ms-k-tile-icon'; glyph.removeAttribute('aria-hidden'); glyph.removeAttribute('data-node'); tileArt.delete(glyph); glyph.replaceChildren(); glyph.dataset.icon = ''; }
       // The pack fills the icon, but not on an unavailable or a spent tile.
-      // DRAFT 2: painted with nothing behind it, in colour when it can be pressed and greyed when it cannot. A
-      // registered or a sending tile keeps today's drawing.
-      if (state === 'available' || state === 'selected') setPaint(glyph, props.icon, 'on');
-      else if (state === 'unavailable' || state === 'spent') setPaint(glyph, props.icon, 'off');
-      else setIcon(noPaint(glyph), props.icon, true);
+      // DRAFT 3: painted with nothing behind it, in colour when it can be pressed (and once it is registered or being
+      // sent) and greyed when it cannot.
+      setPaint(glyph, props.icon, state === 'unavailable' || state === 'spent' ? 'off' : 'on');
     }
     text(name, props.name);
     if (note !== null && isText(props.noteIcon)) {
@@ -451,7 +450,7 @@ export function createKit(doc) {
     const [lead, words] = node.children;
     const form = people.length === 2 ? 'pair' : people.length === 1 ? 'person' : 'icon';
     if (lead.dataset.form !== form) { lead.replaceChildren(); lead.dataset.form = form; lead.dataset.icon = ''; lead.hidden = false; }
-    if (form === 'icon') setPaint(lead, props.icon, 'on'); // DRAFT 2: the head's icon painted, as the tile that led here
+    if (form === 'icon') setPaint(lead, props.icon, 'on'); // DRAFT 3: the head's icon painted, as the tile that led here, and at its size
     else {
       while (lead.children.length > people.length) lead.lastChild.remove();
       while (lead.children.length < people.length) lead.append(h('span'));
