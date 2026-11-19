@@ -2,11 +2,11 @@
   "schema": "mothership.pregame-connection-source/1",
   "status": "technical-source-registration",
   "baseline": "7d18ac0f25d81713b0b000b317f4da36fd016ff2",
-  "reviewedSource": "493a6fdadcdd7ab2dfa38b3614a3aa3887598aef",
+  "reviewedSource": "d861bf8e83d0f3eb1759f124174f79bb7ac1ae36",
   "files": {
     "apps/game/hosted/planet/app.mjs": {
-      "sha256": "918b82eedaa8ee81c7c3a303a28117f5171aeeb11144a13c5f4538105c5c887f",
-      "bytes": 19814,
+      "sha256": "a9ee615575c2baf9cd29764eed448f8752cfdf0137d222136fddc158126e4302",
+      "bytes": 20474,
       "previous": {
         "path": "design/releases/candidate-blobs/71fbc3f91024114bd94b3407ad16675773719164664a4997942dea65c5972f62",
         "sha256": "71fbc3f91024114bd94b3407ad16675773719164664a4997942dea65c5972f62",
@@ -81,8 +81,8 @@
       "earlier": []
     },
     "apps/game/hosted/planet/pregame.mjs": {
-      "sha256": "0633ced74147fd814b3b7a8a9745933f381d99ebd68eae1eb34e36c27afe31df",
-      "bytes": 6980,
+      "sha256": "6c01adf220930077e5f865094329a25bbd676a4cc72d262e2524acf6f56fc79c",
+      "bytes": 7078,
       "previous": {
         "path": "design/releases/candidate-blobs/3d9f69075a9e0db4977735de1e7b65775bd4f6760c676c2311da9fd42d49c2f7",
         "sha256": "3d9f69075a9e0db4977735de1e7b65775bd4f6760c676c2311da9fd42d49c2f7",
@@ -123,6 +123,14 @@
     }
   },
   "inputs": {
+    "apps/game/hosted/planet/lobby-music.css": {
+      "sha256": "1e792ac805c31e5f23bdb40c85b2c60c83b1339e3eca90e067e26c34b60cffb9",
+      "bytes": 311
+    },
+    "apps/game/hosted/planet/lobby-music.mjs": {
+      "sha256": "b89fedc5f3563aac6981ed2c33ec91ace13f109c97b8c515c86c77120fc25aae",
+      "bytes": 5574
+    },
     "apps/game/hosted/planet/match-settings.mjs": {
       "sha256": "dfa544bc6ea03680b61b7f3cad48cc1d8e19df1a527c6eb19650753661338b70",
       "bytes": 7372
@@ -135,9 +143,13 @@
       "sha256": "715028c2959e1146de1a4551dc970ed009d4a3219ef74b03cd59886cba688cfd",
       "bytes": 25053
     },
+    "apps/game/hosted/planet/pregame-media.mjs": {
+      "sha256": "2bb03d97bddb027f90b4a7f0b2d98c99098b0c69ba11b546dae1b90ddf7bd165",
+      "bytes": 362
+    },
     "apps/game/hosted/planet/pregame-screens.mjs": {
-      "sha256": "5892aafa9da67b90276af800a0daf588af64ab39beff269a42a83748620615bf",
-      "bytes": 12007
+      "sha256": "17c78716dc30060356899414799377093e07f5dd92e56ac655b96bcbf30ceb51",
+      "bytes": 12493
     },
     "apps/game/hosted/planet/room-scene-input.mjs": {
       "sha256": "7041d1a0c149cb3b256c47c71185cab640d62a0abbe0ddd675a2e04a65acc21c",
@@ -148,8 +160,16 @@
       "bytes": 27990
     },
     "apps/game/hosted/vite.config.mjs": {
-      "sha256": "e92f966bc78e9769b778bd33d02aaff7da8a0fedd52e1b130ea7ac464fdc12e1",
-      "bytes": 6009
+      "sha256": "2136f617ef262e20bfca3b804a771f7a5540b81e38b385ec30429a42e2745ee8",
+      "bytes": 6251
+    },
+    "design/menu-space-film/runtime/layer.css": {
+      "sha256": "b9b623ee1bc81fcda596dce1ae351b87f6c50acf1eca475f62c1076e1f174699",
+      "bytes": 515
+    },
+    "design/menu-space-film/runtime/layer.mjs": {
+      "sha256": "9c9ad5f23f72c5677f09b71c673e2d9c813baaa06ebc0d7be8942b5c6ce0ad40",
+      "bytes": 1936
     },
     "design/phone-ui/components/boarding-stage/boarding-stage.css": {
       "sha256": "5989986d2c452f73b185ae0351dba1e46d5fd2ddebe0b9fa257ea0de243c44b7",
@@ -322,6 +342,10 @@
     "design/phone-ui/components/tag-layout.mjs": {
       "sha256": "5c4ae200af6c6fce62302ea56a33a27ce57dac5afd3bd2e96d48e9445d706821",
       "bytes": 5872
+    },
+    "scripts/pregame-menu-media.mjs": {
+      "sha256": "a7009a13e7040dd868a36013e35a5517a20ce42208227b9e80876ce82dbc192a",
+      "bytes": 1624
     }
   },
   "evidence": {
@@ -337,5 +361,6 @@
       "sha256": "c021570c6d4ff3ea15b4aa2567b72751da87a9020161105ec75997b498710dd2",
       "bytes": 5770
     }
-  }
+  },
+  "previousCandidateCommit": "704895cd85031dcb08a69ce765c79822c35cd632"
 }
