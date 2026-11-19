@@ -396,4 +396,7 @@
 /* DRAFT, not approved: the dark button on glass. Its edge stood 1.0 to 1.2 : 1 from the glass (measured in Room B,
    the Hospital and over the board), so beside the amber button it read as words, not as a button. A light edge at
    62 % stands 3.4 to 4.3 : 1 in the same three rooms. The glass itself stays as the owner set it (56 %, 10 November). */
+/* Off the glass its fill stood 1.2 to 1.5 : 1 from the canvas and the dark surfaces; an edge at 34 % stands 3.4 to 4.2 : 1.
+   One rule, then: the dark button always carries an edge that stands 3 : 1 from its ground. */
+.ms-kit :where(.ms-k-btn-secondary) { box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.34); }
 .ms-kit :where([data-ms-surface="glass"] .ms-k-btn-secondary) { background: rgba(8, 11, 18, 0.42); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.62); }
