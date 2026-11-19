@@ -37,12 +37,12 @@
 .ms-windows .ms-wn-pen { display: none; }
 .ms-windows .ms-wn-pad[data-pen] .ms-wn-pen { display: inline; }
 
-/* The inks, then Undo and Clear (.swatches): four 34 px rounds, the chosen one ringed in amber. */
+/* The inks, then Undo and Clear (.swatches): four 34 px rounds, the chosen one ringed in amber. Each presses across 44 × 44 (the kit's target): its hit ring meets its neighbour's halfway. */
 .ms-windows .ms-wn-tools { display: flex; gap: 10px; align-items: center; margin: 12px 0 4px; }
 .ms-windows .ms-wn-inks { display: flex; gap: 10px; align-items: center; }
 .ms-windows .ms-wn-spacer { flex: 1; }
 .ms-windows .ms-wn-swatch { appearance: none; margin: 0; padding: 0; font: inherit; width: 34px; height: 34px; border-radius: 50%; border: 3px solid var(--ms-k-surface-2); box-shadow: 0 0 0 1.5px var(--ms-k-hairline); position: relative; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-.ms-windows .ms-wn-swatch::before { content: ""; position: absolute; inset: -6px; }
+.ms-windows .ms-wn-swatch::before { content: ""; position: absolute; inset: -8px; }
 .ms-windows .ms-wn-swatch[aria-checked="true"] { box-shadow: 0 0 0 2.5px var(--ms-k-accent); }
 .ms-windows .ms-wn-swatch:focus { outline: none; }
 .ms-windows .ms-wn-swatch:focus-visible { outline: 3px solid #FFD36D; outline-offset: 4px; }
