@@ -44,7 +44,7 @@ export const SWITCHES = Object.freeze([
   ] },
   { key: 'open', group: 'Bottom bar', label: 'Open tab', when: c => c.tabs === 'game', options: [['none', 'None'], ['actions', 'Actions'], ['card', 'Card'], ['panels', 'Panels']] },
   // Shell 0.3.0 (the owner, 18 November 2026): the Card tab draws the player's own character; with none, the card icon.
-  { key: 'me', group: 'Bottom bar', label: 'Card tab', when: c => c.tabs === 'game', options: [['portrait', 'My character'], ['icon', 'No character yet · the card icon']] },
+  { key: 'me', group: 'Bottom bar', label: 'Card tab', when: c => c.tabs === 'game', options: [['portrait', 'My character'], ['icon', 'No character yet · the card’s tile'], ['other', 'My character · another colour']] },
   { key: 'view', group: 'Bottom bar', label: 'First tab', when: c => c.tabs === 'game', options: [['room', 'Board (you are in the room view)'], ['board', 'Room (you are on the Board)']] },
   { key: 'actionsTab', group: 'Bottom bar', label: 'Actions tab', when: c => c.tabs === 'game', options: [['on', 'Available'], ['off', 'Unavailable · eliminated']] },
   { key: 'badge', group: 'Bottom bar', label: 'Badge', when: c => c.tabs === 'game', options: [['none', 'None'], ['actions', '1 on Actions'], ['panels', '2 on Panels']] },
@@ -106,9 +106,9 @@ export const GROUPS = Object.freeze([
     ['tab-vote', 'Vote · ready', '38', { bar: 'vote', promises: '0', hero: 'vote' }],
     ['tab-vote-off', 'Vote · unavailable', '38', { bar: 'result', promises: 'off', hero: 'vote-off' }],
     ['voted', 'Voted', '38', { bar: 'vote', promises: '0', hero: 'voted' }],
-    ['open-actions', 'Actions open · amber, filled icon', '28', { ...own, open: 'actions' }],
+    ['open-actions', 'Actions open · an amber ring round its tile', '28', { ...own, open: 'actions' }],
     ['open-card', 'Card open · an amber ring round the portrait', '31', { ...own, open: 'card' }],
-    ['card-icon', 'No character yet · the Card tab keeps the card icon', '08', { ...own, me: 'icon' }],
+    ['card-icon', 'No character yet · the Card tab draws the card’s tile', '08', { ...own, me: 'icon' }],
     ['open-panels', 'Panels open', '32', { ...own, open: 'panels' }],
     ['on-board', 'On the Board · the first tab says Room', '27', { view: 'board' }],
     ['badge', 'A badge on Panels', '27', { badge: 'panels' }],
@@ -169,6 +169,28 @@ export const SHEET_DRAFT = Object.freeze({ key: 'offer', label: 'An offer · a l
   controls: Object.freeze({ ...BASE, sheet: 'offer' }) });
 
 /**
+ * The owner's picture of the bottom bar (18 November 2026; approved the same day, shell 0.3.2): every tab's icon as a
+ * painted tile like the character's portrait, and the round button's icon painted. The bottom bar's states, as the
+ * bar was beside as it is.
+ */
+export const TILES_DRAFT = Object.freeze([
+  ['own', 'Your turn · Pass ready', own],
+  ['turn', 'Another player’s turn · Pass unavailable', {}],
+  ['actions', 'Actions open', { ...own, open: 'actions' }],
+  ['panels', 'Panels open', { ...own, open: 'panels' }],
+  ['card', 'Card open', { ...own, open: 'card' }],
+  ['board', 'On the Board · the first tab says Room', { view: 'board' }],
+  ['badge', 'A badge on Panels', { badge: 'panels' }],
+  ['vote', 'Voting · Vote replaces Pass', { bar: 'vote', promises: '0', hero: 'vote' }],
+  ['voted', 'Ballot registered', { bar: 'vote', promises: '0', hero: 'voted' }],
+  ['busy', 'Pass · sending', { ...own, hero: 'pass-busy' }],
+  ['out', 'Eliminated · Actions unavailable', { actionsTab: 'off' }],
+  ['no-character', 'No character yet · the Card tab is a tile too', { ...own, me: 'icon' }],
+  ['dark', 'Blackout · dark · no one’s picture is shown', { bar: 'dark', promises: '0' }],
+  ['other', 'A player with another character · the tiles stay orange', { me: 'other' }],
+].map(([key, label, change]) => Object.freeze({ key, label, sheet: '08', group: 'bottom', groupTitle: 'Bottom bar', crop: 'bottom', controls: Object.freeze({ ...BASE, ...change }) })));
+
+/**
  * Sheet 08's nine states (Bottom navigation), in the sheet's order, for the Card tab's before and after: the
  * owner's 18 November 2026 decision moved Card to the last place and gave it the player's own character.
  */
@@ -184,6 +206,24 @@ export const SHEET_08 = Object.freeze([
   ['out', 'Eliminated · Actions unavailable', { actionsTab: 'off' }],
 ].map(([key, label, change]) => Object.freeze({ key, label, sheet: '08', group: 'bottom', groupTitle: 'Bottom bar', crop: 'bottom', controls: Object.freeze({ ...BASE, ...change }) })));
 export const presetOf = key => PRESETS.find(p => p.key === key) ?? null;
+
+/**
+ * The game page's situations (the real Planet app with a practice match; the Gameplay UI builder's page), by the
+ * name its address takes after "#". A bar opens the situation it is drawn in, and none where the game page has no
+ * such situation: a phase bar, a lost connection, a phone put away, an eliminated player.
+ */
+export const GAME_STATES = Object.freeze({
+  'your-turn': 'Your turn', 'their-turn': 'Another player’s turn', 'jail-vote': 'The Jail vote', 'private-talk': 'The private talk',
+});
+const GAME_STATE_OF_BAR = Object.freeze({ own: 'your-turn', turn: 'their-turn', vote: 'jail-vote', talk: 'private-talk' });
+/** The game page's situation for these controls: { hash, label }, or null. */
+export function gameStateOf(controls) {
+  if (!controls || controls.status !== 'live' || controls.banner !== 'none') return null;
+  const hash = GAME_STATE_OF_BAR[controls.bar] ?? null;
+  return hash ? { hash, label: GAME_STATES[hash] } : null;
+}
+/** The game page's address, as the build was given it: only a claude.ai artifact's own address is taken. */
+export const gamePageOf = value => (typeof value === 'string' && /^https:\/\/claude\.ai\/artifact\/[A-Za-z0-9]{8,64}$/.test(value) ? value : null);
 /** The preset whose switches are exactly these, or null: a custom combination. */
 export const matchPreset = controls => PRESETS.find(p => Object.keys(BASE).every(k => p.controls[k] === controls[k])) ?? null;
 
@@ -254,7 +294,8 @@ function tabsInput(c) {
     variant: 'game', view: c.view, open: c.open === 'none' ? null : c.open, hero: HEROES[c.hero],
     // The viewer's own person: the Card tab draws their portrait (shell 0.3.0). None: the card icon. In the Blackout's
     // dark the game gives no one's identity, the viewer's own among them, so the tab shows the card icon there too.
-    me: c.me === 'portrait' && c.bar !== 'dark' ? person(SELF) : null,
+    // `other`: a viewer whose character has another colour (the fixture's seat 7), for the painted tiles' draft.
+    me: c.bar === 'dark' ? null : c.me === 'portrait' ? person(SELF) : c.me === 'other' ? person(7) : null,
     ...(c.actionsTab === 'off' ? { enabled: { actions: false }, reasons: { actions: 'You’re out' } } : {}),
     ...(c.badge === 'actions' ? { badges: { actions: 1 } } : c.badge === 'panels' ? { badges: { panels: 2 } } : {}),
   };

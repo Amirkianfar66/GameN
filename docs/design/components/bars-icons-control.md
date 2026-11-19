@@ -30,7 +30,7 @@ The page has three sections. Bars and Icons are divided into sub-parts, each wit
 
 | Section | Sub-parts | What each holds |
 | --- | --- | --- |
-| **Bars** | Card tab · before and after (9 pairs) · Toast over a sheet · draft (7 pairs) · Long title at the largest text · draft · Top bar (20 states) · Bottom bar (15) · Other bars (8: the target bar, the banners, the chip, the toast) · Sheets (9) · Whole phone (3) | Each state is a strip of the phone at the phone's own width, with its name, the size of its bar and the phone pack's sheet number. The first sub-part is [the Card tab's change](#the-card-tab-before-and-after). |
+| **Bars** | Bottom bar · painted icons (14 pairs) · Card tab · before and after (9 pairs) · Toast over a sheet (7 pairs) · Long title at the largest text · Top bar (20 states) · Bottom bar (15) · Other bars (8: the target bar, the banners, the chip, the toast) · Sheets (9) · Whole phone (3) | Each state is a strip of the phone at the phone's own width, with its name, the size of its bar and the phone pack's sheet number. The first sub-part is [the Card tab's change](#the-card-tab-before-and-after). |
 | **Icons** | Navigation (8) · Game actions (26) · People and places (8) · Phases (7) · Before the match (3) · Controls (27) · Drawn twice (31) · Other drawings (8) | The icons of `design/phone-ui/components/icons.mjs`, at rest and selected, on dark glass and on paper. The last two list the game's own drawings that are still on screen, beside the icon that replaces each. |
 | **Status** | — | The owner's marks, and the version and pull request of each part. |
 
@@ -53,6 +53,27 @@ The first sub-part of Bars, where the page opens. It shows the owner's 18 Novemb
 - **The owner's mark:** one for the whole change, `change-card-tab`, at the top of the view.
 - **The test view** opens from the view's button, and from any "After" strip whose state is one of the presets.
 
+## The bottom bar's painted icons, before and after
+
+The first sub-part of Bars (`#tiles-draft`; the address keeps its first name). The owner, 18 November 2026, with a picture of the bottom bar:
+
+> This is what i am thinking of bottom bar
+
+The picture: Board, Actions and Panels each as a small painted tile like the character's portrait (a warm orange ground, a white frame, a cream drawing with a dark line), the same size as the Card tab's portrait, and the round button's Pass icon painted in orange with a darker line. The labels are as they are.
+
+It was drawn in the real bar and shown here as a draft, before any check (versions 8 to 11 of the page). The owner's answer, the same day:
+
+> I am ok with this new bar
+
+So it is phone shell 0.3.2 and icons 1.1.0, with their record ([the shell's page](phone-shell.md#the-painted-tiles), [the icons' page](icons.md#the-painted-form)).
+
+- **Before:** the shell's own file at `bf95c1a0` (shell 0.3.1), read from git by the build tool: line icons in the soft text colour, filled and amber when open, and the round button's flat filled icon.
+- **After:** today's shell: each tab's icon as a tile in the portrait's own box and frame, the round button's icon painted, the open tab with the Card tab's amber ring and amber label.
+- **The view:** fourteen bottom-bar states, each as the bar was above as it is: Pass ready and unavailable, each tab open, the Board view's Room tab, a badge, Vote and Voted, Pass sending, eliminated, no character, the Blackout's dark, and a player whose character is teal.
+- **One orange for everyone:** the choice (the same orange, or each player's own colour) was put to the owner in the draft's view; the owner approved it as drawn.
+- **The owner's mark:** `draft-tab-tiles`, kept for a Change. The owner said OK in the conversation, not on the page, and no mark is written in their name.
+- **The readouts** name a tile "a painted tile" and the round button's icon "painted". The Icons section lists the painted uses, each drawn as the bar draws it.
+
 ## Drafts: a look before its checks
 
 The owner, 18 November 2026, after the Card tab's first drawing was checked in full and then changed:
@@ -67,23 +88,22 @@ So a change of look is shown here first, as a draft:
 
 A change that is more than a look (behaviour, data, privacy, the connection's inputs) keeps the usual order: checks, the Lead's review, then the owner.
 
-**The drafts on the page now.** Both are the Lead Designer's proposals, and each has its own mark.
+**No draft is on the page now.** The three that were, all the Lead Designer's proposals, were approved by the owner on 18 November 2026, in the Lead's session ("I approve all as your recommendation"), and are shell 0.3.3 with its record ([the shell's page](phone-shell.md#the-toasts-place-a-squeezed-sheet-and-a-long-title-033)). Their views stay, as before and after.
 
-*The toast over a sheet or a banner* (`#toast-draft`, the second sub-part of Bars).
-- **Today:** the toast drops in 10 px under the top bar. Over a tall sheet it lies across the sheet's head and cuts the title and Close through; with the reconnecting banner showing, it lies on the banner.
-- **The draft, one rule:** the toast never covers the bar, a banner or an open sheet's head. From its own place it takes the first free place going down: 8 px under the banner, then 8 px under a sheet's head, over the sheet's body. With nothing in its way it keeps its place.
-- **The view:** seven states, each as the bar is today above the draft: three with a tall sheet, two with the banner (with and without a sheet), a low sheet, and no sheet.
-- **The owner's mark:** `draft-toast-under-sheet-head`.
+*The toast over a sheet or a banner* (`#toast-draft`).
+- **Before:** the toast dropped in 10 px under the top bar, across a tall sheet's head or on the reconnecting banner.
+- **After, one rule:** the toast never covers the bar, a banner or an open sheet's head. It takes the first free place going down, 8 px clear.
+- **The view:** seven states, each as the bar was above as it is: three with a tall sheet, two with the banner (with and without a sheet), a low sheet, and no sheet.
+- **The owner's mark:** `draft-toast-under-sheet-head`, kept for a Change.
 
-*A long title at the largest text* (`#sheet-draft`, the third sub-part of Bars).
-- **Today:** a sheet's footer stays at its foot. On a 320 × 568 phone at the Largest text, a long title and two stacked footer buttons leave the body a line or two, and its last line is cut by the top button.
-- **The draft:** when the body would get less than a third of the sheet's height and its content needs more, the footer scrolls with the body. The body takes all the room under the head, and the actions follow the content. Everywhere else nothing moves.
-- **The view:** one sheet, "Offer from Fay · Player 6", with a card's stand-in, a note and two buttons, as three stills: today, the draft as it opens, and the draft scrolled to its end. Buttons set the phone and the text size: 320 × 568 at the Largest, and 390 × 844 and 430 × 932 at the Standard, where the three stills are the same. A still can't be scrolled; a Draft still opens the test view, which can.
-- **The owner's mark:** `draft-sheet-footer-scrolls`.
+*A long title at the largest text* (`#sheet-draft`).
+- **Before:** on a 320 × 568 phone at the Largest text, a long title and two stacked footer buttons left the body a line or two, and the sheet's foot was cut.
+- **After:** the footer scrolls with the body when the body would be squeezed (the draft's A), and the head stacks where its title would take more than two lines beside its buttons (the draft's B). The owner approved both together, as the Lead recommended.
+- **The view:** one sheet, "Offer from Fay · Player 6", as three stills: before, and after as it opens and scrolled to its end. Under each is the room its content gets, the height of the title's part and what is cut, measured from the sheet that still draws. Buttons set the phone and the text size.
+- **The owner's marks:** `draft-sheet-footer-scrolls` and `draft-sheet-head-stacks`, kept for a Change.
+- **While they were drafts** (versions 9 to 12 of the page) the view showed each draft alone and both together, from four commits. On the smallest phone at the Largest text the content had 16 px before, 132 px with A alone, 16 px with B alone and 162 px with both. Those four are gone from the page: the head's code was rewritten for its record, and an earlier commit's styles are no longer in today's stylesheet.
 
-"Today" in both views is the shell's own file at `bf95c1a0` (shell 0.3.1), read from git by the build tool, as the Card tab's "before" is.
-
-**Not done yet, on purpose:** the shell's record, its version, its tests for the two changes, and the connection's check.
+"Before" in both views is the shell's own file at `39f35b95` (shell 0.3.2), read from git by the build tool, as the other befores are.
 
 ## Sizes, backgrounds and colours
 
@@ -135,6 +155,19 @@ The tool bundles the page with Vite from the components themselves, and writes o
 The file is the page's content for the host, which adds the document around it. Publish it to the same page, so its link and the marks stay.
 
 Build from a committed tree: the page names the commit it was built from.
+
+### The way to the game
+
+The owner, 19 November 2026: "When I click on each bar icon, I want to see what I can see on my mobile". The answer is the game itself, on its own private page (the Gameplay UI builder's: the real game with a practice match and made-up players). This page links to it and draws nothing of it:
+
+```
+node design/tools/bars-icons-control.mjs --out <file.html> --game <the game page's address>
+```
+
+- **Bars** gets "Open the game" at its top.
+- A bar's card gets "Open it in the game" when the game page has that bar's situation: the bar on your turn (`#your-turn`), on another player's turn (`#their-turn`), in the Jail vote (`#jail-vote`) and in the private talk (`#private-talk`). The link names the situation it opens. A card whose bar the game page can't show has no link. The before-and-after views and the drafts have no link either: a draft, or a bar as it was, is not what the game page shows.
+- The link opens a new tab. The game page keeps its address when it is republished.
+- The address is given at the build and is in no file here: it is one person's private page. Without `--game` the page has no link. Only a claude.ai artifact address is taken.
 
 The build needs commit `5616928e` in the clone, for the Card tab's "before". If it is missing: `git fetch origin claude/designer-phone-shell`.
 

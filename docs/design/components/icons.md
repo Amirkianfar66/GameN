@@ -16,7 +16,7 @@ The decision is recorded in [owner-decisions.md](../owner-decisions.md). This pa
 The test `packages/design-tokens/test/icons.test.mjs` keeps this page, the copies and the components honest.
 
 - **Owner of the source:** Designer, the Bars & Icons builder. The Lead Designer reviews each change, and the owner approves every look.
-- **Version:** `phone-ui-icons-1.0.0`, 79 icons. It is unchanged since the phone pack of 9 November 2026.
+- **Version:** `phone-ui-icons-1.1.0`, 79 icons. The icons are unchanged since the phone pack of 9 November 2026; 1.1.0 adds [a painted form](#the-painted-form) of them (the owner, 18 November 2026).
 
 ## What counts as an icon
 
@@ -48,6 +48,7 @@ Pictures are not icons. A film's frames, a painted panel, a role card's art, a r
 - `ICONS`: name → `{ label, group, parts }`;
 - `ICON_NAMES`, in the family's order;
 - `ICON_FAMILY_VERSION`;
+- `ICON_PAINTED` (1.1.0): the few shapes a painted icon adds to its line drawing, by icon name;
 - `iconSvg(name, { filled, size, title, className })`: one icon as an SVG string. It is decorative (`aria-hidden`) unless `title` is given.
 - `iconSprite()`: the whole family as `<symbol id="ic-<name>">` and `"ic-<name>-filled"`.
 
@@ -58,6 +59,40 @@ Pictures are not icons. A film's frames, a painted panel, a role card's art, a r
 - the panels, Actions and the rest.
 
 They import it as `../icons.mjs`. The game takes it through each component, and Integration admits it once, in the room connection's source boundary.
+
+## The painted form
+
+**The owner's decision, 18 November 2026.** With a picture of the game's bottom bar:
+
+> This is what i am thinking of bottom bar
+
+And on its draft, drawn in the real bar:
+
+> I am ok with this new bar
+
+So from `phone-ui-icons-1.1.0` the family has a painted form, for the game's bottom bar ([the phone shell's page](phone-shell.md#the-painted-tiles)). No icon is changed: the 79 line drawings are as they were, and each pinned copy still agrees with the source.
+
+**Where it is drawn:** `design/phone-ui/components/icon-paint.mjs`, beside the source. It is a runtime source and imports `icons.mjs` and nothing else.
+
+| Export | What it draws |
+| --- | --- |
+| `iconTileSvg(name, { className, id, paint })` | The icon as a tile: the crew portrait's own frame (the same path, white rim, shadow and vignette), a warm orange ground, and the icon's drawing in cream over a brown line |
+| `iconPaintedSvg(name, { className, id, paint })` | The drawing alone, painted in orange over a brown line, for a coloured ground such as the round button's amber |
+| `TILE`, `TILE_FRAME_PATH`, `ICON_PAINTS` | The tile's box and half-size, its frame's path, and the two paints' names (`cream`, `ember`) |
+
+**How an icon is painted:**
+- **From its own line drawing,** so it keeps one silhouette. The parts are laid down three times: a soft shadow, the brown line a little wider than each part, then the paint. Parts the selected form cuts out (`knock`) are drawn as brown lines on the paint.
+- **By hand, for one icon.** Panels is painted as three stacked sheets, the lowest the deepest. Their shapes are `ICON_PAINTED.panels`, in the source: the top sheet is the icon's own filled part.
+- **Every icon of the family paints,** though only the bottom bar's are drawn in the game today: `board`, `room`, `actions`, `panels`, `card`, `pass` and `vote`.
+
+**What a painted icon never is:**
+- **A second drawing of an icon.** `icon-paint.mjs` writes no icon's path. The guard below scans it like any component.
+- **A sign of a player.** The tile's ground is one fixed orange. The functions take an icon, a class, an id and a paint, and no colour, seat, character, role or team.
+- **A picture file.** It is an inline SVG with its own ids, no inline style and no outside reference, so a page with a strict policy draws it.
+
+**Decorative:** a painted icon is `aria-hidden`, as a line icon is. The control it sits in names itself with its words.
+
+**Why `ICON_PAINTED` is beside the entries and not on them:** a copy of the family holds each entry exactly as the source does, and the Food release's copy is pinned. A new field on the Panels entry would make that copy differ.
 
 ## Copies
 
@@ -253,7 +288,7 @@ On each screen, every visible picture was listed and named by the custom propert
 
 **Adding an icon:**
 - Draw it in the source only, in the style above, with an accessible name and a group.
-- It is a minor version (`phone-ui-icons-1.1.0`), with a row here.
+- It is a minor version (the next is `phone-ui-icons-1.2.0`), with a row here.
 - Draw it only when a released screen needs it. Two icons that older sets have, and the family lacks, wait for that: the Engineer's "capture" and "showdown".
 
 **Redrawing an icon:**
@@ -273,3 +308,10 @@ On each screen, every visible picture was listed and named by the custom propert
 - **No Designer component draws an icon of its own.** The Voted badge is the one exception, and it must still be needed.
 - **A planted inline icon fails:** a 24 × 24 viewBox in markup, in `setAttribute`, in a CSS data-URI or in an SVG file under `assets/`, or a family path string. Art and the Voted badge pass, and so does a preview.
 - **This page's table** has one row per icon, in the family's order, with its group, accessible name and line.
+
+`packages/design-tokens/test/icon-paint.test.mjs`, in the same run (1.1.0):
+- **The family is 1.1.0** with the same 79 icons, and the bottom bar's icons are drawn as the pinned pack draws them.
+- **The tile's frame is the crew portrait's own:** the same box and half-size, the path the crew drawing builds from its own numbers, and the frame, rim and shadow as three shipped portraits carry them.
+- **Every icon paints** as a decorative drawing with its own ids, the same each time, with no inline style, script, link or outside picture.
+- **A tile's ground is one fixed colour** and takes none from its caller. Every colour in a painted drawing is the tile's ground, its frame, or one of the two paints.
+- **The painted shapes live in the one source,** and `icon-paint.mjs` writes no path of its own.

@@ -13,7 +13,9 @@
 //     at that commit, not a copy kept in the repository. Today's stylesheet draws both, so the build first checks
 //     that every line of the stylesheet at BEFORE is still in it.
 // The page is content for a host that adds its own document skeleton: no doctype, head or body here.
-//   node design/tools/bars-icons-control.mjs --out <file.html>
+//   node design/tools/bars-icons-control.mjs --out <file.html> [--game <the game page's address>]
+// With --game the page links each bar to the game page (the real game with a practice match) at that bar's
+// situation. The address is given at the build and is in no file here: it is one person's private page.
 // It writes nothing in the repository, and nothing it writes is a release or a record.
 
 import { execFileSync } from 'node:child_process';
@@ -31,6 +33,9 @@ const git = (...args) => execFileSync('git', ['-C', REPO, ...args], { encoding: 
 const outAt = process.argv.indexOf('--out');
 if (outAt === -1 || !process.argv[outAt + 1]) throw new Error('Usage: node design/tools/bars-icons-control.mjs --out <file.html>');
 const OUT = resolve(process.argv[outAt + 1]);
+const gameAt = process.argv.indexOf('--game');
+const GAME = gameAt === -1 ? null : process.argv[gameAt + 1];
+if (gameAt !== -1 && !/^https:\/\/claude\.ai\/artifact\/[A-Za-z0-9]{8,64}$/.test(GAME ?? '')) throw new Error('--game takes a claude.ai artifact address');
 
 /** The shell before the Card tab's change: #265's head, shell 0.2.12. */
 const BEFORE = '5616928e891babfe35b78dc0a19e1fa552f6d7a3';
@@ -38,6 +43,9 @@ const BEFORE = '5616928e891babfe35b78dc0a19e1fa552f6d7a3';
 const BEFORE_TOAST = 'bf95c1a0';
 const SHELL = 'design/phone-ui/components/phone-shell/phone-shell.mjs', SHELL_STYLES = 'design/phone-ui/components/phone-shell/phone-shell.css';
 const QUERY = '?before', QUERY_TOAST = '?before-toast';
+/** The shell before 0.3.3's toast and sheet changes: #325's head, shell 0.3.2 (the painted tiles), as the Lead accepted it. */
+const BEFORE_SHEET = '39f35b95c4fd62e07b24e9d73aa84d5cf2c3f51a';
+const QUERY_SHEET = '?before-sheet';
 /** The shell's source at a commit, and whether today's stylesheet still draws it: every line of the old one is in the new. */
 async function shellBefore(BEFORE = '5616928e891babfe35b78dc0a19e1fa552f6d7a3', branch = 'claude/designer-phone-shell') {
   let source, styles;
@@ -73,6 +81,8 @@ async function iconFacts() {
 const before = await shellBefore();
 const beforeToast = await shellBefore(BEFORE_TOAST, 'claude/designer-card-tab');
 const befores = new Map([[QUERY, before], [QUERY_TOAST, beforeToast]]);
+const beforeSheet = await shellBefore(BEFORE_SHEET, 'claude/designer-tab-tiles');
+befores.set(QUERY_SHEET, beforeSheet);
 const dir = await mkdtemp(join(tmpdir(), 'bars-icons-control-'));
 try {
   await build({
@@ -98,7 +108,8 @@ try {
   if (/\bimport\s*\(|\bfrom\s*["']\.\.?\//.test(script.slice(0, 2000))) throw new Error('The script still imports another file');
   const facts = { commit: git('rev-parse', 'HEAD'), branch: git('rev-parse', '--abbrev-ref', 'HEAD'), clean: git('status', '--porcelain', '--', 'design', 'apps/game/hosted', 'docs/design/components/icons.md') === '',
     built: new Date().toISOString().replace(/\.\d+Z$/, 'Z'), icons: await iconFacts(), before: { commit: BEFORE, version: before.version },
-    toastBefore: { commit: git('rev-parse', BEFORE_TOAST), version: beforeToast.version } };
+    toastBefore: { commit: git('rev-parse', BEFORE_TOAST), version: beforeToast.version },
+    sheetBefore: { commit: BEFORE_SHEET, version: beforeSheet.version }, ...(GAME ? { gamePage: GAME } : {}) };
   const page = [
     '<title>Bars &amp; Icons Control</title>',
     '<meta name="claude:viewport-fit-sides" content="cover">',

@@ -1,6 +1,6 @@
 # Phone shell: Designer's runtime component
 
-**Version:** `phone-shell-0.3.1`, with `component-kit-0.8.2`. **Status (18 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its three files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
+**Version:** `phone-shell-0.3.3`, with `component-kit-0.8.2` and the icon family `phone-ui-icons-1.1.0`. **Status (18 November 2026):** built to the interface proposed on #4 ([6895584303](https://github.com/Amirkianfar66/GameN/issues/4#issuecomment-6895584303)), ready for Frontend's review. It is not in the game yet. Integration first admits its three files to the hosted build. It is not a release. It is stacked on the room scene (#261), whose `icons.mjs` it shares and which its preview mounts in the stage.
 
 **What it is:** the match's frame on a phone, as the phone pack draws it. The game imports it as it is, and the preview mounts the same files. It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds the visual component once; Frontend connects data, actions, navigation and lifecycle, and does not rebuild, restyle or copy it.
 
@@ -37,6 +37,7 @@ Designer's, runtime-safe, in `design/phone-ui/components/`:
 | `phone-shell/phase-bars.mjs` | The phase bars' words (0.2.10): `phaseBar()`, `movedBar()`, `loadingBar()`, `reconnectingBar()`, `phaseClosedToast()`, `PHASE_WORDS`, `PHASE_BAR_PHASES`, `PHASE_BAR_REFUSED`. It imports the shell only for `clockText()`, and the shell does not import it |
 | `kit/kit.mjs`, `kit/kit.css` | The shared component kit (`component-kit-0.8.2`, [its page](kit.md)): the shell's buttons, icon buttons, toast and control policy are the kit's, as every Designer component's are, and so is how it follows the text size (0.2.11). Since 0.8.2 the toast's words wrap where they don't fit on one line |
 | `icons.mjs` | The phone interface's icon family (from #261) |
+| `icon-paint.mjs` | The family's painted form (0.3.2, `phone-ui-icons-1.1.0`): `iconTileSvg()`, a tab's icon as a tile in the crew portrait's frame, and `iconPaintedSvg()`, the drawing alone, painted, for the round button. It imports `icons.mjs` and nothing else ([the icons' page](icons.md#the-painted-form)) |
 | `phone-shell/preview/` | Development only: the preview on the pack's synthetic fixtures with the room scene in the stage, the lifecycle probe (`probe.mjs`), the agreement with the pack (`agree.mjs`) and the pack's own bar for each game step (`phase-cases.mjs`) |
 | `phone-shell/review/` | The check's captures and `check.json` |
 
@@ -172,11 +173,92 @@ So the Card tab draws the top bar's portrait itself: the same picture, the same 
 - **At rest it has no ring,** as in the top bar. The tile's own white frame gives it its edge on the dark bar.
 - **Open:** the label turns amber, as every tab's does, and a 2 px amber ring is drawn round the tile. The ring is inside the 32 px box, in the tile's own clear margin, so nothing moves. A portrait can't be filled the way an icon is, so the ring is what shows the open tab on the picture.
 - **Unavailable:** the whole tab at 38 %, as every tab.
-- **No character:** with no person, a person with no character, or a character the match's crew bundle has no portrait for, the tab keeps the pack's `card` icon, filled while open. Never an empty tile.
+- **No character:** with no person, a person with no character, or a character the match's crew bundle has no portrait for, the tab draws the `card` icon. Until 0.3.1 that was the pack's line icon, filled while open; from 0.3.2 it is the card's painted tile, as the other tabs' are. Never an empty tile.
 - **Privacy:** the portrait is the player's own public character. It carries no team colour, no role tint and no ring in a team's colour. It is this viewer's input, dropped with the tabs while concealed and for a new viewer.
 - **Accessibility:** the tab is still named by its word, "Card". The portrait is decorative (`aria-hidden`). Open is announced as on every tab (`aria-expanded`). The long press at larger text shows "Card" with the card icon.
 - **Larger text:** the portrait keeps its 32 px box at every text size, and the label keeps the other labels' level.
 - **The private talk's My card** (sheet 25) is unchanged: the owner spoke of the bottom bar.
+
+## The painted tiles
+
+**The owner's decision, 18 November 2026.** The owner sent a picture of the bottom bar, and wrote:
+
+> This is what i am thinking of bottom bar
+
+The picture: Board, Actions and Panels each as a small painted rounded-square tile like the character's portrait, the same size as the Card tab's portrait, and the round button's Pass icon painted in orange. The draft was drawn in this component and shown on the control page before any check. The owner's answer:
+
+> I am ok with this new bar
+
+It is a second departure from sheet 08, which draws line icons in the tabs and a flat icon on the round button. The Lead Designer records it in the [owner decisions](../owner-decisions.md). The pinned pack stays as it is.
+
+| | The pack's sheet 08 | The shell from 0.3.2 |
+| --- | --- | --- |
+| A tab's icon | The family's line drawing, 26 px, in the tab's colour | The same drawing as a painted tile, 32 × 32 px |
+| The open tab | Its icon filled and amber, its label amber | An amber ring round its tile, its label amber |
+| The round button's icon | The filled drawing, 25 px, in the button's ink | The same drawing painted in orange, 29 px |
+
+- **The tile** is drawn by `icon-paint.mjs` from the family's own drawing, so each icon keeps one silhouette:
+  - the crew portrait's own frame: the same path, white rim, shadow and vignette, in the same box (a test holds the two equal);
+  - a warm orange ground, lit from the upper left as a portrait's is;
+  - the icon's drawing in cream over a brown line.
+- **Its place** is the portrait's: the same 32 × 32 px box at the same level, so the tabs' boxes, the labels' level and the bar's height are as they were. The agreement with the pinned pack still holds for every part it compares.
+- **One ground for everyone.** The tile's orange follows no player, seat, character, role or team: it is the same drawing on every phone.
+  - The owner's picture shows it so, and the control page put the other choice (each player's own colour) to the owner beside it.
+  - The Lead Designer measured it the tokens' way (CIE76): the ground `#EE8B3A` is 40 from Red's accent `#FF8C8C`, 25 from interaction amber `#F1B84B` and 20 from crew c1's accent `#B45A16`.
+- **Open:** the Card tab's 2 px amber ring, laid over the tile, and the amber label. A tile is not filled the way a line icon is.
+- **Unavailable:** the whole tab at 38 %, its tile with it. The round button turns to its unavailable grey as before, and its painted icon goes grey with it.
+- **On the Board** the first tab is Room, with the room's tile.
+- **The Card tab** keeps the viewer's portrait. With no portrait it draws the card's tile.
+- **In the Blackout's dark** the game gives no one's identity, so the bar draws no portrait: four tiles, the same as on any phone.
+- **Privacy:** a tile is the same drawing whoever holds the phone, and with no person given. The probe compares them to the letter.
+- **Accessibility:** nothing a screen reader meets changes. A tile is decorative (`aria-hidden`), each tab is named by its word, and open is announced as before. The long press at larger text still shows the tab's word with the family's line icon, which reads best large.
+- **Larger text:** a tile keeps its 32 px box at every text size.
+- **Not painted:** the private talk's two buttons, the top bar, the target bar, the banners, the sheets' buttons and the kit. The owner's picture is the game's bottom bar.
+- **No picture file:** the tiles are drawn in code, inline. They carry no inline style and reach for no file, so the hosted game's policy has nothing new to allow.
+
+## The toast's place, a squeezed sheet and a long title (0.3.3)
+
+Three changes the Lead Designer proposed for states the pack's sheets leave open. Each was drawn in this component and shown to the owner on the control page as a draft, before any check. **The owner's approval, 18 November 2026,** said in the Lead Designer's session and recorded by the Lead in the [owner decisions](../owner-decisions.md):
+
+> I approve all as your recommendation
+
+The Lead's recommendation on the page was both sheet drafts together: "A gives the content its room, and B gives the title the full width."
+
+### The toast never covers the bar, a banner or an open sheet's head
+
+- **Before:** the toast dropped in 10 px under the top bar, whatever lay there. Over a tall docked sheet it lay across the sheet's head and cut the title and Close through. With the reconnecting banner showing, it lay on the banner.
+- **Now, one rule:** from its own place the toast takes the first free place going down, 8 px clear: under the banner if it would touch the banner, then under an open sheet's head if it would touch that, over the sheet's body. With nothing in its way it keeps its place.
+- A sheet that starts lower down is not in its way, and leaves the toast where it was.
+- The place is read in layout, so a sheet still sliding in counts where it comes to rest.
+- `phone-shell.mjs` `placeToast()`; one rule in the stylesheet, `[data-toast-under] .ms-ps-toast`.
+
+### A squeezed sheet's footer scrolls with its body
+
+- **Before:** a sheet's footer always stayed at its foot. On a 320 × 568 phone at the Largest text, a long title and two stacked footer buttons left the body a line or two, and the sheet's parts were taller than the sheet.
+- **Now:** when the body would get less than a third of the sheet's height and its content needs more, the footer scrolls with the body. The body takes all the room under the head, and the actions follow the content. Everywhere else nothing changes.
+- **What a consumer meets:**
+  - `shell.sheetBody` is the same element as before, and content is mounted in it as before.
+  - The body and the footer share a wrapper, `.ms-ps-sheet-scroll`. It is no box of its own (`display: contents`) until the sheet is squeezed; then it is the element that scrolls, and the body does not.
+  - A part inside the body that calls `scrollIntoView` is brought into view by the wrapper. The probe holds this.
+  - A tap on a footer button that followed the body reports its action as before.
+- **Every consumer was searched** for a read of the body's `scrollTop` or a scroll listener on it: the shell connection (#307), the match screens (#310), Host controls (#295) and the Food surface.
+  - None reads or listens to the shell's sheet body.
+  - `apps/game/hosted/planet/food-render.mjs` keeps a `scrollTop`, but of the Food surface's own frame (`.sheet-body`), which is not the shell's.
+  - `apps/game/hosted/browser-host.js` and `insider-file.mjs` call `scrollIntoView` on their own parts; the second is inside a sheet's content and is served by the wrapper when squeezed.
+  - The game mounts its own `.planet-sheet-body` inside `shell.sheetBody`; it holds content and is not read for its scroll.
+- `phone-shell.mjs` `fitSheet()`, which runs on each update, when the sheet changes size, and one frame after the body's content changes.
+
+### A long title's head stacks
+
+- **Before:** a sheet's title sat beside Back and Close at every size. At the Largest text on a 320 px phone a long title took three lines in that narrow column.
+- **Now:** when the title would take more than two lines beside its buttons, and the head is shorter that way, the head stacks: Back at the left and the other buttons at the right on a row of their own, in the order they are read and focused; then the title and its line on the full width. The text keeps the size the player chose: the Lead ruled out a cap.
+- **How it is decided,** to the Lead's three conditions:
+  - from two measured heights and nothing else: the head as a row, and the head stacked;
+  - off the live layout: each is laid out in a hidden copy in a box that draws nothing, with a stand-in of each button's size, and the copies are taken away at once. The head the player sees is never rearranged to be measured;
+  - again only when what it depends on changes: the head's width, the title's text size, its words, its line or its buttons. A clock tick measures nothing.
+- **At 390 px at the Largest text** the same title takes three lines too, but stacked the head would be 2 px taller, so it stays a row.
+- **Accessibility:** the order in the page is unchanged (Back, the title, Close), so a screen reader and the Tab key meet them as before. A focused button keeps its element and the focus when the head changes its arrangement.
+- `phone-shell.mjs` `fitHead()`; the stylesheet's rules under `.ms-ps-sheet-head[data-stacked]`.
 
 ## Inputs
 
@@ -391,13 +473,37 @@ Listed, not omitted:
   | `packages/design-tokens/test/phone-shell.test.mjs` | 8 of 8: the runtime-safe graph (the kit's files in it), every style scoped (a kit control styled only inside the shell's own parts, and of the kit's properties only the toast's top), the pinned pack unchanged, the pack's words (both banners'), the clock, the inputs' refusals, the privacy rules (an eliminated player's banner this viewer's, the reconnecting one the phone's) and the check's record, with the phase bars' states, their agreement cases and the lit Blackout's steadiness (0.2.10). From 0.3.0: Card last in the order while the pinned pack keeps Card before Panels; `tabs.me` checked as the bar's `who`; and, in the record, every capture's order and Card tab (its portrait at the top bar's 32 px, a ring only while Card is open and only in amber, its word and name) and the probe's `card` check, with the top bar's box and fit and the bar's height (0.3.1) |
 | `packages/design-tokens/test/phase-bars.test.mjs` | 11 of 11 (0.2.10): the runtime-safe graph, which adds no file to the shell's; every word found in the pack's own screens; each row of the words table, and the shell taking every bar; the round, the clock, Promises and ⋮ as given; the amber rule; the ring; a missing fact drawing the title alone; every phase of the contract drawn or refused by name; no offer, role or rule read; the toast; and each agreement case's pack input held to the pack's source |
   | `packages/design-tokens/test/kit.test.mjs` | 8 of 8, with the kit's own check: every builder agrees with the pinned pack's, the toast included, and `followTextSize` (0.8.1) ([the kit's page](kit.md)) |
-  | `npm run test:design` | 399 of 399, after `npm run build`, with Node 22.21.1 and npm 10.9.4 (on 0.3.0's record) |
+  | `packages/design-tokens/test/icon-paint.test.mjs` | 5 of 5 (0.3.2, icons 1.1.0): the family's version and its unchanged icons; the tile's frame is the crew portrait's own (the path the crew drawing builds, and the frame, rim and shadow three shipped portraits carry); every icon paints, decorative, with its own ids and nothing a strict page refuses; one fixed ground and the two paints; the painted shapes in the one source |
+  | `packages/design-tokens/test/icons.test.mjs` | 6 of 6 (from #313): the copies, the guard against an icon drawn outside the source, and the icons' page |
+  | `npm run test:design` | 410 of 410 on 0.3.3's record, as on 0.3.2's, with Node 22.21.1 and npm 10.9.4: the 399 of 0.3.1, the icons' six and the painted form's five |
   | `npm run test:tooling` | 356 of 356 |
   | `npm run test:frontend` | Pass, with the production exclusion: no fixture, test or development module reachable |
   | `check:toolchain`, `check:workspace`, `check:sources`, `typecheck`, `check:browser-dependencies` | Pass |
   | `node design/tools/check-assets.mjs` | 15 passed |
 
 - **`node design/tools/phone-shell-check.mjs`:**
+  - **0.3.3's record,** on `64b9c11d`, a clean source: **73 of 73 captures, the probe 35 of 35, the agreement 29 of 29.**
+    - **Seven new captures:** `toast-sheet`, `toast-banner` and `offer` at both sizes, and `offer-large` at 200 % text on 320 × 568.
+      - `toast-sheet`: a tall sheet's head ends 181 px from the shell's top, and the toast starts at 189. Its own place, 109, would lie across the head (119 to 181).
+      - `toast-banner`: the banner ends at 175 px (161 at 430 wide, where its words take one line less), and the toast starts 8 px under it.
+      - `closed`, a toast with nothing in its way: 109 px, as before.
+      - `offer`, at the Standard text: the head a row of 62 px, the footer at the sheet's foot, the body with 481 px of a 644 px sheet at 390 × 844 and 569 of 732 at 430 × 932. Nothing cut.
+      - `offer-large`: the head stacked (231 px), the footer following the body, the content with 142 px of a 385 px sheet. Nothing cut.
+    - **The other 66 captures against 0.3.2's:** 20 are the same byte for byte and 14 have no pixel more than 32 of 255 apart. The other 32 differ by 1 to 146 pixels each, every one inside the stage, where the room's crew moves. No bar, tab or sheet frame moved.
+    - **Four new probe checks:**
+      - **`place`,** on 390, 430 and 320 px phones: alone the toast is at 109 px; over a tall sheet at 189, 8 px under the head; over a low sheet at 109, unmoved; with the banner at 183 (169 at 430), 8 px under it; with the banner and a tall sheet at 265 (251 at 430), under the head; and with the toast gone nothing is left set.
+      - **`squeeze`,** at 320 × 568 and 200 %: the sheet is 324 px, its head 231 and its footer 149, which would leave the body nothing. With the footer following, the wrapper is the scroller and shows 81 px, all the room under the head.
+        - Scrolled to its end, "Accept" is whole inside it, and a tap on it reports `onSheetAction('accept')`.
+        - A mark at the end of the content, out of sight, calls `scrollIntoView`: the wrapper scrolls, the body's own `scrollTop` stays 0, and the mark is in sight.
+        - `shell.sheetBody` is the body throughout.
+        - Back at the Standard text on the same phone, and at 390 × 844 and 430 × 932: the wrapper is `display: contents`, the body scrolls, and the footer is at the sheet's foot.
+      - **`stack`,** at 320 × 568 and 200 %: the head is stacked, 231 px, the title on two lines under Back and Close, on the full width. No copy and no stand-in is left in the page, there is one heading, and the order is Back, the title, Close.
+        - Six clock ticks with the same sheet given again: nothing measured, no change of arrangement, Close keeps the focus.
+        - A short title: measured once, a row. The long one back: measured once, stacked, the same Close with the focus.
+        - At 390 × 844 and 200 %: measured again, the title on three lines, the head a row of 229 px.
+        - At the Standard text on all three phones, and with no button beside the title: a row.
+      - **`observers`:** an open sheet, its head and a toast are watched for their size. When they go they are not, none that is out of the page is watched, and after dispose nothing is.
+    - **Two older checks changed with the rule:** `nobar` and `edge` show the reconnecting banner and a toast together. They held the toast at the bar's place plus 10 px, which is on the banner; they now hold it 8 px under the banner.
   - **The setup:** the preview is bundled by Vite and served with the hosted game's production response headers, including the Content Security Policy as on `main` after #260 (`design/tools/lib/component-check.mjs`, which every Designer component's check shares).
   - **Captures:** thirty states at 390 × 844 and 430 × 932, the target bar at the Largest text on both, and the Largest text at 320 × 568 for a turn and for a phase, were 64. With `card-icon` (0.3.0) at both sizes: 66 of 66 pass, each drawing what its state asks.
     - **The phase bars (0.2.10),** each bar from `phase-bars.mjs`, twelve new states: `before`, `before-start`, `block`, `appointment`, `appoint`, `lit`, `lit-next`, `synchronized`, `course-own`, `moved`, `loading` and `closed`. With `dark`, `poster` and `stale`, they draw every row of the words table.
@@ -406,7 +512,7 @@ Listed, not omitted:
       - Under every one the bar is as tall as a turn's, 99 px at a 47 px safe area.
       - **The lit Blackout a second apart** (`lit`, "Lights out in 0:03" at 0:13; `lit-next`, "0:02" at 0:12): the bar, Promises, the round, the clock and ⋮ are at the same place and size in both, to a hundredth of a pixel, at both sizes. The check compares them and writes the result as `steady`.
       - `phase-large`, at 200 % text on 320 × 568: "Appoint Officer" whole on two lines, the bar inside the phone, the round out of the bar by the shell's rule.
-    - `dark` (0.2.10) draws the pack's specimen: "Dark · positions fixed" at 0:08, amber, on the dark bar.
+    - `dark` (0.2.10) draws the pack's specimen: "Dark · positions fixed" at 0:08, amber, on the dark bar. From 0.3.2 its tabs are given no person, as the game gives none in the dark: no portrait, and the Card tab draws the card's tile.
     - `target-stale` (0.2.9): the target bar 8 px under the reconnecting banner, with its Cancel the topmost thing at its centre.
     - `target-large` (0.2.9): at 200 % text, Cancel under the bar's words, the bar inside the phone, and the chip's label whole.
     - `out` (0.2.8) draws an eliminated player's phone: "You're out" without Retry, 107 px from the top at a 47 px safe area, the phone live, Actions not offered, and the viewer's figure down in its place.
@@ -416,17 +522,33 @@ Listed, not omitted:
     - `card` draws the Card sheet's "Hide card" in the head, before Close.
     - **The Card tab (0.3.0, 0.3.1):** every capture with tabs draws the order Board/Room · Actions · Pass/Vote · Panels · Card, and the Card tab's portrait at 32 × 32 px, with its word "Card" level with the other labels.
       - `card`, with the Card sheet open, draws the amber ring round the portrait. Every other state draws no ring.
-      - `card-icon`, a player with no character, draws the pack's card icon in the last place.
+      - `card-icon`, a player with no character, draws the card's own icon in the last place: the pack's line icon until 0.3.1, its painted tile from 0.3.2.
       - `large`, at 200 % text on 320 × 568, draws the portrait in the same box.
-  - **The lifecycle probe** (`preview/probe.mjs`): 30 of 30 checks pass.
-    - **As the page comes (29):** focus, refused taps, reconnecting, an eliminated player's banner, privacy, the clock, layout, the layers, larger text, the text size changing, no bar, edge to edge, the cover's reach, the backdrop, head actions, the footer's actions, the private talk's buttons, the toast (three times), a phase bar's words, the large-content view, the Card tab, dispose and motion.
+    - **The painted tiles (0.3.2):** the check records each tab's picture and the round button's icon in every capture.
+      - Every capture with the game's tabs draws Board or Room, Actions and Panels as painted tiles, each 32 × 32 px, and the Card tab as the portrait or the card's tile: never both, never neither.
+      - The amber ring lies over the open tab's tile and over no other: Actions' in `actions`, none in a state with no sheet open.
+      - The round button's icon is painted in every capture, `pass` or `vote`, and grey exactly where the button is unavailable.
+      - `out` draws the Actions tile faded with its tab, and Panels' whole.
+      - `dark` and `card-icon` draw four tiles; `concealed`, none.
+  - **The lifecycle probe** (`preview/probe.mjs`): 31 of 31 checks pass.
+    - **As the page comes (30):** focus, refused taps, reconnecting, an eliminated player's banner, privacy, the clock, layout, the layers, larger text, the text size changing, no bar, edge to edge, the cover's reach, the backdrop, head actions, the footer's actions, the private talk's buttons, the toast (three times), a phase bar's words, the large-content view, the Card tab, the tiles, dispose and motion.
+      - **The tiles (0.3.2),** one check, `tiles`:
+        - Board, Actions and Panels each draw a tile: the family's drawing in the crew portrait's own frame path, in the portrait's box (`-64 -64 128 128`), 32 × 32 px, at the Card tab's portrait's level, `aria-hidden`, with no line icon beside it.
+        - Each tile's ground is the one orange, `#F19E5A` to `#EE8B3A` to `#82522F`.
+        - Every drawing in the bar carries its own ids: ten of them, none shared.
+        - At rest no tile has a ring. With Actions open, its tile has the ring in the accent, `rgb(241, 184, 75)`, and its label is the accent; Board's and Panels' have none. With Panels open, the ring and the amber label are Panels'. The tile's drawing is the same open or not.
+        - Unavailable, the Actions tab is at 0.38, its tile with it.
+        - On the Board, the first tab says "Room" and draws the room's tile.
+        - The round button's icon is painted, 29 × 29 px: `pass` with no filter when ready, `grayscale(1)` when unavailable, and `vote` as Vote.
+        - **For another viewer with another character, and with no person given** (the Blackout's dark): the three tiles are the same drawings, to the letter. With no person the bar draws no portrait, and the Card tab the card's tile.
+        - Concealed, no tile is drawn. The private talk's two buttons draw none, and keep their two line icons.
       - **The Card tab (0.3.0, 0.3.1),** one check, `card`:
         - Card is the last tab. Its portrait is the top bar's for that person: the same picture, fitted the same way (`contain`), in the same 32 × 32 px box, and `aria-hidden`.
         - At rest it has no ring. Open, the ring is the accent, `rgb(241, 184, 75)`, the tab says `aria-expanded="true"`, and the focused tab keeps its element and the focus. A tap reports `onTab('card')`.
         - Unavailable, the tab is at 0.38 with its reason, and keeps the portrait.
-        - A person with no character, no person, and a character with no portrait (`c0`) each draw the card icon, filled while open.
-        - At 390 × 844, 430 × 932 and 320 × 568, each at the Standard and the Largest text: the box stays 32 × 32, the portrait's foot is the Panels icon's, the Card label's top is the Panels label's, the label is whole and inside the phone, and the portrait is inside the bar.
-        - The bar is as tall with the portrait as with the card icon in its place, at all six: 92 px at the Standard text and 94.19 px at the Largest, with a 34 px safe area.
+        - A person with no character, no person, and a character with no portrait (`c0`) each draw the card's icon and no portrait: its painted tile from 0.3.2, open or not (the line icon, filled while open, until 0.3.1).
+        - At 390 × 844, 430 × 932 and 320 × 568, each at the Standard and the Largest text: the box stays 32 × 32, the portrait's foot is the Panels tile's (0.3.2; the Panels icon's before), the Card label's top is the Panels label's, the label is whole and inside the phone, and the portrait is inside the bar.
+        - The bar is as tall with the portrait as with the card's own icon in its place (its tile, from 0.3.2), at all six: 92 px at the Standard text and 94.19 px at the Largest, with a 34 px safe area.
         - A long press at the Largest text shows "Card" with the card icon.
         - Concealed, shown again with no new input, and for a new viewer, no portrait is drawn. Given again, one is. The private talk's two buttons draw none, and My card keeps the card icon.
       - **A final target bar (0.2.12):** it is made final while Cancel has the focus.
