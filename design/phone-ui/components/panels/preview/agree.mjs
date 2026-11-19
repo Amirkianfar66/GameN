@@ -18,6 +18,7 @@
 
 import { GAME_SCREENS } from '../../../prototype/screens-game.mjs';
 import { MORE_SCREENS } from '../../../prototype/screens-more.mjs';
+import { splitLook090 } from '../../kit/preview/look-0-9-0.mjs';
 
 const TOLERANCE = 0.5;
 
@@ -139,7 +140,7 @@ export async function runPanelsAgreement({ sizes, mountState, disposeState }) {
     const pictureOf = node => (node.tagName === 'IMG' ? node.src.replace(/^.*\//, '') : (getComputedStyle(node).backgroundImage.match(/([^/"]+\.svg)/)?.[1]?.replace(/-[A-Za-z0-9_-]{8}\.svg$/, '.svg') ?? null));
     const packPictures = [...pack.querySelectorAll('.sheet .row > .pt')].map(pictureOf), minePictures = [...host.querySelectorAll('.ms-panels .ms-k-row .ms-k-pt')].map(pictureOf);
     if (JSON.stringify(packPictures) !== JSON.stringify(minePictures)) differences.push({ part: 'portraits', what: 'files', pack: packPictures, screen: minePictures });
-    checks.push({ id: `agree: ${c.id}`, ok: differences.length === 0 && (!c.noNote || recorded !== null), detail: { differences, parts, recorded } });
+    checks.push({ id: `agree: ${c.id}`, ok: splitLook090(differences).kept.length === 0 && (!c.noNote || recorded !== null), detail: { differences: splitLook090(differences).kept, look090: splitLook090(differences).look, parts, recorded } });
     disposeState(mounted);
     pack.remove();
     host.remove();

@@ -171,7 +171,7 @@ export async function runPanelsProbe({ sizes, mountState, disposeState, inputOf,
     await check('steps: the ruleset\'s steps in Frontend\'s order and words, the icon by kind, an unknown kind the Round order icon; no note, no words of its own', async () => {
       const s = mount();
       // The Round order icon, from the Panels list's own Round order row.
-      const rulesIcon = s.row('round-order').querySelector('.ms-k-row-icon').innerHTML;
+      const rulesIcon = s.row('round-order').querySelector('.ms-k-row-icon').dataset.icon; // the icon's name: a painted drawing carries its own ids (kit 0.9.0)
       s.update({ view: 'round-order' });
       const rows = [...s.q('.ms-pn-steps').children].map(li => ({ kind: li.firstChild.dataset.kind, title: title(li.firstChild), line: line(li.firstChild) }));
       const pack = rows.map((r, i) => r.title === STEPS[i].title && r.line === STEPS[i].timing && r.kind === STEPS[i].kind).every(Boolean);
@@ -182,7 +182,7 @@ export async function runPanelsProbe({ sizes, mountState, disposeState, inputOf,
       const items = [...s.q('.ms-pn-steps').children];
       const reordered = items.map(li => title(li.firstChild)).join('|');
       const noTiming = line(items[0].firstChild) === null;
-      const unknown = s.m.host.element.querySelector('[data-kind="new-phase"] .ms-k-row-icon')?.innerHTML;
+      const unknown = s.m.host.element.querySelector('[data-kind="new-phase"] .ms-k-row-icon')?.dataset.icon;
       s.update({ steps: [] });
       const empty = { hidden: s.q('.ms-pn-steps').hidden, words: s.root.innerText.trim() };
       disposeState(s.m);

@@ -363,7 +363,7 @@ export async function runActionsProbe({ sizes, versions }) {
         && JSON.stringify(shown) === JSON.stringify(['Move within Room A', 'Choose an empty position · or another room on the Board', 'Other rooms on the Board'])
         && JSON.stringify(live) === JSON.stringify(['onCancelTarget', 'onChip:move-board']) && JSON.stringify(stale) === JSON.stringify(['onCancelTarget'])
         && JSON.stringify(toastSaid) === JSON.stringify(['Moved to A5', 'info:filled'])
-        && room.form === 'icon' && room.icon === 'move:filled' && room.title === 'Move to A5' && room.sub === 'Room A' && JSON.stringify(room.facts) === JSON.stringify(['Uses this round’s move']) && room.error === null
+        && room.form === 'icon' && room.icon === 'paint:move' && room.title === 'Move to A5' && room.sub === 'Room A' && JSON.stringify(room.facts) === JSON.stringify(['Uses this round’s move']) && room.error === null
         && board.title === 'Move to B4' && board.sub === 'Room B' && kept && error.error === 'The server did not accept the move. Choose a position again.'
         && JSON.stringify(footer) === JSON.stringify(['cancel:Cancel:local|register:Register move', 'cancel:Cancel:local|register:Registering…:busy'])
         && JSON.stringify(unknown) === JSON.stringify(['Move to A5 was sent, but no answer came back.', 'Check before doing anything else.']), ...detail };
