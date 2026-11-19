@@ -90,7 +90,8 @@ A change that is more than a look (behaviour, data, privacy, the connection's in
 
 **One draft is on the page: names cut in the top bar** (route `bar-fit-draft`, shell 0.3.4 as a draft, not checked). With the names the game gives when none is chosen, the top bar cut its words: "Crew 6 + Cre…" in a private talk, "Player 6 · Cr…" on a turn at 390 px with the Standard text. The Lead Designer's rule for the draft: the bar's words are never cut.
 
-- **It opens on "Choose 1 or 2".** The owner, 19 November 2026: "Top bar it is not clear for me the options to compare." So the first thing in the view is the one bar where the two options differ: your turn with the short name "Player 4 · Dev", drawn twice at this screen's width (up to 402 px, whatever the Phone width switch says). Each has one line and its own mark under it:
+- **The owner chose 1 on 19 November 2026,** in the Lead Designer's session: "Icon is enough for promises". The view now opens on "You chose 1" with that sentence, keeps the pair as the picture of what was chosen (tagged "Chosen" and "Not chosen"), and has no marks. It is being built as shell 0.3.5, with the Promises button the handshake and its count on every phone; the page says the picture is the draft and the checked build follows.
+- **Before the choice it opened on "Choose 1 or 2".** The owner, 19 November 2026: "Top bar it is not clear for me the options to compare." So the first thing in the view is the one bar where the two options differ: your turn with the short name "Player 4 · Dev", drawn twice at this screen's width (up to 402 px, whatever the Phone width switch says). Each has one line and its own mark under it:
   1. The Promises button is always the handshake and its count on phones up to about 424 px wide, so the bar looks the same with every name.
   2. The word "Promises" stays whenever it fits, and shrinks to the icon only when a name would be cut.
 

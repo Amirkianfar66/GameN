@@ -335,7 +335,10 @@ function textSizeChoice() {
 // first"). Before is the shell at the commit the build names (0.3.3); the two options are today's.
 // The owner, 19 November 2026: "Top bar it is not clear for me the options to compare." So the view opens on the one
 // bar where the two options differ, as "Choose 1 or 2", each with one line and its own mark under it.
-const FIT = Object.freeze({ route: 'bar-fit-draft', title: 'Names cut in the top bar · draft', note: 'Draft: the look only, not checked yet. It may still change.' });
+// The owner chose on 19 November 2026, in the Lead Designer's session: "Icon is enough for promises" (option 1). The view
+// keeps the pair as the picture of what was chosen; the marks under it are gone.
+const FIT = Object.freeze({ route: 'bar-fit-draft', title: 'Names cut in the top bar · chosen',
+  note: 'You chose 1 on 19 November: “Icon is enough for promises”. Being built as shell 0.3.5, with the Promises button the handshake and its count on every phone.' });
 function buildBarFitDraftPart(view) {
   startStrips();
   const hasBefore = !!DATA.fitBefore, own = { width: cardTabWidth, opens: null, mark: false, specs: false, route: FIT.route };
@@ -358,21 +361,20 @@ function buildBarFitDraftPart(view) {
   // The choice: the short name, at this screen's width up to 402 px, where the two options differ whatever the
   // Phone width switch below says.
   const short = BAR_FIT_DRAFT.find(state => state.key === 'own-short'), choiceWidth = () => Math.min(stripWidth(), 402);
-  const option = (n, id, line, label, measured) => {
-    const strip = makeStrip({ ...short, key: `fit-choice-${n}` }, false, { ...own, width: choiceWidth, title: `Option ${n}`, tags: n === 1 ? ['Recommended'] : [] });
+  const option = (n, line, measured) => {
+    const strip = makeStrip({ ...short, key: `fit-choice-${n}` }, false, { ...own, width: choiceWidth, title: `Option ${n}`, tags: [n === 1 ? 'Chosen' : 'Not chosen'] });
     if (measured) strip.card.setAttribute('data-ms-draft-bar', 'measured');
-    strip.card.append(h('p', { class: 'bc-strip-note bc-choice-line' }, h('b', {}, `${n}. `), line), h('div', { class: 'bc-strip-foot' }, markControl(id, { label, group: 'Top bar · draft' })));
+    strip.card.append(h('p', { class: 'bc-strip-note bc-choice-line' }, h('b', {}, `${n}. `), line));
     lazyStrips.observe(strip.card);
     return strip.card;
   };
-  const choice = h('div', { class: 'bc-pairs bc-choice' }, h('section', { class: 'bc-pair', 'aria-label': 'Choose 1 or 2' },
-    h('h3', { class: 'bc-pair-title bc-choice-title' }, 'Choose 1 or 2'),
+  const choice = h('div', { class: 'bc-pairs bc-choice' }, h('section', { class: 'bc-pair', 'aria-label': 'You chose 1' },
+    h('h3', { class: 'bc-pair-title bc-choice-title' }, 'You chose 1'),
     h('p', { class: 'bc-pair-note bc-choice-lead' }, 'The same bar twice: your turn, with the short name “Player 4 · Dev”. Look at the Promises button. In 1 the clock also drops its small icon. Nothing else differs.'),
-    option(1, 'draft-top-bar-steady', 'The Promises button is always the handshake and its count on phones up to about 424 px wide, so the bar looks the same with every name.',
-      'Option 1: the Promises button is always the handshake and its count on phones up to about 424 px wide', false),
-    option(2, 'draft-top-bar-measured', 'The word “Promises” stays whenever it fits, and shrinks to the icon only when a name would be cut.',
-      'Option 2: the word “Promises” stays whenever it fits, and shrinks to the icon only when a name would be cut', true),
-    h('p', { class: 'bc-pair-note bc-choice-lead' }, h('b', {}, 'With a long name the two are the same. '), 'Mark OK under the one you choose, or Change with a note. Nothing is checked or built further until you answer.')));
+    option(1, 'The Promises button is always the handshake and its count on phones up to about 424 px wide, so the bar looks the same with every name.', false),
+    option(2, 'The word “Promises” stays whenever it fits, and shrinks to the icon only when a name would be cut.', true),
+    h('p', { class: 'bc-pair-note bc-choice-lead' }, h('b', {}, 'With a long name the two are the same. '),
+      'The build goes one step further than this picture: the Promises button is the handshake and its count on every phone, the widest too. It is not checked yet. The checked build follows here.')));
   const pairs = h('div', { class: 'bc-pairs' });
   const fit = () => { pairs.style.setProperty('--bc-pair-w', `${cardTabWidth()}px`); choice.style.setProperty('--bc-pair-w', `${choiceWidth()}px`); };
   const widths = segmented('Phone width', [['auto', 'This screen'], ['320', '320'], ['390', '390'], ['430', '430']], cardTab.width, setWidth);
@@ -381,9 +383,9 @@ function buildBarFitDraftPart(view) {
   window.addEventListener('resize', fit);
   view.append(
     h('div', { class: 'bc-wrap bc-group-head' },
-      h('h2', {}, 'Names cut in the top bar', h('span', { class: 'bc-count bc-count-draft' }, 'Draft')),
-      h('p', { class: 'bc-draft-line' }, FIT.note),
-      h('p', {}, 'With the names the game gives when a player has chosen none, the top bar cuts its words. In a private talk “Crew 6 + Crew 1” shows as “Crew 6 + Cre…”. On your turn “Player 6 · Crew 6” shows as “Player 6 · Cr…”, on a 390 px phone at the Standard text. The Lead Designer’s rule for this draft: the bar’s words are never cut. There are two ways to do it.')),
+      h('h2', {}, 'Names cut in the top bar', h('span', { class: 'bc-count bc-count-ok' }, 'Chosen')),
+      h('p', { class: 'bc-ok-line' }, FIT.note),
+      h('p', {}, 'With the names the game gives when a player has chosen none, the top bar cuts its words. In a private talk “Crew 6 + Crew 1” shows as “Crew 6 + Cre…”. On your turn “Player 6 · Crew 6” shows as “Player 6 · Cr…”, on a 390 px phone at the Standard text. The Lead Designer’s rule: the bar’s words are never cut. There were two ways to do it.')),
     choice,
     h('div', { class: 'bc-wrap bc-group-head' },
       h('h3', { class: 'bc-sub' }, 'The details, and every other name'),
@@ -393,7 +395,7 @@ function buildBarFitDraftPart(view) {
           'First the controls slim: Promises is the handshake alone with its count, and the clock loses its small icon. Then the name takes two lines in place of the line under it (“Private talk” is still read out by a screen reader), or the line under it wraps to a second line, where the break takes the place of its “·” (“Player 6” over “Crew 6”). Last, Promises, the clock and ⋮ move to a row of their own and the words get the full width. The text keeps the size the player chose, and a line breaks only at its “·” or “+”, never inside a name.'),
         h('li', {}, h('b', {}, 'Options 1 and 2 differ in one thing. '),
           'In option 1 every phone up to about 424 px wide always has the slim controls, so two phones of one size look the same whatever the names. The Lead Designer recommends this. In option 2 the controls slim only on a phone where a line would otherwise be cut, so Promises keeps its word wherever there is room. The pair at the top is where the two differ.'),
-        h('li', {}, h('b', {}, 'A departure from the approved sheet. '), 'Sheet 07 draws the word “Promises” on a turn’s bar at 390 px. In option 1 a 390 px phone never shows that word: the handshake and its count stay. Your OK on option 1 covers this departure.'),
+        h('li', {}, h('b', {}, 'A departure from the approved sheet. '), 'Sheet 07 draws the word “Promises” on a turn’s bar. With your choice no phone shows that word: the handshake and its count stay. Your choice covers this departure.'),
         h('li', {}, h('b', {}, 'What it costs. '), 'A taller top bar in a few cases, most on a 320 px phone at the Large and the Largest text. And where the name takes two lines, the line under it is not drawn.'))),
     h('div', { class: 'bc-wrap bc-tools' }, textSizeChoice(), widths,
       h('p', { class: 'bc-hint' }, hasBefore
@@ -1131,9 +1133,9 @@ function build() {
       h('p', { class: 'bc-eyebrow' }, 'Game N · phone'),
       h('h1', {}, 'Bars & Icons Control'),
       h('p', { class: 'bc-lede' }, 'Every bar and every icon, drawn by the game’s own files and sorted into parts. Each one shows its size, its background and its colours. Look, try, then mark it OK or Change.'))),
-    // What is new, at the top: one draft, then the owner's approvals of 18 November 2026, each checked.
-    h('div', { class: 'bc-wrap' }, h('p', { class: 'bc-draft', role: 'note' }, h('b', {}, 'One draft on this page. '), 'The look only, not checked yet. It may still change: ',
-      h('a', { href: `#${FIT.route}` }, 'names cut in the top bar'), '. It waits for your answer.')),
+    // What is new, at the top: the owner's choice of 19 November 2026 (not checked yet), then the approvals of 18 November, each checked.
+    h('div', { class: 'bc-wrap' }, h('p', { class: 'bc-draft', role: 'note' }, h('b', {}, 'Chosen by you on 19 November: '),
+      h('a', { href: `#${FIT.route}` }, 'the top bar’s names are never cut, with the icon for Promises'), '. It is being built and checked as shell 0.3.5. The picture here is the draft.')),
     h('div', { class: 'bc-wrap' }, h('p', { class: 'bc-approved', role: 'note' }, h('b', {}, 'Approved by you on 18 November: '),
       h('a', { href: `#${TILES.route}` }, 'the bottom bar with painted icons'), ', ',
       h('a', { href: `#${TOAST.route}` }, 'the toast over a sheet or a banner'), ' and ', h('a', { href: `#${SQUEEZE.route}` }, 'a long title at the largest text'),
