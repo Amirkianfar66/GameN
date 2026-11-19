@@ -1142,6 +1142,20 @@ The Lead then recommended one shared view for each fixed room. The owner:
   - **Two lines at the top:** "A practice match with made-up players. Nothing is sent." and "The next version of the game, before it reaches your phone."
   - **The order:** a private test that the game runs inside the page with no request leaving it, then the build and its checks at 390 and 430 with touch, then the Lead's review, then the owner.
 
+**The panels' look and icons go to the Bars & Icons builder, about half an hour later.** The Lead had answered the owner's question of who makes each panel, and recommended keeping the split between the bars (Bars & Icons) and what is inside each button (the Gameplay UI builder). The owner wrote to the Lead, word for word, in two messages (about 00:30 UTC):
+
+> At least the panel styles and icons on them should be by  Bars and Icons to design
+
+> At least the panel styles and icons on 2 bottom and top bar should be by  Bars and Icons to design
+
+- **What it decides, as the Lead reads it:**
+  - **Bars & Icons designs the look of every panel opened from the bottom bar and the top bar, and every icon on them.** That covers the kit and each panel's stylesheet: colours, type, spacing, surfaces, tiles, rows, cards, stamps and the icons' art.
+    - From the bottom bar: Actions with its tiles, checks and results, the Hacker's Scan and Code, the Hospital panel, Panels and its pages (Windows, Navigation, Players, Round order), Card, Pass and the ballot, the office decisions and the Captain console.
+    - From the top bar: Promises, and ⋮ Settings, which Codex builds with these styles.
+  - **The Gameplay UI builder keeps each panel's content,** structure, states, words, behaviour and game connection (#310). It builds with Bars & Icons' styles and adds none of its own.
+  - **Files:** a panel's stylesheet is Bars & Icons' to change, and its logic the Gameplay UI builder's. A change that touches both is agreed first and pushed once.
+- **What does not change:** the work in flight (#310's push, the game page, the top bar draft). Bars & Icons then reviews the existing panels against the kit and the painted bar. Any change of look goes to the owner as a draft before tests.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
