@@ -154,8 +154,8 @@ export const PRESETS = Object.freeze(GROUPS.flatMap(group => group.presets));
  * across a tall sheet's head; in the draft it sits under the head. The last two states are ones where it keeps its place.
  */
 /**
- * DRAFT (shell 0.3.4): the top bar's words, which were cut with the game's own names. Six bars, each drawn at the
- * width and the text size the view's switches choose.
+ * Shell 0.3.5: the top bar's words, which were cut with the game's own names and its own caption. Seven bars, each
+ * drawn at the width and the text size the view's switches choose.
  */
 export const BAR_FIT_DRAFT = Object.freeze([
   ['pair-crew', 'A private talk · “Crew 6 + Crew 1”', { bar: 'talk', promises: '0', tabs: 'talk', names: 'crew' }],
@@ -164,6 +164,7 @@ export const BAR_FIT_DRAFT = Object.freeze([
   ['own-player', 'Your turn · “Player 10 · Crew 10”', { ...own, names: 'player' }],
   ['turn-player', 'Another player’s turn · “Crew 10” over “Player 10 · Turn”', { names: 'player' }],
   ['own-short', 'Your turn · a short name, “Player 4 · Dev”', { ...own }],
+  ['phase-caption', 'A vote · “Current board · shared: After Blackout · Round 3”', { bar: 'vote', promises: '0', hero: 'vote', caption: 'board' }],
 ].map(([key, label, change]) => Object.freeze({ key, label, sheet: '07', group: 'top', groupTitle: 'Top bar', crop: 'top', controls: Object.freeze({ ...BASE, ...change }) })));
 
 export const TOAST_DRAFT = Object.freeze([
@@ -289,7 +290,8 @@ function barInput(c, seconds) {
   switch (c.bar) {
     case 'turn': return { kind: 'turn', who: NAMED[c.names]?.turn ?? person(fixture.active), self: false, round: 3, timer: { remainingMs: ms }, ...mine };
     case 'own': return { kind: 'turn', who: NAMED[c.names]?.own ?? person(SELF), self: true, round: 3, timer: { remainingMs: ms }, ...mine };
-    case 'vote': return { kind: 'phase', icon: 'jail', title: 'Jail vote', sub: c.hero === 'voted' ? 'Your ballot is in' : 'Choose who goes to Jail', round: 3, timer: { remainingMs: ms }, ...mine };
+    // `caption: 'board'` is the game's own line there until the ballot's component connects: the shared board's caption.
+    case 'vote': return { kind: 'phase', icon: 'jail', title: 'Jail vote', sub: c.caption === 'board' ? 'Current board · shared: After Blackout · Round 3' : c.hero === 'voted' ? 'Your ballot is in' : 'Choose who goes to Jail', round: 3, timer: { remainingMs: ms }, ...mine };
     case 'result': return { kind: 'phase', icon: 'jail', title: 'Jail vote · result', short: 'Vote result', round: 3, timer: { remainingMs: 3000, ring: 0.6 }, menu: {} };
     case 'before': return phase('PRE_TURN', { hasOfficer: true });
     case 'before-start': return phase('PRE_TURN', { hasOfficer: true, blocked: true });

@@ -47,15 +47,29 @@ const QUERY = '?before', QUERY_TOAST = '?before-toast';
 const BEFORE_SHEET = '39f35b95c4fd62e07b24e9d73aa84d5cf2c3f51a';
 const QUERY_SHEET = '?before-sheet';
 /** The shell before the bar's fit (a draft): #323's head, shell 0.3.3, as the Lead accepted it. */
-const BEFORE_FIT = '241e5aa8a3c3768a223e6718dd6ab51fff63a572';
+const BEFORE_FIT = '89fa5d1858fd1da65d7f08224ec3356271fad5be';
 const QUERY_FIT = '?before-fit';
-/** The shell's source at a commit, and whether today's stylesheet still draws it: every line of the old one is in the new. */
+/** The nine lines of the top bar's styles that shell 0.3.5 took out, as every earlier stylesheet has them. */
+const BAR_UNTIL_034 = [
+  '/* Promises after the name, between two hairlines, and ⋮ beside the clock (the owner, 9 November): 44 px targets. */',
+  '.ms-phone-shell .ms-ps-div { flex: none; width: 1px; height: 24px; background: var(--ms-ps-hairline); }',
+  '.ms-phone-shell .ms-ps-pill { display: inline-flex; align-items: center; justify-content: center; gap: 4px; height: 32px; min-width: 36px; padding: 0 10px 0 7px; border-radius: 999px; background: var(--ms-ps-surface-3); box-shadow: inset 0 0 0 1px var(--ms-ps-hairline); font: 600 0.75rem/1 var(--ms-ps-font); letter-spacing: -0.005em; white-space: nowrap; --ic-knock: var(--ms-ps-surface-3); }',
+  '.ms-phone-shell .ms-ps-tb:not([data-kind="turn"]) .ms-ps-pill { padding: 0; width: 36px; }',
+  '.ms-phone-shell .ms-ps-tb:not([data-kind="turn"]) :is(.ms-ps-pill-label, .ms-ps-div) { display: none; }',
+  '/* A narrow bar (under 22.5 rem: 320 px phones, larger text): Promises is the handshake alone, the clock',
+  'drops its icon, a phase drops its icon tile and a talk\'s portraits overlap more. */',
+  '.ms-phone-shell .ms-ps-pill { padding: 0; width: 36px; }',
+  '.ms-phone-shell :is(.ms-ps-pill-label, .ms-ps-div, .ms-ps-timer-mark:not(.ms-ps-ring)) { display: none; }',
+];
+/** The shell's source at a commit, and whether today's stylesheet still draws it: every line of the old one is in the new, but those nine. */
 async function shellBefore(BEFORE = '5616928e891babfe35b78dc0a19e1fa552f6d7a3', branch = 'claude/designer-phone-shell') {
   let source, styles;
   try { source = git('show', `${BEFORE}:${SHELL}`); styles = git('show', `${BEFORE}:${SHELL_STYLES}`); }
   catch { throw new Error(`The page's "before" needs commit ${BEFORE.slice(0, 8)} in this clone: git fetch origin ${branch}`); }
   const now = new Set((await readFile(join(REPO, SHELL_STYLES), 'utf8')).split('\n'));
-  const gone = styles.split('\n').filter(line => !now.has(line));
+  // Shell 0.3.5 took the word "Promises", its hairlines and the clock's old rule out of the stylesheet. The page gives an
+  // earlier shell those nine lines back itself (control.css, [data-bc-before]); any other missing line still stops the build.
+  const gone = styles.split('\n').filter(line => !now.has(line) && !BAR_UNTIL_034.includes(line.trim()));
   if (gone.length) throw new Error(`Today's phone-shell.css no longer has ${gone.length} line(s) of the stylesheet at ${BEFORE.slice(0, 8)}, so it can't draw the bar as it was: ${gone[0].trim().slice(0, 80)}`);
   const version = /PHONE_SHELL_VERSION = '([^']+)'/.exec(source)?.[1] ?? null;
   return { source, version };
@@ -86,7 +100,7 @@ const beforeToast = await shellBefore(BEFORE_TOAST, 'claude/designer-card-tab');
 const befores = new Map([[QUERY, before], [QUERY_TOAST, beforeToast]]);
 const beforeSheet = await shellBefore(BEFORE_SHEET, 'claude/designer-tab-tiles');
 befores.set(QUERY_SHEET, beforeSheet);
-const beforeFit = await shellBefore(BEFORE_FIT, 'claude/designer-toast-under-sheet-head');
+const beforeFit = await shellBefore(BEFORE_FIT, 'claude/designer-sheet-title-focus');
 befores.set(QUERY_FIT, beforeFit);
 const dir = await mkdtemp(join(tmpdir(), 'bars-icons-control-'));
 try {
