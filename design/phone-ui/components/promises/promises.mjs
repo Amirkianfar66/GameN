@@ -29,7 +29,7 @@
 
 import { createControlPolicy, createKit } from '../kit/kit.mjs';
 
-export const PROMISES_VERSION = 'promises-0.1.1';
+export const PROMISES_VERSION = 'promises-0.2.0';
 const VIEWS = Object.freeze(['list', 'kinds', 'target', 'confirm', 'incoming']);
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 /** The sheet's id, the same for every view, so the shell keeps its body (and this content) through them. */

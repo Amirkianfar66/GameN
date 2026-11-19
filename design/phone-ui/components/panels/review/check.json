@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/panels-check.mjs",
   "component": "design/phone-ui/components/panels",
-  "sourceCommit": "a842e488ae6b38f962f5cb9c59be8e9e118d754d",
+  "sourceCommit": "38e282a84e2653c505b5f90eb0c53de664b7f9f2",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -38,14 +38,14 @@
   "captures": {
     "390x844/list": {
       "file": "design/phone-ui/components/panels/review/390x844-list.jpg",
-      "sha256": "99176085b19d581a60daaa51011a3a0f7e4e8a4c254c459c6d64c03c26302b7b",
+      "sha256": "01abd756e4308d2de7aaec9fb6f8ed6d9e52e22ccb2cd3245bb711bfcc9a75f8",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUY3drK.js",
+          "source": "assets/index-S5XFSnMG.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -56,7 +56,9 @@
       "detent": "auto",
       "back": false,
       "title": "Panels",
-      "lists": 2,
+      "lists": 0,
+      "grids": 1,
+      "cells": 5,
       "rows": "Windows|Navigation|Hospital panel|Players|Round order",
       "lines": "Room A ↔ Room B · Room A ↔ Hospital|Captain and Officer only|Patients only|Seats, rooms and public status|Phases and timings",
       "kinds": "||||",
@@ -85,14 +87,14 @@
     },
     "430x932/list": {
       "file": "design/phone-ui/components/panels/review/430x932-list.jpg",
-      "sha256": "b716a69f632f4d0cd921b66267be391eb0cc4e8d7bbe69c540f6e2b30363310d",
+      "sha256": "19ef4b391b431c07b8f98f61463d3404d6575d63a1ef36ed79f66d73991eac0d",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUY3drK.js",
+          "source": "assets/index-S5XFSnMG.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -103,7 +105,9 @@
       "detent": "auto",
       "back": false,
       "title": "Panels",
-      "lists": 2,
+      "lists": 0,
+      "grids": 1,
+      "cells": 5,
       "rows": "Windows|Navigation|Hospital panel|Players|Round order",
       "lines": "Room A ↔ Room B · Room A ↔ Hospital|Captain and Officer only|Patients only|Seats, rooms and public status|Phases and timings",
       "kinds": "||||",
@@ -132,14 +136,14 @@
     },
     "390x844/captain": {
       "file": "design/phone-ui/components/panels/review/390x844-captain.jpg",
-      "sha256": "056da7158a4145ae0b4338ae0478262042dfa5a9ccb49b638026b23193ba048d",
+      "sha256": "da6dd93280a1d1ccd84e1d82c0373b7ccbad874d3eb88a8f266b46090b0b0f99",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUY3drK.js",
+          "source": "assets/index-S5XFSnMG.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -150,7 +154,9 @@
       "detent": "auto",
       "back": false,
       "title": "Panels",
-      "lists": 2,
+      "lists": 0,
+      "grids": 1,
+      "cells": 5,
       "rows": "Windows|Navigation|Hospital panel|Players|Round order",
       "lines": "Room A ↔ Room B · Room A ↔ Hospital|Captain and Officer only|Patients only|Seats, rooms and public status|Phases and timings",
       "kinds": "||||",
@@ -177,14 +183,14 @@
     },
     "430x932/captain": {
       "file": "design/phone-ui/components/panels/review/430x932-captain.jpg",
-      "sha256": "ed3d2028822c457b5b497a8faf41df8b61804e9d4b301bcbe528448ee3362879",
+      "sha256": "6b6f04eca767f65107e24556a0a99232efb792a2210ed1bae236e7fd4c7c615e",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUY3drK.js",
+          "source": "assets/index-S5XFSnMG.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -195,7 +201,9 @@
       "detent": "auto",
       "back": false,
       "title": "Panels",
-      "lists": 2,
+      "lists": 0,
+      "grids": 1,
+      "cells": 5,
       "rows": "Windows|Navigation|Hospital panel|Players|Round order",
       "lines": "Room A ↔ Room B · Room A ↔ Hospital|Captain and Officer only|Patients only|Seats, rooms and public status|Phases and timings",
       "kinds": "||||",
@@ -222,14 +230,14 @@
     },
     "390x844/nowindow": {
       "file": "design/phone-ui/components/panels/review/390x844-nowindow.jpg",
-      "sha256": "edb299b74da16ed0f3361dd85e00ef2a83b1fc512b674ae6b79120f44ee350d1",
+      "sha256": "bc32b88fc5c59f464e0e2bce7e5525c43b98bbc4e91767b3ac3eb7d2be4d1735",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUY3drK.js",
+          "source": "assets/index-S5XFSnMG.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -240,7 +248,9 @@
       "detent": "auto",
       "back": false,
       "title": "Panels",
-      "lists": 2,
+      "lists": 0,
+      "grids": 1,
+      "cells": 5,
       "rows": "Windows|Navigation|Hospital panel|Players|Round order",
       "lines": "No window here|Captain and Officer only|Patients only|Seats, rooms and public status|Phases and timings",
       "kinds": "||||",
@@ -269,14 +279,14 @@
     },
     "430x932/nowindow": {
       "file": "design/phone-ui/components/panels/review/430x932-nowindow.jpg",
-      "sha256": "3a447fec89b551d21ac3226f8c570ee0d3f901baccb91529ad4c91460fc94c55",
+      "sha256": "9918e2d9628133d11e8212c5ceb340a0e381e97ef31086ca5d155cb1bb8ad586",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUY3drK.js",
+          "source": "assets/index-S5XFSnMG.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -287,7 +297,9 @@
       "detent": "auto",
       "back": false,
       "title": "Panels",
-      "lists": 2,
+      "lists": 0,
+      "grids": 1,
+      "cells": 5,
       "rows": "Windows|Navigation|Hospital panel|Players|Round order",
       "lines": "No window here|Captain and Officer only|Patients only|Seats, rooms and public status|Phases and timings",
       "kinds": "||||",
@@ -323,7 +335,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUY3drK.js",
+          "source": "assets/index-S5XFSnMG.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -335,6 +347,8 @@
       "back": true,
       "title": "Players",
       "lists": 1,
+      "grids": 0,
+      "cells": 0,
       "rows": "1 · Ava|2 · Ben|3 · Cleo|4 · Dev (you)|5 · Eli|6 · Fay|7 · Gus|8 · Hana|9 · Ike",
       "lines": "Room A|Command Room|Room B|Room A|Hospital · Injured|Room B|Room A|Room B|Room A",
       "kinds": "||||||||",
@@ -372,7 +386,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUY3drK.js",
+          "source": "assets/index-S5XFSnMG.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -384,6 +398,8 @@
       "back": true,
       "title": "Players",
       "lists": 1,
+      "grids": 0,
+      "cells": 0,
       "rows": "1 · Ava|2 · Ben|3 · Cleo|4 · Dev (you)|5 · Eli|6 · Fay|7 · Gus|8 · Hana|9 · Ike",
       "lines": "Room A|Command Room|Room B|Room A|Hospital · Injured|Room B|Room A|Room B|Room A",
       "kinds": "||||||||",
@@ -421,7 +437,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUY3drK.js",
+          "source": "assets/index-S5XFSnMG.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -433,6 +449,8 @@
       "back": true,
       "title": "Players",
       "lists": 1,
+      "grids": 0,
+      "cells": 0,
       "rows": "1 · Ava|2 · Ben|3 · Cleo|4 · Dev (you)|5 · Eli|6 · Fay|7 · Gus|8 · Hana|9 · Ike",
       "lines": "Room A|Command Room|Room B|Room A|Hospital · Injured|In Jail|Room A|Room B|In Jail",
       "kinds": "||||||||",
@@ -470,7 +488,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUY3drK.js",
+          "source": "assets/index-S5XFSnMG.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -482,6 +500,8 @@
       "back": true,
       "title": "Players",
       "lists": 1,
+      "grids": 0,
+      "cells": 0,
       "rows": "1 · Ava|2 · Ben|3 · Cleo|4 · Dev (you)|5 · Eli|6 · Fay|7 · Gus|8 · Hana|9 · Ike",
       "lines": "Room A|Command Room|Room B|Room A|Hospital · Injured|In Jail|Room A|Room B|In Jail",
       "kinds": "||||||||",
@@ -512,14 +532,14 @@
     },
     "390x844/order": {
       "file": "design/phone-ui/components/panels/review/390x844-order.jpg",
-      "sha256": "4518a86827aeffd5909706c7d12ce488e26156458e76c425d089cb8467631fcb",
+      "sha256": "a41658b7a1e78509b353157476c3f3dc33473ff75bacd29ee4d3de39d540ce25",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUY3drK.js",
+          "source": "assets/index-S5XFSnMG.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -531,6 +551,8 @@
       "back": true,
       "title": "Round order",
       "lists": 1,
+      "grids": 0,
+      "cells": 0,
       "rows": "Before turns|Turns|Ship synchronized|Jail vote|Blackout|Navigation",
       "lines": "15 s · Officer block, Blackhole|60 s each · private talk after a turn|6 s · only after a Blackhole|60 s, then 5 s result|5 s lit, 10 s dark|15 s, then the offices acknowledge",
       "kinds": "pre-turn|turns|sync|jail-vote|blackout|navigation",
@@ -553,14 +575,14 @@
     },
     "430x932/order": {
       "file": "design/phone-ui/components/panels/review/430x932-order.jpg",
-      "sha256": "adddca3f617fb27c7031aefc6c98632d1f9aac833d69e79a68ca12008e9b8fa4",
+      "sha256": "b8173c916a137804dfb1cffe3b6cb4a507d1cdd37121d2eda3382b18ed108643",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUY3drK.js",
+          "source": "assets/index-S5XFSnMG.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -572,6 +594,8 @@
       "back": true,
       "title": "Round order",
       "lists": 1,
+      "grids": 0,
+      "cells": 0,
       "rows": "Before turns|Turns|Ship synchronized|Jail vote|Blackout|Navigation",
       "lines": "15 s · Officer block, Blackhole|60 s each · private talk after a turn|6 s · only after a Blackhole|60 s, then 5 s result|5 s lit, 10 s dark|15 s, then the offices acknowledge",
       "kinds": "pre-turn|turns|sync|jail-vote|blackout|navigation",
@@ -594,14 +618,14 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/panels/review/390x844-stale.jpg",
-      "sha256": "32f2985739c3d6b42471f13ea8fdd36697fdc547921a09d0b0f20ba4b2dde341",
+      "sha256": "fe29b6f358ed592fda8ccf08f13f4db3eb4bae3b38c1d0f2918a95b46646b0c5",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUY3drK.js",
+          "source": "assets/index-S5XFSnMG.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -612,7 +636,9 @@
       "detent": "auto",
       "back": false,
       "title": "Panels",
-      "lists": 2,
+      "lists": 0,
+      "grids": 1,
+      "cells": 5,
       "rows": "Windows|Navigation|Hospital panel|Players|Round order",
       "lines": "Room A ↔ Room B · Room A ↔ Hospital|Captain and Officer only|Patients only|Seats, rooms and public status|Phases and timings",
       "kinds": "||||",
@@ -641,14 +667,14 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/panels/review/430x932-stale.jpg",
-      "sha256": "390dbe7bc7e15e21fb5ad4027f4d2b4fa3d22b4d3bbb05cf38a5b72d88b517c4",
+      "sha256": "dcc1d8a0aa4e67429f27f4ec4ff07bd79af989768d97ffbc0339cd03dfc37947",
       "ok": true,
       "drawn": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUY3drK.js",
+          "source": "assets/index-S5XFSnMG.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -659,7 +685,9 @@
       "detent": "auto",
       "back": false,
       "title": "Panels",
-      "lists": 2,
+      "lists": 0,
+      "grids": 1,
+      "cells": 5,
       "rows": "Windows|Navigation|Hospital panel|Players|Round order",
       "lines": "Room A ↔ Room B · Room A ↔ Hospital|Captain and Officer only|Patients only|Seats, rooms and public status|Phases and timings",
       "kinds": "||||",
@@ -695,7 +723,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUY3drK.js",
+          "source": "assets/index-S5XFSnMG.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -707,6 +735,8 @@
       "back": true,
       "title": "Players",
       "lists": 1,
+      "grids": 0,
+      "cells": 0,
       "rows": "1 · Ava|2 · Ben|3 · Cleo|4 · Dev (you)|5 · Eli|6 · Fay|7 · Gus|8 · Hana|9 · Ike",
       "lines": "Room A|Command Room|Room B|Room A|Hospital · Injured|Room B|Room A|Room B|Room A",
       "kinds": "||||||||",
@@ -744,7 +774,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUY3drK.js",
+          "source": "assets/index-S5XFSnMG.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -756,6 +786,8 @@
       "back": true,
       "title": "Players",
       "lists": 1,
+      "grids": 0,
+      "cells": 0,
       "rows": "1 · Ava|2 · Ben|3 · Cleo|4 · Dev (you)|5 · Eli|6 · Fay|7 · Gus|8 · Hana|9 · Ike",
       "lines": "Room A|Command Room|Room B|Room A|Hospital · Injured|Room B|Room A|Room B|Room A",
       "kinds": "||||||||",
@@ -880,8 +912,10 @@
               "windows": true
             },
             "none": {
-              "first": true,
-              "gap": true,
+              "cells": [
+                "players",
+                "round-order"
+              ],
               "rows": [
                 "players",
                 "round-order"
@@ -1152,10 +1186,6 @@
               [
                 16,
                 16
-              ],
-              [
-                16,
-                16
               ]
             ],
             "players": [
@@ -1178,10 +1208,6 @@
           "detail": {
             "ok": true,
             "list": [
-              [
-                16,
-                16
-              ],
               [
                 16,
                 16
@@ -1264,7 +1290,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUY3drK.js",
+          "source": "assets/index-S5XFSnMG.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1297,7 +1323,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-BCUY3drK.js",
+          "source": "assets/index-S5XFSnMG.js",
           "line": 1,
           "column": 6047,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1316,11 +1342,7 @@
         "ok": true,
         "detail": {
           "differences": [],
-          "look090": {
-            "Beside the 46 px icon a row's words start 6 px further right; the row keeps its height": 15,
-            "A row's icon is 46 px with no chip behind it": 10,
-            "The icon is the painted line drawing, at the one panel size (46 px)": 10
-          },
+          "look090": {},
           "parts": {
             "sheet": {
               "pack": 1,
@@ -1343,44 +1365,44 @@
               "screen": 0
             },
             "lists": {
-              "pack": 2,
-              "screen": 2
+              "pack": 0,
+              "screen": 0
             },
             "rows": {
-              "pack": 5,
-              "screen": 5
+              "pack": 0,
+              "screen": 0
             },
             "row mains": {
-              "pack": 5,
-              "screen": 5
+              "pack": 0,
+              "screen": 0
             },
             "row icons": {
-              "pack": 5,
-              "screen": 5
+              "pack": 0,
+              "screen": 0
             },
             "row icon drawings": {
-              "pack": 5,
-              "screen": 5
+              "pack": 0,
+              "screen": 0
             },
             "row portraits": {
               "pack": 0,
               "screen": 0
             },
             "row titles": {
-              "pack": 5,
-              "screen": 5
+              "pack": 0,
+              "screen": 0
             },
             "row lines": {
-              "pack": 5,
-              "screen": 5
+              "pack": 0,
+              "screen": 0
             },
             "row chevrons": {
-              "pack": 5,
-              "screen": 5
+              "pack": 0,
+              "screen": 0
             },
             "row chevron drawings": {
-              "pack": 5,
-              "screen": 5
+              "pack": 0,
+              "screen": 0
             },
             "badges": {
               "pack": 0,
@@ -1395,7 +1417,13 @@
               "screen": 0
             }
           },
-          "recorded": null
+          "recorded": null,
+          "departure": {
+            "what": "the destinations are cells on the Actions grid, not rows (the owner, 19 November 2026, draft 4; the Lead's option A)",
+            "rows": 5,
+            "cells": 5,
+            "movedVertically": 3
+          }
         }
       },
       {
@@ -1403,11 +1431,7 @@
         "ok": true,
         "detail": {
           "differences": [],
-          "look090": {
-            "Beside the 46 px icon a row's words start 6 px further right; the row keeps its height": 15,
-            "A row's icon is 46 px with no chip behind it": 10,
-            "The icon is the painted line drawing, at the one panel size (46 px)": 10
-          },
+          "look090": {},
           "parts": {
             "sheet": {
               "pack": 1,
@@ -1430,44 +1454,44 @@
               "screen": 0
             },
             "lists": {
-              "pack": 2,
-              "screen": 2
+              "pack": 0,
+              "screen": 0
             },
             "rows": {
-              "pack": 5,
-              "screen": 5
+              "pack": 0,
+              "screen": 0
             },
             "row mains": {
-              "pack": 5,
-              "screen": 5
+              "pack": 0,
+              "screen": 0
             },
             "row icons": {
-              "pack": 5,
-              "screen": 5
+              "pack": 0,
+              "screen": 0
             },
             "row icon drawings": {
-              "pack": 5,
-              "screen": 5
+              "pack": 0,
+              "screen": 0
             },
             "row portraits": {
               "pack": 0,
               "screen": 0
             },
             "row titles": {
-              "pack": 5,
-              "screen": 5
+              "pack": 0,
+              "screen": 0
             },
             "row lines": {
-              "pack": 5,
-              "screen": 5
+              "pack": 0,
+              "screen": 0
             },
             "row chevrons": {
-              "pack": 5,
-              "screen": 5
+              "pack": 0,
+              "screen": 0
             },
             "row chevron drawings": {
-              "pack": 5,
-              "screen": 5
+              "pack": 0,
+              "screen": 0
             },
             "badges": {
               "pack": 0,
@@ -1482,7 +1506,13 @@
               "screen": 0
             }
           },
-          "recorded": null
+          "recorded": null,
+          "departure": {
+            "what": "the destinations are cells on the Actions grid, not rows (the owner, 19 November 2026, draft 4; the Lead's option A)",
+            "rows": 5,
+            "cells": 5,
+            "movedVertically": 3
+          }
         }
       },
       {
@@ -1565,7 +1595,8 @@
               "screen": 1
             }
           },
-          "recorded": null
+          "recorded": null,
+          "departure": null
         }
       },
       {
@@ -1648,7 +1679,8 @@
               "screen": 1
             }
           },
-          "recorded": null
+          "recorded": null,
+          "departure": null
         }
       },
       {
@@ -1738,7 +1770,8 @@
           "recorded": {
             "what": "no note: the pending Blackout-before-voting order is the rules' business, not the component's (the Lead's review of #296, answer 5)",
             "pack": "Current order. The owner’s Blackout-before-voting order is an Integration proposal, pending the rules update."
-          }
+          },
+          "departure": null
         }
       },
       {
@@ -1828,7 +1861,8 @@
           "recorded": {
             "what": "no note: the pending Blackout-before-voting order is the rules' business, not the component's (the Lead's review of #296, answer 5)",
             "pack": "Current order. The owner’s Blackout-before-voting order is an Integration proposal, pending the rules update."
-          }
+          },
+          "departure": null
         }
       },
       {
@@ -1911,7 +1945,8 @@
               "screen": 1
             }
           },
-          "recorded": null
+          "recorded": null,
+          "departure": null
         }
       }
     ],
@@ -1919,7 +1954,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-BCUY3drK.js",
+        "source": "assets/index-S5XFSnMG.js",
         "line": 1,
         "column": 6047,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"

@@ -65,6 +65,12 @@ export const ACCEPTED = Object.freeze([
     why: 'Kit 0.9.0, the owner\'s decision of 19 November 2026: a row\'s icon is the painted line icon at the one panel size (46 px) with nothing behind it; the pack draws a small icon on a tinted chip' },
   { cases: /^(list|group|notice extra|row unavailable|row pill value)$/, partMatch: /^(list|row( \d+)?( (title|sub|main|value))?)$/, keys: ['x', 'w', '::before left', '::before width'],
     why: 'Kit 0.9.0: beside the 46 px painted icon a row\'s words start 6 px further right (62 px) and the line between rows starts there too; the row keeps its height' },
+  // Kit 0.9.0: the dark button's edge and the weighty button's fill, in the owner's draft pictures of 19 November 2026
+  // ("No background now, go ahead"; recorded by the Lead Designer on #280 as built as drafted).
+  { cases: /^button (secondary|small|busy secondary)$/, part: 'button', keys: ['box-shadow', 'background-color'],
+    why: 'Kit 0.9.0: the dark button carries a light edge that stands 3 : 1 from its ground (34 % off the glass, 62 % and a darker fill on it); the pack\'s stood 1.0 to 1.5 : 1, so beside the amber button it read as words' },
+  { cases: /^button warn$/, parts: ['button', 'icon', 'label'], keys: ['color', 'background-color', 'box-shadow', '--ic-knock', 'border-top-color', 'border-right-color', 'border-bottom-color', 'border-left-color', 'outline-color', 'text-decoration-color', 'text-shadow', 'text-decoration', 'caret-color', 'column-rule-color', 'text-emphasis-color', 'stroke', 'fill'],
+    why: 'Kit 0.9.0: the weighty button (Eject, Abort match) is a solid paper fill with an ink label; with its edge the dark button came to look like the pack\'s outline, so the careful step forward takes a look of its own' },
 ]);
 
 const accepted = ({ section, text }, caseId, part, key) => ACCEPTED.find(a => (!a.sections || a.sections.includes(section)) && (!a.texts || a.texts.includes(text))

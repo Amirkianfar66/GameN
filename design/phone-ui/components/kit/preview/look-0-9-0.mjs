@@ -25,6 +25,7 @@ const RULES = [
   { part: /^who icon$/, what: ['box', 'background-color', 'border-radius'], why: 'The head\'s icon is the painted line drawing at 46 px with nothing behind it, where the pack has a 64 px tile' },
   { part: /^who (title|sub)$/, what: ['box'], why: 'The head\'s words sit beside a 46 px icon', when: (a, b) => isBox(a) && isBox(b) && sameTo(a.w, b.w) && sameTo(a.h, b.h) },
   { part: /^(who|sheet|sheet body|footer \d+|fact \d+)$/, what: ['box'], why: 'The head is as tall as its 46 px icon, so what follows it sits higher and the sheet is shorter', when: movedVertically },
+  { part: /^footer buttons \d+$/, what: ['look'], why: 'The dark button carries a light edge that stands 3 : 1 from the glass, over a darker fill', when: (a, b) => a && b && a.color === b.color && a.fontSize === b.fontSize && a.fontWeight === b.fontWeight && a.borderRadius === b.borderRadius },
 ];
 
 /** Why this difference is the owner's 0.9.0 look, or null. */

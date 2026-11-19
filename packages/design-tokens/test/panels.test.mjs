@@ -99,7 +99,7 @@ test('its words are the pack\'s (sheet 32), and it holds no step words (the Lead
   // The one line of the Lead's own (18 November): Round order's while no step has its timing. It is not the pack's.
   assert.equal(W.roundOrderPhases, 'The phases, in order');
   assert.ok(!game.includes(W.roundOrderPhases) && !more.includes(W.roundOrderPhases));
-  assert.equal(PANELS_VERSION, 'panels-0.1.1');
+  assert.equal(PANELS_VERSION, 'panels-0.2.0');
 });
 
 test('the Round order row\'s line follows the steps given: "Phases and timings" once one has its timing, else "The phases, in order"', () => {

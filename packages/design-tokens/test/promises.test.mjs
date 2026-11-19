@@ -110,7 +110,7 @@ test('its words are the pack\'s (sheets 33 and 33.1); the six kinds are the cont
   const source = read(`${COMPONENT}/promises.mjs`);
   for (const words of ['votes for', 'will be in Room', 'when Round', 'Condition not met`', 'including runoffs', 'after Sync', 'admission is not required']) assert.ok(!source.includes(words), `no rule words of its own: ${words}`);
   assert.equal(W.targetTitle, 'Who will you vote to jail?', 'Jail Vote\'s player: the Lead\'s words (answer 4)');
-  assert.equal(PROMISES_VERSION, 'promises-0.1.1');
+  assert.equal(PROMISES_VERSION, 'promises-0.2.0');
 });
 
 test('its inputs are checked, and refused with a reason', () => {
