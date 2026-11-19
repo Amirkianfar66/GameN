@@ -22,6 +22,8 @@
 //   focus     each row and tile keeps its element and the focus; a focus in what ends returns to the content, once
 //   layout    the content 16 px in at both sizes, the kinds two across; at the Largest text every word whole, the last
 //             part reached by scrolling and the footer in view
+//   notes     at 390 × 844 with the Standard text, the talk's cells' notes within two lines, for each kind offered (the
+//             Lead, 19 November); the six kinds' own lines, sheet 33's, are recorded
 //   dispose   after dispose(), nothing is left and nothing fires
 //   motion    none of its own, with or without Reduce motion
 // With the device's Reduce motion emulated, only the motion check runs (the page's mode says which).
@@ -74,6 +76,15 @@ export async function runPromisesProbe({ sizes, mountState, disposeState, inputO
   const dimmed = node => node?.hasAttribute('data-off');
   const shown = node => !!node && !node.hidden && node.getClientRects().length > 0 && !node.closest('[hidden]');
   const words = root => [...root.querySelectorAll('.ms-k-group-label, .ms-k-row-title, .ms-k-row-sub, .ms-k-row-value:not(:has(.ms-k-pill)), .ms-k-pill, .ms-k-group-note, .ms-pr-card-name, .ms-pr-card-terms, .ms-k-fact-text, .ms-k-tile-name, .ms-k-tile-note')].filter(shown).map(n => n.textContent);
+  /** How many lines a note's words take: its text's distinct line boxes. */
+  const linesOf = node => {
+    if (!node) return 0;
+    const range = document.createRange();
+    range.selectNodeContents(node);
+    const tops = [];
+    for (const b of range.getClientRects()) if (b.width > 0 && !tops.some(top => Math.abs(top - b.top) < 2)) tops.push(b.top);
+    return tops.length;
+  };
   const labels = root => [...root.querySelectorAll('.ms-k-group-label')].filter(shown).map(n => n.textContent);
   const frameOf = s => { const sheet = s.m.shell.element.querySelector('.ms-ps-sheet'); return { title: sheet.querySelector('.ms-ps-sheet-title h2').textContent, back: !!sheet.querySelector('[data-intent="sheet-back"]'), detent: sheet.dataset.detent, foot: s.footer().map(b => b.textContent.trim()).join('|') }; };
   const inPage = text => document.documentElement.outerHTML.includes(text);
@@ -335,6 +346,25 @@ export async function runPromisesProbe({ sizes, mountState, disposeState, inputO
       });
     }
     size = sizeTo('390x844');
+    // The Lead, 19 November: a cell's note fits two lines at 390 × 844 at the Standard text; where it wouldn't, it is
+    // shorter, not taller. The talk's cells: Offer a Promise, and the offer to answer with each kind's name. The six
+    // kinds' tiles say sheet 33's own lines: recorded here, not held to the rule.
+    await check('notes: at 390 × 844 with the Standard text, the talk\'s cells\' notes within two lines, for each kind offered', async () => {
+      const s = mount();
+      const seen = [];
+      for (const kind of Object.keys(PROMISE_KINDS)) {
+        s.update({ received: { ...INCOMING, kind } });
+        await frames();
+        for (const cell of s.root.querySelectorAll('.ms-pr-talk > .ms-k-tile')) seen.push({ kind, intent: cell.dataset.intent, note: cell.querySelector('.ms-k-tile-note')?.textContent ?? null, lines: linesOf(cell.querySelector('.ms-k-tile-note')) });
+      }
+      s.update({ view: 'kinds' });
+      await frames();
+      const kinds = [...s.root.querySelectorAll('.ms-k-tile')].map(t => ({ kind: t.dataset.value, note: t.querySelector('.ms-k-tile-note')?.textContent ?? null, lines: linesOf(t.querySelector('.ms-k-tile-note')) }));
+      disposeState(s.m);
+      const font = getComputedStyle(document.documentElement).fontSize;
+      const ok = font === '16px' && seen.length === 2 * Object.keys(PROMISE_KINDS).length && seen.every(n => n.lines >= 1 && n.lines <= 2);
+      return { ok, font, over: seen.filter(n => n.lines > 2), seen, kinds };
+    });
     for (const [which, input] of [['the kinds', inputOf({ view: 'kinds', draft: { kind: 'MEET_A', target: null, terms: null } })], ['the incoming offer', inputOf({ view: 'incoming' })], ['a result', { view: 'list', viewer: 4, quota: RESULTS['not-fulfilled'].quota, received: RESULTS['not-fulfilled'].received }]]) {
       await check(`layout: ${which} with the Largest text (200 %): every word whole, the last part reached by scrolling, the footer in view`, async () => {
         document.documentElement.style.fontSize = '200%';

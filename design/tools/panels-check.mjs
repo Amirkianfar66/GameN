@@ -34,7 +34,8 @@ const SIZES = { '390x844': [390, 844], '430x932': [430, 932] };
 /** Each state at the two development sizes (preview.mjs PREVIEW_STATES). */
 const STATES = ['list', 'captain', 'nowindow', 'players', 'jailed', 'order', 'stale', 'largest'];
 const DESTINATIONS = 'Windows|Navigation|Hospital panel|Players|Round order';
-const LINES = 'Room A ↔ Room B · Room A ↔ Hospital|Captain and Officer only|Patients only|Seats, rooms and public status|Phases and timings';
+// The Windows note counts the room's two windows (the Lead, 19 November: a cell's note within two lines at 390 × 844).
+const LINES = '2 windows|Captain and Officer only|Patients only|Seats, rooms and public status|Phases and timings';
 const PLAYERS = '1 · Ava|2 · Ben|3 · Cleo|4 · Dev (you)|5 · Eli|6 · Fay|7 · Gus|8 · Hana|9 · Ike';
 const NOTE = 'Public facts only: seats, rooms, health and offices.';
 
@@ -59,7 +60,7 @@ const players = s => common(s) && s.name === 'group:Players' && s.title === 'Pla
 const EXPECT = {
   list: s => list(s) && s.lines === LINES && s.refused.join() === 'navigation,hospital' && s.dimmed.join() === 'navigation,hospital' && s.root === 16,
   captain: s => list(s) && s.lines === LINES && s.refused.join() === 'hospital' && s.dimmed.join() === 'hospital',
-  nowindow: s => list(s) && s.lines === LINES.replace('Room A ↔ Room B · Room A ↔ Hospital', 'No window here') && s.refused.join() === 'navigation,hospital',
+  nowindow: s => list(s) && s.lines === LINES.replace('2 windows', 'No window here') && s.refused.join() === 'navigation,hospital',
   players: s => players(s) && s.lines === 'Room A|Command Room|Room B|Room A|Hospital · Injured|Room B|Room A|Room B|Room A' && s.badges === 'Captain|Officer' && s.root === 16,
   jailed: s => players(s) && s.lines === 'Room A|Command Room|Room B|Room A|Hospital · Injured|In Jail|Room A|Room B|In Jail' && s.badges === 'Captain|Officer',
   order: s => common(s) && s.name === 'group:Round order' && s.title === 'Round order' && s.back && s.detent === 'large' && s.opens === 0 && s.note === null

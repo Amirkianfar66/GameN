@@ -15,7 +15,7 @@ The game imports it as it is, and the preview mounts the same files ([ownership]
 
 | View | Sheet (the shell's frame) | Body (this component) |
 | --- | --- | --- |
-| **Panels** (`list`) | "Panels", ✕, the shell's own height | The destinations, each with what it shows or who can use it: "Windows" ("Room A ↔ Room B · Room A ↔ Hospital"), "Navigation" ("Captain and Officer only"), "Hospital panel" ("Patients only"). Then "Players" ("Seats, rooms and public status") and "Round order" ("Phases and timings", or "The phases, in order" while no step has its timing). A destination this player can't use is dimmed. |
+| **Panels** (`list`) | "Panels", ✕, the shell's own height | One grid of the kit's tiles, as Actions' (the owner, 19 November: "i want all follow a shared system"; the Lead's option A): each destination a cell, its icon over its name, with what it shows or who can use it as its note: "Windows" ("2 windows"; one window by its rooms, "Room A ↔ Hospital"), "Navigation" ("Captain and Officer only"), "Hospital panel" ("Patients only"), "Players" ("Seats, rooms and public status") and "Round order" ("Phases and timings", or "The phases, in order" while no step has its timing). A destination this player can't use is dimmed. |
 | **Players** (`players`) | "Players", Back, ✕, large | A row per seat: the portrait, "1 · Ava" ("4 · Dev (you)" for this phone), the line ("Hospital · Injured", "In Jail"), and the Captain or Officer badge. Then "Public facts only: seats, rooms, health and offices." |
 | **Round order** (`round-order`) | "Round order", Back, ✕, large | A row per phase, in the ruleset's order: its icon on steel, its name ("Jail vote") and its timing ("60 s, then 5 s result"), in Frontend's words |
 
@@ -46,7 +46,7 @@ The game imports it as it is, and the preview mounts the same files ([ownership]
    - "Captain and Officer only" and "Patients only" are the owner-approved words of item 29, so they are the component's own.
    - Whether the row is enabled is only ever Frontend's `enabled`; the component never decides it from the line.
 3. **Windows:**
-   - The line lists the pairs as given ("Room A ↔ Room B · Room A ↔ Hospital").
+   - The note names the one window by its rooms, as given ("Room A ↔ Hospital"), and counts two or more ("2 windows"); their names are in the Windows panel. A cell's note fits two lines at 390 × 844 at the Standard text, shorter rather than taller (the Lead, 19 November); at larger text it may wrap further, and no word is cut.
    - With no window, the line is "No window here". The row stays enabled and opens Windows, whose sheet 34 has its own "No window here" state.
    - It is dimmed only when Frontend says `enabled: false`.
 4. **Players' line:**

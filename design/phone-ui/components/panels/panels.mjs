@@ -21,6 +21,10 @@
 // recommended"; the Lead's option A, in code): each destination a cell, its icon over its name, its line as the note,
 // up to five in one grid with nothing between them. Players and Round order themselves stay lines.
 //
+// A cell's note fits two lines at 390 × 844 at the Standard text; where it wouldn't, it is shorter, not taller (the
+// Lead, 19 November). So the Windows note names its one window by its rooms, and counts two or more ("2 windows"), their
+// names being in the Windows panel (windowsLine). At larger text a note may wrap further; no word is ever cut.
+//
 // The Round order row's line says what the view will show (the Lead's review of the game's Panels, 18 November):
 // "Phases and timings" once a step has its timing, "The phases, in order" while none has. It follows the steps given,
 // never a fixed string (roundOrderLine).
@@ -53,7 +57,7 @@ export const PANELS_WORDS = Object.freeze({
   hospital: 'Hospital panel', hospitalLine: 'Patients only',
   playersLine: 'Seats, rooms and public status', roundOrderLine: 'Phases and timings', roundOrderPhases: 'The phases, in order',
   seat: (seat, name, you) => `${seat} · ${you ? `${name} (you)` : name}`,
-  pair: (a, b) => `${a} ↔ ${b}`, join: ' · ',
+  pair: (a, b) => `${a} ↔ ${b}`, join: ' · ', windowCount: n => `${n} windows`,
   inJail: 'In Jail', injured: 'Injured', eliminated: 'Eliminated',
   captain: 'Captain', officer: 'Officer',
   playersNote: 'Public facts only: seats, rooms, health and offices.',
@@ -163,6 +167,16 @@ export function roundOrderLine(steps) {
   return (steps ?? []).some(step => isText(step?.timing)) ? PANELS_WORDS.roundOrderLine : PANELS_WORDS.roundOrderPhases;
 }
 
+/**
+ * The Windows cell's note (answer 3; the Lead, 19 November): the one window by its two rooms; two or more, their count,
+ * their names being in the Windows panel; none, "No window here".
+ */
+export function windowsLine(rooms) {
+  const W = PANELS_WORDS;
+  if (!rooms?.length) return W.noWindow;
+  return rooms.length === 1 ? W.pair(...rooms[0]) : W.windowCount(rooms.length);
+}
+
 /** A player's line (the Lead's answer 4): "In Jail" in the room's place when jailed; then "Injured" or "Eliminated". */
 export function playerLine(p) {
   const W = PANELS_WORDS;
@@ -227,9 +241,8 @@ export function mountPanels(host, input = {}, handlers = {}) {
     for (const value of PANEL_DESTINATIONS) {
       const cell = p.cells.get(value), own = OWN_VIEWS.has(value), given = own ? null : s[value];
       if (!own && !given) { if (cell.isConnected) policy.remove(cell); continue; }
-      // The Windows line: the windows of this player's room, as Frontend gives them; none, "No window here" (answer 3).
-      const note = value === 'windows' ? (given.rooms.length ? given.rooms.map(([a, b]) => W.pair(a, b)).join(W.join) : W.noWindow)
-        : value === 'round-order' ? roundOrderLine(s.steps) : CELLS[value].note;
+      // The Windows note: the windows of this player's room, as Frontend gives them, named or counted (windowsLine).
+      const note = value === 'windows' ? windowsLine(given.rooms) : value === 'round-order' ? roundOrderLine(s.steps) : CELLS[value].note;
       // Only Frontend's `enabled` dims and refuses it; its line stays, and Frontend's reason is its description (answer 2).
       const enabled = own || given.enabled;
       kit.setTile(cell, { ...CELLS[value], note, state: enabled ? 'available' : 'unavailable', intent: 'open', value });

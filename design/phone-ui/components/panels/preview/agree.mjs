@@ -20,8 +20,10 @@
 // draft 4, "As you recommended"; the Lead's option A): the destinations the pack draws as rows are cells on the Actions
 // grid. Each such row is compared with its cell by its words, in order (its title as the cell's name, its line as the
 // note), and is left out of the rows' and lists' own comparison, as the cells are out of everything else; where the
-// sheet is shorter for it, a part that only moved up or down is counted under the departure. Everything else is
-// compared as usual.
+// sheet is shorter for it, a part that only moved up or down is counted under the departure. With it, the Lead's rule
+// for the cells' notes (19 November): a note fits two lines at 390 × 844, shorter rather than taller, so the Windows
+// note counts two windows or more ("2 windows") where the pack's line names them; that line is compared as counted.
+// Everything else is compared as usual.
 
 import { GAME_SCREENS } from '../../../prototype/screens-game.mjs';
 import { MORE_SCREENS } from '../../../prototype/screens-more.mjs';
@@ -87,7 +89,9 @@ const looks = (node, props) => Object.fromEntries(props.map(p => [p, getComputed
 const STATE_ATTRS = ['aria-disabled', 'aria-busy', 'aria-label', 'role'];
 /** A box that only moved up or down, or grew or shrank in height. */
 const movedVertically = (a, b) => Math.abs(a.x - b.x) <= TOLERANCE && Math.abs(a.w - b.w) <= TOLERANCE;
-const DEPARTURE = 'the destinations are cells on the Actions grid, not rows (the owner, 19 November 2026, draft 4; the Lead\'s option A)';
+const DEPARTURE = 'the destinations are cells on the Actions grid, not rows (the owner, 19 November 2026, draft 4; the Lead\'s option A), and the Windows note counts two windows or more (the Lead\'s rule for the notes, 19 November)';
+/** The pack's Windows line as the cell says it: two windows or more, counted; one, as it is (the Lead, 19 November). */
+const counted = line => { const n = line ? line.split(' · ').length : 0; return n >= 2 ? `${n} windows` : line; };
 /**
  * The owner's cells: the component's cells in `grid`, and the pack's rows whose titles are those cells' names, in
  * order. A row whose words differ stays a row, and fails as one.
@@ -105,7 +109,10 @@ function cellsOf(pack, host, grid) {
     // A list all of whose rows are now cells: it has no counterpart.
     listGone: n => n.matches('.list') && (() => { const own = [...n.querySelectorAll('.row')].filter(visible); return own.length > 0 && own.every(r => rows.includes(r)); })(),
     inGrid: n => node === n || node.contains(n),
-    pairs: { pack: rows.map(r => words(r, '.row-title', '.row-sub')), screen: cells.map(c => words(c, '.ms-k-tile-name', '.ms-k-tile-note')) },
+    pairs: {
+      pack: rows.map(r => words(r, '.row-title', '.row-sub')).map(w => (w.title === 'Windows' ? { ...w, line: counted(w.line) } : w)),
+      screen: cells.map(c => words(c, '.ms-k-tile-name', '.ms-k-tile-note')),
+    },
   };
 }
 /** A node's accessible name from its own attributes: aria-label, or the words of what aria-labelledby names. */

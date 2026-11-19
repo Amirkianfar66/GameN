@@ -6,7 +6,9 @@
 //   report    each row reports its destination, and only that; the keyboard as the finger
 //   refuse    a destination this player can't use is dimmed and refused, its line unchanged, Frontend's reason as its
 //             description; only Frontend's `enabled` decides it, never the line; a destination not given has no row
-//   windows   the windows as given; none, "No window here", still enabled and opening Windows
+//   windows   one window by its rooms, two or more counted ("2 windows"); none, "No window here", still enabled and
+//             opening Windows
+//   notes     at 390 × 844 with the Standard text, every cell's note within two lines (the Lead, 19 November)
 //   reconnect the rows keep taking taps while reconnecting; a destination not enabled stays refused;
 //             `interactive: false` refuses everything and dims nothing more
 //   players   the line: the room, then Injured or Eliminated; "In Jail" in the room's place when jailed; with no room,
@@ -61,6 +63,15 @@ export async function runPanelsProbe({ sizes, mountState, disposeState, inputOf,
   // A destination is a cell (the kit's tile: its name and note); Players' seats and Round order's steps are rows.
   const line = node => { const sub = node?.querySelector('.ms-k-tile-note, .ms-k-row-sub'); return sub && !sub.hidden ? sub.textContent : null; };
   const title = node => node?.querySelector('.ms-k-tile-name, .ms-k-row-title')?.textContent ?? null;
+  /** How many lines a note's words take: its text's distinct line boxes. */
+  const linesOf = node => {
+    if (!node) return 0;
+    const range = document.createRange();
+    range.selectNodeContents(node);
+    const tops = [];
+    for (const b of range.getClientRects()) if (b.width > 0 && !tops.some(top => Math.abs(top - b.top) < 2)) tops.push(b.top);
+    return tops.length;
+  };
   const ALL = ['windows', 'navigation', 'hospital', 'players', 'round-order'];
 
   if (mode === 'full') {
@@ -104,9 +115,13 @@ export async function runPanelsProbe({ sizes, mountState, disposeState, inputOf,
         && none.cells.join() === 'players,round-order' && none.rows.join() === 'players,round-order' && back.join() === 'windows,navigation,players,round-order';
       return { ok, open, gone, none, back };
     });
-    await check('windows: the windows as given; none, "No window here", still enabled and opening Windows; dimmed only when Frontend says', async () => {
+    await check('windows: one window by its rooms, two or more counted; none, "No window here", still enabled and opening Windows; dimmed only when Frontend says', async () => {
       const s = mount();
-      const pairs = line(s.row('windows'));
+      const two = line(s.row('windows'));
+      s.update({ windows: { enabled: true, rooms: [['Room A', 'Hospital']] } });
+      const one = line(s.row('windows'));
+      s.update({ windows: { enabled: true, rooms: [['Room A', 'Room B'], ['Room A', 'Hospital'], ['Room B', 'Jail']] } });
+      const three = line(s.row('windows'));
       s.update({ windows: { enabled: true, rooms: [] } });
       const none = { line: line(s.row('windows')), refused: refused(s.row('windows')), dimmed: dimmed(s.row('windows')) };
       tap(s.row('windows'));
@@ -115,9 +130,9 @@ export async function runPanelsProbe({ sizes, mountState, disposeState, inputOf,
       tap(s.row('windows'));
       const got = reports(s.calls);
       disposeState(s.m);
-      const ok = pairs === 'Room A ↔ Room B · Room A ↔ Hospital' && none.line === 'No window here' && !none.refused && !none.dimmed && off.refused && off.dimmed && off.why === 'Not now'
-        && JSON.stringify(got) === JSON.stringify([['onOpen', 'windows']]);
-      return { ok, pairs, none, off, got };
+      const ok = two === '2 windows' && one === 'Room A ↔ Hospital' && three === '3 windows' && none.line === 'No window here' && !none.refused && !none.dimmed
+        && off.refused && off.dimmed && off.why === 'Not now' && JSON.stringify(got) === JSON.stringify([['onOpen', 'windows']]);
+      return { ok, two, one, three, none, off, got };
     });
     await check('reconnect: the rows keep taking taps; a destination not enabled stays refused; not interactive, all refused and nothing more dimmed', async () => {
       const s = mount(inputOf({ status: 'stale' }), { status: 'stale', banner: { kind: 'reconnecting' } });
@@ -271,6 +286,26 @@ export async function runPanelsProbe({ sizes, mountState, disposeState, inputOf,
       });
     }
     size = sizeTo('390x844');
+    // The Lead, 19 November: a cell's note fits two lines at 390 × 844 at the Standard text; where it wouldn't, it is
+    // shorter, not taller. Every note the list can show: each Windows line, both Round order lines, the rest as given.
+    await check('notes: at 390 × 844 with the Standard text, every cell\'s note within two lines', async () => {
+      const s = mount(inputOf({ navigation: { enabled: true }, hospital: { enabled: true } }));
+      const seen = [];
+      const look = async what => {
+        await frames();
+        for (const cell of s.root.querySelectorAll('.ms-pn-tiles > .ms-k-tile')) seen.push({ what, value: cell.dataset.value, note: line(cell), lines: linesOf(cell.querySelector('.ms-k-tile-note')) });
+      };
+      await look('two windows, timings');
+      for (const rooms of [[['Room A', 'Hospital']], [['Room B', 'Jail']], [['Room A', 'Room B'], ['Room A', 'Hospital'], ['Room B', 'Jail']], []]) {
+        s.update({ windows: { enabled: true, rooms } });
+        await look(rooms.length ? rooms.map(r => r.join('–')).join(', ') : 'no window');
+      }
+      s.update({ steps: STEPS.map(({ timing, ...step }) => step) });
+      await look('no timings');
+      disposeState(s.m);
+      const font = getComputedStyle(document.documentElement).fontSize;
+      return { ok: font === '16px' && seen.length === 30 && seen.every(n => n.lines >= 1 && n.lines <= 2), font, over: seen.filter(n => n.lines > 2), seen };
+    });
     for (const [which, input] of [['the list', inputOf()], ['Players', inputOf({ view: 'players', players: playersOf(OTHERS_IN_JAIL) })], ['Round order', inputOf({ view: 'round-order' })]]) {
       await check(`layout: ${which} with the Largest text (200 %): every word whole, the last part reached by scrolling`, async () => {
         document.documentElement.style.fontSize = '200%';
