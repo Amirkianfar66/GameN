@@ -1,0 +1,52 @@
+{
+  "tool": "design/tools/phone-ui-native-compare.mjs",
+  "createdAt": "2026-11-19T00:04:02.899Z",
+  "browser": "Google Chrome 157.0.8103.80",
+  "view": "Drawn at each part's phone size, 1.5× pixels",
+  "pack": {
+    "commit": "548f6c4faed43ebd9e5e0551264da1f6e035ea5c",
+    "dirty": false
+  },
+  "build": {
+    "folder": "/private/tmp/gamen-light-title-native-20261119",
+    "head": "548f6c4faed43ebd9e5e0551264da1f6e035ea5c",
+    "dirty": false,
+    "artwork": "64e55516d2f0026842c5c2a675f2eccda20e0a9e"
+  },
+  "findingsDate": null,
+  "count": 9,
+  "parts": [
+    {
+      "id": "intro",
+      "stage": "start",
+      "title": "Brand intro",
+      "sheet": "10",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=intro&t=1600&safe=47%2C34",
+        "image": "img/intro-pack.jpg",
+        "width": 585,
+        "height": 1266,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=join&count=9&tuple=phone",
+        "steps": [],
+        "image": "img/intro-build.jpg",
+        "width": 585,
+        "height": 1266,
+        "log": [],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "same",
+        "note": "The approved typed intro, Game N by Plan B."
+      },
+      "now": null
+    }
+  ]
+}

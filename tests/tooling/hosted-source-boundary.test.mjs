@@ -8,7 +8,7 @@ const boundary = hosted.plugins.find(plugin => plugin.name === 'hosted-preview-s
 const components = 'design/phone-ui/components/';
 
 test('the hosted component list admits each named source file exactly', () => {
-  for (const name of ['main-menu/main-menu.mjs', 'round-stamp/round-stamp.css', 'kit/kit.mjs']) {
+  for (const name of ['main-menu/main-menu.mjs', 'main-menu/entry-title.mjs', 'main-menu/entry-title.css', 'round-stamp/round-stamp.css', 'kit/kit.mjs']) {
     const path = root + components + name;
     assert.doesNotThrow(() => boundary.transform('', path + '?direct'), name);
     assert.throws(() => boundary.transform('', path + '.map'), /Non-hosted source/, name);

@@ -1,0 +1,37 @@
+.ms-entry-title {
+  display: grid;
+  height: 100%;
+  place-content: center;
+  justify-items: center;
+  gap: .4rem;
+  background: #000;
+  color: #fff;
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+}
+
+.ms-entry-title__name {
+  font-size: clamp(2rem, 10vw, 4rem);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.ms-entry-title__credit {
+  font-size: clamp(1rem, 4vw, 1.4rem);
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-entry-motion="full"] .ms-entry-title__name {
+    animation: ms-entry-type 360ms steps(6, end) both;
+  }
+
+  [data-entry-motion="full"] .ms-entry-title__credit {
+    animation: ms-entry-type 360ms steps(9, end) 400ms both;
+  }
+}
+
+@keyframes ms-entry-type {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0); }
+}

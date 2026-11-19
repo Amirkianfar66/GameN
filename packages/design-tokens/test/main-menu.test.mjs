@@ -8,6 +8,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { MAIN_MENU_DEFAULTS, MAIN_MENU_VERSION, MENU_WORDS, brandWordsBox, nextMainMenuInput } from '../../../design/phone-ui/components/main-menu/main-menu.mjs';
+import { ENTRY_TITLE_MARKUP } from '../../../design/phone-ui/components/main-menu/entry-title.mjs';
 import { layout as hostedBrandLayout } from '../../../apps/game/hosted/pregame-films/brand/brand.mjs';
 import { layout as designBrandLayout } from '../../../design/pregame-films/brand/brand.mjs';
 import { ENTRY_PARTS_VERSION, ENTRY_TONES, createEntryParts } from '../../../design/phone-ui/components/entry-parts/entry-parts.mjs';
@@ -16,6 +17,13 @@ const REPO = resolve(fileURLToPath(new URL('../../../', import.meta.url)));
 const COMPONENT = 'design/phone-ui/components/main-menu';
 const PARTS = 'design/phone-ui/components/entry-parts';
 const read = path => readFileSync(join(REPO, path), 'utf8');
+
+test('app entry exposes both lines as one accessible label and needs no media resources', () => {
+  assert.match(ENTRY_TITLE_MARKUP, /role="img" aria-label="Game N, by Plan B"/);
+  assert.deepEqual([...ENTRY_TITLE_MARKUP.matchAll(/aria-hidden="true">([^<]+)<\/span>/g)].map(match => match[1]), ['Game N', 'by Plan B']);
+  assert.doesNotMatch(ENTRY_TITLE_MARKUP, /<(?:img|svg|canvas|video|audio)\b/);
+  assert.doesNotMatch(read(`${COMPONENT}/entry-title.css`), /url\s*\(|@import|@font-face/);
+});
 
 /** The static imports of a module, resolved: relative ones to files, the rest as package names. */
 function graph(entry) {
