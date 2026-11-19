@@ -4,6 +4,7 @@ import { planetLibraryAssetsPlugin } from './build/planet-library-art.mjs';
 import { crewDrawingAssetsPlugin } from '../../../scripts/crew-drawing-art.mjs';
 import { pregameAssetsPlugin } from '../../../scripts/pregame-art-release.mjs';
 import { foodSupplyAssetsPlugin } from '../../../scripts/food-supply-art.mjs';
+import { pregameMenuMediaPlugin } from '../../../scripts/pregame-menu-media.mjs';
 
 const repositoryRoot = fileURLToPath(new URL('../../../', import.meta.url));
 // BEGIN room connection, for Integration's approval (the owner, 15 November 2026: the room view draws
@@ -37,7 +38,8 @@ const pregameSources = ['main-menu/main-menu.mjs', 'main-menu/main-menu.css', 'm
 // kit, admitted above.
 const roundStampSources = ['design/phone-ui/components/round-stamp/round-stamp.mjs', 'design/phone-ui/components/round-stamp/round-stamp.css'];
 // END round stamp
-const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contracts/dist/', 'packages/presentation/dist/', 'packages/design-tokens/dist/', ...designSources, ...shellSources, ...pregameSources, ...roundStampSources];
+const menuFilmSources = ['design/menu-space-film/runtime/layer.mjs', 'design/menu-space-film/runtime/layer.css'];
+const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contracts/dist/', 'packages/presentation/dist/', 'packages/design-tokens/dist/', ...designSources, ...shellSources, ...pregameSources, ...roundStampSources, ...menuFilmSources];
 
 export default {
   root: fileURLToPath(new URL('.', import.meta.url)),
@@ -45,7 +47,7 @@ export default {
   // All Firebase services must register with the client SDK's one app factory.
   // Admin dependencies can otherwise contribute another hoisted @firebase/app.
   resolve: { dedupe: ['@firebase/app'] },
-  plugins: [comicAssetsPlugin(repositoryRoot), planetLibraryAssetsPlugin(repositoryRoot), crewDrawingAssetsPlugin(repositoryRoot), pregameAssetsPlugin(repositoryRoot), foodSupplyAssetsPlugin(repositoryRoot), {
+  plugins: [comicAssetsPlugin(repositoryRoot), planetLibraryAssetsPlugin(repositoryRoot), crewDrawingAssetsPlugin(repositoryRoot), pregameAssetsPlugin(repositoryRoot), foodSupplyAssetsPlugin(repositoryRoot), pregameMenuMediaPlugin(), {
     name: 'hosted-preview-source-boundary',
     transform(_code, id) {
       const path = id.split('?')[0];
