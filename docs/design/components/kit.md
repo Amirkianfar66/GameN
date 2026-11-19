@@ -1,10 +1,29 @@
 # Component kit: the controls every Designer component shares
 
-**Version:** `component-kit-0.8.2` (not the #121 phone kit, `phone-kit-0.1.0`, which the hosted app stamps on its root). **Status (17 November 2026):** built, used by the phone shell (#265), and drawn beside the pinned pack in a browser, where every builder agrees with the pack's. It is not in the game yet: Integration admits its two files with the shell's graph, once for every component that uses it. It is not a release.
+**Version:** `component-kit-0.9.0` (not the #121 phone kit, `phone-kit-0.1.0`, which the hosted app stamps on its root). **Status (17 November 2026):** built, used by the phone shell (#265), and drawn beside the pinned pack in a browser, where every builder agrees with the pack's. It is not in the game yet: Integration admits its two files with the shell's graph, once for every component that uses it. It is not a release.
 
 **What it is:** one look and one behaviour for the controls in every Designer component: the shell, and the screens the Designer team builds next (the role card and Ready, the ballot and results, the sheets' contents, the lobby).
 - It follows the owner's decisions of 14 and 15 November 2026 ([ownership](../../architecture/visual-component-ownership.md)): Designer builds each visual component once, and Frontend connects it without rebuilding, restyling or copying it.
 - A component that draws its own buttons or cells would drift from the others. So every component draws them from here.
+
+
+## The panels' icons (0.9.0)
+
+The owner, 19 November 2026: "I like painted icons but I dont want them to have any  background"; "I want all size of Icons on these panels to be the same follow the size of action panel 3 column matrix"; "Still they  have a background"; then, on draft 3, "No background now, go ahead".
+
+- **Painted, with nothing behind it.** A tile's, a row's and a check sheet's head's icon is the family's line drawing, painted (`iconPaintedSvg(name, { open: true })`, icons 1.2.0). Nothing is filled but a dot, so no icon is a plate with marks on it, and its holder has no fill, corner or shadow. No row keeps a tinted chip: a row's `tint` no longer draws anything, except that an amber tint on a row that opens draws an amber dot at the icon's corner ("it waits for your answer").
+- **One size.** 46 px on every panel, the Actions cell's. A row keeps its 52 px: the icon's box overhangs the row's padding, its drawing does not, and the row's words and the line between rows start at 62 px (6 px further right). A check sheet's head is as tall as its 46 px icon (it was a 64 px tile), so the sheet is about 20 px shorter.
+- **An Actions cell has no frame.** A tile with an icon is its icon and its words on the sheet; a tile with a card's art keeps its card. The cell keeps its whole press area (104 px high at least) and the kit's focus outline round the whole cell. Each state has a cue that is not a ground:
+  - can be pressed: the icon in colour;
+  - pressed: the icon gives a little (92 %);
+  - chosen: the icon's amber glow, and the name in amber with a line under it;
+  - sending: the spinner where the icon was;
+  - registered: the icon in colour under the tile's stamp;
+  - not now or spent: the same drawing greyed, with its words ("Not available now" or the reason), never colour alone.
+- **Not in 0.9.0:** the dark button's edge and the weighty button's fill, which the owner has not answered; and the bottom bar, whose painted tiles are as approved on 18 November.
+- **Against the pack:** the pinned pack draws the framed tile, the icon on a paper tile and the tinted chips. `preview/compare.mjs` accepts those parts whole (`any`, six rules, each naming the owner's decision) and `preview/look-0-9-0.mjs` names the same departure for the Actions, Panels and Promises comparisons, by part, by what differs and, for a box, by how much. Sheets 28, 32 and 33 are the ones departed from.
+- **The record:** 202 of 202 cases agree (1,401 parts; 1,535 accepted differences, of which 0.9.0 adds the icons, frames and the 6 px), 4 of 4 pages clean, on `a842e488`.
+- **In the game:** `apps/game/hosted/planet/phone.css` and `planet.css` restyle every button not on their exclusion list, and `.ms-k-tile` is not on it, so the game still gives an Actions cell its own fill, border, padding and font. Until that exclusion is added (the match connection's, #310), the game shows a frame the kit does not draw.
 
 ## Files
 
