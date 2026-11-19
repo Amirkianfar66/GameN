@@ -938,7 +938,7 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       Object.assign(frame.style, { width: `${size.width}px`, height: `${size.height}px` });
       document.documentElement.style.fontSize = '';
       await frames();
-      // This viewer's own: none while concealed, none after it, none for a new viewer; the private talk's My card keeps its icon.
+      // This viewer's own: none while concealed, none after it, none for a new viewer; the private talk's My card keeps its icon, painted as a line drawing since 0.3.6.
       s.shell.update({ status: 'concealed' });
       const concealed = s.qa(PORTRAIT).length;
       s.shell.update({ status: 'live' });
@@ -948,7 +948,7 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       s.shell.update({ viewer: 5 });
       const newViewer = s.qa(PORTRAIT).length;
       s.shell.update({ viewer: SELF, tabs: { variant: 'talk', me } });
-      const talk = { pictures: s.qa('.ms-ps-tab-pt').length, buttons: s.qa('.ms-ps-talk button').length, icon: s.q('.ms-ps-talk [data-value="my-card"] .ms-k-btn-icon')?.dataset.icon?.split(':')[0] ?? null };
+      const talk = { pictures: s.qa('.ms-ps-tab-pt').length, buttons: s.qa('.ms-ps-talk button').length, icon: s.q('.ms-ps-talk [data-value="my-card"] .ms-k-btn-icon')?.dataset.icon?.replace(/^paint:/, '').split(':')[0] ?? null, painted: s.qa('.ms-ps-talk .ms-k-btn-icon[data-paint="on"] > svg.ms-k-paint').length };
       s.shell.dispose();
       // No portrait: the card's own tile (0.3.2), the family's card drawing painted.
       const plain = f => !f.picture && f.icon === 'card' && f.drawnIcon && f.tile;
@@ -961,7 +961,7 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
         && plain(none) && plain(absent) && plain(unknown) && plain(noneOpen) && noneOpen.form === 'card:tile' && noneOpen.expanded === 'true'
         && Object.values(sized).every(f => f.picture && f.box[0] === 32 && f.box[1] === 32 && f.labelLevel < 0.5 && f.pictureLevel < 0.5 && f.insideBar && f.barHeight === f.barHeightWithIcon && f.inside && f.whole)
         && hud.words === 'Card' && hud.icon === 'card:filled'
-        && concealed === 0 && shownAgain === 0 && givenAgain === 1 && newViewer === 0 && talk.pictures === 0 && talk.buttons === 2 && talk.icon === 'card',
+        && concealed === 0 && shownAgain === 0 && givenAgain === 1 && newViewer === 0 && talk.pictures === 0 && talk.buttons === 2 && talk.icon === 'card' && talk.painted === 2,
         order, rest, open, tapped, off, none, absent, unknown, noneOpen, sized, hud, concealed, shownAgain, givenAgain, newViewer, talk };
     });
 
@@ -1017,7 +1017,7 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       const other = all(), otherPortrait = portrait();
       s.shell.update({ viewer: SELF, tabs: { ...own().tabs, me: null } });
       const dark = { tiles: all(), card: tile('card'), portraits: s.qa('.ms-ps-tab-pt:not([data-tile])').length };
-      // Concealed: no tile and no portrait. The private talk: its two buttons with the family's line icons.
+      // Concealed: no tile and no portrait. The private talk: its two buttons with the family's line icons, painted (0.3.6).
       s.shell.update({ status: 'concealed' });
       const concealed = s.qa('.ms-ps-tab-pt').length;
       s.shell.update({ status: 'live', tabs: { variant: 'talk', me } });

@@ -48,10 +48,27 @@ export const ACCEPTED = Object.freeze([
     why: 'At 200 % text the pack\'s two long options squeeze their icons below the 18 px they are drawn at (to 12.8 and 11.4 px); the kit\'s icons keep their 18 px, as at 100 %' },
   { texts: [200], sections: ['glass'], cases: /^segmented icons$/, partMatch: /^(control|option \d( icon)?)$/, keys: ['h', 'w', 'x', 'y'],
     why: 'At 200 % in a phone root (the shell\'s, which the glass cases sit in), a stacking segmented control puts one option per row, the kit 0.5.0 rule (#228\'s .seg[data-stack]); the pinned pack keeps the two options side by side, squeezed' },
+  // Kit 0.9.0: the panels' painted icons. The owner, 19 November 2026: "I like painted icons but I dont want them to
+  // have any  background"; "I want all size of Icons on these panels to be the same follow the size of action panel 3
+  // column matrix"; "Still they  have a background"; then, on draft 3, "No background now, go ahead". The pack's icon
+  // on its tile and the pack's tile frame are replaced whole, so every key of those parts differs on purpose (`any`);
+  // what the kit draws there instead is held by the kit's own tests (packages/design-tokens/test/kit.test.mjs).
+  { cases: /^(tiles|tile spent)$/, partMatch: /^tile \d+( icon| drawing)?$/, any: true,
+    why: 'Kit 0.9.0, the owner\'s decision of 19 November 2026: an Actions cell is a painted line icon and its words on the sheet, with no frame and no tile behind the icon; the pack draws a framed tile with the icon on a paper tile' },
+  { cases: /^tiles$/, partMatch: /^tile \d+ name$/, keys: ['color', 'text-decoration-line', 'text-decoration-color', 'text-decoration-thickness', 'text-underline-offset', 'border-top-color', 'border-right-color', 'border-bottom-color', 'border-left-color', 'outline-color', 'text-decoration'],
+    why: 'Kit 0.9.0: with no frame, a chosen cell says so in its name, amber with a line under it, and by its icon\'s glow; the pack says it with the frame' },
+  { cases: /^who icon$/, partMatch: /^lead( drawing)?$/, any: true,
+    why: 'Kit 0.9.0, the owner\'s decision of 19 November 2026: the head\'s icon is the painted line icon at the one panel size (46 px) with nothing behind it; the pack draws it on a 64 px paper tile' },
+  { cases: /^who icon$/, partMatch: /^(who|title|sub|words)$/, keys: ['x', 'y', 'w', 'h'],
+    why: 'Kit 0.9.0: beside a 46 px icon in place of the pack\'s 64 px tile, the words start further left and the head is as tall as its words' },
+  { cases: /^(list|group|notice extra|row unavailable|row pill value)$/, partMatch: /^row( \d+)? icon( drawing)?$/, any: true,
+    why: 'Kit 0.9.0, the owner\'s decision of 19 November 2026: a row\'s icon is the painted line icon at the one panel size (46 px) with nothing behind it; the pack draws a small icon on a tinted chip' },
+  { cases: /^(list|group|notice extra|row unavailable|row pill value)$/, partMatch: /^(list|row( \d+)?( (title|sub|main|value))?)$/, keys: ['x', 'w', '::before left', '::before width'],
+    why: 'Kit 0.9.0: beside the 46 px painted icon a row\'s words start 6 px further right (62 px) and the line between rows starts there too; the row keeps its height' },
 ]);
 
 const accepted = ({ section, text }, caseId, part, key) => ACCEPTED.find(a => (!a.sections || a.sections.includes(section)) && (!a.texts || a.texts.includes(text))
-  && a.cases.test(caseId) && (a.partMatch ? a.partMatch.test(part) : (a.parts ?? [a.part]).includes(part)) && a.keys.includes(key));
+  && a.cases.test(caseId) && (a.partMatch ? a.partMatch.test(part) : (a.parts ?? [a.part]).includes(part)) && (a.any === true || a.keys.includes(key)));
 
 /** The differences between the pack's and the kit's measurement of one case, on one surface ({ section, text }). */
 export function compareCase(where, caseDef, pack, kit) {

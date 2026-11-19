@@ -46,7 +46,7 @@ test('the kit is a runtime source: its graph is runtime-safe and in the hosted g
   }
   assert.deepEqual([...new Set([...files.values()].flat().filter(s => !s.startsWith('.')))], ['@mothership/contracts']);
   assert.ok(local.includes('design/phone-ui/components/icons.mjs'));
-  assert.equal(COMPONENT_KIT_VERSION, 'component-kit-0.8.2', 'not the #121 phone kit (phone-kit-0.1.0)');
+  assert.equal(COMPONENT_KIT_VERSION, 'component-kit-0.9.0', 'not the #121 phone kit (phone-kit-0.1.0)');
 });
 
 test('its styles apply only inside an ms-kit root, to elements with its own classes', () => {
@@ -197,7 +197,7 @@ test('its comparison with the pack is development only: the pages, the cases, th
   // Each half loads only its own styles: the pack's page the pack's, the kit's page the kit's and the shell's.
   assert.deepEqual([...read('design/phone-ui/components/kit/preview/pack.html').matchAll(/<link rel="stylesheet" href="([^"]+)">/g)].map(m => m[1]), ['../../../prototype/kit.css', '../../../prototype/screens.css']);
   assert.deepEqual([...read('design/phone-ui/components/kit/preview/kit.html').matchAll(/<link rel="stylesheet" href="([^"]+)">/g)].map(m => m[1]), ['../kit.css', '../../phone-shell/phone-shell.css']);
-  assert.ok(ACCEPTED.every(a => a.why.length > 40 && a.keys.length > 0), 'every accepted difference says why');
+  assert.ok(ACCEPTED.every(a => a.why.length > 40 && (a.any === true ? !a.keys && /owner\'s decision of 19 November 2026/.test(a.why) : a.keys.length > 0)), 'every accepted difference says why');
 });
 
 test('the kit check\'s record: every case agrees with the pinned pack at 100 % and 200 % text, plain and on glass', () => {
@@ -225,4 +225,30 @@ test('the kit check\'s record: every case agrees with the pinned pack at 100 % a
   // The accepted differences are the ones the rules give reasons for, and no others.
   assert.deepEqual(record.accepted.map(a => a.why), ACCEPTED.map(a => a.why));
   assert.equal(record.summary.agree, record.summary.cases);
+});
+
+// Kit 0.9.0, the panels' icons. The owner, 19 November 2026: "I like painted icons but I dont want them to have any
+// background"; "I want all size of Icons on these panels to be the same follow the size of action panel 3 column
+// matrix"; "Still they  have a background"; then, on draft 3, "No background now, go ahead".
+test('a panel\'s icon is the painted line drawing at one size with nothing behind it; an Actions cell has no frame (0.9.0)', () => {
+  const css = readFileSync(join(REPO, 'design/phone-ui/components/kit/kit.css'), 'utf8');
+  const source = readFileSync(join(REPO, 'design/phone-ui/components/kit/kit.mjs'), 'utf8');
+  // One painter, always the open form; a tile, a row and a check sheet's head all use it, and no row keeps a tinted chip.
+  assert.match(source, /iconPaintedSvg\(name, \{ className: 'ms-k-paint', open: true \}\)/);
+  assert.equal([...source.matchAll(/iconPaintedSvg\(/g)].length, 1, 'one painter');
+  assert.match(source, /setPaint\(glyph, props\.icon, state === 'unavailable' \|\| state === 'spent' \? 'off' : 'on'\)/);
+  assert.match(source, /lead\.removeAttribute\('data-tint'\);\n\s+setPaint\(lead, props\.icon, 'on'\);/);
+  assert.match(source, /if \(form === 'icon'\) setPaint\(lead, props\.icon, 'on'\)/);
+  // One size, 46 px, and no fill, corner or shadow on any holder.
+  assert.match(css, /:where\(\.ms-k-tile-icon\[data-paint\], \.ms-k-row-icon\[data-paint\], \.ms-k-who-lead\[data-form="icon"\]\[data-paint\], \.ms-k-btn-icon\[data-paint\]\) \{ width: 46px; height: 46px; background: none; border-radius: 0; box-shadow: none; \}/);
+  // A row keeps its 52 px: the icon's box overhangs the padding by as much as it is taller than the old chip's room.
+  assert.match(css, /:where\(\.ms-k-row-icon\[data-paint\]\) \{ position: relative; margin: -4px -5px; \}/);
+  // Not now is the same drawing greyed, and it keeps its words (the tile's note); never colour alone.
+  assert.match(css, /:where\(\[data-paint="off"\] > \.ms-k-paint\) \{ filter: grayscale\(1\); opacity: 0\.55; \}/);
+  // The frameless cell: only a tile with an icon (a card's art keeps its card), and each state has a cue that is no ground.
+  assert.match(css, /:where\(\.ms-k-tile:has\(> \.ms-k-tile-icon\[data-paint\]\)\) \{ background: none; box-shadow: none; \}/);
+  assert.match(css, /\[data-state="selected"\]:has\(> \.ms-k-tile-icon\[data-paint\]\) \.ms-k-tile-name\) \{ text-decoration: underline 2px var\(--ms-k-accent\); text-underline-offset: 5px; \}/);
+  assert.match(css, /\[data-state="sending"\] \.ms-k-tile-icon\[data-paint\]\)::after \{ border-color: var\(--ms-k-paper\); border-right-color: transparent; \}/);
+  assert.match(css, /:where\(\.ms-k-tile:focus-visible\) \{ outline: 3px solid #FFD36D; outline-offset: 2px; \}/, 'the focus outline is the cell\'s');
+  assert.match(css, /\.ms-k-tile\) \{\n\s+position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; min-height: 104px;/, 'the press area is the whole cell');
 });

@@ -52,7 +52,7 @@ import { iconPaintedSvg, iconTileSvg } from '../icon-paint.mjs';
 import { iconSvg } from '../icons.mjs';
 import { createControlPolicy, createKit, followTextSize } from '../kit/kit.mjs';
 
-export const PHONE_SHELL_VERSION = 'phone-shell-0.3.5';
+export const PHONE_SHELL_VERSION = 'phone-shell-0.3.6';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const KINDS = Object.freeze(['turn', 'phase', 'pair']);
 const HERO_MODES = Object.freeze(['pass', 'vote', 'voted']);
@@ -578,7 +578,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       let node = parts.tabNodes.get(key);
       if (!node) {
         if (variant === 'talk') {
-          node = kit.button({ label: TAB_WORDS[key].label, kind: 'secondary', icon: TAB_WORDS[key].icon, painted: true, intent: 'tab', value: key }); // DRAFT: painted, as the tab bar they stand for
+          node = kit.button({ label: TAB_WORDS[key].label, kind: 'secondary', icon: TAB_WORDS[key].icon, painted: true, intent: 'tab', value: key }); // 0.3.6: painted, as the tab bar they stand for
         } else if (key === 'hero') {
           node = el('div', 'ms-ps-tab ms-ps-tab-hero');
           const hero = button('ms-ps-hero', 'hero');

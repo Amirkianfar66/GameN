@@ -1,4 +1,4 @@
-// The painted form of the phone interface's icons (phone-ui-icons-1.1.0). The owner, 18 November 2026, with a
+// The painted form of the phone interface's icons (phone-ui-icons-1.2.0). The owner, 18 November 2026, with a
 // picture of the bottom bar: "This is what i am thinking of bottom bar"; and on its draft: "I am ok with this
 // new bar". Every tab's icon is a small painted tile like the character's portrait, and the round button's icon
 // is painted too. Runtime source, Designer's, beside the family it paints.
@@ -35,12 +35,6 @@ export const TILE_FRAME_PATH = FRAME;
 
 /** The tile's ground: a warm orange, lit from the upper left, as a portrait's ground is. */
 const GROUND = Object.freeze({ light: '#F19E5A', main: '#EE8B3A', deep: '#82522F', band: '#AD6933' });
-/**
- * DRAFT (the panels' style, not approved): a tile's ground says one thing. `warm`, the bar's own, is something
- * the player can press now. `steel` is something that cannot be pressed now, or only tells.
- */
-const GROUNDS = Object.freeze({ warm: GROUND, steel: Object.freeze({ light: '#8C9BB8', main: '#66769A', deep: '#2E3850', band: '#4A587A' }) });
-export const ICON_GROUNDS = Object.freeze(Object.keys(GROUNDS));
 const INK = '#151923';
 
 /** A paint: three tones of one colour, light to deep, and the line around them. */
@@ -96,11 +90,9 @@ const nextId = () => `ms-icp-${(serial += 1)}`;
  * An icon as a painted tile, an inline SVG that fills its container. Decorative (`aria-hidden`): the
  * control it is in names itself with its words. `id`: a prefix for its own ids, for a repeatable string.
  */
-export function iconTileSvg(name, { className = 'ic-tile', id = nextId(), paint = 'cream', ground = 'warm' } = {}) {
+export function iconTileSvg(name, { className = 'ic-tile', id = nextId(), paint = 'cream' } = {}) {
   const p = PAINTS[paint];
   if (!p) throw new Error(`No paint ${JSON.stringify(paint)}`);
-  const GROUND = GROUNDS[ground];
-  if (!GROUND) throw new Error(`No ground ${JSON.stringify(ground)}`);
   const g = `${id}-ground`, clip = `${id}-frame`, f = `${id}-paint`;
   const [x, y, w, h] = TILE.box;
   let bands = '';
@@ -119,7 +111,12 @@ export function iconTileSvg(name, { className = 'ic-tile', id = nextId(), paint 
     + `<path d="${FRAME}" fill="none" stroke="#FFFFFF" stroke-width="1.2" opacity="0.65"/></svg>`;
 }
 
-/** An icon's drawing alone, painted, as an inline SVG on the icons' own 24 grid with room for its line. Decorative. */
+/**
+ * An icon's drawing alone, painted, as an inline SVG on the icons' own 24 grid with room for its line. Decorative.
+ * `open` (1.2.0, the panels' icons; the owner, 19 November 2026: "I like painted icons but I dont want them to have
+ * any  background", "Still they  have a background", then "No background now, go ahead"): the family's line drawing
+ * itself is painted and nothing is filled but a dot, so no icon is a plate with marks on it.
+ */
 export function iconPaintedSvg(name, { className = 'ic-paint', id = nextId(), paint = 'ember', open = false } = {}) {
   const p = PAINTS[paint];
   if (!p) throw new Error(`No paint ${JSON.stringify(paint)}`);

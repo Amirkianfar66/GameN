@@ -381,10 +381,10 @@
 @media (prefers-reduced-motion: reduce) { .ms-kit :where(.ms-k-toast) { animation: ms-k-fade 80ms linear both; } }
 @keyframes ms-k-fade { from { opacity: 0; } }
 
-/* ── DRAFT 3, not approved: the panels' painted icons, with nothing behind them, at one size ────────────────
+/* ── The panels' painted icons, with nothing behind them, at one size (0.9.0) ───────────────────────────────
    The owner, 19 November 2026: "I like painted icons but I dont want them to have any  background"; then, on draft 2:
    "Still they  have a background" and "I want all size of Icons on these panels to be the same follow the size of
-   action panel 3 column matrix". The icon is the family's line drawing, painted, and stands on the sheet itself: its
+   action panel 3 column matrix"; on draft 3: "No background now, go ahead". The icon is the family's line drawing, painted, and stands on the sheet itself: its
    holder has no fill, edge or shadow, and no icon is a plate. One size on every panel: the Actions tile's 46 px.
    In colour: as it is. Greyed, as the round button's icon is: it cannot be pressed now. */
 .ms-kit :where(.ms-k-tile-icon[data-paint], .ms-k-row-icon[data-paint], .ms-k-who-lead[data-form="icon"][data-paint], .ms-k-btn-icon[data-paint]) { width: 46px; height: 46px; background: none; border-radius: 0; box-shadow: none; }
@@ -400,22 +400,15 @@
 .ms-kit :where(.ms-k-tile[data-state="selected"] .ms-k-tile-icon[data-paint]) { filter: drop-shadow(0 0 3px var(--ms-k-accent)); }
 .ms-kit :where(.ms-k-tile[data-state="sending"] .ms-k-tile-icon[data-paint] > .ms-k-paint) { visibility: hidden; }
 .ms-kit :where(.ms-k-tile[data-state="sending"] .ms-k-tile-icon[data-paint])::after { border-color: var(--ms-k-paper); border-right-color: transparent; }
-/* DRAFT, not approved: the dark button on glass. Its edge stood 1.0 to 1.2 : 1 from the glass (measured in Room B,
-   the Hospital and over the board), so beside the amber button it read as words, not as a button. A light edge at
-   62 % stands 3.4 to 4.3 : 1 in the same three rooms. The glass itself stays as the owner set it (56 %, 10 November). */
-/* Off the glass its fill stood 1.2 to 1.5 : 1 from the canvas and the dark surfaces; an edge at 34 % stands 3.4 to 4.2 : 1.
-   One rule, then: the dark button always carries an edge that stands 3 : 1 from its ground. */
-.ms-kit :where(.ms-k-btn-secondary) { box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.34); }
-.ms-kit :where([data-ms-surface="glass"] .ms-k-btn-secondary) { background: rgba(8, 11, 18, 0.42); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.62); }
-/* DRAFT, not approved: the weighty button (Eject, Abort match). With its edge the dark button came to look like this
-   one, which was an outline; so this one takes a solid paper fill with an ink label. Amber is the step forward, paper
-   the careful step forward, dark with an edge the way back (the Lead Designer, 19 November 2026). */
-.ms-kit :where(.ms-k-btn-warn) { background: var(--ms-k-paper); color: var(--ms-k-ink); box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.18); text-shadow: none; --ic-knock: var(--ms-k-paper); }
-.ms-kit :where(.ms-k-btn-warn[aria-busy="true"])::after { border-color: var(--ms-k-ink); border-right-color: transparent; }
-/* DRAFT, not approved: it waits for your answer. The amber of the top bar's Promises badge, as a dot at the icon's corner. */
+/* It waits for your answer. The amber of the top bar's Promises badge, as a dot at the icon's corner. */
 .ms-kit :where(.ms-k-row-icon[data-paint][data-waiting])::after { content: ""; position: absolute; top: 4px; right: 3px; width: 11px; height: 11px; border-radius: 50%; background: var(--ms-k-accent); box-shadow: 0 0 0 2px var(--ms-k-surface-3); }
-/* DRAFT 3, not approved: an Actions cell is its icon and its words on the sheet, with no frame of its own (the owner:
+/* An Actions cell (a tile with an icon; a tile with a card's art keeps its card) is its icon and its words on the sheet, with no frame of its own (the owner:
    "Still they  have a background"). The cell keeps its whole press area and its focus outline. Chosen: the icon's
    glow and an amber name. Not now: the greyed icon and its words. */
-.ms-kit :where(.ms-k-tile), .ms-kit :where([data-ms-surface="glass"] .ms-k-tile), .ms-kit :where(.ms-k-tile[data-state]) { background: none; box-shadow: none; }
-.ms-kit :where(.ms-k-tile[data-state="selected"] .ms-k-tile-name) { color: var(--ms-k-accent); }
+.ms-kit :where(.ms-k-tile:has(> .ms-k-tile-icon[data-paint])) { background: none; box-shadow: none; }
+.ms-kit :where(.ms-k-tile[data-state="selected"]:has(> .ms-k-tile-icon[data-paint]) .ms-k-tile-name) { color: var(--ms-k-accent); }
+/* A frameless cell's states, each with a cue that is not a ground. Pressed: the icon gives a little. Chosen: the
+   icon's glow, and the name in amber with a line under it. Sending: the spinner where the icon was. Registered: the
+   icon stays in colour under the tile's own stamp. Focused: the kit's outline round the whole cell. */
+.ms-kit :where(button.ms-k-tile:active .ms-k-tile-icon[data-paint]) { transform: scale(0.92); }
+.ms-kit :where(.ms-k-tile[data-state="selected"]:has(> .ms-k-tile-icon[data-paint]) .ms-k-tile-name) { text-decoration: underline 2px var(--ms-k-accent); text-underline-offset: 5px; }

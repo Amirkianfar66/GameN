@@ -1,0 +1,2058 @@
+{
+  "tool": "design/tools/captain-console-check.mjs",
+  "component": "design/phone-ui/components/captain-console",
+  "sourceCommit": "f63b75bdb0530f69c69a211de98d2a7bea766eed",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": {
+    "390x844/console": {
+      "file": "design/phone-ui/components/captain-console/review/390x844-console.jpg",
+      "sha256": "cb93e9a7451185440984197d3a1484c0a65177735e78b00b73ce7d5b1a1ded34",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BV-KfDID.js",
+          "line": 1,
+          "column": 6606,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Captain console",
+      "detent": "auto",
+      "back": false,
+      "close": true,
+      "title": "Captain console",
+      "line": "Command Room · your turn",
+      "openTab": "actions",
+      "plates": "release:available:available:on|eject:available:available:on",
+      "lines": "Once a match|Once a match",
+      "covered": 0,
+      "note": "Each command works once a match, whoever is Captain.",
+      "who": null,
+      "facts": "",
+      "foot": "",
+      "footBusy": false,
+      "commandKind": null,
+      "commandWaits": null,
+      "cancelRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg",
+        "assets/plate-release-available-BF9K9_pw.svg",
+        "assets/plate-eject-available-CS0oXmbH.svg"
+      ],
+      "problems": []
+    },
+    "430x932/console": {
+      "file": "design/phone-ui/components/captain-console/review/430x932-console.jpg",
+      "sha256": "177f1b2f07a9df9b6e583028bcfd7b64f30926a557291bf11147ef0df8f0477a",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BV-KfDID.js",
+          "line": 1,
+          "column": 6606,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Captain console",
+      "detent": "auto",
+      "back": false,
+      "close": true,
+      "title": "Captain console",
+      "line": "Command Room · your turn",
+      "openTab": "actions",
+      "plates": "release:available:available:on|eject:available:available:on",
+      "lines": "Once a match|Once a match",
+      "covered": 0,
+      "note": "Each command works once a match, whoever is Captain.",
+      "who": null,
+      "facts": "",
+      "foot": "",
+      "footBusy": false,
+      "commandKind": null,
+      "commandWaits": null,
+      "cancelRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg",
+        "assets/plate-release-available-BF9K9_pw.svg",
+        "assets/plate-eject-available-CS0oXmbH.svg"
+      ],
+      "problems": []
+    },
+    "390x844/used": {
+      "file": "design/phone-ui/components/captain-console/review/390x844-used.jpg",
+      "sha256": "70725f849fa95e2c3fe490a43b597e18bec7054157f2d26206b2a3e7c31f71c8",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BV-KfDID.js",
+          "line": 1,
+          "column": 6606,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Captain console",
+      "detent": "auto",
+      "back": false,
+      "close": true,
+      "title": "Captain console",
+      "line": "Command Room · your turn",
+      "openTab": "actions",
+      "plates": "release:spent:used:off|eject:unavailable:unavailable:off",
+      "lines": "Used|No one in Jail",
+      "covered": 0,
+      "note": "Each command works once a match, whoever is Captain.",
+      "who": null,
+      "facts": "",
+      "foot": "",
+      "footBusy": false,
+      "commandKind": null,
+      "commandWaits": null,
+      "cancelRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg",
+        "assets/plate-release-used-Bd3-NHx6.svg",
+        "assets/plate-eject-unavailable-BOptGwNk.svg"
+      ],
+      "problems": []
+    },
+    "430x932/used": {
+      "file": "design/phone-ui/components/captain-console/review/430x932-used.jpg",
+      "sha256": "dc71c87324eba74a4a3d3f94d0235a2ec0b84df74f0cd369d8ce5ff213b8348a",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BV-KfDID.js",
+          "line": 1,
+          "column": 6606,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Captain console",
+      "detent": "auto",
+      "back": false,
+      "close": true,
+      "title": "Captain console",
+      "line": "Command Room · your turn",
+      "openTab": "actions",
+      "plates": "release:spent:used:off|eject:unavailable:unavailable:off",
+      "lines": "Used|No one in Jail",
+      "covered": 0,
+      "note": "Each command works once a match, whoever is Captain.",
+      "who": null,
+      "facts": "",
+      "foot": "",
+      "footBusy": false,
+      "commandKind": null,
+      "commandWaits": null,
+      "cancelRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg",
+        "assets/plate-release-used-Bd3-NHx6.svg",
+        "assets/plate-eject-unavailable-BOptGwNk.svg"
+      ],
+      "problems": []
+    },
+    "390x844/release": {
+      "file": "design/phone-ui/components/captain-console/review/390x844-release.jpg",
+      "sha256": "7df7afc3faace103f4eaec6170579e595289754a7500c92f39392ec63ddcb5d6",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BV-KfDID.js",
+          "line": 1,
+          "column": 6606,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Captain console",
+      "detent": "auto",
+      "back": false,
+      "close": false,
+      "title": "Captain console",
+      "line": null,
+      "openTab": null,
+      "plates": "",
+      "lines": "",
+      "covered": 0,
+      "note": null,
+      "who": "Release the Jail|Fay and Ike are in Jail|release",
+      "facts": "Once a match, on your turn in the Command Room|Frees everyone physically in Jail now|Hospital detention is not affected",
+      "foot": "Cancel|Release",
+      "footBusy": false,
+      "commandKind": "primary",
+      "commandWaits": null,
+      "cancelRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg"
+      ],
+      "problems": []
+    },
+    "430x932/release": {
+      "file": "design/phone-ui/components/captain-console/review/430x932-release.jpg",
+      "sha256": "a1585ffc0fd12a75d21c277a25f4c737b327bb844db9e0973847e46ac5e894c1",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BV-KfDID.js",
+          "line": 1,
+          "column": 6606,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Captain console",
+      "detent": "auto",
+      "back": false,
+      "close": false,
+      "title": "Captain console",
+      "line": null,
+      "openTab": null,
+      "plates": "",
+      "lines": "",
+      "covered": 0,
+      "note": null,
+      "who": "Release the Jail|Fay and Ike are in Jail|release",
+      "facts": "Once a match, on your turn in the Command Room|Frees everyone physically in Jail now|Hospital detention is not affected",
+      "foot": "Cancel|Release",
+      "footBusy": false,
+      "commandKind": "primary",
+      "commandWaits": null,
+      "cancelRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg"
+      ],
+      "problems": []
+    },
+    "390x844/eject": {
+      "file": "design/phone-ui/components/captain-console/review/390x844-eject.jpg",
+      "sha256": "1db3b4dcd27051e095a12438071a9f86334b795dc85e6c27bb465599ac8b254d",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BV-KfDID.js",
+          "line": 1,
+          "column": 6606,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Captain console",
+      "detent": "auto",
+      "back": false,
+      "close": false,
+      "title": "Captain console",
+      "line": null,
+      "openTab": null,
+      "plates": "",
+      "lines": "",
+      "covered": 0,
+      "note": null,
+      "who": "Eject the Jail|Fay and Ike are in Jail|eject",
+      "facts": "Once a match, on your turn in the Command Room|Ejects everyone physically in Jail now|Hospital detention is not affected",
+      "foot": "Cancel|Eject",
+      "footBusy": false,
+      "commandKind": "warn",
+      "commandWaits": null,
+      "cancelRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg"
+      ],
+      "problems": []
+    },
+    "430x932/eject": {
+      "file": "design/phone-ui/components/captain-console/review/430x932-eject.jpg",
+      "sha256": "171312cf7ac6536c2b5781e36a7ba72651fac2f5037b9fa5d26f1e7e9bfdddab",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BV-KfDID.js",
+          "line": 1,
+          "column": 6606,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Captain console",
+      "detent": "auto",
+      "back": false,
+      "close": false,
+      "title": "Captain console",
+      "line": null,
+      "openTab": null,
+      "plates": "",
+      "lines": "",
+      "covered": 0,
+      "note": null,
+      "who": "Eject the Jail|Fay and Ike are in Jail|eject",
+      "facts": "Once a match, on your turn in the Command Room|Ejects everyone physically in Jail now|Hospital detention is not affected",
+      "foot": "Cancel|Eject",
+      "footBusy": false,
+      "commandKind": "warn",
+      "commandWaits": null,
+      "cancelRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg"
+      ],
+      "problems": []
+    },
+    "390x844/sending": {
+      "file": "design/phone-ui/components/captain-console/review/390x844-sending.jpg",
+      "sha256": "57b9e358b5fb4bb122f92e29eb5268d2f9f99f711343394e203a85e6214ede8a",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BV-KfDID.js",
+          "line": 1,
+          "column": 6606,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Captain console",
+      "detent": "auto",
+      "back": false,
+      "close": false,
+      "title": "Captain console",
+      "line": null,
+      "openTab": null,
+      "plates": "",
+      "lines": "",
+      "covered": 0,
+      "note": null,
+      "who": "Release the Jail|Fay and Ike are in Jail|release",
+      "facts": "Once a match, on your turn in the Command Room|Frees everyone physically in Jail now|Hospital detention is not affected",
+      "foot": "Cancel|Release",
+      "footBusy": true,
+      "commandKind": "primary",
+      "commandWaits": null,
+      "cancelRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg"
+      ],
+      "problems": []
+    },
+    "430x932/sending": {
+      "file": "design/phone-ui/components/captain-console/review/430x932-sending.jpg",
+      "sha256": "c32352ba2360462e35abe59a6b025a7e2e0f37057ba04089d1aca42208930d79",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BV-KfDID.js",
+          "line": 1,
+          "column": 6606,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Captain console",
+      "detent": "auto",
+      "back": false,
+      "close": false,
+      "title": "Captain console",
+      "line": null,
+      "openTab": null,
+      "plates": "",
+      "lines": "",
+      "covered": 0,
+      "note": null,
+      "who": "Release the Jail|Fay and Ike are in Jail|release",
+      "facts": "Once a match, on your turn in the Command Room|Frees everyone physically in Jail now|Hospital detention is not affected",
+      "foot": "Cancel|Release",
+      "footBusy": true,
+      "commandKind": "primary",
+      "commandWaits": null,
+      "cancelRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg"
+      ],
+      "problems": []
+    },
+    "390x844/stale": {
+      "file": "design/phone-ui/components/captain-console/review/390x844-stale.jpg",
+      "sha256": "923f37697584f6628b8f77920d4ae4244d1a03e251e76abd844870cc08c8cec6",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BV-KfDID.js",
+          "line": 1,
+          "column": 6606,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Captain console",
+      "detent": "auto",
+      "back": false,
+      "close": false,
+      "title": "Captain console",
+      "line": null,
+      "openTab": null,
+      "plates": "",
+      "lines": "",
+      "covered": 0,
+      "note": null,
+      "who": "Release the Jail|Fay and Ike are in Jail|release",
+      "facts": "Once a match, on your turn in the Command Room|Frees everyone physically in Jail now|Hospital detention is not affected",
+      "foot": "Cancel|Release",
+      "footBusy": false,
+      "commandKind": "primary",
+      "commandWaits": "Controls return when the match is current",
+      "cancelRefused": false,
+      "banner": true,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg"
+      ],
+      "problems": []
+    },
+    "430x932/stale": {
+      "file": "design/phone-ui/components/captain-console/review/430x932-stale.jpg",
+      "sha256": "0548f4664297ccb97b83ee5493e36bef55e15eed015f0ba9ae6baa90177a1524",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BV-KfDID.js",
+          "line": 1,
+          "column": 6606,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Captain console",
+      "detent": "auto",
+      "back": false,
+      "close": false,
+      "title": "Captain console",
+      "line": null,
+      "openTab": null,
+      "plates": "",
+      "lines": "",
+      "covered": 0,
+      "note": null,
+      "who": "Release the Jail|Fay and Ike are in Jail|release",
+      "facts": "Once a match, on your turn in the Command Room|Frees everyone physically in Jail now|Hospital detention is not affected",
+      "foot": "Cancel|Release",
+      "footBusy": false,
+      "commandKind": "primary",
+      "commandWaits": "Controls return when the match is current",
+      "cancelRefused": false,
+      "banner": true,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg"
+      ],
+      "problems": []
+    },
+    "390x844/largest": {
+      "file": "design/phone-ui/components/captain-console/review/390x844-largest.jpg",
+      "sha256": "3c3acd3fe4880be18373a42181a5ef289568774d65d5e9a8c2ba8f7500ef327e",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BV-KfDID.js",
+          "line": 1,
+          "column": 6606,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "name": "group:Captain console",
+      "detent": "auto",
+      "back": false,
+      "close": true,
+      "title": "Captain console",
+      "line": "Command Room · your turn",
+      "openTab": "actions",
+      "plates": "release:available:available:on|eject:available:available:on",
+      "lines": "Once a match|Once a match",
+      "covered": 0,
+      "note": "Each command works once a match, whoever is Captain.",
+      "who": null,
+      "facts": "",
+      "foot": "",
+      "footBusy": false,
+      "commandKind": null,
+      "commandWaits": null,
+      "cancelRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg",
+        "assets/plate-release-available-BF9K9_pw.svg",
+        "assets/plate-eject-available-CS0oXmbH.svg"
+      ],
+      "problems": []
+    },
+    "430x932/largest": {
+      "file": "design/phone-ui/components/captain-console/review/430x932-largest.jpg",
+      "sha256": "0a4878400a01e128e74070299dd7bc7f7c13a988a03c787e0e809ccb57d7d354",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BV-KfDID.js",
+          "line": 1,
+          "column": 6606,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "name": "group:Captain console",
+      "detent": "auto",
+      "back": false,
+      "close": true,
+      "title": "Captain console",
+      "line": "Command Room · your turn",
+      "openTab": "actions",
+      "plates": "release:available:available:on|eject:available:available:on",
+      "lines": "Once a match|Once a match",
+      "covered": 0,
+      "note": "Each command works once a match, whoever is Captain.",
+      "who": null,
+      "facts": "",
+      "foot": "",
+      "footBusy": false,
+      "commandKind": null,
+      "commandWaits": null,
+      "cancelRefused": false,
+      "banner": false,
+      "cut": [],
+      "requests": [
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/command-room.back-C2uzuPed.svg",
+        "assets/command-room.table-D2KkKCKZ.svg",
+        "assets/command-room.extend-DMnYSO8W.svg",
+        "assets/plate-release-available-BF9K9_pw.svg",
+        "assets/plate-eject-available-CS0oXmbH.svg"
+      ],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "plates: an available plate reports its kind; a used or unavailable one is refused; the lines as given, never worked out",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "both": [
+              "release",
+              "eject"
+            ],
+            "lines": [
+              "Once a match",
+              "Once a match"
+            ],
+            "used": {
+              "reports": 2,
+              "states": [
+                "spent",
+                "unavailable"
+              ],
+              "refused": [
+                true,
+                true
+              ],
+              "lines": [
+                "Used",
+                "No one in Jail"
+              ]
+            },
+            "reasons": [
+              "Not available now",
+              null
+            ],
+            "notWorkedOut": [
+              "Once a match",
+              false
+            ]
+          }
+        },
+        {
+          "id": "art: each plate draws its state's art from the film bundle, and nothing covers it",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": [
+              "release-available:plate-release-available.svg",
+              "eject-available:plate-eject-available.svg"
+            ],
+            "later": [
+              "release-used:plate-release-used.svg",
+              "eject-unavailable:plate-eject-unavailable.svg"
+            ],
+            "overlaps": []
+          }
+        },
+        {
+          "id": "footer: Cancel this phone's own; Release and Eject the commands with Frontend's state; the ✕ on the console only",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "sheets": {
+              "console": {
+                "id": "captain-console",
+                "title": "Captain console",
+                "back": false,
+                "detent": "auto",
+                "sub": "Command Room · your turn",
+                "close": true,
+                "actions": []
+              },
+              "release": {
+                "id": "captain-console",
+                "title": "Captain console",
+                "back": false,
+                "detent": "auto",
+                "close": false,
+                "actions": [
+                  {
+                    "id": "cancel",
+                    "label": "Cancel",
+                    "kind": "secondary",
+                    "local": true
+                  },
+                  {
+                    "id": "release",
+                    "label": "Release",
+                    "kind": "primary",
+                    "enabled": true,
+                    "busy": false,
+                    "reason": null
+                  }
+                ]
+              },
+              "eject": {
+                "id": "captain-console",
+                "title": "Captain console",
+                "back": false,
+                "detent": "auto",
+                "close": false,
+                "actions": [
+                  {
+                    "id": "cancel",
+                    "label": "Cancel",
+                    "kind": "secondary",
+                    "local": true
+                  },
+                  {
+                    "id": "eject",
+                    "label": "Eject",
+                    "kind": "warn",
+                    "enabled": true,
+                    "busy": false,
+                    "reason": null
+                  }
+                ]
+              },
+              "refusedCommand": {
+                "id": "captain-console",
+                "title": "Captain console",
+                "back": false,
+                "detent": "auto",
+                "close": false,
+                "actions": [
+                  {
+                    "id": "cancel",
+                    "label": "Cancel",
+                    "kind": "secondary",
+                    "local": true
+                  },
+                  {
+                    "id": "release",
+                    "label": "Release",
+                    "kind": "primary",
+                    "enabled": false,
+                    "busy": false,
+                    "reason": "Not available now"
+                  }
+                ]
+              },
+              "busy": {
+                "id": "captain-console",
+                "title": "Captain console",
+                "back": false,
+                "detent": "auto",
+                "close": false,
+                "actions": [
+                  {
+                    "id": "cancel",
+                    "label": "Cancel",
+                    "kind": "secondary",
+                    "local": true
+                  },
+                  {
+                    "id": "eject",
+                    "label": "Eject",
+                    "kind": "warn",
+                    "enabled": true,
+                    "busy": true,
+                    "reason": null
+                  }
+                ]
+              }
+            },
+            "confirm": {
+              "title": "Captain console",
+              "close": false,
+              "foot": "Cancel|Release"
+            },
+            "consoleFrame": {
+              "title": "Captain console",
+              "close": true,
+              "foot": ""
+            },
+            "sending": true,
+            "off": {
+              "refused": true,
+              "dimmed": true,
+              "why": "Not available now"
+            },
+            "got": "cancel|release"
+          }
+        },
+        {
+          "id": "confirm: the who block with Frontend's names in the pack's words, and the facts",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "release": {
+              "who": [
+                "Release the Jail",
+                "Fay and Ike are in Jail",
+                "release"
+              ],
+              "facts": [
+                "Once a match, on your turn in the Command Room",
+                "Frees everyone physically in Jail now",
+                "Hospital detention is not affected"
+              ]
+            },
+            "one": "Fay is in Jail",
+            "three": "Fay, Ike and Gus are in Jail",
+            "none": null,
+            "eject": {
+              "who": [
+                "Eject the Jail",
+                "Fay and Ike are in Jail",
+                "eject"
+              ],
+              "facts": [
+                "Once a match, on your turn in the Command Room",
+                "Ejects everyone physically in Jail now",
+                "Hospital detention is not affected"
+              ]
+            }
+          }
+        },
+        {
+          "id": "privacy: every view refused unless the viewer is the Captain; the plates, the names and the command leave on a viewer change and while concealed; nothing comes back",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "refusals": {
+              "stranger": true,
+              "noViewer": true,
+              "noCaptain": true,
+              "captain": true
+            },
+            "before": true,
+            "moved": {
+              "names": false,
+              "refused": true
+            },
+            "concealed": {
+              "words": "",
+              "foot": 0
+            },
+            "back": {
+              "names": false,
+              "states": [
+                "unavailable",
+                "unavailable"
+              ]
+            }
+          }
+        },
+        {
+          "id": "reconnect: opening a confirm and Cancel still work; Release and Eject wait with the banner's words",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "got": [
+              "onPlate:release",
+              "onSheetAction:cancel"
+            ],
+            "releaseWait": {
+              "refused": true,
+              "dimmed": false,
+              "why": "Controls return when the match is current"
+            },
+            "ejectWait": {
+              "refused": true,
+              "why": "Controls return when the match is current"
+            }
+          }
+        },
+        {
+          "id": "focus: a plate keeps its element and the focus through its states; a focused plate that leaves returns the focus once",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "kept": true,
+            "active": true,
+            "returns": [
+              [
+                "onFocusReturn",
+                {
+                  "intent": "plate",
+                  "value": "eject"
+                }
+              ]
+            ]
+          }
+        },
+        {
+          "id": "layout: at 390 × 844, the content 16 px in, the plates two across at 150 px, their art 140 × 78 and centred",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "grid": [
+              16,
+              16
+            ],
+            "tiles": [
+              [
+                174,
+                150
+              ],
+              [
+                174,
+                150
+              ]
+            ],
+            "arts": [
+              {
+                "w": 140,
+                "h": 78,
+                "centred": true
+              },
+              {
+                "w": 140,
+                "h": 78,
+                "centred": true
+              }
+            ],
+            "note": [
+              20,
+              20
+            ],
+            "who": [
+              16,
+              16
+            ],
+            "facts": [
+              16,
+              16
+            ]
+          }
+        },
+        {
+          "id": "layout: at 430 × 932, the content 16 px in, the plates two across at 150 px, their art 140 × 78 and centred",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "grid": [
+              16,
+              16
+            ],
+            "tiles": [
+              [
+                194,
+                150
+              ],
+              [
+                194,
+                150
+              ]
+            ],
+            "arts": [
+              {
+                "w": 140,
+                "h": 78,
+                "centred": true
+              },
+              {
+                "w": 140,
+                "h": 78,
+                "centred": true
+              }
+            ],
+            "note": [
+              20,
+              20
+            ],
+            "who": [
+              16,
+              16
+            ],
+            "facts": [
+              16,
+              16
+            ]
+          }
+        },
+        {
+          "id": "layout: the console with the Largest text (200 %): every word whole, the last part reached by scrolling, the footer in view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "parts": 5,
+            "cut": [],
+            "reachable": true,
+            "foot": true
+          }
+        },
+        {
+          "id": "layout: the commands used with the Largest text (200 %): every word whole, the last part reached by scrolling, the footer in view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "parts": 5,
+            "cut": [],
+            "reachable": true,
+            "foot": true
+          }
+        },
+        {
+          "id": "layout: the Release confirm with the Largest text (200 %): every word whole, the last part reached by scrolling, the footer in view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "parts": 5,
+            "cut": [],
+            "reachable": true,
+            "foot": true
+          }
+        },
+        {
+          "id": "dispose: safe twice; afterwards nothing is left in the sheet and nothing fires",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "body": 0,
+              "calls": 0,
+              "connected": false,
+              "plates": false
+            },
+            "left": []
+          }
+        },
+        {
+          "id": "motion: none of its own, with or without the game's Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": 0,
+            "changed": 0,
+            "reduced": {
+              "own": 0,
+              "mode": "reduced"
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BV-KfDID.js",
+          "line": 1,
+          "column": 6606,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "motion: none of its own, with the device's Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": 0,
+            "changed": 0,
+            "reduced": {
+              "own": 0,
+              "mode": "reduced"
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-BV-KfDID.js",
+          "line": 1,
+          "column": 6606,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: Captain console at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plates": {
+              "pack": 1,
+              "screen": 1
+            },
+            "plate tiles": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plate art": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plate art fade": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plate names": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plate lines": {
+              "pack": 2,
+              "screen": 2
+            },
+            "notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who icon drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "facts": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact icons": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {
+            "pictures": [
+              "plate-release-available.svg",
+              "plate-eject-available.svg"
+            ]
+          }
+        }
+      },
+      {
+        "id": "agree: Captain console at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plates": {
+              "pack": 1,
+              "screen": 1
+            },
+            "plate tiles": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plate art": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plate art fade": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plate names": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plate lines": {
+              "pack": 2,
+              "screen": 2
+            },
+            "notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who icon drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "facts": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact icons": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {
+            "pictures": [
+              "plate-release-available.svg",
+              "plate-eject-available.svg"
+            ]
+          }
+        }
+      },
+      {
+        "id": "agree: Commands used at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plates": {
+              "pack": 1,
+              "screen": 1
+            },
+            "plate tiles": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plate art": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plate art fade": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plate names": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plate lines": {
+              "pack": 2,
+              "screen": 2
+            },
+            "notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who icon drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "facts": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact icons": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {
+            "refusedPlates": [
+              "plate tiles 1: spent",
+              "plate tiles 2: unavailable"
+            ],
+            "pictures": [
+              "plate-release-used.svg",
+              "plate-eject-unavailable.svg"
+            ]
+          }
+        }
+      },
+      {
+        "id": "agree: Commands used at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plates": {
+              "pack": 1,
+              "screen": 1
+            },
+            "plate tiles": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plate art": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plate art fade": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plate names": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plate lines": {
+              "pack": 2,
+              "screen": 2
+            },
+            "notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who icon drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "facts": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact icons": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {
+            "refusedPlates": [
+              "plate tiles 1: spent",
+              "plate tiles 2: unavailable"
+            ],
+            "pictures": [
+              "plate-release-used.svg",
+              "plate-eject-unavailable.svg"
+            ]
+          }
+        }
+      },
+      {
+        "id": "agree: Release · confirm at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plates": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plate tiles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plate art": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plate art fade": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plate names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plate lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who icon drawing": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "facts": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fact lines": {
+              "pack": 3,
+              "screen": 3
+            },
+            "fact icons": {
+              "pack": 3,
+              "screen": 3
+            }
+          },
+          "recorded": {
+            "pictures": []
+          }
+        }
+      },
+      {
+        "id": "agree: Release · confirm at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plates": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plate tiles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plate art": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plate art fade": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plate names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plate lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who icon drawing": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "facts": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fact lines": {
+              "pack": 3,
+              "screen": 3
+            },
+            "fact icons": {
+              "pack": 3,
+              "screen": 3
+            }
+          },
+          "recorded": {
+            "pictures": []
+          }
+        }
+      },
+      {
+        "id": "agree: Eject from the console at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plates": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plate tiles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plate art": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plate art fade": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plate names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plate lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who icon drawing": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "facts": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fact lines": {
+              "pack": 3,
+              "screen": 3
+            },
+            "fact icons": {
+              "pack": 3,
+              "screen": 3
+            }
+          },
+          "recorded": {
+            "pictures": []
+          }
+        }
+      },
+      {
+        "id": "agree: Eject from the console at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer buttons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plates": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plate tiles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plate art": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plate art fade": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plate names": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plate lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "notes": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who icon": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who icon drawing": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "facts": {
+              "pack": 1,
+              "screen": 1
+            },
+            "fact lines": {
+              "pack": 3,
+              "screen": 3
+            },
+            "fact icons": {
+              "pack": 3,
+              "screen": 3
+            }
+          },
+          "recorded": {
+            "pictures": []
+          }
+        }
+      },
+      {
+        "id": "agree: Captain console with the Largest text (200 %) at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "footer buttons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "plates": {
+              "pack": 1,
+              "screen": 1
+            },
+            "plate tiles": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plate art": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plate art fade": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plate names": {
+              "pack": 2,
+              "screen": 2
+            },
+            "plate lines": {
+              "pack": 2,
+              "screen": 2
+            },
+            "notes": {
+              "pack": 1,
+              "screen": 1
+            },
+            "who": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who icon": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who icon drawing": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who title": {
+              "pack": 0,
+              "screen": 0
+            },
+            "who line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "facts": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "fact icons": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": {
+            "pictures": [
+              "plate-release-available.svg",
+              "plate-eject-available.svg"
+            ]
+          }
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-BV-KfDID.js",
+        "line": 1,
+        "column": 6606,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}
