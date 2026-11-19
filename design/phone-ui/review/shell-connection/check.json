@@ -2,7 +2,7 @@
   "tool": "design/tools/shell-connection-check.mjs",
   "what": "The Planet app's match frame drawn by the phone shell (design/phone-ui/components/phone-shell), in Frontend's phone and Food harnesses (apps/game/dev/phone) built from the candidate below",
   "candidate": {
-    "commit": "c2186d86daa08a6e11ef06c4983631649da1332a",
+    "commit": "265a865cb20dcf0fe6605f9d5b12a1267f5c6cad",
     "clean": true,
     "dirty": []
   },
@@ -58,7 +58,7 @@
         "voteSent": true
       },
       "file": "design/phone-ui/review/shell-connection/320x568-largest-ballot.jpg",
-      "sha256": "a62d8fadf5d7c385dc7ec1450abaf10ba0c886acbd9a3874ee4960459d04ea59",
+      "sha256": "d704ec531365003a693a2e079435422054adc5f79252118713c957030480bf27",
       "seen": {
         "shell": {
           "status": "live",
@@ -367,7 +367,7 @@
         "whole": true
       },
       "file": "design/phone-ui/review/shell-connection/320x568-largest-pass.jpg",
-      "sha256": "9a76106c208cffff656641ea38506ebf54f5959b445ff936a563cc8b7f5f699e",
+      "sha256": "7ede1b6be274d27379ba7a8a6e9d790f9e70cacbc6d7a64c395a9070883acc90",
       "seen": {
         "shell": {
           "status": "live",
@@ -694,7 +694,7 @@
         "focusBack": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-actions.jpg",
-      "sha256": "036a4e298ec3a957d8597859f7b589ad43c2e29f5e97b16e745c06aaac71da5c",
+      "sha256": "bb90ac216a19309ce25f6e27d1c02f7c692dcc71a33439da5fd43622822c82f3",
       "seen": {
         "shell": {
           "status": "live",
@@ -972,7 +972,7 @@
         "ownBar": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-appointment.jpg",
-      "sha256": "5749aeb0bf78b21f9339b9d185012c0b4742847a7f13c3430739cb2671e4d490",
+      "sha256": "bca405fa7085d4c8f902b05be1c8f70420de250dde12cd975c439403e28d14e3",
       "seen": {
         "shell": {
           "status": "live",
@@ -1229,7 +1229,7 @@
         "closed": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-ballot.jpg",
-      "sha256": "d4cc7203e3fdd87702a988e73f8a2af5f8bbde31b3ec7f0302318b9a4aa1ebfb",
+      "sha256": "31b8edf8b542cfc17867a0477159e0faf49bd64ed7fa2ff4bc8148b57755376b",
       "seen": {
         "shell": {
           "status": "live",
@@ -1524,7 +1524,7 @@
         "noTarget": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-before.jpg",
-      "sha256": "3a59ea97b6a3253bcc3bbb7886479da352557ededa05990653182080c740671d",
+      "sha256": "b84d6bd0f689bf8cfb75428a96ba8fe3627160dafe131a980b147194eb3f2f74",
       "seen": {
         "shell": {
           "status": "live",
@@ -1781,7 +1781,7 @@
         "fourTiles": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-blackout.jpg",
-      "sha256": "7e0acf729322bc5d964bfbd93bbcb1b52c52ab2e629dd79ac4ba6926eca657cc",
+      "sha256": "e81bc2ced51b227a3adb8c2fdf159af9b8e235c3f9053a81b383cd296a0dc3cd",
       "seen": {
         "shell": {
           "status": "live",
@@ -2042,7 +2042,7 @@
         "nextTurn": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-closed.jpg",
-      "sha256": "b0c8d4cfedc558ddda65b2c876a3bcf25396128b1636d3e1f2e0108f8b16cbe7",
+      "sha256": "64bac3abc2c66f807357af8cac93b3aab9fb77638f864e3f8c9fca3a026a8ab5",
       "seen": {
         "shell": {
           "status": "live",
@@ -2418,7 +2418,7 @@
         "backIntoPanels": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-course.jpg",
-      "sha256": "f8fb83fad96d7b350c09a1859856cdc69f5642c0a98e284f13d7b88f634dfcad",
+      "sha256": "e8c1f2fc082f8b7b1bdb45cf6bcc3ee17d0e9ba5939fa90a63023fc599d41738",
       "seen": {
         "shell": {
           "status": "live",
@@ -2675,7 +2675,7 @@
         "settings": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-display.jpg",
-      "sha256": "b6e6aba14e83775cf07a3cb7318b135ea1f9ab7733813fd9164a81ba29b88039",
+      "sha256": "39b5ed99fd9b37db297e0dce402613143f989f6df559e4499efd51460ed2a56a",
       "seen": {
         "shell": {
           "status": "live",
@@ -2785,7 +2785,7 @@
         "othersOn": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-eliminated.jpg",
-      "sha256": "097512ff5e8cc0d184a713673fbf57efb853346f4402f0fab2afc88bb0bc8d65",
+      "sha256": "d9cd151d2351b547122a5a609dfaa335ededc3c9200eb3e29f748b1e69972cd3",
       "seen": {
         "shell": {
           "status": "live",
@@ -3057,7 +3057,7 @@
         "stillNothingSent": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-focus.jpg",
-      "sha256": "9c5de6e96456dc1636605d8cb028fa774d8aa1cd244808f79636355ee50aa03d",
+      "sha256": "78d9adfe745a8aaccce4b0f313f719cdd0a97e245f66f960d967895886e8d46d",
       "seen": {
         "shell": {
           "status": "live",
@@ -3341,7 +3341,7 @@
         "foodMatch": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-food-gauge.jpg",
-      "sha256": "9c22070645c4953c7ab048b5b7fe10eef2182f8ed87ed8ed5b4d140c337f17b9",
+      "sha256": "af84808b72f6e3237dc8b9e9bff86808e5409ce836caa6039342403d8b5e02ef",
       "seen": {
         "shell": {
           "status": "live",
@@ -3599,7 +3599,7 @@
         "foodTakesTaps": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-food-surface.jpg",
-      "sha256": "0ea0a8986f94589f9ef5cb668a8fe9511c98e74a49b209987662ad42caa7fea7",
+      "sha256": "aca77e28edc11e1ea816f4260ff604e55cf52f3cd4c631b721be244b255fd6bf",
       "seen": {
         "shell": {
           "status": "concealed",
@@ -3747,7 +3747,7 @@
         "oneNewPressVotesOnce": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-held.jpg",
-      "sha256": "30606a7eb3953c1eee22ad19cb9564ff8ebf8b991b3e16ceb82397982d20ae0a",
+      "sha256": "a32731a7204ff9362f792d8756107dfcf9ef9eef6bfd06a8faf664afc114ec3c",
       "seen": {
         "shell": {
           "status": "live",
@@ -4042,7 +4042,7 @@
         "roomScene": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-own.jpg",
-      "sha256": "fcd604c16bce38fa55a6c6df27efe9d902dc48648b3a1c94c56c262938d66ede",
+      "sha256": "32267d54df6a58f426a115064c053d680587a318bde4d9bdf3820a98161c80e4",
       "seen": {
         "shell": {
           "status": "live",
@@ -4065,7 +4065,7 @@
           "glyph": null,
           "portrait": true,
           "round": "R6",
-          "clock": "0:59",
+          "clock": "0:58",
           "urgent": false,
           "ring": false,
           "promises": "Promises",
@@ -4302,7 +4302,7 @@
         "infoToast": "Registered. Waiting for the authoritative view."
       },
       "file": "design/phone-ui/review/shell-connection/390x844-pass.jpg",
-      "sha256": "557b3d5c60addcb53039514c48a2135fb9881a8e2f55d40e40cf463973001eff",
+      "sha256": "7b7d3962a28afbfd26b90ff3a7099e6646da9b3f94af1a022df32fad809c7754",
       "seen": {
         "shell": {
           "status": "live",
@@ -4325,7 +4325,7 @@
           "glyph": null,
           "portrait": true,
           "round": "R6",
-          "clock": "0:58",
+          "clock": "0:57",
           "urgent": false,
           "ring": false,
           "promises": "Promises",
@@ -4583,7 +4583,7 @@
           "food": false
         },
         "commands": [],
-        "reads": 2,
+        "reads": 3,
         "violations": [
           {
             "directive": "script-src",
@@ -4613,7 +4613,7 @@
         "retryReads": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-reconnecting.jpg",
-      "sha256": "73fc467d09014db21999ee11d55951742fc91600a5400b82e6e5b05dde504286",
+      "sha256": "bb5e22b349f06f3183b9f77e3fdea474336adaacba553aacfbd6e9d736c3014d",
       "seen": {
         "shell": {
           "status": "stale",
@@ -4893,7 +4893,7 @@
         "sheetOverResult": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-result.jpg",
-      "sha256": "b47793f944b2a5444f596c0985735cbf4a2d4daf7701f9223b5f9804dd85e0e3",
+      "sha256": "dc3c0e3046bb739599761c6e04f3438b5bf719c9d304496ec800a98a235d3d01",
       "seen": {
         "shell": {
           "status": "live",
@@ -5157,7 +5157,7 @@
         "noGameTabs": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-talk.jpg",
-      "sha256": "f24b7acf9a8ea538ade0628e6440e302a3b10a119107241f3773d81b59db030e",
+      "sha256": "d513931757e4aad4708eb4a6901fddaf0bd2bab7348037f5798768520afbe35f",
       "seen": {
         "shell": {
           "status": "live",
@@ -5298,7 +5298,7 @@
         "everyonesBar": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-target.jpg",
-      "sha256": "a4cc80ebe50b8a1e39bd04e29bced555d746c1d69b476870b2f544711d866b40",
+      "sha256": "fd5a5dd7213bd5e2d18ded9b30a9e0ce1dd9301c66bc158b8e2853be2c35787d",
       "seen": {
         "shell": {
           "status": "live",
@@ -5588,7 +5588,7 @@
         "tiles": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-turn.jpg",
-      "sha256": "d2caf346a26d16328cb33d0ffbb1dc5779ea453d623f6851540ab29e2a6904cc",
+      "sha256": "59c549eef025f0e5fd1a8581c5da96a1e1af79f49eb388dbb76bec92e962d540",
       "seen": {
         "shell": {
           "status": "live",
@@ -5842,7 +5842,7 @@
         "bar": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-vote.jpg",
-      "sha256": "9f7c7b88c6049a2e1137d44c39f02c59546916be781c24633c2021bb288a45ab",
+      "sha256": "4e18621d857761fa054744f5903ffba1808a3f432aa7190ea92bbf6303d43bbb",
       "seen": {
         "shell": {
           "status": "live",
@@ -6095,7 +6095,7 @@
         "voted": true
       },
       "file": "design/phone-ui/review/shell-connection/390x844-voted.jpg",
-      "sha256": "c705fe779b144655c554eaaa429404d0166db56f29986e855ff1c1dbddad90aa",
+      "sha256": "2ba6cf37860bd41ac0e3b3310d31e1891cff3aa4c231517423b9e675e304a797",
       "seen": {
         "shell": {
           "status": "live",
@@ -6353,7 +6353,7 @@
         "focusBack": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-actions.jpg",
-      "sha256": "bf1b168eef5fa0cf66e293343db3c331f291075a2b9d6e3a27f78b7e741e1caf",
+      "sha256": "14f9ac916694c4f34876d9a1fbc9bb3121b95c862cb6975a6aeab85c2d2e7976",
       "seen": {
         "shell": {
           "status": "live",
@@ -6631,7 +6631,7 @@
         "ownBar": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-appointment.jpg",
-      "sha256": "25d80a773d5f017715b6615eb8c9e2ebbe2960c9b7cf6e6885abfb32da718b03",
+      "sha256": "659c35a40dd9227eb8d828176e025693c78f8ca734d9546d59281e18d86bb15d",
       "seen": {
         "shell": {
           "status": "live",
@@ -6888,7 +6888,7 @@
         "closed": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-ballot.jpg",
-      "sha256": "a98acfe59feba927853d99376215a1f970aded48fc8be6b5b8164dbffec16520",
+      "sha256": "11f54131662fc8f2f3b68b48a8a419019ccf676fca6616ecb294bcef641bcb7f",
       "seen": {
         "shell": {
           "status": "live",
@@ -7183,7 +7183,7 @@
         "noTarget": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-before.jpg",
-      "sha256": "4965f744cd33bec77e3af01158504199b49b1b40abc31194125a626f5f8c63c0",
+      "sha256": "699805c00ba4a3ec7320913f0ba1f2e6a61581da56a2195d5b6d7e6c9a8afabf",
       "seen": {
         "shell": {
           "status": "live",
@@ -7440,7 +7440,7 @@
         "fourTiles": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-blackout.jpg",
-      "sha256": "378032379deca159463ad5d6ef3d26d8a46362c2957d45265394d7f331901571",
+      "sha256": "d7ef44655f1b682ac2e83f4945cde1d4fb4d68aae00515fb45c727eb11ad80dd",
       "seen": {
         "shell": {
           "status": "live",
@@ -7701,7 +7701,7 @@
         "nextTurn": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-closed.jpg",
-      "sha256": "4e0ebf575a0fc6b022e949bb39bce0c2b9f7699942bbfc986571da320ce0986e",
+      "sha256": "d00d0f5613f499713fac72ede7442b84b0c5f9a5fdfb258e70bada67caa3ea28",
       "seen": {
         "shell": {
           "status": "live",
@@ -8077,7 +8077,7 @@
         "backIntoPanels": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-course.jpg",
-      "sha256": "6d279dff6e8e62789c949074a96adb89ea61cbe91b338739eff1dfaeb99a4247",
+      "sha256": "93ef295b2003a27915226fe1d019c0286b82276031ad8ccc0b331c1898f6f651",
       "seen": {
         "shell": {
           "status": "live",
@@ -8100,7 +8100,7 @@
           "glyph": "plain",
           "portrait": false,
           "round": "R6",
-          "clock": "0:13",
+          "clock": "0:14",
           "urgent": false,
           "ring": false,
           "promises": "Promises",
@@ -8334,7 +8334,7 @@
         "settings": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-display.jpg",
-      "sha256": "d95ce10fa40850687128f8a8f4fc686c865d1eb5f01bb6782a33400a60528de2",
+      "sha256": "82bad0a9cf5ffe5766efac83af9b0c3e2e7597bca3e7a1e125da80f6b0e8f2cb",
       "seen": {
         "shell": {
           "status": "live",
@@ -8444,7 +8444,7 @@
         "othersOn": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-eliminated.jpg",
-      "sha256": "9beb6ecc97421300e94a2a3347356a87f51d5f041e8db0e45414d589c7dd72fd",
+      "sha256": "ce508ef9702a3ef0375883eef871a0ffb95d810ed3b81c1749e503da109a4ce2",
       "seen": {
         "shell": {
           "status": "live",
@@ -8467,7 +8467,7 @@
           "glyph": null,
           "portrait": true,
           "round": "R6",
-          "clock": "0:58",
+          "clock": "0:59",
           "urgent": false,
           "ring": false,
           "promises": "Promises",
@@ -8716,7 +8716,7 @@
         "stillNothingSent": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-focus.jpg",
-      "sha256": "c3737b094cd189166bf28193365e20482cf3df62dfdc7b53bf85972cc960bbf5",
+      "sha256": "8295ea42b68a93a09ce03607aff47cfb774a9b99e0e65e92e601ce7314c90671",
       "seen": {
         "shell": {
           "status": "live",
@@ -8739,7 +8739,7 @@
           "glyph": null,
           "portrait": true,
           "round": "R6",
-          "clock": "0:57",
+          "clock": "0:58",
           "urgent": false,
           "ring": false,
           "promises": "Promises",
@@ -8972,7 +8972,7 @@
           "food": false
         },
         "commands": [],
-        "reads": 3,
+        "reads": 2,
         "violations": [
           {
             "directive": "script-src",
@@ -9000,7 +9000,7 @@
         "foodMatch": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-food-gauge.jpg",
-      "sha256": "58ac0b126bdb6e852f010200c1c77bfc4a8d167a4110b90b8d8f2ffef7971f79",
+      "sha256": "493f3ad7edea7e32e44d0013d3ebd4f2256399c945fbdbce142013a2c64d062e",
       "seen": {
         "shell": {
           "status": "live",
@@ -9258,7 +9258,7 @@
         "foodTakesTaps": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-food-surface.jpg",
-      "sha256": "7b1914ec6fb1f22cd7c69177251e9fbfe9810a13f142581b015ea09491c95dea",
+      "sha256": "a28e62fbf84e732771969d3841cd9e3e944aedec7ec689cf56b5aa8b981f33f1",
       "seen": {
         "shell": {
           "status": "concealed",
@@ -9406,7 +9406,7 @@
         "oneNewPressVotesOnce": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-held.jpg",
-      "sha256": "6602f373f3d18b42eec7998d00964edd0e211141b5ad80ca1a8eb380d7baa547",
+      "sha256": "840c19e4d9e086de776459aa8f04d5c43a9c4dac4dd876079bbf2945781a3098",
       "seen": {
         "shell": {
           "status": "live",
@@ -9701,7 +9701,7 @@
         "roomScene": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-own.jpg",
-      "sha256": "73df0b2a06f1ede5c43ba72aca73d0aa4e73baded967e9885da37bc0314d8b26",
+      "sha256": "5cc1ef0b554b5c078b0482c018684a613e62fa7353056698128d93cb9f514855",
       "seen": {
         "shell": {
           "status": "live",
@@ -9724,7 +9724,7 @@
           "glyph": null,
           "portrait": true,
           "round": "R6",
-          "clock": "0:58",
+          "clock": "0:59",
           "urgent": false,
           "ring": false,
           "promises": "Promises",
@@ -9961,7 +9961,7 @@
         "infoToast": "Registered. Waiting for the authoritative view."
       },
       "file": "design/phone-ui/review/shell-connection/430x932-pass.jpg",
-      "sha256": "95ae685c6bddd5527b5038e417a24aa60e54dbd83e546ee51287cb8d253778e8",
+      "sha256": "c23ed7bb34471d2d60be6d0886488777ef1ad4768da8a7c2a5c5954fffcba750",
       "seen": {
         "shell": {
           "status": "live",
@@ -10272,7 +10272,7 @@
         "retryReads": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-reconnecting.jpg",
-      "sha256": "87ada5bfd001cca5016cdae8e06b387b253a2d41f5398c2b3bf269de76507975",
+      "sha256": "34ea871e0ea1c76291568165e0fa3839befc409c4f53f14f9978e7e0d29fb830",
       "seen": {
         "shell": {
           "status": "stale",
@@ -10552,7 +10552,7 @@
         "sheetOverResult": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-result.jpg",
-      "sha256": "9f478f6b828a2ba0f7f1300de9d3ddbf0f42e89622df0d392ae37f1f1455a525",
+      "sha256": "335bc2106e9e27ea54045c3cb8c7222706c54c9bf71c1929cd3e82b5a7e75ac4",
       "seen": {
         "shell": {
           "status": "live",
@@ -10816,7 +10816,7 @@
         "noGameTabs": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-talk.jpg",
-      "sha256": "c38a07855e6c940433d7f822cc3c7707080e0374fd7488e77f6a66a180bf29fa",
+      "sha256": "6cf5a8347ef82a149c621e7fc3b5037f85d38ea318aced731f06a6cc08cfeae3",
       "seen": {
         "shell": {
           "status": "live",
@@ -10957,7 +10957,7 @@
         "everyonesBar": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-target.jpg",
-      "sha256": "aa9d20931dc8d6abfe61b640a370f1264a4de67d31272f01f5c1bb802a8d1b00",
+      "sha256": "cdc0dcec7d02f93eea30ad54053fb2d6e66645ce1bee5a2f9bac2669fb117113",
       "seen": {
         "shell": {
           "status": "live",
@@ -11247,7 +11247,7 @@
         "tiles": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-turn.jpg",
-      "sha256": "491b4e97ea488c9c1a25e1ad68aa7e87f8412e10b1e356aba108481477791869",
+      "sha256": "57350865faadc164deeea0778023f6620cf7270606bf3e1f2d29dd845e3b4a8a",
       "seen": {
         "shell": {
           "status": "live",
@@ -11270,7 +11270,7 @@
           "glyph": null,
           "portrait": true,
           "round": "R6",
-          "clock": "0:58",
+          "clock": "0:59",
           "urgent": false,
           "ring": false,
           "promises": "Promises",
@@ -11501,7 +11501,7 @@
         "bar": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-vote.jpg",
-      "sha256": "78c96a4f4a392063fd5761b54702af592939f87fbf3a46cbf65b9cc5c326e82a",
+      "sha256": "d235a3d9f901002506cbb3c0ed708629281c6b47bb72c8a364e765358628035e",
       "seen": {
         "shell": {
           "status": "live",
@@ -11754,7 +11754,7 @@
         "voted": true
       },
       "file": "design/phone-ui/review/shell-connection/430x932-voted.jpg",
-      "sha256": "82131399ecc3c84ebb9d6ae3390d537373d9671a9be0e7e1b543fa75dfa2800e",
+      "sha256": "8c239f4cfe31bd6db20638b7a8c38a5b121079aedc741b2e20fe30c4159aa660",
       "seen": {
         "shell": {
           "status": "live",
