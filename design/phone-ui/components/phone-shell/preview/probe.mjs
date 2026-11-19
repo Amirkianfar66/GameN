@@ -1254,6 +1254,94 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       } finally { window.ResizeObserver = Real; }
     });
 
+    // 0.3.5: the bar's words are never cut (the Lead Designer's rule of 18 November 2026; the owner, 19 November 2026:
+    // "Icon is enough for promises"). Every kind of bar with the game's own longest words, on four phones at the
+    // three text sizes: the phone the owner reads the game on in the Claude app (402 px wide) beside 320, 390 and 430.
+    await check('fit: no word of the top bar is cut, with the game\'s own names and its longest lines, on 320, 390, 402 and 430 px phones at the Standard, Large and Largest text; Promises is the handshake and its count everywhere, named for a screen reader; the clock has its icon only in a bar wider than 25 rem; a line the name displaces is still read; the bar stays inside the phone and the stage begins under it; and without the fit the same bars do cut', async () => {
+      const who = (n, name, seat = null) => ({ ...person(n), name, ...(seat ? { seat } : {}) });
+      const base = { round: 3, timer: { remainingMs: 42000 }, promises: { count: 1 }, menu: {} };
+      const bars = {
+        'talk Crew 6 + Crew 1': { kind: 'pair', pair: [who(6, 'Crew 6'), who(1, 'Crew 1')], sub: 'Private talk', ...base },
+        'talk Player 6 + Player 10': { kind: 'pair', pair: [who(6, 'Player 6'), who(2, 'Player 10', 'seat-10')], sub: 'Private talk', ...base },
+        'own Player 6 · Crew 6': { kind: 'turn', who: who(6, 'Crew 6'), self: true, ...base },
+        'own Player 10 · Crew 10': { kind: 'turn', who: who(2, 'Crew 10', 'seat-10'), self: true, ...base },
+        'own Player 4 · Dev': { kind: 'turn', who: person(SELF), self: true, ...base },
+        'turn Crew 10': { kind: 'turn', who: who(2, 'Crew 10', 'seat-10'), self: false, ...base },
+        // The game's phase bars: its titles, and under them the shared board's caption, the longest line it writes.
+        'phase Jail vote · the board after Blackout': { kind: 'phase', icon: 'vote', title: 'Jail vote', sub: 'Current board · shared: After Blackout · Round 3', ...base },
+        'phase Captain vote · the board after Food Supply': { kind: 'phase', icon: 'captain', title: 'Captain vote', sub: 'Current board · shared: After Food Supply · Round 12', ...base, round: 12 },
+        'phase Vote result · a ring': { kind: 'phase', icon: 'jail', title: 'Jail vote · result', short: 'Vote result', sub: 'Current board · shared: Before Blackout · Round 3', round: 3, timer: { remainingMs: 3000, ring: 0.6 }, menu: {} },
+        'phase Before turns': { kind: 'phase', icon: 'hourglass', title: 'Before turns', sub: 'Officer block · Blackhole', ...base },
+        'phase Appoint Officer': { kind: 'phase', icon: 'officer', title: 'Appoint Officer', sub: 'Random if time runs out', ...base },
+        'phase Ship synchronized · a ring': { kind: 'phase', icon: 'course', title: 'Ship synchronized', round: 4, timer: { remainingMs: 5000, ring: 0.5 }, menu: {} },
+        'phase Reconnecting': { kind: 'phase', icon: 'retry', title: 'Reconnecting…', sub: 'Showing Round 3 as last seen', round: 3, promises: { count: 0 }, menu: {} },
+      };
+      const phones = [[320, 568], [390, 844], [402, 742], [430, 932]], texts = [100, 150, 200];
+      const was = { width: frame.style.width, height: frame.style.height };
+      const px = v => Math.round(v * 10) / 10;
+      // A drawn word is cut when it is wider than its box, or has more lines than its box shows.
+      const cut = node => {
+        if (!node || node.offsetWidth <= 1) return false;
+        const line = parseFloat(getComputedStyle(node).lineHeight) || node.clientHeight;
+        return node.scrollWidth > node.clientWidth + 1 || node.scrollHeight > node.clientHeight + line / 2;
+      };
+      const results = [], failures = [];
+      try {
+        for (const [width, height] of phones) for (const text of texts) {
+          document.documentElement.style.fontSize = text === 100 ? '' : `${text}%`;
+          Object.assign(frame.style, { width: `${width}px`, height: `${height}px` });
+          for (const [id, bar] of Object.entries(bars)) {
+            const s = mount({ ...own(), bar });
+            try {
+              await frames();
+              const tb = s.q('.ms-ps-tb'), name = s.q('.ms-ps-name'), sub = s.q('.ms-ps-sub'), pill = s.q('.ms-ps-pill'), promises = s.q('.ms-ps-promises');
+              const phone = s.root.getBoundingClientRect(), box = tb.getBoundingClientRect(), stage = s.q('.ms-ps-stage').getBoundingClientRect();
+              const fit = tb.getAttribute('data-fit') ?? '';
+              const rem = parseFloat(getComputedStyle(document.documentElement).fontSize), style = getComputedStyle(tb);
+              const inner = tb.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+              const mark = s.q('.ms-ps-timer-mark'), ring = !!mark?.classList.contains('ms-ps-ring');
+              const markDrawn = !!mark && mark.getClientRects().length > 0;
+              const inside = [...tb.children].every(node => { const r = node.getBoundingClientRect(); return r.width === 0 || (r.left >= phone.left - 0.5 && r.right <= phone.right + 0.5); });
+              const seat = Number(String(bar.who?.seat ?? '').replace(/\D/g, ''));
+              const want = (bar.kind === 'turn' ? [bar.self ? 'Your turn' : bar.who.name, bar.self ? `Player ${seat} · ${bar.who.name}` : `Player ${seat} · Turn`]
+                : bar.kind === 'pair' ? [bar.pair.map(q => q.name).join(' + '), bar.sub] : [bar.title, bar.sub ?? null]);
+              const plain = words => (words === null ? null : words.replace(/\s+/g, ' ').trim());
+              const read = node => (node ? plain(node.textContent) : null);
+              // The words are all in the page for a screen reader, whatever is drawn: the name (a phase's short form apart) and the line under it.
+              const said = (bar.kind === 'phase' && bar.short ? read(s.q('.ms-ps-long')) : read(name)) === plain(want[0]) && (want[1] === null ? !sub : read(sub) === plain(want[1]));
+              const row = { phone: `${width} × ${height}`, text, bar: id, fit: fit || 'as it is', height: px(box.height), inner: px(inner / rem),
+                whole: !cut(name) && !cut(sub), inside: inside && box.right <= phone.right + 0.5 && box.bottom <= phone.bottom,
+                stage: Math.abs(stage.top - box.bottom) <= 0.5,
+                pill: promises ? (pill.textContent === '' && Math.abs(pill.getBoundingClientRect().width - 36) <= 0.5 && /^Promises/.test(promises.getAttribute('aria-label') ?? '') && promises.getBoundingClientRect().width >= 44 && s.qa('.ms-ps-div, .ms-ps-pill-label').length === 0) : true,
+                clock: !mark || ring ? markDrawn === !!mark : markDrawn === (inner / rem > 25),
+                read: said && (!fit.includes('name2') || !sub || (sub.textContent.trim() !== '' && sub.offsetWidth <= 1)) };
+              // Without the fit the same bar, where the fit changed it, cuts a word: the check sees a cut, and the fit was needed.
+              if (fit) {
+                const height0 = s.root.style.getPropertyValue('--ms-ps-bar-h');
+                tb.removeAttribute('data-fit');
+                s.root.style.removeProperty('--ms-ps-bar-h');
+                row.needed = cut(name) || cut(sub);
+                tb.setAttribute('data-fit', fit);
+                if (height0) s.root.style.setProperty('--ms-ps-bar-h', height0);
+              }
+              row.ok = row.whole && row.inside && row.stage && row.pill && row.clock && row.read && row.needed !== false;
+              results.push(row);
+              if (!row.ok) failures.push(row);
+            } finally { s.shell.dispose(); }
+          }
+        }
+      } finally {
+        document.documentElement.style.fontSize = '';
+        Object.assign(frame.style, was);
+      }
+      const count = token => results.filter(r => (token === 'as it is' ? r.fit === 'as it is' : r.fit.split(' ').includes(token))).length;
+      const tallest = results.reduce((a, r) => (r.height > a.height ? r : a), results[0]);
+      return { ok: results.length === phones.length * texts.length * Object.keys(bars).length && failures.length === 0, bars: results.length,
+        fits: { 'as it is': count('as it is'), name2: count('name2'), sub2: count('sub2'), stack: count('stack') },
+        tallest: { phone: tallest.phone, text: tallest.text, bar: tallest.bar, height: tallest.height, fit: tallest.fit },
+        grown: results.filter(r => r.fit !== 'as it is').map(r => `${r.phone} at ${r.text}% · ${r.bar} · ${r.fit} · ${r.height} px`), failures };
+    });
+
     await check('title: a sheet\'s title takes the focus by script, is not in the tab order, draws no ring and moves nothing; a sheet that goes with the focus on its title hands it back', async () => {
       const s = mount({ ...own(), sheet: offerSheet });
       await frames();

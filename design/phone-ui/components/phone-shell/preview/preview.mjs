@@ -26,6 +26,8 @@ export const PREVIEW_SIZES = Object.freeze({
   '390x844': Object.freeze({ width: 390, height: 844, insets: Object.freeze({ top: 47, bottom: 34 }) }),
   '430x932': Object.freeze({ width: 430, height: 932, insets: Object.freeze({ top: 47, bottom: 34 }) }),
   '320x568': Object.freeze({ width: 320, height: 568, insets: Object.freeze({ top: 20, bottom: 0 }) }),
+  // 0.3.5: the game as the owner reads it on their phone inside the Claude app, a page with no safe areas of its own.
+  '402x742': Object.freeze({ width: 402, height: 742, insets: Object.freeze({ top: 0, bottom: 0 }) }),
 });
 
 // The release's pictures, the room scene's extension and the crew's portraits, on the CSS properties the
@@ -51,8 +53,6 @@ const params = new URLSearchParams(location.search);
 const at = params.has('at') ? Number(params.get('at')) : null;
 const clock = at !== null ? { now: () => SKY_EPOCH + at * 1000 } : { now: () => Date.now() };
 if (params.get('text')) document.documentElement.style.fontSize = `${Number(params.get('text'))}%`;
-// DRAFT (0.3.4): `bar=measured` draws the owner's alternative, the slim controls only where a line would be cut.
-if (params.get('bar') === 'measured') document.documentElement.setAttribute('data-ms-draft-bar', 'measured');
 
 // ── The fixtures: Room B, seen by seat 4 (Dev) ──────────────────────
 const fixture = ROOM_FIXTURES['room-b'];
@@ -64,6 +64,8 @@ const room = Object.freeze({ room: 'room-b', roster: 9, people, self: SELF, acti
   control: { id: 'windows', label: 'Windows · 2', icon: 'window' }, roomArt: ROOM_ART_RELEASE });
 const person = n => { const p = seatOf(n); return { seat: p.seat, name: p.name, character: p.character }; };
 const seconds = s => ({ remainingMs: s * 1000 });
+/** 0.3.5: where the fit's states are drawn: the small phone, the two development phones and the owner's own view. */
+const FIT_SIZES = ['320x568', '390x844', '402x742', '430x932'];
 // A person under a name the game gives when none is chosen ("Crew 6", "Player 10"), with a character's portrait.
 const named = (n, name, seat = null) => ({ ...person(n), name, ...(seat ? { seat } : {}) });
 const turnBar = (n, extra = {}) => ({ kind: 'turn', who: person(n), self: n === SELF, round: 3, timer: seconds(42), promises: { count: 1 }, menu: {}, ...extra });
@@ -100,12 +102,17 @@ export const PREVIEW_STATES = Object.freeze({
   card: { caption: 'Card open · Hide card in the sheet’s head', shell: { ...own, tabs: tabs({ open: 'card', hero: { mode: 'pass' } }), sheet: { id: 'card', title: 'Your role', sub: 'Only on this phone', detent: 'large', head: [{ id: 'hide', icon: 'hide', label: 'Hide card' }] } }, scene: { ...room, active: SELF, control: null }, content: sheetStandIn('The Card sheet · the Gameplay UI builder’s (#270)') },
   // 0.3.0: before a character is dealt (or with none in the crew bundle), the Card tab keeps the pack's card icon.
   'card-icon': { caption: 'No character · the Card tab keeps the card icon', shell: { ...own, tabs: tabs({ me: { seat: SELF, name: 'Player 4', character: null }, hero: { mode: 'pass' } }) }, scene: { ...room, active: SELF } },
-  // DRAFT (0.3.4): the bar's words with the game's own longer names, for the fit that never cuts them.
-  'fit-pair-crew': { caption: 'A private talk · "Crew 6 + Crew 1"', shell: { viewer: SELF, versions, bar: { kind: 'pair', pair: [named(6, 'Crew 6'), named(1, 'Crew 1')], round: 3, timer: seconds(47), promises: { count: 0 }, menu: {} }, tabs: { variant: 'talk' } }, scene: null, standIn: 'Private talk · the capsule is the In-game animation builder’s (#262)', sizes: ['320x568', '390x844', '430x932'] },
-  'fit-pair-player': { caption: 'A private talk · "Player 6 + Player 10"', shell: { viewer: SELF, versions, bar: { kind: 'pair', pair: [named(6, 'Player\u00a06'), named(2, 'Player\u00a010', 'seat-10')], round: 3, timer: seconds(47), promises: { count: 0 }, menu: {} }, tabs: { variant: 'talk' } }, scene: null, standIn: 'Private talk · the capsule is the In-game animation builder’s (#262)', sizes: ['320x568', '390x844', '430x932'] },
-  'fit-own-crew': { caption: 'Your turn · "Player 6 · Crew 6"', shell: { ...own, bar: { ...turnBar(SELF), who: named(6, 'Crew 6'), self: true } }, scene: { ...room, active: SELF }, sizes: ['320x568', '390x844', '430x932'] },
-  'fit-own-player': { caption: 'Your turn · "Player 10 · Crew 10"', shell: { ...own, bar: { ...turnBar(SELF), who: named(2, 'Crew 10', 'seat-10'), self: true } }, scene: { ...room, active: SELF }, sizes: ['320x568', '390x844', '430x932'] },
-  'fit-turn': { caption: 'Another player’s turn · "Crew 10" over "Player 10 · Turn"', shell: { ...own, bar: { ...turnBar(SELF), who: named(2, 'Crew 10', 'seat-10'), self: false }, tabs: tabs() }, scene: room, sizes: ['320x568', '390x844', '430x932'] },
+  // 0.3.5: the bar's words with the game's own longer names, for the fit that never cuts them.
+  'fit-pair-crew': { caption: 'A private talk · "Crew 6 + Crew 1"', shell: { viewer: SELF, versions, bar: { kind: 'pair', pair: [named(6, 'Crew 6'), named(1, 'Crew 1')], round: 3, timer: seconds(47), promises: { count: 0 }, menu: {} }, tabs: { variant: 'talk' } }, scene: null, standIn: 'Private talk · the capsule is the In-game animation builder’s (#262)', sizes: FIT_SIZES },
+  'fit-pair-player': { caption: 'A private talk · "Player 6 + Player 10"', shell: { viewer: SELF, versions, bar: { kind: 'pair', pair: [named(6, 'Player\u00a06'), named(2, 'Player\u00a010', 'seat-10')], round: 3, timer: seconds(47), promises: { count: 0 }, menu: {} }, tabs: { variant: 'talk' } }, scene: null, standIn: 'Private talk · the capsule is the In-game animation builder’s (#262)', sizes: FIT_SIZES },
+  'fit-own-crew': { caption: 'Your turn · "Player 6 · Crew 6"', shell: { ...own, bar: { ...turnBar(SELF), who: named(6, 'Crew 6'), self: true } }, scene: { ...room, active: SELF }, sizes: FIT_SIZES },
+  'fit-own-player': { caption: 'Your turn · "Player 10 · Crew 10"', shell: { ...own, bar: { ...turnBar(SELF), who: named(2, 'Crew 10', 'seat-10'), self: true } }, scene: { ...room, active: SELF }, sizes: FIT_SIZES },
+  'fit-turn': { caption: 'Another player’s turn · "Crew 10" over "Player 10 · Turn"', shell: { ...own, bar: { ...turnBar(SELF), who: named(2, 'Crew 10', 'seat-10'), self: false }, tabs: tabs() }, scene: room, sizes: FIT_SIZES },
+  // The game's phase bars: its own title, and under it the shared board's caption, the longest line the game writes.
+  'fit-phase': { caption: 'A phase · "Current board · shared: After Food Supply · Round 12"', shell: { viewer: SELF, versions, bar: { kind: 'phase', icon: 'captain', title: 'Captain vote', sub: 'Current board · shared: After Food Supply · Round 12', round: 12, timer: seconds(24), promises: { count: 0 }, menu: {} }, tabs: tabs({ hero: { mode: 'vote' } }) }, scene: room, sizes: FIT_SIZES },
+  // At the Large text (150%) on the small phone a turn's name takes both lines; at the Largest (200%) on the widest phone the phase's caption wraps under a row of its own.
+  'fit-own-large': { caption: 'Your turn at the Large text (150%) · 320 × 568', shell: { ...own, bar: { ...turnBar(SELF), who: named(6, 'Crew 6'), self: true } }, scene: { ...room, active: SELF }, sizes: ['320x568'], text: 150 },
+  'fit-phase-large': { caption: 'A phase at the Largest text (200%) · 430 × 932', shell: { viewer: SELF, versions, bar: { kind: 'phase', icon: 'vote', title: 'Jail vote', sub: 'Current board · shared: After Blackout · Round 3', round: 3, timer: seconds(24), promises: { count: 0 }, menu: {} }, tabs: tabs({ hero: { mode: 'vote' } }) }, scene: room, sizes: ['430x932'], text: 200 },
   talk: { caption: 'Private talk · its own two buttons', shell: { viewer: SELF, versions, bar: { kind: 'pair', pair: [person(1), person(SELF)], round: 3, timer: seconds(47), promises: { count: 0 }, menu: {} }, tabs: { variant: 'talk' } }, scene: null, standIn: 'The private-talk capsule · a later component (sheet 25)' },
   stale: { caption: 'Reconnecting · the last room, dimmed', shell: { viewer: SELF, versions, status: 'stale', bar: reconnectingBar({ round: 3, ...player }), tabs: tabs(), banner: { kind: 'reconnecting' } }, scene: { ...room, status: 'stale' } },
   // An eliminated player's phone (sheet 44's Eliminated frame, 0.2.8): the banner's words without Retry, over the room
