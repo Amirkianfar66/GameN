@@ -85,6 +85,10 @@ The owner's messages are quoted as written.
     - panels.mjs and promises.mjs build the cells as kit tiles. They are the Gameplay UI builder's files.
     - Bars & Icons does the kit, the styles and the records.
     - The checked build goes to the owner as one sheet before the game takes it.
+  - **The cells' notes** (the Lead's ruling):
+    - A cell's note fits two lines at 390 × 844 with 100 % text. A note that wouldn't gets shorter words, never a taller cell. At larger text sizes a note may wrap further, and words are never cut.
+    - The Windows cell names one window by its two rooms and counts two or more ("2 windows"). The pairs are named inside the panel. This replaces sheet 32's list of pairs on that cell, as part of the same departure.
+    - The six kinds of Promise keep their tiles two across, and their exact terms stay whole.
 
 ## 19 November 2026: the top bar's Promises button is its icon
 
