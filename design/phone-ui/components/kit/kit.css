@@ -400,3 +400,8 @@
    One rule, then: the dark button always carries an edge that stands 3 : 1 from its ground. */
 .ms-kit :where(.ms-k-btn-secondary) { box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.34); }
 .ms-kit :where([data-ms-surface="glass"] .ms-k-btn-secondary) { background: rgba(8, 11, 18, 0.42); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.62); }
+/* DRAFT, not approved: the weighty button (Eject, Abort match). With its edge the dark button came to look like this
+   one, which was an outline; so this one takes a solid paper fill with an ink label. Amber is the step forward, paper
+   the careful step forward, dark with an edge the way back (the Lead Designer, 19 November 2026). */
+.ms-kit :where(.ms-k-btn-warn) { background: var(--ms-k-paper); color: var(--ms-k-ink); box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.18); text-shadow: none; --ic-knock: var(--ms-k-paper); }
+.ms-kit :where(.ms-k-btn-warn[aria-busy="true"])::after { border-color: var(--ms-k-ink); border-right-color: transparent; }
