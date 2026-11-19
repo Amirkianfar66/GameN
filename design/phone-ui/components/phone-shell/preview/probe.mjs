@@ -652,7 +652,7 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
         const cs = getComputedStyle(warn);
         const warnLook = { bg: cs.backgroundColor, ink: cs.color, ring: cs.boxShadow };
         const looks = warn.classList.contains('ms-k-btn-warn') && keep.classList.contains('ms-k-btn-secondary')
-          && warnLook.bg === 'rgba(0, 0, 0, 0)' && warnLook.ring.startsWith(warnLook.ink) && /\binset\b/.test(warnLook.ring) && /\b2px\b/.test(warnLook.ring);
+          && warnLook.bg === 'rgb(244, 235, 221)' && warnLook.ink === 'rgb(21, 25, 35)' && /\binset\b/.test(getComputedStyle(keep).boxShadow) && /1\.5px/.test(getComputedStyle(keep).boxShadow); // kit 0.9.0: a paper fill with an ink label, beside the dark button's light edge
         const intents = `${keep.dataset.intent},${warn.dataset.intent}`;
         // Any other kind is drawn as secondary, as before.
         s.shell.update({ sheet: { ...abort, actions: [{ ...abort.actions[0], kind: 'tinted' }, abort.actions[1]] } });
