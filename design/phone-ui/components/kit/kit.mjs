@@ -138,8 +138,10 @@ export function createKit(doc) {
       // DRAFT: a row that opens or does something (a button, a chevron, an intent) carries a painted tile; a row
       // that only tells keeps its flat icon, on steel whatever tint the part names.
       const opens = props.tag !== 'div' && (!!props.chevron || !!props.intent);
-      if (opens) { lead.removeAttribute('data-tint'); setPaint(lead, props.icon, 'warm'); }
-      else { attr(lead, 'data-tint', props.tint ?? null); setIcon(noPaint(lead), props.icon, true); }
+      // A row that waits for the player's answer (for this draft: an amber tint on a row that opens, as the incoming
+      // Promise names it) carries an amber dot at its tile's corner; the part will name it itself later.
+      if (opens) { lead.removeAttribute('data-tint'); setPaint(lead, props.icon, 'warm'); lead.toggleAttribute('data-waiting', props.tint === 'amber'); }
+      else { lead.removeAttribute('data-waiting'); attr(lead, 'data-tint', props.tint ?? null); setIcon(noPaint(lead), props.icon, true); }
     } else { lead.replaceChildren(); lead.dataset.icon = ''; lead.hidden = true; }
     text(main.firstChild, props.title);
     text(main.lastChild, props.sub ?? '');
