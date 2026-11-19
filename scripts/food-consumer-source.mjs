@@ -30,11 +30,11 @@ function read(root, path) {
   }
   return readFileSync(current);
 }
-function pin(root, path, entry) {
+function pin(root, path, entry, mismatch = 'content differs') {
   check(entry && /^[a-f0-9]{64}$/.test(entry.sha256) && Number.isSafeInteger(entry.bytes) && entry.bytes > 0,
     `invalid identity: ${path}`);
   const bytes = read(root, path);
-  check(bytes.length === entry.bytes && sha(bytes) === entry.sha256, `content differs: ${path}`);
+  check(bytes.length === entry.bytes && sha(bytes) === entry.sha256, `${mismatch}: ${path}`);
   return bytes;
 }
 function freeze(value) {
@@ -56,7 +56,7 @@ export function readPregameConnectionSource(root) {
       check(prior.path === `docs/integration/pregame-connection-predecessors/${prior.sha256}` ||
         ['candidate', 'historical'].some(kind => prior.path === `design/releases/${kind}-blobs/${prior.sha256}`),
         `invalid pre-game predecessor: ${path}`);
-      pin(root, prior.path, prior);
+      pin(root, prior.path, prior, 'previous content differs');
     }
   }
   for (const group of [record.inputs, record.evidence]) {
