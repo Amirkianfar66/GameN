@@ -1,0 +1,256 @@
+{
+  "candidate": "1c754ab501ad7d0813a7d05f8da81e155e7ff668",
+  "surface": "Game phone harness in desktop Chromium",
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "cases": [
+    {
+      "width": 390,
+      "height": 844,
+      "motion": "full",
+      "starts": 1,
+      "label": "Game N, by Plan B",
+      "media": 0,
+      "words": [
+        "Game N",
+        "by Plan B"
+      ],
+      "colors": [
+        "rgb(0, 0, 0)",
+        "rgb(255, 255, 255)",
+        "rgb(255, 255, 255)"
+      ],
+      "animations": 2,
+      "samples": [
+        [
+          "inset(0px 66.6667% 0px 0px)",
+          "inset(0px 100% 0px 0px)"
+        ],
+        [
+          "inset(0px 0% 0px 0px)",
+          "inset(0px 66.6667% 0px 0px)"
+        ],
+        [
+          "inset(0px 0% 0px 0px)",
+          "inset(0px 0% 0px 0px)"
+        ]
+      ],
+      "policy": [
+        {
+          "directive": "script-src",
+          "blocked": "eval"
+        }
+      ],
+      "durationMs": 1994,
+      "earlyHash": "24005d7fc9375b71f83daa919c2cde8db5ce8922795de8084a49bcacdae03af6",
+      "settledHash": "b86f4cc5ad3a5eb8e4159cab36acc29a61616dddcfb117314e5c4cb19c6d3777"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "motion": "device-reduced",
+      "starts": 1,
+      "label": "Game N, by Plan B",
+      "media": 0,
+      "words": [
+        "Game N",
+        "by Plan B"
+      ],
+      "colors": [
+        "rgb(0, 0, 0)",
+        "rgb(255, 255, 255)",
+        "rgb(255, 255, 255)"
+      ],
+      "animations": 0,
+      "samples": [
+        [
+          "none",
+          "none"
+        ],
+        [
+          "none",
+          "none"
+        ],
+        [
+          "none",
+          "none"
+        ]
+      ],
+      "policy": [
+        {
+          "directive": "script-src",
+          "blocked": "eval"
+        }
+      ],
+      "durationMs": 2002,
+      "earlyHash": "b86f4cc5ad3a5eb8e4159cab36acc29a61616dddcfb117314e5c4cb19c6d3777",
+      "settledHash": "b86f4cc5ad3a5eb8e4159cab36acc29a61616dddcfb117314e5c4cb19c6d3777"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "motion": "app-reduced",
+      "starts": 1,
+      "label": "Game N, by Plan B",
+      "media": 0,
+      "words": [
+        "Game N",
+        "by Plan B"
+      ],
+      "colors": [
+        "rgb(0, 0, 0)",
+        "rgb(255, 255, 255)",
+        "rgb(255, 255, 255)"
+      ],
+      "animations": 0,
+      "samples": [
+        [
+          "none",
+          "none"
+        ],
+        [
+          "none",
+          "none"
+        ],
+        [
+          "none",
+          "none"
+        ]
+      ],
+      "policy": [
+        {
+          "directive": "script-src",
+          "blocked": "eval"
+        }
+      ],
+      "durationMs": 2001,
+      "earlyHash": "b86f4cc5ad3a5eb8e4159cab36acc29a61616dddcfb117314e5c4cb19c6d3777",
+      "settledHash": "b86f4cc5ad3a5eb8e4159cab36acc29a61616dddcfb117314e5c4cb19c6d3777"
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "motion": "full",
+      "starts": 1,
+      "label": "Game N, by Plan B",
+      "media": 0,
+      "words": [
+        "Game N",
+        "by Plan B"
+      ],
+      "colors": [
+        "rgb(0, 0, 0)",
+        "rgb(255, 255, 255)",
+        "rgb(255, 255, 255)"
+      ],
+      "animations": 2,
+      "samples": [
+        [
+          "inset(0px 66.6667% 0px 0px)",
+          "inset(0px 100% 0px 0px)"
+        ],
+        [
+          "inset(0px 0% 0px 0px)",
+          "inset(0px 66.6667% 0px 0px)"
+        ],
+        [
+          "inset(0px 0% 0px 0px)",
+          "inset(0px 0% 0px 0px)"
+        ]
+      ],
+      "policy": [
+        {
+          "directive": "script-src",
+          "blocked": "eval"
+        }
+      ],
+      "durationMs": 2001,
+      "earlyHash": "4372b307ae28a1c25921ba88bec34765aa8383935761c53259bea0f55193b3b8",
+      "settledHash": "ac482e98d356151198a5c919373f8e23f93961215201037108751c4cccb70408"
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "motion": "device-reduced",
+      "starts": 1,
+      "label": "Game N, by Plan B",
+      "media": 0,
+      "words": [
+        "Game N",
+        "by Plan B"
+      ],
+      "colors": [
+        "rgb(0, 0, 0)",
+        "rgb(255, 255, 255)",
+        "rgb(255, 255, 255)"
+      ],
+      "animations": 0,
+      "samples": [
+        [
+          "none",
+          "none"
+        ],
+        [
+          "none",
+          "none"
+        ],
+        [
+          "none",
+          "none"
+        ]
+      ],
+      "policy": [
+        {
+          "directive": "script-src",
+          "blocked": "eval"
+        }
+      ],
+      "durationMs": 1996,
+      "earlyHash": "ac482e98d356151198a5c919373f8e23f93961215201037108751c4cccb70408",
+      "settledHash": "ac482e98d356151198a5c919373f8e23f93961215201037108751c4cccb70408"
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "motion": "app-reduced",
+      "starts": 1,
+      "label": "Game N, by Plan B",
+      "media": 0,
+      "words": [
+        "Game N",
+        "by Plan B"
+      ],
+      "colors": [
+        "rgb(0, 0, 0)",
+        "rgb(255, 255, 255)",
+        "rgb(255, 255, 255)"
+      ],
+      "animations": 0,
+      "samples": [
+        [
+          "none",
+          "none"
+        ],
+        [
+          "none",
+          "none"
+        ],
+        [
+          "none",
+          "none"
+        ]
+      ],
+      "policy": [
+        {
+          "directive": "script-src",
+          "blocked": "eval"
+        }
+      ],
+      "durationMs": 1999,
+      "earlyHash": "ac482e98d356151198a5c919373f8e23f93961215201037108751c4cccb70408",
+      "settledHash": "ac482e98d356151198a5c919373f8e23f93961215201037108751c4cccb70408"
+    }
+  ],
+  "harness": "548f6c4faed43ebd9e5e0551264da1f6e035ea5c",
+  "art": "64e55516d2f0026842c5c2a675f2eccda20e0a9e",
+  "existingMatch": "bypasses title"
+}

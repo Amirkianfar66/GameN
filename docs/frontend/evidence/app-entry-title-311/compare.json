@@ -1,15 +1,15 @@
 {
   "tool": "design/tools/phone-ui-native-compare.mjs",
-  "createdAt": "2026-11-18T23:47:06.893Z",
+  "createdAt": "2026-11-19T00:04:02.899Z",
   "browser": "Google Chrome 157.0.8103.80",
   "view": "Drawn at each part's phone size, 1.5× pixels",
   "pack": {
-    "commit": "6c296544fc1f6010d2a0e762fceacd52d4048a64",
+    "commit": "548f6c4faed43ebd9e5e0551264da1f6e035ea5c",
     "dirty": false
   },
   "build": {
-    "folder": "/private/tmp/gamen-static-title-native-phone-20261119",
-    "head": "20d6394916f03d96a64c308aa305afe2c8b42a5c",
+    "folder": "/private/tmp/gamen-light-title-native-20261119",
+    "head": "548f6c4faed43ebd9e5e0551264da1f6e035ea5c",
     "dirty": false,
     "artwork": "64e55516d2f0026842c5c2a675f2eccda20e0a9e"
   },
