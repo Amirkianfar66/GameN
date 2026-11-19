@@ -244,7 +244,7 @@ test('a panel\'s icon is the painted line drawing at one size with nothing behin
   // A row keeps its 52 px: the icon's box overhangs the padding by as much as it is taller than the old chip's room.
   assert.match(css, /:where\(\.ms-k-row-icon\[data-paint\]\) \{ position: relative; margin: -4px -5px; \}/);
   // Not now is the same drawing greyed, and it keeps its words (the tile's note); never colour alone.
-  assert.match(css, /:where\(\[data-paint="off"\] > \.ms-k-paint\) \{ filter: grayscale\(1\); opacity: 0\.55; \}/);
+  assert.match(css, /:where\(\[data-paint="off"\] > \.ms-k-paint\) \{ filter: grayscale\(1\) brightness\(1\.25\); opacity: 0\.85; \}/, 'greyed, and 3 : 1 from the glass');
   // The frameless cell: only a tile with an icon (a card's art keeps its card), and each state has a cue that is no ground.
   assert.match(css, /:where\(\.ms-k-tile:has\(> \.ms-k-tile-icon\[data-paint\]\)\) \{ background: none; box-shadow: none; \}/);
   assert.match(css, /\[data-state="selected"\]:has\(> \.ms-k-tile-icon\[data-paint\]\) \.ms-k-tile-name\) \{ text-decoration: underline 2px var\(--ms-k-accent\); text-underline-offset: 5px; \}/);
