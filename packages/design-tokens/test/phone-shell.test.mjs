@@ -140,7 +140,7 @@ test('its words are the pack\'s: the hero, the tabs, the bar and the two banners
   assert.deepEqual(GAME_TABS, ['switch', 'actions', 'hero', 'panels', 'card'], 'the owner\'s tab order: Card last');
   assert.match(read('design/phone-ui/prototype/ui.mjs'), /tab\('card', 'card', 'Card'\),\s*tab\('panels', 'panels', 'Panels'\)/, 'the pack draws Card before Panels');
   assert.deepEqual(TALK_BUTTONS, ['promises', 'my-card']);
-  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.3.3');
+  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.3.4');
   assert.ok(TOAST_MS > 0);
 });
 
@@ -357,7 +357,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
     assert.deepEqual(run.problems, [], `probe ${mode}: no page problem`);
   }
   const groups = record.probe.full.checks.map(c => c.id.split(':')[0]);
-  for (const group of ['focus', 'refused', 'stale', 'out', 'private', 'time', 'layout', 'layers', 'large', 'textsize', 'nobar', 'edge', 'reach', 'backdrop', 'head', 'footer', 'talk', 'toast', 'words', 'hud', 'card', 'tiles', 'place', 'squeeze', 'stack', 'observers', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
+  for (const group of ['focus', 'refused', 'stale', 'out', 'private', 'time', 'layout', 'layers', 'large', 'textsize', 'nobar', 'edge', 'reach', 'backdrop', 'head', 'footer', 'talk', 'toast', 'words', 'hud', 'card', 'tiles', 'place', 'squeeze', 'stack', 'observers', 'title', 'dispose', 'motion']) assert.ok(groups.includes(group), `probe group ${group}`);
   // 0.3.0: the Card tab's own check, with what it saw: the portrait is the top bar's, and at every size keeps its box.
   const cardTab = record.probe.full.checks.find(c => c.id.startsWith('card:')).detail;
   assert.equal(cardTab.rest.image, cardTab.rest.barImage, 'the Card tab\'s portrait is the plain one the top bar draws');
@@ -421,6 +421,13 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   const words = record.probe.full.checks.find(c => c.id.startsWith('words:')).detail;
   assert.deepEqual(words.subs, ['Lights out in 0:03', 'Lights out in 0:02', 'Lights out in 0:01', 'Dark · positions fixed']);
   assert.ok(words.steady && words.rebuilt && words.reported === 0, 'the bar keeps its height and its right side; no layout is reported');
+  // 0.3.4: a sheet's title takes the focus by script only, draws no ring and moves nothing; a sheet that goes with the
+  // focus on its title hands it back once, with no control named.
+  const title = record.probe.full.checks.find(c => c.id.startsWith('title:')).detail;
+  assert.deepEqual([title.focused.active, title.focused.tabindex, title.focused.tabIndex, title.focused.outline, title.focused.shadow, title.inOrder], [true, '-1', -1, 'none', 'none', false]);
+  assert.deepEqual(title.before, title.after, 'the focus moves nothing');
+  assert.deepEqual([title.kept, title.replaced.onRoot, title.replaced.reported, title.replaced.report, title.replaced.nextTabindex, title.onNext], [true, true, 1, null, '-1', true]);
+  assert.match(read('design/phone-ui/components/phone-shell/phone-shell.css'), /\.ms-ps-sheet-title h2:focus \{ outline: none; \}/);
   assert.ok(record.agree.ok && record.agree.checks.length >= 29 && record.agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'the shell agrees with the pinned pack');
   // The phase bars too (0.2.10): the pack's own bar for each game step beside what phase-bars.mjs returns for it, and
   // the Blackout's dark on the pack's own specimen.

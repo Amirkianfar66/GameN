@@ -332,6 +332,9 @@
 .ms-phone-shell .ms-ps-sheet-head { flex: none; display: flex; align-items: center; gap: 10px; padding: 8px 14px 10px 18px; min-height: 52px; }
 .ms-phone-shell .ms-ps-sheet-title { flex: 1; min-width: 0; }
 .ms-phone-shell .ms-ps-sheet-title h2 { margin: 0; font: 700 1.25rem/1.2 var(--ms-ps-font); letter-spacing: -0.01em; }
+/* The title can take the focus (0.3.4), for a consumer to put it there when the sheet opens. Nothing can be pressed
+   there, so it draws no ring. */
+.ms-phone-shell .ms-ps-sheet-title h2:focus { outline: none; }
 .ms-phone-shell .ms-ps-sheet-title p { margin: 2px 0 0; font: 500 0.8125rem/1.25 var(--ms-ps-font); color: var(--ms-ps-text-2); }
 /* 0.3.3 (the Lead Designer's proposal, the owner's approval of 18 November 2026): a head whose title would take more
    than two lines beside its buttons stacks, where that makes it shorter. Its buttons take a row of their own, Back at

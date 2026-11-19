@@ -42,13 +42,17 @@
 // - a squeezed sheet's footer scrolls with its body, when the body would get under a third of the sheet;
 // - a sheet's head stacks, its buttons above its title, when the title would take more than two lines beside them
 //   and the head is shorter that way.
+// 0.3.4 (the Lead Designer, 18 November 2026; no change of look): a sheet's title can take the focus. It is not in
+// the tab order and draws no ring, since nothing can be pressed there. When another sheet opens, the consumer puts
+// the focus on its title: a screen reader announces it, a held Enter presses nothing, and Tab moves on to the
+// sheet's controls.
 
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconPaintedSvg, iconTileSvg } from '../icon-paint.mjs';
 import { iconSvg } from '../icons.mjs';
 import { createControlPolicy, createKit, followTextSize } from '../kit/kit.mjs';
 
-export const PHONE_SHELL_VERSION = 'phone-shell-0.3.3';
+export const PHONE_SHELL_VERSION = 'phone-shell-0.3.4';
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 const KINDS = Object.freeze(['turn', 'phase', 'pair']);
 const HERO_MODES = Object.freeze(['pass', 'vote', 'voted']);
@@ -813,7 +817,8 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       node.dataset.sheet = s.id;
       const head = el('div', 'ms-ps-sheet-head');
       const title = el('div', 'ms-ps-sheet-title');
-      const h2 = el('h2', null, { id: `${uid}-t${(seq += 1)}` });
+      // The title can take the focus (0.3.4): by script only, never by Tab.
+      const h2 = el('h2', null, { id: `${uid}-t${(seq += 1)}`, tabindex: '-1' });
       title.append(h2, el('p'));
       head.append(title);
       node.setAttribute('aria-labelledby', h2.id);
