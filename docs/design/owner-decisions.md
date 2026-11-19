@@ -53,6 +53,13 @@ The owner's messages are quoted as written.
     - It checks the greyed icon's contrast and the look at 390 and 430, then builds and checks it on #333.
     - In the game, the cells need `.ms-k-tile` in the stylesheets' exclusion lists to draw as designed. That's a fix for #310.
   - **Still open:** whether the bottom bar's tiles lose their ground too. Bars & Icons has asked the owner.
+- **How the pictures are shown** (shortly before 14:30 UTC, in the Bars & Icons builder's session, relayed word for word). The builder was sending the owner the panels one at a time when the owner stopped it and asked:
+
+  > Why you are sharing with me 1 by 1 each panel ?
+
+  - **What follows from it,** as the Lead reads it: a review goes to the owner as **one combined sheet** with every part in it, never part by part. This holds for every Designer builder, not only Bars & Icons.
+  - Bars & Icons answered that it should have been one combined picture. It has stopped until the owner tells it to continue.
+  - **Next:** the built look goes to the owner as one image at 402 × 742, before the game takes it.
 
 ## 19 November 2026: the top bar's Promises button is its icon
 
