@@ -19,6 +19,12 @@ Use Node 22.21.1 and npm 10.9.4. On the final clean committed candidate:
 3. Review the exact PR head and require every CI gate. Record the source commit and manifest/artifact hashes. Never publish an unreviewed dirty build.
 4. Build combined Hosting with `node scripts/prepare-hosted-preview.mjs PUBLIC_CONFIG_JSON`. This checks legacy and Planet CSS/media hashes, includes the independently built Studio and preserves its API rewrite. The public Firebase configuration contains no credentials; do not commit account tokens, service account files or test match payloads.
 
+### Private pre-game media build
+
+For a hosted build with Night Passage and Cold Wake, set `MOTHERSHIP_PREGAME_MEDIA_DIR` to the private export directory. Use the same Hosting build command above. The build verifies the film, poster and soundtrack by size and SHA-256 and places just those three files at their game URLs. A missing or altered export fails the build.
+
+With that directory unset, the build keeps the existing menu. Explicitly setting `VITE_GAMEN_PREGAME_MEDIA=1` requires the directory. The resulting files and their hashes appear in `preview-release.json`. Keep the private inputs outside the repository.
+
 ## Isolated Backend deployment
 
 `node scripts/package-backend.mjs --planet --verify-install` creates `dist/backend-planet`, Firebase codebase `mothership-planet`. Its five exports are `planetApi`, `planetDeadlineTask`, `planetDispatchDeadline`, `planetRunBots` and `planetRepairDeadlines`. Its isolated entrypoint excludes legacy endpoints and Designer fixtures.

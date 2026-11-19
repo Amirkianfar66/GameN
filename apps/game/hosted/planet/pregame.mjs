@@ -6,7 +6,7 @@ import './pregame.css';
 
 /** One presentation surface; every exit destroys the private scene, captions and retained bindings. */
 export function mountPregamePresentation(root,controller,{
- preferences=()=>({reduced:false}),boardingFilm=()=>null,boardingWindow=()=>null,onBoardingEnd,legacyBoarding=()=>false,
+ preferences=()=>({reduced:false}),boardingFilm=()=>null,boardingWindow=()=>null,onBoardingEnd,onEntryEnd,legacyBoarding=()=>false,
 }={}){
  const document=root.ownerDocument,win=document.defaultView,media=win.matchMedia('(prefers-reduced-motion: reduce)');
  let overlay=null,picture=null,captions=null,words=null,skip=null,scene=null,key=null,raf=null,disposed=false,lastPaint=-Infinity,previousFocus=null,previousInert=false,slotSize=null;
@@ -14,12 +14,14 @@ export function mountPregamePresentation(root,controller,{
  const el=(tag,className)=>{const n=document.createElement(tag);n.className=className;return n;};
  function clear(){
   const endedBoarding=overlay||boardingFade?null:picture;
+  const endedEntry=overlay?.dataset.pregame==='brand';
   boardingFade=null;
   if(entryTimer!==null){win.clearTimeout(entryTimer);entryTimer=null;}
   if(raf!==null)win.cancelAnimationFrame(raf);raf=null;scene?.dispose();scene=null;key=null;
   if(overlay){overlay.replaceChildren();overlay.remove();overlay=null;root.inert=previousInert;if(previousFocus?.isConnected&&document.hasFocus()&&document.visibilityState==='visible')previousFocus.focus({preventScroll:true});}
   picture=null;captions=null;words=null;skip=null;previousFocus=null;slotSize=null;
   if(endedBoarding)onBoardingEnd?.(endedBoarding);
+  if(endedEntry)onEntryEnd?.();
  }
  function mount(film,slot){
   clear();key=film.key;lastPaint=-Infinity;

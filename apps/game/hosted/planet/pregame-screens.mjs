@@ -13,6 +13,7 @@ import {mountRecover} from '../../../../design/phone-ui/components/recover/recov
 import {mountCharacterSelect} from '../../../../design/phone-ui/components/character-select/character-select.mjs';
 import {mountRoleStage} from '../../../../design/phone-ui/components/role-stage/role-stage.mjs';
 import {mountBoardingStage} from '../../../../design/phone-ui/components/boarding-stage/boarding-stage.mjs';
+import {mountMenuSpaceFilm} from '../../../../design/menu-space-film/runtime/layer.mjs';
 import {brandSvg} from '../pregame-films/brand/brand.mjs';
 import {createPregameUi,pregameScreen,withheldStatus,menuInput,displayInput,hostSetupInput,hostLobbyInput,joinInput,joinRequest,waitInput,recoverInput,
  settleRecovery,charactersInput,roleInput,boardingInput,roomCodeDraft,codeValid} from './pregame-input.mjs';
@@ -26,6 +27,7 @@ import '../../../../design/phone-ui/components/character-select/character-select
 import '../../../../design/phone-ui/components/role-stage/role-card.css';
 import '../../../../design/phone-ui/components/role-stage/role-stage.css';
 import '../../../../design/phone-ui/components/boarding-stage/boarding-stage.css';
+import '../../../../design/menu-space-film/runtime/layer.css';
 import './pregame-connection.css';
 
 /** The brand film's moment the menu's hero holds still, as the pack's menu draws it (sheet 10). */
@@ -40,10 +42,10 @@ const COPIED_MS=2400;
  * The manager: `sync(model)` draws the screen this model asks for and returns true, or disposes what it drew and
  * returns false so the app draws its own view. `hooks.rerender()` asks the app to render again after a local change.
  */
-export function createPregameScreens(root,{session,preferences,draft,hooks}){
+export function createPregameScreens(root,{session,preferences,draft,media,hooks}){
  const document=root.ownerDocument,win=document.defaultView,parser=new win.DOMParser();
  const ui=createPregameUi();
- let mounted=null,model=null,disposed=false,copyTimer=null,toastSeq=0,blurred=false;
+ let mounted=null,menuFilm=null,model=null,disposed=false,copyTimer=null,toastSeq=0,blurred=false;
  const visible=()=>document.visibilityState==='visible'&&!blurred;
  const prefs=()=>preferences.state();
  const rerender=()=>{if(!disposed)hooks.rerender();};
@@ -58,7 +60,7 @@ export function createPregameScreens(root,{session,preferences,draft,hooks}){
  win.addEventListener('blur',onBlur);win.addEventListener('focus',onFocus);document.addEventListener('visibilitychange',rerender);
  const unsubscribe=preferences.subscribe(rerender);
 
- /** The menu's hero: the brand film's frame at 1.65 s, drawn as the game's player draws it, held still. */
+ /** The pinned menu for builds without the Night Passage media. */
  function drawHero(menu){
   const hero=menu.hero,{width,height}=hero.getBoundingClientRect();
   if(!(width>0&&height>0))return;
@@ -78,8 +80,16 @@ export function createPregameScreens(root,{session,preferences,draft,hooks}){
 
  /** Each screen's mount, its input from the model, and its intents. */
  const SCREENS={
-  menu:{mount:(host,input)=>{const menu=mountMainMenu(host,input,{onJoin:()=>go('join'),onHost:()=>go('host'),onRecover:()=>go('recover'),onSettings:()=>go('display'),
-    onLayout:()=>drawHero(menu)});win.requestAnimationFrame(()=>{if(!disposed&&mounted?.view===menu)drawHero(menu);});return menu;},
+  menu:{mount:(host,input)=>{
+    const menu=mountMainMenu(host,input,{onJoin:()=>go('join'),onHost:()=>go('host'),onRecover:()=>go('recover'),onSettings:()=>go('display'),
+     onLayout:media?undefined:()=>drawHero(menu)});
+    if(media){
+     menu.element.dataset.menuSpaceFilm='';
+     menu.element.setAttribute('aria-label','Game N');
+     menuFilm=mountMenuSpaceFilm(menu.hero,media);
+    }else win.requestAnimationFrame(()=>{if(!disposed&&mounted?.view===menu)drawHero(menu);});
+    return menu;
+   },
    input:m=>menuInput(m,ui,prefs())},
   display:{mount:(host,input)=>mountDisplayPage(host,input,{onReducedMotion:on=>preferences.setReducedMotion(on),onTextScale:scale=>preferences.setTextScale(scale),onBack:()=>go('menu')}),
    input:()=>displayInput(prefs())},
@@ -123,6 +133,7 @@ export function createPregameScreens(root,{session,preferences,draft,hooks}){
 
  function unmount(){
   if(!mounted)return;const was=mounted;mounted=null;
+  menuFilm?.dispose();menuFilm=null;
   if(was.screen==='recover')ui.recover.codeLength=0;
   try{was.view.dispose();}finally{was.host.remove();if(!root.querySelector('.planet-pregame-host'))root.classList.remove('planet-pregame');}
  }
@@ -161,6 +172,7 @@ export function createPregameScreens(root,{session,preferences,draft,hooks}){
    }
    unmount();return false;
   },
+  syncMenuFilm(allowPlayback){menuFilm?.update({visible:allowPlayback&&visible(),reduced:prefs().reduced});},
   get boardingFilm(){return mounted?.screen==='boarding'?mounted.view.film:null;},
   get screen(){return mounted?.screen??null;},
   dispose(){

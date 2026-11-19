@@ -3,22 +3,22 @@
   "status": "technical-source-registration",
   "parentApprovalSha256": "44eea8c37156c2747b2303a19b1202108751085a900c0a9843793e76050f44af",
   "requiredFiles": {
-    "scripts/food-consumer-source.mjs": "264cb45bfa982b2382560b5e9d0570a6de9ac8f345a5c3611c3c73e6317bf2a6",
-    "docs/integration/pregame-connection-source-2026-11-19.json": "f41e0fef4b1a9471fc3d6281faeb43b6c4de4f5b58c356dfe36cda8a49956fe5",
+    "scripts/food-consumer-source.mjs": "78fec576ac2b4c28e13fee828e8c7be315730acfff909ed8be7ad75f32f6fc7e",
+    "docs/integration/pregame-connection-source-2026-11-19.json": "2990ca620b9e6ccacc06107674bbb73a8a743a358f09b4a051fced5e4edc25b4",
     "docs/integration/pregame-connection-predecessors/989bd17c9a0b1028063eb99101ab478f5fcb9984188fe02d41fe84ddc6c68d62": "989bd17c9a0b1028063eb99101ab478f5fcb9984188fe02d41fe84ddc6c68d62",
     "docs/integration/pregame-connection-predecessors/556048f061ace809d1c2b17849ff75660cf872149576bb01250f10c1c601b314": "556048f061ace809d1c2b17849ff75660cf872149576bb01250f10c1c601b314",
-    "apps/game/hosted/vite.config.mjs": "e92f966bc78e9769b778bd33d02aaff7da8a0fedd52e1b130ea7ac464fdc12e1"
+    "apps/game/hosted/vite.config.mjs": "2136f617ef262e20bfca3b804a771f7a5540b81e38b385ec30429a42e2745ee8"
   },
   "metadataFiles": {
     "apps/game/hosted/planet/app.mjs": {
-      "sha256": "918b82eedaa8ee81c7c3a303a28117f5171aeeb11144a13c5f4538105c5c887f",
+      "sha256": "a9ee615575c2baf9cd29764eed448f8752cfdf0137d222136fddc158126e4302",
       "permittedLiterals": [
         "../../../../design/phone-ui/components/room-scene/room-scene.css",
         "../../../../design/phone-ui/components/phone-shell/phone-shell.css"
       ]
     },
     "apps/game/hosted/planet/pregame.mjs": {
-      "sha256": "0633ced74147fd814b3b7a8a9745933f381d99ebd68eae1eb34e36c27afe31df",
+      "sha256": "6c01adf220930077e5f865094329a25bbd676a4cc72d262e2524acf6f56fc79c",
       "permittedLiterals": [
         "../../../../design/phone-ui/components/main-menu/entry-title.mjs",
         "../../../../design/phone-ui/components/main-menu/entry-title.css"
@@ -43,7 +43,7 @@
       ]
     },
     "apps/game/hosted/planet/pregame-screens.mjs": {
-      "sha256": "5892aafa9da67b90276af800a0daf588af64ab39beff269a42a83748620615bf",
+      "sha256": "17c78716dc30060356899414799377093e07f5dd92e56ac655b96bcbf30ceb51",
       "permittedLiterals": [
         "../../../../design/phone-ui/components/main-menu/main-menu.mjs",
         "../../../../design/phone-ui/components/display-settings/display-settings.mjs",
@@ -71,11 +71,19 @@
       "permittedLiterals": [
         "../../../../design/phone-ui/components/phone-shell/phase-bars.mjs"
       ]
+    },
+    "apps/game/hosted/planet/lobby-music.mjs": {
+      "sha256": "b89fedc5f3563aac6981ed2c33ec91ace13f109c97b8c515c86c77120fc25aae",
+      "permittedLiterals": [
+        "../../../../design/phone-ui/components/kit/kit.mjs"
+      ]
     }
   },
   "buildFiles": {
     "apps/game/hosted/vite.config.mjs": {
-      "assetHashes": {},
+      "assetHashes": {
+        "scripts/pregame-menu-media.mjs": "a7009a13e7040dd868a36013e35a5517a20ce42208227b9e80876ce82dbc192a"
+      },
       "permittedLiterals": [
         "design/phone-ui/components/room-scene/",
         "design/phone-ui/components/icons.mjs",
@@ -88,7 +96,7 @@
         "design/phone-ui/components/round-stamp/round-stamp.mjs",
         "design/phone-ui/components/round-stamp/round-stamp.css"
       ],
-      "sha256": "e92f966bc78e9769b778bd33d02aaff7da8a0fedd52e1b130ea7ac464fdc12e1"
+      "sha256": "2136f617ef262e20bfca3b804a771f7a5540b81e38b385ec30429a42e2745ee8"
     }
   },
   "predecessorTooling": {

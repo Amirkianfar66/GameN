@@ -13,7 +13,7 @@ const verified = new WeakSet();
 const successors = new WeakMap();
 const inputSuccessors = new WeakMap();
 export const PREGAME_CONNECTION_SOURCE = 'docs/integration/pregame-connection-source-2026-11-19.json';
-const PREGAME_CONNECTION_SHA256 = 'f41e0fef4b1a9471fc3d6281faeb43b6c4de4f5b58c356dfe36cda8a49956fe5';
+const PREGAME_CONNECTION_SHA256 = '2990ca620b9e6ccacc06107674bbb73a8a743a358f09b4a051fced5e4edc25b4';
 const connections = new WeakMap();
 const sha = value => createHash('sha256').update(value).digest('hex');
 const check = (ok, message) => {if (!ok) throw Error(`Food consumer source: ${message}`);};
