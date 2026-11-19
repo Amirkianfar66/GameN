@@ -1,15 +1,15 @@
 {
   "tool": "design/tools/phone-ui-native-compare.mjs",
-  "createdAt": "2026-11-19T00:19:28.117Z",
+  "createdAt": "2026-11-19T12:54:25.045Z",
   "browser": "Google Chrome for Testing 153.0.8010.12",
   "view": "Drawn at each part's phone size, 1.5× pixels",
   "pack": {
-    "commit": "74213a79e0de8600d2abe249192a6c91c1f6c84e",
+    "commit": "7aa0cb810424b9f1042bd0ca31588042362438b9",
     "dirty": false
   },
   "build": {
-    "folder": "/dev/shm/match-connection-check-C2WVHv",
-    "head": "74213a79e0de8600d2abe249192a6c91c1f6c84e",
+    "folder": "/dev/shm/match-connection-check-48Ddvw",
+    "head": "7aa0cb810424b9f1042bd0ca31588042362438b9",
     "dirty": false,
     "artwork": "64e55516d2f0026842c5c2a675f2eccda20e0a9e"
   },
@@ -573,7 +573,7 @@
         "width": 585,
         "height": 1266,
         "log": [
-          "tap: Promises, 1 new Promises1",
+          "tap: Promises, 1 new 1",
           "tapText: Offer a PromiseSix kinds · exact terms"
         ],
         "problems": []
@@ -617,7 +617,7 @@
         "width": 585,
         "height": 1266,
         "log": [
-          "tap: Promises, 1 new Promises1"
+          "tap: Promises, 1 new 1"
         ],
         "problems": []
       },
@@ -660,7 +660,7 @@
         "width": 585,
         "height": 1266,
         "log": [
-          "tap: Promises Promises"
+          "tap: Promises"
         ],
         "problems": []
       },

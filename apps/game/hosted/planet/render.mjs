@@ -103,7 +103,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  // the focus returns to are found there by their intents.
  // The confirm step's action, Actions' Register or the game's confirm, once that step is reached in a sheet that stays
  // (renderUI). While the shell holds the focus on its root, a control of its own has just ended and the shell's hand-back
- // follows this render: it goes first.
+ // follows this render: it goes first. No drawn state reaches this wait under #307's title rule (the match check's
+ // mutations); it is kept for the order (the Lead Designer, 19 November 2026).
  const focusConfirm=()=>{if(document.activeElement===shell.element)return;
   shell.element?.querySelector('[data-intent="sheet-action"]:is([data-value="register"],[data-value="confirm"])')?.focus({preventScroll:true});};
  // Where the focus goes (the Lead Designer, 18 November 2026; shell-input.mjs shellSheetEntered() and shellSheetFocus()).

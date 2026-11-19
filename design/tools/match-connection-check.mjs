@@ -8,7 +8,8 @@
 // (apps/game/dev/phone: the real Planet app, controller and renderer over its synthetic connection) from this
 // tree, with the art it takes from a clean worktree of origin/main, as shell-connection-check.mjs does, and serves
 // it with the hosted game's production response headers (scripts/hosted-preview-policy.mjs, the Content Security
-// Policy included). It drives the real app at 390 × 844 and 430 × 932, in desktop Chromium at 2× pixels:
+// Policy included). It drives the real app at 390 × 844 and 430 × 932 (and the tallest sheets at 402 × 742 too, the
+// owner's view: AT_OWNER_VIEW below), in desktop Chromium at 2× pixels:
 //   tiles                       the Hacker's tiles: the server's offers usable, Private talk and Shoot "Not available now"
 //   rescue, rescue-check        the Doctor's Rescue: the target bar and the person offered; the check, Cancel to the tiles
 //   rescue-after                Register, then After Register's REGISTERED; Done closes it
@@ -58,7 +59,9 @@
 // the stage in it and none of the old chrome; and the state's own facts. It writes
 // design/phone-ui/review/match-connection/: one JPEG per state and size, and check.json (the headers and their
 // SHA-256, the candidate and art commits, what each capture saw and its SHA-256). States are drawn at both phones
-// unless they name their sizes; the two Largest-text states are drawn at 320 × 568 alone.
+// unless they name their sizes; the two Largest-text states are drawn at 320 × 568 alone, and the owner's view's at
+// 402 × 742 too. The small phone is drawn last: its states choose the Largest text, which the app keeps for the
+// browser's next pages, so every capture checks the text size it was drawn at (textSize), as #307's check does.
 //   GAMEN_PHONE_ART_BASE=<clean worktree of origin/main> node design/tools/match-connection-check.mjs [--only a,b] [--keep]
 // One browser draws every capture, one page at a time. --only draws some states (a state another continues from
 // is drawn with it); a run with --only adds its captures to check.json when that record names the same candidate,
@@ -85,7 +88,7 @@ import { connect, launchBrowser, openPage, sleep } from './lib/chrome.mjs';
 
 const REPO = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const REVIEW = join(REPO, 'design/phone-ui/review/match-connection');
-const SIZES = { '390x844': [390, 844], '430x932': [430, 932], '320x568': [320, 568] };
+const SIZES = { '390x844': [390, 844], '430x932': [430, 932], '402x742': [402, 742], '320x568': [320, 568] };
 /** The two phones every state is drawn at, unless it names its sizes. */
 const PHONES = ['390x844', '430x932'];
 const PROJECT = 'gamen-mothership-staging';
@@ -247,6 +250,7 @@ const LOOK = `(() => {
   const part = document.querySelector(${JSON.stringify(ACTIONS)}), body = q('.ms-ps-sheet-body', sheet);
   const harness = window.planetHarness ?? window.foodAppHarness, model = harness?.app.game?.getModel() ?? null;
   return {
+    text: document.documentElement.style.fontSize || '100%',
     shell: shell ? { status: shell.dataset.status, tabs: shell.dataset.tabs, box: box(shell) } : null,
     bar: bar ? { kind: bar.dataset.kind, tone: bar.getAttribute('data-tone'), name: text(q('.ms-ps-name', bar)), sub: text(q('.ms-ps-sub', bar)), clock: text(q('.ms-ps-timer', bar)), controls: all('button', bar).length } : null,
     tabs: tabs ? { buttons: all('button[data-intent]', tabs).map(control) } : null,
@@ -1365,6 +1369,48 @@ async function earlier(candidate, artHead) {
   return same ? record : null;
 }
 
+/** At the owner's view, the open sheet as the owner meets it (the Lead, 19 November 2026): whether its footer is whole on
+ * the screen and its content fits its scrolling box, so that the last row shows without scrolling, and which row that
+ * is; where it scrolls, whether the box's bottom edge is on the screen and uncovered, and the row cut there. A row is
+ * the smallest drawn box at that place, named by its words. Read only. */
+const OWNER_FIT = `(() => {
+  const sheet = document.querySelector('.ms-phone-shell .ms-ps-sheet');
+  if (!sheet) return null;
+  const vh = window.innerHeight, round = v => Math.round(v * 100) / 100;
+  // A row's name: its own words, or those of the nearest box around it no taller than a row (a drawing's lines are named
+  // by the drawing), else its part or class.
+  const words = m => (m.getAttribute('aria-label') || (m.innerText ?? m.textContent ?? '')).replace(/\\s+/g, ' ').trim();
+  const label = n => { for (let m = n; m && m !== scroller && m.getBoundingClientRect().height <= 400; m = m.parentElement) { const t = words(m); if (t) return t.slice(0, 60); }
+    return n.dataset?.part || String(n.className?.baseVal ?? n.className).split(' ')[0] || n.tagName.toLowerCase(); };
+  const squeezed = sheet.hasAttribute('data-foot-scrolls');
+  const scroller = sheet.querySelector(squeezed ? '.ms-ps-sheet-scroll' : '.ms-ps-sheet-body');
+  const box = scroller.getBoundingClientRect(), whole = sheet.getBoundingClientRect();
+  const scrolls = scroller.scrollHeight > scroller.clientHeight + 1;
+  const footNode = sheet.querySelector('.ms-ps-sheet-foot');
+  const foot = footNode && footNode.getClientRects().length ? (() => { const b = footNode.getBoundingClientRect();
+    return { top: round(b.top), bottom: round(b.bottom), shown: b.top >= whole.top - 0.5 && b.bottom <= Math.min(whole.bottom, vh) + 0.5 }; })() : null;
+  // What is drawn: a visually hidden box (1 px) is no row.
+  const drawn = [...scroller.querySelectorAll('*')].map(n => ({ n, r: n.getBoundingClientRect() })).filter(({ r }) => r.width > 1 && r.height > 1);
+  const smallest = list => list.sort((a, b) => a.r.width * a.r.height - b.r.width * b.r.height)[0] ?? null;
+  const end = Math.max(box.top, ...drawn.map(d => d.r.bottom));
+  const lastNode = smallest(drawn.filter(d => d.r.bottom >= end - 1));
+  const last = lastNode ? { what: label(lastNode.n), bottom: round(lastNode.r.bottom), shown: lastNode.r.bottom <= Math.min(box.bottom, vh) + 0.5 } : null;
+  const edge = scrolls ? (() => {
+    const y = box.bottom, hit = document.elementFromPoint(box.left + box.width / 2, Math.min(y, vh) - 3);
+    const cut = smallest(drawn.filter(d => d.r.top < y - 1 && d.r.bottom > y + 1));
+    const onScreen = y <= vh + 0.5, uncovered = !!hit && scroller.contains(hit);
+    return { y: round(y), onScreen, uncovered, visible: onScreen && uncovered, cut: cut ? label(cut.n) : null };
+  })() : null;
+  return { scroller: squeezed ? 'ms-ps-sheet-scroll' : 'ms-ps-sheet-body', sheet: { top: round(whole.top), bottom: round(whole.bottom) },
+    box: { top: round(box.top), bottom: round(box.bottom), clientHeight: scroller.clientHeight, scrollHeight: scroller.scrollHeight, scrollTop: scroller.scrollTop },
+    scrolls, foot, last, edge };
+})()`;
+
+/** The owner's view, 402 × 742: the owner's phone in the Claude app (the Lead, 19 November 2026). The tallest sheets
+ * are drawn there too, each with the states it continues from. */
+const OWNER_VIEW = '402x742', AT_OWNER_VIEW = new Set(['tiles', 'rescue-check', 'pass', 'panels', 'players', 'round-order',
+  'promise-kinds', 'promise-incoming', 'windows'].flatMap(name => { const chain = []; for (let n = name; n; n = STATES[n].from) chain.push(n); return chain; }));
+
 /** The states a run draws: every one, or those named with each one they continue from. */
 const wanted = only && (() => {
   const set = new Set();
@@ -1388,7 +1434,7 @@ try {
     let page = null;
     for (const [name, state] of Object.entries(STATES)) {
       if (wanted && !wanted.has(name)) continue;
-      if (!(state.sizes ?? PHONES).includes(sizeKey)) continue;
+      if (!(state.sizes ?? PHONES).includes(sizeKey) && !(sizeKey === OWNER_VIEW && AT_OWNER_VIEW.has(name))) continue;
       const result = { ok: false };
       try {
         if (!state.from) {
@@ -1410,12 +1456,17 @@ try {
         for (const v of seen.violations) v.kind = await classify(out, v);
         const problems = page.problems().filter(p => !/\/favicon\.ico$/.test(p));
         const extra = await state.extra?.(page, seen) ?? {};
+        const ownerFit = sizeKey === OWNER_VIEW && seen.sheet ? await page.evaluate(OWNER_FIT) : null;
         const own = state.facts?.(seen, looks, extra) ?? {};
         const checks = {
           shell: !!seen.shell && seen.stage.inShell,
           noOldChrome: seen.old === 0,
           policy: seen.violations.every(v => v.kind !== 'unexpected'),
           problems: problems.length === 0,
+          // The text size the capture was drawn at: the Standard, but for the two states that choose the Largest.
+          textSize: seen.text === (name.includes('-largest') ? '200%' : '100%'),
+          // The owner's view: an open sheet's footer whole on the screen, and where the sheet scrolls, its edge.
+          ...(ownerFit ? { footShown: !ownerFit.foot || ownerFit.foot.shown, scrollEdge: !ownerFit.scrolls || ownerFit.edge.visible } : {}),
           ...Object.fromEntries(Object.entries(own).filter(([key]) => !key.startsWith('info'))),
         };
         const file = join(REVIEW, `${sizeKey}-${name}.jpg`);
@@ -1424,7 +1475,7 @@ try {
         await writeFile(file, bytes);
         const after = await state.after?.(page, seen) ?? {};
         Object.assign(checks, Object.fromEntries(Object.entries(after).filter(([key]) => !key.startsWith('info'))));
-        const info = Object.fromEntries([...Object.entries(own), ...Object.entries(after)].filter(([key]) => key.startsWith('info')));
+        const info = Object.fromEntries([...Object.entries(own), ...Object.entries(after), ...(ownerFit ? [['infoOwnerView', ownerFit]] : [])].filter(([key]) => key.startsWith('info')));
         Object.assign(result, { ok: Object.values(checks).every(Boolean), checks, ...(Object.keys(info).length ? { info } : {}), ...(state.note ? { note: state.note } : {}),
           file: file.slice(REPO.length + 1), sha256: sha256(bytes), seen, ...(Object.keys(extra).length ? { extra } : {}), problems });
       } catch (error) {
