@@ -171,16 +171,16 @@
 .ms-phone-shell .ms-ps-tb[data-fit~="name2"] .ms-ps-name { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-height: 1.1; }
 .ms-phone-shell .ms-ps-tb[data-fit~="name2"] .ms-ps-sub { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .ms-phone-shell .ms-ps-tb[data-fit~="sub2"] .ms-ps-sub { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
-/* c: the controls on a row of their own, Promises at its left end and the clock and the menu at its right. */
+/* c: the controls on a row of their own, together at its right in the one-row bar's order (Promises, the round,
+   the clock, the menu), so they read as the same controls moved down and stay where a thumb finds them. */
 .ms-phone-shell .ms-ps-tb[data-fit~="stack"] { flex-wrap: wrap; align-content: center; row-gap: 0; }
 .ms-phone-shell .ms-ps-tb[data-fit~="stack"] .ms-ps-who { flex: 0 0 100%; }
-.ms-phone-shell .ms-ps-tb[data-fit~="stack"] .ms-ps-promises { margin-right: auto; }
-.ms-phone-shell .ms-ps-tb[data-fit~="stack"] .ms-ps-right { margin-left: auto; }
+.ms-phone-shell .ms-ps-tb[data-fit~="stack"] :is(.ms-ps-promises, .ms-ps-who + .ms-ps-right) { margin-left: auto; }
 /* A wrapped line breaks between its parts ("Player 6", a person's name), at its "·" or "+", never inside one. */
 .ms-phone-shell .ms-ps-part { white-space: nowrap; }
-/* A second line on two lines breaks at its "·", and the break takes the dot's place: the dot is not drawn there, and
-   is still read. A "+" stays at its break: it means "and". */
-.ms-phone-shell .ms-ps-tb[data-fit~="sub2"] .ms-ps-dot { display: block; height: 0; overflow: hidden; }
+/* Where the line under the name breaks at a "·", the break takes the dot's place: the dot is not drawn there, and is
+   still read (fitBar() marks it). A "+" stays at its break: it means "and". */
+.ms-phone-shell .ms-ps-dot[data-break] { display: block; height: 0; overflow: hidden; }
 /* A bar that grew keeps a little air above and below its words. */
 .ms-phone-shell .ms-ps-tb:is([data-fit~="stack"], [data-fit~="sub2"]) { padding-top: calc(var(--ms-ps-safe-t) + 4px); padding-bottom: 4px; }
 /* The hidden copy the fit is decided from: the bar at its own least height, growing with what it holds. */

@@ -1257,7 +1257,7 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
     // 0.3.5: the bar's words are never cut (the Lead Designer's rule of 18 November 2026; the owner, 19 November 2026:
     // "Icon is enough for promises"). Every kind of bar with the game's own longest words, on four phones at the
     // three text sizes: the phone the owner reads the game on in the Claude app (402 px wide) beside 320, 390 and 430.
-    await check('fit: no word of the top bar is cut, with the game\'s own names and its longest lines, on 320, 390, 402 and 430 px phones at the Standard, Large and Largest text; Promises is the handshake and its count everywhere, named for a screen reader; the clock has its icon only in a bar wider than 25 rem; a line the name displaces is still read; the bar stays inside the phone, holds all it draws and the stage begins under it; and without the fit the same bars do cut', async () => {
+    await check('fit: no word of the top bar is cut, with the game\'s own names and its longest lines, on 320, 390, 402 and 430 px phones at the Standard, Large and Largest text; Promises is the handshake and its count everywhere, named for a screen reader; the clock has its icon only in a bar wider than 25 rem; a line the name displaces is still read; the bar stays inside the phone, holds all it draws and the stage begins under it; controls on a row of their own keep together at its right; a number stays with the word before it; a dot gives way where its line breaks; and without the fit the same bars do cut', async () => {
       const who = (n, name, seat = null) => ({ ...person(n), name, ...(seat ? { seat } : {}) });
       const base = { round: 3, timer: { remainingMs: 42000 }, promises: { count: 1 }, menu: {} };
       const bars = {
@@ -1311,22 +1311,48 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
               const read = node => (node ? plain(node.textContent) : null);
               // The words are all in the page for a screen reader, whatever is drawn: the name (a phase's short form apart) and the line under it.
               const said = (bar.kind === 'phase' && bar.short ? read(s.q('.ms-ps-long')) : read(name)) === plain(want[0]) && (want[1] === null ? !sub : read(sub) === plain(want[1]));
+              // On a row of their own the controls keep together at its right, in the one-row bar's order: Promises beside the
+              // round, the clock and the menu, the menu where it is in a one-row bar.
+              const right = s.q('.ms-ps-right'), menu = s.q('.ms-ps-menu');
+              const together = !fit.includes('stack') ? true : (() => {
+                const r = right.getBoundingClientRect(), p = promises?.getBoundingClientRect() ?? null, last = (menu ?? right).getBoundingClientRect();
+                const gap = p ? r.left - p.right : 0;
+                return gap >= 0 && gap <= parseFloat(style.columnGap || '0') + 0.5 && (!p || Math.abs((p.top + p.bottom) / 2 - (r.top + r.bottom) / 2) <= 1)
+                  && Math.abs(last.right - (box.right - parseFloat(style.paddingRight) + (menu ? 12 : 0))) <= 1 && r.top >= name.getBoundingClientRect().bottom - 0.5;
+              })();
+              // In the line under the name a number is never alone: it is in one part with the word before it, on one line.
+              const partsOf = sub ? [...sub.querySelectorAll('.ms-ps-part')] : [];
+              const numberParts = !sub || sub.offsetWidth <= 1 ? [] : [...sub.textContent.matchAll(/\S+ \d\S*/g)].map(found => { const node = partsOf.find(q => q.textContent === found[0]); return { words: found[0], part: !!node, lines: node ? new Set([...node.getClientRects()].map(r => Math.round(r.top))).size : null }; });
+              const numbers = numberParts.every(n => n.part && n.lines === 1);
+              // A "·" is not drawn where the line breaks at it, and is drawn everywhere else.
+              const range = document.createRange(), drawn = r => r.width > 0;
+              const dots = !sub || sub.offsetWidth <= 1 ? [] : [...sub.querySelectorAll('.ms-ps-dot')].map(mark => {
+                range.setStart(sub, 0); range.setEndBefore(mark);
+                const before = [...range.getClientRects()].filter(drawn).pop();
+                range.setStartAfter(mark); range.setEnd(sub, sub.childNodes.length);
+                const after = [...range.getClientRects()].find(drawn);
+                const atBreak = !!before && !!after && after.top > before.top + before.height / 2;
+                return { atBreak, marked: mark.hasAttribute('data-break'), hidden: mark.getBoundingClientRect().height === 0 };
+              });
               const row = { phone: `${width} × ${height}`, text, bar: id, fit: fit || 'as it is', height: px(box.height), inner: px(inner / rem),
                 whole: !cut(name) && !cut(sub), inside: inside && holds && box.right <= phone.right + 0.5 && box.bottom <= phone.bottom,
                 stage: Math.abs(stage.top - box.bottom) <= 0.5,
                 pill: promises ? (pill.textContent === '' && Math.abs(pill.getBoundingClientRect().width - 36) <= 0.5 && /^Promises/.test(promises.getAttribute('aria-label') ?? '') && promises.getBoundingClientRect().width >= 44 && s.qa('.ms-ps-div, .ms-ps-pill-label').length === 0) : true,
                 clock: !mark || ring ? markDrawn === !!mark : markDrawn === (inner / rem > 25),
-                read: said && (!fit.includes('name2') || !sub || (sub.textContent.trim() !== '' && sub.offsetWidth <= 1)) };
+                read: said && (!fit.includes('name2') || !sub || (sub.textContent.trim() !== '' && sub.offsetWidth <= 1)),
+                together, numbers, numberParts, dots: dots.every(d => d.atBreak === d.marked && d.marked === d.hidden), breaks: dots.filter(d => d.marked).length };
               // Without the fit the same bar, where the fit changed it, cuts a word: the check sees a cut, and the fit was needed.
               if (fit) {
-                const height0 = s.root.style.getPropertyValue('--ms-ps-bar-h');
+                const height0 = s.root.style.getPropertyValue('--ms-ps-bar-h'), gone = s.qa('.ms-ps-dot[data-break]');
                 tb.removeAttribute('data-fit');
+                for (const mark of gone) mark.removeAttribute('data-break');
                 s.root.style.removeProperty('--ms-ps-bar-h');
                 row.needed = cut(name) || cut(sub);
                 tb.setAttribute('data-fit', fit);
+                for (const mark of gone) mark.setAttribute('data-break', '');
                 if (height0) s.root.style.setProperty('--ms-ps-bar-h', height0);
               }
-              row.ok = row.whole && row.inside && row.stage && row.pill && row.clock && row.read && row.needed !== false;
+              row.ok = row.whole && row.inside && row.stage && row.pill && row.clock && row.read && row.together && row.numbers && row.dots && row.needed !== false;
               results.push(row);
               if (!row.ok) failures.push(row);
             } finally { s.shell.dispose(); }
@@ -1341,6 +1367,7 @@ export async function runPhoneShellProbe({ sizes, versions, person }) {
       return { ok: results.length === phones.length * texts.length * Object.keys(bars).length && failures.length === 0, bars: results.length,
         fits: { 'as it is': count('as it is'), name2: count('name2'), sub2: count('sub2'), stack: count('stack') },
         tallest: { phone: tallest.phone, text: tallest.text, bar: tallest.bar, height: tallest.height, fit: tallest.fit },
+        breaks: results.filter(r => r.breaks > 0).length,
         grown: results.filter(r => r.fit !== 'as it is').map(r => `${r.phone} at ${r.text}% · ${r.bar} · ${r.fit} · ${r.height} px`), failures };
     });
 

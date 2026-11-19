@@ -420,6 +420,21 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     // The "·" between two parts of a second line. Where that line wraps, the break takes the dot's place ("Player 6"
     // over "Crew 6"); the line's words, and what a screen reader reads, keep it.
     const dot = () => { const node = el('span', 'ms-ps-dot'); node.textContent = ' · '; return node; };
+    // A line under the name, from its words (a talk's, a phase's): a number stays with the word before it ("Round 12",
+    // "in 0:03"), and each "·" is a dot of its own, which gives way where the line breaks at it (fitBar()). The line
+    // is not split into parts at its dots: it wraps at any space. Its words are the same.
+    const fill = (node, words) => {
+      words.split(' · ').forEach((piece, i) => {
+        if (i) node.append(dot());
+        let at = 0;
+        for (const found of piece.matchAll(/\S+ \d\S*/g)) {
+          if (found.index > at) node.append(piece.slice(at, found.index));
+          node.append(part(found[0]));
+          at = found.index + found[0].length;
+        }
+        if (at < piece.length) node.append(piece.slice(at));
+      });
+    };
     if (b.kind === 'turn') {
       const n = seatNumber(b.who), face = portrait(b.who);
       if (face) who.append(face);
@@ -431,7 +446,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       const faces = b.pair.map(portrait).filter(Boolean);
       if (faces.length) { const pair = el('span', 'ms-ps-pair'); pair.append(...faces); who.append(pair); }
       b.pair.forEach((p, i) => name.append(...(i ? [' + '] : []), part(p.name)));
-      sub.textContent = b.sub ?? 'Private talk';
+      fill(sub, b.sub ?? 'Private talk');
       lines.append(name, sub);
     } else {
       const glyph = el('span', 'ms-ps-glyph', { 'data-tone': b.tone });
@@ -444,7 +459,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
         name.append(long, short);
       } else name.textContent = b.title;
       lines.append(name);
-      if (b.sub) { sub.textContent = b.sub; lines.append(sub); }
+      if (b.sub) { fill(sub, b.sub); lines.append(sub); }
     }
     who.append(lines);
     if (parts.who) parts.who.replaceWith(who); else bar.prepend(who);
@@ -741,7 +756,8 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
    *      phone, and the clock has no icon in a bar up to 25 rem wide (the stylesheet);
    *   b. the name takes its second line's place, on two lines, the second line kept for screen readers (`name2`);
    *      or, when the second line is the one cut, that line wraps to a line of its own (`sub2`);
-   *   c. the controls take a row of their own and the words the full width (`stack`), then b again there.
+   *   c. the controls take a row of their own, together at its right as in the one-row bar, and the words the
+   *      full width (`stack`), then b again there.
    * The text keeps the size the player chose. Decided from a hidden copy of the bar, taken away at once, and only
    * when what it depends on changes: the bar's width, the text size, the words, or what stands beside them.
    */
@@ -787,6 +803,20 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
     };
     settle();
     set(fit);
+    // Where the line under the name breaks at a "·", the dot gives way to the break: the break says what the dot said.
+    // Found one dot at a time, in order, since a dot that goes moves the words after it.
+    const breaks = [], under = words[1];
+    if (under && under.offsetWidth > 1) {
+      const range = doc.createRange(), drawn = r => r.width > 0;
+      for (const [i, mark] of [...under.querySelectorAll('.ms-ps-dot')].entries()) {
+        range.setStart(under, 0); range.setEndBefore(mark);
+        const before = [...range.getClientRects()].filter(drawn).pop();
+        range.setStartAfter(mark); range.setEnd(under, under.childNodes.length);
+        const after = [...range.getClientRects()].find(drawn);
+        if (before && after && after.top > before.top + before.height / 2) { mark.setAttribute('data-break', ''); breaks.push(i); }
+      }
+    }
+    [...bar.querySelectorAll('.ms-ps-sub .ms-ps-dot')].forEach((mark, i) => { if (mark.hasAttribute('data-break') !== breaks.includes(i)) mark.toggleAttribute('data-break', breaks.includes(i)); });
     const style = win.getComputedStyle(copy), least = parseFloat(style.minHeight) || 0, tall = copy.offsetHeight;
     box.remove();
     const value = fit.join(' ');

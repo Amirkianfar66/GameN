@@ -69,7 +69,8 @@ let failed = 0;
 const tiled = (s, count) => s.tiles.filter(t => t.tile).length === count && s.tiles.every(t => t.box && t.box.join() === '32,32' && (!t.tile || t.drawn));
 const tileOf = (s, tab) => s.tiles.find(t => t.tab === tab) ?? {};
 /** 0.3.5: no drawn word of the bar cut, Promises a 36 px pill with no word, the clock's icon only in a bar wider than 25 rem, the bar inside the phone. */
-const whole = s => !!s.fit && s.fit.cut.length === 0 && (!s.fit.pill || (s.fit.pill.width === 36 && s.fit.pill.words === '')) && (s.fit.clockIcon === null || s.ring || s.fit.clockIcon === (s.fit.rem > 25)) && s.bar.right <= s.layout.size.width;
+const whole = s => !!s.fit && s.fit.cut.length === 0 && (!s.fit.pill || (s.fit.pill.width === 36 && s.fit.pill.words === '')) && (s.fit.clockIcon === null || s.ring || s.fit.clockIcon === (s.fit.rem > 25)) && s.bar.right <= s.layout.size.width
+  && (!s.fit.row || (s.fit.row.level && (s.fit.row.gap === null || (s.fit.row.gap >= 0 && s.fit.row.gap <= 12))));
 /** What a state must show, from the shell's own DOM (and the room scene's crew where a room is drawn). */
 const EXPECT = {
   // 0.3.0: Card is the last tab and draws this viewer's own portrait, its ring the tab's colour, not amber.
@@ -194,7 +195,11 @@ try {
             const pill = q('.ms-ps-pill'), mark = q('.ms-ps-timer-mark'), style = getComputedStyle(tb), rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
             return { how: tb.getAttribute('data-fit') ?? '', cut: ['.ms-ps-name', '.ms-ps-sub'].filter(s => cut(q(s))), read: [t('.ms-ps-name'), t('.ms-ps-sub')], height: Math.round(tb.getBoundingClientRect().height * 100) / 100,
               pill: pill ? { width: Math.round(pill.getBoundingClientRect().width * 100) / 100, words: pill.textContent } : null, clockIcon: mark ? mark.getClientRects().length > 0 && !mark.classList.contains('ms-ps-ring') : null,
-              rem: Math.round((tb.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight)) / rem * 100) / 100 }; })(),
+              rem: Math.round((tb.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight)) / rem * 100) / 100,
+              // On a row of their own: the gap from Promises to the round, the clock and the menu beside it, and whether the two are level. The dots that gave way to a break.
+              row: (() => { if (!(tb.getAttribute('data-fit') ?? '').includes('stack')) return null; const p = q('.ms-ps-promises')?.getBoundingClientRect() ?? null, r = q('.ms-ps-right').getBoundingClientRect();
+                return { gap: p ? Math.round((r.left - p.right) * 100) / 100 : null, level: p ? Math.abs((p.top + p.bottom) / 2 - (r.top + r.bottom) / 2) <= 1 : true, right: Math.round((tb.getBoundingClientRect().right - r.right) * 100) / 100 }; })(),
+              breaks: [...tb.querySelectorAll('.ms-ps-sub .ms-ps-dot')].map(n => n.hasAttribute('data-break')) }; })(),
           bannerButtons: q('.ms-ps-banner') ? q('.ms-ps-banner').querySelectorAll('button').length : null, sheet: t('.ms-ps-sheet h2'),
           sheetActions: root.querySelectorAll('.ms-ps-sheet-foot button').length, head: q('.ms-ps-sheet-head [data-intent="sheet-head"]')?.getAttribute('aria-label') ?? null, buttons: root.querySelectorAll('.ms-ps-tb button, .ms-ps-tabs button, .ms-ps-talk button, .ms-ps-over button, .ms-ps-sheet button').length,
           figures: room ? room.querySelectorAll('.ms-rs-fig svg').length : 0, cover: q('.ms-ps-cover')?.children.length ?? 0,
