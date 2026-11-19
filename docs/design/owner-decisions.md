@@ -60,6 +60,31 @@ The owner's messages are quoted as written.
   - **What follows from it,** as the Lead reads it: a review goes to the owner as **one combined sheet** with every part in it, never part by part. This holds for every Designer builder, not only Bars & Icons.
   - Bars & Icons answered that it should have been one combined picture. It has stopped until the owner tells it to continue.
   - **Next:** the built look goes to the owner as one image at 402 × 742, before the game takes it.
+- **One shared system for the panels** (in the Bars & Icons builder's session, relayed word for word). Before going on, the owner said:
+
+  > I should see some of your work example first to decide
+
+  Bars & Icons sent the built look as one combined sheet: six panels at 402 × 742, from #333 at `70ec9a46`. The owner answered shortly before 14:48 UTC:
+
+  > Actions follow the 3 column matrix order but the panel is like a row and wrong i want all follow a shared system
+
+  - **What it decides:** the Actions sheet's three-column grid of cells, an icon over its name with a note under it, is the shared system. Every panel opened from the two bars that offers a choice uses it.
+    - The Panels sheet's five destinations become cells.
+    - So do Promises' two rows that open: Offer a Promise, and a waiting offer with its amber dot.
+    - Each row's line becomes its cell's note.
+  - **Draft 4** showed that as one combined sheet. Bars & Icons asked whether "Your quota" and the inner lists follow it too. The owner asked "What is your quata and the inner list?", was told what they are, and answered (shortly before 14:53 UTC):
+
+    > As you recommended
+
+    - "Your quota" is the line in Promises that only tells.
+    - The inner lists are Players' people and Round order's steps.
+    - All three stay lines, because none of them offers a choice.
+  - **How it's read:** the owner didn't say "approved" for draft 4's grid in so many words. They asked for it, raised nothing against the picture and were told the work was going on, so the Lead takes it as accepted.
+  - **A departure from sheets 28, 32 and 33,** which draw these choices as rows, approved in these words.
+  - **In code** (the Lead's ruling), on #333:
+    - panels.mjs and promises.mjs build the cells as kit tiles. They are the Gameplay UI builder's files.
+    - Bars & Icons does the kit, the styles and the records.
+    - The checked build goes to the owner as one sheet before the game takes it.
 
 ## 19 November 2026: the top bar's Promises button is its icon
 
