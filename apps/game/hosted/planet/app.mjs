@@ -7,6 +7,8 @@ import {createPlanetLibraryAssets} from './art.mjs';
 import {PLANET_LIBRARY_MEDIA} from './library-assets.mjs';
 import {mountPregamePresentation} from './pregame.mjs';
 import {createPlanetPreferences} from './preferences.mjs';
+import {PREGAME_MEDIA} from './pregame-media.mjs';
+import {mountLobbyMusic} from './lobby-music.mjs';
 import {mountFoodApp,mountFoodPublic} from './food-app.mjs';
 import {createFoodAssets} from './food-assets.mjs';
 import {labelPhoneControl} from './phone-controls.mjs';
@@ -51,14 +53,16 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  // END pre-game connection
  const entryDraft={roomCode:'',displayName:'',kind:'player'};
  // BEGIN pre-game connection: the menu, Display settings, host, join, recover, characters, the role stage and boarding.
- const screens=createPregameScreens(root,{session,preferences,draft:entryDraft,hooks:{
+ const screens=createPregameScreens(root,{session,preferences,draft:entryDraft,media:PREGAME_MEDIA,hooks:{
   rerender:()=>{sessionKey=null;if(model)render(session.getModel());},
   boardingPlaying:()=>pregame.sample()?.kind==='boarding',
   skipBoarding:()=>presentation.skipBoarding(),
   // As today's recovery form did: no role film replays for a recovered seat.
   beforeRecover:()=>{pregame.suppressRolePlayback();presentation.clear();}}});
+ const music=PREGAME_MEDIA?mountLobbyMusic(root,session,PREGAME_MEDIA.musicUrl,{autoplay:!recoveringEntry}):null;
  const presentation=mountPregamePresentation(root,pregame,{
   preferences:preferences.get,
+  onEntryEnd:syncPregameMedia,
   boardingFilm:()=>screens.boardingFilm,
   boardingWindow:()=>{
    const {connection:state,status,uncertain,matchId,selfSeatId,setup,setupClock}=session.getModel();
@@ -70,6 +74,13 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
   // The seatless host keeps the existing setup screen (G15).
   legacyBoarding:()=>model?.isHost===true&&model.selfSeatId===null,
  });
+ function syncPregameMedia(){
+  if(!music||disposed)return;
+  screens.syncMenuFilm(model?.connection==='live'&&document.hasFocus()&&!root.closest('[hidden],[inert]'));
+  music.sync();
+ }
+ const stopMenuFilm=()=>screens.syncMenuFilm(false);
+ if(PREGAME_MEDIA)win.addEventListener('pagehide',stopMenuFilm);
  // END pre-game connection
  const el=(tag,text=null)=>{const n=document.createElement(tag);if(text!==null)n.textContent=text;return n;};
  const button=(label,run)=>{const b=el('button',label);b.type='button';b.addEventListener('click',run);return b;};
@@ -139,6 +150,7 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
   // BEGIN pre-game connection: a pre-game screen, when the model asks for one, takes the root.
   const screenMounted=screens.sync(model);
   presentation.sync();
+  syncPregameMedia();
   if(screenMounted){if(key&&!running){disposeGame();key=null;}lastStatus=model.status;sessionKey=null;return;}
   // END pre-game connection
   if(running){
@@ -178,5 +190,5 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  const artReady=()=>{sessionKey=null;if(model)render(session.getModel());};
  const concealRole=()=>{roleOpen=false;recoveryShown=false;setupSettings=false;food?.setVisible(false);session.setVisible(false);presentation.clear();};
  document.addEventListener('visibilitychange',visibility);document.addEventListener('mothership:art-ready',artReady);win.addEventListener('blur',concealRole);win.addEventListener('focus',visibility);unsubscribe=session.subscribe(render);session.setVisible(document.visibilityState==='visible');await session.start(matchId);
- return {session,artReady:Promise.all([commonArt,libraryAssets.ready,foodAssets?.load()]),get game(){return game;},get food(){return food?.controller??null;},get presentationStats(){return presentation.stats},dispose(){disposed=true;unsubscribe?.();screens.dispose();document.removeEventListener('visibilitychange',visibility);document.removeEventListener('mothership:art-ready',artReady);win.removeEventListener('blur',concealRole);win.removeEventListener('focus',visibility);presentation.dispose();pregame.dispose();preferences.dispose();disposeGame();session.dispose();libraryAssets.dispose();foodAssets?.dispose();void connection.dispose?.();delete root.dataset.crewArt;root.replaceChildren();}};
+ return {session,artReady:Promise.all([commonArt,libraryAssets.ready,foodAssets?.load()]),get game(){return game;},get food(){return food?.controller??null;},get presentationStats(){return presentation.stats},dispose(){disposed=true;unsubscribe?.();music?.dispose();screens.dispose();document.removeEventListener('visibilitychange',visibility);document.removeEventListener('mothership:art-ready',artReady);win.removeEventListener('blur',concealRole);win.removeEventListener('focus',visibility);win.removeEventListener('pagehide',stopMenuFilm);presentation.dispose();pregame.dispose();preferences.dispose();disposeGame();session.dispose();libraryAssets.dispose();foodAssets?.dispose();void connection.dispose?.();delete root.dataset.crewArt;root.replaceChildren();}};
 }

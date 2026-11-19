@@ -1,0 +1,14 @@
+.ms-main-menu .ms-mm-settings:has([data-lobby-music-control]) {
+  display: flex;
+  align-items: center;
+  gap: .25rem;
+}
+
+[data-lobby-music-control][aria-pressed="true"] .lobby-music-slash {
+  display: none;
+}
+
+.ms-ep-nav-spacer:has([data-lobby-music-control]) {
+  display: flex;
+  justify-content: flex-end;
+}

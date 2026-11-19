@@ -1,0 +1,17 @@
+/* Night Passage composition from the Animator's 480b53fb menu placement. */
+.night-passage,
+.night-passage > img,
+.night-passage > video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 23%;
+  pointer-events: none;
+}
+
+.night-passage > img { z-index: 1; }
+.night-passage[data-picture="playing"] > img { visibility: hidden; }
+.night-passage { isolation: isolate; }
+.ms-main-menu[data-menu-space-film] .ms-mm-heroframe > .ms-mm-fade { display: none; }
