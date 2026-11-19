@@ -26,7 +26,7 @@
 
 import { createControlPolicy, createKit } from '../kit/kit.mjs';
 
-export const WINDOWS_VERSION = 'windows-0.1.1';
+export const WINDOWS_VERSION = 'windows-0.1.2';
 const VIEWS = Object.freeze(['windows', 'shown']);
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 /** The sheet's id, the same for every view, so the shell keeps its body (and this content) through them. */

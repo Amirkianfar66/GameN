@@ -98,6 +98,18 @@ try {
           labels: qa('.ms-k-group-label').filter(shown).map(n => n.textContent).join('|'),
           strokes: qa('.ms-wn-stroke').filter(shown).length, stamp: q('.ms-wn-stamp .ms-k-stamp')?.textContent ?? null,
           inks: qa('.ms-wn-swatch').map(b => [b.getAttribute('aria-label'), b.getAttribute('aria-checked')].join(':')).join('|'),
+          // Each ink's round and its press area (0.1.2, the Lead, 19 November): how far from its centre a press still lands on it,
+          // along each axis, and whether every point of a 43 px square around the centre does. elementFromPoint names the top
+          // element over the CSS pixel from (x, y) to (x + 1, y + 1), so each point is read through the pixel centred on it: an
+          // edge reads within half a pixel of where it is drawn. Each hit ring meets its neighbour's halfway (the rounds are
+          // 44 px apart), and the later ink takes the pixel across that edge.
+          presses: qa('.ms-wn-swatch').filter(shown).map(sw => {
+            const r = sw.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2, round = v => Math.round(v * 100) / 100;
+            const hits = (x, y) => { const h = document.elementFromPoint(x - 0.5, y - 0.5); return !!h && (h === sw || sw.contains(h)); };
+            const reach = (dx, dy) => { let d = 0; while (d < 40 && hits(cx + dx * (d + 0.25), cy + dy * (d + 0.25))) d += 0.25; return d + 0.125; };
+            const inner = [-21.5, 0, 21.5].every(x => [-21.5, 0, 21.5].every(y => hits(cx + x, cy + y)));
+            return { ink: sw.dataset.ink, round: round(r.width), width: round(reach(-1, 0) + reach(1, 0)), height: round(reach(0, -1) + reach(0, 1)), inner };
+          }),
           pad: pad ? [pad.getAttribute('role'), pad.getAttribute('aria-label')].join(':') : null, pen: !!pad && getComputedStyle(pad.querySelector('.ms-wn-pen')).display !== 'none',
           undoOff: q('[data-intent="undo"]')?.hasAttribute('data-off') ?? null,
           wait: wait ? [wait.querySelector('.ms-k-wait-title').textContent, wait.querySelector('.ms-k-wait-line').textContent].join('|') : null,
@@ -115,9 +127,11 @@ try {
       const bytes = Buffer.from(data, 'base64');
       await writeFile(file, bytes);
       const asked = EXPECT[state](seen);
-      const ok = seen.violations.every(v => v.kind !== 'unexpected') && problems.length === 0 && asked;
+      // Every ink drawn presses across the kit's 44 x 44 (0.1.2).
+      const pressed = seen.presses.every(p => p.inner && p.width >= 43.5 && p.height >= 43.5);
+      const ok = seen.violations.every(v => v.kind !== 'unexpected') && problems.length === 0 && asked && pressed;
       if (!ok) failed += 1;
-      results[`${sizeKey}/${state}`] = { file: file.slice(REPO.length + 1), sha256: sha256(bytes), ok, drawn: asked, ...seen, requests, problems };
+      results[`${sizeKey}/${state}`] = { file: file.slice(REPO.length + 1), sha256: sha256(bytes), ok, drawn: asked, pressed, ...seen, requests, problems };
       await page.close();
       console.log(`${ok ? 'ok  ' : 'FAIL'} ${sizeKey} ${state}: "${seen.title}" ${seen.foot || 'no footer'}, root ${seen.root}px, unexpected violations ${seen.violations.filter(v => v.kind === 'unexpected').length}, problems ${problems.length}${asked ? '' : `, NOT AS EXPECTED ${JSON.stringify(seen).slice(0, 900)}`}`);
     }
