@@ -1,4 +1,5 @@
-import {pregameProductionFixturePaths,restoreHistoricalPregameFixture,restoreBeforeFoodFixture} from './support/pregame-production-fixture.mjs';
+import {pregameProductionFixturePaths,restoreHistoricalPregameFixture,restoreBeforeFoodFixture,
+  restoreBeforePregameConnectionFixture} from './support/pregame-production-fixture.mjs';
 import {PREGAME_PRODUCTION_CONSUMER_APPROVAL,readPregameConsumerApproval} from '../../scripts/pregame-consumer-approval.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -66,7 +67,9 @@ test('Food release-selection tooling stays pinned and predecessor fixtures resto
 });
 
 test('release preservation admits only exact tooling and retains all artwork pins', async t=>{
-  const target=fixture(t), current=readDrawingPolicy(target);
+  const target=fixture(t);
+  restoreBeforePregameConnectionFixture(root,target);
+  const current=readDrawingPolicy(target);
   rmSync(join(target,FOOD_INPUT_CONSUMER_DRAWING_POLICY));
   rmSync(join(target,RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY));
   rmSync(join(target,RELEASE_PRESERVATION_DRAWING_POLICY));
@@ -94,6 +97,7 @@ test('release preservation admits only exact tooling and retains all artwork pin
 
 test('a film-consumer drawing supplement requires its verified tooling parent', async t=>{
   const target=fixture(t);
+  restoreBeforePregameConnectionFixture(root,target);
   rmSync(join(target,RELEASE_PRESERVATION_DRAWING_POLICY));
   assert.throws(()=>readDrawingPolicy(target),/consumer drawing parent is missing/);
   await rejects(target,/consumer drawing parent is missing/);
@@ -108,7 +112,9 @@ test('a film-consumer drawing supplement requires its verified tooling parent', 
 });
 
 test('Food input tooling requires its parent and retains every drawing source and port', async t=>{
-  const target=fixture(t), current=readDrawingPolicy(target);
+  const target=fixture(t);
+  restoreBeforePregameConnectionFixture(root,target);
+  const current=readDrawingPolicy(target);
   rmSync(join(target,FOOD_INPUT_CONSUMER_DRAWING_POLICY));
   const previous=readDrawingPolicy(target);
   for(const key of ['ports','sourceHashes','styles','metadataFiles','buildFiles']) assert.deepEqual(current[key],previous[key],key);
@@ -116,9 +122,10 @@ test('Food input tooling requires its parent and retains every drawing source an
   cpSync(join(root,FOOD_INPUT_CONSUMER_DRAWING_POLICY),join(target,FOOD_INPUT_CONSUMER_DRAWING_POLICY));
   assert.deepEqual(await productionDrawingProblems(target),[]);
   for(const path of ['scripts/food-consumer-source.mjs','scripts/food-input-consumer-approval.mjs']) {
+    const original=readFileSync(join(target,path));
     append(target,path,'\n// unreviewed input admission\n');
     assert.ok((await productionDrawingProblems(target)).some(message=>message.includes(path)),path);
-    cpSync(join(root,path),join(target,path));
+    writeFileSync(join(target,path),original);
   }
   rmSync(join(target,RELEASE_PRESERVATION_CONSUMER_DRAWING_POLICY));
   assert.throws(()=>readDrawingPolicy(target),/Food input consumer drawing parent is missing/);

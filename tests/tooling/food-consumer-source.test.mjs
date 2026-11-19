@@ -4,7 +4,8 @@ import {mkdtempSync, mkdirSync, readFileSync, writeFileSync, unlinkSync, symlink
 import {tmpdir} from 'node:os';
 import {dirname, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {FOOD_CONSUMER_SOURCE, readFoodConsumerSource, acceptsFoodConsumerSource} from '../../scripts/food-consumer-source.mjs';
+import {FOOD_CONSUMER_SOURCE, readFoodConsumerSource, acceptsFoodConsumerSource,
+  PREGAME_CONNECTION_SOURCE, readPregameConnectionSource} from '../../scripts/food-consumer-source.mjs';
 import {FOOD_STATIC_ART} from '../../scripts/food-supply-art.mjs';
 import {readRuntimeArtRelease} from '../../scripts/runtime-art-release.mjs';
 import {readHostedArtReleases} from '../../scripts/hosted-art-releases.mjs';
@@ -12,6 +13,42 @@ import {prototypeReferences} from '../../design/tools/lib/drawing-port-fence.mjs
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const record = JSON.parse(readFileSync(resolve(root, FOOD_CONSUMER_SOURCE)));
+
+test('the pre-game connection accepts its exact same-file predecessors only', () => {
+  const source = readFoodConsumerSource(root), connection = readPregameConnectionSource(root);
+  for (const [path, entry] of Object.entries(connection.files)) {
+    assert.equal(acceptsFoodConsumerSource(source, path, entry.previous.sha256, entry.sha256), true, path);
+    assert.equal(acceptsFoodConsumerSource(source, path, entry.previous.sha256, '0'.repeat(64)), false);
+    assert.equal(acceptsFoodConsumerSource(source, path, '0'.repeat(64), entry.sha256), false);
+    assert.equal(acceptsFoodConsumerSource(source, path + '.copy', entry.previous.sha256, entry.sha256), false);
+    assert.equal(acceptsFoodConsumerSource(structuredClone(source), path, entry.previous.sha256, entry.sha256), false);
+  }
+});
+
+test('a changed component, adapter, predecessor, report or registration invalidates the pre-game connection', t => {
+  const folder = mkdtempSync(resolve(tmpdir(), 'gamen-pregame-connection-'));
+  t.after(() => rmSync(folder, {recursive:true, force:true}));
+  assert.equal(readPregameConnectionSource(folder), null);
+  const connection = readPregameConnectionSource(root);
+  const paths = new Set([PREGAME_CONNECTION_SOURCE, ...Object.keys(connection.inputs),
+    ...Object.keys(connection.evidence), ...Object.keys(connection.files)]);
+  for (const entry of Object.values(connection.files)) {
+    for (const prior of [entry.previous, ...entry.earlier]) paths.add(prior.path);
+  }
+  for (const path of paths) {
+    mkdirSync(dirname(resolve(folder, path)), {recursive:true});
+    writeFileSync(resolve(folder, path), readFileSync(resolve(root, path)));
+  }
+  assert.deepEqual(readPregameConnectionSource(folder), connection);
+  for (const path of ['design/phone-ui/components/main-menu/entry-title.mjs', 'apps/game/hosted/planet/app.mjs',
+    connection.files['apps/game/hosted/planet/planet.css'].previous.path,
+    'docs/frontend/evidence/app-entry-title-311/observations.json', PREGAME_CONNECTION_SOURCE]) {
+    const original = readFileSync(resolve(folder, path));
+    writeFileSync(resolve(folder, path), Buffer.concat([original, Buffer.from('\n')]));
+    assert.throws(() => readPregameConnectionSource(folder), /differs/, path);
+    writeFileSync(resolve(folder, path), original);
+  }
+});
 function fixture(t) {
   const folder = mkdtempSync(resolve(tmpdir(), 'gamen-food-consumer-'));
   t.after(() => rmSync(folder, {recursive:true, force:true}));

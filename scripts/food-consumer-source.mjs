@@ -12,6 +12,9 @@ export const FOOD_CONSUMER_SOURCE_SHA256 = '1d8adae166454ae901d0e10586b389ee2c9a
 const verified = new WeakSet();
 const successors = new WeakMap();
 const inputSuccessors = new WeakMap();
+export const PREGAME_CONNECTION_SOURCE = 'docs/integration/pregame-connection-source-2026-11-19.json';
+const PREGAME_CONNECTION_SHA256 = 'f41e0fef4b1a9471fc3d6281faeb43b6c4de4f5b58c356dfe36cda8a49956fe5';
+const connections = new WeakMap();
 const sha = value => createHash('sha256').update(value).digest('hex');
 const check = (ok, message) => {if (!ok) throw Error(`Food consumer source: ${message}`);};
 function read(root, path) {
@@ -39,6 +42,35 @@ function freeze(value) {
   return value;
 }
 
+export function readPregameConnectionSource(root) {
+  try { lstatSync(resolve(root, PREGAME_CONNECTION_SOURCE)); }
+  catch (error) { if (error.code === 'ENOENT') return null; throw error; }
+  const bytes = read(root, PREGAME_CONNECTION_SOURCE);
+  check(sha(bytes) === PREGAME_CONNECTION_SHA256, 'pre-game registration hash differs');
+  const record = JSON.parse(bytes);
+  check(record.schema === 'mothership.pregame-connection-source/1' && record.status === 'technical-source-registration',
+    'invalid pre-game registration');
+  for (const [path, entry] of Object.entries(record.files)) {
+    pin(root, path, entry);
+    for (const prior of [entry.previous, ...entry.earlier]) {
+      check(prior.path === `docs/integration/pregame-connection-predecessors/${prior.sha256}` ||
+        ['candidate', 'historical'].some(kind => prior.path === `design/releases/${kind}-blobs/${prior.sha256}`),
+        `invalid pre-game predecessor: ${path}`);
+      pin(root, prior.path, prior);
+    }
+  }
+  for (const group of [record.inputs, record.evidence]) {
+    for (const [path, entry] of Object.entries(group)) pin(root, path, entry);
+  }
+  return freeze(record);
+}
+
+function acceptsConnection(record, path, expected, actual) {
+  if (!record || !Object.hasOwn(record.files, path)) return false;
+  const entry = record.files[path];
+  return actual === entry.sha256 && (entry.previous.sha256 === expected || entry.earlier.some(prior => prior.sha256 === expected));
+}
+
 /** Absent in historical checkouts. A present record never falls back on error. */
 export function readFoodConsumerSource(root) {
   try {lstatSync(resolve(root, FOOD_CONSUMER_SOURCE));}
@@ -48,6 +80,7 @@ export function readFoodConsumerSource(root) {
   const source = JSON.parse(bytes);
   const successor = readReleasePreservationApproval(root);
   const inputSuccessor = readFoodInputConsumerApproval(root);
+  const connection = readPregameConnectionSource(root);
   check(source.schema === 'mothership.food-consumer-source/1' && source.status === 'reviewed-source-candidate' &&
     Object.keys(source.files).length === 30, 'complete named source inventory required');
   check(source.target.assetManifestVersion === 'design-0.9.0' && source.target.tokensVersion === '0.5.0' &&
@@ -71,6 +104,7 @@ export function readFoodConsumerSource(root) {
   for (const [path, entry] of Object.entries(source.files)) {
     const current = read(root, path);
     check(current.length === entry.bytes && sha(current) === entry.sha256 ||
+      acceptsConnection(connection, path, entry.sha256, sha(current)) ||
       acceptsReleasePreservationFile(successor, path, entry.sha256, sha(current)) ||
       acceptsFoodInputConsumerFile(inputSuccessor, path, entry.sha256, sha(current)), `content differs: ${path}`);
     check(entry.candidateBlob === `design/releases/candidate-blobs/${entry.sha256}`, `candidate path differs: ${path}`);
@@ -86,12 +120,15 @@ export function readFoodConsumerSource(root) {
     check(/^[a-f0-9]{64}$/.test(digest) && sha(read(root, `design/releases/historical-blobs/${digest}`)) === digest,
       `previous tooling content differs: ${path}`);
   prepareFoodSupplyArt(root);
-  freeze(source); verified.add(source); successors.set(source, successor); inputSuccessors.set(source, inputSuccessor); return source;
+  freeze(source); verified.add(source); successors.set(source, successor); inputSuccessors.set(source, inputSuccessor);
+  connections.set(source, connection);
+  return source;
 }
 
 /** Exact compatibility only: callers cannot self-issue records or broaden paths. */
 export function acceptsFoodConsumerSource(source, path, expectedDigest, actualDigest) {
   if (!source || !verified.has(source)) return false;
+  if (acceptsConnection(connections.get(source), path, expectedDigest, actualDigest)) return true;
   if (acceptsReleasePreservationFile(successors.get(source), path, expectedDigest, actualDigest)) return true;
   if (acceptsFoodInputConsumerFile(inputSuccessors.get(source), path, expectedDigest, actualDigest)) return true;
   if (!Object.hasOwn(source.files, path)) return false;

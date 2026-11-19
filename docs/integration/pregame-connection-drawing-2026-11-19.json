@@ -1,0 +1,104 @@
+{
+  "schema": "mothership.pregame-connection-drawing/1",
+  "status": "technical-source-registration",
+  "parentApprovalSha256": "44eea8c37156c2747b2303a19b1202108751085a900c0a9843793e76050f44af",
+  "requiredFiles": {
+    "scripts/food-consumer-source.mjs": "1d7d7af4d8b874136e4ee2dbc64baf11db5a64d7bef95829585afebbea49de66",
+    "docs/integration/pregame-connection-source-2026-11-19.json": "f41e0fef4b1a9471fc3d6281faeb43b6c4de4f5b58c356dfe36cda8a49956fe5",
+    "docs/integration/pregame-connection-predecessors/989bd17c9a0b1028063eb99101ab478f5fcb9984188fe02d41fe84ddc6c68d62": "989bd17c9a0b1028063eb99101ab478f5fcb9984188fe02d41fe84ddc6c68d62",
+    "docs/integration/pregame-connection-predecessors/556048f061ace809d1c2b17849ff75660cf872149576bb01250f10c1c601b314": "556048f061ace809d1c2b17849ff75660cf872149576bb01250f10c1c601b314",
+    "apps/game/hosted/vite.config.mjs": "e92f966bc78e9769b778bd33d02aaff7da8a0fedd52e1b130ea7ac464fdc12e1"
+  },
+  "metadataFiles": {
+    "apps/game/hosted/planet/app.mjs": {
+      "sha256": "918b82eedaa8ee81c7c3a303a28117f5171aeeb11144a13c5f4538105c5c887f",
+      "permittedLiterals": [
+        "../../../../design/phone-ui/components/room-scene/room-scene.css",
+        "../../../../design/phone-ui/components/phone-shell/phone-shell.css"
+      ]
+    },
+    "apps/game/hosted/planet/pregame.mjs": {
+      "sha256": "0633ced74147fd814b3b7a8a9745933f381d99ebd68eae1eb34e36c27afe31df",
+      "permittedLiterals": [
+        "../../../../design/phone-ui/components/main-menu/entry-title.mjs",
+        "../../../../design/phone-ui/components/main-menu/entry-title.css"
+      ]
+    },
+    "apps/game/hosted/planet/render.mjs": {
+      "sha256": "6626492174d3cbc0d5f5dda93aade8641f7b99c9a1e584f1218d9145133fa8f8",
+      "permittedLiterals": [
+        "../../../../design/phone-ui/components/room-scene/room-scene.mjs",
+        "../../../../design/phone-ui/components/phone-shell/phone-shell.mjs",
+        "../../../../design/phone-ui/components/round-stamp/round-stamp.mjs",
+        "../../../../design/phone-ui/components/round-stamp/round-stamp.css",
+        "board-v2"
+      ]
+    },
+    "apps/game/hosted/planet/match-settings.mjs": {
+      "sha256": "dfa544bc6ea03680b61b7f3cad48cc1d8e19df1a527c6eb19650753661338b70",
+      "permittedLiterals": [
+        "../../../../design/phone-ui/components/display-settings/display-settings.mjs",
+        "../../../../design/phone-ui/components/host-controls/host-controls.mjs",
+        "../../../../design/phone-ui/components/host-controls/host-controls.css"
+      ]
+    },
+    "apps/game/hosted/planet/pregame-screens.mjs": {
+      "sha256": "5892aafa9da67b90276af800a0daf588af64ab39beff269a42a83748620615bf",
+      "permittedLiterals": [
+        "../../../../design/phone-ui/components/main-menu/main-menu.mjs",
+        "../../../../design/phone-ui/components/display-settings/display-settings.mjs",
+        "../../../../design/phone-ui/components/host-room/host-setup.mjs",
+        "../../../../design/phone-ui/components/host-room/host-lobby.mjs",
+        "../../../../design/phone-ui/components/join-room/join-form.mjs",
+        "../../../../design/phone-ui/components/join-room/join-wait.mjs",
+        "../../../../design/phone-ui/components/recover/recover.mjs",
+        "../../../../design/phone-ui/components/character-select/character-select.mjs",
+        "../../../../design/phone-ui/components/role-stage/role-stage.mjs",
+        "../../../../design/phone-ui/components/boarding-stage/boarding-stage.mjs",
+        "../../../../design/phone-ui/components/main-menu/main-menu.css",
+        "../../../../design/phone-ui/components/display-settings/display-settings.css",
+        "../../../../design/phone-ui/components/host-room/host-room.css",
+        "../../../../design/phone-ui/components/join-room/join-room.css",
+        "../../../../design/phone-ui/components/recover/recover.css",
+        "../../../../design/phone-ui/components/character-select/character-select.css",
+        "../../../../design/phone-ui/components/role-stage/role-card.css",
+        "../../../../design/phone-ui/components/role-stage/role-stage.css",
+        "../../../../design/phone-ui/components/boarding-stage/boarding-stage.css"
+      ]
+    },
+    "apps/game/hosted/planet/shell-input.mjs": {
+      "sha256": "7b8ddeac8b572a281fc14411ecfa9f2b47c120a83b3a32458951b2549a327318",
+      "permittedLiterals": [
+        "../../../../design/phone-ui/components/phone-shell/phase-bars.mjs"
+      ]
+    }
+  },
+  "buildFiles": {
+    "apps/game/hosted/vite.config.mjs": {
+      "assetHashes": {},
+      "permittedLiterals": [
+        "design/phone-ui/components/room-scene/",
+        "design/phone-ui/components/icons.mjs",
+        "design/phone-ui/components/tag-layout.mjs",
+        "design/phone-ui/components/phone-shell/phone-shell.mjs",
+        "design/phone-ui/components/phone-shell/phone-shell.css",
+        "design/phone-ui/components/phone-shell/phase-bars.mjs",
+        "design/phone-ui/components/kit/kit.mjs",
+        "design/phone-ui/components/kit/kit.css",
+        "design/phone-ui/components/round-stamp/round-stamp.mjs",
+        "design/phone-ui/components/round-stamp/round-stamp.css"
+      ],
+      "sha256": "e92f966bc78e9769b778bd33d02aaff7da8a0fedd52e1b130ea7ac464fdc12e1"
+    }
+  },
+  "predecessorTooling": {
+    "scripts/food-consumer-source.mjs": {
+      "sha256": "989bd17c9a0b1028063eb99101ab478f5fcb9984188fe02d41fe84ddc6c68d62",
+      "blob": "docs/integration/pregame-connection-predecessors/989bd17c9a0b1028063eb99101ab478f5fcb9984188fe02d41fe84ddc6c68d62"
+    },
+    "apps/game/hosted/vite.config.mjs": {
+      "sha256": "556048f061ace809d1c2b17849ff75660cf872149576bb01250f10c1c601b314",
+      "blob": "docs/integration/pregame-connection-predecessors/556048f061ace809d1c2b17849ff75660cf872149576bb01250f10c1c601b314"
+    }
+  }
+}
