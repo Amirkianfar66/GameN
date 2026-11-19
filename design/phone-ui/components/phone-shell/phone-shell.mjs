@@ -560,7 +560,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       let node = parts.tabNodes.get(key);
       if (!node) {
         if (variant === 'talk') {
-          node = kit.button({ label: TAB_WORDS[key].label, kind: 'secondary', icon: TAB_WORDS[key].icon, intent: 'tab', value: key });
+          node = kit.button({ label: TAB_WORDS[key].label, kind: 'secondary', icon: TAB_WORDS[key].icon, painted: true, intent: 'tab', value: key }); // DRAFT: painted, as the tab bar they stand for
         } else if (key === 'hero') {
           node = el('div', 'ms-ps-tab ms-ps-tab-hero');
           const hero = button('ms-ps-hero', 'hero');
@@ -576,7 +576,7 @@ export function mountPhoneShell(host, input = {}, handlers = {}) {
       if (variant === 'talk') {
         const w = TAB_WORDS[key];
         // As the pack draws a tab: the open one's icon is filled.
-        kit.setButton(node, { label: w.label, kind: 'secondary', icon: w.icon, filled: tabs.open === key, expanded: tabs.open === key, intent: 'tab', value: key });
+        kit.setButton(node, { label: w.label, kind: 'secondary', icon: w.icon, painted: true, filled: tabs.open === key, expanded: tabs.open === key, intent: 'tab', value: key });
         control(node, { intent: 'tab', off: !tabs.enabled[key], reason: tabs.reasons[key] });
         continue;
       }
