@@ -276,7 +276,9 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 /* A still's own measure (the sheet drafts): the room its content gets, under the still. */
 .bc-room b { color: var(--bc-ink); font-weight: 600; }
 .bc-pair-note { margin: 0; color: var(--bc-ink-2); font-size: 13px; }
-/* The top bar as it was until shell 0.3.4, for the page's "before" shells (a shell in [data-bc-before]). Shell 0.3.5
+/* FOR THIS PAGE'S EARLIER-SHELL STRIPS ONLY. These lines are never shipped and are not part of the component: the game
+   and every other consumer take the phone shell's own stylesheet, which no longer has them.
+   The top bar as it was until shell 0.3.4, for the page's "before" shells (a shell in [data-bc-before]). Shell 0.3.5
    took nine lines out of the component's stylesheet: the word "Promises" in its pill, the two hairlines, and the
    clock's icon from 22.5 rem. An earlier shell's own script still makes those parts, so the page gives it those
    lines back here, and undoes for it the two rules 0.3.5 put in their place (the pill's fixed width, and no clock
