@@ -2,7 +2,7 @@
   "tool": "design/tools/kit-check.mjs",
   "component": "design/phone-ui/components/kit",
   "version": "component-kit-0.9.0",
-  "sourceCommit": "a842e488ae6b38f962f5cb9c59be8e9e118d754d",
+  "sourceCommit": "38e282a84e2653c505b5f90eb0c53de664b7f9f2",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), 390 px wide at 1x pixels; the pages bundled by Vite and served with the production headers below. Not a phone, not Safari.",
   "headers": [
@@ -353,6 +353,49 @@
       "sections": null,
       "texts": null,
       "why": "Kit 0.9.0: beside the 46 px painted icon a row's words start 6 px further right (62 px) and the line between rows starts there too; the row keeps its height"
+    },
+    {
+      "cases": "/^button (secondary|small|busy secondary)$/",
+      "parts": [
+        "button"
+      ],
+      "keys": [
+        "box-shadow",
+        "background-color"
+      ],
+      "sections": null,
+      "texts": null,
+      "why": "Kit 0.9.0: the dark button carries a light edge that stands 3 : 1 from its ground (34 % off the glass, 62 % and a darker fill on it); the pack's stood 1.0 to 1.5 : 1, so beside the amber button it read as words"
+    },
+    {
+      "cases": "/^button warn$/",
+      "parts": [
+        "button",
+        "icon",
+        "label"
+      ],
+      "keys": [
+        "color",
+        "background-color",
+        "box-shadow",
+        "--ic-knock",
+        "border-top-color",
+        "border-right-color",
+        "border-bottom-color",
+        "border-left-color",
+        "outline-color",
+        "text-decoration-color",
+        "text-shadow",
+        "text-decoration",
+        "caret-color",
+        "column-rule-color",
+        "text-emphasis-color",
+        "stroke",
+        "fill"
+      ],
+      "sections": null,
+      "texts": null,
+      "why": "Kit 0.9.0: the weighty button (Eject, Abort match) is a solid paper fill with an ink label; with its edge the dark button came to look like the pack's outline, so the careful step forward takes a look of its own"
     }
   ],
   "pages": {
@@ -368,7 +411,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-DfW-TTMR.js",
+          "source": "assets/page-CSdYSsca.js",
           "line": 1,
           "column": 3871,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -379,7 +422,7 @@
     },
     "kit-100": {
       "file": "design/phone-ui/components/kit/review/kit-100.jpg",
-      "sha256": "d25362a97c27c76d786ffdbbc571161d2f7987b6480a8e58bb8099a36c7c447b",
+      "sha256": "1067bf291238f63957ea7d4906439af8199a56a77a05ab39a646e5a1d49b9316",
       "size": {
         "width": 390,
         "height": 12027
@@ -389,14 +432,14 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-DfW-TTMR.js",
+          "source": "assets/page-CSdYSsca.js",
           "line": 1,
           "column": 3871,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "b7c9ee3a8dfd737018206a607bbb18b1d03c5e10f9b70c4d65c1591832e5798d"
+      "measurementSha256": "e3ba3ca23145365c486d1645d054d03011e0c38329fc851922d07f21d925315d"
     },
     "pack-200": {
       "file": "design/phone-ui/components/kit/review/pack-200.jpg",
@@ -410,7 +453,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-DfW-TTMR.js",
+          "source": "assets/page-CSdYSsca.js",
           "line": 1,
           "column": 3871,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -421,24 +464,24 @@
     },
     "kit-200": {
       "file": "design/phone-ui/components/kit/review/kit-200.jpg",
-      "sha256": "a3075d851e585fd6476dabb392365c94011cd573ab0f553299f32385a2f88770",
+      "sha256": "2e2ec26751d910030eb896a0cf80c0cf376d4e47062f140036243ddccb8aa887",
       "size": {
         "width": 390,
-        "height": 17603
+        "height": 17602
       },
       "ok": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/page-DfW-TTMR.js",
+          "source": "assets/page-CSdYSsca.js",
           "line": 1,
           "column": 3871,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
         }
       ],
       "problems": [],
-      "measurementSha256": "36b6a85e45157297049cc00f8cc26cd71dc786d72cb655d2d4b32634dc9a46db"
+      "measurementSha256": "f89e52bfa28e7c8d0ec6d3faa24f9bb245983abaf4f0e1afab138f2f86ceb69f"
     }
   },
   "agreement": {
@@ -454,7 +497,15 @@
           "ok": true,
           "parts": 3,
           "differences": [],
-          "accepted": []
+          "accepted": [
+            {
+              "part": "button",
+              "key": "box-shadow",
+              "pack": "none",
+              "kit": "rgba(255, 255, 255, 0.34) 0px 0px 0px 1.5px inset",
+              "rule": 20
+            }
+          ]
         },
         "button tinted": {
           "ok": true,
@@ -478,7 +529,71 @@
           "ok": true,
           "parts": 3,
           "differences": [],
-          "accepted": []
+          "accepted": [
+            {
+              "part": "button",
+              "key": "color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            },
+            {
+              "part": "button",
+              "key": "background-color",
+              "pack": "rgba(0, 0, 0, 0)",
+              "kit": "rgb(244, 235, 221)",
+              "rule": 21
+            },
+            {
+              "part": "button",
+              "key": "border-top-color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            },
+            {
+              "part": "button",
+              "key": "box-shadow",
+              "pack": "rgb(244, 235, 221) 0px 0px 0px 2px inset",
+              "kit": "rgba(0, 0, 0, 0.18) 0px -2px 0px 0px inset",
+              "rule": 21
+            },
+            {
+              "part": "icon",
+              "key": "color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            },
+            {
+              "part": "icon",
+              "key": "border-top-color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            },
+            {
+              "part": "icon",
+              "key": "--ic-knock",
+              "pack": "#10141C",
+              "kit": "#F4EBDD",
+              "rule": 21
+            },
+            {
+              "part": "label",
+              "key": "color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            },
+            {
+              "part": "label",
+              "key": "border-top-color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            }
+          ]
         },
         "button block": {
           "ok": true,
@@ -490,7 +605,15 @@
           "ok": true,
           "parts": 2,
           "differences": [],
-          "accepted": []
+          "accepted": [
+            {
+              "part": "button",
+              "key": "box-shadow",
+              "pack": "none",
+              "kit": "rgba(255, 255, 255, 0.34) 0px 0px 0px 1.5px inset",
+              "rule": 20
+            }
+          ]
         },
         "button unavailable": {
           "ok": true,
@@ -508,7 +631,15 @@
           "ok": true,
           "parts": 2,
           "differences": [],
-          "accepted": []
+          "accepted": [
+            {
+              "part": "button",
+              "key": "box-shadow",
+              "pack": "none",
+              "kit": "rgba(255, 255, 255, 0.34) 0px 0px 0px 1.5px inset",
+              "rule": 20
+            }
+          ]
         },
         "icon button": {
           "ok": true,
@@ -2610,7 +2741,7 @@
               "part": "tile 5 drawing",
               "key": "opacity",
               "pack": "1",
-              "kit": "0.55",
+              "kit": "0.85",
               "rule": 14
             },
             {
@@ -3007,7 +3138,7 @@
               "part": "tile 1 drawing",
               "key": "opacity",
               "pack": "1",
-              "kit": "0.55",
+              "kit": "0.85",
               "rule": 14
             },
             {
@@ -3188,7 +3319,22 @@
           "ok": true,
           "parts": 3,
           "differences": [],
-          "accepted": []
+          "accepted": [
+            {
+              "part": "button",
+              "key": "background-color",
+              "pack": "rgba(8, 11, 18, 0.3)",
+              "kit": "rgba(8, 11, 18, 0.42)",
+              "rule": 20
+            },
+            {
+              "part": "button",
+              "key": "box-shadow",
+              "pack": "rgba(255, 255, 255, 0.16) 0px 0px 0px 1px inset",
+              "kit": "rgba(255, 255, 255, 0.62) 0px 0px 0px 1.5px inset",
+              "rule": 20
+            }
+          ]
         },
         "button tinted": {
           "ok": true,
@@ -3212,13 +3358,92 @@
           "ok": true,
           "parts": 3,
           "differences": [],
-          "accepted": []
+          "accepted": [
+            {
+              "part": "button",
+              "key": "color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            },
+            {
+              "part": "button",
+              "key": "background-color",
+              "pack": "rgba(0, 0, 0, 0)",
+              "kit": "rgb(244, 235, 221)",
+              "rule": 21
+            },
+            {
+              "part": "button",
+              "key": "border-top-color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            },
+            {
+              "part": "button",
+              "key": "box-shadow",
+              "pack": "rgb(244, 235, 221) 0px 0px 0px 2px inset",
+              "kit": "rgba(0, 0, 0, 0.18) 0px -2px 0px 0px inset",
+              "rule": 21
+            },
+            {
+              "part": "icon",
+              "key": "color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            },
+            {
+              "part": "icon",
+              "key": "border-top-color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            },
+            {
+              "part": "icon",
+              "key": "--ic-knock",
+              "pack": "#10141C",
+              "kit": "#F4EBDD",
+              "rule": 21
+            },
+            {
+              "part": "label",
+              "key": "color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            },
+            {
+              "part": "label",
+              "key": "border-top-color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            }
+          ]
         },
         "button small": {
           "ok": true,
           "parts": 2,
           "differences": [],
-          "accepted": []
+          "accepted": [
+            {
+              "part": "button",
+              "key": "background-color",
+              "pack": "rgba(8, 11, 18, 0.3)",
+              "kit": "rgba(8, 11, 18, 0.42)",
+              "rule": 20
+            },
+            {
+              "part": "button",
+              "key": "box-shadow",
+              "pack": "rgba(255, 255, 255, 0.16) 0px 0px 0px 1px inset",
+              "kit": "rgba(255, 255, 255, 0.62) 0px 0px 0px 1.5px inset",
+              "rule": 20
+            }
+          ]
         },
         "button unavailable": {
           "ok": true,
@@ -3236,7 +3461,22 @@
           "ok": true,
           "parts": 2,
           "differences": [],
-          "accepted": []
+          "accepted": [
+            {
+              "part": "button",
+              "key": "background-color",
+              "pack": "rgba(8, 11, 18, 0.3)",
+              "kit": "rgba(8, 11, 18, 0.42)",
+              "rule": 20
+            },
+            {
+              "part": "button",
+              "key": "box-shadow",
+              "pack": "rgba(255, 255, 255, 0.16) 0px 0px 0px 1px inset",
+              "kit": "rgba(255, 255, 255, 0.62) 0px 0px 0px 1.5px inset",
+              "rule": 20
+            }
+          ]
         },
         "icon button": {
           "ok": true,
@@ -5368,7 +5608,7 @@
               "part": "tile 5 drawing",
               "key": "opacity",
               "pack": "1",
-              "kit": "0.55",
+              "kit": "0.85",
               "rule": 14
             },
             {
@@ -5856,7 +6096,7 @@
               "part": "tile 1 drawing",
               "key": "opacity",
               "pack": "1",
-              "kit": "0.55",
+              "kit": "0.85",
               "rule": 14
             },
             {
@@ -6027,7 +6267,15 @@
           "ok": true,
           "parts": 3,
           "differences": [],
-          "accepted": []
+          "accepted": [
+            {
+              "part": "button",
+              "key": "box-shadow",
+              "pack": "none",
+              "kit": "rgba(255, 255, 255, 0.34) 0px 0px 0px 1.5px inset",
+              "rule": 20
+            }
+          ]
         },
         "button tinted": {
           "ok": true,
@@ -6051,7 +6299,71 @@
           "ok": true,
           "parts": 3,
           "differences": [],
-          "accepted": []
+          "accepted": [
+            {
+              "part": "button",
+              "key": "color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            },
+            {
+              "part": "button",
+              "key": "background-color",
+              "pack": "rgba(0, 0, 0, 0)",
+              "kit": "rgb(244, 235, 221)",
+              "rule": 21
+            },
+            {
+              "part": "button",
+              "key": "border-top-color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            },
+            {
+              "part": "button",
+              "key": "box-shadow",
+              "pack": "rgb(244, 235, 221) 0px 0px 0px 2px inset",
+              "kit": "rgba(0, 0, 0, 0.18) 0px -2px 0px 0px inset",
+              "rule": 21
+            },
+            {
+              "part": "icon",
+              "key": "color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            },
+            {
+              "part": "icon",
+              "key": "border-top-color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            },
+            {
+              "part": "icon",
+              "key": "--ic-knock",
+              "pack": "#10141C",
+              "kit": "#F4EBDD",
+              "rule": 21
+            },
+            {
+              "part": "label",
+              "key": "color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            },
+            {
+              "part": "label",
+              "key": "border-top-color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            }
+          ]
         },
         "button block": {
           "ok": true,
@@ -6063,7 +6375,15 @@
           "ok": true,
           "parts": 2,
           "differences": [],
-          "accepted": []
+          "accepted": [
+            {
+              "part": "button",
+              "key": "box-shadow",
+              "pack": "none",
+              "kit": "rgba(255, 255, 255, 0.34) 0px 0px 0px 1.5px inset",
+              "rule": 20
+            }
+          ]
         },
         "button unavailable": {
           "ok": true,
@@ -6081,7 +6401,15 @@
           "ok": true,
           "parts": 2,
           "differences": [],
-          "accepted": []
+          "accepted": [
+            {
+              "part": "button",
+              "key": "box-shadow",
+              "pack": "none",
+              "kit": "rgba(255, 255, 255, 0.34) 0px 0px 0px 1.5px inset",
+              "rule": 20
+            }
+          ]
         },
         "icon button": {
           "ok": true,
@@ -8226,7 +8554,7 @@
               "part": "tile 5 drawing",
               "key": "opacity",
               "pack": "1",
-              "kit": "0.55",
+              "kit": "0.85",
               "rule": 14
             },
             {
@@ -8616,7 +8944,7 @@
               "part": "tile 1 drawing",
               "key": "opacity",
               "pack": "1",
-              "kit": "0.55",
+              "kit": "0.85",
               "rule": 14
             },
             {
@@ -8797,7 +9125,22 @@
           "ok": true,
           "parts": 3,
           "differences": [],
-          "accepted": []
+          "accepted": [
+            {
+              "part": "button",
+              "key": "background-color",
+              "pack": "rgba(8, 11, 18, 0.3)",
+              "kit": "rgba(8, 11, 18, 0.42)",
+              "rule": 20
+            },
+            {
+              "part": "button",
+              "key": "box-shadow",
+              "pack": "rgba(255, 255, 255, 0.16) 0px 0px 0px 1px inset",
+              "kit": "rgba(255, 255, 255, 0.62) 0px 0px 0px 1.5px inset",
+              "rule": 20
+            }
+          ]
         },
         "button tinted": {
           "ok": true,
@@ -8821,13 +9164,92 @@
           "ok": true,
           "parts": 3,
           "differences": [],
-          "accepted": []
+          "accepted": [
+            {
+              "part": "button",
+              "key": "color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            },
+            {
+              "part": "button",
+              "key": "background-color",
+              "pack": "rgba(0, 0, 0, 0)",
+              "kit": "rgb(244, 235, 221)",
+              "rule": 21
+            },
+            {
+              "part": "button",
+              "key": "border-top-color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            },
+            {
+              "part": "button",
+              "key": "box-shadow",
+              "pack": "rgb(244, 235, 221) 0px 0px 0px 2px inset",
+              "kit": "rgba(0, 0, 0, 0.18) 0px -2px 0px 0px inset",
+              "rule": 21
+            },
+            {
+              "part": "icon",
+              "key": "color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            },
+            {
+              "part": "icon",
+              "key": "border-top-color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            },
+            {
+              "part": "icon",
+              "key": "--ic-knock",
+              "pack": "#10141C",
+              "kit": "#F4EBDD",
+              "rule": 21
+            },
+            {
+              "part": "label",
+              "key": "color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            },
+            {
+              "part": "label",
+              "key": "border-top-color",
+              "pack": "rgb(244, 235, 221)",
+              "kit": "rgb(21, 25, 35)",
+              "rule": 21
+            }
+          ]
         },
         "button small": {
           "ok": true,
           "parts": 2,
           "differences": [],
-          "accepted": []
+          "accepted": [
+            {
+              "part": "button",
+              "key": "background-color",
+              "pack": "rgba(8, 11, 18, 0.3)",
+              "kit": "rgba(8, 11, 18, 0.42)",
+              "rule": 20
+            },
+            {
+              "part": "button",
+              "key": "box-shadow",
+              "pack": "rgba(255, 255, 255, 0.16) 0px 0px 0px 1px inset",
+              "kit": "rgba(255, 255, 255, 0.62) 0px 0px 0px 1.5px inset",
+              "rule": 20
+            }
+          ]
         },
         "button unavailable": {
           "ok": true,
@@ -8845,7 +9267,22 @@
           "ok": true,
           "parts": 2,
           "differences": [],
-          "accepted": []
+          "accepted": [
+            {
+              "part": "button",
+              "key": "background-color",
+              "pack": "rgba(8, 11, 18, 0.3)",
+              "kit": "rgba(8, 11, 18, 0.42)",
+              "rule": 20
+            },
+            {
+              "part": "button",
+              "key": "box-shadow",
+              "pack": "rgba(255, 255, 255, 0.16) 0px 0px 0px 1px inset",
+              "kit": "rgba(255, 255, 255, 0.62) 0px 0px 0px 1.5px inset",
+              "rule": 20
+            }
+          ]
         },
         "icon button": {
           "ok": true,
@@ -11827,7 +12264,7 @@
               "part": "tile 5 drawing",
               "key": "opacity",
               "pack": "1",
-              "kit": "0.55",
+              "kit": "0.85",
               "rule": 14
             },
             {
@@ -12308,7 +12745,7 @@
               "part": "tile 1 drawing",
               "key": "opacity",
               "pack": "1",
-              "kit": "0.55",
+              "kit": "0.85",
               "rule": 14
             },
             {
@@ -12472,6 +12909,6 @@
     "cases": 202,
     "agree": 202,
     "parts": 1401,
-    "accepted": 1535
+    "accepted": 1589
   }
 }
