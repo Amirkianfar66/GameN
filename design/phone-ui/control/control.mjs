@@ -34,7 +34,7 @@ import { ICONS, ICON_FAMILY_VERSION, ICON_NAMES, iconSvg } from '../components/i
 import { iconPaintedSvg, iconTileSvg } from '../components/icon-paint.mjs';
 import { ROOM_SCENE_VERSION, mountRoomScene } from '../components/room-scene/room-scene.mjs';
 import { phoneIcon } from '../../../apps/game/hosted/planet/phone-controls.mjs';
-import { BASE, GROUPS, PRESETS, SHEET_08, SHEET_DRAFT, SWITCHES, TILES_DRAFT, TOAST_DRAFT, clockSeconds, matchPreset, presetOf, sceneInput, sheetContent, sheetNote, shellInput } from './states.mjs';
+import { BASE, GROUPS, PRESETS, SHEET_08, SHEET_DRAFT, SWITCHES, TILES_DRAFT, TOAST_DRAFT, clockSeconds, gamePageOf, gameStateOf, matchPreset, presetOf, sceneInput, sheetContent, sheetNote, shellInput } from './states.mjs';
 import { mainSize, readIcons, readParts } from './specs.mjs';
 
 const doc = document, root = doc.documentElement;
@@ -208,6 +208,18 @@ const CROPS = Object.freeze({
   phone: { from: 'whole', parts: [], pad: 0, full: true },
 });
 function standIn(text, className = 'bc-standin') { return h('div', { class: className }, text); }
+/**
+ * A link to the game page (the real game with a practice match), at a situation or at its start; nothing when the
+ * build was given no game page. It opens beside this page: the owner asked to see what the phone shows when a bar's
+ * icon is pressed (19 November 2026), and the game itself is the answer.
+ */
+const GAME_PAGE = gamePageOf(DATA.gamePage);
+function gameLink(state, { lead = false } = {}) {
+  if (!GAME_PAGE || (!state && !lead)) return null;
+  return h('a', { class: lead ? 'bc-game bc-game-lead' : 'bc-game', href: state ? `${GAME_PAGE}#${state.hash}` : GAME_PAGE, target: '_blank', rel: 'noopener', 'aria-label': state ? `Open it in the game: ${state.label}` : null },
+    icon('phone', { filled: true, size: 20 }),
+    state ? h('span', { class: 'bc-game-words' }, 'Open it in the game', h('span', { class: 'bc-game-at' }, state.label)) : 'Open the game');
+}
 /** What a sheet's body holds on this page: the labelled stand-in for its content, and a note's words where it has one. */
 function sheetFill(controls) {
   const words = sheetContent(controls), note = sheetNote(controls);
@@ -238,7 +250,8 @@ function makeStrip(preset, first = false, { mount = mountPhoneShell, width = str
     windowEl,
     preset.crop === 'whole' ? h('p', { class: 'bc-strip-note' }, 'The whole phone, small. Tap it to open it at full size.') : null,
     details,
-    mark ? h('div', { class: 'bc-strip-foot' }, markControl(`bar-${preset.key}`, { label: preset.label, group: preset.groupTitle })) : null);
+    mark ? h('div', { class: 'bc-strip-foot' }, markControl(`bar-${preset.key}`, { label: preset.label, group: preset.groupTitle })) : null,
+    gameLink(gameStateOf(preset.controls)));
   const strip = { preset, card, phone, scaler, windowEl, sizeTag, specs, details, mount, width, height, rest, route: route ?? GROUPS.find(g => g.id === preset.group)?.route ?? null, shell: null, toast: 0, timer: null };
   strips.push(strip);
   return strip;
@@ -564,6 +577,8 @@ function buildBarsPart(view, group) {
     h('div', { class: 'bc-wrap bc-tools' },
       h('button', { type: 'button', class: 'bc-primary', onclick: () => openTest(group.presets.some(p => p.key === test.presetKey) ? test.presetKey : group.presets[0].key) }, icon('phone', { filled: true }), 'Open the test view'),
       textChoice,
+      gameLink(null, { lead: true }),
+      GAME_PAGE ? h('p', { class: 'bc-hint' }, 'The game is the real game with a practice match and made-up players: press a bar’s icons there to see what the phone opens. Nothing is sent.') : null,
       h('p', { class: 'bc-hint' }, 'Each strip is the real bar, at this phone’s size, with its size beside its name. Open “Sizes and colours” for every part’s size, background, text and icon. Tap a strip to see it on the whole phone.')),
     h('div', { class: 'bc-strips' }, group.presets.map((preset, i) => { const strip = makeStrip(preset, i === 0); lazyStrips.observe(strip.card); return strip.card; })));
 }

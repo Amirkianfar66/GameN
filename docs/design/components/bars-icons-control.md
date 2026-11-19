@@ -156,6 +156,19 @@ The file is the page's content for the host, which adds the document around it. 
 
 Build from a committed tree: the page names the commit it was built from.
 
+### The way to the game
+
+The owner, 19 November 2026: "When I click on each bar icon, I want to see what I can see on my mobile". The answer is the game itself, on its own private page (the Gameplay UI builder's: the real game with a practice match and made-up players). This page links to it and draws nothing of it:
+
+```
+node design/tools/bars-icons-control.mjs --out <file.html> --game <the game page's address>
+```
+
+- **Bars** gets "Open the game" at its top.
+- A bar's card gets "Open it in the game" when the game page has that bar's situation: the bar on your turn (`#your-turn`), on another player's turn (`#their-turn`), in the Jail vote (`#jail-vote`) and in the private talk (`#private-talk`). The link names the situation it opens. A card whose bar the game page can't show has no link.
+- The link opens a new tab. The game page keeps its address when it is republished.
+- The address is given at the build and is in no file here: it is one person's private page. Without `--game` the page has no link. Only a claude.ai artifact address is taken.
+
 The build needs commit `5616928e` in the clone, for the Card tab's "before". If it is missing: `git fetch origin claude/designer-phone-shell`.
 
 ## Checks
