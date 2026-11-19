@@ -405,6 +405,8 @@ export function createKit(doc) {
       // 0.9.0: painted with nothing behind it, in colour when it can be pressed (and once it is registered or being
       // sent) and greyed when it cannot.
       setPaint(glyph, props.icon, state === 'unavailable' || state === 'spent' ? 'off' : 'on');
+      // `waiting`: it waits for the player's answer (an offer to answer): the amber dot at the icon's corner.
+      glyph.toggleAttribute('data-waiting', props.waiting === true);
     }
     text(name, props.name);
     if (note !== null && isText(props.noteIcon)) {

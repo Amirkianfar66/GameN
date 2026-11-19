@@ -402,7 +402,7 @@
 .ms-kit :where(.ms-k-tile[data-state="sending"] .ms-k-tile-icon[data-paint] > .ms-k-paint) { visibility: hidden; }
 .ms-kit :where(.ms-k-tile[data-state="sending"] .ms-k-tile-icon[data-paint])::after { border-color: var(--ms-k-paper); border-right-color: transparent; }
 /* It waits for your answer. The amber of the top bar's Promises badge, as a dot at the icon's corner. */
-.ms-kit :where(.ms-k-row-icon[data-paint][data-waiting])::after { content: ""; position: absolute; top: 4px; right: 3px; width: 11px; height: 11px; border-radius: 50%; background: var(--ms-k-accent); box-shadow: 0 0 0 2px var(--ms-k-surface-3); }
+.ms-kit :where(.ms-k-row-icon[data-paint][data-waiting], .ms-k-tile-icon[data-paint][data-waiting]:not([data-paint="off"]))::after { content: ""; position: absolute; top: 4px; right: 3px; width: 11px; height: 11px; border-radius: 50%; background: var(--ms-k-accent); box-shadow: 0 0 0 2px var(--ms-k-surface-3); }
 /* An Actions cell (a tile with an icon; a tile with a card's art keeps its card) is its icon and its words on the sheet, with no frame of its own (the owner:
    "Still they  have a background"). The cell keeps its whole press area and its focus outline. Chosen: the icon's
    glow and an amber name. Not now: the greyed icon and its words. */
