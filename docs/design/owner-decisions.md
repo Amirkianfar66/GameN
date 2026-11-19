@@ -6,6 +6,25 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 19 November 2026: the main menu shows no wordmark; the name belongs to the intro
+
+**Recorded by the Lead Designer from the owner's words as Codex quoted them on #332** ([7003576315](https://github.com/Amirkianfar66/GameN/issues/332#issuecomment-7003576315), 08:14 UTC). The owner gave them in a Codex session, which the Lead cannot read. The quote is Codex's, word for word:
+
+> On main menu we dont need Game N by plan B text that was just for intro
+
+- **What it decides:** a departure from sheet 10, approved in the owner's own words.
+  - The main menu no longer shows "Game N / by Plan B". The hero's wordmark goes: the brand film's frame at 1.65 s, and its fade.
+  - The two-second opening alone carries the name and the credit.
+  - The menu shows the ship film the owner asked for (#332), or its poster under Reduce Motion or when the film can't load. Settings, Join, Host and "Recover my seat" stay.
+- **What stays:**
+  - The menu keeps "Game N" as its accessible name for screen readers.
+  - The controls keep their places, sizes and contrast over the film.
+- **Who does what:** the Pre-game Screen Designer (Codex) changes the main-menu component, and Frontend adopts it. The Lead accepts the integrated menu in its PR, as confirmed on #332 ([7003635111](https://github.com/Amirkianfar66/GameN/issues/332#issuecomment-7003635111)).
+- **What it leaves open:**
+  - **The ship film itself.** The ship, and the asteroids through the loop's wrap, wait for the Lead's review once the film's files are on a branch (#332).
+  - **The intro's lettering (#331).** With no wordmark on the menu, nothing at the cut needs the brand lettering any more. The Lead still recommends it, as the approved intro on sheet 10 has it, and has asked the owner to choose.
+  - **Finding 3 of the live staging review,** "Mothership" where sheet 10 says "Game N", now concerns the intro only.
+
 ## 17 November 2026: every room redesigned in one cyber-comic-noir style, room by room, with who builds what
 
 **Recorded by the Lead Designer from the owner's message to the Lead.**
