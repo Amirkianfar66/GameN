@@ -234,6 +234,9 @@ const FIT = `(() => {
 const AT = "(()=>{const a=document.activeElement,s=a?.closest?.('.ms-ps-sheet'),c=a&&a!==document.body?getComputedStyle(a):null;return {title:!!a?.matches?.('.ms-ps-sheet-title h2'),sheet:s?.dataset.sheet??null,intent:a?.dataset?.intent??null,value:a?.dataset?.value??null,outline:c?c.outlineStyle:'none'};})()";
 /** The focus is on the title of the sheet with this id, with no ring drawn there. */
 const onTitle = (at, sheet) => !!at && at.title === true && at.sheet === sheet && at.intent === null && at.outline === 'none';
+/** The two builds name a position's sheet differently: #307's game sheet, release 3's (#310) Actions check. */
+const MOVE_SHEETS = Object.freeze(['action:MOVE', 'action-check']);
+const onTitleOf = (at, sheets) => sheets.some(sheet => onTitle(at, sheet));
 /** A Jail vote opens: the harness's openJailVote(), with the shared checkpoint the Blackout release publishes for it. */
 const JAIL_VOTE = "const ids=p.board.seats.filter(s=>s.health!=='Eliminated').map(s=>s.seatId);p.phase={id:'phone-jail-vote',kind:'JAIL_VOTE',startedAt:now,endsAt:now+60000};p.activeSeatId=null;p.hackSession=null;p.ballot={eligibleVoters:ids,eligibleTargets:ids};p.offers=[{type:'VOTE',targetSeatIds:ids,slotIds:[],windowIds:[],promiseTargetSeatIds:[]}];p.board.checkpoint='AFTER_BLACKOUT';p.board.finalizedRound=p.round";
 /**
@@ -498,7 +501,8 @@ const STATES = {
       await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='actions'", 'Actions');
       seen.tab = await page.evaluate(AT);
       seen.tabOpened = await page.evaluate("document.querySelector('.ms-ps-sheet')?.dataset.sheet??null");
-      await press(page, '#planet-action-SUBMIT_CODE');
+      // Both builds: the game's own Final Code button; release 3's (#310), Actions' tile.
+      await press(page, '#planet-action-SUBMIT_CODE, .ms-ps-sheet-body > .ms-actions [data-intent="tile"][data-value="SUBMIT_CODE"]');
       await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='action:SUBMIT_CODE'", 'the tile\'s sheet');
       seen.tile = await page.evaluate(AT);
       await press(page, '.ms-ps-sheet [data-intent="sheet-close"]');
@@ -507,8 +511,9 @@ const STATES = {
       seen.closed = await page.evaluate(AT);
       // A person: Scan from Actions, then Player 2 on the board.
       await press(page, TAB('actions'));
-      await page.waitFor("document.querySelector('#planet-action-SCAN')", 'Scan offered');
-      await press(page, '#planet-action-SCAN');
+      const scan = '#planet-action-SCAN, .ms-ps-sheet-body > .ms-actions [data-intent="tile"][data-value="SCAN"]';
+      await page.waitFor(`document.querySelector(${JSON.stringify(scan)})`, 'Scan offered');
+      await press(page, scan);
       await page.waitFor("document.querySelector('.ms-ps-target')&&document.querySelector('.bv2-seat-target[data-value=\"seat-2\"]')", 'people offered on the board');
       await press(page, '.bv2-seat-target[data-value="seat-2"]');
       await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='action:SCAN'", 'the sheet a person opened');
@@ -529,7 +534,7 @@ const STATES = {
       await press(page, '[data-move-room]:not([disabled])');
       await page.waitFor("document.querySelector('#planet-slot-B5')", 'the offered position on the board');
       await press(page, '#planet-slot-B5');
-      await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='action:MOVE'", 'the sheet a position opened');
+      await page.waitFor(`${JSON.stringify(MOVE_SHEETS)}.includes(document.querySelector('.ms-ps-sheet')?.dataset.sheet)`, 'the sheet a position opened');
       await sleep(250);
       const at = await page.evaluate(AT), seen = await page.evaluate(LOOK);
       // The sheet is drawn again while it waits (here, another player changes their name): the focus is still
@@ -539,7 +544,8 @@ const STATES = {
       const later = await page.evaluate(AT), then = await page.evaluate(LOOK);
       // The round button opens "Pass your turn?" and keeps the focus: it does not go on to Pass, now or when the sheet
       // is drawn again.
-      await press(page, '.ms-ps-sheet [data-intent="sheet-close"]');
+      // Both builds: the sheet's Close; release 3's check has no Close, and its Cancel takes the sheet away.
+      await press(page, '.ms-ps-sheet [data-intent="sheet-close"], .ms-ps-sheet-foot [data-intent="sheet-local"][data-value="cancel"]');
       await page.waitFor("!document.querySelector('.ms-ps-sheet')", 'the Move sheet closed');
       await press(page, HERO);
       await page.waitFor("document.querySelector('.ms-ps-sheet')?.dataset.sheet==='pass'", 'Pass your turn?');
@@ -549,8 +555,10 @@ const STATES = {
       await sleep(400);
       const heroLater = await page.evaluate(AT), last = await page.evaluate(LOOK);
       const onHero = h => !!h && h.sheet === null && h.intent === 'hero';
-      return { boardTargetOpensOnTitle: onTitle(at, 'action:MOVE') && seen.sheet?.foot.some(b => b.value === 'confirm'),
-        titleKeepsTheFocus: onTitle(later, 'action:MOVE') && then.sheet?.foot.some(b => b.value === 'confirm'),
+      // The confirm action: the game's `confirm` (#307), Actions' `register` (release 3).
+      const confirms = foot => !!foot?.some(b => b.value === 'confirm' || b.value === 'register');
+      return { boardTargetOpensOnTitle: onTitleOf(at, MOVE_SHEETS) && confirms(seen.sheet?.foot),
+        titleKeepsTheFocus: onTitleOf(later, MOVE_SHEETS) && confirms(then.sheet?.foot),
         roundButtonKeepsTheFocus: onHero(hero) && onHero(heroLater) && last.sheet?.title === 'Pass your turn?', stillNothingSent: last.commands.length === 0 };
     } },
   // A held Enter presses nothing after its first press (shell-input.mjs shellHeldEnter(), the Lead Designer, 18 November
