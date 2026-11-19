@@ -1,0 +1,22 @@
+/* mothership:dev-only · The phone shell preview's page: frames, captions and the stand-ins for content that is not the shell's. */
+/* The page's root keeps the browser's 16 px, as the game's does (its html sets no size): the components' rem sizes
+   are the game's. Only the preview's own words are 14 px. */
+html, body { margin: 0; background: #0B0E14; color: #F4EBDD; }
+body { font: 400 14px/1.4 -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif; }
+.pv-head { padding: 20px 24px 4px; }
+.pv-head h1 { margin: 0 0 4px; font-size: 20px; }
+.pv-head p { margin: 0; color: #B9C4D3; max-width: 900px; }
+.pv-grid { display: flex; flex-wrap: wrap; gap: 28px; padding: 20px 24px 40px; align-items: flex-start; }
+.pv-cell { margin: 0; }
+.pv-cell figcaption { margin: 0 0 8px; font-weight: 600; font-size: 14px; }
+.pv-cell figcaption small { display: block; font-weight: 400; color: #8696AE; }
+/* A phone at a development size; the shell fills it. */
+.pv-phone { position: relative; overflow: hidden; border-radius: 28px; background: #07090F; box-shadow: 0 0 0 2px #2A3346; }
+body.pv-single { background: #07090F; }
+body.pv-single .pv-phone { border-radius: 0; box-shadow: none; }
+/* What is not the shell's: a sheet's content (the next components) and the capsule, as labelled stand-ins. */
+.pv-note { margin: 4px 4px 0; font: 400 0.9375rem/1.4 -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif; color: #DCE3EC; }
+.pv-stand-in { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; color: #55657E; font: 600 0.8125rem/1.35 -apple-system, system-ui, sans-serif; letter-spacing: 0.04em; text-transform: uppercase; background: repeating-linear-gradient(135deg, #0C1018 0 14px, #0E131C 14px 28px); }
+/* What the cover holds in the 5 s result (the vote component's result window, #267), as a labelled stand-in. */
+.pv-cover-stand-in { position: absolute; inset: 8px 10px 10px; pointer-events: auto; border-radius: 18px; display: grid; place-items: center; padding: 24px; text-align: center; color: #151923; font: 600 0.8125rem/1.35 -apple-system, system-ui, sans-serif; letter-spacing: 0.04em; text-transform: uppercase; background: #F4EBDD; box-shadow: inset 0 0 0 3px #151923, 6px 6px 0 #05070B; }
+.pv-sheet-stand-in { margin: 4px 0 0; min-height: 96px; border-radius: 14px; display: grid; place-items: center; padding: 16px; text-align: center; color: #B9C4D3; font: 600 0.8125rem/1.35 -apple-system, system-ui, sans-serif; letter-spacing: 0.04em; text-transform: uppercase; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.16); background: rgba(8, 11, 18, 0.24); }
