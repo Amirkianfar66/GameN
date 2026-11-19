@@ -32,3 +32,17 @@
 
 /* Jail Vote's chosen player (an undrawn state, the Lead's answer 4): the amber check at the row's end. */
 .ms-promises .ms-pr-chosen { display: inline-flex; flex: none; color: var(--ms-k-accent); --ic-knock: var(--ms-k-surface-2); }
+
+/* ── DRAFT, not approved: what a Promises sheet offers follows the Actions grid ────────────────────────────────
+   The owner, 19 November 2026: "Actions follow the 3 column matrix order but the panel is like a row and wrong i want
+   all follow a shared system". Offer a Promise and an offer that waits are cells, three across; the quota, which
+   opens nothing, stays a line. (Look only: the checked build makes them the kit's tiles in promises.mjs.) */
+.ms-promises .ms-pr-talk { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background: none; box-shadow: none; overflow: visible; }
+.ms-promises .ms-pr-talk > .ms-k-list-item { display: contents; }
+.ms-promises .ms-pr-talk .ms-k-row { flex-direction: column; align-items: center; justify-content: flex-start; gap: 6px; min-height: 104px; padding: 12px 6px 10px; text-align: center; border-radius: 16px; }
+.ms-promises .ms-pr-talk .ms-k-row::before { content: none; }
+.ms-promises .ms-pr-talk .ms-k-row-icon[data-paint] { margin: 0; }
+.ms-promises .ms-pr-talk .ms-k-row-main { flex: none; width: 100%; }
+.ms-promises .ms-pr-talk .ms-k-row-title { font: 600 0.9375rem/1.15 var(--ms-k-font); letter-spacing: 0; overflow-wrap: anywhere; }
+.ms-promises .ms-pr-talk .ms-k-row-sub { font: 500 0.75rem/1.2 var(--ms-k-font); margin-top: 6px; overflow-wrap: anywhere; }
+.ms-promises .ms-pr-talk .ms-k-row-chev { display: none; }
