@@ -24,6 +24,20 @@ The owner's messages are quoted as written.
 - **Next:**
   - Bars & Icons draws draft 2 of the look, painted icons on no ground, and shows it to the owner as a draft.
   - The Lead reviews it before it's built.
+- **The owner's answer to draft 2** (about 13:32 UTC, in the Bars & Icons builder's session, relayed word for word):
+
+  > Before going forward show me the screenshot images
+  >
+  > I want all size of Icons on these panels to be the same follow the size of action panel 3 column matrix
+  >
+  > Still they  have a background
+
+  - **Screenshots first:** the owner sees the pictures themselves in the chat before the look goes forward.
+  - **One icon size in every panel:** the size of the icons in the Actions grid (three columns). Rows, buttons and the check's head take it too.
+  - **What still reads as a background goes in draft 3,** as the Lead reads it:
+    - the plates inside the painted icons, such as Final Code's square and Scan's disc, so each icon is the painted symbol alone;
+    - the chips that stayed, such as "Your quota" and Round order;
+    - the Actions tiles' frames. Each cell keeps its press area and focus outline, invisible until focused.
 
 ## 19 November 2026: the top bar's Promises button is its icon
 
