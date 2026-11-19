@@ -11,6 +11,14 @@
 // compared with the pack's tab of the same name for its words and state, and with the pack's other tab for its
 // place: the shell's Card lies where the pack draws Panels, and its Panels where the pack draws Card. No case
 // gives the shell a person, so its Card tab draws the pack's card icon here; the probe checks the portrait.
+// A second departure (0.3.5, the owner's 19 November 2026 decision, "Icon is enough for promises"): Promises is the
+// handshake and its count in every bar and at every width, and the clock has no icon in a bar up to 25 rem wide.
+// Both are the pack's own narrow-bar drawings (kit.css, its bar under 22.5 rem), which the shell now draws wider.
+// So the pack's half is drawn here with those same rules at the shell's widths (PACK_0_3_5), and every box is still
+// compared to within half a pixel. The pack's files are not changed.
+// And where the pack cuts a word of its bar, the shell refits the bar so the word is whole (0.3.5, fitBar()): there
+// the bar's own parts are not compared by their boxes. Instead the case must show that the pack does cut a word, that
+// the shell cuts none, and that the words are the same. A refit where the pack cuts nothing is a difference.
 
 import { topBar, tabs, sheet, button, banner } from '../../../prototype/ui.mjs';
 import { mountPhoneShell } from '../phone-shell.mjs';
@@ -26,8 +34,18 @@ function loadKit() {
   link.href = new URL('../../../prototype/kit.css', import.meta.url).href;
   const loaded = new Promise((done, fail) => { link.onload = done; link.onerror = () => fail(new Error('kit.css did not load')); });
   document.head.append(link);
+  // After the pack's stylesheet, so its own narrow-bar declarations hold at the widths the shell draws them.
+  const departure = document.createElement('style');
+  departure.textContent = PACK_0_3_5;
+  loaded.then(() => document.head.append(departure), () => null);
   return loaded;
 }
+/** The pack's narrow-bar Promises (kit.css line by line) at every width, and its narrow-bar clock up to 25 rem. */
+const PACK_0_3_5 = `
+.ph .tb .tb-pill { padding: 0; width: 36px; }
+.ph .tb :is(.tb-pill-label, .tb-div) { display: none; }
+@container (max-width: 25rem) { .ph .timer > svg.ic { display: none; } }
+`;
 
 /** The pack's input and the shell's, for one case. */
 const CASES = [
@@ -109,6 +127,14 @@ const PARTS = [
   ['banner-title', '.banner-text b', '.ms-ps-banner .ms-ps-text b'], ['banner-sub', '.banner-text span', '.ms-ps-banner .ms-ps-text span'],
   ['banner-action', '.banner > .btn', '.ms-ps-banner > .ms-k-btn'],
 ];
+/** The bar's own parts, which a refit moves (0.3.5). */
+const BAR_PARTS = new Set(['bar', 'name', 'sub', 'glyph', 'glyph icon', 'portrait', 'pair', 'promises', 'promises-badge', 'round', 'timer', 'menu']);
+/** A drawn word is cut when it is wider than its box, or has more lines than its box shows (as fitBar() decides it). */
+const cut = node => {
+  if (!node || node.offsetWidth <= 1) return false;
+  const line = parseFloat(getComputedStyle(node).lineHeight) || node.clientHeight;
+  return node.scrollWidth > node.clientWidth + 1 || node.scrollHeight > node.clientHeight + line / 2;
+};
 /** The parts whose words are compared besides the bar's and the tabs'. */
 const SHEET_WORDS = new Set(['sheet-title', 'sheet-sub', 'foot-1', 'foot-2', 'banner-title', 'banner-sub', 'banner-action']);
 /** A button's kind, from the pack's .btn-<kind> or the kit's .ms-k-btn-<kind>. */
@@ -164,13 +190,19 @@ export async function runPhoneShellAgreement({ size, versions }) {
     await settle(root.querySelector('.ms-ps-sheet'));
     const differences = [];
     const parts = {};
+    // 0.3.5: a refitted bar. The pack must cut a word there, and the shell none anywhere.
+    const fit = root.querySelector('.ms-ps-tb')?.getAttribute('data-fit') ?? '';
+    const packCut = [['name', '.tb-name'], ['sub', '.tb-sub']].filter(([, sel]) => cut(pack.querySelector(sel))).map(([name]) => name);
+    const shellCut = [['name', '.ms-ps-name'], ['sub', '.ms-ps-sub']].filter(([, sel]) => cut(root.querySelector(sel))).map(([name]) => name);
+    if (shellCut.length) differences.push({ part: 'bar', what: 'a word cut', pack: packCut, shell: shellCut });
+    if (fit && !packCut.length) differences.push({ part: 'bar', what: 'refitted where the pack cuts nothing', pack: packCut, shell: fit });
     for (const [name, packSel, shellSel, placeSel = null, within = null] of PARTS) {
       const a = pack.querySelector(packSel), b = root.querySelector(shellSel);
       const pa = box(within ? pack.querySelector(within[0]) : pack, placeSel ? pack.querySelector(placeSel) : a), pb = box(within ? root.querySelector(within[1]) : host, b);
       const wa = name.endsWith('badge') || ['name', 'sub', 'round', 'timer', 'hero'].includes(name) || name.startsWith('tab-') ? words(a) : null;
       const wb = wa !== null || words(b) !== null ? words(b) : null;
       parts[name] = { pack: pa, shell: pb, words: wa };
-      if (!near(pa, pb)) differences.push({ part: name, what: 'box', pack: pa, shell: pb });
+      if (!near(pa, pb) && !(fit && BAR_PARTS.has(name))) differences.push({ part: name, what: 'box', pack: pa, shell: pb });
       if (wa !== wb && (name.endsWith('badge') || ['name', 'sub', 'round', 'timer'].includes(name) || name.startsWith('tab-'))) differences.push({ part: name, what: 'words', pack: wa, shell: wb });
       if (SHEET_WORDS.has(name) && words(a) !== words(b)) differences.push({ part: name, what: 'words', pack: words(a), shell: words(b) });
     }
@@ -202,7 +234,7 @@ export async function runPhoneShellAgreement({ size, versions }) {
       ...['actions', 'card', 'panels'].map(k => [`${k} open`, pack.querySelector(`.tab[data-tab="${k}"]`)?.getAttribute('aria-expanded'), root.querySelector(`.ms-ps-tab[data-value="${k}"]`)?.getAttribute('aria-expanded')]),
     ];
     for (const [what, a, b] of states) if (a !== b) differences.push({ part: 'state', what, pack: a ?? null, shell: b ?? null });
-    checks.push({ id: `agree: ${c.id}${c.text ? ` at ${c.text}% text, ${width} × ${height}` : ''}`, ok: differences.length === 0, detail: { differences, parts } });
+    checks.push({ id: `agree: ${c.id}${c.text ? ` at ${c.text}% text, ${width} × ${height}` : ''}`, ok: differences.length === 0, detail: { differences, parts, ...(fit || packCut.length ? { refit: { shell: fit || null, packCuts: packCut } } : {}) } });
     shell.dispose();
     pack.remove();
     host.remove();
