@@ -6,6 +6,21 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 19 November 2026: the top bar's Promises button is its icon
+
+**Recorded by the Lead Designer from the owner's message to the Lead** (about 10:50 UTC). The owner had found the top bar draft's two options hard to compare. The Lead then sent the one bar where they differ: a short name at the owner's phone width, with today's bar, option 1 (the Promises button always the handshake and its count) and option 2 (the word "Promises" kept wherever it fits). The owner, word for word:
+
+> Icon is enough for promises
+
+- **What it decides:** the top bar draft (shell 0.3.4's draft, "the bar's words are never cut") goes ahead as option 1, the draft the Lead recommended.
+  - **The Promises button is the handshake icon with its count, on every phone.** The Lead reads the owner's words as covering the largest phones too, so the word "Promises" is not drawn even where it would fit.
+  - **The clock follows option 1:** it drops its small icon on phones up to about 424 px wide.
+  - **Names in the bar are never cut.** Where they still don't fit, the name takes two lines in place of the line under it. If that isn't enough, the line under it wraps. Last, the controls move to a row of their own.
+- **A departure from sheet 07**, which draws the word "Promises" on a turn's bar at 390 px. It is approved in these words.
+- **Next:**
+  - Bars & Icons builds it as shell 0.3.5, with the phase bars measured and checked at 390 × 844, 402 × 742 and 430 × 932.
+  - The Lead reviews it before it reaches the game through #307.
+
 ## 19 November 2026: Room A's go with a cap under $5; Codex's typing intro; Rooms A and B saved together
 
 **Recorded by the Lead Designer from the owner's message to the Lead** (about 10:45 UTC). The Lead had asked four things: Room A's three choices, a mark on the top bar draft, A or B for the app's two-second intro, and a line to save Room B's tools and records to GitHub. The owner, word for word:
