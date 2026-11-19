@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/windows-check.mjs",
   "component": "design/phone-ui/components/windows",
-  "sourceCommit": "b0cf0e082fcc73a3846b3467374f38c180ed0b46",
+  "sourceCommit": "31b0990535efd60dd10192f19df52c26838034a1",
   "sourceClean": true,
   "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
   "headers": [
@@ -38,14 +38,15 @@
   "captures": {
     "390x844/view": {
       "file": "design/phone-ui/components/windows/review/390x844-view.jpg",
-      "sha256": "0720df65c04c836c13d72c5f90a83e30ada9e8117b65dfe1b4f68546cf971b78",
+      "sha256": "5b6dbe85f49ec6b51b186e95b2a7e051303c2844ea8e9b5103061f8afb16536f",
       "ok": true,
       "drawn": true,
+      "pressed": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-PImOU1QV.js",
+          "source": "assets/index-CaVqYCrF.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -63,6 +64,7 @@
       "strokes": 6,
       "stamp": null,
       "inks": "",
+      "presses": [],
       "pad": null,
       "pen": false,
       "undoOff": null,
@@ -82,14 +84,15 @@
     },
     "430x932/view": {
       "file": "design/phone-ui/components/windows/review/430x932-view.jpg",
-      "sha256": "8c42f89f8fb9669dac545d93d8d9b15d23e8a8a164a1f091628c97d6b22f0adf",
+      "sha256": "2595a5e5629274afe9b5496e1c47d30e84cdc96038c8ef6270e491b64a702de1",
       "ok": true,
       "drawn": true,
+      "pressed": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-PImOU1QV.js",
+          "source": "assets/index-CaVqYCrF.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -107,6 +110,7 @@
       "strokes": 6,
       "stamp": null,
       "inks": "",
+      "presses": [],
       "pad": null,
       "pen": false,
       "undoOff": null,
@@ -126,14 +130,15 @@
     },
     "390x844/draw": {
       "file": "design/phone-ui/components/windows/review/390x844-draw.jpg",
-      "sha256": "25e5041ec4124ecb0e569f9e9405e59bf542ea13dedc9949f2f5f7d37c5522f4",
+      "sha256": "18188e19a9339d63571830d5a06fc40c73161957faa9a52cd89997f2ca33e4d1",
       "ok": true,
       "drawn": true,
+      "pressed": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-PImOU1QV.js",
+          "source": "assets/index-CaVqYCrF.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -151,6 +156,36 @@
       "strokes": 4,
       "stamp": null,
       "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "presses": [
+        {
+          "ink": "gold",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "paper",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "teal",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "pink",
+          "round": 34,
+          "width": 44.75,
+          "height": 44.75,
+          "inner": true
+        }
+      ],
       "pad": "application:Drawing for Room A ↔ Hospital",
       "pen": false,
       "undoOff": false,
@@ -170,14 +205,15 @@
     },
     "430x932/draw": {
       "file": "design/phone-ui/components/windows/review/430x932-draw.jpg",
-      "sha256": "21df09dd135c6dda0a50412a2e7e3215d7ba03cbb61dedcc4aa9bb61fc69b20b",
+      "sha256": "7f3568d91f0ecb85835ed2e999cbaaaedc53b41701e5f3801dd823ee3f4b6f3e",
       "ok": true,
       "drawn": true,
+      "pressed": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-PImOU1QV.js",
+          "source": "assets/index-CaVqYCrF.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -195,6 +231,36 @@
       "strokes": 4,
       "stamp": null,
       "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "presses": [
+        {
+          "ink": "gold",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "paper",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "teal",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "pink",
+          "round": 34,
+          "width": 44.75,
+          "height": 44.75,
+          "inner": true
+        }
+      ],
       "pad": "application:Drawing for Room A ↔ Hospital",
       "pen": false,
       "undoOff": false,
@@ -214,14 +280,15 @@
     },
     "390x844/shown": {
       "file": "design/phone-ui/components/windows/review/390x844-shown.jpg",
-      "sha256": "eb321e7f3c1e3d968b7d227666ff60be6d89da42221da8205a1dd93980aa881a",
+      "sha256": "9f5ae0fbe07ac36718ebadec44e401b5abbf99ba4944f4661a1953dd2b1cd180",
       "ok": true,
       "drawn": true,
+      "pressed": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-PImOU1QV.js",
+          "source": "assets/index-CaVqYCrF.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -239,6 +306,7 @@
       "strokes": 5,
       "stamp": "SHOWN",
       "inks": "",
+      "presses": [],
       "pad": null,
       "pen": false,
       "undoOff": null,
@@ -258,14 +326,15 @@
     },
     "430x932/shown": {
       "file": "design/phone-ui/components/windows/review/430x932-shown.jpg",
-      "sha256": "dc28dc854bc297f8d8e11e8e9d600f655cc21efa37c38deb4e2dc8a37b45340c",
+      "sha256": "674469c063dcb1cfd179431a68a37cc856a1b0a7f1889f7c1ec7cae630fda5ab",
       "ok": true,
       "drawn": true,
+      "pressed": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-PImOU1QV.js",
+          "source": "assets/index-CaVqYCrF.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -283,6 +352,7 @@
       "strokes": 5,
       "stamp": "SHOWN",
       "inks": "",
+      "presses": [],
       "pad": null,
       "pen": false,
       "undoOff": null,
@@ -302,14 +372,15 @@
     },
     "390x844/none": {
       "file": "design/phone-ui/components/windows/review/390x844-none.jpg",
-      "sha256": "8020eb1ad60603c39b13ee75dcad30987777f83bfcc8da3e9f2876a3588ae41a",
+      "sha256": "7b7c8e30a27509e05e2eb8ee8e1b105278976670eb4737ea37ea0b62e22fcd5a",
       "ok": true,
       "drawn": true,
+      "pressed": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-PImOU1QV.js",
+          "source": "assets/index-CaVqYCrF.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -327,6 +398,7 @@
       "strokes": 0,
       "stamp": null,
       "inks": "",
+      "presses": [],
       "pad": null,
       "pen": false,
       "undoOff": null,
@@ -346,14 +418,15 @@
     },
     "430x932/none": {
       "file": "design/phone-ui/components/windows/review/430x932-none.jpg",
-      "sha256": "853ccdc8a3b7678d2b809da8d2ea5047805badc280deb4a9b640e755cc3dea19",
+      "sha256": "7cdc6399a0b3b64b4847fb156d206d739c38f83b997a97816f165ad3fed8c886",
       "ok": true,
       "drawn": true,
+      "pressed": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-PImOU1QV.js",
+          "source": "assets/index-CaVqYCrF.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -371,6 +444,7 @@
       "strokes": 0,
       "stamp": null,
       "inks": "",
+      "presses": [],
       "pad": null,
       "pen": false,
       "undoOff": null,
@@ -390,14 +464,15 @@
     },
     "390x844/blank": {
       "file": "design/phone-ui/components/windows/review/390x844-blank.jpg",
-      "sha256": "3adb4f9e2503cc8fa9706711e2979dfa0ecaa277ee4c172a34d29ac969364c0f",
+      "sha256": "cbddd3945b9e3d0b7ea61a9de1d137ff1e5148224b6277b2253152011964595e",
       "ok": true,
       "drawn": true,
+      "pressed": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-PImOU1QV.js",
+          "source": "assets/index-CaVqYCrF.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -415,6 +490,36 @@
       "strokes": 2,
       "stamp": null,
       "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "presses": [
+        {
+          "ink": "gold",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "paper",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "teal",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "pink",
+          "round": 34,
+          "width": 44.75,
+          "height": 44.75,
+          "inner": true
+        }
+      ],
       "pad": "application:Drawing for Room A ↔ Hospital",
       "pen": false,
       "undoOff": true,
@@ -434,14 +539,15 @@
     },
     "430x932/blank": {
       "file": "design/phone-ui/components/windows/review/430x932-blank.jpg",
-      "sha256": "d2eac0b4cd9fb5d42789abdb30b08dc5c880720a874d9481c8829e87d5fcd247",
+      "sha256": "1dbcce2d4434305aa4bcfd020c8af12582ce6f0cdf46222a4a91a53b7842ccdd",
       "ok": true,
       "drawn": true,
+      "pressed": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-PImOU1QV.js",
+          "source": "assets/index-CaVqYCrF.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -459,6 +565,36 @@
       "strokes": 2,
       "stamp": null,
       "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "presses": [
+        {
+          "ink": "gold",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "paper",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "teal",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "pink",
+          "round": 34,
+          "width": 44.75,
+          "height": 44.75,
+          "inner": true
+        }
+      ],
       "pad": "application:Drawing for Room A ↔ Hospital",
       "pen": false,
       "undoOff": true,
@@ -478,14 +614,15 @@
     },
     "390x844/showing": {
       "file": "design/phone-ui/components/windows/review/390x844-showing.jpg",
-      "sha256": "46f7f8afef70ae19dc0542e66c3c43cecb3c032c996f54ce1275e4bee2a5faaf",
+      "sha256": "f4dca81b15a7d75c0b05d1c979d9d9140e1a654375751773869c009432ff888f",
       "ok": true,
       "drawn": true,
+      "pressed": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-PImOU1QV.js",
+          "source": "assets/index-CaVqYCrF.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -503,6 +640,36 @@
       "strokes": 4,
       "stamp": null,
       "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "presses": [
+        {
+          "ink": "gold",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "paper",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "teal",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "pink",
+          "round": 34,
+          "width": 44.75,
+          "height": 44.75,
+          "inner": true
+        }
+      ],
       "pad": "application:Drawing for Room A ↔ Hospital",
       "pen": false,
       "undoOff": false,
@@ -522,14 +689,15 @@
     },
     "430x932/showing": {
       "file": "design/phone-ui/components/windows/review/430x932-showing.jpg",
-      "sha256": "291564ba605915a36c601f34a7dc7728b11d289e623f33720e32fa477a59c039",
+      "sha256": "b9de9cb00f38242a09499213c6ff5363f2bd6ab20dedace591875f0da73b8580",
       "ok": true,
       "drawn": true,
+      "pressed": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-PImOU1QV.js",
+          "source": "assets/index-CaVqYCrF.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -547,6 +715,36 @@
       "strokes": 4,
       "stamp": null,
       "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "presses": [
+        {
+          "ink": "gold",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "paper",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "teal",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "pink",
+          "round": 34,
+          "width": 44.75,
+          "height": 44.75,
+          "inner": true
+        }
+      ],
       "pad": "application:Drawing for Room A ↔ Hospital",
       "pen": false,
       "undoOff": false,
@@ -566,14 +764,15 @@
     },
     "390x844/keyboard": {
       "file": "design/phone-ui/components/windows/review/390x844-keyboard.jpg",
-      "sha256": "3be224d3333db7549ed711b5255b34ad4c0c717c797298381117f799ed3cf02e",
+      "sha256": "1c53699494b675d81c5531fa92cf15b6d0dad2076f450f9d7072c20e89730772",
       "ok": true,
       "drawn": true,
+      "pressed": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-PImOU1QV.js",
+          "source": "assets/index-CaVqYCrF.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -591,6 +790,36 @@
       "strokes": 5,
       "stamp": null,
       "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "presses": [
+        {
+          "ink": "gold",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "paper",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "teal",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "pink",
+          "round": 34,
+          "width": 44.75,
+          "height": 44.75,
+          "inner": true
+        }
+      ],
       "pad": "application:Drawing for Room A ↔ Hospital",
       "pen": true,
       "undoOff": false,
@@ -610,14 +839,15 @@
     },
     "430x932/keyboard": {
       "file": "design/phone-ui/components/windows/review/430x932-keyboard.jpg",
-      "sha256": "cba48402a8309526790020717795a9dcc88fdc542d65aca916c3308726e13c34",
+      "sha256": "69076facf7cfe468c7e5aa8b45d943bc03d8799e65cd40ca47cd2bcde03abcab",
       "ok": true,
       "drawn": true,
+      "pressed": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-PImOU1QV.js",
+          "source": "assets/index-CaVqYCrF.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -635,6 +865,36 @@
       "strokes": 5,
       "stamp": null,
       "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "presses": [
+        {
+          "ink": "gold",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "paper",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "teal",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "pink",
+          "round": 34,
+          "width": 44.75,
+          "height": 44.75,
+          "inner": true
+        }
+      ],
       "pad": "application:Drawing for Room A ↔ Hospital",
       "pen": true,
       "undoOff": false,
@@ -654,14 +914,15 @@
     },
     "390x844/stale": {
       "file": "design/phone-ui/components/windows/review/390x844-stale.jpg",
-      "sha256": "77fe55618a6fad8072d69b1bbf8753d946a635a9050001ffef16fc80b935aca9",
+      "sha256": "9e2f59a753176404bfda1aad9517a61c367ca61946a4037958d58cfe4b4df954",
       "ok": true,
       "drawn": true,
+      "pressed": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-PImOU1QV.js",
+          "source": "assets/index-CaVqYCrF.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -679,6 +940,36 @@
       "strokes": 4,
       "stamp": null,
       "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "presses": [
+        {
+          "ink": "gold",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "paper",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "teal",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "pink",
+          "round": 34,
+          "width": 44.75,
+          "height": 44.75,
+          "inner": true
+        }
+      ],
       "pad": "application:Drawing for Room A ↔ Hospital",
       "pen": false,
       "undoOff": false,
@@ -698,14 +989,15 @@
     },
     "430x932/stale": {
       "file": "design/phone-ui/components/windows/review/430x932-stale.jpg",
-      "sha256": "a4856e2036d6204a4fd0b09b2744fea4b67d5c19413e8f0a99a5e9ef8d7d5b02",
+      "sha256": "a12d043f464e766f26deaddffedfc0869f9a0c0f440d4d52bbd0824a6a5d195c",
       "ok": true,
       "drawn": true,
+      "pressed": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-PImOU1QV.js",
+          "source": "assets/index-CaVqYCrF.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -723,6 +1015,36 @@
       "strokes": 4,
       "stamp": null,
       "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "presses": [
+        {
+          "ink": "gold",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "paper",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "teal",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "pink",
+          "round": 34,
+          "width": 44.75,
+          "height": 44.75,
+          "inner": true
+        }
+      ],
       "pad": "application:Drawing for Room A ↔ Hospital",
       "pen": false,
       "undoOff": false,
@@ -742,14 +1064,15 @@
     },
     "390x844/largest": {
       "file": "design/phone-ui/components/windows/review/390x844-largest.jpg",
-      "sha256": "f85e11cf7cdd4003874afc9141e50d13e2cc00dd0c5976f7372b65c644a12fe5",
+      "sha256": "208aa716e5429141511154e71254626f6f11b86e079078bc97b343ee28ece5a2",
       "ok": true,
       "drawn": true,
+      "pressed": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-PImOU1QV.js",
+          "source": "assets/index-CaVqYCrF.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -767,6 +1090,36 @@
       "strokes": 4,
       "stamp": null,
       "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "presses": [
+        {
+          "ink": "gold",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "paper",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "teal",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "pink",
+          "round": 34,
+          "width": 44.75,
+          "height": 44.75,
+          "inner": true
+        }
+      ],
       "pad": "application:Drawing for Room A ↔ Hospital",
       "pen": false,
       "undoOff": false,
@@ -786,14 +1139,15 @@
     },
     "430x932/largest": {
       "file": "design/phone-ui/components/windows/review/430x932-largest.jpg",
-      "sha256": "776b0954ec5baa8c53841e57ed61f4beb2ff74e90fa8e4bd7fb99171146606a0",
+      "sha256": "e4b1fa24b82b9cf0283fc81897963d5896e9da29d5ba3bc67642b7131348b467",
       "ok": true,
       "drawn": true,
+      "pressed": true,
       "violations": [
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-PImOU1QV.js",
+          "source": "assets/index-CaVqYCrF.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -811,6 +1165,36 @@
       "strokes": 4,
       "stamp": null,
       "inks": "Gold:true|Paper:false|Teal:false|Pink:false",
+      "presses": [
+        {
+          "ink": "gold",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "paper",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "teal",
+          "round": 34,
+          "width": 44,
+          "height": 44.75,
+          "inner": true
+        },
+        {
+          "ink": "pink",
+          "round": 34,
+          "width": 44.75,
+          "height": 44.75,
+          "inner": true
+        }
+      ],
       "pad": "application:Drawing for Room A ↔ Hospital",
       "pen": false,
       "undoOff": false,
@@ -1311,7 +1695,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-PImOU1QV.js",
+          "source": "assets/index-CaVqYCrF.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -1344,7 +1728,7 @@
         {
           "directive": "script-src",
           "blocked": "eval",
-          "source": "assets/index-PImOU1QV.js",
+          "source": "assets/index-CaVqYCrF.js",
           "line": 1,
           "column": 6049,
           "kind": "known: zod eval probe, caught; the live game bundle has it too"
@@ -2434,7 +2818,7 @@
       {
         "directive": "script-src",
         "blocked": "eval",
-        "source": "assets/index-PImOU1QV.js",
+        "source": "assets/index-CaVqYCrF.js",
         "line": 1,
         "column": 6049,
         "kind": "known: zod eval probe, caught; the live game bundle has it too"
