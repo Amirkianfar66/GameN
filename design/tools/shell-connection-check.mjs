@@ -62,7 +62,9 @@ import { connect, launchBrowser, openPage, sleep } from './lib/chrome.mjs';
 
 const REPO = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const REVIEW = join(REPO, 'design/phone-ui/review/shell-connection');
-const SIZES = { '390x844': [390, 844], '430x932': [430, 932], '320x568': [320, 568], '402x742': [402, 742] };
+// The order matters: the small phone's two states choose the Largest text, which the app keeps for the browser's next
+// pages. So it is drawn last, and every capture checks the text size it was drawn at (`textSize`).
+const SIZES = { '390x844': [390, 844], '430x932': [430, 932], '402x742': [402, 742], '320x568': [320, 568] };
 // Every state is drawn at the two phones; a state that names its own `sizes` is drawn at those alone.
 const PHONES = ['390x844', '430x932'];
 // Shell 0.3.5: the bar's words are never cut. The states whose subject is the bar are also drawn at 402 × 742, the
@@ -168,6 +170,7 @@ const LOOK = `(() => {
   const bar = q('.ms-ps-tb'), tabs = q('.ms-ps-tabs'), talk = q('.ms-ps-talk'), hero = q('.ms-ps-hero'), sheet = q('.ms-ps-sheet'), target = q('.ms-ps-target'), banner = q('.ms-ps-banner');
   const harness = window.planetHarness ?? window.foodAppHarness, model = harness?.app.game?.getModel() ?? null;
   return {
+    text: document.documentElement.style.fontSize || '100%',
     shell: shell ? { status: shell.dataset.status, tabs: shell.dataset.tabs, bar: shell.dataset.bar, focusInside: shell.contains(document.activeElement), box: box(shell) } : null,
     bar: bar ? { kind: bar.dataset.kind, tone: bar.getAttribute('data-tone'), hidden: bar.getAttribute('aria-hidden') === 'true', name: text(q('.ms-ps-name', bar)), sub: text(q('.ms-ps-sub', bar)),
       glyph: q('.ms-ps-glyph', bar)?.getAttribute('data-tone') ?? (q('.ms-ps-glyph', bar) ? 'plain' : null), portrait: !!q('.ms-ps-pt', bar), round: text(q('.ms-ps-round', bar)), clock: text(q('.ms-ps-timer', bar)),
@@ -703,6 +706,8 @@ try {
           noOldChrome: seen.old === 0,
           policy: seen.violations.every(v => v.kind !== 'unexpected'),
           problems: problems.length === 0,
+          // The text size the capture was drawn at: the Standard, but for the two states that choose the Largest.
+          textSize: seen.text === (name.startsWith('largest-') ? '200%' : '100%'),
           // Shell 0.3.5, in every capture that draws a bar: no word cut; Promises the handshake alone; the clock's icon only in a
           // bar wider than 25 rem; and the stage beginning where the bar ends (an edge-to-edge stage lies under it).
           ...(seen.bar && !seen.bar.hidden && seen.bar.name !== null ? { barWords: seen.bar.cut.length === 0,
