@@ -1136,7 +1136,11 @@ The Lead then recommended one shared view for each fixed room. The owner:
 - **The Lead's direction:** an owner test page that runs the real Planet app in Frontend's harness with the sample match (invented players), as #310's match check does.
   - Where a part isn't connected in the game yet, the page shows what the game shows today and says so in one line. Nothing is mocked.
   - It works on an iPhone: taps, no hover, at 390 and 430 wide.
-- **What it does not decide yet:** who builds the page and which match states it shows. The builders' proposal goes to the Lead first, and the page goes to the owner once checked.
+- **Settled by the Lead minutes later:**
+  - **Who builds it:** the Gameplay UI builder builds the page from #310's accepted head, and the Bars & Icons control page links to it ("Open it in the game").
+  - **The match states:** four, from a short list: this player's turn (the Hacker), another player's turn, the Jail vote, and the private talk.
+  - **Two lines at the top:** "A practice match with made-up players. Nothing is sent." and "The next version of the game, before it reaches your phone."
+  - **The order:** a private test that the game runs inside the page with no request leaving it, then the build and its checks at 390 and 430 with touch, then the Lead's review, then the owner.
 
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
