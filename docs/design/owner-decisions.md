@@ -1128,6 +1128,16 @@ The Lead then recommended one shared view for each fixed room. The owner:
   - **the steps and the spend:** view A first, then the other four, with a cap proposed from Room B's record (33 pictures, about $2.04).
 - **What it does not decide:** any picture or spend. The Lead checks the plan at 390 × 844 and 430 × 932, then the owner approves the plan and its cap before the image session has a go.
 
+**Every bar icon opens what the phone shows, after midnight (19 November).** The owner wrote in the Bars & Icons builder's session, from their iPhone (00:00:42 UTC), word for word:
+
+> When I click on each bar icon, I want to see what I can see on my mobile
+
+- **How the Lead and the builder read it:** on the owner's test pages, pressing a control of the bars (Board, Actions, the round button, Panels, Card, Promises, ⋮) opens what the phone opens: the real sheet with its real content, not a still picture of the bar.
+- **The Lead's direction:** an owner test page that runs the real Planet app in Frontend's harness with the sample match (invented players), as #310's match check does.
+  - Where a part isn't connected in the game yet, the page shows what the game shows today and says so in one line. Nothing is mocked.
+  - It works on an iPhone: taps, no hover, at 390 and 430 wide.
+- **What it does not decide yet:** who builds the page and which match states it shows. The builders' proposal goes to the Lead first, and the page goes to the owner once checked.
+
 ## 17 November 2026: generated backgrounds and one noir filter for the pre-game animation test
 
 **Recorded by the Lead Designer from the owner's messages in the Pre-game Animation builder's session.** The Lead read them there, in that session's own transcript (00:35 and 00:38 UTC), not from a summary.
