@@ -140,7 +140,7 @@ test('its words are the pack\'s: the hero, the tabs, the bar and the two banners
   assert.deepEqual(GAME_TABS, ['switch', 'actions', 'hero', 'panels', 'card'], 'the owner\'s tab order: Card last');
   assert.match(read('design/phone-ui/prototype/ui.mjs'), /tab\('card', 'card', 'Card'\),\s*tab\('panels', 'panels', 'Panels'\)/, 'the pack draws Card before Panels');
   assert.deepEqual(TALK_BUTTONS, ['promises', 'my-card']);
-  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.3.4');
+  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.3.5');
   assert.ok(TOAST_MS > 0);
 });
 
@@ -253,7 +253,7 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   assert.match(csp, /img-src 'self' data:/);
   assert.deepEqual(record.headers.map(h => h.key), ['Cache-Control', 'Content-Security-Policy', 'X-Content-Type-Options', 'X-Frame-Options', 'Referrer-Policy', 'X-Robots-Tag', 'Permissions-Policy']);
   const captures = Object.entries(record.captures);
-  assert.equal(captures.length, 73, 'thirty-four states at two sizes, the target bar at the Largest text on both, and the Largest text at 320 × 568 for a turn, for a phase and for a long-titled sheet');
+  assert.equal(captures.length, 99, 'thirty-four states at two sizes, the target bar at the Largest text on both, the Largest text at 320 × 568 for a turn, for a phase and for a long-titled sheet; and 0.3.5\'s fit: six bars at four sizes, one at the Large text and one at the Largest');
   for (const [key, c] of captures) {
     assert.ok(c.ok && c.drawn, `${key} passed and drew what its state asks`);
     assert.deepEqual(c.problems, [], `${key}: no page error or failed request`);
@@ -428,6 +428,35 @@ test('the check\'s record: every capture, probe check and agreement case passed 
   assert.deepEqual(title.before, title.after, 'the focus moves nothing');
   assert.deepEqual([title.kept, title.replaced.onRoot, title.replaced.reported, title.replaced.report, title.replaced.nextTabindex, title.onNext], [true, true, 1, null, '-1', true]);
   assert.match(read('design/phone-ui/components/phone-shell/phone-shell.css'), /\.ms-ps-sheet-title h2:focus \{ outline: none; \}/);
+  // 0.3.5: the bar's words are never cut. Thirteen bars with the game's own names and longest lines, on four phones
+  // (the owner's 402 px among them) at three text sizes; Promises the handshake alone everywhere.
+  const fit = record.probe.full.checks.find(c => c.id.startsWith('fit:')).detail;
+  assert.deepEqual([fit.bars, fit.failures.length], [156, 0], 'no word cut in any of the 156 bars');
+  assert.equal(fit.fits['as it is'] + fit.grown.length, 156, 'every bar is as it was or fitted');
+  assert.ok(fit.fits.name2 > 0 && fit.fits.sub2 > 0 && fit.fits.stack > 0, 'each step of the fit is used somewhere');
+  for (const key of ['320x568', '390x844', '402x742', '430x932']) for (const state of ['fit-pair-crew', 'fit-pair-player', 'fit-own-crew', 'fit-own-player', 'fit-turn', 'fit-phase']) {
+    const c = record.captures[`${key}/${state}`];
+    assert.deepEqual([c.fit.cut, c.fit.pill.words, c.fit.pill.width], [[], '', 36], `${key} ${state}: every word whole, Promises the handshake alone`);
+    assert.equal(c.fit.clockIcon, c.fit.rem > 25, `${key} ${state}: the clock's icon only in a bar wider than 25 rem`);
+  }
+  assert.equal(record.captures['402x742/fit-own-crew'].fit.how, '', 'on the owner\'s own view "Player 6 · Crew 6" fits as it is');
+  assert.equal(record.captures['320x568/fit-own-large'].fit.how, 'name2');
+  assert.equal(record.captures['430x932/fit-phase-large'].fit.how, 'stack sub2');
+  // On a row of their own the controls keep together at its right: Promises the bar's 5 px from the round, level with it.
+  for (const key of ['320x568/fit-phase', '390x844/fit-phase', '430x932/fit-phase-large']) assert.deepEqual(record.captures[key].fit.row, { gap: 5, level: true, right: 12 }, `${key}: the controls together at the right`);
+  // "Round 12" never parts, and where the caption breaks at a dot the dot gives way: on the small phone the last one does.
+  assert.deepEqual(record.captures['320x568/fit-phase'].fit.breaks, [false, true]);
+  assert.deepEqual(record.captures['390x844/fit-phase'].fit.breaks, [false, false], 'on one line every dot is drawn');
+  assert.deepEqual(record.captures['320x568/fit-own-crew'].fit.breaks, [true], '"Player 6" over "Crew 6"');
+  assert.equal(fit.breaks, 11, 'eleven of the 156 bars have a dot that gave way to a break');
+  assert.match(read('design/phone-ui/components/phone-shell/phone-shell.mjs'), /found of piece\.matchAll\(\/\\S\+ \\d\\S\*\/g\)/, 'a number stays with the word before it');
+  // Promises has no word and no hairline in any capture that draws it; the pill is the handshake's 36 px.
+  for (const [key, c] of Object.entries(record.captures)) if (c.fit?.pill) assert.deepEqual([c.fit.pill.words, c.fit.pill.width], ['', 36], `${key}: Promises is the handshake alone`);
+  const shellSource = read('design/phone-ui/components/phone-shell/phone-shell.mjs'), shellStyles = read('design/phone-ui/components/phone-shell/phone-shell.css');
+  for (const gone of ['ms-ps-pill-label', 'ms-ps-div', 'data-ms-draft-bar', 'data-bar-fit', 'barFit']) assert.ok(!shellSource.includes(gone) && !shellStyles.includes(gone), `${gone} is gone from the shell`);
+  // The one case the shell refits against the pack is one where the pack cuts a word.
+  const refits = record.agree.checks.filter(c => c.detail.refit?.shell);
+  assert.deepEqual(refits.map(c => [c.id, c.detail.refit.packCuts]), [['agree: large-words-synchronized at 200% text, 320 × 568', ['name']]]);
   assert.ok(record.agree.ok && record.agree.checks.length >= 29 && record.agree.checks.every(c => c.ok && c.detail.differences.length === 0), 'the shell agrees with the pinned pack');
   // The phase bars too (0.2.10): the pack's own bar for each game step beside what phase-bars.mjs returns for it, and
   // the Blackout's dark on the pack's own specimen.
