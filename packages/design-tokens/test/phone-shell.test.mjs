@@ -140,7 +140,7 @@ test('its words are the pack\'s: the hero, the tabs, the bar and the two banners
   assert.deepEqual(GAME_TABS, ['switch', 'actions', 'hero', 'panels', 'card'], 'the owner\'s tab order: Card last');
   assert.match(read('design/phone-ui/prototype/ui.mjs'), /tab\('card', 'card', 'Card'\),\s*tab\('panels', 'panels', 'Panels'\)/, 'the pack draws Card before Panels');
   assert.deepEqual(TALK_BUTTONS, ['promises', 'my-card']);
-  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.3.5');
+  assert.equal(PHONE_SHELL_VERSION, 'phone-shell-0.3.6');
   assert.ok(TOAST_MS > 0);
 });
 

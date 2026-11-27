@@ -15,6 +15,7 @@ import { MORE_SCREENS } from '../../../prototype/screens-more.mjs';
 import { mountPhoneShell } from '../../phone-shell/phone-shell.mjs';
 import { mountPart } from './preview.mjs';
 import { PACK_FRAMES } from './states.mjs';
+import { splitLook090 } from '../../kit/preview/look-0-9-0.mjs';
 
 const TOLERANCE = 0.5;
 const SCREENS = { ...GAME_SCREENS, ...MORE_SCREENS };
@@ -210,8 +211,8 @@ export async function runActionsAgreement({ sizes, inputsFor }) {
     compareBox('notice', box(bodyA, noticeA), box(bodyB, noticeB));
     compareBox('notice icon', box(noticeA, noticeA?.querySelector('.big-icon .ic')), box(noticeB, noticeB?.querySelector('.ms-k-notice-icon .ms-k-ic')));
     [...(noticeA?.querySelectorAll('p') ?? [])].forEach((p, i) => compareBox(`notice line ${i + 1}`, box(noticeA, p), box(noticeB, noticeB?.querySelectorAll('p')[i] ?? null)));
-    checks.push({ id: `agree: ${c.state} (${c.frame}${c.size !== '390x844' ? ` at ${c.size}` : ''}${c.text ? ` at ${c.text}% text` : ''})`, ok: differences.length === 0,
-      detail: { differences, ...(notCompared.length ? { notCompared } : {}), ...(departures.length ? { departures } : {}) } });
+    checks.push({ id: `agree: ${c.state} (${c.frame}${c.size !== '390x844' ? ` at ${c.size}` : ''}${c.text ? ` at ${c.text}% text` : ''})`, ok: splitLook090(differences).kept.length === 0,
+      detail: { differences: splitLook090(differences).kept, look090: splitLook090(differences).look, ...(notCompared.length ? { notCompared } : {}), ...(departures.length ? { departures } : {}) } });
     part?.dispose();
     shell.dispose();
     pack.remove();

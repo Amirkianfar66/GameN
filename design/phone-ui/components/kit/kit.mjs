@@ -11,8 +11,9 @@
 
 import { crewPortraitVariable } from '../../../../apps/game/hosted/crew-runtime.mjs';
 import { iconSvg } from '../icons.mjs';
+import { iconPaintedSvg } from '../icon-paint.mjs';
 
-export const COMPONENT_KIT_VERSION = 'component-kit-0.8.2';
+export const COMPONENT_KIT_VERSION = 'component-kit-0.9.0';
 export const BUTTON_KINDS = Object.freeze(['primary', 'secondary', 'tinted', 'plain', 'outline', 'warn']);
 export const CELL_STATES = Object.freeze(['available', 'selected', 'confirmed', 'taken', 'ineligible', 'empty', 'winner', 'faded']);
 export const STAMP_TONES = Object.freeze([null, 'amber', 'pending', 'gold', 'steel']);
@@ -51,6 +52,26 @@ export function createKit(doc) {
     t.innerHTML = iconSvg(name, { filled, className: 'ms-k-ic' }).trim();
     return t.content.firstChild;
   };
+  /**
+   * Kit 0.9.0 (the panels' style): an icon painted, in the bottom bar's family, with nothing behind it
+   * (the owner, 19 November 2026: "I like painted icons but I dont want them to have any  background", then, on
+   * draft 2, "Still they  have a background"; on draft 3, "No background now, go ahead"). The line drawing itself is painted (`open`): no icon is a plate with
+   * marks on it, and no holder has a tile. `on`: in colour. `off`: the same icon greyed, it cannot be pressed now.
+   * Redrawn only when the icon changes.
+   */
+  const setPaint = (holder, name, mood) => {
+    const key = `paint:${name}`;
+    if (holder.dataset.icon !== key) {
+      const t = doc.createElement('template');
+      t.innerHTML = iconPaintedSvg(name, { className: 'ms-k-paint', open: true }).trim();
+      holder.replaceChildren(t.content.firstChild);
+      holder.dataset.icon = key;
+    }
+    holder.dataset.paint = mood;
+    holder.hidden = false;
+    return holder;
+  };
+  const noPaint = holder => { if ('paint' in holder.dataset) { delete holder.dataset.paint; holder.dataset.icon = ''; holder.replaceChildren(); } return holder; };
   /** Puts an icon in a holder, or clears it; redrawn only when the icon or its form changes. */
   const setIcon = (holder, name, filled = false) => {
     const key = name ? `${name}:${filled ? 'filled' : ''}` : '';
@@ -70,7 +91,8 @@ export function createKit(doc) {
     if (node.className !== cls) node.className = cls;
     if (!node.firstChild) node.append(h('span', 'ms-k-btn-icon'), h('span', 'ms-k-btn-label'));
     // The pack fills a primary button's icon; a floating chip's (filled) too.
-    setIcon(node.firstChild, props.icon ?? null, props.filled ?? kind === 'primary');
+    if (props.painted && props.icon) setPaint(node.firstChild, props.icon, 'on');
+    else setIcon(noPaint(node.firstChild), props.icon ?? null, props.filled ?? kind === 'primary');
     text(node.lastChild, props.label);
     attr(node, 'aria-label', props.aria ?? null);
     attr(node, 'aria-pressed', props.pressed === undefined || props.pressed === null ? null : String(!!props.pressed));
@@ -116,8 +138,13 @@ export function createKit(doc) {
       lead.hidden = false;
     } else if (props.icon) {
       if (lead.className !== 'ms-k-row-icon') { lead.replaceChildren(); lead.dataset.icon = ''; lead.className = 'ms-k-row-icon'; }
-      attr(lead, 'data-tint', props.tint ?? null);
-      setIcon(lead, props.icon, true);
+      // 0.9.0: every row's icon is painted with nothing behind it, whether the row opens or only tells: no tinted
+      // tile is left. A row that waits for the player's answer (an amber tint on a row that opens, as
+      // the incoming Promise names it) carries an amber dot at its icon's corner; the part will name it itself later.
+      const opens = props.tag !== 'div' && (!!props.chevron || !!props.intent);
+      lead.removeAttribute('data-tint');
+      setPaint(lead, props.icon, 'on');
+      lead.toggleAttribute('data-waiting', opens && props.tint === 'amber');
     } else { lead.replaceChildren(); lead.dataset.icon = ''; lead.hidden = true; }
     text(main.firstChild, props.title);
     text(main.lastChild, props.sub ?? '');
@@ -375,7 +402,11 @@ export function createKit(doc) {
     } else {
       if (glyph.className !== 'ms-k-tile-icon') { glyph.className = 'ms-k-tile-icon'; glyph.removeAttribute('aria-hidden'); glyph.removeAttribute('data-node'); tileArt.delete(glyph); glyph.replaceChildren(); glyph.dataset.icon = ''; }
       // The pack fills the icon, but not on an unavailable or a spent tile.
-      setIcon(glyph, props.icon, state !== 'unavailable' && state !== 'spent');
+      // 0.9.0: painted with nothing behind it, in colour when it can be pressed (and once it is registered or being
+      // sent) and greyed when it cannot.
+      setPaint(glyph, props.icon, state === 'unavailable' || state === 'spent' ? 'off' : 'on');
+      // `waiting`: it waits for the player's answer (an offer to answer): the amber dot at the icon's corner.
+      glyph.toggleAttribute('data-waiting', props.waiting === true);
     }
     text(name, props.name);
     if (note !== null && isText(props.noteIcon)) {
@@ -421,7 +452,7 @@ export function createKit(doc) {
     const [lead, words] = node.children;
     const form = people.length === 2 ? 'pair' : people.length === 1 ? 'person' : 'icon';
     if (lead.dataset.form !== form) { lead.replaceChildren(); lead.dataset.form = form; lead.dataset.icon = ''; lead.hidden = false; }
-    if (form === 'icon') setIcon(lead, props.icon, true);
+    if (form === 'icon') setPaint(lead, props.icon, 'on'); // 0.9.0: the head's icon painted, as the tile that led here, and at its size
     else {
       while (lead.children.length > people.length) lead.lastChild.remove();
       while (lead.children.length < people.length) lead.append(h('span'));

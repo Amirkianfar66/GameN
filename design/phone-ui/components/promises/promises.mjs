@@ -12,6 +12,11 @@
 //                   this phone's own (`local`); Offer, Decline and Accept the commands, with Frontend's states
 // The view and the offer being made (the draft) are Frontend's, from the taps, Back and the projection.
 //
+// What the list offers in a talk follows the Actions grid (the owner, 19 November 2026: "i want all follow a shared
+// system"; on draft 4, "As you recommended"; the Lead's option A, in code): Offer a Promise and an offer to answer are
+// the kit's tiles, cells in one grid under the talk's label; the one to answer carries the amber dot (`waiting`). The
+// quota, an offer waiting for the other's answer, and Received and Given stay lines.
+//
 // What it never does: send a command, or state a rule. Offering, accepting and declining are Frontend's to send and
 // the server's to answer. The words that state a rule for one Promise are Frontend's, drawn as given and never
 // composed, trimmed or reordered: the exact terms, the condition line, when and why (answer 3); the component holds
@@ -24,7 +29,7 @@
 
 import { createControlPolicy, createKit } from '../kit/kit.mjs';
 
-export const PROMISES_VERSION = 'promises-0.1.1';
+export const PROMISES_VERSION = 'promises-0.2.0';
 const VIEWS = Object.freeze(['list', 'kinds', 'target', 'confirm', 'incoming']);
 const STATUSES = Object.freeze(['live', 'stale', 'concealed']);
 /** The sheet's id, the same for every view, so the shell keeps its body (and this content) through them. */
@@ -240,10 +245,10 @@ export function mountPromises(host, input = {}, handlers = {}) {
     const quota = kit.row({ tag: 'div', icon: 'promise', tint: 'amber', title: W.quota, value: '' });
     const waitLabel = kit.groupLabel(''), waitList = kit.h('ul', 'ms-k-list ms-pr-waiting'), waitItem = kit.h('li', 'ms-k-list-item');
     waitList.append(waitItem);
-    const talkLabel = kit.groupLabel(''), talkList = kit.h('ul', 'ms-k-list ms-pr-talk');
-    const offerItem = kit.h('li', 'ms-k-list-item'), incomingItem = kit.h('li', 'ms-k-list-item');
-    offerItem.append(kit.row({ icon: 'plus', tint: 'paper', title: W.offer, sub: W.offerLine, chevron: true, intent: 'offer' }));
-    incomingItem.append(kit.row({ icon: 'inbox', tint: 'amber', title: '', chevron: true, intent: 'incoming' }));
+    // In a talk, the cells (the Actions grid): Offer a Promise, and the partner's offer to answer, made when one comes.
+    const talkLabel = kit.groupLabel(''), talkGrid = kit.tiles();
+    talkGrid.classList.add('ms-pr-talk');
+    const offerCell = kit.tile({ icon: 'plus', name: W.offer, note: W.offerLine, intent: 'offer' });
     const results = ['received', 'given'].map(side => {
       const label = kit.groupLabel(side === 'received' ? W.received : W.given);
       const list = kit.h('ul', 'ms-k-list'), item = kit.h('li', 'ms-k-list-item');
@@ -251,8 +256,8 @@ export function mountPromises(host, input = {}, handlers = {}) {
       return { side, label, list, item, why: kit.groupNote(''), none: kit.groupNote(side === 'received' ? W.noReceived : W.noGiven) };
     });
     const proof = kit.groupNote(W.notProof);
-    root.append(kit.list(quota), waitLabel, waitList, talkLabel, talkList, ...results.flatMap(r => [r.label, r.list, r.why, r.none]), proof);
-    parts = { quota, waitLabel, waitList, waitItem, talkLabel, talkList, offerItem, incomingItem, results, proof };
+    root.append(kit.list(quota), waitLabel, waitList, talkLabel, talkGrid, ...results.flatMap(r => [r.label, r.list, r.why, r.none]), proof);
+    parts = { quota, waitLabel, waitList, waitItem, talkLabel, talkGrid, offerCell, incomingCell: null, results, proof };
   }
   function paintList() {
     const p = parts, s = state;
@@ -261,17 +266,23 @@ export function mountPromises(host, input = {}, handlers = {}) {
     const waiting = s.given?.state === 'offered' ? s.given : null;
     p.waitLabel.hidden = p.waitList.hidden = !waiting;
     if (waiting) { kit.text(p.waitLabel, W.waiting(waiting.other.name)); promiseRow(p.waitItem, waiting, 'given', s); }
-    // In a talk: Offer a Promise and, when the partner has offered one, the incoming offer.
+    // In a talk: Offer a Promise and, when the partner has offered one, the offer to answer.
     const incoming = s.talk && s.received?.state === 'offered' ? s.received : null;
-    const talkRows = [s.talk && s.offer ? p.offerItem : null, incoming ? p.incomingItem : null].filter(Boolean);
-    for (const item of [p.offerItem, p.incomingItem]) if (!talkRows.includes(item) && item.isConnected) policy.remove(item);
-    talkRows.forEach((item, i) => { if (p.talkList.children[i] !== item) p.talkList.insertBefore(item, p.talkList.children[i] ?? null); });
-    p.talkLabel.hidden = p.talkList.hidden = talkRows.length === 0;
-    if (s.talk) kit.text(p.talkLabel, W.talking(s.talk.name));
-    if (s.talk && s.offer) policy.control(p.offerItem.firstChild, { off: !s.offer.enabled, reason: s.offer.enabled ? null : s.offer.reason });
     if (incoming) {
-      kit.setRow(p.incomingItem.firstChild, { icon: 'inbox', tint: 'amber', title: W.offered(incoming.other.name), sub: PROMISE_KINDS[incoming.kind].name, chevron: true, intent: 'incoming' });
-      policy.control(p.incomingItem.firstChild, {});
+      // It waits for this player's answer: the amber dot at its icon's corner.
+      const props = { icon: 'inbox', name: W.offered(incoming.other.name), note: PROMISE_KINDS[incoming.kind].name, waiting: true, intent: 'incoming' };
+      if (!p.incomingCell) p.incomingCell = kit.tile(props); else kit.setTile(p.incomingCell, props);
+      policy.control(p.incomingCell, {});
+    }
+    const cells = [s.talk && s.offer ? p.offerCell : null, incoming ? p.incomingCell : null].filter(Boolean);
+    for (const cell of [p.offerCell, p.incomingCell]) if (cell && !cells.includes(cell) && cell.isConnected) policy.remove(cell);
+    cells.forEach((cell, i) => { if (p.talkGrid.children[i] !== cell) p.talkGrid.insertBefore(cell, p.talkGrid.children[i] ?? null); });
+    p.talkLabel.hidden = p.talkGrid.hidden = cells.length === 0;
+    if (s.talk) kit.text(p.talkLabel, W.talking(s.talk.name));
+    if (s.talk && s.offer) {
+      // Only Frontend's `enabled` dims and refuses it; its line stays, and Frontend's reason is its description.
+      kit.setTile(p.offerCell, { icon: 'plus', name: W.offer, note: W.offerLine, state: s.offer.enabled ? 'available' : 'unavailable', intent: 'offer' });
+      policy.control(p.offerCell, { off: !s.offer.enabled, reason: s.offer.enabled ? null : s.offer.reason });
     }
     // Received and Given (33.1): outside a talk always, with "No Promise …"; in a talk, only an accepted one (answer 5).
     let any = false;

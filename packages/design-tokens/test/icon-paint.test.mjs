@@ -1,4 +1,4 @@
-// The painted form of the icon family (design/phone-ui/components/icon-paint.mjs, phone-ui-icons-1.1.0): the
+// The painted form of the icon family (design/phone-ui/components/icon-paint.mjs, phone-ui-icons-1.2.0): the
 // owner's bottom bar of 18 November 2026, where every game tab's icon is a painted tile like the character's
 // portrait and the round button's icon is painted.
 //
@@ -28,8 +28,8 @@ const CREAM = ['#FFF6E0', '#F8DFAE', '#E6AE66', '#4A2913'];
 const EMBER = ['#F9BE6C', '#EC8A36', '#C5601B', '#52290F'];
 const colours = svg => [...new Set(svg.match(/#[0-9A-Fa-f]{6}\b/g) ?? [])];
 
-test('the family is phone-ui-icons-1.1.0: the painted form is added and no icon is changed', () => {
-  assert.equal(ICON_FAMILY_VERSION, 'phone-ui-icons-1.1.0');
+test('the family is phone-ui-icons-1.2.0: the painted forms are added and no icon is changed', () => {
+  assert.equal(ICON_FAMILY_VERSION, 'phone-ui-icons-1.2.0');
   assert.equal(ICON_NAMES.length, 79, 'the same 79 icons');
   // The pinned pack holds the family as it was; an icon drawn differently there would be an icon changed here.
   const pack = read('design/phone-ui/prototype/icons.mjs');
@@ -61,7 +61,7 @@ test('the tile\'s frame is the crew portrait\'s own: the same box, half-size and
 
 test('every icon paints, as a decorative drawing a strict page accepts, with its own ids', () => {
   for (const name of ICON_NAMES) {
-    for (const [what, svg] of [['tile', iconTileSvg(name, { id: 'x' })], ['painted', iconPaintedSvg(name, { id: 'x' })], ['painted in cream', iconPaintedSvg(name, { id: 'x', paint: 'cream' })]]) {
+    for (const [what, svg] of [['tile', iconTileSvg(name, { id: 'x' })], ['painted', iconPaintedSvg(name, { id: 'x' })], ['painted in cream', iconPaintedSvg(name, { id: 'x', paint: 'cream' })], ['painted open', iconPaintedSvg(name, { id: 'x', open: true })]]) {
       const where = `${name}, ${what}`;
       assert.match(svg, /^<svg class="[a-z-]+" aria-hidden="true" focusable="false" xmlns="http:\/\/www\.w3\.org\/2000\/svg" viewBox="[-\d. ]+">/, `${where}: decorative, sized by its holder`);
       assert.match(svg, /<\/svg>$/, where);
@@ -85,15 +85,33 @@ test('every icon paints, as a decorative drawing a strict page accepts, with its
 test('a tile\'s ground is one fixed colour and takes none from its caller; the paints are cream and ember', () => {
   // The function takes an icon, a class, an id and a paint: no colour, seat, character, role or team.
   assert.match(read(PAINT), /export function iconTileSvg\(name, \{ className = 'ic-tile', id = nextId\(\), paint = 'cream' \} = \{\}\)/);
-  assert.match(read(PAINT), /export function iconPaintedSvg\(name, \{ className = 'ic-paint', id = nextId\(\), paint = 'ember' \} = \{\}\)/);
+  assert.match(read(PAINT), /export function iconPaintedSvg\(name, \{ className = 'ic-paint', id = nextId\(\), paint = 'ember', open = false \} = \{\}\)/);
   for (const name of ICON_NAMES) {
     const tile = iconTileSvg(name, { id: 'x' });
     assert.ok(GROUND.slice(0, 3).every(c => tile.includes(`stop-color="${c}"`)), `${name}: the one ground`);
     for (const c of colours(tile)) assert.ok([...GROUND, ...FRAME, ...CREAM].includes(c), `${name}: ${c} is the tile's ground, its frame or its cream`);
     for (const c of colours(iconPaintedSvg(name, { id: 'x' }))) assert.ok(EMBER.includes(c), `${name}: ${c} is ember`);
+    for (const c of colours(iconPaintedSvg(name, { id: 'x', open: true }))) assert.ok(EMBER.includes(c), `${name}, open: ${c} is ember`);
   }
   // Nothing in the source reads a token or the page's colour: a painted icon is the same on every ground and phone.
   assert.doesNotMatch(read(PAINT), /currentColor|var\(--/);
+});
+
+// 1.2.0, the panels' icons. The owner, 19 November 2026: "I like painted icons but I dont want them to have any
+// background"; on draft 2, "Still they  have a background"; on draft 3, "No background now, go ahead".
+test('the open form paints the line drawing itself: nothing is filled but a dot, so no icon is a plate', () => {
+  for (const name of ICON_NAMES) {
+    const open = iconPaintedSvg(name, { id: 'x', open: true });
+    for (const path of open.matchAll(/<path [^>]*>/g)) assert.match(path[0], / fill="none" /, `${name}: a line is painted, never an area`);
+    // Every part of the family's line drawing is there, the ones the filled form knocks out included.
+    for (const part of ICONS[name].parts) if (part.d) assert.ok(open.includes(` d="${part.d}"`), `${name}: ${part.d.slice(0, 16)} is drawn`);
+    const dots = ICONS[name].parts.filter(part => part.c && part.dot).length, rings = ICONS[name].parts.filter(part => part.c && !part.dot).length;
+    assert.equal([...open.matchAll(/<circle [^>]*fill="(?!none)[^"]+"/g)].length, dots * 3, `${name}: only its dots are filled (shadow, line and paint)`);
+    assert.equal([...open.matchAll(/<circle [^>]*fill="none"/g)].length, rings * 3, `${name}: its rings are lines`);
+  }
+  // The round button's painted form is as it was: `open` is asked for, never the default.
+  assert.notEqual(iconPaintedSvg('code', { id: 'x' }), iconPaintedSvg('code', { id: 'x', open: true }));
+  assert.match(iconPaintedSvg('code', { id: 'x' }), /<path [^>]*fill="url\(#x-paint\)"/);
 });
 
 test('the painted shapes live in the one source; icon-paint.mjs draws no icon of its own and is a runtime source', () => {

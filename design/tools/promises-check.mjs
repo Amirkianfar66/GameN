@@ -64,7 +64,10 @@ const card = (s, title, name) => common(s) && s.title === title && s.cardName ==
 const refusal = (s, words) => s.error === words && s.errorRole === 'alert' && s.errorLast && s.errorStarts;
 const result = (s, status, sub, why, labels) => common(s) && s.title === 'Promises' && s.pair === null && s.badges === status && s.rows.includes(sub) && s.notes.includes(why) && s.labels === labels && s.notes.endsWith(NOT_PROOF);
 const EXPECT = {
-  list: s => talkList(s) && s.labels === 'With Ava · talking now' && s.rows === 'Your quota|Offer a Promise|Six kinds · exact terms|Ava offered you one|Captain Support' && s.value === 'Given 0/1 · Received 0/1' && s.root === 16,
+  // In a talk, Offer a Promise and the offer to answer are cells (the owner, 19 November 2026: the Actions grid); the
+  // offer to answer carries the amber dot. The quota stays a line.
+  list: s => talkList(s) && s.labels === 'With Ava · talking now' && s.rows === 'Your quota' && s.tiles === 'Offer a Promise|Ava offered you one'
+    && s.tileNotes === 'Six kinds · exact terms|Captain Support' && s.waiting === 'Ava offered you one' && s.value === 'Given 0/1 · Received 0/1' && s.root === 16,
   offered: s => talkList(s) && s.labels === 'Waiting for Ava|With Ava · talking now' && s.badges === 'Offered' && s.rows.includes('Meet in Room A|Offered to Ava · not counted yet'),
   kinds: s => common(s) && s.title === 'Offer to Ava' && s.back && s.foot === 'Next' && s.tiles === KINDS && s.selected === 'Meet in Room A' && s.across === 3,
   // The chosen seat keeps its "·" on its line: the words carry a no-break space (0.1.1), compared here as a space.
@@ -115,6 +118,8 @@ try {
           rows: plain(qa('.ms-k-row-title, .ms-k-row-sub').filter(shown).map(n => n.textContent).join('|')), value: plain(qa('.ms-k-row-value').filter(shown).map(n => n.textContent).join('|')),
           badges: qa('.ms-k-row .ms-k-pill').filter(shown).map(n => n.textContent).join('|'), notes: qa('.ms-k-group-note').filter(shown).map(n => n.textContent).join('|'),
           tiles: tiles.map(t => t.querySelector('.ms-k-tile-name').textContent).join('|'), selected: tiles.filter(t => t.dataset.state === 'selected').map(t => t.querySelector('.ms-k-tile-name').textContent).join('|'),
+          tileNotes: tiles.map(t => { const n = t.querySelector('.ms-k-tile-note'); return shown(n) ? n.textContent : ''; }).join('|'),
+          waiting: tiles.filter(t => t.querySelector('.ms-k-tile-icon')?.hasAttribute('data-waiting')).map(t => t.querySelector('.ms-k-tile-name').textContent).join('|'),
           across: new Set(tiles.map(t => Math.round(t.getBoundingClientRect().top))).size,
           targets: qa('[data-intent="target"]').length, chosen: plain(qa('[data-intent="target"][aria-pressed="true"]').map(n => n.querySelector('.ms-k-row-title').textContent).join('|')),
           seatJoined: qa('[data-intent="target"] .ms-k-row-title').length > 0 && qa('[data-intent="target"] .ms-k-row-title').every(n => /^[0-9]+\u00a0· /.test(n.textContent)),
