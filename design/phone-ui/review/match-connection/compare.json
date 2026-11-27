@@ -1,15 +1,15 @@
 {
   "tool": "design/tools/phone-ui-native-compare.mjs",
-  "createdAt": "2026-11-19T14:50:29.711Z",
+  "createdAt": "2026-11-27T16:00:45.633Z",
   "browser": "Google Chrome for Testing 153.0.8010.12",
   "view": "Drawn at each part's phone size, 1.5× pixels",
   "pack": {
-    "commit": "4e85ce55ec753201776af28b8058e9c58377c95b",
+    "commit": "dff363a253b8ad2825e76b21184c10136d81497d",
     "dirty": false
   },
   "build": {
-    "folder": "/dev/shm/match-connection-check-VleRJw",
-    "head": "4e85ce55ec753201776af28b8058e9c58377c95b",
+    "folder": "/dev/shm/match-connection-check-xqc6QK",
+    "head": "dff363a253b8ad2825e76b21184c10136d81497d",
     "dirty": false,
     "artwork": "64e55516d2f0026842c5c2a675f2eccda20e0a9e"
   },
@@ -418,7 +418,7 @@
         "height": 1266,
         "log": [
           "tap: Panels",
-          "tapText: PlayersSeats, rooms and public status"
+          "tapText: Players, Seats, rooms and public status PlayersSeats, rooms "
         ],
         "problems": []
       },
@@ -470,7 +470,7 @@
         "height": 1266,
         "log": [
           "tap: Panels",
-          "tapText: Round orderThe phases, in order"
+          "tapText: Round order, The phases, in order Round orderThe phases, in "
         ],
         "problems": []
       },
@@ -522,7 +522,7 @@
         "height": 1266,
         "log": [
           "tap: Panels",
-          "tapText: WindowsRoom A ↔ Room B · Room B ↔ Jail"
+          "tapText: Windows, 2 windows Windows2 windows"
         ],
         "problems": []
       },
@@ -574,7 +574,7 @@
         "height": 1266,
         "log": [
           "tap: Promises, 1 new 1",
-          "tapText: Offer a PromiseSix kinds · exact terms"
+          "tapText: Offer a Promise, Six kinds · exact terms Offer a PromiseSix "
         ],
         "problems": []
       },
