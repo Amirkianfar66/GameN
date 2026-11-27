@@ -7,6 +7,10 @@
 // offer before it sends anything.
 import {LOCATION_OF} from '../board-v2-drawing/slots-four.mjs';
 import {PHASE_BAR_PHASES,loadingBar,phaseBar,phaseClosedToast,reconnectingBar} from '../../../../design/phone-ui/components/phone-shell/phase-bars.mjs';
+import {actionsChip,actionsFrame,actionsTarget,actionsToast} from './actions-input.mjs';
+import {panelsFrame} from './panels-input.mjs';
+import {PROMISES_SHEET_ID,promisesFrame,promisesOpen,promisesToast} from './promises-input.mjs';
+import {WINDOWS_SHEET_ID,windowsFrame} from './windows-input.mjs';
 
 /**
  * Today's names (render.mjs before the shell) for the phases whose bar is still the game's own: the votes, the
@@ -31,7 +35,8 @@ const isSeat=value=>/^seat-[1-9]$/.test(value);
 /** A public person for the bar: the seat, the display name (or "Player n") and the crew character. */
 function person(model,seatId){
  const who=model.identities?.find(identity=>identity.seatId===seatId);
- return {seat:seatId,name:who?.displayName||`Player ${String(seatId).slice(5)}`,character:who?.characterId??null};
+ // "Player" keeps its number on one line, with a no-break space (the Lead's polish, the owner's approval of 18 November).
+ return {seat:seatId,name:who?.displayName||`Player\u00a0${String(seatId).slice(5)}`,character:who?.characterId??null};
 }
 
 /** live, stale (connecting, reconnecting or an error) or concealed. The Food surface over the chrome conceals the shell. */
@@ -244,9 +249,16 @@ export function shellTabs(model,{view='room',seen=null}={}){
  return ownOut(model)?{...tabs,enabled:{actions:false},reasons:{actions:OUT_ACTIONS_REASON}}:tabs;
 }
 
-/** The target bar while this viewer chooses on the scene or the board: the action's name and its prompt, with Cancel. */
-export function shellTarget(model){
- if(model.surface!=='player'||model.concealed||!shellPicking(model.action))return null;
+/**
+ * The target bar while this viewer chooses on the scene or the board, with Cancel: Actions' own words for its
+ * steps (actions-input.mjs, release 3); otherwise the action's name and its prompt.
+ */
+export function shellTarget(model,{view='room'}={}){
+ if(model.surface!=='player'||model.concealed)return null;
+ const own=actionsTarget(model,{view});
+ if(own!==undefined)return own;
+ // Promises choose in their own sheet (promises-input.mjs, release 3): no target bar while it is open.
+ if(promisesOpen(model)||!shellPicking(model.action))return null;
  const action=model.action;
  return {icon:SHELL_ACTION_ICONS[action.type]??'actions',title:action.label,sub:action.prompt||null};
 }
@@ -258,7 +270,10 @@ export function shellTarget(model){
  */
 export function shellChip(model,{view='room',room=null}={}){
  const action=model.action;
- if(model.surface!=='player'||model.concealed||!shellPicking(action)||action.type==='SELECT_BLACKOUT_SLOT')return null;
+ if(model.surface!=='player'||model.concealed)return null;
+ const own=actionsChip(model,{view,room});
+ if(own!==undefined)return own;
+ if(promisesOpen(model)||!shellPicking(action)||action.type==='SELECT_BLACKOUT_SLOT')return null;
  if(action.type==='MOVE')return view==='room'?{id:'board',label:'Other rooms on the Board',icon:'board',tone:'paper'}:null;
  const seats=action.choices.map(choice=>choice.value).filter(isSeat);
  if(!seats.length)return null;
@@ -280,75 +295,78 @@ export function shellBanner(model,{lastRound=null}={}){
 
 /**
  * The shell's toast, each shown once. A phase that closed under this phone's open choice (`closed`, from
- * phaseClosed()): the pack's words and icon, from phase-bars.mjs. Otherwise a pass the server accepted: the pack's
- * icon (sheet 27.3, `toast('Turn passed', 'info')`) and the model's own registration words. The two never meet: a
- * closed phase has no accepted action left.
+ * phaseClosed()): the pack's words and icon, from phase-bars.mjs. Otherwise a toast once the server accepts:
+ * Actions' (actions-input.mjs): "Turn passed" (sheet 27.3), "Moved to A3", and Hack Ship's and Blackhole's. `flow`
+ * is this phone's own pick in its action (actionsFlow). The two never meet: a closed phase has no accepted action left.
  */
-export function shellToast(model,{closed=null}={}){
+export function shellToast(model,{closed=null,flow=null}={}){
  if(model.surface!=='player'||model.concealed)return null;
  if(closed)return phaseClosedToast({id:`closed:${closed.id}`});
- const action=model.action;
- if(action?.type!=='PASS_TURN'||action.step!=='accepted'||!action.prompt)return null;
- return {id:`pass:${model.phase?.id??''}`,text:action.prompt,icon:'info'};
+ return actionsToast(model,{flow})??promisesToast(model)??null;
 }
 
 const frame=(id,kind,title,more={})=>({id,kind,title,sub:null,back:false,close:true,detent:'auto',actions:[],...more});
 /**
  * The docked sheet's frame for what the model has open, or null: its id (a new id is a new sheet), the kind of
- * body the game draws in it, its title and line, Back, Close, its height and its footer's actions. The body is
- * the game's own until its components come (release 3). `listOpen`: the board's List is showing.
+ * body drawn in it, its title and line, Back, Close, its height and its footer's actions. Actions' steps are the
+ * Actions component's frames, its parts in the body (actions-input.mjs, release 3): the tiles, the list, the
+ * check, After Register, "Outcome unknown" and "Pass your turn?". The other bodies are the game's own until their
+ * components come. `listOpen`: the board's List is showing; `flow`: this phone's own pick in its action.
  */
-export function shellSheet(model,{listOpen=false}={}){
+export function shellSheet(model,{listOpen=false,flow=null,promises=null,windows=null}={}){
  if(model.concealed)return null;
  // A shared display opens Settings only (the controller's rule): its preferences, and the host's controls when it hosts.
  if(model.surface!=='player')return model.panel==='settings'?frame('settings','settings','Settings'):null;
- if(model.recovery)return frame('recovery','recovery','Outcome unknown');
+ const own=actionsFrame(model,{listOpen,flow});
+ if(own!==undefined)return own;
+ // Promises (the panel, or its three commands under way) are the promises component's one sheet (promises-input.mjs,
+ // release 3); `promises` is this phone's own view and draft in it.
+ const promise=promisesFrame(model,{flow:promises});
+ if(promise)return promise;
+ // Windows (the panel, or Show drafted or under way) are the windows component's one sheet (windows-input.mjs,
+ // release 3); `windows` is this phone's own drawing, Show and the drawing just shown in it.
+ const windowSheet=windowsFrame(model,{flow:windows});
+ if(windowSheet)return windowSheet;
  const action=model.action;
  if(action){
   if(shellPicking(action))return listOpen?frame('target-list','target-list',action.label,{sub:action.prompt||null}):null;
-  if(action.type==='PASS_TURN'){
-   if(action.step==='accepted')return null;
-   if(['confirm','sending'].includes(action.step)){
-    const sending=action.step==='sending';
-    // Sheet 27.3: "Pass your turn?", asked once, with Cancel (this phone's own) and Pass, which sends PASS_TURN.
-    return frame('pass','pass','Pass your turn?',{close:false,actions:[{id:'cancel',label:'Cancel',kind:'secondary',local:true},
-     {id:'confirm',label:'Pass',kind:'primary',icon:'pass',enabled:action.canConfirm||sending,busy:sending}]});
-   }
-  }
   // The ballot is titled by its vote, as the pack's (sheet 35).
   const title=action.type==='VOTE'?SHELL_PHASE_NAMES[model.phase?.kind]??action.label:action.label;
   return frame(`action:${action.type}`,'action',title,{detent:action.type==='VOTE'&&action.step==='targets'?'large':'auto',
-   actions:action.canConfirm?[{id:'confirm',label:action.type==='VOTE'?'Vote':action.type==='PASS_TURN'?'Pass':'Register',kind:'primary'}]:[]});
+   actions:action.canConfirm?[{id:'confirm',label:action.type==='VOTE'?'Vote':'Register',kind:'primary'}]:[]});
  }
  const panel=model.panel;
  if(panel==='settings')return frame('settings','settings','Settings');
  if(panel==='board')return null;
  if(model.dark)return frame(`dark:${panel}`,'dark','Blackout');
  if(model.phase?.expired)return frame('expired','expired','Waiting for the server');
+ // The Panels tab (Panels, Players and Round order) is the panels component's one sheet (panels-input.mjs, release 3).
+ const panels=panelsFrame(model);
+ if(panels)return panels;
  const back=PANEL_PAGES.includes(panel);
- const titles={panels:'Panels',players:'Players','round-order':'Round order',promises:'Promises',windows:'Windows',navigation:'Navigation',hospital:'Hospital panel',actions:'Actions'};
+ const titles={navigation:'Navigation',hospital:'Hospital panel',actions:'Actions'};
  if(panel==='card')return frame('card','card','Your role',{sub:'Only on this phone',detent:'large'});
- if(panel==='windows')return frame('windows','windows','Windows',{back,detent:'large',sub:model.round===null?null:`Unverified claims · Expires after Round ${model.round}`});
  return titles[panel]?frame(panel,panel,titles[panel],{back}):null;
 }
 
 /**
  * Every input of the shell for this phone. `view` is what the renderer holds: the scene mode (`view`), the room
  * view's room, the Food surface ({ active, exclusive }), Reduce motion, the round last seen live, whether the
- * board's List is open, and a phase that just closed under an open choice (`closed`, from phaseClosed() on the
- * model painted before and this one). Concealed, the shell drops this viewer's inputs itself; the tabs are still given so the
+ * board's List is open, a phase that just closed under an open choice (`closed`, from phaseClosed() on the
+ * model painted before and this one), and this phone's own pick in its action (`flow`, actions-input.mjs
+ * actionsFlow, which the check, "Outcome unknown" and "Moved to A3" name). Concealed, the shell drops this viewer's inputs itself; the tabs are still given so the
  * bars keep their shape and the stage its size. A shared display takes taps: it has no tabs, Promises, target bar
  * or chip, so its only controls are ⋮, the Settings sheet's Close and Retry.
  */
-export function shellInput(model,{view='room',room=null,food=null,reducedMotion=false,lastRound=null,listOpen=false,closed=null,seen=null,seenVersions=null}={}){
+export function shellInput(model,{view='room',room=null,food=null,reducedMotion=false,lastRound=null,listOpen=false,closed=null,flow=null,promises=null,windows=null,seen=null,seenVersions=null}={}){
  const display=model.surface!=='player',status=shellStatus(model,{food}),hidden=status==='concealed';
  return {
   // Without a current state the model has no versions either. The person kept as last seen is drawn with the versions
   // last seen with them (`seenVersions`), so their portrait stays the same picture and never falls back to older art.
   status,interactive:true,reducedMotion:!!reducedMotion,viewer:display?null:model.ownSeatId??null,versions:model.versions??(model.connection!=='live'?seenVersions:null)??null,
   bar:shellBar(model,{lastRound}),tabs:display?null:shellTabs(model,{view,seen}),
-  target:hidden?null:shellTarget(model),chip:hidden?null:shellChip(model,{view,room}),banner:hidden?null:shellBanner(model,{lastRound}),
-  toast:hidden?null:shellToast(model,{closed}),sheet:hidden?null:shellSheet(model,{listOpen}),
+  target:hidden?null:shellTarget(model,{view}),chip:hidden?null:shellChip(model,{view,room}),banner:hidden?null:shellBanner(model,{lastRound}),
+  toast:hidden?null:shellToast(model,{closed,flow}),sheet:hidden?null:shellSheet(model,{listOpen,flow,promises,windows}),
  };
 }
 
@@ -362,12 +380,18 @@ export function shellHostSheet(sheet,hostFrame){
 }
 
 /**
- * The shell's intents, each to a call the game already makes: openPanel, begin, confirm, dismiss, its local view
- * switch and the session's refresh. `opened` hears which of the shell's controls opened something, so the focus can
- * go back to it. `live()` is false once the renderer is disposed: then nothing is called. While a host sheet is
- * open (`host.open()`), its footer, Back and Close are its own.
+ * The shell's intents, each to a call the game already makes: openPanel, begin, confirm, dismiss, retry,
+ * checkReceipt, its local view switch and the session's refresh. Actions' footer ids (release 3): Register and Pass
+ * confirm; Done closes; "Retry the same" and "Check receipt" are the controller's retry and checkReceipt; the
+ * check's Cancel and the target bar's are `cancelCheck` and `cancelTarget` (actions-input.mjs actionsCancel). Its
+ * chips go to the board ("Other rooms · n", a move's "Other rooms on the Board") or open the List, whose Back closes
+ * it. `opened` hears which of the shell's controls opened something, so the focus can go back to it. `live()` is
+ * false once the renderer is disposed: then nothing is called. While a host sheet is open (`host.open()`), its
+ * footer, Back and Close are its own. The Promises sheet's footer and Back are its own too (`promises`, release 3:
+ * promises-input.mjs promisesHandlers); its Close closes it, as every sheet's. The Windows sheet's footer, Show and
+ * Done, is its own (`windows`, release 3: windows-input.mjs windowsHandlers); its Back returns to Panels.
  */
-export function shellHandlers({openPanel,begin,confirm,dismiss,toggleView,showBoard,openList,closeList,reconnect=null,layout=null,focusReturn=null,opened=null,live=()=>true,host=null}){
+export function shellHandlers({openPanel,begin,confirm,dismiss,toggleView,showBoard,openList,closeList,retry=null,checkReceipt=null,cancelTarget=null,cancelCheck=null,reconnect=null,layout=null,focusReturn=null,opened=null,live=()=>true,host=null,promises=null,windows=null}){
  const when=run=>(...args)=>{if(live())run(...args);};
  const from=(intent,value=null)=>opened?.({intent,value});
  return {
@@ -376,12 +400,21 @@ export function shellHandlers({openPanel,begin,confirm,dismiss,toggleView,showBo
   onHero:when(mode=>{from('hero',mode);if(mode==='pass')begin('PASS_TURN');else if(mode==='vote')begin('VOTE');else if(mode==='voted')openPanel('actions');}),
   onPromises:when(()=>{from('promises');openPanel('promises');}),
   onMenu:when(()=>{from('menu');openPanel('settings');}),
-  onCancelTarget:when(()=>dismiss()),
-  onChip:when(id=>{from('chip',id);if(id==='list')openList();else if(id==='board')showBoard();}),
+  onCancelTarget:when(()=>(cancelTarget??dismiss)()),
+  onChip:when(id=>{from('chip',id);if(id==='list')openList();else if(['board','other-rooms','move-board'].includes(id))showBoard();}),
   onRetry:when(()=>reconnect?.()),
   // While the host sheet is open (`host.open()`), its footer, Back and Close are its own; Close also closes Settings.
-  onSheetAction:when(id=>{if(host?.open())host.action(id);else if(id==='confirm')confirm();else if(id==='cancel')dismiss();}),
-  onSheetBack:when(()=>{if(host?.open())host.back();else openPanel('panels');}),
+  onSheetAction:when((id,sheetId)=>{
+   if(host?.open())host.action(id);
+   else if(sheetId===PROMISES_SHEET_ID&&promises)promises.action(id);
+   else if(sheetId===WINDOWS_SHEET_ID&&windows)windows.action(id);
+   else if(['confirm','register','pass'].includes(id))confirm();
+   else if(id==='cancel'){if(sheetId==='action-check'&&cancelCheck)cancelCheck();else dismiss();}
+   else if(id==='done')dismiss();
+   else if(id==='retry')retry?.();
+   else if(id==='check')checkReceipt?.();
+  }),
+  onSheetBack:when(sheetId=>{if(host?.open())host.back();else if(sheetId===PROMISES_SHEET_ID&&promises)promises.back();else if(sheetId==='action-list')closeList();else openPanel('panels');}),
   onSheetClose:when(sheetId=>{if(host?.open()){host.close();dismiss();}else if(sheetId==='target-list')closeList();else dismiss();}),
   onLayout:when(next=>layout?.(next)),
   onFocusReturn:when(detail=>focusReturn?.(detail)),

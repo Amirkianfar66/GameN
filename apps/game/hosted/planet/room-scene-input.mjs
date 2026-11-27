@@ -49,7 +49,8 @@ export function roomSceneLifecycle({mounted,key},model,{view,room,fits}){
 
 /**
  * The scene's callbacks. They report intent only: choose() checks the current offer before anything is
- * sent. Room B's control opens the Windows panel; the focus goes on to the next step's control, if any.
+ * sent. Room B's control opens the Windows panel. When the scene's focused control goes, focusNext() hands the
+ * focus back (render.mjs: to the open sheet's title, or as the shell's own hand-back goes).
  */
 export function roomSceneHandlers({choose,openPanel,focusNext}){
  return {
@@ -97,14 +98,31 @@ export function roomScenePeople(model,room){
 /**
  * This viewer's own offers in this room, from its current action only: the empty positions of a move or
  * the Blackout's fixed position, or the people it may choose. A shared display and a concealed phone get none.
+ * In Actions' check and while it sends (release 3), the person or position this phone picked, marked (`flow`,
+ * actions-input.mjs actionsFlow: the model has no pick then, A2); and once the server has the Disabler's
+ * position, the bound room's positions with it marked (sheet 30).
  */
-export function roomSceneTargets(model,room){
+export function roomSceneTargets(model,room,flow=null){
  const action=model.action;
- if(model.surface!=='player'||model.concealed||!action?.choices?.length)return null;
+ if(model.surface!=='player'||model.concealed)return null;
+ const here=()=>new Set(slotsOf(room,model.playerCount).map(slot=>slot.id));
+ const targeting=model.privateArea?.blackoutTargeting??null;
+ if(!action&&model.dark&&targeting?.selectedSlotId){
+  const slots=targeting.slotIds.filter(id=>here().has(id));
+  return slots.includes(targeting.selectedSlotId)?{slots,picked:targeting.selectedSlotId,icon:'position'}:null;
+ }
+ if(action&&flow?.type===action.type&&(['confirm','sending'].includes(action.step)||action.type==='SELECT_BLACKOUT_SLOT'&&action.step==='accepted')){
+  if(['MOVE','SELECT_BLACKOUT_SLOT'].includes(action.type)){
+   if(!flow.slot||!here().has(flow.slot))return null;
+   const slots=action.type==='SELECT_BLACKOUT_SLOT'?(targeting?.slotIds??[flow.slot]).filter(id=>here().has(id)):[flow.slot];
+   return {slots,picked:flow.slot,icon:action.type==='MOVE'?'move':'position'};
+  }
+  return flow.seats.length?{seats:[...flow.seats],picked:[...flow.seats]}:null;
+ }
+ if(!action?.choices?.length)return null;
  const picked=[...(action.selected??[])];
  if(['MOVE','SELECT_BLACKOUT_SLOT'].includes(action.type)&&!(action.type==='MOVE'&&action.step==='targets')){
-  const here=new Set(slotsOf(room,model.playerCount).map(slot=>slot.id));
-  const slots=action.choices.map(choice=>choice.value).filter(value=>here.has(value));
+  const slots=action.choices.map(choice=>choice.value).filter(value=>here().has(value));
   return slots.length?{slots,picked,icon:action.type==='MOVE'?'move':'position'}:null;
  }
  const seats=action.choices.map(choice=>choice.value).filter(value=>/^seat-[1-9]$/.test(value));
@@ -129,9 +147,10 @@ export const roomSceneHold=model=>model.phase?.kind==='BLACKOUT'?model.presentat
 /**
  * Every input of the scene for this phone. `view` is what the renderer measures and samples:
  * `room`, `size` (the room area between the bars), `dark` (the Blackout film's own darkness),
- * `reducedMotion`, `interactive`, `artReady` and `monotonic` (a monotonic clock in ms).
+ * `reducedMotion`, `interactive`, `artReady`, `monotonic` (a monotonic clock in ms) and `flow`
+ * (this phone's own pick in its action, which Actions' check marks).
  */
-export function roomSceneInput(model,{room,size,dark=false,reducedMotion=false,interactive=true,artReady=true,monotonic=()=>0}){
+export function roomSceneInput(model,{room,size,dark=false,reducedMotion=false,interactive=true,artReady=true,monotonic=()=>0,flow=null}){
  const status=roomSceneStatus(model),lighting=model.dark||dark?'dark':'lit',player=model.surface==='player';
  const active=!model.dark&&model.phase?.kind==='ORDINARY_TURN'?model.activeSeatId??null:null;
  return {
@@ -140,7 +159,7 @@ export function roomSceneInput(model,{room,size,dark=false,reducedMotion=false,i
   // it if it opens there; in the authoritative dark the model has no board, so nobody is passed.
   people:status==='concealed'?[]:roomScenePeople(model,room),
   active,self:player?model.ownSeatId??null:null,lighting,hold:roomSceneHold(model),
-  targets:roomSceneTargets(model,room),control:roomSceneControl(model,room,{lit:lighting==='lit',status}),
+  targets:roomSceneTargets(model,room,flow),control:roomSceneControl(model,room,{lit:lighting==='lit',status}),
   status,artReady,clock:trustedClock(model,monotonic),reducedMotion,interactive:player&&interactive,
   versions:model.versions??null,roomArt:roomArtFor(model.versions),
  };

@@ -1,0 +1,26 @@
+@import url("../kit/kit.css");
+
+/*
+ * The Captain console's styles: runtime source, Designer's (captain-console.mjs). The phone pack's own values
+ * (screens-more.mjs captain and its inline styles; sheets 22 and 24), scoped under .ms-captain-console so nothing here
+ * reaches the rest of the app and nothing of the app's reaches in. The tiles (0.7.1, with `spent`), the who block,
+ * the facts and the note are the shared kit's (../kit/kit.css); the sheet's frame, footer and glass the phone shell's.
+ * Its own: the plates two across at 150 px, and the plate's art, sized as the pack sizes its <img>.
+ */
+
+.ms-captain-console:focus { outline: none; }
+.ms-captain-console :where([class^="ms-cc-"], [class*=" ms-cc-"]) { box-sizing: border-box; }
+
+/* The plates (sheet 22's inline styles): two across, 10 px apart, each at least 150 px tall. */
+.ms-captain-console .ms-cc-plates { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ms-captain-console .ms-cc-plates > .ms-k-tile { min-height: 150px; }
+
+/* A plate's art: 100 % wide, at most 140 px, 78 px tall, kept whole (the pack's <img>, object-fit: contain). The
+   picture is the game's film bundle, by the CSS property it defines for each plate and state. */
+.ms-captain-console .ms-cc-plate-art { display: block; width: 100%; max-width: 140px; height: 78px; margin: 0 auto; background: center / contain no-repeat; }
+.ms-captain-console .ms-cc-plate-art[data-plate="release-available"] { background-image: var(--board-v2-film-captain-plate-release-available); }
+.ms-captain-console .ms-cc-plate-art[data-plate="release-used"] { background-image: var(--board-v2-film-captain-plate-release-used); }
+.ms-captain-console .ms-cc-plate-art[data-plate="release-unavailable"] { background-image: var(--board-v2-film-captain-plate-release-unavailable); }
+.ms-captain-console .ms-cc-plate-art[data-plate="eject-available"] { background-image: var(--board-v2-film-captain-plate-eject-available); }
+.ms-captain-console .ms-cc-plate-art[data-plate="eject-used"] { background-image: var(--board-v2-film-captain-plate-eject-used); }
+.ms-captain-console .ms-cc-plate-art[data-plate="eject-unavailable"] { background-image: var(--board-v2-film-captain-plate-eject-unavailable); }

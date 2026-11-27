@@ -1,0 +1,2158 @@
+{
+  "tool": "design/tools/panels-check.mjs",
+  "component": "design/phone-ui/components/panels",
+  "sourceCommit": "28cbb54c625d1a7005a28f8439412e5fa280283c",
+  "sourceClean": true,
+  "environment": "Desktop Chromium (headless), each phone size at 2x pixels; the preview bundled by Vite and served with the production headers below. Not a phone, not Safari, not a performance measure.",
+  "headers": [
+    {
+      "key": "Cache-Control",
+      "value": "no-store"
+    },
+    {
+      "key": "Content-Security-Policy",
+      "value": "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com https://recaptchaenterprise.googleapis.com https://www.google.com https://us-central1-gamen-mothership-staging.cloudfunctions.net; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/"
+    },
+    {
+      "key": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "key": "X-Frame-Options",
+      "value": "DENY"
+    },
+    {
+      "key": "Referrer-Policy",
+      "value": "no-referrer"
+    },
+    {
+      "key": "X-Robots-Tag",
+      "value": "noindex, nofollow"
+    },
+    {
+      "key": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=()"
+    }
+  ],
+  "headersSha256": "424e5dec8d595ac44d179f0e22f7bb42d51a1e84f8c7982676606e850754dcbb",
+  "captures": {
+    "390x844/list": {
+      "file": "design/phone-ui/components/panels/review/390x844-list.jpg",
+      "sha256": "1c14e5bb4693a34530111e19e76c339fc81cec183476fa687d236d280a99fa85",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CaZHCHz4.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Panels",
+      "detent": "auto",
+      "back": false,
+      "title": "Panels",
+      "lists": 0,
+      "grids": 1,
+      "cells": 5,
+      "rows": "Windows|Navigation|Hospital panel|Players|Round order",
+      "lines": "2 windows|Captain and Officer only|Patients only|Seats, rooms and public status|Phases and timings",
+      "kinds": "||||",
+      "badges": "",
+      "opens": 5,
+      "buttons": 5,
+      "refused": [
+        "navigation",
+        "hospital"
+      ],
+      "dimmed": [
+        "navigation",
+        "hospital"
+      ],
+      "note": null,
+      "foot": "",
+      "banner": false,
+      "openTab": "panels",
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/list": {
+      "file": "design/phone-ui/components/panels/review/430x932-list.jpg",
+      "sha256": "1cbcd17867d082c00aac3431dc168170b39bd7bd0a151375ddc98b843311ca63",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CaZHCHz4.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Panels",
+      "detent": "auto",
+      "back": false,
+      "title": "Panels",
+      "lists": 0,
+      "grids": 1,
+      "cells": 5,
+      "rows": "Windows|Navigation|Hospital panel|Players|Round order",
+      "lines": "2 windows|Captain and Officer only|Patients only|Seats, rooms and public status|Phases and timings",
+      "kinds": "||||",
+      "badges": "",
+      "opens": 5,
+      "buttons": 5,
+      "refused": [
+        "navigation",
+        "hospital"
+      ],
+      "dimmed": [
+        "navigation",
+        "hospital"
+      ],
+      "note": null,
+      "foot": "",
+      "banner": false,
+      "openTab": "panels",
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/captain": {
+      "file": "design/phone-ui/components/panels/review/390x844-captain.jpg",
+      "sha256": "f55d9d93bfc27447c15f098d8be861437415abfaa247e1c5bed98c84f1e535d8",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CaZHCHz4.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Panels",
+      "detent": "auto",
+      "back": false,
+      "title": "Panels",
+      "lists": 0,
+      "grids": 1,
+      "cells": 5,
+      "rows": "Windows|Navigation|Hospital panel|Players|Round order",
+      "lines": "2 windows|Captain and Officer only|Patients only|Seats, rooms and public status|Phases and timings",
+      "kinds": "||||",
+      "badges": "",
+      "opens": 5,
+      "buttons": 5,
+      "refused": [
+        "hospital"
+      ],
+      "dimmed": [
+        "hospital"
+      ],
+      "note": null,
+      "foot": "",
+      "banner": false,
+      "openTab": "panels",
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/captain": {
+      "file": "design/phone-ui/components/panels/review/430x932-captain.jpg",
+      "sha256": "d2715715abb69970d777a8f81f4b50b9056a02b4cbaec3405b6e82f13678fb84",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CaZHCHz4.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Panels",
+      "detent": "auto",
+      "back": false,
+      "title": "Panels",
+      "lists": 0,
+      "grids": 1,
+      "cells": 5,
+      "rows": "Windows|Navigation|Hospital panel|Players|Round order",
+      "lines": "2 windows|Captain and Officer only|Patients only|Seats, rooms and public status|Phases and timings",
+      "kinds": "||||",
+      "badges": "",
+      "opens": 5,
+      "buttons": 5,
+      "refused": [
+        "hospital"
+      ],
+      "dimmed": [
+        "hospital"
+      ],
+      "note": null,
+      "foot": "",
+      "banner": false,
+      "openTab": "panels",
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/nowindow": {
+      "file": "design/phone-ui/components/panels/review/390x844-nowindow.jpg",
+      "sha256": "55eb902eb1c1dc27eb4a0308c65b8da5d8da48709a6ea6accceab0b72c9107dc",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CaZHCHz4.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Panels",
+      "detent": "auto",
+      "back": false,
+      "title": "Panels",
+      "lists": 0,
+      "grids": 1,
+      "cells": 5,
+      "rows": "Windows|Navigation|Hospital panel|Players|Round order",
+      "lines": "No window here|Captain and Officer only|Patients only|Seats, rooms and public status|Phases and timings",
+      "kinds": "||||",
+      "badges": "",
+      "opens": 5,
+      "buttons": 5,
+      "refused": [
+        "navigation",
+        "hospital"
+      ],
+      "dimmed": [
+        "navigation",
+        "hospital"
+      ],
+      "note": null,
+      "foot": "",
+      "banner": false,
+      "openTab": "panels",
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/nowindow": {
+      "file": "design/phone-ui/components/panels/review/430x932-nowindow.jpg",
+      "sha256": "1f48e459153bd6b25811859ffa80c68b5df53d237e16a710793c0957f1e66411",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CaZHCHz4.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Panels",
+      "detent": "auto",
+      "back": false,
+      "title": "Panels",
+      "lists": 0,
+      "grids": 1,
+      "cells": 5,
+      "rows": "Windows|Navigation|Hospital panel|Players|Round order",
+      "lines": "No window here|Captain and Officer only|Patients only|Seats, rooms and public status|Phases and timings",
+      "kinds": "||||",
+      "badges": "",
+      "opens": 5,
+      "buttons": 5,
+      "refused": [
+        "navigation",
+        "hospital"
+      ],
+      "dimmed": [
+        "navigation",
+        "hospital"
+      ],
+      "note": null,
+      "foot": "",
+      "banner": false,
+      "openTab": "panels",
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/players": {
+      "file": "design/phone-ui/components/panels/review/390x844-players.jpg",
+      "sha256": "de62e6983815e5111ecd22f43c1c995de3451e8eae3e0a082970967c5c8850f5",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CaZHCHz4.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Players",
+      "detent": "large",
+      "back": true,
+      "title": "Players",
+      "lists": 1,
+      "grids": 0,
+      "cells": 0,
+      "rows": "1 · Ava|2 · Ben|3 · Cleo|4 · Dev (you)|5 · Eli|6 · Fay|7 · Gus|8 · Hana|9 · Ike",
+      "lines": "Room A|Command Room|Room B|Room A|Hospital · Injured|Room B|Room A|Room B|Room A",
+      "kinds": "||||||||",
+      "badges": "Captain|Officer",
+      "opens": 0,
+      "buttons": 0,
+      "refused": [],
+      "dimmed": [],
+      "note": "Public facts only: seats, rooms, health and offices.",
+      "foot": "",
+      "banner": false,
+      "openTab": "panels",
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "430x932/players": {
+      "file": "design/phone-ui/components/panels/review/430x932-players.jpg",
+      "sha256": "8f54526954011dd0431bc76c681cd4edf8ad34743baa7abb94c78633fd2d80e9",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CaZHCHz4.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Players",
+      "detent": "large",
+      "back": true,
+      "title": "Players",
+      "lists": 1,
+      "grids": 0,
+      "cells": 0,
+      "rows": "1 · Ava|2 · Ben|3 · Cleo|4 · Dev (you)|5 · Eli|6 · Fay|7 · Gus|8 · Hana|9 · Ike",
+      "lines": "Room A|Command Room|Room B|Room A|Hospital · Injured|Room B|Room A|Room B|Room A",
+      "kinds": "||||||||",
+      "badges": "Captain|Officer",
+      "opens": 0,
+      "buttons": 0,
+      "refused": [],
+      "dimmed": [],
+      "note": "Public facts only: seats, rooms, health and offices.",
+      "foot": "",
+      "banner": false,
+      "openTab": "panels",
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "390x844/jailed": {
+      "file": "design/phone-ui/components/panels/review/390x844-jailed.jpg",
+      "sha256": "337f1fdedc274edfd497c3d9f5f10e9da987b82fc32ea1142a8c06acf85774c8",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CaZHCHz4.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Players",
+      "detent": "large",
+      "back": true,
+      "title": "Players",
+      "lists": 1,
+      "grids": 0,
+      "cells": 0,
+      "rows": "1 · Ava|2 · Ben|3 · Cleo|4 · Dev (you)|5 · Eli|6 · Fay|7 · Gus|8 · Hana|9 · Ike",
+      "lines": "Room A|Command Room|Room B|Room A|Hospital · Injured|In Jail|Room A|Room B|In Jail",
+      "kinds": "||||||||",
+      "badges": "Captain|Officer",
+      "opens": 0,
+      "buttons": 0,
+      "refused": [],
+      "dimmed": [],
+      "note": "Public facts only: seats, rooms, health and offices.",
+      "foot": "",
+      "banner": false,
+      "openTab": "panels",
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "430x932/jailed": {
+      "file": "design/phone-ui/components/panels/review/430x932-jailed.jpg",
+      "sha256": "31352b89368d3cc51207e110aff35c84eeab2f1d843c1fd2593ce862fe09929d",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CaZHCHz4.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Players",
+      "detent": "large",
+      "back": true,
+      "title": "Players",
+      "lists": 1,
+      "grids": 0,
+      "cells": 0,
+      "rows": "1 · Ava|2 · Ben|3 · Cleo|4 · Dev (you)|5 · Eli|6 · Fay|7 · Gus|8 · Hana|9 · Ike",
+      "lines": "Room A|Command Room|Room B|Room A|Hospital · Injured|In Jail|Room A|Room B|In Jail",
+      "kinds": "||||||||",
+      "badges": "Captain|Officer",
+      "opens": 0,
+      "buttons": 0,
+      "refused": [],
+      "dimmed": [],
+      "note": "Public facts only: seats, rooms, health and offices.",
+      "foot": "",
+      "banner": false,
+      "openTab": "panels",
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "390x844/order": {
+      "file": "design/phone-ui/components/panels/review/390x844-order.jpg",
+      "sha256": "ed836c61ec205986d236b730dd109410938bc4cd58124d86e9ae99ae3f6ba0c3",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CaZHCHz4.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Round order",
+      "detent": "large",
+      "back": true,
+      "title": "Round order",
+      "lists": 1,
+      "grids": 0,
+      "cells": 0,
+      "rows": "Before turns|Turns|Ship synchronized|Jail vote|Blackout|Navigation",
+      "lines": "15 s · Officer block, Blackhole|60 s each · private talk after a turn|6 s · only after a Blackhole|60 s, then 5 s result|5 s lit, 10 s dark|15 s, then the offices acknowledge",
+      "kinds": "pre-turn|turns|sync|jail-vote|blackout|navigation",
+      "badges": "",
+      "opens": 0,
+      "buttons": 0,
+      "refused": [],
+      "dimmed": [],
+      "note": null,
+      "foot": "",
+      "banner": false,
+      "openTab": "panels",
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/order": {
+      "file": "design/phone-ui/components/panels/review/430x932-order.jpg",
+      "sha256": "2044ddf563778aec2986c8cc3ab569caf5283fff4c04b9f4728da0f7bd5ca2ac",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CaZHCHz4.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Round order",
+      "detent": "large",
+      "back": true,
+      "title": "Round order",
+      "lists": 1,
+      "grids": 0,
+      "cells": 0,
+      "rows": "Before turns|Turns|Ship synchronized|Jail vote|Blackout|Navigation",
+      "lines": "15 s · Officer block, Blackhole|60 s each · private talk after a turn|6 s · only after a Blackhole|60 s, then 5 s result|5 s lit, 10 s dark|15 s, then the offices acknowledge",
+      "kinds": "pre-turn|turns|sync|jail-vote|blackout|navigation",
+      "badges": "",
+      "opens": 0,
+      "buttons": 0,
+      "refused": [],
+      "dimmed": [],
+      "note": null,
+      "foot": "",
+      "banner": false,
+      "openTab": "panels",
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/stale": {
+      "file": "design/phone-ui/components/panels/review/390x844-stale.jpg",
+      "sha256": "99fd4de76a01e5bbcc9d31e7f4b854785d4cecc29b111ddc4d86a4cebf01b2f5",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CaZHCHz4.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Panels",
+      "detent": "auto",
+      "back": false,
+      "title": "Panels",
+      "lists": 0,
+      "grids": 1,
+      "cells": 5,
+      "rows": "Windows|Navigation|Hospital panel|Players|Round order",
+      "lines": "2 windows|Captain and Officer only|Patients only|Seats, rooms and public status|Phases and timings",
+      "kinds": "||||",
+      "badges": "",
+      "opens": 5,
+      "buttons": 5,
+      "refused": [
+        "navigation",
+        "hospital"
+      ],
+      "dimmed": [
+        "navigation",
+        "hospital"
+      ],
+      "note": null,
+      "foot": "",
+      "banner": true,
+      "openTab": "panels",
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "430x932/stale": {
+      "file": "design/phone-ui/components/panels/review/430x932-stale.jpg",
+      "sha256": "3406c6ca5a6bcf89a5a7e3998d75f5540c23b7c96d0cf7d938a378c8b9c6cf83",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CaZHCHz4.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 16,
+      "name": "group:Panels",
+      "detent": "auto",
+      "back": false,
+      "title": "Panels",
+      "lists": 0,
+      "grids": 1,
+      "cells": 5,
+      "rows": "Windows|Navigation|Hospital panel|Players|Round order",
+      "lines": "2 windows|Captain and Officer only|Patients only|Seats, rooms and public status|Phases and timings",
+      "kinds": "||||",
+      "badges": "",
+      "opens": 5,
+      "buttons": 5,
+      "refused": [
+        "navigation",
+        "hospital"
+      ],
+      "dimmed": [
+        "navigation",
+        "hospital"
+      ],
+      "note": null,
+      "foot": "",
+      "banner": true,
+      "openTab": "panels",
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg"
+      ],
+      "problems": []
+    },
+    "390x844/largest": {
+      "file": "design/phone-ui/components/panels/review/390x844-largest.jpg",
+      "sha256": "d0852fe71bdcf8e28562a491a6bbdd408024bb8bcffd32984e87e35f25e29243",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CaZHCHz4.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "name": "group:Players",
+      "detent": "large",
+      "back": true,
+      "title": "Players",
+      "lists": 1,
+      "grids": 0,
+      "cells": 0,
+      "rows": "1 · Ava|2 · Ben|3 · Cleo|4 · Dev (you)|5 · Eli|6 · Fay|7 · Gus|8 · Hana|9 · Ike",
+      "lines": "Room A|Command Room|Room B|Room A|Hospital · Injured|Room B|Room A|Room B|Room A",
+      "kinds": "||||||||",
+      "badges": "Captain|Officer",
+      "opens": 0,
+      "buttons": 0,
+      "refused": [],
+      "dimmed": [],
+      "note": "Public facts only: seats, rooms, health and offices.",
+      "foot": "",
+      "banner": false,
+      "openTab": "panels",
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    },
+    "430x932/largest": {
+      "file": "design/phone-ui/components/panels/review/430x932-largest.jpg",
+      "sha256": "9ff69860d5595d73b0230c18dd3115bbf9add8e639cc2b254c546008ca0b67bb",
+      "ok": true,
+      "drawn": true,
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CaZHCHz4.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "root": 32,
+      "name": "group:Players",
+      "detent": "large",
+      "back": true,
+      "title": "Players",
+      "lists": 1,
+      "grids": 0,
+      "cells": 0,
+      "rows": "1 · Ava|2 · Ben|3 · Cleo|4 · Dev (you)|5 · Eli|6 · Fay|7 · Gus|8 · Hana|9 · Ike",
+      "lines": "Room A|Command Room|Room B|Room A|Hospital · Injured|Room B|Room A|Room B|Room A",
+      "kinds": "||||||||",
+      "badges": "Captain|Officer",
+      "opens": 0,
+      "buttons": 0,
+      "refused": [],
+      "dimmed": [],
+      "note": "Public facts only: seats, rooms, health and offices.",
+      "foot": "",
+      "banner": false,
+      "openTab": "panels",
+      "cut": [],
+      "requests": [
+        "assets/portrait-c5-8TWQDiAs.svg",
+        "assets/room-a.back-DUOAphCZ.svg",
+        "assets/room-a.extend-B7jEWbRR.svg",
+        "assets/portrait-c8-CfqMt4EQ.svg",
+        "assets/portrait-c4-B6MdbKNH.svg",
+        "assets/portrait-c6-BIWsqi3I.svg",
+        "assets/portrait-c1-VMeNAzm6.svg",
+        "assets/portrait-c3-DRib2vvg.svg",
+        "assets/portrait-c9-BC_Dw7-k.svg",
+        "assets/portrait-c2-oTWtNY8M.svg",
+        "assets/portrait-c7-DAw8IUe0.svg"
+      ],
+      "problems": []
+    }
+  },
+  "probe": {
+    "full": {
+      "emulated": {},
+      "mode": "full",
+      "ok": true,
+      "checks": [
+        {
+          "id": "report: each row reports its destination, and only that; the keyboard as the finger",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "got": [
+              [
+                "onOpen",
+                "windows"
+              ],
+              [
+                "onOpen",
+                "navigation"
+              ],
+              [
+                "onOpen",
+                "hospital"
+              ],
+              [
+                "onOpen",
+                "players"
+              ],
+              [
+                "onOpen",
+                "round-order"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "refuse: a destination this player can't use is dimmed and refused, its line unchanged, Frontend's reason as its description",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "nav": {
+                "refused": true,
+                "dimmed": true,
+                "line": "Captain and Officer only",
+                "why": "Only the Captain and the Officer use Navigation"
+              },
+              "hosp": {
+                "refused": true,
+                "dimmed": true,
+                "line": "Patients only",
+                "why": "Only patients in the Hospital use its panel"
+              },
+              "windows": false,
+              "views": false
+            },
+            "before": 0,
+            "after": {
+              "refused": false,
+              "dimmed": false,
+              "line": "Captain and Officer only",
+              "why": null,
+              "same": true
+            },
+            "got": [
+              [
+                "onOpen",
+                "navigation"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "refuse: only Frontend's `enabled` decides, never the line; a destination not given has no row",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "open": [
+              {
+                "d": "navigation",
+                "refused": false,
+                "line": "Captain and Officer only"
+              },
+              {
+                "d": "hospital",
+                "refused": false,
+                "line": "Patients only"
+              }
+            ],
+            "gone": {
+              "navigation": false,
+              "hospital": false,
+              "windows": true
+            },
+            "none": {
+              "cells": [
+                "players",
+                "round-order"
+              ],
+              "rows": [
+                "players",
+                "round-order"
+              ]
+            },
+            "back": [
+              "windows",
+              "navigation",
+              "players",
+              "round-order"
+            ]
+          }
+        },
+        {
+          "id": "windows: one window by its rooms, two or more counted; none, \"No window here\", still enabled and opening Windows; dimmed only when Frontend says",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "two": "2 windows",
+            "one": "Room A ↔ Hospital",
+            "three": "3 windows",
+            "none": {
+              "line": "No window here",
+              "refused": false,
+              "dimmed": false
+            },
+            "off": {
+              "refused": true,
+              "dimmed": true,
+              "why": "Not now"
+            },
+            "got": [
+              [
+                "onOpen",
+                "windows"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "reconnect: the rows keep taking taps; a destination not enabled stays refused; not interactive, all refused and nothing more dimmed",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "stale": {
+              "got": [
+                "windows",
+                "players",
+                "round-order"
+              ],
+              "dimmed": [
+                "navigation",
+                "hospital"
+              ]
+            },
+            "off": {
+              "refused": [
+                "windows",
+                "navigation",
+                "hospital",
+                "players",
+                "round-order"
+              ],
+              "dimmed": [
+                "navigation",
+                "hospital"
+              ]
+            },
+            "before": 3,
+            "after": 3
+          }
+        },
+        {
+          "id": "players: the room, then Injured or Eliminated; \"In Jail\" in the room's place; no room, the health word alone; \"(you)\" from the viewer",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "rows": [
+              {
+                "title": "1 · Ava",
+                "line": "Room A"
+              },
+              {
+                "title": "2 · Ben",
+                "line": "Hospital · Injured"
+              },
+              {
+                "title": "3 · Cleo",
+                "line": "In Jail"
+              },
+              {
+                "title": "4 · Dev (you)",
+                "line": "In Jail · Injured"
+              },
+              {
+                "title": "5 · Eli",
+                "line": "Eliminated"
+              },
+              {
+                "title": "6 · Fay",
+                "line": "Room B · Eliminated"
+              },
+              {
+                "title": "7 · Gus",
+                "line": null
+              }
+            ],
+            "badges": [
+              "",
+              "Captain:paper:true",
+              "Officer:paper:true",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "buttons": 0,
+            "viewer": [
+              "1 · Ava (you)",
+              "4 · Dev"
+            ]
+          }
+        },
+        {
+          "id": "privacy: a player takes only the public facts; a role or a revealed faction is refused, never drawn",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "refusedKeys": [
+              "role",
+              "revealedFaction",
+              "team"
+            ],
+            "updateRefused": true,
+            "kept": 9
+          }
+        },
+        {
+          "id": "steps: the ruleset's steps in Frontend's order and words, the icon by kind, an unknown kind the Round order icon; no note, no words of its own",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "rows": [
+              {
+                "kind": "pre-turn",
+                "title": "Before turns",
+                "line": "15 s · Officer block, Blackhole"
+              },
+              {
+                "kind": "turns",
+                "title": "Turns",
+                "line": "60 s each · private talk after a turn"
+              },
+              {
+                "kind": "sync",
+                "title": "Ship synchronized",
+                "line": "6 s · only after a Blackhole"
+              },
+              {
+                "kind": "jail-vote",
+                "title": "Jail vote",
+                "line": "60 s, then 5 s result"
+              },
+              {
+                "kind": "blackout",
+                "title": "Blackout",
+                "line": "5 s lit, 10 s dark"
+              },
+              {
+                "kind": "navigation",
+                "title": "Navigation",
+                "line": "15 s, then the offices acknowledge"
+              }
+            ],
+            "note": false,
+            "reordered": "Food Supply|Player turns|Something new",
+            "noTiming": true,
+            "unknownIsRoundOrders": true,
+            "empty": {
+              "hidden": true,
+              "words": ""
+            }
+          }
+        },
+        {
+          "id": "steps: the Round order row says \"Phases and timings\" only once a step has its timing, else \"The phases, in order\" (the Lead, 18 November)",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "withTimings": "Phases and timings",
+            "without": "The phases, in order",
+            "some": "Phases and timings",
+            "none": "The phases, in order",
+            "sameRow": true
+          }
+        },
+        {
+          "id": "focus: each row keeps its element and the focus; a focused destination that leaves returns the focus once",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "kept": true,
+            "gone": {
+              "row": false,
+              "active": true
+            },
+            "returns": [
+              [
+                "onFocusReturn",
+                {
+                  "intent": "open",
+                  "value": "navigation"
+                }
+              ]
+            ]
+          }
+        },
+        {
+          "id": "focus: a focus in a view that ends returns to the content, reported once; a seat keeps its row through updates",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "active": true,
+            "returns": [
+              [
+                "onFocusReturn",
+                {
+                  "intent": "open",
+                  "value": "players"
+                }
+              ]
+            ],
+            "same": true
+          }
+        },
+        {
+          "id": "words: the content's name for each view, and the sheet's frame from panelsSheet()",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "list": {
+              "title": "Panels",
+              "back": false,
+              "detent": "auto",
+              "foot": 0,
+              "name": "Panels"
+            },
+            "players": {
+              "title": "Players",
+              "back": true,
+              "detent": "large",
+              "foot": 0,
+              "name": "Players"
+            },
+            "order": {
+              "title": "Round order",
+              "back": true,
+              "detent": "large",
+              "foot": 0,
+              "name": "Round order"
+            }
+          }
+        },
+        {
+          "id": "layout: at 390 × 844, the lists 16 px in, in each view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "list": [
+              [
+                16,
+                16
+              ]
+            ],
+            "players": [
+              [
+                16,
+                16
+              ]
+            ],
+            "order": [
+              [
+                16,
+                16
+              ]
+            ]
+          }
+        },
+        {
+          "id": "layout: at 430 × 932, the lists 16 px in, in each view",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "list": [
+              [
+                16,
+                16
+              ]
+            ],
+            "players": [
+              [
+                16,
+                16
+              ]
+            ],
+            "order": [
+              [
+                16,
+                16
+              ]
+            ]
+          }
+        },
+        {
+          "id": "notes: at 390 × 844 with the Standard text, every cell's note within two lines",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "font": "16px",
+            "over": [],
+            "seen": [
+              {
+                "what": "two windows, timings",
+                "value": "windows",
+                "note": "2 windows",
+                "lines": 1
+              },
+              {
+                "what": "two windows, timings",
+                "value": "navigation",
+                "note": "Captain and Officer only",
+                "lines": 2
+              },
+              {
+                "what": "two windows, timings",
+                "value": "hospital",
+                "note": "Patients only",
+                "lines": 1
+              },
+              {
+                "what": "two windows, timings",
+                "value": "players",
+                "note": "Seats, rooms and public status",
+                "lines": 2
+              },
+              {
+                "what": "two windows, timings",
+                "value": "round-order",
+                "note": "Phases and timings",
+                "lines": 2
+              },
+              {
+                "what": "Room A–Hospital",
+                "value": "windows",
+                "note": "Room A ↔ Hospital",
+                "lines": 2
+              },
+              {
+                "what": "Room A–Hospital",
+                "value": "navigation",
+                "note": "Captain and Officer only",
+                "lines": 2
+              },
+              {
+                "what": "Room A–Hospital",
+                "value": "hospital",
+                "note": "Patients only",
+                "lines": 1
+              },
+              {
+                "what": "Room A–Hospital",
+                "value": "players",
+                "note": "Seats, rooms and public status",
+                "lines": 2
+              },
+              {
+                "what": "Room A–Hospital",
+                "value": "round-order",
+                "note": "Phases and timings",
+                "lines": 2
+              },
+              {
+                "what": "Room B–Jail",
+                "value": "windows",
+                "note": "Room B ↔ Jail",
+                "lines": 1
+              },
+              {
+                "what": "Room B–Jail",
+                "value": "navigation",
+                "note": "Captain and Officer only",
+                "lines": 2
+              },
+              {
+                "what": "Room B–Jail",
+                "value": "hospital",
+                "note": "Patients only",
+                "lines": 1
+              },
+              {
+                "what": "Room B–Jail",
+                "value": "players",
+                "note": "Seats, rooms and public status",
+                "lines": 2
+              },
+              {
+                "what": "Room B–Jail",
+                "value": "round-order",
+                "note": "Phases and timings",
+                "lines": 2
+              },
+              {
+                "what": "Room A–Room B, Room A–Hospital, Room B–Jail",
+                "value": "windows",
+                "note": "3 windows",
+                "lines": 1
+              },
+              {
+                "what": "Room A–Room B, Room A–Hospital, Room B–Jail",
+                "value": "navigation",
+                "note": "Captain and Officer only",
+                "lines": 2
+              },
+              {
+                "what": "Room A–Room B, Room A–Hospital, Room B–Jail",
+                "value": "hospital",
+                "note": "Patients only",
+                "lines": 1
+              },
+              {
+                "what": "Room A–Room B, Room A–Hospital, Room B–Jail",
+                "value": "players",
+                "note": "Seats, rooms and public status",
+                "lines": 2
+              },
+              {
+                "what": "Room A–Room B, Room A–Hospital, Room B–Jail",
+                "value": "round-order",
+                "note": "Phases and timings",
+                "lines": 2
+              },
+              {
+                "what": "no window",
+                "value": "windows",
+                "note": "No window here",
+                "lines": 1
+              },
+              {
+                "what": "no window",
+                "value": "navigation",
+                "note": "Captain and Officer only",
+                "lines": 2
+              },
+              {
+                "what": "no window",
+                "value": "hospital",
+                "note": "Patients only",
+                "lines": 1
+              },
+              {
+                "what": "no window",
+                "value": "players",
+                "note": "Seats, rooms and public status",
+                "lines": 2
+              },
+              {
+                "what": "no window",
+                "value": "round-order",
+                "note": "Phases and timings",
+                "lines": 2
+              },
+              {
+                "what": "no timings",
+                "value": "windows",
+                "note": "No window here",
+                "lines": 1
+              },
+              {
+                "what": "no timings",
+                "value": "navigation",
+                "note": "Captain and Officer only",
+                "lines": 2
+              },
+              {
+                "what": "no timings",
+                "value": "hospital",
+                "note": "Patients only",
+                "lines": 1
+              },
+              {
+                "what": "no timings",
+                "value": "players",
+                "note": "Seats, rooms and public status",
+                "lines": 2
+              },
+              {
+                "what": "no timings",
+                "value": "round-order",
+                "note": "The phases, in order",
+                "lines": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "layout: the list with the Largest text (200 %): every word whole, the last part reached by scrolling",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "cut": [],
+            "pills": [],
+            "reachable": true
+          }
+        },
+        {
+          "id": "layout: Players with the Largest text (200 %): every word whole, the last part reached by scrolling",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "cut": [],
+            "pills": [
+              true,
+              true
+            ],
+            "reachable": true
+          }
+        },
+        {
+          "id": "layout: Round order with the Largest text (200 %): every word whole, the last part reached by scrolling",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "cut": [],
+            "pills": [],
+            "reachable": true
+          }
+        },
+        {
+          "id": "dispose: safe twice; afterwards nothing is left in the sheet and nothing fires",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "seen": {
+              "body": 0,
+              "calls": 0,
+              "connected": false
+            }
+          }
+        },
+        {
+          "id": "motion: none of its own, with or without the game's Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": 0,
+            "players": 0,
+            "reduced": {
+              "own": 0,
+              "mode": "reduced"
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CaZHCHz4.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    },
+    "device-reduced": {
+      "emulated": {
+        "prefers-reduced-motion": "reduce"
+      },
+      "mode": "device-reduced",
+      "ok": true,
+      "checks": [
+        {
+          "id": "motion: none of its own, with the device's Reduce motion",
+          "ok": true,
+          "detail": {
+            "ok": true,
+            "first": 0,
+            "players": 0,
+            "reduced": {
+              "own": 0,
+              "mode": "reduced"
+            }
+          }
+        }
+      ],
+      "violations": [
+        {
+          "directive": "script-src",
+          "blocked": "eval",
+          "source": "assets/index-CaZHCHz4.js",
+          "line": 1,
+          "column": 6047,
+          "kind": "known: zod eval probe, caught; the live game bundle has it too"
+        }
+      ],
+      "problems": []
+    }
+  },
+  "agree": {
+    "emulated": {},
+    "mode": "agree",
+    "ok": true,
+    "checks": [
+      {
+        "id": "agree: Panels at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "look090": {},
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row mains": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badges": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badge icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "note": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": null,
+          "departure": {
+            "what": "the destinations are cells on the Actions grid, not rows (the owner, 19 November 2026, draft 4; the Lead's option A), and the Windows note counts two windows or more (the Lead's rule for the notes, 19 November)",
+            "rows": 5,
+            "cells": 5,
+            "movedVertically": 3
+          }
+        }
+      },
+      {
+        "id": "agree: Panels at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "look090": {},
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 0,
+              "screen": 0
+            },
+            "rows": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row mains": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row lines": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badges": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badge icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "note": {
+              "pack": 0,
+              "screen": 0
+            }
+          },
+          "recorded": null,
+          "departure": {
+            "what": "the destinations are cells on the Actions grid, not rows (the owner, 19 November 2026, draft 4; the Lead's option A), and the Windows note counts two windows or more (the Lead's rule for the notes, 19 November)",
+            "rows": 5,
+            "cells": 5,
+            "movedVertically": 3
+          }
+        }
+      },
+      {
+        "id": "agree: Players at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "look090": {},
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 1,
+              "screen": 1
+            },
+            "rows": {
+              "pack": 9,
+              "screen": 9
+            },
+            "row mains": {
+              "pack": 9,
+              "screen": 9
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 9,
+              "screen": 9
+            },
+            "row titles": {
+              "pack": 9,
+              "screen": 9
+            },
+            "row lines": {
+              "pack": 9,
+              "screen": 9
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badges": {
+              "pack": 2,
+              "screen": 2
+            },
+            "badge icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "recorded": null,
+          "departure": null
+        }
+      },
+      {
+        "id": "agree: Players at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "look090": {},
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 1,
+              "screen": 1
+            },
+            "rows": {
+              "pack": 9,
+              "screen": 9
+            },
+            "row mains": {
+              "pack": 9,
+              "screen": 9
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 9,
+              "screen": 9
+            },
+            "row titles": {
+              "pack": 9,
+              "screen": 9
+            },
+            "row lines": {
+              "pack": 9,
+              "screen": 9
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badges": {
+              "pack": 2,
+              "screen": 2
+            },
+            "badge icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "recorded": null,
+          "departure": null
+        }
+      },
+      {
+        "id": "agree: Round order at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "look090": {
+            "Beside the 46 px icon a row's words start 6 px further right; the row keeps its height": 18,
+            "A row's icon is 46 px with no chip behind it": 12,
+            "The icon is the painted line drawing, at the one panel size (46 px)": 12
+          },
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 1,
+              "screen": 1
+            },
+            "rows": {
+              "pack": 6,
+              "screen": 6
+            },
+            "row mains": {
+              "pack": 6,
+              "screen": 6
+            },
+            "row icons": {
+              "pack": 6,
+              "screen": 6
+            },
+            "row icon drawings": {
+              "pack": 6,
+              "screen": 6
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 6,
+              "screen": 6
+            },
+            "row lines": {
+              "pack": 6,
+              "screen": 6
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badges": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badge icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "note": {
+              "pack": 1,
+              "screen": 0
+            }
+          },
+          "recorded": {
+            "what": "no note: the pending Blackout-before-voting order is the rules' business, not the component's (the Lead's review of #296, answer 5)",
+            "pack": "Current order. The owner’s Blackout-before-voting order is an Integration proposal, pending the rules update."
+          },
+          "departure": null
+        }
+      },
+      {
+        "id": "agree: Round order at 430 × 932",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "look090": {
+            "Beside the 46 px icon a row's words start 6 px further right; the row keeps its height": 18,
+            "A row's icon is 46 px with no chip behind it": 12,
+            "The icon is the painted line drawing, at the one panel size (46 px)": 12
+          },
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 1,
+              "screen": 1
+            },
+            "rows": {
+              "pack": 6,
+              "screen": 6
+            },
+            "row mains": {
+              "pack": 6,
+              "screen": 6
+            },
+            "row icons": {
+              "pack": 6,
+              "screen": 6
+            },
+            "row icon drawings": {
+              "pack": 6,
+              "screen": 6
+            },
+            "row portraits": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row titles": {
+              "pack": 6,
+              "screen": 6
+            },
+            "row lines": {
+              "pack": 6,
+              "screen": 6
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badges": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badge icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "note": {
+              "pack": 1,
+              "screen": 0
+            }
+          },
+          "recorded": {
+            "what": "no note: the pending Blackout-before-voting order is the rules' business, not the component's (the Lead's review of #296, answer 5)",
+            "pack": "Current order. The owner’s Blackout-before-voting order is an Integration proposal, pending the rules update."
+          },
+          "departure": null
+        }
+      },
+      {
+        "id": "agree: Players with the Largest text (200 %) at 390 × 844",
+        "ok": true,
+        "detail": {
+          "differences": [],
+          "look090": {},
+          "parts": {
+            "sheet": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet title": {
+              "pack": 1,
+              "screen": 1
+            },
+            "sheet line": {
+              "pack": 0,
+              "screen": 0
+            },
+            "sheet body": {
+              "pack": 1,
+              "screen": 1
+            },
+            "footer": {
+              "pack": 0,
+              "screen": 0
+            },
+            "lists": {
+              "pack": 1,
+              "screen": 1
+            },
+            "rows": {
+              "pack": 9,
+              "screen": 9
+            },
+            "row mains": {
+              "pack": 9,
+              "screen": 9
+            },
+            "row icons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row icon drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row portraits": {
+              "pack": 9,
+              "screen": 9
+            },
+            "row titles": {
+              "pack": 9,
+              "screen": 9
+            },
+            "row lines": {
+              "pack": 9,
+              "screen": 9
+            },
+            "row chevrons": {
+              "pack": 0,
+              "screen": 0
+            },
+            "row chevron drawings": {
+              "pack": 0,
+              "screen": 0
+            },
+            "badges": {
+              "pack": 2,
+              "screen": 2
+            },
+            "badge icons": {
+              "pack": 2,
+              "screen": 2
+            },
+            "note": {
+              "pack": 1,
+              "screen": 1
+            }
+          },
+          "recorded": null,
+          "departure": null
+        }
+      }
+    ],
+    "violations": [
+      {
+        "directive": "script-src",
+        "blocked": "eval",
+        "source": "assets/index-CaZHCHz4.js",
+        "line": 1,
+        "column": 6047,
+        "kind": "known: zod eval probe, caught; the live game bundle has it too"
+      }
+    ],
+    "problems": []
+  }
+}

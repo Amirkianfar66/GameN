@@ -1,0 +1,19 @@
+@import url("../kit/kit.css");
+
+/*
+ * Panels' styles: runtime source, Designer's (panels.mjs). The phone pack's own values (screens-game.mjs panels;
+ * screens-more.mjs players and rules, and their inline styles; sheet 32), scoped under .ms-panels so nothing here
+ * reaches the rest of the app and nothing of the app's reaches in. The lists, rows, portraits, badges and the note
+ * are the shared kit's (../kit/kit.css); the sheet's frame and glass the phone shell's. Its own: the 14 px between
+ * the Panels list's two lists, and the badges' row at a player's end.
+ */
+
+/* The content sits in the shell's sheet body as the pack's does: no box of its own. */
+.ms-panels:focus { outline: none; }
+
+/* The pack's 14 px between the destinations and Players with Round order. */
+.ms-panels .ms-pn-gap { height: 14px; }
+.ms-panels :is(.ms-pn-gap, .ms-pn-destinations, .ms-pn-players, .ms-pn-steps)[hidden] { display: none; }
+
+/* A player's badges, side by side at the row's end (the pack's inline-flex with a 4 px gap); always there, as the pack's. */
+.ms-panels .ms-pn-badges { display: inline-flex; gap: 4px; }

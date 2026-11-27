@@ -23,7 +23,28 @@ const shellSources = ['design/phone-ui/components/phone-shell/phone-shell.mjs', 
   'design/phone-ui/components/kit/kit.mjs', 'design/phone-ui/components/kit/kit.css',
   'design/phone-ui/components/icon-paint.mjs'];
 // END shell connection
-const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contracts/dist/', 'packages/presentation/dist/', 'packages/design-tokens/dist/', ...designSources, ...shellSources];
+// BEGIN Actions connection, for Integration's approval (the owner's plan of 16 November 2026, release 3: Actions
+// on a player's phone is Designer's Actions component as it is). Exactly its two runtime files and the gameplay
+// parts' two, which it imports (it uses the kit, admitted above); never their preview/ or review/.
+const actionsSources = ['design/phone-ui/components/actions/actions.mjs', 'design/phone-ui/components/actions/actions.css',
+  'design/phone-ui/components/play-parts/play-parts.mjs', 'design/phone-ui/components/play-parts/play-parts.css'];
+// END Actions connection
+// BEGIN Panels connection, for Integration's approval (the owner's plan of 16 November 2026, release 3, step 1, the
+// Lead's order of 18 November: the Panels tab is Designer's panels component as it is). Exactly its two runtime files
+// (it uses the kit, admitted above); never its preview/ or review/.
+const panelsSources = ['design/phone-ui/components/panels/panels.mjs', 'design/phone-ui/components/panels/panels.css'];
+// END Panels connection
+// BEGIN Promises connection, for Integration's approval (the owner's plan of 16 November 2026, release 3, step 2, the
+// Lead's order of 18 November: Promises are Designer's promises component as it is). Exactly its two runtime files
+// (it uses the kit, admitted above); never its preview/ or review/.
+const promisesSources = ['design/phone-ui/components/promises/promises.mjs', 'design/phone-ui/components/promises/promises.css'];
+// END Promises connection
+// BEGIN Windows connection, for Integration's approval (the owner's plan of 16 November 2026, release 3, step 3, the
+// Lead's order of 18 November: Windows are Designer's windows component as it is). Exactly its two runtime files
+// (it uses the kit, admitted above); never its preview/ or review/.
+const windowsSources = ['design/phone-ui/components/windows/windows.mjs', 'design/phone-ui/components/windows/windows.css'];
+// END Windows connection
+const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contracts/dist/', 'packages/presentation/dist/', 'packages/design-tokens/dist/', ...designSources, ...shellSources, ...actionsSources, ...panelsSources, ...promisesSources, ...windowsSources];
 
 export default {
   root: fileURLToPath(new URL('.', import.meta.url)),

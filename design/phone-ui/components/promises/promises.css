@@ -1,0 +1,34 @@
+@import url("../kit/kit.css");
+
+/*
+ * Promises' styles: runtime source, Designer's (promises.mjs). The phone pack's own values (screens-more.mjs
+ * promises and its inline styles; sheets 33 and 33.1), scoped under .ms-promises so nothing here reaches the rest of
+ * the app and nothing of the app's reaches in. The lists, rows, portraits, pills, group labels and notes, the tiles,
+ * the facts and the paper card are the shared kit's (../kit/kit.css, 0.6.0); the sheet's frame, footer and glass the
+ * phone shell's. Its own: what sheet 33 sets inline on this screen (the kinds two across at 118 px, the 10 px before
+ * them, the paper card's 14 px and its head and terms), and Jail Vote's chosen player's mark.
+ */
+
+/* The content sits in the shell's sheet body as the pack's does: no box of its own. */
+.ms-promises:focus { outline: none; }
+.ms-promises :is(.ms-k-group-label, .ms-k-list, .ms-k-group-note, .ms-pr-card, .ms-pr-card-terms, .ms-pr-chosen)[hidden] { display: none; }
+
+/* The kinds (sheet 33): the pack's 10 px under the note, then the tiles two across, each at least 118 px tall. */
+.ms-promises .ms-pr-gap { height: 10px; }
+.ms-promises .ms-pr-kinds { grid-template-columns: repeat(2, 1fr); }
+.ms-promises .ms-pr-kinds > .ms-k-tile { min-height: 118px; }
+
+/* The paper card (sheet 33's .comic with the pack's inline styles): 14 px in; the kind's icon on ink, or the
+   giver's portrait, beside the kind in capitals; then the exact terms. The portrait is the kit's 44 px, as sheet 33
+   draws it: the pack asks pt() for 42, but its .pt rule (44 px) overrides the image's own width and height. */
+.ms-promises .ms-pr-card { padding: 14px; }
+.ms-promises .ms-pr-card-head { display: flex; align-items: center; gap: 10px; }
+.ms-promises .ms-pr-card-icon { width: 42px; height: 42px; flex: none; border-radius: 12px; display: grid; place-items: center; background: var(--ms-k-ink); color: var(--ms-k-paper); --ic-knock: var(--ms-k-ink); }
+.ms-promises .ms-pr-card-name { font: 800 1.25rem/1 var(--ms-k-letter); letter-spacing: 0.04em; text-transform: uppercase; }
+.ms-promises .ms-pr-card-terms { margin: 10px 0 0; font: 500 1rem/1.4 var(--ms-k-font); }
+
+/* A refused command (0.1.1): the kit's inline error after the card's facts, 14 px below them, as Actions' check. */
+.ms-promises .ms-pr-error { margin-top: 14px; }
+
+/* Jail Vote's chosen player (an undrawn state, the Lead's answer 4): the amber check at the row's end. */
+.ms-promises .ms-pr-chosen { display: inline-flex; flex: none; color: var(--ms-k-accent); --ic-knock: var(--ms-k-surface-2); }

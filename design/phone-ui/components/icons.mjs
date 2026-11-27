@@ -14,7 +14,7 @@ const p = (d, extra = {}) => Object.freeze({ d, ...extra });
 const dot = (x, y, r = 1.25) => Object.freeze({ c: [x, y, r], dot: true });
 const ring = (x, y, r, extra = {}) => Object.freeze({ c: [x, y, r], ...extra });
 
-export const ICON_FAMILY_VERSION = 'phone-ui-icons-1.1.0';
+export const ICON_FAMILY_VERSION = 'phone-ui-icons-1.2.0';
 
 /** name → { label: the accessible name, group, parts } */
 export const ICONS = Object.freeze({
