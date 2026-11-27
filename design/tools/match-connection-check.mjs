@@ -195,7 +195,8 @@ const VIEW = view => `document.querySelector(${JSON.stringify(PANELS)})?.dataset
 const PROMISES = '.ms-ps-sheet .ms-ps-sheet-body > .ms-promises';
 const WINDOWS = '.ms-ps-sheet .ms-ps-sheet-body > .ms-windows';
 const PVIEW = view => `document.querySelector(${JSON.stringify(PROMISES)})?.dataset.view===${JSON.stringify(view)}`;
-const PROW = intent => `${PROMISES} .ms-k-row[data-intent="${intent}"]`;
+// A Promises row, or since promises-0.2.0 (#333) one of the talk's cells: Offer a Promise and the offer to answer.
+const PROW = intent => `${PROMISES} :is(.ms-k-row, .ms-k-tile)[data-intent="${intent}"]`;
 const KIND = kind => `${PROMISES} [data-intent="kind"][data-value="${kind}"]`;
 const PICK = seat => `${PROMISES} [data-intent="target"][data-value="${seat}"]`;
 const PRESSED = selector => `document.querySelector(${JSON.stringify(selector)})?.getAttribute('aria-pressed')==='true'`;
@@ -275,22 +276,26 @@ const LOOK = `(() => {
       notice: [...part.querySelectorAll('.ms-k-notice p')].map(text),
       groups: [...part.querySelectorAll('.ms-ac-list .ms-k-group-label')].map(text), rows: [...part.querySelectorAll('.ms-ac-list .ms-k-row-title')].map(text),
       picked: [...part.querySelectorAll('.ms-ac-list .ms-k-row[data-picked] .ms-k-row-title')].map(text) } : null,
-    // The Panels tab's part (design/phone-ui/components/panels) in the sheet's body: its view and rows.
+    // The Panels tab's part (design/phone-ui/components/panels) in the sheet's body: its view and rows; since
+    // panels-0.2.0 (#333) the list's destinations are the kit's cells, read by their name and note as a row's title and line.
     panels: (p => p ? { view: p.dataset.view, label: p.getAttribute('aria-label'), first: body?.firstElementChild === p, motion: p.dataset.motion,
-      rows: [...p.querySelectorAll('.ms-k-row')].filter(n => !n.closest('[hidden]')).map(n => ({ value: n.dataset.value ?? null, seat: n.dataset.seat ?? null, kind: n.dataset.kind ?? null,
-        title: text(n.querySelector('.ms-k-row-title')), sub: n.querySelector('.ms-k-row-sub')?.hidden ? null : text(n.querySelector('.ms-k-row-sub')),
-        icon: (n.querySelector('.ms-k-row-icon')?.dataset.icon ?? '').split(':')[0] || null, portrait: n.querySelector('.ms-k-row-lead:not([hidden]) .ms-k-pt')?.className ?? null,
+      rows: [...p.querySelectorAll('.ms-k-row, .ms-k-tile')].filter(n => !n.closest('[hidden]')).map(n => ({ cell: n.classList.contains('ms-k-tile'), value: n.dataset.value ?? null, seat: n.dataset.seat ?? null, kind: n.dataset.kind ?? null,
+        title: text(n.querySelector('.ms-k-row-title, .ms-k-tile-name')), sub: (l => l?.hidden ? null : text(l))(n.querySelector('.ms-k-row-sub, .ms-k-tile-note')),
+        icon: (k => (k.startsWith('paint:') ? k.slice(6) : k.split(':')[0]) || null)(n.querySelector('.ms-k-row-icon, .ms-k-tile-icon')?.dataset.icon ?? ''), portrait: n.querySelector('.ms-k-row-lead:not([hidden]) .ms-k-pt')?.className ?? null,
         badges: [...n.querySelectorAll('.ms-pn-badges .ms-k-pill')].map(text), off: n.getAttribute('aria-disabled') === 'true', chevron: !!n.querySelector('.ms-k-row-chev:not([hidden]) svg'), box: box(n) })),
       note: text(p.querySelector('.ms-k-group-note')), text: text(p) } : null)(document.querySelector(${JSON.stringify(PANELS)})),
     // Promises' part (design/phone-ui/components/promises) in the sheet's body: its view, rows, labels, tiles, card and facts, as shown.
+    // Since promises-0.2.0 (#333) the talk's two offers are the kit's cells: read with the rows, in their order, by their
+    // name and note, with the amber dot of the one to answer (waiting).
     promises: (p => p ? { view: p.dataset.view, first: body?.firstElementChild === p, label: p.getAttribute('aria-label'),
-      rows: [...p.querySelectorAll('.ms-k-row')].filter(n => !n.closest('[hidden]')).map(n => ({ intent: n.dataset.intent ?? null, value: n.dataset.value ?? null,
-        title: text(n.querySelector('.ms-k-row-title')), sub: n.querySelector('.ms-k-row-sub')?.hidden ? null : text(n.querySelector('.ms-k-row-sub')),
+      rows: [...p.querySelectorAll('.ms-k-row, .ms-pr-talk > .ms-k-tile')].filter(n => !n.closest('[hidden]')).map(n => ({ intent: n.dataset.intent ?? null, value: n.dataset.value ?? null,
+        cell: n.classList.contains('ms-k-tile'), waiting: !!n.querySelector('.ms-k-tile-icon[data-waiting]'),
+        title: text(n.querySelector('.ms-k-row-title, .ms-k-tile-name')), sub: (l => l?.hidden ? null : text(l))(n.querySelector('.ms-k-row-sub, .ms-k-tile-note')),
         end: text(n.querySelector('.ms-k-row-value')) || null, pressed: n.getAttribute('aria-pressed'), off: n.getAttribute('aria-disabled') === 'true',
         portrait: !!n.querySelector('.ms-k-row-lead:not([hidden]) .ms-k-pt'), chevron: !!n.querySelector('.ms-k-row-chev:not([hidden]) svg'), mark: n.querySelector('.ms-pr-chosen') ? !n.querySelector('.ms-pr-chosen').hidden : null })),
       labels: [...p.querySelectorAll('.ms-k-group-label')].filter(n => !n.hidden && !n.closest('[hidden]')).map(text),
       notes: [...p.querySelectorAll('.ms-k-group-note')].filter(n => !n.hidden && !n.closest('[hidden]')).map(text),
-      tiles: [...p.querySelectorAll('.ms-k-tile')].map(n => ({ value: n.dataset.value, state: n.dataset.state, pressed: n.getAttribute('aria-pressed'), name: text(n.querySelector('.ms-k-tile-name')) })),
+      tiles: [...p.querySelectorAll('.ms-k-tile')].filter(n => !n.closest('.ms-pr-talk')).map(n => ({ value: n.dataset.value, state: n.dataset.state, pressed: n.getAttribute('aria-pressed'), name: text(n.querySelector('.ms-k-tile-name')) })),
       card: (c => c && !c.hidden ? { name: text(c.querySelector('.ms-pr-card-name')), terms: c.querySelector('.ms-pr-card-terms')?.hidden ? null : text(c.querySelector('.ms-pr-card-terms')), portrait: !!c.querySelector('.ms-k-pt') } : null)(p.querySelector('.ms-pr-card')),
       facts: [...p.querySelectorAll('.ms-k-facts li')].map(text),
       // A refused command's words (R2): the kit's inline error, its role, whether it is the body's last part (only the
@@ -762,10 +767,11 @@ const STATES = {
     facts: s => ({ frame: s.sheet?.id === 'panels' && s.sheet.title === 'Panels' && s.sheet.sub === null && s.sheet.close && !s.sheet.back && !s.sheet.foot.length,
       partOnly: !!s.panels?.first && s.sheet.children.join() === 'ms-panels' && s.sheet.game === null, view: s.panels?.view === 'list' && s.panels.label === 'Panels',
       rows: rows(s, 'value') === 'windows|navigation|hospital|players|round-order', titles: rows(s, 'title') === 'Windows|Navigation|Hospital panel|Players|Round order',
-      // This room's windows (Room B: to Room A and to the Jail), then item 29's owner-approved words; the game gives no
-      // timings, so Round order's line is the Lead's "The phases, in order" (panels-0.1.1).
-      lines: rows(s, 'sub') === 'Room A ↔ Room B · Room B ↔ Jail|Captain and Officer only|Patients only|Seats, rooms and public status|The phases, in order',
-      icons: rows(s, 'icon') === 'window|course|panel|players|rules', open: s.panels?.rows.every(r => !r.off && r.chevron),
+      // The five cells (panels-0.2.0, #333): this room's two windows (Room B: to Room A and to the Jail), counted, as a
+      // cell's note fits two lines (the Lead, 19 November); then item 29's owner-approved words; the game gives no
+      // timings, so Round order's note is the Lead's "The phases, in order" (panels-0.1.1).
+      lines: rows(s, 'sub') === '2 windows|Captain and Officer only|Patients only|Seats, rooms and public status|The phases, in order',
+      icons: rows(s, 'icon') === 'window|course|panel|players|rules', open: s.panels?.rows.every(r => !r.off && r.cell),
       tabOpen: s.tabs?.buttons.find(b => b.value === 'panels')?.expanded === 'true', noCommand: s.commands.length === 0 }),
     after: async page => {
       // Windows opens the game's own Windows panel; its Back returns to the Panels tab, the component again.
@@ -859,7 +865,7 @@ const STATES = {
       partOnly: !!s.promises?.first && s.sheet.children.join() === 'ms-promises' && s.sheet.game === null, view: s.promises?.view === 'list',
       // The quota, then the talk's group: Offer a Promise, and Crew 1's offer. In a talk, Received and Given only for an accepted Promise (answer 5).
       rows: promiseRows(s) === 'Your quota / Given 0/1 · Received 0/1|Offer a Promise / Six kinds · exact terms|Crew 1 offered you one / Meet in Room A',
-      labels: s.promises?.labels.join('|') === 'With Crew 1 · talking now', offerOn: !prow(s, 'offer')?.off && !!prow(s, 'offer')?.chevron && !!prow(s, 'incoming')?.chevron,
+      labels: s.promises?.labels.join('|') === 'With Crew 1 · talking now', offerOn: !prow(s, 'offer')?.off && !!prow(s, 'offer')?.cell && !prow(s, 'offer')?.waiting && !!prow(s, 'incoming')?.cell && !!prow(s, 'incoming')?.waiting,
       noCommand: s.commands.length === 0, infoScene: s.stage.scene }) },
   'promise-kinds': { from: 'promises', steps: async page => {
       await page.evaluate(tap(PROW('offer')));
