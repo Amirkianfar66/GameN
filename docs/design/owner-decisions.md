@@ -6,6 +6,23 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 27 November 2026: Room A's view A and the panels' built look, as the Lead recommended; the lobby music later
+
+**Recorded by the Lead Designer from the owner's message to the Lead** (about 15:33 UTC). The Lead had listed five open answers: Room A's view A, the panels' built look, the Motion builder's two pages, the bottom bar's ground, and the lobby music on #334. The owner, word for word:
+
+> all as you recommended , but Music for now dont touch or comment on it is the future concern ,,
+
+- **Room A, view A: go.** The owner's page, [Room A from Vega's place](https://claude.ai/artifact/B54Wi43XBguCFcuAjg8EEw) at version `1795100576-d45f`, is approved as the Lead recommended.
+  - The work goes on as the 19 November plan sets out. The Lead gives the image go for view B's first step, naming sheet RA-B v1 (`1795101353-bbde`) and its hashes. The Lead reviews that picture, then views C, D and E follow.
+  - Spend so far: 6 pictures, about $0.34 of the $5 cap.
+- **The panels' built look: approved.** This is #333 at `21dc9a8c`, as the Lead reviewed it at 402 × 742, 390 × 844 and 430 × 932. Designer accepts #333, and #310 takes it.
+  - At 15:31 UTC the owner had asked the Bars & Icons builder "where can i see it to comment on it". That session couldn't answer, because its model's weekly limit had been reached. The Lead sent the built look's sheet in the Lead's chat. Any comment on it is folded in before the game takes the look.
+- **The Motion builder's two pages:** still need the owner's go-ahead in that builder's session, where the publish waits. A publish approval stays the owner's, so the Lead doesn't pass it on.
+- **The bottom bar's ground: still open.** No recommendation was on the table for it, so these words don't decide it.
+  - **The Lead's recommendation:** the bottom bar's icons lose their ground too. Then the two bars and the panels follow one system, as the owner asked ("i want all follow a shared system"). The bar keeps its own dark strip.
+  - Bars & Icons draws that as one picture at 402 × 742 for the owner before anything is built. Until the owner says yes, the bottom bar stays as approved on 18 November.
+- **The lobby music: for later.** Designer leaves Cold Wake on #334 as Codex built it and doesn't comment on it. The Lead's line of the same day asking for it to be off by default was taken out of the Lead's #334 note.
+
 ## 19 November 2026: the panels' icons are painted, with no background
 
 **Recorded by the Lead Designer from the owner's message in the Bars & Icons builder's session** (about 13:19 UTC), as that builder relayed it word for word. The owner was answering the panels' look draft (draft PR #333), which had three questions: a light edge for the dark buttons, painted icons in the panels, and what a tile's colour means. The owner, word for word:
