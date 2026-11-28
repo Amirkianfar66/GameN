@@ -1,0 +1,18 @@
+{
+ "name": "RA-C-1",
+ "sha256": "ad56119d60d86073282585044f82b4fceb5a9d130d217f096e814516990783b5",
+ "next": "RA-C-2",
+ "next3": null,
+ "madeOn": "sheet RA-C version 1.1 (manifest 18118df1a732e7ced3b216200fd073313e1fc3b9cc7691b40b9784824c0fde24)",
+ "result": "accepted by the Lead on 27 November",
+ "why": [
+  "RA-C-1, made on version 1.1, is accepted as view C's step 1 (sha256 ad56119d60d86073282585044f82b4fceb5a9d130d217f096e814516990783b5): its far wall's foot is within 8 px of the guide everywhere, so no floor fit is needed. The Lead's list for version 2: the 15 px rule against RA-C-1's painted features, and the crate-top line."
+ ],
+ "sheetVersion": 2.1,
+ "previous": {
+  "version": 2,
+  "published": "1795804597-5020",
+  "manifest": "419b46bd5ef3811a7658cc36c6952a1c2c01106f189203f57ceeb3be97d47f81",
+  "review": "the Lead accepted its six named exceptions and approved the selective 12 px growth (27 November, 18:38)"
+ }
+}

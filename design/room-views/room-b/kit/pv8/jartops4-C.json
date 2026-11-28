@@ -1,0 +1,213 @@
+{
+ "view": "C",
+ "what": "step 4's guide, version 9: each jar's top in lines only, its lit side's streak continued and its rim's near edge in its lower half's pale glass colour (the Lead, 18 November)",
+ "source": {
+  "label": "PV6-C-4",
+  "records": "img/PV6-C-4.png",
+  "sha256": "b634e18b7d552590746cacd3d5614b845fcaaad3be9e11076a84db0e9f5b220a"
+ },
+ "fix4": {
+  "record": "fix4-C.json",
+  "sha256": "bb4177ed30c88074ec6ad65f45bee969048d3422d84483b0a0cd4bb7fd72a207"
+ },
+ "method": "below step 2's cut (5 px clear of it): each side's streak is its brightest column in each row (a cylinder: 1-4 px inside its outline; the flask: inside its cone, 5 px clear of its left outline or 3 px clear of its right), kept where brighter than 170 and fitted as a line through the middle of each row's run, with its width (the run brighter than halfway from the row's median to the peak) and colour (the median of the peaks); the lit side is the one whose streak scores more (the sum of its peaks' lightness above 120). The pale glass colour is the median of the pixels brighter than 170 along the jar's outline, inside it: 1-3 px inside its walls and the 3 rows above its base's dark near edge. Lightness 0.299 R + 0.587 G + 0.114 B",
+ "thresholds": {
+  "bright": 170,
+  "scoreAbove": 120,
+  "clearOfTheCutPx": 5
+ },
+ "jars": [
+  {
+   "name": "coral jar",
+   "kind": "cylinder",
+   "lowerHalfRows": [
+    1129,
+    1153
+   ],
+   "litSide": "right",
+   "streak": {
+    "line": {
+     "a": 239.5,
+     "b": -0.0,
+     "y0": 1130,
+     "form": "x = a + b (y - y0): the streak's middle, fitted through each row's run"
+    },
+    "rows": [
+     1130,
+     1153
+    ],
+    "rowsBright": 24,
+    "meanLightness": 219.6,
+    "widthPx": 2,
+    "rgb": [
+     252,
+     211,
+     158
+    ],
+    "score": 2390.2,
+    "side": "right",
+    "hex": "#FCD39E"
+   },
+   "otherSide": {
+    "line": {
+     "a": 171.5,
+     "b": 0.0,
+     "y0": 1144,
+     "form": "x = a + b (y - y0): the streak's middle, fitted through each row's run"
+    },
+    "rows": [
+     1144,
+     1153
+    ],
+    "rowsBright": 10,
+    "meanLightness": 219.7,
+    "widthPx": 2,
+    "rgb": [
+     248,
+     215,
+     166
+    ],
+    "score": 996.8,
+    "side": "left"
+   },
+   "paleGlass": {
+    "rgb": [
+     247,
+     193,
+     149
+    ],
+    "hex": "#F7C195",
+    "px": 121,
+    "nearEdgePx": 53
+   }
+  },
+  {
+   "name": "bead jar",
+   "kind": "cylinder",
+   "lowerHalfRows": [
+    1118,
+    1146
+   ],
+   "litSide": "right",
+   "streak": {
+    "line": {
+     "a": 292.09,
+     "b": -0.01,
+     "y0": 1118,
+     "form": "x = a + b (y - y0): the streak's middle, fitted through each row's run"
+    },
+    "rows": [
+     1118,
+     1146
+    ],
+    "rowsBright": 29,
+    "meanLightness": 228.1,
+    "widthPx": 1,
+    "rgb": [
+     252,
+     222,
+     189
+    ],
+    "score": 3134.8,
+    "side": "right",
+    "hex": "#FCDEBD"
+   },
+   "otherSide": {
+    "line": {
+     "a": 252.0,
+     "b": -0.0,
+     "y0": 1127,
+     "form": "x = a + b (y - y0): the streak's middle, fitted through each row's run"
+    },
+    "rows": [
+     1127,
+     1146
+    ],
+    "rowsBright": 20,
+    "meanLightness": 219.1,
+    "widthPx": 1,
+    "rgb": [
+     247,
+     208,
+     157
+    ],
+    "score": 1981.4,
+    "side": "left"
+   },
+   "paleGlass": {
+    "rgb": [
+     249,
+     209,
+     166
+    ],
+    "hex": "#F9D1A6",
+    "px": 90,
+    "nearEdgePx": 40
+   }
+  },
+  {
+   "name": "flask",
+   "kind": "flask",
+   "lowerHalfRows": [
+    1105,
+    1130
+   ],
+   "litSide": "right",
+   "streak": {
+    "line": {
+     "a": 342.97,
+     "b": 0.308,
+     "y0": 1107,
+     "form": "x = a + b (y - y0): the streak's middle, fitted through each row's run"
+    },
+    "rows": [
+     1107,
+     1130
+    ],
+    "rowsBright": 24,
+    "meanLightness": 204.3,
+    "widthPx": 2,
+    "rgb": [
+     248,
+     189,
+     149
+    ],
+    "score": 2023.4,
+    "side": "right",
+    "hex": "#F8BD95"
+   },
+   "otherSide": {
+    "line": {
+     "a": 318.39,
+     "b": -0.191,
+     "y0": 1112,
+     "form": "x = a + b (y - y0): the streak's middle, fitted through each row's run"
+    },
+    "rows": [
+     1112,
+     1130
+    ],
+    "rowsBright": 18,
+    "meanLightness": 214.2,
+    "widthPx": 4,
+    "rgb": [
+     252,
+     211,
+     167
+    ],
+    "score": 1695.6,
+    "side": "left"
+   },
+   "paleGlass": {
+    "rgb": [
+     246,
+     191,
+     155
+    ],
+    "hex": "#F6BF9B",
+    "px": 121,
+    "nearEdgePx": 59
+   }
+  }
+ ]
+}

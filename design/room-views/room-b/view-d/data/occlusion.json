@@ -1,0 +1,290 @@
+{
+ "view": "D",
+ "layers": "the records page's three layers (picture.json), by the Lead's recipe: the Lead's, 18 November: d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November)",
+ "camera": "straight lines: d = forward + u right + v up; depth along the camera's axis",
+ "rule": "by depth alone: each pixel after every person farther than it; a person's seat behind them",
+ "parts": [
+  {
+   "station": "A tablet console",
+   "file": "PV6-D-4-A-tablet-console.png",
+   "px": 75319,
+   "x": [
+    119,
+    345
+   ],
+   "y": [
+    871,
+    1273
+   ],
+   "inItsOutline": 1.0,
+   "outlineCovered": 0.9953,
+   "iouWithOutline": 0.9124,
+   "offPlan": {
+    "left": -6,
+    "right": 6,
+    "top": -6,
+    "bottom": 6,
+    "centre": [
+     -1.5,
+     -2.4
+    ]
+   }
+  },
+  {
+   "station": "E bench",
+   "file": "PV6-D-4-E-bench.png",
+   "px": 39532,
+   "x": [
+    548,
+    704
+   ],
+   "y": [
+    774,
+    1097
+   ],
+   "inItsOutline": 1.0,
+   "outlineCovered": 0.9994,
+   "iouWithOutline": 0.8612,
+   "offPlan": {
+    "left": -6,
+    "right": 6,
+    "top": -6,
+    "bottom": 6,
+    "centre": [
+     0.6,
+     -0.3
+    ]
+   }
+  },
+  {
+   "station": "C console",
+   "file": "PV6-D-4-C-console.png",
+   "px": 36640,
+   "x": [
+    808,
+    962
+   ],
+   "y": [
+    830,
+    1095
+   ],
+   "inItsOutline": 1.0,
+   "outlineCovered": 0.9948,
+   "iouWithOutline": 0.8685,
+   "offPlan": {
+    "left": -6,
+    "right": 6,
+    "top": -6,
+    "bottom": 6,
+    "centre": [
+     -0.8,
+     0.4
+    ]
+   }
+  }
+ ],
+ "depthHits": {
+  "A tablet console": {
+   "hit": 69025,
+   "pixels": 75319,
+   "depthM": [
+    1.76,
+    2.43
+   ]
+  },
+  "E bench": {
+   "hit": 34067,
+   "pixels": 39532,
+   "depthM": [
+    2.58,
+    3.67
+   ]
+  },
+  "C console": {
+   "hit": 31777,
+   "pixels": 36640,
+   "depthM": [
+    2.6,
+    3.24
+   ]
+  }
+ },
+ "people": [
+  {
+   "id": "B5",
+   "name": "Vega",
+   "Z": 2.972
+  },
+  {
+   "id": "B3",
+   "name": "Lyra",
+   "Z": 2.629
+  },
+  {
+   "id": "B1",
+   "name": "Mira",
+   "Z": 1.694
+  }
+ ],
+ "order": [
+  "band-0",
+  "B5",
+  "band-1",
+  "B3",
+  "band-2",
+  "B5 front",
+  "B3 front",
+  "B1"
+ ],
+ "fronts": {
+  "B5": "band-2",
+  "B3": "band-2"
+ },
+ "bands": [
+  {
+   "band": 0,
+   "file": "band-0.png",
+   "after": [],
+   "before": [
+    "B5",
+    "B3",
+    "B1"
+   ],
+   "px": 14320,
+   "seamFillPx": 873,
+   "stations": [
+    "C console",
+    "E bench"
+   ]
+  },
+  {
+   "band": 1,
+   "file": "band-1.png",
+   "after": [
+    "B5"
+   ],
+   "before": [
+    "B3",
+    "B1"
+   ],
+   "px": 51406,
+   "seamFillPx": 1246,
+   "stations": [
+    "C console",
+    "E bench"
+   ]
+  },
+  {
+   "band": 2,
+   "file": "band-2.png",
+   "after": [
+    "B5",
+    "B3"
+   ],
+   "before": [
+    "B1"
+   ],
+   "px": 85765,
+   "seamFillPx": 0,
+   "stations": [
+    "A tablet console",
+    "C console",
+    "E bench"
+   ]
+  }
+ ],
+ "conflictPx": 0,
+ "check": {
+  "bandsAgainstLayers": {
+   "maxAbsDiff": 0
+  },
+  "againstPlaced": {
+   "meanAbsDiff": 0.0975,
+   "p99": 2.0,
+   "max": 107,
+   "measure": "the largest of |R|, |G|, |B| per pixel, over the whole picture"
+  },
+  "sameOnBothPhones": {
+   "390x844 Mira": 0.0,
+   "390x844 Lyra": 0.0,
+   "390x844 Vega": 0.0,
+   "430x932 Mira": 0.133,
+   "430x932 Lyra": 0.047,
+   "430x932 Vega": 0.318
+  }
+ },
+ "report": {
+  "B5": {
+   "name": "Vega",
+   "Z": 2.972,
+   "seat": null,
+   "overlaps": {
+    "E bench": {
+     "px": 1545,
+     "nearerPx": 1545,
+     "depthM": [
+      2.74,
+      2.79
+     ],
+     "drawn": "in front where nearer"
+    }
+   },
+   "inFrontOfThem": {
+    "E bench": 0.0534
+   },
+   "hiddenShare": 0.0534,
+   "boxShare": 0.1784,
+   "lowerShare": 0.3566,
+   "faceHidden": 0.0,
+   "pressHiddenShare": 0.0,
+   "pressCentreHidden": 0.0
+  },
+  "B3": {
+   "name": "Lyra",
+   "Z": 2.629,
+   "seat": null,
+   "overlaps": {
+    "C console": {
+     "px": 18770,
+     "nearerPx": 0,
+     "depthM": [
+      2.69,
+      3.24
+     ],
+     "drawn": "behind them"
+    }
+   },
+   "inFrontOfThem": {},
+   "hiddenShare": 0.0,
+   "boxShare": 0.0,
+   "lowerShare": 0.0,
+   "faceHidden": 0.0,
+   "pressHiddenShare": 0.0,
+   "pressCentreHidden": 0.0
+  },
+  "B1": {
+   "name": "Mira",
+   "Z": 1.694,
+   "seat": null,
+   "overlaps": {
+    "A tablet console": {
+     "px": 46976,
+     "nearerPx": 0,
+     "depthM": [
+      1.76,
+      2.43
+     ],
+     "drawn": "behind them"
+    }
+   },
+   "inFrontOfThem": {},
+   "hiddenShare": 0.0,
+   "boxShare": 0.0,
+   "lowerShare": 0.0,
+   "faceHidden": 0.0,
+   "pressHiddenShare": 0.0,
+   "pressCentreHidden": 0.0
+  }
+ },
+ "tags": "drawn above every layer (the page's overlay)"
+}

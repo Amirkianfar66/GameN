@@ -1,0 +1,1235 @@
+{
+ "sheet": "PV6-D",
+ "version": 2,
+ "date": "2026-11-18",
+ "status": "Version 2, for the Lead's go. Nothing is generated before it.",
+ "generated": "Every picture made from this sheet is AI-generated. Its record says so, with its tool, model, prompt, date and settings, and it is never presented as made by a person.",
+ "owner": {
+  "decision": "accepted the one-view test as the way to go for Room B: name tags at the feet; stronger shadows on the people (the In-game animation builder's); start the other four views, B, C, D and E, in this look",
+  "recorded": "#280 at 4350eee6 (relayed by the Lead)",
+  "spend": "about $0.12 a view, at most $0.18 with one re-run",
+  "capsule": {
+   "asked": "Just don't forget in each room you have a food capsule characters eating from eat like past (the owner, relayed by the Lead, 18 November)",
+   "design": "ship-life's food capsule (#230, approved 11 November)",
+   "layout": "A1",
+   "chosen": "the owner chose one capsule: the counter unit on Atlas's bench, at its north-west end, its hatch facing east into the room; painted in B and C; in A, D and E the visitor walks out of view to it and back; no edit to A (relayed by the Lead, 18 November)"
+  },
+  "staging": "option 1 (the Lead's approval, 18 November): identical furniture in D and E, a person cheated alone; in B and C a station moves with its person, as in version 1, each move listed with its distance"
+ },
+ "test": "One view, Atlas's (place D): the empty room painted over a straight-lined guide, then one PLACE edit for the furniture, by PV6-A's method; the people stay code.",
+ "camera": {
+  "lens": "rectilinear (straight lines)",
+  "acrossDeg": 70,
+  "eyeM": 1.6,
+  "pitchDeg": -5,
+  "pitchAs": "a lens shift: verticals stay upright",
+  "back": 0,
+  "turnDeg": 0,
+  "painting": {
+   "size": [
+    1024,
+    1536
+   ],
+   "acrossDeg": 80,
+   "focalPx": 610.18,
+   "horizonY": 714,
+   "centreX": 512
+  },
+  "slices": [
+   {
+    "phone": "390 \u00d7 844",
+    "stageCssPx": [
+     390,
+     653
+    ],
+    "focalCssPx": 278.49,
+    "horizonCssY": 302.1,
+    "paintingPxPerCssPx": 2.191,
+    "rectInPainting": {
+     "x": [
+      84.7,
+      939.3
+     ],
+     "y": [
+      52,
+      1482.8
+     ]
+    }
+   },
+   {
+    "phone": "430 \u00d7 932",
+    "stageCssPx": [
+     430,
+     741
+    ],
+    "focalCssPx": 307.05,
+    "horizonCssY": 343.6,
+    "paintingPxPerCssPx": 1.9872,
+    "rectInPainting": {
+     "x": [
+      84.7,
+      939.3
+     ],
+     "y": [
+      31.1,
+      1503.6
+     ]
+    }
+   }
+  ],
+  "at": [
+   -1.68,
+   1.6,
+   -0.4
+  ],
+  "yawDeg": 54,
+  "yawDegExact": 53.59
+ },
+ "staging": {
+  "rule": "one staging of the whole room, shared by every view (PV6-A's stations for Vega, Lyra and Juno; the layout's for Mira and Atlas). In D and E the furniture is that staging's and a cheat moves a person alone, along their own station (Mira steps about her console); in B and C, as in version 1, a cheated person's station moves with them, keeping its facing. Every move is listed with its distance",
+  "listed": {
+   "stations": [],
+   "people": [
+    {
+     "place": "A",
+     "name": "Mira",
+     "movedM": 0.58,
+     "towardDeg": 149,
+     "toward": "south-east",
+     "from": "the layout's spot",
+     "how": "alone: a step about her tablet console, which stays at her left",
+     "overCheatLimit": false
+    },
+    {
+     "place": "C",
+     "name": "Lyra",
+     "movedM": 0.12,
+     "towardDeg": 0,
+     "toward": "north",
+     "from": "PV6-A's spot",
+     "how": "alone: along her console's working edge, her hands staying on it",
+     "overCheatLimit": false
+    }
+   ],
+   "visitors": [
+    {
+     "unit": "K1",
+     "what": "K1's eating spot",
+     "from": [
+      -1.297,
+      0.523
+     ],
+     "to": [
+      -1.787,
+      0.653
+     ],
+     "movedM": 0.51,
+     "towardDeg": 285,
+     "toward": "west",
+     "how": "cheated alone: out of the frame on both phones while they eat",
+     "by": "the Lead, 18 November",
+     "overCheatLimit": false
+    }
+   ]
+  },
+  "ownStation": {
+   "pieces": [
+    "bench",
+    "food capsule"
+   ],
+   "drawn": false,
+   "390x844": {
+    "shareOfStage": 0.108,
+    "fromY": 455
+   },
+   "430x932": {
+    "shareOfStage": 0.118,
+    "fromY": 511
+   },
+   "note": "never drawn in the viewer's own view (as PV6-A leaves Mira's console out); drawn, Vega's bench would cover Lyra in E"
+  },
+  "people": {
+   "A": {
+    "name": "Mira",
+    "crew": "c8",
+    "plan": [
+     -1.04,
+     1.68
+    ],
+    "pv6a": [
+     -1.04,
+     1.68
+    ],
+    "spot": [
+     -0.74,
+     1.18
+    ],
+    "fromPlanM": 0.58,
+    "fromPv6aM": 0.58,
+    "facing": 126,
+    "seenFromDeg": 84.4,
+    "seenSide": "profile, from their right",
+    "pose": "at her place's tablet console, which stands at her left, its long side along the north wall; stand-in: standing, a tablet held at the chest (the layout's \"tablet\"); her pose is the animation builder's, from the place",
+    "shareOfStageHeight": [
+     0.43,
+     0.42
+    ]
+   },
+   "C": {
+    "name": "Lyra",
+    "crew": "c3",
+    "plan": [
+     1.68,
+     -0.4
+    ],
+    "pv6a": [
+     1.28,
+     -0.1
+    ],
+    "spot": [
+     1.28,
+     0.02
+    ],
+    "fromPlanM": 0.58,
+    "fromPv6aM": 0.12,
+    "facing": 90,
+    "seenFromDeg": 172,
+    "seenSide": "back",
+    "pose": "typing: the console's working edge 0.25 m in front of her feet (PV6-A's pose)",
+    "shareOfStageHeight": [
+     0.28,
+     0.27
+    ]
+   },
+   "E": {
+    "name": "Vega",
+    "crew": "c1",
+    "plan": [
+     1.04,
+     1.68
+    ],
+    "pv6a": [
+     0.74,
+     1.33
+    ],
+    "spot": [
+     0.74,
+     1.33
+    ],
+    "fromPlanM": 0.46,
+    "fromPv6aM": 0,
+    "facing": 241,
+    "seenFromDeg": -6.6,
+    "seenSide": "front",
+    "pose": "test tube: far hand (her left) on the bench's edge 0.24 m forward, 0.14 m to her left, 0.87 m up; the bench's long edge along her left side (PV6-A's pose)",
+    "shareOfStageHeight": [
+     0.25,
+     0.24
+    ]
+   }
+  },
+  "outOfView": {
+   "place": "B",
+   "name": "Juno"
+  },
+  "windowAndScreen": {
+   "390x844": {
+    "window": {
+     "inPicture": false,
+     "box": [
+      3072.4,
+      -1670.5,
+      4989.7,
+      998.3
+     ],
+     "standInBoxCovers": {}
+    },
+    "screen": {
+     "inPicture": false,
+     "box": [
+      -528.3,
+      35.6,
+      -329.7,
+      402.1
+     ],
+     "standInBoxCovers": {}
+    }
+   },
+   "430x932": {
+    "window": {
+     "inPicture": false,
+     "box": [
+      3387.5,
+      -1831.3,
+      5501.5,
+      1111.2
+     ],
+     "standInBoxCovers": {}
+    },
+    "screen": {
+     "inPicture": false,
+     "box": [
+      -582.5,
+      49.7,
+      -363.5,
+      453.8
+     ],
+     "standInBoxCovers": {}
+    }
+   }
+  },
+  "layoutIssues": {
+   "390x844": [],
+   "430x932": []
+  },
+  "roomRules": []
+ },
+ "room": {
+  "sameAsPV6A": "the same room: the same lamps, ring, skylight, window, screen, colour plan and furniture",
+  "lamps": [
+   {
+    "id": "N1",
+    "wall": "north",
+    "at": [
+     -1,
+     2.05,
+     1.96
+    ]
+   },
+   {
+    "id": "N2",
+    "wall": "north",
+    "at": [
+     1,
+     2.05,
+     1.96
+    ]
+   },
+   {
+    "id": "E1",
+    "wall": "east",
+    "at": [
+     1.96,
+     2.05,
+     1
+    ]
+   },
+   {
+    "id": "E2",
+    "wall": "east",
+    "at": [
+     1.96,
+     2.05,
+     -1
+    ]
+   },
+   {
+    "id": "S1",
+    "wall": "south",
+    "at": [
+     0.15,
+     2.05,
+     -1.96
+    ]
+   },
+   {
+    "id": "S2",
+    "wall": "south",
+    "at": [
+     1.35,
+     2.05,
+     -1.96
+    ]
+   },
+   {
+    "id": "W1",
+    "wall": "west",
+    "at": [
+     -1.96,
+     2.05,
+     0.35
+    ]
+   },
+   {
+    "id": "W2",
+    "wall": "west",
+    "at": [
+     -1.96,
+     2.05,
+     -1
+    ]
+   }
+  ],
+  "ceiling": "Option A's skylight kept: 2.2 m glass, four panes, flat black; its ring of 16 lights at 1.45 m turned warm",
+  "inThisView": [
+   {
+    "id": "N1",
+    "wall": "north",
+    "depthM": 1.95,
+    "coreInFrame": 1
+   },
+   {
+    "id": "N2",
+    "wall": "north",
+    "depthM": 3.56,
+    "coreInFrame": 1
+   },
+   {
+    "id": "E1",
+    "wall": "east",
+    "depthM": 3.76,
+    "coreInFrame": 1
+   }
+  ]
+ },
+ "colourPlan": {
+  "violet": {
+   "deep": "#2A1446",
+   "shadow": "#4B2079",
+   "mid": "#7A3CAD",
+   "light": "#AE6CD3",
+   "pale": "#DCB6EE"
+  },
+  "plum": {
+   "deep": "#2A172E",
+   "shadow": "#582D59",
+   "mid": "#684166",
+   "light": "#774B70",
+   "warm": "#8C5675",
+   "pale": "#C18CA9"
+  },
+  "warm": {
+   "orange": "#EC793C",
+   "cream": "#FCE3A0",
+   "rust": "#75402E"
+  },
+  "blueGreen": [
+   "#3A9497",
+   "#066D84"
+  ],
+  "measured": {
+   "violet deep": {
+    "hex": "#2A1446",
+    "L": 0.253,
+    "C": 0.09,
+    "h": 300.3
+   },
+   "violet shadow": {
+    "hex": "#4B2079",
+    "L": 0.357,
+    "C": 0.143,
+    "h": 301.5
+   },
+   "violet mid": {
+    "hex": "#7A3CAD",
+    "L": 0.491,
+    "C": 0.175,
+    "h": 306.2
+   },
+   "violet light": {
+    "hex": "#AE6CD3",
+    "L": 0.643,
+    "C": 0.162,
+    "h": 312.2
+   },
+   "violet pale": {
+    "hex": "#DCB6EE",
+    "L": 0.828,
+    "C": 0.087,
+    "h": 314.8
+   },
+   "plum deep": {
+    "hex": "#2A172E",
+    "L": 0.241,
+    "C": 0.05,
+    "h": 320.5
+   },
+   "plum shadow": {
+    "hex": "#582D59",
+    "L": 0.371,
+    "C": 0.09,
+    "h": 326.4
+   },
+   "plum mid": {
+    "hex": "#684166",
+    "L": 0.435,
+    "C": 0.077,
+    "h": 328.6
+   },
+   "plum light": {
+    "hex": "#774B70",
+    "L": 0.476,
+    "C": 0.08,
+    "h": 332.6
+   },
+   "plum warm": {
+    "hex": "#8C5675",
+    "L": 0.524,
+    "C": 0.083,
+    "h": 344.9
+   },
+   "plum pale": {
+    "hex": "#C18CA9",
+    "L": 0.7,
+    "C": 0.075,
+    "h": 345.2
+   },
+   "warm orange": {
+    "hex": "#EC793C",
+    "L": 0.698,
+    "C": 0.16,
+    "h": 46.2
+   },
+   "warm cream": {
+    "hex": "#FCE3A0",
+    "L": 0.921,
+    "C": 0.089,
+    "h": 89.9
+   },
+   "warm rust": {
+    "hex": "#75402E",
+    "L": 0.432,
+    "C": 0.079,
+    "h": 39.4
+   },
+   "warm blue-green": {
+    "hex": "#3A9497",
+    "L": 0.615,
+    "C": 0.084,
+    "h": 198.3
+   },
+   "warm blue-green dark": {
+    "hex": "#066D84",
+    "L": 0.495,
+    "C": 0.088,
+    "h": 219.5
+   },
+   "warm owner plum": {
+    "hex": "#673B65",
+    "L": 0.422,
+    "C": 0.087,
+    "h": 328.6
+   }
+  },
+  "references": {
+   "reference 1": {
+    "purpleShare": 0.593,
+    "hue5_50_95": [
+     318.5,
+     332.1,
+     350.4
+    ],
+    "L10_30_50_70_90": [
+     0.296,
+     0.407,
+     0.446,
+     0.477,
+     0.515
+    ],
+    "Cmed": 0.077,
+    "size": [
+     960,
+     1584
+    ]
+   },
+   "reference 2": {
+    "purpleShare": 0.624,
+    "hue5_50_95": [
+     316.5,
+     328.6,
+     348.4
+    ],
+    "L10_30_50_70_90": [
+     0.278,
+     0.387,
+     0.424,
+     0.456,
+     0.501
+    ],
+    "Cmed": 0.076,
+    "size": [
+     960,
+     1584
+    ]
+   },
+   "reference 3": {
+    "purpleShare": 0.562,
+    "hue5_50_95": [
+     317.8,
+     330.7,
+     350.5
+    ],
+    "L10_30_50_70_90": [
+     0.285,
+     0.393,
+     0.442,
+     0.473,
+     0.505
+    ],
+    "Cmed": 0.081,
+    "size": [
+     960,
+     1584
+    ]
+   },
+   "reference 4": {
+    "purpleShare": 0.552,
+    "hue5_50_95": [
+     316.2,
+     329.5,
+     349.5
+    ],
+    "L10_30_50_70_90": [
+     0.277,
+     0.379,
+     0.43,
+     0.461,
+     0.499
+    ],
+    "Cmed": 0.075,
+    "size": [
+     960,
+     1584
+    ]
+   }
+  },
+  "referencesNote": "measured on the owner's four reference pictures (whole frames); the pictures are not published"
+ },
+ "colourCheck": {
+  "file": "colour-check-v4.py",
+  "sha256": "7634828cb8fc1d30b3a10ecb15b6eb85dd3ac8249d30a08ce4b9eca58f4d110b",
+  "version": 4,
+  "gates": {
+   "walls and deck in the base": "at least 60% of the wall and deck area: hue 285-355, chroma 0.035 or more, lightness 0.15 or more",
+   "each wall and the deck in the base": "at least 45% of each area on its own",
+   "orange capped": "at most 8% of the picture warm orange (hue 30-75, chroma 0.10 or more, lightness 0.60 or more)",
+   "rust capped": "at most 3% of the picture rust (hue 25-55, chroma 0.05-0.11, lightness 0.30-0.50)",
+   "no tan or olive": "at most 3% of the wall and deck area in hue 70-115 (chroma 0.035 or more, lightness 0.15-0.80)",
+   "not grey": "at most 15% of the wall and deck area neutral grey (chroma under 0.035, lightness 0.15 or more)",
+   "median lightness": "the median lightness of the wall and deck area between 0.30 and 0.60",
+   "accents only orange, cream, rust, blue-green": "at most 0.2% of the picture bright and saturated (lightness 0.55+, chroma 0.08+) outside hue 285-355, 355-105 and 170-235",
+   "openings flat black": "the window, the screen and the skylight: 95% of each opening under lightness 0.12"
+  },
+  "changes": [
+   {
+    "what": "Base hue band",
+    "v3": "285\u2013330\u00b0 (violet)",
+    "v4": "285\u2013355\u00b0 (violet and plum)",
+    "why": "The references' purple runs 320\u2013346\u00b0 (10th\u201390th percentile, median 330\u00b0); the owner's plum #673B65 is at 328.6\u00b0."
+   },
+   {
+    "what": "Walls and deck in the base",
+    "v3": "at least 70% \"in the family\"",
+    "v4": "at least 60% \"in the base\"",
+    "why": "Warm light is now allowed on walls and deck, capped below."
+   },
+   {
+    "what": "Each wall and the deck",
+    "v3": "at least 50%",
+    "v4": "at least 45%",
+    "why": "Warm pools on the deck under each lamp."
+   },
+   {
+    "what": "Brown",
+    "v3": "\"not brown\": at most 5% of walls and deck in hue 20\u2013110 (chroma 0.035+, lightness 0.15\u20130.75)",
+    "v4": "replaced by three gates: orange, rust, tan and olive",
+    "why": "The references use orange and rust on purpose; tan and olive stay out."
+   },
+   {
+    "what": "Warm orange",
+    "v3": "(counted as brown)",
+    "v4": "at most 8% of the picture (hue 30\u201375, chroma 0.10+, lightness 0.60+)",
+    "why": "The references: 4.2\u20135.3%."
+   },
+   {
+    "what": "Rust",
+    "v3": "(counted as brown)",
+    "v4": "at most 3% of the picture (hue 25\u201355, chroma 0.05\u20130.11, lightness 0.30\u20130.50)",
+    "why": "The references: 1.1\u20131.8%."
+   },
+   {
+    "what": "Tan and olive",
+    "v3": "(counted as brown)",
+    "v4": "at most 3% of walls and deck (hue 70\u2013115, chroma 0.035+, lightness 0.15\u20130.80)",
+    "why": "Cream lamp cores are lighter than 0.80 and are not counted."
+   },
+   {
+    "what": "Accents",
+    "v3": "only teal (179\u00b0 \u00b1 25) and gold (92\u00b0 \u00b1 20) outside the family band; stray at most 0.2%",
+    "v4": "only orange, cream and rust (355\u2013105\u00b0) and blue-green (170\u2013235\u00b0) outside the base band; stray at most 0.2%",
+    "why": "The cap is version 3's; the references measure 0.003\u20130.075%."
+   },
+   {
+    "what": "Median lightness",
+    "v3": "0.22\u20130.643 (on the ramp, deep to light)",
+    "v4": "0.30\u20130.60",
+    "why": "The references are brighter: median 0.43\u20130.46, their floor lit. A dark picture now fails."
+   },
+   {
+    "what": "Map",
+    "v3": "walls, deck, window, screen, display, liquid, skylight",
+    "v4": "adds lamp (255, 200, 0)",
+    "why": "The lamps' plates and cores are left out of the wall and deck gates."
+   },
+   {
+    "what": "Unchanged",
+    "v3": "grey at most 15%; openings 95% under lightness 0.12; erosion 16 px and 6 px",
+    "v4": "the same",
+    "why": "Window, screen and skylight glass stay flat black."
+   }
+  ],
+  "onTheGuides": {
+   "withStations": {
+    "pass": true,
+    "result": {
+     "walls and deck in the base": true,
+     "each wall and the deck in the base": true,
+     "orange capped": true,
+     "rust capped": true,
+     "accents only orange, cream, rust, blue-green": true,
+     "no tan or olive": true,
+     "not grey": true,
+     "median lightness": true,
+     "openings flat black": true
+    },
+    "warm": {
+     "orange": 0.0454,
+     "rust": 0.0056,
+     "cream": 0.0171,
+     "blueGreen": 0
+    }
+   },
+   "empty": {
+    "pass": true,
+    "result": {
+     "walls and deck in the base": true,
+     "each wall and the deck in the base": true,
+     "orange capped": true,
+     "rust capped": true,
+     "accents only orange, cream, rust, blue-green": true,
+     "no tan or olive": true,
+     "not grey": true,
+     "median lightness": true,
+     "openings flat black": true
+    },
+    "warm": {
+     "orange": 0.0459,
+     "rust": 0.0088,
+     "cream": 0.0171,
+     "blueGreen": 0
+    }
+   }
+  },
+  "version3OnTheGuides": {
+   "with the stations": {
+    "pass": false,
+    "failed": [
+     "walls and deck in the family",
+     "not brown",
+     "accents only teal, gold, paper"
+    ],
+    "inFamily": 0.6967,
+    "brown": 0.0675,
+    "stray": 0.07255
+   },
+   "empty": {
+    "pass": false,
+    "failed": [
+     "walls and deck in the family",
+     "not brown",
+     "accents only teal, gold, paper"
+    ],
+    "inFamily": 0.6977,
+    "brown": 0.0678,
+    "stray": 0.07604
+   }
+  },
+  "references": {
+   "reference 1": {
+    "failed": [
+     "walls and deck in the base"
+    ],
+    "warm": {
+     "orange": 0.047,
+     "rust": 0.0177,
+     "cream": 0.0168,
+     "blueGreen": 0.0078
+    },
+    "inBase": 0.5927,
+    "medianL": 0.457
+   },
+   "reference 2": {
+    "failed": [],
+    "warm": {
+     "orange": 0.0416,
+     "rust": 0.0113,
+     "cream": 0.0151,
+     "blueGreen": 0.0178
+    },
+    "inBase": 0.6238,
+    "medianL": 0.429
+   },
+   "reference 3": {
+    "failed": [
+     "walls and deck in the base"
+    ],
+    "warm": {
+     "orange": 0.0529,
+     "rust": 0.0162,
+     "cream": 0.0196,
+     "blueGreen": 0.0001
+    },
+    "inBase": 0.5624,
+    "medianL": 0.456
+   },
+   "reference 4": {
+    "failed": [
+     "walls and deck in the base"
+    ],
+    "warm": {
+     "orange": 0.0448,
+     "rust": 0.0147,
+     "cream": 0.0175,
+     "blueGreen": 0.0164
+    },
+    "inBase": 0.5523,
+    "medianL": 0.436
+   }
+  },
+  "mustFail": {
+   "turned grey": {
+    "pass": false,
+    "failed": [
+     "walls and deck in the base",
+     "each wall and the deck in the base",
+     "not grey"
+    ]
+   },
+   "walls turned brown": {
+    "pass": false,
+    "failed": [
+     "walls and deck in the base",
+     "each wall and the deck in the base"
+    ]
+   },
+   "walls turned tan": {
+    "pass": false,
+    "failed": [
+     "walls and deck in the base",
+     "each wall and the deck in the base",
+     "no tan or olive"
+    ]
+   },
+   "deck turned olive": {
+    "pass": false,
+    "failed": [
+     "walls and deck in the base",
+     "each wall and the deck in the base",
+     "no tan or olive"
+    ]
+   },
+   "skylight lit": {
+    "pass": false,
+    "failed": [
+     "openings flat black"
+    ]
+   },
+   "walls flooded orange": {
+    "pass": false,
+    "failed": [
+     "walls and deck in the base",
+     "each wall and the deck in the base",
+     "orange capped"
+    ]
+   },
+   "deck rusted": {
+    "pass": false,
+    "failed": [
+     "walls and deck in the base",
+     "each wall and the deck in the base",
+     "rust capped"
+    ]
+   }
+  }
+ },
+ "kit": {
+  "views": {
+   "D": {
+    "files": {
+     "guide": {
+      "published": "img/pv6-D-guide.png",
+      "sha256": "795178198e4200149ae6286bfa4b33cc45670db52d747c34baaeef701cbff62a"
+     },
+     "regions": {
+      "published": "img/pv6-D-regions.png",
+      "sha256": "5acff9684432f419341d5ff76e50e9b7c6e23dacbb53142d12319ba487dcb29f"
+     },
+     "empty": {
+      "published": "img/pv6-D-empty.png",
+      "sha256": "39c0f14f1870fd7930c79ca9bd1eb3a2d507eec6d88e2721414beab30f2018ce"
+     },
+     "emptyRegions": {
+      "published": "img/pv6-D-empty-regions.png",
+      "sha256": "1194e6a82b535ebdd8ac548b72bb4204ef8f60ab97647033d5871614ca27af22"
+     },
+     "emptyAnnotated": {
+      "published": "img/pv6-D-empty-annotated.png",
+      "sha256": "366001397a13e830ff5bd53e308bd9f6d91fad8e8b5b767e1568bfa5fb1b5b4d"
+     },
+     "furniture": {
+      "published": "img/pv6-D-furniture.png",
+      "sha256": "f9fc83f775a4d39e4f11a844c45c0f1fe179a5887290c5d9d5d7939044d0016e"
+     },
+     "place": {
+      "published": "img/pv6-D-place.png",
+      "sha256": "1f13eb627f27e06e97278641964dffee531adf8dc04fbce50e7fb9051ad84e85"
+     },
+     "split": {
+      "published": "img/pv6-D-split.png",
+      "sha256": "36cac7bfb94366ee41e6ca8126aa2dc4bf71c5e3ef35d89dbe1e78a36b0f29b6"
+     },
+     "marks": {
+      "published": "pv6-D-marks.json",
+      "sha256": "4da48999c64bf611cfe5ce6d4cbdb8af70954a5720b081819a62180f93875eec"
+     }
+    },
+    "refs": {
+     "empty": {
+      "name": "PV6-A-2",
+      "published": "img/PV6-A-2.png",
+      "sha256": "738061ae21931cabf70ba7e82ebb916c1dabcc5c2b16ac3bf6c65663d13783a5"
+     },
+     "furnished": {
+      "name": "PV6-A-3",
+      "published": "img/PV6-A-3.png",
+      "sha256": "731ec58d6773dc0ae6fd17ec4e12bf7cecec92a8b66ff25f99408a1e6b76e4dc"
+     },
+     "aMap": {
+      "name": "PV6-A's colour map (colour check version 4)",
+      "published": "img/pv6-A-empty-regions.png",
+      "sha256": "c3a00e20277e2e0f03b99928da74484ea3ae074bf8f7318cc80fcfceb15257c1"
+     },
+     "aMarks": {
+      "name": "PV6-A's lamps and ring lights (marks7.mjs)",
+      "published": "pv6-A-marks.json",
+      "sha256": "dc19a8449e23135cb27b5047c3526d583155b3a5fc1d2835badf35f97b063331"
+     }
+    },
+    "expected": {
+     "s1": {
+      "inputSha256": "39c0f14f1870fd7930c79ca9bd1eb3a2d507eec6d88e2721414beab30f2018ce"
+     },
+     "s2": {
+      "maskedShare": 0.0976,
+      "rawMaskAlpha": "6a2114077da0f5057e3990515a5608ce743585d89e7808aa66721b0b739b0cf8",
+      "over10": false
+     }
+    },
+    "prompts": {
+     "s1": {
+      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThe room: Room B, a 4 m square laboratory with a 3 m ceiling, here with no furniture in it. In the middle of the ceiling, a round skylight about 2.2 m across in a heavy round frame with a lit inner edge, divided into four panes by a thin cross of two mullions; its glass is flat black and empty, with no stars, planets, reflections or other bars across it. Around it, a ring of sixteen small round lights set in the solid ceiling, lit warm cream with an orange glow. On the walls, caged lamps a little above head height, two on each wall, glowing warm cream behind their bars, each throwing an orange glow on the wall around it and a warm reflection on the deck below. The walls are panels, pipes, conduits and shelves, worn and repaired; the deck is metal plates with seams, scuffs and a little rust, lit plum under the ring of lights and warm under the lamps, darker toward the corners. No beams, rays or shafts of light in the air.\n\nThe second attached picture is this same room, Room B, painted from another place for the same game. Paint the same room: the same caged lamps, pipes, conduits, panels, shelves, deck plates, materials, wear and colours, so that the two pictures read as one room seen from two places. Take only the room's look from it: this picture's view, layout and light come from the guide.\n\nView: a straight-lined view at standing eye height, exactly as the attached guide shows: 80 degrees across and level, every vertical line perfectly straight and upright, every straight line in the room straight in the picture. The horizon, at eye level, is a straight line 714 px from the top, a little above the middle. Match the guide's layout, perspective, horizon and proportions exactly, line for line, as its floor seams, wall bases, corners and ceiling edges show. Do not curve the lines, tilt the view, zoom in or out, or move the horizon.\n\nThis picture: from a place by the west wall, a little south of its middle, at standing eye height, looking diagonally across the open room toward its north-east corner, a little right of the middle. On the left and ahead, the north wall, with a caged lamp close at the left edge and a second just left of the middle; on the right, past the corner, the east wall, with a caged lamp right of the middle. Above, the ceiling, with the round skylight in its upper middle and right, its near edge cut off by the top of the picture, and the ring of warm lights around it. The deck is open and clear, with nothing standing on it, while the walls keep their pipes, panels and shelves.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+      "sha256": "279f7366fa556551c1a7eac15b144c09bf98db8a5b7dc1a39c5495d10c7f323f",
+      "chars": 4894
+     },
+     "s1-one": {
+      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThe room: Room B, a 4 m square laboratory with a 3 m ceiling, here with no furniture in it. In the middle of the ceiling, a round skylight about 2.2 m across in a heavy round frame with a lit inner edge, divided into four panes by a thin cross of two mullions; its glass is flat black and empty, with no stars, planets, reflections or other bars across it. Around it, a ring of sixteen small round lights set in the solid ceiling, lit warm cream with an orange glow. On the walls, caged lamps a little above head height, two on each wall, glowing warm cream behind their bars, each throwing an orange glow on the wall around it and a warm reflection on the deck below. The walls are panels, pipes, conduits and shelves, worn and repaired; the deck is metal plates with seams, scuffs and a little rust, lit plum under the ring of lights and warm under the lamps, darker toward the corners. No beams, rays or shafts of light in the air.\n\nView: a straight-lined view at standing eye height, exactly as the attached guide shows: 80 degrees across and level, every vertical line perfectly straight and upright, every straight line in the room straight in the picture. The horizon, at eye level, is a straight line 714 px from the top, a little above the middle. Match the guide's layout, perspective, horizon and proportions exactly, line for line, as its floor seams, wall bases, corners and ceiling edges show. Do not curve the lines, tilt the view, zoom in or out, or move the horizon.\n\nThis picture: from a place by the west wall, a little south of its middle, at standing eye height, looking diagonally across the open room toward its north-east corner, a little right of the middle. On the left and ahead, the north wall, with a caged lamp close at the left edge and a second just left of the middle; on the right, past the corner, the east wall, with a caged lamp right of the middle. Above, the ceiling, with the round skylight in its upper middle and right, its near edge cut off by the top of the picture, and the ring of warm lights around it. The deck is open and clear, with nothing standing on it, while the walls keep their pipes, panels and shelves.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+      "sha256": "14461d5729f4441ea8443f1a45fc8d80637a5eb042ea7754e08d61fc201c90ee",
+      "chars": 4515
+     },
+     "s2": {
+      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked shapes, and leave everything outside them exactly as it is. Each masked shape holds one piece of furniture that fills that shape exactly, standing on the deck or fixed to the wall, painted in full detail in the picture's style and light: the shape on the left is a waist-high tablet console with a slanted top whose display is plain and dark, with no readouts, bars or keys on it; the shape ahead is the end of a low workbench that stands out from the east wall, seen end-on, its top lit warm, with a microscope on its far end; the shape on the right is a waist-high console with a slanted top whose display is plain and dark, with no readouts, bars or keys on it.\n\nThe second attached picture shows Room B's furniture painted from another place. Paint each piece as the same furniture, with the same materials, colours, wear and warm light; a piece that is not in it is painted to match the pieces that are, a tablet console like the console and every workbench like the workbench.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+      "sha256": "41fee126c4a3351256569b05281fcd1924399a7e4bbab57edc6b5e1e2ecd3706",
+      "chars": 3407
+     },
+     "s2-one": {
+      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked shapes, and leave everything outside them exactly as it is. Each masked shape holds one piece of furniture that fills that shape exactly, standing on the deck or fixed to the wall, painted in full detail in the picture's style and light: the shape on the left is a waist-high tablet console with a slanted top whose display is plain and dark, with no readouts, bars or keys on it; the shape ahead is the end of a low workbench that stands out from the east wall, seen end-on, its top lit warm, with a microscope on its far end; the shape on the right is a waist-high console with a slanted top whose display is plain and dark, with no readouts, bars or keys on it.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+      "sha256": "b081d8ea9a90f36cf7f50a2bb9feac5b21b55bab7de8adbf56b59184e6b1864a",
+      "chars": 3089
+     }
+    },
+    "split": {
+     "A tablet console": 60,
+     "E bench": 20,
+     "C console": 40
+    },
+    "shapes": [
+     {
+      "pieces": [
+       0
+      ],
+      "px": 76763,
+      "bbox": [
+       119,
+       871,
+       346,
+       1274
+      ],
+      "visibleCentreX": 228,
+      "cutByEdge": false,
+      "tall": 1.78
+     },
+     {
+      "pieces": [
+       1
+      ],
+      "px": 39714,
+      "bbox": [
+       548,
+       774,
+       705,
+       1098
+      ],
+      "visibleCentreX": 628,
+      "cutByEdge": false,
+      "tall": 2.06
+     },
+     {
+      "pieces": [
+       2
+      ],
+      "px": 37042,
+      "bbox": [
+       808,
+       830,
+       963,
+       1096
+      ],
+      "visibleCentreX": 887,
+      "cutByEdge": false,
+      "tall": 1.72
+     }
+    ],
+    "pieces": [
+     {
+      "place": "A",
+      "name": "tablet console",
+      "grey": 60
+     },
+     {
+      "place": "E",
+      "name": "bench",
+      "grey": 20
+     },
+     {
+      "place": "C",
+      "name": "console",
+      "grey": 40
+     }
+    ],
+    "outlineShare": 0.0862
+   }
+  },
+  "lift": {
+   "file": "lift5.py",
+   "sha256": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+   "recipe": "d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November)",
+   "split": "by the split map: the nearer piece owns an overlap"
+  },
+  "colourCheck": {
+   "file": "colour-check-v4.py",
+   "sha256": "7634828cb8fc1d30b3a10ecb15b6eb85dd3ac8249d30a08ce4b9eca58f4d110b"
+  },
+  "tool": {
+   "file": "pv7_tools.py",
+   "sha256": "7760552f3cbf76ebfd357c7e288bcfe11fa0e7147b91c7378c4cb2098f14dd4b"
+  }
+ },
+ "capsule": {
+  "layout": "A1",
+  "units": [
+   {
+    "id": "K1",
+    "kind": "counter",
+    "where": "on Atlas's bench, its north-west end",
+    "ownStationHere": true,
+    "facingDeg": 99,
+    "front": [
+     -1.433,
+     1.04,
+     0.241
+    ],
+    "hatch": [
+     [
+      -1.42,
+      0.97,
+      0.325
+     ],
+     [
+      -1.446,
+      0.97,
+      0.157
+     ],
+     [
+      -1.446,
+      1.11,
+      0.157
+     ],
+     [
+      -1.42,
+      1.11,
+      0.325
+     ]
+    ],
+    "handle": [
+     [
+      -1.426,
+      0.982,
+      0.286
+     ],
+     [
+      -1.44,
+      0.982,
+      0.197
+     ]
+    ],
+    "tray": {
+     "at": [
+      -1.531,
+      0.985,
+      0.257
+     ],
+     "width": 0.145,
+     "depth": 0.154
+    },
+    "light": {
+     "at": [
+      -1.433,
+      1.14,
+      0.241
+     ],
+     "r": 0.028
+    },
+    "note": "room metres: x east, y up from the deck, z north; the hatch slides up into the housing as it opens (ship-life), so the open hatch is drawn up to its own height above y1",
+    "visitor": [
+     -1.787,
+     0.653
+    ],
+    "phones": {
+     "390x844": {
+      "inPicture": false,
+      "box": [
+       -167.5,
+       453.4,
+       35.1,
+       929.6
+      ],
+      "hatchToCameraDeg": 93
+     },
+     "430x932": {
+      "inPicture": false,
+      "box": [
+       -184.7,
+       510.4,
+       38.7,
+       1035.4
+      ],
+      "hatchToCameraDeg": 93
+     }
+    }
+   }
+  ]
+ },
+ "visits": {
+  "published": "visits-A1.json",
+  "sha256": "ee24baf3094f3765abd85629ef9e25ffd8b46be201bc2868b7e3a083a14d95d2",
+  "layout": "A1",
+  "units": {
+   "K1": {
+    "kind": "counter",
+    "facingDeg": 99,
+    "front": [
+     -1.433,
+     1.04,
+     0.241
+    ],
+    "hatch": [
+     [
+      -1.42,
+      0.97,
+      0.325
+     ],
+     [
+      -1.446,
+      0.97,
+      0.157
+     ],
+     [
+      -1.446,
+      1.11,
+      0.157
+     ],
+     [
+      -1.42,
+      1.11,
+      0.325
+     ]
+    ],
+    "handle": [
+     [
+      -1.426,
+      0.982,
+      0.286
+     ],
+     [
+      -1.44,
+      0.982,
+      0.197
+     ]
+    ],
+    "tray": {
+     "at": [
+      -1.531,
+      0.985,
+      0.257
+     ],
+     "width": 0.145,
+     "depth": 0.154
+    },
+    "light": {
+     "at": [
+      -1.433,
+      1.14,
+      0.241
+     ],
+     "r": 0.028
+    },
+    "note": "room metres: x east, y up from the deck, z north; the hatch slides up into the housing as it opens (ship-life), so the open hatch is drawn up to its own height above y1",
+    "visitor": [
+     -1.297,
+     0.523
+    ],
+    "eatFacingDeg": 112,
+    "movesWithStationIn": "B (with Atlas's bench, 0.35 m north); there its places are 0.35 m north of these"
+   }
+  },
+  "beats": {
+   "source": "ship-life's visit (docs/design/ship-life.md, approved 11 November): walk, open, take, eat facing the room, wrapper back, shut, walk back; 6.5-7.7 s, a brief visit 4.8-6 s, one visitor at a time; the tag and press area stay at the place",
+   "walkPaceMps": 1.2,
+   "note": "ship-life's walks are 0.4 to 1.2 s in its rooms; here the walks are 0.3 to 4 m, so each is timed at 1.2 m/s: its time there and back is added to the beats between them"
+  },
+  "measure": {
+   "deck": "metres: x east, z north, y up from the deck; the room is 4 m square, its middle at 0, 0",
+   "scale": "a figure's px per drawing unit at a deck point = f \u00d7 0.007176 / depth (the rig's 239.7 drawing units are 1.72 m)",
+   "project": "view(p) = [ (p-C)\u00b7right, p.y - C.y, (p-C)\u00b7fwd ], fwd = (sin yaw, 0, cos yaw), right = (cos yaw, 0, -sin yaw); screen x = cx + f\u00b7v0/v2, y = hy - f\u00b7v1/v2 (y from the stage top); depth = v2"
+  }
+ },
+ "figures": {
+  "plan": {
+   "published": "img/pv6-D-plan.png",
+   "sha256": "2d79500188801fe14c8e601041591482edcbd3253b00a797b13c4f649e90eec4"
+  },
+  "walks": {
+   "published": "img/pv6-D-walks.png",
+   "sha256": "bcc22f38fa02545b517dbc22dfa67211b7ee2e143655a34e44ca9347fa63d4ba"
+  }
+ },
+ "cameraReport": {
+  "published": "camera-report-D.json",
+  "sha256": "2e594b4a1c9811efe7fabb28ab8d465eb2b879844d51b82aa421df19ba1a975a"
+ },
+ "budget": {
+  "afterTheGo": "one empty-room picture (step 1) and one PLACE edit (step 2), about $0.12; one re-run only if a check fails, at most $0.18",
+  "generatedSoFar": 0
+ },
+ "referencesSentToTheModel": "PV6-A-2 at step 1 and PV6-A-3 at step 2, the team's own AI-generated pictures of this room (records page), as a second picture where the image tool takes one; none of the owner's reference pictures"
+}

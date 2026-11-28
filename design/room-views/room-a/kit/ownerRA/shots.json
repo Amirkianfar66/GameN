@@ -1,0 +1,230 @@
+{
+ "shots": [
+  {
+   "file": "shots/first-402x742.webp",
+   "view": "A",
+   "w": 804,
+   "h": 1562,
+   "caption": "The first screen at 402 \u00d7 742, your phone in the app: Vega\u2019s view, the room set to that phone.",
+   "alt": "Capture of this page\u2019s first screen; the room is an AI-generated picture, the people, tags and controls drawn by code"
+  },
+  {
+   "file": "shots/first-390x844.webp",
+   "view": "A",
+   "w": 780,
+   "h": 1763,
+   "caption": "The first screen at 390 \u00d7 844: Vega\u2019s view, the room set to that phone.",
+   "alt": "Capture of this page\u2019s first screen; the room is an AI-generated picture, the people, tags and controls drawn by code"
+  },
+  {
+   "file": "shots/first-430x932.webp",
+   "view": "A",
+   "w": 860,
+   "h": 1948,
+   "caption": "The first screen at 430 \u00d7 932: Vega\u2019s view, the room set to that phone.",
+   "alt": "Capture of this page\u2019s first screen; the room is an AI-generated picture, the people, tags and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-A-402x742-100.webp",
+   "view": "A",
+   "w": 740,
+   "h": 1426,
+   "caption": "Vega\u2019s view at 402 \u00d7 742, your phone in the app, 100% text. The people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: Vega\u2019s view at 402 \u00d7 742, your phone in the app, 100% text; the room is an AI-generated picture, the people, layers and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-A-402x742-200.webp",
+   "view": "A",
+   "w": 740,
+   "h": 1426,
+   "caption": "Vega\u2019s view at 402 \u00d7 742, your phone in the app, 200% text. The people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: Vega\u2019s view at 402 \u00d7 742, your phone in the app, 200% text; the room is an AI-generated picture, the people, layers and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-A-402x742-room.webp",
+   "view": "A",
+   "w": 740,
+   "h": 1438,
+   "caption": "Vega\u2019s view at 402 \u00d7 742, your phone in the app: the room only, the painting with nothing drawn over it.",
+   "alt": "Capture of this page: Vega\u2019s view at 402 \u00d7 742, your phone in the app, room only; the room is an AI-generated picture"
+  },
+  {
+   "file": "shots/phone-A-390x844-100.webp",
+   "view": "A",
+   "w": 716,
+   "h": 1605,
+   "caption": "Vega\u2019s view at 390 \u00d7 844, 100% text. The people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: Vega\u2019s view at 390 \u00d7 844, 100% text; the room is an AI-generated picture, the people, layers and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-A-430x932-100.webp",
+   "view": "A",
+   "w": 796,
+   "h": 1789,
+   "caption": "Vega\u2019s view at 430 \u00d7 932, 100% text. The people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: Vega\u2019s view at 430 \u00d7 932, 100% text; the room is an AI-generated picture, the people, layers and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-B-402x742-100.webp",
+   "view": "B",
+   "w": 740,
+   "h": 1417,
+   "caption": "Mira\u2019s view at 402 \u00d7 742, your phone in the app, 100% text. The window\u2019s sky (the ship\u2019s voyage at 0 s), the live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: Mira\u2019s view at 402 \u00d7 742, your phone in the app, 100% text; the room is an AI-generated picture, the sky, screens, people, layers and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-B-402x742-200.webp",
+   "view": "B",
+   "w": 740,
+   "h": 1417,
+   "caption": "Mira\u2019s view at 402 \u00d7 742, your phone in the app, 200% text. The window\u2019s sky (the ship\u2019s voyage at 0 s), the live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: Mira\u2019s view at 402 \u00d7 742, your phone in the app, 200% text; the room is an AI-generated picture, the sky, screens, people, layers and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-B-402x742-room.webp",
+   "view": "B",
+   "w": 740,
+   "h": 1440,
+   "caption": "Mira\u2019s view at 402 \u00d7 742, your phone in the app: the room only, the painting with nothing drawn over it.",
+   "alt": "Capture of this page: Mira\u2019s view at 402 \u00d7 742, your phone in the app, room only; the room is an AI-generated picture"
+  },
+  {
+   "file": "shots/phone-B-390x844-100.webp",
+   "view": "B",
+   "w": 716,
+   "h": 1596,
+   "caption": "Mira\u2019s view at 390 \u00d7 844, 100% text. The window\u2019s sky (the ship\u2019s voyage at 0 s), the live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: Mira\u2019s view at 390 \u00d7 844, 100% text; the room is an AI-generated picture, the sky, screens, people, layers and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-B-430x932-100.webp",
+   "view": "B",
+   "w": 796,
+   "h": 1783,
+   "caption": "Mira\u2019s view at 430 \u00d7 932, 100% text. The window\u2019s sky (the ship\u2019s voyage at 0 s), the live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: Mira\u2019s view at 430 \u00d7 932, 100% text; the room is an AI-generated picture, the sky, screens, people, layers and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-C-402x742-100.webp",
+   "view": "C",
+   "w": 740,
+   "h": 1420,
+   "caption": "Echo\u2019s view at 402 \u00d7 742, your phone in the app, 100% text. The live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: Echo\u2019s view at 402 \u00d7 742, your phone in the app, 100% text; the room is an AI-generated picture, the screens, people, layers and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-C-402x742-200.webp",
+   "view": "C",
+   "w": 740,
+   "h": 1420,
+   "caption": "Echo\u2019s view at 402 \u00d7 742, your phone in the app, 200% text. The live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: Echo\u2019s view at 402 \u00d7 742, your phone in the app, 200% text; the room is an AI-generated picture, the screens, people, layers and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-C-402x742-room.webp",
+   "view": "C",
+   "w": 740,
+   "h": 1440,
+   "caption": "Echo\u2019s view at 402 \u00d7 742, your phone in the app: the room only, the painting with nothing drawn over it.",
+   "alt": "Capture of this page: Echo\u2019s view at 402 \u00d7 742, your phone in the app, room only; the room is an AI-generated picture"
+  },
+  {
+   "file": "shots/phone-C-390x844-100.webp",
+   "view": "C",
+   "w": 716,
+   "h": 1602,
+   "caption": "Echo\u2019s view at 390 \u00d7 844, 100% text. The live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: Echo\u2019s view at 390 \u00d7 844, 100% text; the room is an AI-generated picture, the screens, people, layers and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-C-430x932-100.webp",
+   "view": "C",
+   "w": 796,
+   "h": 1783,
+   "caption": "Echo\u2019s view at 430 \u00d7 932, 100% text. The live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: Echo\u2019s view at 430 \u00d7 932, 100% text; the room is an AI-generated picture, the screens, people, layers and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-D-402x742-100.webp",
+   "view": "D",
+   "w": 740,
+   "h": 1414,
+   "caption": "Atlas\u2019s view at 402 \u00d7 742, your phone in the app, 100% text. The window\u2019s sky (the ship\u2019s voyage at 0 s), the live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: Atlas\u2019s view at 402 \u00d7 742, your phone in the app, 100% text; the room is an AI-generated picture, the sky, screens, people, layers and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-D-402x742-200.webp",
+   "view": "D",
+   "w": 740,
+   "h": 1414,
+   "caption": "Atlas\u2019s view at 402 \u00d7 742, your phone in the app, 200% text. The window\u2019s sky (the ship\u2019s voyage at 0 s), the live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: Atlas\u2019s view at 402 \u00d7 742, your phone in the app, 200% text; the room is an AI-generated picture, the sky, screens, people, layers and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-D-402x742-room.webp",
+   "view": "D",
+   "w": 740,
+   "h": 1440,
+   "caption": "Atlas\u2019s view at 402 \u00d7 742, your phone in the app: the room only, the painting with nothing drawn over it.",
+   "alt": "Capture of this page: Atlas\u2019s view at 402 \u00d7 742, your phone in the app, room only; the room is an AI-generated picture"
+  },
+  {
+   "file": "shots/phone-D-390x844-100.webp",
+   "view": "D",
+   "w": 716,
+   "h": 1596,
+   "caption": "Atlas\u2019s view at 390 \u00d7 844, 100% text. The window\u2019s sky (the ship\u2019s voyage at 0 s), the live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: Atlas\u2019s view at 390 \u00d7 844, 100% text; the room is an AI-generated picture, the sky, screens, people, layers and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-D-430x932-100.webp",
+   "view": "D",
+   "w": 796,
+   "h": 1780,
+   "caption": "Atlas\u2019s view at 430 \u00d7 932, 100% text. The window\u2019s sky (the ship\u2019s voyage at 0 s), the live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: Atlas\u2019s view at 430 \u00d7 932, 100% text; the room is an AI-generated picture, the sky, screens, people, layers and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-E-402x742-100.webp",
+   "view": "E",
+   "w": 740,
+   "h": 1426,
+   "caption": "Lyra\u2019s view at 402 \u00d7 742, your phone in the app, 100% text. The people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: Lyra\u2019s view at 402 \u00d7 742, your phone in the app, 100% text; the room is an AI-generated picture, the people, layers and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-E-402x742-200.webp",
+   "view": "E",
+   "w": 740,
+   "h": 1426,
+   "caption": "Lyra\u2019s view at 402 \u00d7 742, your phone in the app, 200% text. The people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: Lyra\u2019s view at 402 \u00d7 742, your phone in the app, 200% text; the room is an AI-generated picture, the people, layers and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-E-402x742-room.webp",
+   "view": "E",
+   "w": 740,
+   "h": 1440,
+   "caption": "Lyra\u2019s view at 402 \u00d7 742, your phone in the app: the room only, the painting with nothing drawn over it.",
+   "alt": "Capture of this page: Lyra\u2019s view at 402 \u00d7 742, your phone in the app, room only; the room is an AI-generated picture"
+  },
+  {
+   "file": "shots/phone-E-390x844-100.webp",
+   "view": "E",
+   "w": 716,
+   "h": 1605,
+   "caption": "Lyra\u2019s view at 390 \u00d7 844, 100% text. The people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: Lyra\u2019s view at 390 \u00d7 844, 100% text; the room is an AI-generated picture, the people, layers and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-E-430x932-100.webp",
+   "view": "E",
+   "w": 796,
+   "h": 1789,
+   "caption": "Lyra\u2019s view at 430 \u00d7 932, 100% text. The people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: Lyra\u2019s view at 430 \u00d7 932, 100% text; the room is an AI-generated picture, the people, layers and controls drawn by code"
+  }
+ ],
+ "summary": "in all five views, on all three phones at both text sizes, every name tag, chip and control lands within 0.02 px of the layout and its words fit inside it; each view\u2019s stage draws its plate, the window\u2019s sky where the window is in sight (Mira\u2019s and Atlas\u2019s views, held at 0 s), its live screens where it has them, then its people far to near, each followed by the layer parts in front of them; Room only leaves the painting alone in every view; the page never scrolls sideways at 390, 402, 430 px; every picture loads; no script errors",
+ "worstPx": 0.02
+}

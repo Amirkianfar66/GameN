@@ -1,0 +1,255 @@
+{
+ "piece": "PV6-C",
+ "pass": "step 4 (version 9): the three jar tops and the dispenser's left edge, one masked edit of PV6-C-4 inside four tight shapes, with the guide there and no second picture (s4), kept inside the mask in code",
+ "attempt": 5,
+ "generated": true,
+ "label": "AI-generated, composited in code from a masked edit",
+ "runner": "Designer team Image builder (Claude Code session)",
+ "tool": "OpenAI Images API, POST /v1/images/edits (one input, the S4 input with the mask), then pv9_tools.py keep4 and lift4",
+ "date": "2026-11-18T18:44:03+00:00",
+ "request_id": "req_afbcf44fa1e74a46bf2b86d493c4bf9d",
+ "authority": "the Lead's go of 18 November 2026 for C version 9, step 4, one call over PV6-C-4, no re-run; the owner's approval of option (b), 18 November 2026; C ends at about $0.30",
+ "sheet": {
+  "page": "Room B PV6-C Sheet",
+  "version": "1795027250-8951",
+  "manifest": {
+   "file": "room-b-pv6c.json",
+   "sha256": "990d9f27927134babd3f4c63be4fae2d583d9ccd55959c2db056af9ba4fb6705"
+  },
+  "prompts": {
+   "file": "room-b-pv6c-prompts.txt",
+   "sha256": "d5535d28e48e125ecf1454735160a2767259b97bb8e34a53c5d103d28719ef49"
+  },
+  "dryRun": {
+   "file": "s4check-C.json",
+   "sha256": "df9216eddc2b73bb8254fc559b14016e31289566a780482f2bb81a7d7fe2525b",
+   "matched": true
+  }
+ },
+ "tools": {
+  "pv9_tools.py": "585048e17b0abb1583712b509f8df3c8af7395362034d828dace48f03bbdb1b1",
+  "lift5.py": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+  "colour-check-v4.py": "7634828cb8fc1d30b3a10ecb15b6eb85dd3ac8249d30a08ce4b9eca58f4d110b",
+  "kitCheck": "all files and expected hashes match"
+ },
+ "start": {
+  "file": "PV6-C-4.png",
+  "sha256": "b634e18b7d552590746cacd3d5614b845fcaaad3be9e11076a84db0e9f5b220a"
+ },
+ "s4": {
+  "maskedShare": 0.0048,
+  "rawInputRGB": "f5cd8304e0acfd1b73c5aedc4e27b74f83fa07346a2f56194d99d535386e12cd",
+  "rawMaskAlpha": "db6a8c777344f24f9734507acf19b1e48c22f965d5e8bdbe2ef4619417646bba",
+  "inputs": [
+   {
+    "role": "the picture to edit: the kept step-3 picture with step 4's guide laid over it inside step 4's mask (the jars' tops and the dispenser's left edge), and the mask (alpha 0 = repaint)",
+    "file": "PV6-C-5-S4-input.png",
+    "sha256": "465123b27cf3cf426edf97229207059afa945cb82ab8cdf95321720881356a32",
+    "mask": {
+     "file": "PV6-C-5-S4-mask.png",
+     "sha256": "5d29074d29a737070f60636f6b9cfd32c14abef58226ac6be3efbea35cd9d2fa"
+    }
+   }
+  ]
+ },
+ "prompt_key": "s4 (= s4-one)",
+ "prompt": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked shapes, and leave everything outside them exactly as it is. The shapes on the cart hold the tops of the three glass jars standing on it: each continues from its lower half to a clean glass rim, in front of the round seat behind them, in the same glass and light as its lower half. The narrow shape at the dispenser's left side holds the left edge of its steel housing: a crisp dark outline as on its right side, with the books beside it unchanged.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+ "prompt_sha256": "7188f468c6841654be9a95084a3a28d28d173b6954c8e4c85f12c7fb401d90bc",
+ "revised_prompt": null,
+ "inputs": [
+  {
+   "order": 1,
+   "file": "PV6-C-5-S4-input.png",
+   "sha256": "465123b27cf3cf426edf97229207059afa945cb82ab8cdf95321720881356a32"
+  }
+ ],
+ "mask": {
+  "file": "PV6-C-5-S4-mask.png",
+  "sha256": "5d29074d29a737070f60636f6b9cfd32c14abef58226ac6be3efbea35cd9d2fa",
+  "convention": "alpha 0 = repaint"
+ },
+ "settings": {
+  "size": "1024x1536",
+  "quality": "high",
+  "n": 1,
+  "seed": null,
+  "background": "opaque",
+  "output_format": "png"
+ },
+ "raw_output": {
+  "file": "PV6-C-5-raw.png",
+  "sha256": "4d17975a23286a6eebf7ec083fc21469d94e23dfcfd939f5c1b9ede71a62682f"
+ },
+ "output": {
+  "file": "PV6-C-5.png",
+  "sha256": "9e1bd0ea067b75965b24b5bd28f8325a53418b81c3ba2b8cfffcabe0c1bcc23a",
+  "rawRGBsha256": "60d76f111cbbc0e78fc7f0c8dd4f673af9b84b2f8c94f102d8171883d4e97ec3",
+  "width": 1024,
+  "height": 1536,
+  "retouched": "composited in code only: the raw edit over PV6-C-4 inside step 4's mask, feathered by a 2 px Gaussian"
+ },
+ "moreThan4pxOutsideMask": {
+  "meanAbsDiff": 0.0,
+  "maxAbsDiff": 2
+ },
+ "lift": {
+  "view": "C",
+  "step": 4,
+  "recipe": "d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November)",
+  "pieces": {
+   "B coral jar top": {
+    "file": "PV6-C-5-B-coral-jar-top.png",
+    "sha256": "9dce75dfbab1d8fc5ce5e618c8a789d62243e6a5844f647afacfddd1d5de0284",
+    "px": 3745,
+    "x": [
+     167,
+     243
+    ],
+    "y": [
+     1084,
+     1144
+    ],
+    "shareOfItsOutline": 0.9398
+   },
+   "B bead jar top": {
+    "file": "PV6-C-5-B-bead-jar-top.png",
+    "sha256": "078954eb9a63556938e77fd54bc2a0d35bfd6a62b6f185e3c3d07b07af18344a",
+    "px": 1279,
+    "x": [
+     248,
+     296
+    ],
+    "y": [
+     1095,
+     1127
+    ],
+    "shareOfItsOutline": 0.9315
+   },
+   "B flask top": {
+    "file": "PV6-C-5-B-flask-top.png",
+    "sha256": "5647eda41412781cda584343ec5dccc57c041aec47d55320b40d109b36171644",
+    "px": 1222,
+    "x": [
+     300,
+     347
+    ],
+    "y": [
+     1073,
+     1116
+    ],
+    "shareOfItsOutline": 0.7278
+   }
+  },
+  "belowTheRecipesSize": {
+   "D dispenser left edge": {
+    "changedPx": 341,
+    "minPartPx": 400
+   }
+  },
+  "missing": [],
+  "rebuildMeanAbsDiff": 0.0236
+ },
+ "usage": {
+  "input_tokens": 2175,
+  "input_tokens_details": {
+   "image_tokens": 1536,
+   "text_tokens": 639
+  },
+  "output_tokens": 1372,
+  "output_tokens_details": {
+   "image_tokens": 1372,
+   "text_tokens": 0
+  },
+  "total_tokens": 3547
+ },
+ "cost_usd_est": 0.0566,
+ "terms": "Generated with OpenAI's image model under its Terms of Use as checked by the Lead (c8fbc793): the user owns the output; it is never presented as made by a person.",
+ "check": {
+  "by": "Image builder (colour-check-v4.py; pv9_tools.py same and lift4; the rest by eye). Not the Designer's review.",
+  "colour": {
+   "pass": true,
+   "result": {
+    "walls and deck in the base": true,
+    "each wall and the deck in the base": true,
+    "orange capped": true,
+    "rust capped": true,
+    "accents only orange, cream, rust, blue-green": true,
+    "no tan or olive": true,
+    "not grey": true,
+    "median lightness": true,
+    "openings flat black": true
+   }
+  },
+  "sameRoom": {
+   "pass": true,
+   "gates": {
+    "colour check version 4 with the view's map": true,
+    "walls and deck: median lightness, chroma and hue as PV6-A-2's": true,
+    "deck: median lightness as PV6-A-2's": true,
+    "warm light: orange and cream shares as PV6-A-2's": true,
+    "every lamp in view lit at its place": true,
+    "the ring lights lit at their places": true,
+    "the surfaces both pictures show: PV6-A-2's colour (median delta E)": true
+   }
+  },
+  "liftPieces": {
+   "B coral jar top": {
+    "px": 3745,
+    "x": [
+     167,
+     243
+    ],
+    "y": [
+     1084,
+     1144
+    ],
+    "shareOfItsOutline": 0.9398
+   },
+   "B bead jar top": {
+    "px": 1279,
+    "x": [
+     248,
+     296
+    ],
+    "y": [
+     1095,
+     1127
+    ],
+    "shareOfItsOutline": 0.9315
+   },
+   "B flask top": {
+    "px": 1222,
+    "x": [
+     300,
+     347
+    ],
+    "y": [
+     1073,
+     1116
+    ],
+    "shareOfItsOutline": 0.7278
+   }
+  },
+  "belowTheRecipesSize": {
+   "D dispenser left edge": {
+    "changedPx": 341,
+    "minPartPx": 400
+   }
+  },
+  "byEye": "Jars: pass. The coral jar, the bead jar and the flask are whole, with glass rims and lids drawn in front of the seat; the seat shows behind them; no seam along their tops. Dispenser left edge: not fixed. The edit changed only 341 px in its shape (under the lift's 400 px floor, so it is not lifted); the hatch's left side still smears into the books on the shelf in soft horizontal streaks, and the housing above the hatch gains only a faint darker line. Nothing else changed (outside the shapes largest difference 2). No re-run: held for the Lead.",
+  "verdict": "pass on every measured check; jars pass by eye; the dispenser's left edge is not fixed",
+  "result": "accepted as view C's final picture",
+  "reason": "Lead Designer, 18 November 2026: accepted as view C's final picture. the jars are whole, clear glass with rims, in front of the seat, with no seam. The dispenser's edge did not take: it is fixed in code, no further call (option (a): the Rooms builder draws it into C's capsule layer). C's spend ends at about $0.30, as the owner approved. The removal of the 13 duplicate input PNGs from the page is noted and fine."
+ },
+ "review": {
+  "by": "Lead Designer",
+  "date": "2026-11-18",
+  "result": "accepted as view C's final picture",
+  "note": "the jars are whole, clear glass with rims, in front of the seat, with no seam. The dispenser's edge did not take: it is fixed in code, no further call (option (a): the Rooms builder draws it into C's capsule layer). C's spend ends at about $0.30, as the owner approved. The removal of the 13 duplicate input PNGs from the page is noted and fine."
+ },
+ "copy": {
+  "of": "Room B Four Views (the image builder’s records page), version 1795044447-5e2a, records/PV6-C-5.json",
+  "originalSha256": "fa14f44affa2ad9b6f0bc103620c89aaa7958c8581281658d231475646bbfa15",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

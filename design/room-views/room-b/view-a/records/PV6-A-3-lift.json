@@ -1,0 +1,69 @@
+{
+ "view": "A",
+ "recipe": "d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November)",
+ "pieces": {
+  "E bench": {
+   "file": "PV6-A-3-E-bench.png",
+   "sha256": "4bfa1856bf7f3be7b3d0bc9418fdc57563b6390bda8fd691f61b2765fae67c36",
+   "px": 90629,
+   "x": [
+    187,
+    448
+   ],
+   "y": [
+    798,
+    1285
+   ],
+   "shareOfItsOutline": 0.9775
+  },
+  "C console": {
+   "file": "PV6-A-3-C-console.png",
+   "sha256": "de3fc0ac61ba77700e5b7b3b7b9d12dc3cac832f87ce5a0b5723397eb420841b",
+   "px": 23437,
+   "x": [
+    404,
+    541
+   ],
+   "y": [
+    819,
+    1048
+   ],
+   "shareOfItsOutline": 0.9857
+  },
+  "B laptop cart": {
+   "file": "PV6-A-3-B-laptop-cart.png",
+   "sha256": "c052446dc83dbae65425e5a8e6c594525ab6a7023251881b0a42beed1c4a403b",
+   "px": 15049,
+   "x": [
+    688,
+    794
+   ],
+   "y": [
+    862,
+    1020
+   ],
+   "shareOfItsOutline": 0.9759
+  },
+  "B stool": {
+   "file": "PV6-A-3-B-stool.png",
+   "sha256": "288eaad1cfde75480643426d67aa856ac8f4e8e358e52f2413088d47d5bd3a6c",
+   "px": 8728,
+   "x": [
+    807,
+    890
+   ],
+   "y": [
+    912,
+    1034
+   ],
+   "shareOfItsOutline": 0.8979
+  }
+ },
+ "missing": [],
+ "rebuildMeanAbsDiff": 0.0588,
+ "copy": {
+  "of": "Room B Four Views (the image builder’s records page), version 1795044447-5e2a, records/PV6-A-3-lift.json",
+  "originalSha256": "a79b7b7ec4dd84f56bd4d7d128bc720171d98ec1f4d8d2b3764332075863ce55",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

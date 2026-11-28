@@ -1,0 +1,51 @@
+# Written again by pv8/make8.sh on every run: not kept in git.
+__pycache__/
+pv8/pv6-*-*.svg
+pv8/pv6-*-*.png
+pv8/_pv6-*-*.html
+pv8/camera-report-*.json
+pv8/kit8-*.json
+pv8/pieces8-*.json
+pv8/prompts8-*.json
+pv8/visits-*.json
+pv8/pub-*/_dry/
+
+# The published-copy check's model-name word list (see the README): no committed file names a model.
+pv8/_scan-words.txt
+
+# Pictures the image tool made, put here only for a run (see the README). Never commit them.
+pv6b/PV6-*.png
+pv8/pub-*/img/PV6-*.png
+
+# The same-room check's figure: PV6-A-2 cast onto the room's planes, so it holds that picture.
+pv8/pub-*/img/pv6-*-cast.png
+
+# The views' people data (people-B to people-E): their depth bands, the capsule's and the stool's bands, C's wall band and its
+# step-4 bands (the jars' tops, lifted from PV6-C-5; fix-2.png also holds the dispenser's code-drawn edge, which edge4-C.json
+# keeps as numbers), the openings' masks (taken from the plate), the strip check's crop and their pages are written by their
+# scripts from the image tool's pictures, which a run puts beside them; their checks, captures and backups stay out too.
+pv8/people-*/PV6-*.png
+pv8/people-*/band-*.png
+pv8/people-*/capsule-*.png
+pv8/people-*/stool-*.png
+pv8/people-*/strip-check-*.png
+pv8/people-*/B*.png
+pv8/people-*/_*.png
+pv8/people-*/*.html
+pv8/people-*/*.log
+pv8/people-*/_lift/
+pv8/people-*/_listing.txt
+pv8/people-*/fix-*.png
+pv8/people-*/wall-*.png
+pv8/people-*/mask-*.png
+pv8/people-*/_before-*/
+pv8/people-*/_bands-before-*/
+
+# Inputs from the records page and checks on real pictures: each holds the image tool's pictures or pieces of them.
+pv8/_in-*/
+pv8/real-*/
+pv8/strips-*/
+
+# Read-back copies of the published pages and earlier publishing folders: they hold the image tool's pictures too.
+pv8/_readback-*/
+pv8/_pub-*/

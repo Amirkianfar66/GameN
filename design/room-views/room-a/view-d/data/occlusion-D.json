@@ -1,0 +1,310 @@
+{
+ "view": "D",
+ "version": 1,
+ "rule": "by depth at each pixel: where a lifted layer overlaps a person above their feet line, it is drawn in front of them where its surface, met by that pixel's ray, is more than 2 cm nearer the camera than the person",
+ "toleranceM": 0.02,
+ "layers": {
+  "A PC workstation": {
+   "file": "_lift/D-PC-workstation.png",
+   "areaPx": 136546,
+   "depthM": [
+    1.112,
+    2.485
+   ]
+  },
+  "C electrical cabinet": {
+   "file": "_lift/D-electrical-cabinet.png",
+   "areaPx": 68287,
+   "depthM": [
+    2.671,
+    3.434
+   ]
+  },
+  "E floor hatch": {
+   "file": "_lift/D-floor-hatch.png",
+   "areaPx": 21125,
+   "depthM": [
+    2.078,
+    3.179
+   ]
+  },
+  "E hatch lid": {
+   "file": "_lift/D-hatch-lid.png",
+   "areaPx": 15351,
+   "depthM": [
+    2.883,
+    3.247
+   ]
+  },
+  "E toolbox": {
+   "file": "_lift/D-toolbox.png",
+   "areaPx": 15889,
+   "depthM": [
+    1.913,
+    2.258
+   ]
+  },
+  "wall food capsule": {
+   "file": "_lift/D-food-capsule.png",
+   "areaPx": 8987,
+   "depthM": [
+    3.529,
+    3.932
+   ]
+  }
+ },
+ "people": [
+  {
+   "id": "A1",
+   "name": "Vega",
+   "Z": 1.601
+  },
+  {
+   "id": "A3",
+   "name": "Echo",
+   "Z": 2.63
+  },
+  {
+   "id": "A5",
+   "name": "Lyra",
+   "Z": 2.827
+  }
+ ],
+ "order": [
+  "the plate (RA-D-4c, every piece painted in it)",
+  "Lyra",
+  "E floor hatch's part in front of Lyra (front-Lyra-floor-hatch.png)",
+  "Echo",
+  "Vega"
+ ],
+ "fronts": {
+  "Lyra": [
+   {
+    "phone": "390x844",
+    "layer": "E floor hatch",
+    "nearerPx": 73
+   },
+   {
+    "phone": "430x932",
+    "layer": "E floor hatch",
+    "nearerPx": 73
+   },
+   {
+    "phone": "402x742",
+    "layer": "E floor hatch",
+    "nearerPx": 73
+   }
+  ]
+ },
+ "overlaps": {
+  "390x844": [
+   {
+    "person": "Vega",
+    "layer": "A PC workstation",
+    "overlapPx": 71300,
+    "aboveFeetPx": 71300,
+    "layerDepthHereM": [
+     1.646,
+     2.481
+    ],
+    "personZ": 1.601,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 11117,
+    "drawn": "behind"
+   },
+   {
+    "person": "Echo",
+    "layer": "C electrical cabinet",
+    "overlapPx": 35121,
+    "aboveFeetPx": 35121,
+    "layerDepthHereM": [
+     2.751,
+     3.191
+    ],
+    "personZ": 2.63,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 8159,
+    "drawn": "behind"
+   },
+   {
+    "person": "Lyra",
+    "layer": "E floor hatch",
+    "overlapPx": 1506,
+    "aboveFeetPx": 770,
+    "layerDepthHereM": [
+     2.765,
+     3.061
+    ],
+    "personZ": 2.827,
+    "nearerPx": 73,
+    "withinTolPx": 89,
+    "depthFilledPx": 215,
+    "drawn": "in front where nearer"
+   },
+   {
+    "person": "Lyra",
+    "layer": "E hatch lid",
+    "overlapPx": 24,
+    "aboveFeetPx": 24,
+    "layerDepthHereM": [
+     3.179,
+     3.179
+    ],
+    "personZ": 2.827,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 24,
+    "drawn": "behind"
+   }
+  ],
+  "430x932": [
+   {
+    "person": "Vega",
+    "layer": "A PC workstation",
+    "overlapPx": 71771,
+    "aboveFeetPx": 71768,
+    "layerDepthHereM": [
+     1.646,
+     2.481
+    ],
+    "personZ": 1.601,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 11150,
+    "drawn": "behind"
+   },
+   {
+    "person": "Echo",
+    "layer": "C electrical cabinet",
+    "overlapPx": 35121,
+    "aboveFeetPx": 35121,
+    "layerDepthHereM": [
+     2.751,
+     3.191
+    ],
+    "personZ": 2.63,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 8159,
+    "drawn": "behind"
+   },
+   {
+    "person": "Lyra",
+    "layer": "E floor hatch",
+    "overlapPx": 1506,
+    "aboveFeetPx": 770,
+    "layerDepthHereM": [
+     2.765,
+     3.061
+    ],
+    "personZ": 2.827,
+    "nearerPx": 73,
+    "withinTolPx": 89,
+    "depthFilledPx": 215,
+    "drawn": "in front where nearer"
+   },
+   {
+    "person": "Lyra",
+    "layer": "E hatch lid",
+    "overlapPx": 24,
+    "aboveFeetPx": 24,
+    "layerDepthHereM": [
+     3.179,
+     3.179
+    ],
+    "personZ": 2.827,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 24,
+    "drawn": "behind"
+   }
+  ],
+  "402x742": [
+   {
+    "person": "Vega",
+    "layer": "A PC workstation",
+    "overlapPx": 71771,
+    "aboveFeetPx": 71770,
+    "layerDepthHereM": [
+     1.644,
+     2.481
+    ],
+    "personZ": 1.601,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 11152,
+    "drawn": "behind"
+   },
+   {
+    "person": "Echo",
+    "layer": "C electrical cabinet",
+    "overlapPx": 35121,
+    "aboveFeetPx": 35121,
+    "layerDepthHereM": [
+     2.751,
+     3.191
+    ],
+    "personZ": 2.63,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 8159,
+    "drawn": "behind"
+   },
+   {
+    "person": "Lyra",
+    "layer": "E floor hatch",
+    "overlapPx": 1506,
+    "aboveFeetPx": 770,
+    "layerDepthHereM": [
+     2.765,
+     3.061
+    ],
+    "personZ": 2.827,
+    "nearerPx": 73,
+    "withinTolPx": 89,
+    "depthFilledPx": 215,
+    "drawn": "in front where nearer"
+   },
+   {
+    "person": "Lyra",
+    "layer": "E hatch lid",
+    "overlapPx": 24,
+    "aboveFeetPx": 24,
+    "layerDepthHereM": [
+     3.179,
+     3.179
+    ],
+    "personZ": 2.827,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 24,
+    "drawn": "behind"
+   }
+  ]
+ },
+ "frontParts": [
+  {
+   "person": "Lyra",
+   "layer": "E floor hatch",
+   "file": "front-Lyra-floor-hatch.png",
+   "px": 73,
+   "box": [
+    533,
+    1055,
+    580,
+    1060
+   ],
+   "drawn": "right after Lyra, over them and everything farther"
+  }
+ ],
+ "depthFilledPx": {
+  "A PC workstation": 16773,
+  "C electrical cabinet": 16891,
+  "E floor hatch": 5697,
+  "E hatch lid": 6007,
+  "E toolbox": 5241,
+  "wall food capsule": 637
+ }
+}

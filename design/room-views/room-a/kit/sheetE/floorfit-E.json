@@ -1,0 +1,25 @@
+{
+ "objects": [
+  "crate"
+ ],
+ "lines": {
+  "axis": "x",
+  "wall": -2,
+  "seam": -1,
+  "along": [
+   -1.9,
+   -0.5
+  ]
+ },
+ "painted": {
+  "wallFoot": {
+   "slope": 0.44459,
+   "intercept": 617.2
+  },
+  "seam1": {
+   "slope": 0.6977,
+   "intercept": 521.5
+  }
+ },
+ "from": "measure-E2.json (RA-E-1)"
+}

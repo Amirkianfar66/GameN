@@ -1,0 +1,98 @@
+{
+ "fix": {
+  "file": "fix4A.json",
+  "sha256": "1308ef928cdf9ba442e07763b806bbcb47fff2614ae68a7dc635a1edce50b3d1"
+ },
+ "picture": {
+  "name": "RA-A-4",
+  "sha256": "63c0ca59e2caf52d4082bffbb977b50c63ed4dea5e1302a7ef642c2fbb914500",
+  "aiGenerated": true,
+  "accepted": "the Lead, 19 November: view A's step 3, the start picture for the cabinet-edge fix"
+ },
+ "place4": {
+  "px": 8680,
+  "bbox": [
+   512,
+   636,
+   547,
+   884
+  ],
+  "widthPx": 35,
+  "heightPx": 248
+ },
+ "split4": {
+  "C electrical cabinet": 20
+ },
+ "expected4": {
+  "maskedShare": 0.0055,
+  "rawMaskAlpha": "7719acfa7d2fa09dc6b5a0cbff389e87ecdf777df43b42143d60280506e65d22"
+ },
+ "lift4Area": {
+  "px": 44838,
+  "step2SplitPx": 41786,
+  "addedByStep4Px": 3052
+ },
+ "secondLight": {
+  "box": [
+   511,
+   657,
+   532,
+   664
+  ],
+  "px": 176,
+  "insideMaskPx": 168
+ },
+ "gaps4": {
+  "pipe run": {
+   "status": "clear",
+   "clearPx": 15,
+   "test": true
+  },
+  "pipe clamp, middle": {
+   "status": "clear",
+   "clearPx": 16,
+   "test": true
+  },
+  "pipe clamp, right": {
+   "status": "clear",
+   "clearPx": 15,
+   "test": true
+  },
+  "grille": {
+   "status": "clear",
+   "clearPx": 6,
+   "test": true
+  },
+  "pipes above": {
+   "status": "clear",
+   "clearPx": 29,
+   "test": false
+  },
+  "riveted plate and ledge": {
+   "status": "clear",
+   "clearPx": 6,
+   "test": false
+  }
+ },
+ "paintedOverInStep2": [
+  "papers: clip",
+  "papers: large sheet",
+  "papers: small sheet",
+  "narrow panel",
+  "lower panel"
+ ],
+ "gapToStep3Px": 60,
+ "frameRule": {
+  "minClearPx": 15,
+  "grilleEdgeX": 553,
+  "frameOuterEdgeAtMostX": 537,
+  "rows": [
+   705,
+   861
+  ],
+  "departs": 35,
+  "rowsShare": 0.5,
+  "how": "on the rows beside the grille (y 705 to 861): a pixel departs from the wall when its brightness (the mean of R, G and B) is more than 35 from the median of the unchanged wall just outside the mask in its row (x 547 to 552, five rows); the frame's outer edge is the rightmost column of the mask in which at least half of those rows depart, so that a vertical frame counts and the wall's seams, scratches and clamp tips, which cross few rows, do not",
+  "why": "The Lead: the new frame edge meets the 15 px rule against the grille, whose edge is at x 553: the frame's outer outline at x 537 or less leaves at least 15 clear pixels. The mask's wall beyond it is there so that the frame's outline and the wall meet cleanly; the wall stays unchanged."
+ }
+}

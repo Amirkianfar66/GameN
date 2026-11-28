@@ -1,0 +1,233 @@
+{
+ "piece": "PV6-D",
+ "pass": "retry step 2, PLACE: one masked edit of PV6-D-3 with PV6-A-3 as the furniture reference (s2), kept inside the PLACE mask in code",
+ "attempt": 4,
+ "generated": true,
+ "label": "AI-generated, composited in code from a masked edit",
+ "runner": "Designer team Image builder (Claude Code session)",
+ "tool": "OpenAI Images API, POST /v1/images/edits (image 1 the S2 input with the mask, image 2 PV6-A-3), then pv7_tools.py keep and lift",
+ "date": "2026-11-18T12:49:56+00:00",
+ "request_id": "req_263ea3cce4f44949ac032fdeeac3a388",
+ "authority": "the Lead's retry go of 18 November 2026 (plan alone); the owner's approval in the question dialog of about $0.12 more for D, $0.19 at most with one re-run",
+ "sheet": {
+  "page": "Room B PV6-D Sheet",
+  "version": "1795003926-70e5",
+  "manifest": {
+   "file": "room-b-pv6d.json",
+   "sha256": "efe8798e700aa3d481edaeaffce1894c4eb465477fd2df9a86be7a8327ee975c"
+  },
+  "prompts": {
+   "file": "room-b-pv6d-prompts.txt",
+   "sha256": "9212de8995d72ab654666015808177fdb1aeb14784a8735d7549950de480df27"
+  }
+ },
+ "tools": {
+  "pv7_tools.py": "7760552f3cbf76ebfd357c7e288bcfe11fa0e7147b91c7378c4cb2098f14dd4b",
+  "lift5.py": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+  "colour-check-v4.py": "7634828cb8fc1d30b3a10ecb15b6eb85dd3ac8249d30a08ce4b9eca58f4d110b",
+  "kitCheck": "all files and expected hashes match"
+ },
+ "start": {
+  "file": "PV6-D-3.png",
+  "sha256": "bdee3fbc45da6dcbfa47f79089fc1b2b408d4fda6b1b6edf9e940028177137a2"
+ },
+ "s2": {
+  "maskedShare": 0.0976,
+  "rawInputRGB": "3b03ebfadf36725c258b86a4f4bc759b8b3ee76223fbc749e01490d1dda58911",
+  "rawMaskAlpha": "6a2114077da0f5057e3990515a5608ce743585d89e7808aa66721b0b739b0cf8",
+  "inputs": [
+   {
+    "role": "the picture to edit: the step-1 picture with the guide inside the PLACE mask, and the mask (alpha 0 = repaint)",
+    "file": "PV6-D-4-S2-input.png",
+    "sha256": "cc8d07aae6a6c571a2fbae1040fd109f817b9de7dfd498c8df3e74bda09966f7",
+    "mask": {
+     "file": "PV6-D-4-S2-mask.png",
+     "sha256": "9aa6b801755280c2d6b784db101b6f0aff29928a33a88ec1f5379197d42daa85"
+    }
+   },
+   {
+    "role": "the same room, as a reference (PV6-A-3): a second input, where the tool takes one",
+    "file": "img/PV6-A-3.png",
+    "sha256": "731ec58d6773dc0ae6fd17ec4e12bf7cecec92a8b66ff25f99408a1e6b76e4dc"
+   }
+  ],
+  "placeMask": {
+   "file": "img/pv6-D-place.png",
+   "sha256": "1f13eb627f27e06e97278641964dffee531adf8dc04fbce50e7fb9051ad84e85"
+  }
+ },
+ "prompt_key": "s2",
+ "prompt": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked shapes, and leave everything outside them exactly as it is. Each masked shape holds one piece of furniture that fills that shape exactly, standing on the deck or fixed to the wall, painted in full detail in the picture's style and light: the shape on the left is a waist-high tablet console with a slanted top whose display is plain and dark, with no readouts, bars or keys on it; the shape ahead is the end of a low workbench that stands out from the east wall, seen end-on, its top lit warm, with a microscope on its far end; the shape on the right is a waist-high console with a slanted top whose display is plain and dark, with no readouts, bars or keys on it.\n\nThe second attached picture shows Room B's furniture painted from another place. Paint each piece as the same furniture, with the same materials, colours, wear and warm light; a piece that is not in it is painted to match the pieces that are, a tablet console like the console and every workbench like the workbench.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+ "prompt_sha256": "41fee126c4a3351256569b05281fcd1924399a7e4bbab57edc6b5e1e2ecd3706",
+ "prompt_chars": 3407,
+ "revised_prompt": null,
+ "inputs": [
+  {
+   "order": 1,
+   "file": "PV6-D-4-S2-input.png",
+   "sha256": "cc8d07aae6a6c571a2fbae1040fd109f817b9de7dfd498c8df3e74bda09966f7"
+  },
+  {
+   "order": 2,
+   "file": "PV6-A-3.png",
+   "sha256": "731ec58d6773dc0ae6fd17ec4e12bf7cecec92a8b66ff25f99408a1e6b76e4dc"
+  }
+ ],
+ "mask": {
+  "file": "PV6-D-4-S2-mask.png",
+  "sha256": "9aa6b801755280c2d6b784db101b6f0aff29928a33a88ec1f5379197d42daa85",
+  "convention": "alpha 0 = repaint"
+ },
+ "settings": {
+  "size": "1024x1536",
+  "quality": "high",
+  "n": 1,
+  "seed": null,
+  "background": "opaque",
+  "output_format": "png"
+ },
+ "raw_output": {
+  "file": "PV6-D-4-raw.png",
+  "sha256": "f9c676296cb1d6a7549761692ec0a0ff589337a34c0769450d59f3b52d5bbc1c"
+ },
+ "output": {
+  "file": "PV6-D-4.png",
+  "sha256": "674f050b6ddb935032c719f1059c903090eec5c958ed7b0f4b6e32078c3c5213",
+  "rawRGBsha256": "8f8d4411ced7c9308c56b4c0aa93aab87fc8d7d0c6e3d83509aab6290dacf819",
+  "width": 1024,
+  "height": 1536,
+  "retouched": "composited in code only: the raw edit over PV6-D-3 inside the PLACE mask, feathered by a 2 px Gaussian"
+ },
+ "moreThan4pxOutsideMask": {
+  "meanAbsDiff": 0.0003,
+  "maxAbsDiff": 2
+ },
+ "lift": {
+  "view": "D",
+  "recipe": "d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November)",
+  "pieces": {
+   "A tablet console": {
+    "file": "PV6-D-4-A-tablet-console.png",
+    "sha256": "b1f38542f291e4e63c1e6aa13613846434032823d6d45b16e0c143d635ba7a4a",
+    "px": 73584,
+    "x": [
+     119,
+     345
+    ],
+    "y": [
+     871,
+     1272
+    ],
+    "shareOfItsOutline": 0.9586
+   },
+   "E bench": {
+    "file": "PV6-D-4-E-bench.png",
+    "sha256": "b344fb22950c67f952bed7e781d35a80471b908e1465cae15a27fffe5b6ed523",
+    "px": 39116,
+    "x": [
+     548,
+     704
+    ],
+    "y": [
+     774,
+     1097
+    ],
+    "shareOfItsOutline": 0.9849
+   },
+   "C console": {
+    "file": "PV6-D-4-C-console.png",
+    "sha256": "16b3ff2e9c141432ed90d168b022ed9201176b315450d776c352aa389a9259c9",
+    "px": 35759,
+    "x": [
+     808,
+     962
+    ],
+    "y": [
+     832,
+     1095
+    ],
+    "shareOfItsOutline": 0.9654
+   }
+  },
+  "missing": [],
+  "rebuildMeanAbsDiff": 0.0634
+ },
+ "usage": {
+  "input_tokens": 3841,
+  "input_tokens_details": {
+   "image_tokens": 3072,
+   "text_tokens": 769
+  },
+  "output_tokens": 1372,
+  "output_tokens_details": {
+   "image_tokens": 1372,
+   "text_tokens": 0
+  },
+  "total_tokens": 5213
+ },
+ "cost_usd_est": 0.0696,
+ "terms": "Generated with OpenAI's image model under its Terms of Use as checked by the Lead (c8fbc793): the user owns the output; it is never presented as made by a person.",
+ "check": {
+  "by": "Image builder (colour-check-v4.py with img/pv6-D-regions.png; pv7_tools.py same D; furniture by overlay of img/pv6-D-furniture.png and by the lift; the rest by eye). Not the Designer's review.",
+  "colour": {
+   "pass": true,
+   "result": {
+    "walls and deck in the base": true,
+    "each wall and the deck in the base": true,
+    "orange capped": true,
+    "rust capped": true,
+    "accents only orange, cream, rust, blue-green": true,
+    "no tan or olive": true,
+    "not grey": true,
+    "median lightness": true,
+    "openings flat black": true
+   },
+   "inBase": 0.7821,
+   "medianL": 0.412,
+   "warm": {
+    "orange": 0.0423,
+    "rust": 0.0019,
+    "cream": 0.0141,
+    "blueGreen": 0.0001
+   },
+   "strayShare": 2e-05,
+   "skylightP95L": 0.067,
+   "json": "PV6-D-4-colour.json"
+  },
+  "sameRoom": {
+   "pass": true,
+   "gates": {
+    "colour check version 4 with the view's map": true,
+    "walls and deck: median lightness, chroma and hue as PV6-A-2's": true,
+    "deck: median lightness as PV6-A-2's": true,
+    "warm light: orange and cream shares as PV6-A-2's": true,
+    "every lamp in view lit at its place": true,
+    "the ring lights lit at their places": true,
+    "the surfaces both pictures show: PV6-A-2's colour (median delta E)": true
+   },
+   "sharedSurfacesAll": {
+    "shareOfPicture": 0.4952,
+    "medianDeltaE": 0.0802,
+    "edgeCorrelation": 0.235
+   },
+   "json": "PV6-D-4-same.json"
+  },
+  "furniture": "pass: each piece fills its outline: on the left the tablet console with a slanted top and a plain dark display; ahead the end of the low workbench seen end-on, its top lit warm, the microscope on its far end; on the right the console with a slanted top and a plain dark display. Lift share of each outline: tablet console 95.9%, bench 98.5%, console 96.5%",
+  "outsideMask": "matches PV6-D-3: more than 4 px outside the mask, mean difference 0.0003, largest 2",
+  "liftPieces": "all three: A tablet console, E bench, C console; rebuild mean difference 0.0634",
+  "byEye": "no people, words or logos (papers blank, displays plain); the skylight glass flat black; no beams in the air",
+  "verdict": "pass on every check",
+  "result": "accepted",
+  "reason": "accepted by the Lead Designer, 18 November 2026",
+  "review": {
+   "result": "accepted",
+   "by": "Lead Designer, 18 November 2026",
+   "reason": "accepted by the Lead Designer, 18 November 2026"
+  }
+ },
+ "copy": {
+  "of": "Room B Four Views (the image builder’s records page), version 1795044447-5e2a, records/PV6-D-4.json",
+  "originalSha256": "d365c58bc22b0aa1620bd6cb07f0a443af09da134c50706421098c012f9b1e5a",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

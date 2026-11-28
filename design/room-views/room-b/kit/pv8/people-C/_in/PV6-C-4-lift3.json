@@ -1,0 +1,65 @@
+{
+ "view": "C",
+ "step": 3,
+ "recipe": "d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November)",
+ "pieces": {
+  "B stool": {
+   "file": "PV6-C-4-B-stool.png",
+   "sha256": "1b5143adeb7fbb87a00be5fcb9ca503952ec116170e0f48b8c0d57a5855853bf",
+   "px": 4053,
+   "x": [
+    197,
+    327
+   ],
+   "y": [
+    1077,
+    1131
+   ],
+   "shareOfItsOutline": 0.9692
+  },
+  "wall vent strip left": {
+   "file": "PV6-C-4-wall-vent-strip-left.png",
+   "sha256": "f24af41485eb45ca02d07014cf0e7ac3363dcd86f3d0c13dd509ac793fccc0c4",
+   "px": 1209,
+   "x": [
+    283,
+    333
+   ],
+   "y": [
+    941,
+    964
+   ],
+   "shareOfItsOutline": 0.9877
+  },
+  "D food capsule": {
+   "file": "PV6-C-4-D-food-capsule.png",
+   "sha256": "1f646cfcdf4b55a5a7b6edd5f0e80fd1ef5963256d3adcb2a851f28c81a01d06",
+   "px": 4070,
+   "x": [
+    611,
+    662
+   ],
+   "y": [
+    778,
+    865
+   ],
+   "shareOfItsOutline": 0.9006
+  },
+  "wall vent strip right": {
+   "file": "PV6-C-4-wall-vent-strip-right.png",
+   "sha256": "172a16d6a7b6b93f56bc1fbb2c76189b4623d5bb71e9124cb54f436ecae2d974",
+   "px": 1208,
+   "x": [
+    781,
+    831
+   ],
+   "y": [
+    941,
+    964
+   ],
+   "shareOfItsOutline": 0.9869
+  }
+ },
+ "missing": [],
+ "rebuildMeanAbsDiff": 0.0209
+}

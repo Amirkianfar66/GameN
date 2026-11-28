@@ -1,0 +1,745 @@
+{
+ "pieces": [
+  {
+   "grey": 80,
+   "place": "D",
+   "name": "crates",
+   "step": 2,
+   "parts": [
+    "crate",
+    "crate"
+   ],
+   "depthM": 1.66,
+   "px": 110691,
+   "bbox": [
+    0,
+    895,
+    275,
+    1483
+   ],
+   "visibleCentreX": 113,
+   "visibleCentreY": 1139,
+   "cutByEdge": true
+  },
+  {
+   "grey": 20,
+   "place": "A",
+   "name": "PC workstation",
+   "step": 2,
+   "parts": [
+    "PC desk",
+    "monitor",
+    "monitor"
+   ],
+   "depthM": 3.55,
+   "px": 48990,
+   "bbox": [
+    402,
+    802,
+    643,
+    1039
+   ],
+   "visibleCentreX": 525,
+   "visibleCentreY": 928,
+   "cutByEdge": false
+  },
+  {
+   "grey": 40,
+   "place": "E",
+   "name": "toolbox",
+   "step": 2,
+   "parts": [
+    "toolbox"
+   ],
+   "depthM": 2.54,
+   "px": 4847,
+   "bbox": [
+    675,
+    1030,
+    729,
+    1132
+   ],
+   "visibleCentreX": 702,
+   "visibleCentreY": 1080,
+   "cutByEdge": false
+  },
+  {
+   "grey": 60,
+   "place": "E",
+   "name": "floor hatch",
+   "step": 2,
+   "parts": [
+    "floor hatch",
+    "hatch lid"
+   ],
+   "depthM": 2.1,
+   "px": 24818,
+   "bbox": [
+    738,
+    1079,
+    1024,
+    1220
+   ],
+   "visibleCentreX": 886,
+   "visibleCentreY": 1147,
+   "cutByEdge": true
+  }
+ ],
+ "shapes": [
+  {
+   "pieces": [
+    0
+   ],
+   "px": 117712,
+   "bbox": [
+    0,
+    889,
+    281,
+    1489
+   ],
+   "visibleCentreX": 116,
+   "cutByEdge": true
+  },
+  {
+   "pieces": [
+    1
+   ],
+   "px": 55581,
+   "bbox": [
+    396,
+    796,
+    649,
+    1045
+   ],
+   "visibleCentreX": 525,
+   "cutByEdge": false
+  },
+  {
+   "pieces": [
+    2,
+    3
+   ],
+   "px": 36481,
+   "bbox": [
+    669,
+    1024,
+    1024,
+    1226
+   ],
+   "visibleCentreX": 850,
+   "cutByEdge": true
+  }
+ ],
+ "split": {
+  "D crates": 80,
+  "A PC workstation": 20,
+  "E toolbox": 40,
+  "E floor hatch": 60
+ },
+ "outlineShare": 0.1204,
+ "gaps": {
+  "crates / PC workstation": {
+   "tightPx": 127,
+   "grownPx": 115
+  },
+  "crates / toolbox": {
+   "tightPx": 199,
+   "grownPx": 199
+  },
+  "crates / floor hatch": {
+   "tightPx": 199,
+   "grownPx": 199
+  },
+  "PC workstation / toolbox": {
+   "tightPx": 35,
+   "grownPx": 23
+  },
+  "PC workstation / floor hatch": {
+   "tightPx": 95,
+   "grownPx": 83
+  },
+  "toolbox / floor hatch": {
+   "tightPx": 9,
+   "grownPx": 0
+  }
+ },
+ "openings": {
+  "window glass": {
+   "px": 25085,
+   "clearPx": 62
+  },
+  "window frame (as drawn)": {
+   "px": 8567,
+   "clearPx": 51
+  },
+  "screens": {
+   "px": 8457,
+   "insidePlaceMask": true,
+   "note": "the monitors' screens are part of the PC workstation's piece: openings painted flat black inside the mask"
+  }
+ },
+ "featureTest": {
+  "picture": {
+   "name": "RA-B-1",
+   "sha256": "d05b45889a6bacb69426eba64d26a513c958f407e6c7260bf63f970c6de8822a",
+   "aiGenerated": true,
+   "readOn": "ra-B-1-dim.png (RA-B-1 with two cells in each junction box dimmed in code; the outlines are the same)"
+  },
+  "rule": "Every step-2 mask edge either clearly overlaps a feature in the test, covering it with at least 15 px to spare, or clears it by at least 15 px (square pixels): no part of the feature lies within 15 px of a mask edge. A named exception, for the Lead's decision, passes only where every such part lies in its zone. The features not in the test are measured and reported.",
+  "minClearPx": 15,
+  "atLeastPx": 60,
+  "passed": true,
+  "features": [
+   {
+    "name": "lower pipe run",
+    "kind": "pipes",
+    "test": true,
+    "px": 12152,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 7843,
+     "pxOutside": 4309
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 1941,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "behind the desk's left end",
+      "for": "the Lead's decision",
+      "why": "Vega's desk stands in front of the lower pipe run, so the desk's outline must cross it: the run passes behind the desk's left end panel, where the outline also steps in round the wall box.",
+      "pxWithin15": 1011
+     },
+     {
+      "where": "behind the desk's right end",
+      "for": "the Lead's decision",
+      "why": "The run passes behind the desk's right end panel, as at its left.",
+      "pxWithin15": 930
+     }
+    ]
+   },
+   {
+    "name": "lower pipe clamp, left",
+    "kind": "clamp",
+    "test": true,
+    "px": 1134,
+    "step2": {
+     "status": "inside",
+     "insidePx": 20
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "lower pipe clamp, right",
+    "kind": "clamp",
+    "test": true,
+    "px": 1008,
+    "step2": {
+     "status": "inside",
+     "insidePx": 16
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "upper pipe run",
+    "kind": "pipes",
+    "test": true,
+    "px": 10980,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 5975,
+     "pxOutside": 5005
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 2069,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "behind the left monitor",
+      "for": "the Lead's decision",
+      "why": "The upper run begins at the pipe bend behind the left-hand monitor: the monitor's outline crosses it there.",
+      "pxWithin15": 468
+     },
+     {
+      "where": "behind the right monitor",
+      "for": "the Lead's decision",
+      "why": "The upper run passes behind the right-hand monitor: the monitor's side edge crosses it, and the mask's step out to the desk's right end lies 21 px under it.",
+      "pxWithin15": 1601
+     }
+    ]
+   },
+   {
+    "name": "upper pipe clamp, left",
+    "kind": "clamp",
+    "test": true,
+    "px": 861,
+    "step2": {
+     "status": "inside",
+     "insidePx": 28
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "upper pipe clamp, right",
+    "kind": "clamp",
+    "test": true,
+    "px": 861,
+    "step2": {
+     "status": "clear",
+     "clearPx": 7
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 160,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "its lower left corner",
+      "for": "the Lead's decision",
+      "why": "The clamp stands 39 px clear of the monitor's side, but its lower left corner is 8 px from the corner where the mask steps out to the desk's right end, which is set by the desk.",
+      "pxWithin15": 160
+     }
+    ]
+   },
+   {
+    "name": "pipe bend, left",
+    "kind": "pipes",
+    "test": true,
+    "px": 8004,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 1966,
+     "pxOutside": 6038
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 2948,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "behind the left monitor and the desk's top",
+      "for": "the Lead's decision",
+      "why": "The bundle comes down behind the left-hand monitor and turns into the upper run there: the monitor's top and the desk's outline cross it.",
+      "pxWithin15": 2948
+     }
+    ]
+   },
+   {
+    "name": "wall box, left of the desk",
+    "kind": "box",
+    "test": true,
+    "px": 3626,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 1486,
+     "pxOutside": 2140
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 2394,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "its right part",
+      "for": "the Lead's decision",
+      "why": "The box's right part is behind the desk's left end, so the desk's outline crosses it.",
+      "pxWithin15": 2394
+     }
+    ]
+   },
+   {
+    "name": "vertical pipe, left wall",
+    "kind": "pipes",
+    "test": true,
+    "px": 5580,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 5062,
+     "pxOutside": 518
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 1110,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "behind the crates' top",
+      "for": "the Lead's decision",
+      "why": "The pipe runs down the left wall behind Atlas's crates: their top edge crosses it.",
+      "pxWithin15": 1110
+     }
+    ]
+   },
+   {
+    "name": "left-wall pipe clamp, upper",
+    "kind": "clamp",
+    "test": true,
+    "px": 990,
+    "step2": {
+     "status": "clear",
+     "clearPx": 7
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 142,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "its foot",
+      "for": "the Lead's decision",
+      "why": "The clamp holds the vertical pipe just above the crates' top: its foot is about 12 px from their edge, which is set by the crates.",
+      "pxWithin15": 142
+     }
+    ]
+   },
+   {
+    "name": "pipe, left wall top",
+    "kind": "pipes",
+    "test": true,
+    "px": 3248,
+    "step2": {
+     "status": "clear",
+     "clearPx": 24
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "grille plate",
+    "kind": "grille",
+    "test": true,
+    "px": 15732,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 14971,
+     "pxOutside": 761
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 2377,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "its top band",
+      "for": "the Lead's decision",
+      "why": "Atlas's crates stand in front of the plate: their top edge crosses its upper band, up to 19 px of which stays above them.",
+      "pxWithin15": 2296
+     },
+     {
+      "where": "its right edge",
+      "for": "the Lead's decision",
+      "why": "The crates' right end stands 13 px from the plate's right edge: the edge is set by the crates.",
+      "pxWithin15": 250
+     }
+    ]
+   },
+   {
+    "name": "locker bank",
+    "kind": "lockers",
+    "test": true,
+    "px": 51000,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 2828,
+     "pxOutside": 48172
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 3729,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "its left side",
+      "for": "the Lead's decision",
+      "why": "The crates' right end stands 11 px from the lockers' left frame: the edge is set by the crates.",
+      "pxWithin15": 881
+     },
+     {
+      "where": "its lower doors",
+      "for": "the Lead's decision",
+      "why": "The crates stand in front of the lockers' lower left door: their top and right edges cross it and the bank's middle frame.",
+      "pxWithin15": 3266
+     }
+    ]
+   }
+  ],
+  "exceptions": [
+   {
+    "name": "lower pipe run",
+    "parts": [
+     {
+      "where": "behind the desk's left end",
+      "for": "the Lead's decision",
+      "why": "Vega's desk stands in front of the lower pipe run, so the desk's outline must cross it: the run passes behind the desk's left end panel, where the outline also steps in round the wall box.",
+      "pxWithin15": 1011
+     },
+     {
+      "where": "behind the desk's right end",
+      "for": "the Lead's decision",
+      "why": "The run passes behind the desk's right end panel, as at its left.",
+      "pxWithin15": 930
+     }
+    ]
+   },
+   {
+    "name": "upper pipe run",
+    "parts": [
+     {
+      "where": "behind the left monitor",
+      "for": "the Lead's decision",
+      "why": "The upper run begins at the pipe bend behind the left-hand monitor: the monitor's outline crosses it there.",
+      "pxWithin15": 468
+     },
+     {
+      "where": "behind the right monitor",
+      "for": "the Lead's decision",
+      "why": "The upper run passes behind the right-hand monitor: the monitor's side edge crosses it, and the mask's step out to the desk's right end lies 21 px under it.",
+      "pxWithin15": 1601
+     }
+    ]
+   },
+   {
+    "name": "upper pipe clamp, right",
+    "parts": [
+     {
+      "where": "its lower left corner",
+      "for": "the Lead's decision",
+      "why": "The clamp stands 39 px clear of the monitor's side, but its lower left corner is 8 px from the corner where the mask steps out to the desk's right end, which is set by the desk.",
+      "pxWithin15": 160
+     }
+    ]
+   },
+   {
+    "name": "pipe bend, left",
+    "parts": [
+     {
+      "where": "behind the left monitor and the desk's top",
+      "for": "the Lead's decision",
+      "why": "The bundle comes down behind the left-hand monitor and turns into the upper run there: the monitor's top and the desk's outline cross it.",
+      "pxWithin15": 2948
+     }
+    ]
+   },
+   {
+    "name": "wall box, left of the desk",
+    "parts": [
+     {
+      "where": "its right part",
+      "for": "the Lead's decision",
+      "why": "The box's right part is behind the desk's left end, so the desk's outline crosses it.",
+      "pxWithin15": 2394
+     }
+    ]
+   },
+   {
+    "name": "vertical pipe, left wall",
+    "parts": [
+     {
+      "where": "behind the crates' top",
+      "for": "the Lead's decision",
+      "why": "The pipe runs down the left wall behind Atlas's crates: their top edge crosses it.",
+      "pxWithin15": 1110
+     }
+    ]
+   },
+   {
+    "name": "left-wall pipe clamp, upper",
+    "parts": [
+     {
+      "where": "its foot",
+      "for": "the Lead's decision",
+      "why": "The clamp holds the vertical pipe just above the crates' top: its foot is about 12 px from their edge, which is set by the crates.",
+      "pxWithin15": 142
+     }
+    ]
+   },
+   {
+    "name": "grille plate",
+    "parts": [
+     {
+      "where": "its top band",
+      "for": "the Lead's decision",
+      "why": "Atlas's crates stand in front of the plate: their top edge crosses its upper band, up to 19 px of which stays above them.",
+      "pxWithin15": 2296
+     },
+     {
+      "where": "its right edge",
+      "for": "the Lead's decision",
+      "why": "The crates' right end stands 13 px from the plate's right edge: the edge is set by the crates.",
+      "pxWithin15": 250
+     }
+    ]
+   },
+   {
+    "name": "locker bank",
+    "parts": [
+     {
+      "where": "its left side",
+      "for": "the Lead's decision",
+      "why": "The crates' right end stands 11 px from the lockers' left frame: the edge is set by the crates.",
+      "pxWithin15": 881
+     },
+     {
+      "where": "its lower doors",
+      "for": "the Lead's decision",
+      "why": "The crates stand in front of the lockers' lower left door: their top and right edges cross it and the bank's middle frame.",
+      "pxWithin15": 3266
+     }
+    ]
+   }
+  ],
+  "noted": [],
+  "lights": [
+   {
+    "name": "back-wall junction box's lit cell",
+    "box": [
+     467,
+     637,
+     480,
+     647
+    ],
+    "step2ClearPx": 60
+   },
+   {
+    "name": "left-wall junction box's lit cell",
+    "box": [
+     335,
+     590,
+     344,
+     599
+    ],
+    "step2ClearPx": 60
+   }
+  ],
+  "pairs": {
+   "D crates": {
+    "vertical pipe, left wall": {
+     "status": "crosses",
+     "pxInside": 5062,
+     "pxOutside": 518
+    },
+    "left-wall pipe clamp, upper": {
+     "status": "clear",
+     "clearPx": 7
+    },
+    "pipe, left wall top": {
+     "status": "clear",
+     "clearPx": 24
+    },
+    "grille plate": {
+     "status": "crosses",
+     "pxInside": 14971,
+     "pxOutside": 761
+    },
+    "locker bank": {
+     "status": "crosses",
+     "pxInside": 2828,
+     "pxOutside": 48172
+    }
+   },
+   "A PC workstation": {
+    "lower pipe run": {
+     "status": "crosses",
+     "pxInside": 7843,
+     "pxOutside": 4309
+    },
+    "lower pipe clamp, left": {
+     "status": "inside",
+     "insidePx": 20
+    },
+    "lower pipe clamp, right": {
+     "status": "inside",
+     "insidePx": 16
+    },
+    "upper pipe run": {
+     "status": "crosses",
+     "pxInside": 5975,
+     "pxOutside": 5005
+    },
+    "upper pipe clamp, left": {
+     "status": "inside",
+     "insidePx": 28
+    },
+    "upper pipe clamp, right": {
+     "status": "clear",
+     "clearPx": 7
+    },
+    "pipe bend, left": {
+     "status": "crosses",
+     "pxInside": 1966,
+     "pxOutside": 6038
+    },
+    "wall box, left of the desk": {
+     "status": "crosses",
+     "pxInside": 1486,
+     "pxOutside": 2140
+    },
+    "locker bank": {
+     "status": "clear",
+     "clearPx": 53
+    }
+   },
+   "E toolbox": {},
+   "E floor hatch": {}
+  }
+ },
+ "expected": {
+  "s2": {
+   "maskedShare": 0.1334,
+   "rawMaskAlpha": "865ff5b6a56956d977e72ed86c381478073a02a356a115b5f3b68e7e6de065d8",
+   "over10": true
+  }
+ }
+}

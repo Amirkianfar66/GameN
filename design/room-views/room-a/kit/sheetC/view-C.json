@@ -1,0 +1,38 @@
+{
+ "view": "C",
+ "sheet": "RA-C",
+ "roles": {
+  "north": "right",
+  "south": "left",
+  "west": "back"
+ },
+ "inView": {
+  "window": false,
+  "screens": true,
+  "capsule": false,
+  "own": []
+ },
+ "own": [
+  "electrical panel"
+ ],
+ "slices": {
+  "390x844": [
+   84.7,
+   52,
+   939.3,
+   1482.8
+  ],
+  "430x932": [
+   84.7,
+   31.1,
+   939.3,
+   1503.6
+  ],
+  "402x742": [
+   84.7,
+   181.8,
+   939.3,
+   1353
+  ]
+ }
+}

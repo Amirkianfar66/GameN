@@ -1,0 +1,2349 @@
+{
+  "schema_version": "1.0.0",
+  "design_id": "gamen-room-perimeter-visibility",
+  "design_version": "1.0.0",
+  "name": "GameN Room A and Room B: fixed personal views with one blind place",
+  "recorded_date": "2026-11-17",
+  "language": "en",
+  "status": {
+    "design_selection": "Selected by the owner in this conversation for the initial visual prototype.",
+    "selection_basis": "The owner accepted the perimeter proposal and then accepted retaining three visible others at full occupancy.",
+    "implemented_in_game": false,
+    "deployed": false,
+    "geometry_calculated": true,
+    "actual_character_and_furniture_render_checked": false,
+    "physical_phone_checked": false,
+    "balance_playtested": false
+  },
+  "purpose": "Give each player a personal view from a stable room place, retain enough visible people for discussion, and create one consistent asymmetric blind place when all five places are occupied.",
+  "scope": {
+    "rooms": [
+      "Room A",
+      "Room B"
+    ],
+    "maximum_places_per_room": 5,
+    "room_layout_instances": [
+      {
+        "room": "Room A",
+        "layout_ref": "perimeter-five-v1"
+      },
+      {
+        "room": "Room B",
+        "layout_ref": "perimeter-five-v1"
+      }
+    ],
+    "place_ids_are": "Local geometric place IDs, not human player identities, selected character names, hidden roles, factions, or room names.",
+    "cross_room_visibility_in_this_model": false,
+    "other_rooms": "Command Room, Hospital, Jail, Supply Room and Private Room require their own camera layouts; this file does not assign five places to them.",
+    "other_game_rules": "Existing movement, targeting, room capacity, reserved station access, timing and private-information rules remain outside this geometric specification."
+  },
+  "selected_design": {
+    "view_mode": "One personal, fixed viewpoint for each occupied place.",
+    "full_room_visibility": "At five occupants, each sees three of the other four and is inside the view cone of exactly three others.",
+    "field_of_view_degrees": 90,
+    "field_of_view_axis": "Horizontal angle in the floor-plan model.",
+    "same_FOV_for_all_places": true,
+    "FOV_changes_with_occupancy": false,
+    "automatic_camera_turning_or_zooming_to_include_occupants": false,
+    "automatic_player_reseating": false,
+    "positions_and_camera_directions_change_when_other_players_leave": false,
+    "two_person_policy": "Keep the two players in their actual places. One-way sight is allowed; mutual sight is not guaranteed for every pair.",
+    "empty_or_solitary_room_policy": "Render the empty room or a solitary player normally. Do not create, move or reveal another player to fill the view.",
+    "self_visibility_in_graph": "A viewer is excluded from their own sees list. Whether first-person hands or a shoulder appear is a visual composition detail."
+  },
+  "layout": {
+    "id": "perimeter-five-v1",
+    "coordinate_system": {
+      "units": "normalized floor-plan coordinates",
+      "x_min": 0,
+      "x_max": 1,
+      "y_min": 0,
+      "y_max": 1,
+      "origin": "top left",
+      "x_increases": "right / east",
+      "y_increases": "down / south",
+      "direction_degrees": {
+        "0": "east / right",
+        "90": "south / down",
+        "180": "west / left",
+        "270": "north / up"
+      },
+      "angle_rotation": "clockwise because screen Y increases downward"
+    },
+    "room_boundary": {
+      "shape": "square",
+      "width": 1,
+      "height": 1,
+      "corners_clockwise": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0,
+          1
+        ]
+      ]
+    },
+    "clockwise_place_order": [
+      "A",
+      "E",
+      "C",
+      "B",
+      "D"
+    ],
+    "layout_description": "A and E are near the north wall, B near the south wall, C near the east wall, and D near the west wall. The centre remains clear.",
+    "places": [
+      {
+        "id": "A",
+        "anchor": {
+          "x": 0.240426,
+          "y": 0.08
+        },
+        "camera_facing_degrees": 36.414,
+        "baseline_body_facing_degrees": 36.414,
+        "near_wall": "north"
+      },
+      {
+        "id": "B",
+        "anchor": {
+          "x": 0.5,
+          "y": 0.92
+        },
+        "camera_facing_degrees": 252.275,
+        "baseline_body_facing_degrees": 252.275,
+        "near_wall": "south"
+      },
+      {
+        "id": "C",
+        "anchor": {
+          "x": 0.92,
+          "y": 0.599149
+        },
+        "camera_facing_degrees": 180.0,
+        "baseline_body_facing_degrees": 180.0,
+        "near_wall": "east"
+      },
+      {
+        "id": "D",
+        "anchor": {
+          "x": 0.08,
+          "y": 0.599149
+        },
+        "camera_facing_degrees": 323.586,
+        "baseline_body_facing_degrees": 323.586,
+        "near_wall": "west"
+      },
+      {
+        "id": "E",
+        "anchor": {
+          "x": 0.759574,
+          "y": 0.08
+        },
+        "camera_facing_degrees": 107.725,
+        "baseline_body_facing_degrees": 107.725,
+        "near_wall": "north"
+      }
+    ],
+    "distance_from_boundary_for_outermost_anchors": 0.08,
+    "scaling": "Uniform scaling and translation preserve the angular relationships. Non-uniform scaling, moving a place or changing a direction requires recalculation.",
+    "camera_geometry_model": "The angular calculation places the camera at the place anchor. Actual camera height, pitch, shoulder offset and character dimensions are not included.",
+    "camera_details_to_finalize_in_visual_prototype": {
+      "height": null,
+      "pitch": null,
+      "shoulder_offset": null,
+      "vertical_FOV": null,
+      "near_clip_clearance": null
+    },
+    "no_distance_cutoff": true,
+    "interior_occluders_in_calculation": [],
+    "walls": "The square boundary limits the room. All inter-place centre segments in this layout remain within it."
+  },
+  "visibility_definition": {
+    "visible": "The subject anchor centre lies inside the viewer horizontal angular cone.",
+    "sees": "Other occupied place IDs whose centres lie inside this viewer cone.",
+    "seen_by": "Other occupied place IDs whose cones contain this subject centre.",
+    "not_an_action_witness_count": "These counts do not prove a player can see a hand, tool, face, target, action execution or outcome.",
+    "furniture_and_body_occlusion": "Not represented in this point model.",
+    "orientation_check": "Rear-view analysis compares the viewer position with the subject baseline body direction. It does not validate every animated pose.",
+    "unknown_occupied_places": "The model requires the authorized occupied-place list for the current room/view. It does not infer hidden or unavailable state."
+  },
+  "calculation_algorithm": {
+    "input": "A viewer place ID and a set of occupied local place IDs drawn from A,B,C,D,E.",
+    "bearing": "bearing_deg = (atan2(subject.y - viewer.y, subject.x - viewer.x) * 180 / pi + 360) mod 360",
+    "smallest_angle": "offset_deg = abs(((bearing_deg - viewer.camera_facing_degrees + 180) mod 360) - 180)",
+    "inside_cone": "viewer_id != subject_id AND offset_deg <= 45 + numerical_epsilon_degrees",
+    "numerical_epsilon_degrees": 1e-09,
+    "edge_inclusion": "Inclusive for centre-point geometry. An on-edge centre does not imply that the full body fits.",
+    "occupancy_filter": "Remove empty places from sees and seen_by; do not recompute place directions or invent replacement occupants.",
+    "recompute_triggers": "Authorized occupancy changes or a permitted player move to a different place.",
+    "cache": "The full five-place geometric adjacency can be precomputed. Runtime occupancy selects a subgraph.",
+    "language_note": "mod means mathematical nonnegative modulo; normalize negative remainders when required by the implementation language."
+  },
+  "full_room_visibility": {
+    "active_slots": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E"
+    ],
+    "per_place": {
+      "A": {
+        "sees": [
+          "B",
+          "C",
+          "E"
+        ],
+        "seen_by": [
+          "B",
+          "C",
+          "D"
+        ],
+        "sees_count": 3,
+        "seen_by_count": 3,
+        "blind_place": "D"
+      },
+      "B": {
+        "sees": [
+          "A",
+          "D",
+          "E"
+        ],
+        "seen_by": [
+          "A",
+          "C",
+          "E"
+        ],
+        "sees_count": 3,
+        "seen_by_count": 3,
+        "blind_place": "C"
+      },
+      "C": {
+        "sees": [
+          "A",
+          "B",
+          "D"
+        ],
+        "seen_by": [
+          "A",
+          "D",
+          "E"
+        ],
+        "sees_count": 3,
+        "seen_by_count": 3,
+        "blind_place": "E"
+      },
+      "D": {
+        "sees": [
+          "A",
+          "C",
+          "E"
+        ],
+        "seen_by": [
+          "B",
+          "C",
+          "E"
+        ],
+        "sees_count": 3,
+        "seen_by_count": 3,
+        "blind_place": "B"
+      },
+      "E": {
+        "sees": [
+          "B",
+          "C",
+          "D"
+        ],
+        "seen_by": [
+          "A",
+          "B",
+          "D"
+        ],
+        "sees_count": 3,
+        "seen_by_count": 3,
+        "blind_place": "A"
+      }
+    },
+    "blind_cycle": [
+      "A",
+      "D",
+      "B",
+      "C",
+      "E",
+      "A"
+    ],
+    "blind_cycle_meaning": "Each place in the sequence cannot see the next place. The next place can see it.",
+    "everyone_sees_exactly_three": true,
+    "everyone_seen_by_exactly_three": true,
+    "rear_hemisphere_observations_in_baseline_point_model": []
+  },
+  "two_person_relationships": {
+    "total_pairs": 10,
+    "mutual_pairs": [
+      [
+        "A",
+        "B"
+      ],
+      [
+        "A",
+        "C"
+      ],
+      [
+        "B",
+        "E"
+      ],
+      [
+        "C",
+        "D"
+      ],
+      [
+        "D",
+        "E"
+      ]
+    ],
+    "one_way_pairs": [
+      [
+        "A",
+        "D"
+      ],
+      [
+        "A",
+        "E"
+      ],
+      [
+        "B",
+        "C"
+      ],
+      [
+        "B",
+        "D"
+      ],
+      [
+        "C",
+        "E"
+      ]
+    ],
+    "neither_sees_the_other_pairs": [],
+    "pairs": [
+      {
+        "slots": [
+          "A",
+          "B"
+        ],
+        "first_sees_second": true,
+        "second_sees_first": true,
+        "relationship": "mutual",
+        "one_way_observer": null,
+        "one_way_observed": null
+      },
+      {
+        "slots": [
+          "A",
+          "C"
+        ],
+        "first_sees_second": true,
+        "second_sees_first": true,
+        "relationship": "mutual",
+        "one_way_observer": null,
+        "one_way_observed": null
+      },
+      {
+        "slots": [
+          "A",
+          "D"
+        ],
+        "first_sees_second": false,
+        "second_sees_first": true,
+        "relationship": "one_way",
+        "one_way_observer": "D",
+        "one_way_observed": "A"
+      },
+      {
+        "slots": [
+          "A",
+          "E"
+        ],
+        "first_sees_second": true,
+        "second_sees_first": false,
+        "relationship": "one_way",
+        "one_way_observer": "A",
+        "one_way_observed": "E"
+      },
+      {
+        "slots": [
+          "B",
+          "C"
+        ],
+        "first_sees_second": false,
+        "second_sees_first": true,
+        "relationship": "one_way",
+        "one_way_observer": "C",
+        "one_way_observed": "B"
+      },
+      {
+        "slots": [
+          "B",
+          "D"
+        ],
+        "first_sees_second": true,
+        "second_sees_first": false,
+        "relationship": "one_way",
+        "one_way_observer": "B",
+        "one_way_observed": "D"
+      },
+      {
+        "slots": [
+          "B",
+          "E"
+        ],
+        "first_sees_second": true,
+        "second_sees_first": true,
+        "relationship": "mutual",
+        "one_way_observer": null,
+        "one_way_observed": null
+      },
+      {
+        "slots": [
+          "C",
+          "D"
+        ],
+        "first_sees_second": true,
+        "second_sees_first": true,
+        "relationship": "mutual",
+        "one_way_observer": null,
+        "one_way_observed": null
+      },
+      {
+        "slots": [
+          "C",
+          "E"
+        ],
+        "first_sees_second": false,
+        "second_sees_first": true,
+        "relationship": "one_way",
+        "one_way_observer": "E",
+        "one_way_observed": "C"
+      },
+      {
+        "slots": [
+          "D",
+          "E"
+        ],
+        "first_sees_second": true,
+        "second_sees_first": true,
+        "relationship": "mutual",
+        "one_way_observer": null,
+        "one_way_observed": null
+      }
+    ],
+    "no_AB_only_assignment": "A and B are one mutually visible pair, not mandatory destinations whenever only two players remain.",
+    "transition_example": {
+      "before_active_slots": [
+        "A",
+        "C",
+        "D"
+      ],
+      "after_active_slots": [
+        "A",
+        "D"
+      ],
+      "after_A_sees": [],
+      "after_D_sees": [
+        "A"
+      ],
+      "positions_or_directions_changed": false,
+      "reason": "C departed. A and D keep their places and original view directions."
+    }
+  },
+  "occupancy_summary_by_count": {
+    "0": {
+      "number_of_combinations": 1,
+      "minimum_others_seen_per_occupant": null,
+      "maximum_others_seen_per_occupant": null,
+      "minimum_observers_per_occupant": null,
+      "maximum_observers_per_occupant": null,
+      "combinations_with_someone_seeing_nobody": 0,
+      "combinations_with_someone_seen_by_nobody": 0
+    },
+    "1": {
+      "number_of_combinations": 5,
+      "minimum_others_seen_per_occupant": 0,
+      "maximum_others_seen_per_occupant": 0,
+      "minimum_observers_per_occupant": 0,
+      "maximum_observers_per_occupant": 0,
+      "combinations_with_someone_seeing_nobody": 5,
+      "combinations_with_someone_seen_by_nobody": 5
+    },
+    "2": {
+      "number_of_combinations": 10,
+      "minimum_others_seen_per_occupant": 0,
+      "maximum_others_seen_per_occupant": 1,
+      "minimum_observers_per_occupant": 0,
+      "maximum_observers_per_occupant": 1,
+      "combinations_with_someone_seeing_nobody": 5,
+      "combinations_with_someone_seen_by_nobody": 5
+    },
+    "3": {
+      "number_of_combinations": 10,
+      "minimum_others_seen_per_occupant": 1,
+      "maximum_others_seen_per_occupant": 2,
+      "minimum_observers_per_occupant": 1,
+      "maximum_observers_per_occupant": 2,
+      "combinations_with_someone_seeing_nobody": 0,
+      "combinations_with_someone_seen_by_nobody": 0
+    },
+    "4": {
+      "number_of_combinations": 5,
+      "minimum_others_seen_per_occupant": 2,
+      "maximum_others_seen_per_occupant": 3,
+      "minimum_observers_per_occupant": 2,
+      "maximum_observers_per_occupant": 3,
+      "combinations_with_someone_seeing_nobody": 0,
+      "combinations_with_someone_seen_by_nobody": 0
+    },
+    "5": {
+      "number_of_combinations": 1,
+      "minimum_others_seen_per_occupant": 3,
+      "maximum_others_seen_per_occupant": 3,
+      "minimum_observers_per_occupant": 3,
+      "maximum_observers_per_occupant": 3,
+      "combinations_with_someone_seeing_nobody": 0,
+      "combinations_with_someone_seen_by_nobody": 0
+    }
+  },
+  "occupancy_cases": [
+    {
+      "case_id": "empty",
+      "active_slots": [],
+      "occupancy_count": 0,
+      "per_occupied_slot": {},
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "A",
+      "active_slots": [
+        "A"
+      ],
+      "occupancy_count": 1,
+      "per_occupied_slot": {
+        "A": {
+          "sees": [],
+          "seen_by": [],
+          "sees_count": 0,
+          "seen_by_count": 0,
+          "occupied_blind_slots": []
+        }
+      },
+      "viewers_seeing_nobody": [
+        "A"
+      ],
+      "occupants_seen_by_nobody": [
+        "A"
+      ]
+    },
+    {
+      "case_id": "B",
+      "active_slots": [
+        "B"
+      ],
+      "occupancy_count": 1,
+      "per_occupied_slot": {
+        "B": {
+          "sees": [],
+          "seen_by": [],
+          "sees_count": 0,
+          "seen_by_count": 0,
+          "occupied_blind_slots": []
+        }
+      },
+      "viewers_seeing_nobody": [
+        "B"
+      ],
+      "occupants_seen_by_nobody": [
+        "B"
+      ]
+    },
+    {
+      "case_id": "C",
+      "active_slots": [
+        "C"
+      ],
+      "occupancy_count": 1,
+      "per_occupied_slot": {
+        "C": {
+          "sees": [],
+          "seen_by": [],
+          "sees_count": 0,
+          "seen_by_count": 0,
+          "occupied_blind_slots": []
+        }
+      },
+      "viewers_seeing_nobody": [
+        "C"
+      ],
+      "occupants_seen_by_nobody": [
+        "C"
+      ]
+    },
+    {
+      "case_id": "D",
+      "active_slots": [
+        "D"
+      ],
+      "occupancy_count": 1,
+      "per_occupied_slot": {
+        "D": {
+          "sees": [],
+          "seen_by": [],
+          "sees_count": 0,
+          "seen_by_count": 0,
+          "occupied_blind_slots": []
+        }
+      },
+      "viewers_seeing_nobody": [
+        "D"
+      ],
+      "occupants_seen_by_nobody": [
+        "D"
+      ]
+    },
+    {
+      "case_id": "E",
+      "active_slots": [
+        "E"
+      ],
+      "occupancy_count": 1,
+      "per_occupied_slot": {
+        "E": {
+          "sees": [],
+          "seen_by": [],
+          "sees_count": 0,
+          "seen_by_count": 0,
+          "occupied_blind_slots": []
+        }
+      },
+      "viewers_seeing_nobody": [
+        "E"
+      ],
+      "occupants_seen_by_nobody": [
+        "E"
+      ]
+    },
+    {
+      "case_id": "AB",
+      "active_slots": [
+        "A",
+        "B"
+      ],
+      "occupancy_count": 2,
+      "per_occupied_slot": {
+        "A": {
+          "sees": [
+            "B"
+          ],
+          "seen_by": [
+            "B"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 1,
+          "occupied_blind_slots": []
+        },
+        "B": {
+          "sees": [
+            "A"
+          ],
+          "seen_by": [
+            "A"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 1,
+          "occupied_blind_slots": []
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "AC",
+      "active_slots": [
+        "A",
+        "C"
+      ],
+      "occupancy_count": 2,
+      "per_occupied_slot": {
+        "A": {
+          "sees": [
+            "C"
+          ],
+          "seen_by": [
+            "C"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 1,
+          "occupied_blind_slots": []
+        },
+        "C": {
+          "sees": [
+            "A"
+          ],
+          "seen_by": [
+            "A"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 1,
+          "occupied_blind_slots": []
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "AD",
+      "active_slots": [
+        "A",
+        "D"
+      ],
+      "occupancy_count": 2,
+      "per_occupied_slot": {
+        "A": {
+          "sees": [],
+          "seen_by": [
+            "D"
+          ],
+          "sees_count": 0,
+          "seen_by_count": 1,
+          "occupied_blind_slots": [
+            "D"
+          ]
+        },
+        "D": {
+          "sees": [
+            "A"
+          ],
+          "seen_by": [],
+          "sees_count": 1,
+          "seen_by_count": 0,
+          "occupied_blind_slots": []
+        }
+      },
+      "viewers_seeing_nobody": [
+        "A"
+      ],
+      "occupants_seen_by_nobody": [
+        "D"
+      ]
+    },
+    {
+      "case_id": "AE",
+      "active_slots": [
+        "A",
+        "E"
+      ],
+      "occupancy_count": 2,
+      "per_occupied_slot": {
+        "A": {
+          "sees": [
+            "E"
+          ],
+          "seen_by": [],
+          "sees_count": 1,
+          "seen_by_count": 0,
+          "occupied_blind_slots": []
+        },
+        "E": {
+          "sees": [],
+          "seen_by": [
+            "A"
+          ],
+          "sees_count": 0,
+          "seen_by_count": 1,
+          "occupied_blind_slots": [
+            "A"
+          ]
+        }
+      },
+      "viewers_seeing_nobody": [
+        "E"
+      ],
+      "occupants_seen_by_nobody": [
+        "A"
+      ]
+    },
+    {
+      "case_id": "BC",
+      "active_slots": [
+        "B",
+        "C"
+      ],
+      "occupancy_count": 2,
+      "per_occupied_slot": {
+        "B": {
+          "sees": [],
+          "seen_by": [
+            "C"
+          ],
+          "sees_count": 0,
+          "seen_by_count": 1,
+          "occupied_blind_slots": [
+            "C"
+          ]
+        },
+        "C": {
+          "sees": [
+            "B"
+          ],
+          "seen_by": [],
+          "sees_count": 1,
+          "seen_by_count": 0,
+          "occupied_blind_slots": []
+        }
+      },
+      "viewers_seeing_nobody": [
+        "B"
+      ],
+      "occupants_seen_by_nobody": [
+        "C"
+      ]
+    },
+    {
+      "case_id": "BD",
+      "active_slots": [
+        "B",
+        "D"
+      ],
+      "occupancy_count": 2,
+      "per_occupied_slot": {
+        "B": {
+          "sees": [
+            "D"
+          ],
+          "seen_by": [],
+          "sees_count": 1,
+          "seen_by_count": 0,
+          "occupied_blind_slots": []
+        },
+        "D": {
+          "sees": [],
+          "seen_by": [
+            "B"
+          ],
+          "sees_count": 0,
+          "seen_by_count": 1,
+          "occupied_blind_slots": [
+            "B"
+          ]
+        }
+      },
+      "viewers_seeing_nobody": [
+        "D"
+      ],
+      "occupants_seen_by_nobody": [
+        "B"
+      ]
+    },
+    {
+      "case_id": "BE",
+      "active_slots": [
+        "B",
+        "E"
+      ],
+      "occupancy_count": 2,
+      "per_occupied_slot": {
+        "B": {
+          "sees": [
+            "E"
+          ],
+          "seen_by": [
+            "E"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 1,
+          "occupied_blind_slots": []
+        },
+        "E": {
+          "sees": [
+            "B"
+          ],
+          "seen_by": [
+            "B"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 1,
+          "occupied_blind_slots": []
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "CD",
+      "active_slots": [
+        "C",
+        "D"
+      ],
+      "occupancy_count": 2,
+      "per_occupied_slot": {
+        "C": {
+          "sees": [
+            "D"
+          ],
+          "seen_by": [
+            "D"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 1,
+          "occupied_blind_slots": []
+        },
+        "D": {
+          "sees": [
+            "C"
+          ],
+          "seen_by": [
+            "C"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 1,
+          "occupied_blind_slots": []
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "CE",
+      "active_slots": [
+        "C",
+        "E"
+      ],
+      "occupancy_count": 2,
+      "per_occupied_slot": {
+        "C": {
+          "sees": [],
+          "seen_by": [
+            "E"
+          ],
+          "sees_count": 0,
+          "seen_by_count": 1,
+          "occupied_blind_slots": [
+            "E"
+          ]
+        },
+        "E": {
+          "sees": [
+            "C"
+          ],
+          "seen_by": [],
+          "sees_count": 1,
+          "seen_by_count": 0,
+          "occupied_blind_slots": []
+        }
+      },
+      "viewers_seeing_nobody": [
+        "C"
+      ],
+      "occupants_seen_by_nobody": [
+        "E"
+      ]
+    },
+    {
+      "case_id": "DE",
+      "active_slots": [
+        "D",
+        "E"
+      ],
+      "occupancy_count": 2,
+      "per_occupied_slot": {
+        "D": {
+          "sees": [
+            "E"
+          ],
+          "seen_by": [
+            "E"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 1,
+          "occupied_blind_slots": []
+        },
+        "E": {
+          "sees": [
+            "D"
+          ],
+          "seen_by": [
+            "D"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 1,
+          "occupied_blind_slots": []
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "ABC",
+      "active_slots": [
+        "A",
+        "B",
+        "C"
+      ],
+      "occupancy_count": 3,
+      "per_occupied_slot": {
+        "A": {
+          "sees": [
+            "B",
+            "C"
+          ],
+          "seen_by": [
+            "B",
+            "C"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 2,
+          "occupied_blind_slots": []
+        },
+        "B": {
+          "sees": [
+            "A"
+          ],
+          "seen_by": [
+            "A",
+            "C"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 2,
+          "occupied_blind_slots": [
+            "C"
+          ]
+        },
+        "C": {
+          "sees": [
+            "A",
+            "B"
+          ],
+          "seen_by": [
+            "A"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 1,
+          "occupied_blind_slots": []
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "ABD",
+      "active_slots": [
+        "A",
+        "B",
+        "D"
+      ],
+      "occupancy_count": 3,
+      "per_occupied_slot": {
+        "A": {
+          "sees": [
+            "B"
+          ],
+          "seen_by": [
+            "B",
+            "D"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 2,
+          "occupied_blind_slots": [
+            "D"
+          ]
+        },
+        "B": {
+          "sees": [
+            "A",
+            "D"
+          ],
+          "seen_by": [
+            "A"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 1,
+          "occupied_blind_slots": []
+        },
+        "D": {
+          "sees": [
+            "A"
+          ],
+          "seen_by": [
+            "B"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 1,
+          "occupied_blind_slots": [
+            "B"
+          ]
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "ABE",
+      "active_slots": [
+        "A",
+        "B",
+        "E"
+      ],
+      "occupancy_count": 3,
+      "per_occupied_slot": {
+        "A": {
+          "sees": [
+            "B",
+            "E"
+          ],
+          "seen_by": [
+            "B"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 1,
+          "occupied_blind_slots": []
+        },
+        "B": {
+          "sees": [
+            "A",
+            "E"
+          ],
+          "seen_by": [
+            "A",
+            "E"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 2,
+          "occupied_blind_slots": []
+        },
+        "E": {
+          "sees": [
+            "B"
+          ],
+          "seen_by": [
+            "A",
+            "B"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 2,
+          "occupied_blind_slots": [
+            "A"
+          ]
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "ACD",
+      "active_slots": [
+        "A",
+        "C",
+        "D"
+      ],
+      "occupancy_count": 3,
+      "per_occupied_slot": {
+        "A": {
+          "sees": [
+            "C"
+          ],
+          "seen_by": [
+            "C",
+            "D"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 2,
+          "occupied_blind_slots": [
+            "D"
+          ]
+        },
+        "C": {
+          "sees": [
+            "A",
+            "D"
+          ],
+          "seen_by": [
+            "A",
+            "D"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 2,
+          "occupied_blind_slots": []
+        },
+        "D": {
+          "sees": [
+            "A",
+            "C"
+          ],
+          "seen_by": [
+            "C"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 1,
+          "occupied_blind_slots": []
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "ACE",
+      "active_slots": [
+        "A",
+        "C",
+        "E"
+      ],
+      "occupancy_count": 3,
+      "per_occupied_slot": {
+        "A": {
+          "sees": [
+            "C",
+            "E"
+          ],
+          "seen_by": [
+            "C"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 1,
+          "occupied_blind_slots": []
+        },
+        "C": {
+          "sees": [
+            "A"
+          ],
+          "seen_by": [
+            "A",
+            "E"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 2,
+          "occupied_blind_slots": [
+            "E"
+          ]
+        },
+        "E": {
+          "sees": [
+            "C"
+          ],
+          "seen_by": [
+            "A"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 1,
+          "occupied_blind_slots": [
+            "A"
+          ]
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "ADE",
+      "active_slots": [
+        "A",
+        "D",
+        "E"
+      ],
+      "occupancy_count": 3,
+      "per_occupied_slot": {
+        "A": {
+          "sees": [
+            "E"
+          ],
+          "seen_by": [
+            "D"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 1,
+          "occupied_blind_slots": [
+            "D"
+          ]
+        },
+        "D": {
+          "sees": [
+            "A",
+            "E"
+          ],
+          "seen_by": [
+            "E"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 1,
+          "occupied_blind_slots": []
+        },
+        "E": {
+          "sees": [
+            "D"
+          ],
+          "seen_by": [
+            "A",
+            "D"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 2,
+          "occupied_blind_slots": [
+            "A"
+          ]
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "BCD",
+      "active_slots": [
+        "B",
+        "C",
+        "D"
+      ],
+      "occupancy_count": 3,
+      "per_occupied_slot": {
+        "B": {
+          "sees": [
+            "D"
+          ],
+          "seen_by": [
+            "C"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 1,
+          "occupied_blind_slots": [
+            "C"
+          ]
+        },
+        "C": {
+          "sees": [
+            "B",
+            "D"
+          ],
+          "seen_by": [
+            "D"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 1,
+          "occupied_blind_slots": []
+        },
+        "D": {
+          "sees": [
+            "C"
+          ],
+          "seen_by": [
+            "B",
+            "C"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 2,
+          "occupied_blind_slots": [
+            "B"
+          ]
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "BCE",
+      "active_slots": [
+        "B",
+        "C",
+        "E"
+      ],
+      "occupancy_count": 3,
+      "per_occupied_slot": {
+        "B": {
+          "sees": [
+            "E"
+          ],
+          "seen_by": [
+            "C",
+            "E"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 2,
+          "occupied_blind_slots": [
+            "C"
+          ]
+        },
+        "C": {
+          "sees": [
+            "B"
+          ],
+          "seen_by": [
+            "E"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 1,
+          "occupied_blind_slots": [
+            "E"
+          ]
+        },
+        "E": {
+          "sees": [
+            "B",
+            "C"
+          ],
+          "seen_by": [
+            "B"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 1,
+          "occupied_blind_slots": []
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "BDE",
+      "active_slots": [
+        "B",
+        "D",
+        "E"
+      ],
+      "occupancy_count": 3,
+      "per_occupied_slot": {
+        "B": {
+          "sees": [
+            "D",
+            "E"
+          ],
+          "seen_by": [
+            "E"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 1,
+          "occupied_blind_slots": []
+        },
+        "D": {
+          "sees": [
+            "E"
+          ],
+          "seen_by": [
+            "B",
+            "E"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 2,
+          "occupied_blind_slots": [
+            "B"
+          ]
+        },
+        "E": {
+          "sees": [
+            "B",
+            "D"
+          ],
+          "seen_by": [
+            "B",
+            "D"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 2,
+          "occupied_blind_slots": []
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "CDE",
+      "active_slots": [
+        "C",
+        "D",
+        "E"
+      ],
+      "occupancy_count": 3,
+      "per_occupied_slot": {
+        "C": {
+          "sees": [
+            "D"
+          ],
+          "seen_by": [
+            "D",
+            "E"
+          ],
+          "sees_count": 1,
+          "seen_by_count": 2,
+          "occupied_blind_slots": [
+            "E"
+          ]
+        },
+        "D": {
+          "sees": [
+            "C",
+            "E"
+          ],
+          "seen_by": [
+            "C",
+            "E"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 2,
+          "occupied_blind_slots": []
+        },
+        "E": {
+          "sees": [
+            "C",
+            "D"
+          ],
+          "seen_by": [
+            "D"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 1,
+          "occupied_blind_slots": []
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "ABCD",
+      "active_slots": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "occupancy_count": 4,
+      "per_occupied_slot": {
+        "A": {
+          "sees": [
+            "B",
+            "C"
+          ],
+          "seen_by": [
+            "B",
+            "C",
+            "D"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 3,
+          "occupied_blind_slots": [
+            "D"
+          ]
+        },
+        "B": {
+          "sees": [
+            "A",
+            "D"
+          ],
+          "seen_by": [
+            "A",
+            "C"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 2,
+          "occupied_blind_slots": [
+            "C"
+          ]
+        },
+        "C": {
+          "sees": [
+            "A",
+            "B",
+            "D"
+          ],
+          "seen_by": [
+            "A",
+            "D"
+          ],
+          "sees_count": 3,
+          "seen_by_count": 2,
+          "occupied_blind_slots": []
+        },
+        "D": {
+          "sees": [
+            "A",
+            "C"
+          ],
+          "seen_by": [
+            "B",
+            "C"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 2,
+          "occupied_blind_slots": [
+            "B"
+          ]
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "ABCE",
+      "active_slots": [
+        "A",
+        "B",
+        "C",
+        "E"
+      ],
+      "occupancy_count": 4,
+      "per_occupied_slot": {
+        "A": {
+          "sees": [
+            "B",
+            "C",
+            "E"
+          ],
+          "seen_by": [
+            "B",
+            "C"
+          ],
+          "sees_count": 3,
+          "seen_by_count": 2,
+          "occupied_blind_slots": []
+        },
+        "B": {
+          "sees": [
+            "A",
+            "E"
+          ],
+          "seen_by": [
+            "A",
+            "C",
+            "E"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 3,
+          "occupied_blind_slots": [
+            "C"
+          ]
+        },
+        "C": {
+          "sees": [
+            "A",
+            "B"
+          ],
+          "seen_by": [
+            "A",
+            "E"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 2,
+          "occupied_blind_slots": [
+            "E"
+          ]
+        },
+        "E": {
+          "sees": [
+            "B",
+            "C"
+          ],
+          "seen_by": [
+            "A",
+            "B"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 2,
+          "occupied_blind_slots": [
+            "A"
+          ]
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "ABDE",
+      "active_slots": [
+        "A",
+        "B",
+        "D",
+        "E"
+      ],
+      "occupancy_count": 4,
+      "per_occupied_slot": {
+        "A": {
+          "sees": [
+            "B",
+            "E"
+          ],
+          "seen_by": [
+            "B",
+            "D"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 2,
+          "occupied_blind_slots": [
+            "D"
+          ]
+        },
+        "B": {
+          "sees": [
+            "A",
+            "D",
+            "E"
+          ],
+          "seen_by": [
+            "A",
+            "E"
+          ],
+          "sees_count": 3,
+          "seen_by_count": 2,
+          "occupied_blind_slots": []
+        },
+        "D": {
+          "sees": [
+            "A",
+            "E"
+          ],
+          "seen_by": [
+            "B",
+            "E"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 2,
+          "occupied_blind_slots": [
+            "B"
+          ]
+        },
+        "E": {
+          "sees": [
+            "B",
+            "D"
+          ],
+          "seen_by": [
+            "A",
+            "B",
+            "D"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 3,
+          "occupied_blind_slots": [
+            "A"
+          ]
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "ACDE",
+      "active_slots": [
+        "A",
+        "C",
+        "D",
+        "E"
+      ],
+      "occupancy_count": 4,
+      "per_occupied_slot": {
+        "A": {
+          "sees": [
+            "C",
+            "E"
+          ],
+          "seen_by": [
+            "C",
+            "D"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 2,
+          "occupied_blind_slots": [
+            "D"
+          ]
+        },
+        "C": {
+          "sees": [
+            "A",
+            "D"
+          ],
+          "seen_by": [
+            "A",
+            "D",
+            "E"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 3,
+          "occupied_blind_slots": [
+            "E"
+          ]
+        },
+        "D": {
+          "sees": [
+            "A",
+            "C",
+            "E"
+          ],
+          "seen_by": [
+            "C",
+            "E"
+          ],
+          "sees_count": 3,
+          "seen_by_count": 2,
+          "occupied_blind_slots": []
+        },
+        "E": {
+          "sees": [
+            "C",
+            "D"
+          ],
+          "seen_by": [
+            "A",
+            "D"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 2,
+          "occupied_blind_slots": [
+            "A"
+          ]
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "BCDE",
+      "active_slots": [
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "occupancy_count": 4,
+      "per_occupied_slot": {
+        "B": {
+          "sees": [
+            "D",
+            "E"
+          ],
+          "seen_by": [
+            "C",
+            "E"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 2,
+          "occupied_blind_slots": [
+            "C"
+          ]
+        },
+        "C": {
+          "sees": [
+            "B",
+            "D"
+          ],
+          "seen_by": [
+            "D",
+            "E"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 2,
+          "occupied_blind_slots": [
+            "E"
+          ]
+        },
+        "D": {
+          "sees": [
+            "C",
+            "E"
+          ],
+          "seen_by": [
+            "B",
+            "C",
+            "E"
+          ],
+          "sees_count": 2,
+          "seen_by_count": 3,
+          "occupied_blind_slots": [
+            "B"
+          ]
+        },
+        "E": {
+          "sees": [
+            "B",
+            "C",
+            "D"
+          ],
+          "seen_by": [
+            "B",
+            "D"
+          ],
+          "sees_count": 3,
+          "seen_by_count": 2,
+          "occupied_blind_slots": []
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    },
+    {
+      "case_id": "ABCDE",
+      "active_slots": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "occupancy_count": 5,
+      "per_occupied_slot": {
+        "A": {
+          "sees": [
+            "B",
+            "C",
+            "E"
+          ],
+          "seen_by": [
+            "B",
+            "C",
+            "D"
+          ],
+          "sees_count": 3,
+          "seen_by_count": 3,
+          "occupied_blind_slots": [
+            "D"
+          ]
+        },
+        "B": {
+          "sees": [
+            "A",
+            "D",
+            "E"
+          ],
+          "seen_by": [
+            "A",
+            "C",
+            "E"
+          ],
+          "sees_count": 3,
+          "seen_by_count": 3,
+          "occupied_blind_slots": [
+            "C"
+          ]
+        },
+        "C": {
+          "sees": [
+            "A",
+            "B",
+            "D"
+          ],
+          "seen_by": [
+            "A",
+            "D",
+            "E"
+          ],
+          "sees_count": 3,
+          "seen_by_count": 3,
+          "occupied_blind_slots": [
+            "E"
+          ]
+        },
+        "D": {
+          "sees": [
+            "A",
+            "C",
+            "E"
+          ],
+          "seen_by": [
+            "B",
+            "C",
+            "E"
+          ],
+          "sees_count": 3,
+          "seen_by_count": 3,
+          "occupied_blind_slots": [
+            "B"
+          ]
+        },
+        "E": {
+          "sees": [
+            "B",
+            "C",
+            "D"
+          ],
+          "seen_by": [
+            "A",
+            "B",
+            "D"
+          ],
+          "sees_count": 3,
+          "seen_by_count": 3,
+          "occupied_blind_slots": [
+            "A"
+          ]
+        }
+      },
+      "viewers_seeing_nobody": [],
+      "occupants_seen_by_nobody": []
+    }
+  ],
+  "pair_geometry": [
+    {
+      "viewer_slot": "A",
+      "subject_slot": "B",
+      "bearing_degrees": 72.827979,
+      "angle_from_viewer_forward_degrees": 36.413979,
+      "subject_center_inside_FOV": true,
+      "center_margin_inside_FOV_degrees": 8.586021,
+      "viewer_angle_from_subject_forward_degrees": 0.552979,
+      "viewer_in_subject_front_hemisphere": true
+    },
+    {
+      "viewer_slot": "A",
+      "subject_slot": "C",
+      "bearing_degrees": 37.377403,
+      "angle_from_viewer_forward_degrees": 0.963403,
+      "subject_center_inside_FOV": true,
+      "center_margin_inside_FOV_degrees": 44.036597,
+      "viewer_angle_from_subject_forward_degrees": 37.377403,
+      "viewer_in_subject_front_hemisphere": true
+    },
+    {
+      "viewer_slot": "A",
+      "subject_slot": "D",
+      "bearing_degrees": 107.172052,
+      "angle_from_viewer_forward_degrees": 70.758052,
+      "subject_center_inside_FOV": false,
+      "center_margin_inside_FOV_degrees": -25.758052,
+      "viewer_angle_from_subject_forward_degrees": 36.413948,
+      "viewer_in_subject_front_hemisphere": true
+    },
+    {
+      "viewer_slot": "A",
+      "subject_slot": "E",
+      "bearing_degrees": 0.0,
+      "angle_from_viewer_forward_degrees": 36.414,
+      "subject_center_inside_FOV": true,
+      "center_margin_inside_FOV_degrees": 8.586,
+      "viewer_angle_from_subject_forward_degrees": 72.275,
+      "viewer_in_subject_front_hemisphere": true
+    },
+    {
+      "viewer_slot": "B",
+      "subject_slot": "A",
+      "bearing_degrees": 252.827979,
+      "angle_from_viewer_forward_degrees": 0.552979,
+      "subject_center_inside_FOV": true,
+      "center_margin_inside_FOV_degrees": 44.447021,
+      "viewer_angle_from_subject_forward_degrees": 36.413979,
+      "viewer_in_subject_front_hemisphere": true
+    },
+    {
+      "viewer_slot": "B",
+      "subject_slot": "C",
+      "bearing_degrees": 322.622671,
+      "angle_from_viewer_forward_degrees": 70.347671,
+      "subject_center_inside_FOV": false,
+      "center_margin_inside_FOV_degrees": -25.347671,
+      "viewer_angle_from_subject_forward_degrees": 37.377329,
+      "viewer_in_subject_front_hemisphere": true
+    },
+    {
+      "viewer_slot": "B",
+      "subject_slot": "D",
+      "bearing_degrees": 217.377329,
+      "angle_from_viewer_forward_degrees": 34.897671,
+      "subject_center_inside_FOV": true,
+      "center_margin_inside_FOV_degrees": 10.102329,
+      "viewer_angle_from_subject_forward_degrees": 73.791329,
+      "viewer_in_subject_front_hemisphere": true
+    },
+    {
+      "viewer_slot": "B",
+      "subject_slot": "E",
+      "bearing_degrees": 287.172021,
+      "angle_from_viewer_forward_degrees": 34.897021,
+      "subject_center_inside_FOV": true,
+      "center_margin_inside_FOV_degrees": 10.102979,
+      "viewer_angle_from_subject_forward_degrees": 0.552979,
+      "viewer_in_subject_front_hemisphere": true
+    },
+    {
+      "viewer_slot": "C",
+      "subject_slot": "A",
+      "bearing_degrees": 217.377403,
+      "angle_from_viewer_forward_degrees": 37.377403,
+      "subject_center_inside_FOV": true,
+      "center_margin_inside_FOV_degrees": 7.622597,
+      "viewer_angle_from_subject_forward_degrees": 0.963403,
+      "viewer_in_subject_front_hemisphere": true
+    },
+    {
+      "viewer_slot": "C",
+      "subject_slot": "B",
+      "bearing_degrees": 142.622671,
+      "angle_from_viewer_forward_degrees": 37.377329,
+      "subject_center_inside_FOV": true,
+      "center_margin_inside_FOV_degrees": 7.622671,
+      "viewer_angle_from_subject_forward_degrees": 70.347671,
+      "viewer_in_subject_front_hemisphere": true
+    },
+    {
+      "viewer_slot": "C",
+      "subject_slot": "D",
+      "bearing_degrees": 180.0,
+      "angle_from_viewer_forward_degrees": 0.0,
+      "subject_center_inside_FOV": true,
+      "center_margin_inside_FOV_degrees": 45.0,
+      "viewer_angle_from_subject_forward_degrees": 36.414,
+      "viewer_in_subject_front_hemisphere": true
+    },
+    {
+      "viewer_slot": "C",
+      "subject_slot": "E",
+      "bearing_degrees": 252.827948,
+      "angle_from_viewer_forward_degrees": 72.827948,
+      "subject_center_inside_FOV": false,
+      "center_margin_inside_FOV_degrees": -27.827948,
+      "viewer_angle_from_subject_forward_degrees": 34.897052,
+      "viewer_in_subject_front_hemisphere": true
+    },
+    {
+      "viewer_slot": "D",
+      "subject_slot": "A",
+      "bearing_degrees": 287.172052,
+      "angle_from_viewer_forward_degrees": 36.413948,
+      "subject_center_inside_FOV": true,
+      "center_margin_inside_FOV_degrees": 8.586052,
+      "viewer_angle_from_subject_forward_degrees": 70.758052,
+      "viewer_in_subject_front_hemisphere": true
+    },
+    {
+      "viewer_slot": "D",
+      "subject_slot": "B",
+      "bearing_degrees": 37.377329,
+      "angle_from_viewer_forward_degrees": 73.791329,
+      "subject_center_inside_FOV": false,
+      "center_margin_inside_FOV_degrees": -28.791329,
+      "viewer_angle_from_subject_forward_degrees": 34.897671,
+      "viewer_in_subject_front_hemisphere": true
+    },
+    {
+      "viewer_slot": "D",
+      "subject_slot": "C",
+      "bearing_degrees": 0.0,
+      "angle_from_viewer_forward_degrees": 36.414,
+      "subject_center_inside_FOV": true,
+      "center_margin_inside_FOV_degrees": 8.586,
+      "viewer_angle_from_subject_forward_degrees": 0.0,
+      "viewer_in_subject_front_hemisphere": true
+    },
+    {
+      "viewer_slot": "D",
+      "subject_slot": "E",
+      "bearing_degrees": 322.622597,
+      "angle_from_viewer_forward_degrees": 0.963403,
+      "subject_center_inside_FOV": true,
+      "center_margin_inside_FOV_degrees": 44.036597,
+      "viewer_angle_from_subject_forward_degrees": 34.897597,
+      "viewer_in_subject_front_hemisphere": true
+    },
+    {
+      "viewer_slot": "E",
+      "subject_slot": "A",
+      "bearing_degrees": 180.0,
+      "angle_from_viewer_forward_degrees": 72.275,
+      "subject_center_inside_FOV": false,
+      "center_margin_inside_FOV_degrees": -27.275,
+      "viewer_angle_from_subject_forward_degrees": 36.414,
+      "viewer_in_subject_front_hemisphere": true
+    },
+    {
+      "viewer_slot": "E",
+      "subject_slot": "B",
+      "bearing_degrees": 107.172021,
+      "angle_from_viewer_forward_degrees": 0.552979,
+      "subject_center_inside_FOV": true,
+      "center_margin_inside_FOV_degrees": 44.447021,
+      "viewer_angle_from_subject_forward_degrees": 34.897021,
+      "viewer_in_subject_front_hemisphere": true
+    },
+    {
+      "viewer_slot": "E",
+      "subject_slot": "C",
+      "bearing_degrees": 72.827948,
+      "angle_from_viewer_forward_degrees": 34.897052,
+      "subject_center_inside_FOV": true,
+      "center_margin_inside_FOV_degrees": 10.102948,
+      "viewer_angle_from_subject_forward_degrees": 72.827948,
+      "viewer_in_subject_front_hemisphere": true
+    },
+    {
+      "viewer_slot": "E",
+      "subject_slot": "D",
+      "bearing_degrees": 142.622597,
+      "angle_from_viewer_forward_degrees": 34.897597,
+      "subject_center_inside_FOV": true,
+      "center_margin_inside_FOV_degrees": 10.102403,
+      "viewer_angle_from_subject_forward_degrees": 0.963403,
+      "viewer_in_subject_front_hemisphere": true
+    }
+  ],
+  "state_and_rendering_integration": {
+    "binding": "Bind a current authorized occupant identity to a local place. The place geometry does not depend on character, role or faction.",
+    "runtime_slot_mapping": {
+      "status": "To be mapped explicitly during integration",
+      "room_a_existing_place_ids": [
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5"
+      ],
+      "room_b_existing_place_ids": [
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5"
+      ],
+      "constraint": "Map semantic stations and preserve their functions; do not assume alphabetic place IDs in this diagram are interchangeable with existing station IDs."
+    },
+    "movement": "Follow accepted game movement only. A departing player leaves an empty place; other occupants are not reseated or recentered.",
+    "blackout": "The geometric graph does not override Blackout concealment. Keep the approved framing/target freeze and existing visibility behavior.",
+    "parallel_realities": "Use only the room state authorized for that viewer/current reality. Do not combine occupancies from different realities.",
+    "private_actions": "Being geometrically visible does not authorize revealing a secret action, role, private result, dialogue or Promise.",
+    "targeting": "This file does not change legal targets or action range. A hidden on-screen character is not automatically an ineligible target.",
+    "board_and_shared_display": {
+      "status": "Separate observation-policy decision remains open",
+      "question_to_resolve": "Whether the personal blind place limits only the room image or also access to observable action details in Board/shared-display presentations.",
+      "constraint": "Do not claim that this room geometry alone prevents a player learning the same event through another authorized surface."
+    }
+  },
+  "visual_handoff": {
+    "view_catalog": [
+      {
+        "view_id": "room-a-A",
+        "room": "room-a",
+        "viewer_place": "A",
+        "layout_ref": "perimeter-five-v1"
+      },
+      {
+        "view_id": "room-a-B",
+        "room": "room-a",
+        "viewer_place": "B",
+        "layout_ref": "perimeter-five-v1"
+      },
+      {
+        "view_id": "room-a-C",
+        "room": "room-a",
+        "viewer_place": "C",
+        "layout_ref": "perimeter-five-v1"
+      },
+      {
+        "view_id": "room-a-D",
+        "room": "room-a",
+        "viewer_place": "D",
+        "layout_ref": "perimeter-five-v1"
+      },
+      {
+        "view_id": "room-a-E",
+        "room": "room-a",
+        "viewer_place": "E",
+        "layout_ref": "perimeter-five-v1"
+      },
+      {
+        "view_id": "room-b-A",
+        "room": "room-b",
+        "viewer_place": "A",
+        "layout_ref": "perimeter-five-v1"
+      },
+      {
+        "view_id": "room-b-B",
+        "room": "room-b",
+        "viewer_place": "B",
+        "layout_ref": "perimeter-five-v1"
+      },
+      {
+        "view_id": "room-b-C",
+        "room": "room-b",
+        "viewer_place": "C",
+        "layout_ref": "perimeter-five-v1"
+      },
+      {
+        "view_id": "room-b-D",
+        "room": "room-b",
+        "viewer_place": "D",
+        "layout_ref": "perimeter-five-v1"
+      },
+      {
+        "view_id": "room-b-E",
+        "room": "room-b",
+        "viewer_place": "E",
+        "layout_ref": "perimeter-five-v1"
+      }
+    ],
+    "occupancy_does_not_require_new_room_art": "The same place view is reused while independently rendered occupants enter or leave.",
+    "workstations": "Use low or angled inward-facing workstations and keep the centre open. Preserve important face, hand, tool and target visibility.",
+    "character_art": "Use separate character rigs/art and the specified baseline directions. Side/three-quarter art and individual pose adjustments may still be needed.",
+    "no_baked_occupants_or_information": "Do not paint occupants, names, numbers, role data or changing screen text into room backgrounds.",
+    "room_layers": "Compose static room architecture, movable prop parts, characters and local foreground occluders separately.",
+    "exterior_windows": "Views outside the ship remain independent animated Far scenes within window masks; this file does not add exterior windows.",
+    "visual_finish": "Follow the shared comic-noir finishing approach, preserving readability and semantic UI/team/status colours.",
+    "labels_and_inputs": "Keep name labels away from faces and ensure permitted interactions remain usable in every view.",
+    "rendering_clearance": "The angular centre margin is not a full-body clearance guarantee. Check actual rigs, tools, furniture and camera offsets.",
+    "reduced_motion": "Reduce decorative movement without changing geometric visibility or permitted game interactions."
+  },
+  "responsibilities": {
+    "Claude_Designer": "Build the approved visual components, room views, art, rigs, motion and specifically assigned game-side connections from the canonical source.",
+    "Frontend": "Review and connect authorized state, commands, lifecycle, accessibility and performance; reuse the canonical visual components.",
+    "Backend": "Retain authority over game state, permissions, outcomes, timing and disclosure.",
+    "Integration": "Coordinate slot mapping, compatible versions, technical review and any separately authorized release."
+  },
+  "calculation_evidence": {
+    "method": "Direct angle calculations from the serialized six-decimal coordinates and three-decimal directions, plus enumeration of all occupied subsets.",
+    "occupied_subsets_including_empty_and_solitary": 32,
+    "subsets_with_two_to_five_occupants": 26,
+    "two_slot_pairs": 10,
+    "five_occupant_out_degree": [
+      3,
+      3,
+      3,
+      3,
+      3
+    ],
+    "five_occupant_in_degree": [
+      3,
+      3,
+      3,
+      3,
+      3
+    ],
+    "minimum_visible_center_margin_degrees": 7.622597,
+    "minimum_excluded_center_margin_degrees": 25.347671,
+    "visible_rear_hemisphere_pair_count": 0,
+    "three_to_five_occupants_no_one_has_zero_geometric_views": true,
+    "three_to_five_occupants_no_one_has_zero_geometric_observers": true,
+    "verification_scope": "Offline geometry and JSON consistency only; not a game test, phone render review or balance playtest."
+  },
+  "remaining_design_work": [
+    {
+      "item": "Real mobile composition",
+      "status": "Not yet checked",
+      "detail": "Render all five personal views using the actual characters, labels, hands, props and room geometry."
+    },
+    {
+      "item": "Camera offsets and full-body clearance",
+      "status": "Not yet checked",
+      "detail": "Specify camera height, pitch, eye/shoulder offset and silhouette dimensions; retain the intended three-visible/one-blind relationships."
+    },
+    {
+      "item": "Station-to-runtime mapping",
+      "status": "Not yet assigned",
+      "detail": "Map local places to existing room station IDs without changing reserved window/device access or movement rules."
+    },
+    {
+      "item": "Action observation across surfaces",
+      "status": "Not decided by this geometry handoff",
+      "detail": "Resolve Room, Board and shared-display observation behavior before treating blind places as an information restriction."
+    },
+    {
+      "item": "Game balance",
+      "status": "Not playtested",
+      "detail": "Evaluate the selected three-of-four design before considering a reduction to two visible others."
+    }
+  ]
+}

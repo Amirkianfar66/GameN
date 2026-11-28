@@ -1,0 +1,948 @@
+{
+ "sheet": "RA-D",
+ "view": "D",
+ "step": "3 (after step 3)",
+ "date": "2026-11-28",
+ "name": "RA-D-4c",
+ "what": "view D's final plate: RA-D-4 (step 3's keep, the food capsule on RA-D-3hc) with the capsule's housing completed from step 3's raw and the toolbox's cast shadow taken from RA-D-3h's raw",
+ "drawnBy": "code",
+ "generated": false,
+ "standIn": false,
+ "codeComposite": {
+  "of": [
+   "RA-D-4",
+   "step 3's raw edit (RA-D-4-raw)",
+   "RA-D-3h's raw edit"
+  ],
+  "aiGenerated": true,
+  "how": "inside the capsule's traced outline, step 3's raw; inside the shadow's traced outline, RA-D-3h's raw; each with 1 px of feather outside it; elsewhere RA-D-4 unchanged"
+ },
+ "decision": [
+  "the Lead, 27 November 2026, 23:49: take the toolbox's shadow from RA-D-3h's raw, after step 3 so its pin stands, in one code step with any capsule completion step 3 needs; close at the shadow's crisp edge and on the box's ink; the raw's seam inside, the plate's outside, the crossings within 1 px",
+  "the Lead, 27 November 2026, 23:54: RA-D-4 accepted as step 3's kept picture, for completion in code: one outline closing on the housing's own ink (the top, the left side, the right side face's outer ink, the bottom edge with the handle), 1 px of feather; the bracket plate left out, as view A's accepted capsule has none; RA-D-4's wall stays below the housing and its seam passes behind it; the capsule's painted box into painted-D.json"
+ ],
+ "sources": [
+  {
+   "name": "RA-D-4",
+   "file": "img/RA-D-4.png",
+   "sha256": "4b1c22bedee4232919863bdcccd6a38e06c9dae92c977a0d1ff585b4bec1f45a",
+   "pixelsSha256": "16433c5b6fefcc5c814b4af71232a0344806b3187db652ad1bb486b83ddf3a72"
+  },
+  {
+   "name": "RA-D-4-raw",
+   "file": "img/RA-D-4-raw.png",
+   "sha256": "5b744e667bfbc275a1947672bf6b405e0e13f74e52bae2e4a268e446f33a1a86",
+   "aiGenerated": true,
+   "what": "the capsule's housing, inside its outline (its RGB; the file's alpha channel, 221 to 241, ignored, as the keep did)"
+  },
+  {
+   "name": "RA-D-3h-raw",
+   "file": "img/RA-D-3h-raw.png",
+   "sha256": "3b67e224fb4bcb0a70c938f81754a3b29f617a1f643fbde6ba4a5bc4971d9df2",
+   "aiGenerated": true,
+   "what": "the shadow, inside its outline"
+  }
+ ],
+ "feather": {
+  "px": 1.0,
+  "how": "alpha = 1 inside each outline, falling linearly to 0 at 1 px outside it, by each pixel centre's distance from the outline"
+ },
+ "capsule": {
+  "what": "the food capsule's housing: one outline closing on its own outer ink, traced on step 3's raw; the bracket plate below it left out",
+  "outline": {
+   "runs": [
+    {
+     "name": "the top-left corner and the top face's left edge",
+     "how": "read along rays every 6\u00b0 from inside the housing to x 642, then down columns (the wall's cables above it, at x 642-648, left out)",
+     "points": [
+      [
+       632.07,
+       724.0
+      ],
+      [
+       632.58,
+       722.8
+      ],
+      [
+       632.85,
+       721.63
+      ],
+      [
+       633.84,
+       720.7
+      ],
+      [
+       634.67,
+       719.85
+      ],
+      [
+       635.54,
+       719.12
+      ],
+      [
+       636.24,
+       718.36
+      ],
+      [
+       637.31,
+       717.97
+      ],
+      [
+       638.15,
+       717.5
+      ],
+      [
+       639.0,
+       717.12
+      ],
+      [
+       639.95,
+       716.98
+      ],
+      [
+       640.79,
+       716.8
+      ],
+      [
+       641.46,
+       716.19
+      ],
+      [
+       642.29,
+       715.98
+      ],
+      [
+       643.5,
+       715.0
+      ],
+      [
+       644.5,
+       714.77
+      ],
+      [
+       646.5,
+       714.1
+      ],
+      [
+       647.5,
+       713.84
+      ],
+      [
+       650.5,
+       712.84
+      ]
+     ]
+    },
+    {
+     "name": "the top face's outer ink",
+     "how": "y = 709.539 + 0.00474 x (34 readings, rms 0.064 px)",
+     "points": [
+      [
+       651.3,
+       712.63
+      ],
+      [
+       695.55,
+       712.84
+      ]
+     ]
+    },
+    {
+     "name": "the top-right corner",
+     "how": "read along rays every 6\u00b0",
+     "points": [
+      [
+       696.35,
+       712.96
+      ],
+      [
+       697.56,
+       713.06
+      ],
+      [
+       699.79,
+       713.97
+      ],
+      [
+       700.9,
+       714.5
+      ],
+      [
+       701.89,
+       715.24
+      ],
+      [
+       702.8,
+       716.08
+      ],
+      [
+       703.51,
+       717.09
+      ],
+      [
+       704.13,
+       718.15
+      ],
+      [
+       704.65,
+       719.26
+      ],
+      [
+       704.99,
+       720.43
+      ],
+      [
+       705.35,
+       721.59
+      ],
+      [
+       705.59,
+       722.78
+      ],
+      [
+       705.43,
+       724.0
+      ]
+     ]
+    },
+    {
+     "name": "the right side face's outer ink",
+     "how": "x = 707.04 - 0.00244 y (43 readings, rms 0.054 px)",
+     "points": [
+      [
+       705.27,
+       724.8
+      ],
+      [
+       705.06,
+       811.2
+      ]
+     ]
+    },
+    {
+     "name": "the bottom-right corner and the side face's bottom edge",
+     "how": "read along rays every 6\u00b0",
+     "points": [
+      [
+       705.07,
+       812.0
+      ],
+      [
+       705.03,
+       813.58
+      ],
+      [
+       705.27,
+       818.8
+      ],
+      [
+       701.32,
+       822.19
+      ],
+      [
+       700.68,
+       823.87
+      ],
+      [
+       697.8,
+       825.51
+      ],
+      [
+       693.25,
+       827.3
+      ],
+      [
+       691.68,
+       827.97
+      ],
+      [
+       690.0,
+       828.34
+      ]
+     ]
+    },
+    {
+     "name": "the housing's bottom ink",
+     "how": "read up columns from the bracket below (its face in the housing's shadow), stray readings dropped",
+     "points": [
+      [
+       688.5,
+       828.94
+      ],
+      [
+       687.5,
+       829.34
+      ],
+      [
+       686.5,
+       829.75
+      ],
+      [
+       685.5,
+       829.85
+      ],
+      [
+       684.5,
+       829.8
+      ],
+      [
+       683.5,
+       829.73
+      ],
+      [
+       682.5,
+       829.71
+      ],
+      [
+       681.5,
+       829.4
+      ],
+      [
+       680.5,
+       829.25
+      ],
+      [
+       679.5,
+       829.28
+      ],
+      [
+       678.5,
+       829.21
+      ],
+      [
+       677.5,
+       829.18
+      ],
+      [
+       676.5,
+       829.28
+      ],
+      [
+       675.5,
+       829.64
+      ],
+      [
+       674.5,
+       829.62
+      ],
+      [
+       673.5,
+       829.55
+      ],
+      [
+       672.5,
+       829.47
+      ],
+      [
+       671.5,
+       829.49
+      ],
+      [
+       670.5,
+       829.41
+      ],
+      [
+       669.5,
+       829.5
+      ],
+      [
+       668.5,
+       829.47
+      ],
+      [
+       667.5,
+       829.57
+      ],
+      [
+       666.5,
+       829.54
+      ],
+      [
+       665.5,
+       829.47
+      ],
+      [
+       664.5,
+       829.31
+      ],
+      [
+       663.5,
+       829.27
+      ],
+      [
+       662.5,
+       829.24
+      ],
+      [
+       661.5,
+       829.19
+      ],
+      [
+       660.5,
+       829.15
+      ],
+      [
+       659.5,
+       829.02
+      ],
+      [
+       658.5,
+       828.89
+      ],
+      [
+       657.5,
+       828.85
+      ],
+      [
+       656.5,
+       828.45
+      ],
+      [
+       655.5,
+       828.24
+      ],
+      [
+       654.5,
+       828.0
+      ],
+      [
+       653.5,
+       827.88
+      ],
+      [
+       652.5,
+       827.32
+      ],
+      [
+       651.5,
+       827.35
+      ],
+      [
+       648.5,
+       827.66
+      ],
+      [
+       647.5,
+       827.63
+      ],
+      [
+       646.5,
+       827.33
+      ],
+      [
+       645.5,
+       827.34
+      ]
+     ]
+    },
+    {
+     "name": "the bottom-left corner",
+     "how": "read along rays every 5-6\u00b0 (the bracket's left ink, met at 115\u00b0, left out)",
+     "points": [
+      [
+       644.0,
+       826.8
+      ],
+      [
+       642.71,
+       826.23
+      ],
+      [
+       641.47,
+       825.92
+      ],
+      [
+       640.19,
+       825.72
+      ],
+      [
+       638.97,
+       825.29
+      ],
+      [
+       634.62,
+       824.59
+      ],
+      [
+       634.31,
+       823.69
+      ],
+      [
+       634.01,
+       822.99
+      ],
+      [
+       633.88,
+       822.12
+      ],
+      [
+       632.76,
+       819.91
+      ]
+     ]
+    },
+    {
+     "name": "the left side's outer ink",
+     "how": "x = 633.431 - 0.00185 y (44 readings, rms 0.066 px)",
+     "points": [
+      [
+       631.92,
+       819.11
+      ],
+      [
+       632.09,
+       724.8
+      ]
+     ]
+    }
+   ],
+   "vertices": 99
+  },
+  "outlineBox": [
+   631.92,
+   712.63,
+   705.59,
+   829.85
+  ],
+  "shapeBox": [
+   634,
+   720,
+   702,
+   819
+  ],
+  "planBox": [
+   636.22,
+   721.79,
+   700.22,
+   817.18
+  ],
+  "pastTheShapePx": {
+   "left": 2.08,
+   "top": 7.37,
+   "right": 3.59,
+   "bottom": 10.85
+  },
+  "pastThePlanPx": {
+   "left": 4.3,
+   "top": 9.16,
+   "right": 5.37,
+   "bottom": 12.67
+  },
+  "bracket": {
+   "area": "the raw's bracket plate under the housing: x 636 to 705, from the housing's bottom edge down to y 849, outside the outline",
+   "px": 1448,
+   "takenWhole": 0,
+   "inTheFeather": 59,
+   "maxAlphaInTheFeather": 0.99,
+   "whereItMeetsTheBottomInk": {
+    "readings": 42,
+    "inkMedian": 6.3,
+    "inkMax": 12.6,
+    "plateMin": 26.1,
+    "plateMedian": 34.3,
+    "what": "in step 3's raw, along the bottom run: the ink's darkest within 3 px above each point, and the plate's level 1.5 to 3.5 px below it (luminance)"
+   }
+  },
+  "wallSeam": {
+   "left": {
+    "readings": 12,
+    "yAtTheHousing": 819.13,
+    "housingBottomThere": 824.59
+   },
+   "right": {
+    "readings": 21,
+    "yAtTheHousing": 821.52,
+    "housingBottomThere": 823.87
+   },
+   "behindTheHousing": true,
+   "unchangedEitherSide": true
+  },
+  "inkAlongTheOutline": {
+   "the top-left corner and the top face's left edge": {
+    "samples": 33,
+    "inkInside": 17.3,
+    "outside": 65.8
+   },
+   "the top face's outer ink": {
+    "samples": 45,
+    "inkInside": 29.3,
+    "outside": 76.2
+   },
+   "the top-right corner": {
+    "samples": 25,
+    "inkInside": 13.6,
+    "outside": 89.6
+   },
+   "the right side face's outer ink": {
+    "samples": 87,
+    "inkInside": 5.8,
+    "outside": 79.9
+   },
+   "the bottom-right corner and the side face's bottom edge": {
+    "samples": 29,
+    "inkInside": 4.8,
+    "outside": 75.5
+   },
+   "the housing's bottom ink": {
+    "samples": 84,
+    "inkInside": 7.7,
+    "outside": 70.2
+   },
+   "the bottom-left corner": {
+    "samples": 19,
+    "inkInside": 15.1,
+    "outside": 54.8
+   },
+   "the left side's outer ink": {
+    "samples": 95,
+    "inkInside": 19.1,
+    "outside": 61.2
+   }
+  },
+  "parts": {
+   "hatch": {
+    "box": [
+     639,
+     756,
+     681,
+     814
+    ],
+    "px": 2074,
+    "how": "its paper-white pixels (luminance over 150, red over blue by 16 or more), the largest connected part"
+   },
+   "lens": {
+    "box": [
+     649,
+     727,
+     671,
+     751
+    ],
+    "how": "its dark ring and glass (luminance under 45) high on the front"
+   }
+  },
+  "wall": {
+   "z": [
+    0.857,
+    1.239
+   ],
+   "y": [
+    0.93,
+    1.608
+   ],
+   "fitResidualPx": [
+    -0.0,
+    0.0,
+    -0.0,
+    0.0
+   ]
+  }
+ },
+ "shadow": {
+  "tracing": "on RA-D-3h's raw, where it is darker than the plate's lit deck: the difference in luminance, median-filtered 5 x 5, above 10 levels (closed 7 x 7 so the seam does not cut the band); the lower edge read along normals to the box's bottom-left edge every 2 px (y = 1078.260 + 0.34968 x, 41 readings, rms 0.47 px), the west edge along rows (x = 2198.727 - 1.5386 y, 19 readings, rms 0.48 px), its blunt corner and the east end as read",
+  "outline": {
+   "runs": [
+    {
+     "name": "inside the box, along its left side 4 px in from its ink, to the shadow's top",
+     "points": [
+      [
+       393.0,
+       1190.65
+      ],
+      [
+       393.0,
+       1179.0
+      ]
+     ]
+    },
+    {
+     "name": "the shadow's top, from the box's left side to its west edge",
+     "points": [
+      [
+       393.0,
+       1179.0
+      ],
+      [
+       384.72,
+       1179.0
+      ]
+     ]
+    },
+    {
+     "name": "the shadow's west edge: x = 2198.727 - 1.5386 y (19 readings, rms 0.48 px) to y 1197, then its blunt corner as read",
+     "points": [
+      [
+       384.72,
+       1179.0
+      ],
+      [
+       357.03,
+       1197.0
+      ],
+      [
+       356.0,
+       1198.5
+      ],
+      [
+       356.0,
+       1201.5
+      ]
+     ]
+    },
+    {
+     "name": "the shadow's lower edge, parallel to the box's bottom-left edge",
+     "points": [
+      [
+       356.0,
+       1201.5
+      ],
+      [
+       357.0,
+       1203.1
+      ],
+      [
+       467.7,
+       1241.8
+      ]
+     ]
+    },
+    {
+     "name": "the shadow's east end, read along rays",
+     "points": [
+      [
+       468.86697534428043,
+       1241.9505310751927
+      ],
+      [
+       470.0,
+       1241.75
+      ],
+      [
+       471.0458689129719,
+       1240.9543363771008
+      ],
+      [
+       472.08377813200315,
+       1240.8176930361465
+      ],
+      [
+       472.976419018679,
+       1240.1081470023244
+      ],
+      [
+       473.93323164824517,
+       1239.806465139038
+      ],
+      [
+       474.6488008791477,
+       1238.969385657403
+      ],
+      [
+       475.125,
+       1237.8767603887904
+      ],
+      [
+       476.16594669077375,
+       1237.8058844761067
+      ],
+      [
+       476.9099668041303,
+       1237.234977763529
+      ],
+      [
+       477.95495128834864,
+       1236.9549512883486
+      ],
+      [
+       479.38404442820746,
+       1236.8741482186601
+      ],
+      [
+       480.85376458682913,
+       1236.5998877816514
+      ],
+      [
+       481.907849302036,
+       1235.875
+      ],
+      [
+       482.6883090185131,
+       1234.9166556643697
+      ],
+      [
+       482.92077353580623,
+       1233.7027769707279
+      ],
+      [
+       484.7303688509083,
+       1232.9469904378134
+      ],
+      [
+       486.9879337394606,
+       1231.9954310647545
+      ],
+      [
+       492.6634293815872,
+       1230.9827931475093
+      ],
+      [
+       494.75,
+       1229.0
+      ],
+      [
+       495.90106215038537,
+       1226.733950688561
+      ],
+      [
+       496.8360112695827,
+       1224.2680871585762
+      ],
+      [
+       496.80444167952163,
+       1221.8177714984051
+      ],
+      [
+       497.9,
+       1216.0
+      ]
+     ]
+    },
+    {
+     "name": "into the toolbox's area beside its bottom-right edge, where RA-D-3hc already holds the raw",
+     "points": [
+      [
+       497.9,
+       1216.0
+      ],
+      [
+       499.5,
+       1208.0
+      ],
+      [
+       494.0,
+       1208.0
+      ]
+     ]
+    },
+    {
+     "name": "inside the box, 4 px in from its bottom edges, back to the start",
+     "points": [
+      [
+       494.0,
+       1208.0
+      ],
+      [
+       484.0,
+       1216.5
+      ],
+      [
+       478.0,
+       1219.6
+      ],
+      [
+       393.0,
+       1190.65
+      ]
+     ]
+    }
+   ],
+   "vertices": 36
+  },
+  "seam": {
+   "which": "the painted deck seam z = 1, meeting the box's bottom-left edge at x 424, crossing the outline's lower edge",
+   "raw": {
+    "dark": {
+     "line": "y = 1578.02 + -0.8738 x",
+     "readings": 49,
+     "dropped": 0,
+     "rmsPx": 0.176,
+     "crossing": [
+      408.47,
+      1221.09
+     ]
+    },
+    "light": {
+     "offsetFromDarkPx": 1.77,
+     "crossing": [
+      409.63,
+      1222.42
+     ]
+    }
+   },
+   "plate": {
+    "dark": {
+     "line": "y = 1585.64 + -0.8919 x",
+     "readings": 49,
+     "dropped": 0,
+     "rmsPx": 0.18,
+     "crossing": [
+      408.65,
+      1221.16
+     ]
+    },
+    "light": {
+     "offsetFromDarkPx": 1.75,
+     "crossing": [
+      409.82,
+      1222.46
+     ]
+    }
+   },
+   "crossingsApartPx": {
+    "dark": 0.19,
+    "light": 0.19
+   },
+   "withinOnePx": true
+  },
+  "nearestChangeToStep3MaskPx": 422.8
+ },
+ "checks": {
+  "keep3RebuiltExactly": true,
+  "changedPxAgainstRA-D-4": 6459,
+  "changedPxByPart": {
+   "capsule": 3438,
+   "shadow": 3021
+  },
+  "unchangedPxAgainstRA-D-4": 1566405,
+  "picturePx": 1572864,
+  "changedOutsideTheOutlinesAndTheirFeather": 0,
+  "rawTakenWholeInsideTheOutlines": {
+   "capsule": true,
+   "shadow": true
+  },
+  "boxPxChanged": 0,
+  "bracketPxTakenWhole": 0,
+  "wallSeamBehindTheHousing": true,
+  "screens": {
+   "left screen": {
+    "px": 8376,
+    "equalToRA-D-3hc": true
+   },
+   "right screen": {
+    "px": 6927,
+    "equalToRA-D-3hc": true
+   }
+  },
+  "colours": {
+   "map": "ra-D-regions2b.png",
+   "pass": true,
+   "failing": [],
+   "openingsP95L": 0.047,
+   "wallsAndDeckInBase": 0.8882
+  }
+ },
+ "pass": true,
+ "outputs": {
+  "ra-D-4c.png": {
+   "what": "the plate: RA-D-4c, a code composite of AI-generated pictures",
+   "sha256": "8dbbc5075771e0f035b6a6eb7e97b602eb64eee98891734d26b3ce5094ffcdbe",
+   "pixelsSha256": "e94c257ab580f014debb133a443940c545166dd7ef5ea9dd02ec0555628da59d",
+   "size": [
+    1024,
+    1536
+   ],
+   "aiGenerated": true,
+   "codeComposite": true
+  }
+ },
+ "units": "painting pixels (1024 x 1536); outlines in pixel-edge coordinates (a pixel spans i to i + 1)"
+}

@@ -1,0 +1,28 @@
+{
+ "view": "E",
+ "step": 3,
+ "recipe": "d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November)",
+ "pieces": {
+  "B stool": {
+   "file": "PV6-E-4-B-stool.png",
+   "sha256": "113a77bcf8a731c96f93e24e286498d8a3629b678547dc416a3a0e4bdc5b43fc",
+   "px": 6421,
+   "x": [
+    381,
+    446
+   ],
+   "y": [
+    910,
+    1019
+   ],
+   "shareOfItsOutline": 0.9286
+  }
+ },
+ "missing": [],
+ "rebuildMeanAbsDiff": 0.0098,
+ "copy": {
+  "of": "Room B Four Views (the image builder’s records page), version 1795044447-5e2a, records/PV6-E-4-lift3.json",
+  "originalSha256": "98dd443ba2765bac96b8169448194df961bdafee103e123bbe86f88b54634092",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

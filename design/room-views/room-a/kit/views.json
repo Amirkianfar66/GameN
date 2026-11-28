@@ -1,0 +1,1624 @@
+{
+ "A-390-100": {
+  "view": "A",
+  "phone": "390x844",
+  "pct": 100,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Mira",
+    "seenDeg": -8,
+    "head": "approved face",
+    "depthM": 2.83,
+    "heightPx": 169,
+    "tagAt": "the feet",
+    "margins": [
+     310,
+     15,
+     292,
+     187
+    ]
+   },
+   {
+    "name": "Echo",
+    "seenDeg": -134.5,
+    "head": "back view",
+    "depthM": 2.84,
+    "heightPx": 169,
+    "tagAt": "the feet",
+    "margins": [
+     153,
+     167,
+     291,
+     188
+    ]
+   },
+   {
+    "name": "Lyra",
+    "seenDeg": 83.4,
+    "head": "approved face",
+    "depthM": 1.66,
+    "heightPx": 288,
+    "tagAt": "the feet",
+    "margins": [
+     4,
+     264,
+     398,
+     72
+    ]
+   }
+  ],
+  "out": "Atlas",
+  "window": false,
+  "capsule": true,
+  "minEdgePx": 4
+ },
+ "A-390-200": {
+  "view": "A",
+  "phone": "390x844",
+  "pct": 200,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Mira",
+    "seenDeg": -8,
+    "head": "approved face",
+    "depthM": 2.83,
+    "heightPx": 169,
+    "tagAt": "the accepted place",
+    "margins": [
+     310,
+     15,
+     292,
+     187
+    ]
+   },
+   {
+    "name": "Echo",
+    "seenDeg": -134.5,
+    "head": "back view",
+    "depthM": 2.84,
+    "heightPx": 169,
+    "tagAt": "the accepted place",
+    "margins": [
+     153,
+     167,
+     291,
+     188
+    ]
+   },
+   {
+    "name": "Lyra",
+    "seenDeg": 83.4,
+    "head": "approved face",
+    "depthM": 1.66,
+    "heightPx": 288,
+    "tagAt": "the accepted place",
+    "margins": [
+     4,
+     264,
+     398,
+     72
+    ]
+   }
+  ],
+  "out": "Atlas",
+  "window": false,
+  "capsule": true,
+  "minEdgePx": 4
+ },
+ "A-430-100": {
+  "view": "A",
+  "phone": "430x932",
+  "pct": 100,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Mira",
+    "seenDeg": -8,
+    "head": "approved face",
+    "depthM": 2.83,
+    "heightPx": 187,
+    "tagAt": "the feet",
+    "margins": [
+     342,
+     16,
+     333,
+     217
+    ]
+   },
+   {
+    "name": "Echo",
+    "seenDeg": -134.5,
+    "head": "back view",
+    "depthM": 2.84,
+    "heightPx": 186,
+    "tagAt": "the feet",
+    "margins": [
+     169,
+     185,
+     331,
+     218
+    ]
+   },
+   {
+    "name": "Lyra",
+    "seenDeg": 83.4,
+    "head": "approved face",
+    "depthM": 1.66,
+    "heightPx": 318,
+    "tagAt": "the feet",
+    "margins": [
+     5,
+     291,
+     449,
+     90
+    ]
+   }
+  ],
+  "out": "Atlas",
+  "window": false,
+  "capsule": true,
+  "minEdgePx": 5
+ },
+ "A-430-200": {
+  "view": "A",
+  "phone": "430x932",
+  "pct": 200,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Mira",
+    "seenDeg": -8,
+    "head": "approved face",
+    "depthM": 2.83,
+    "heightPx": 187,
+    "tagAt": "the accepted place",
+    "margins": [
+     342,
+     16,
+     333,
+     217
+    ]
+   },
+   {
+    "name": "Echo",
+    "seenDeg": -134.5,
+    "head": "back view",
+    "depthM": 2.84,
+    "heightPx": 186,
+    "tagAt": "the feet",
+    "margins": [
+     169,
+     185,
+     331,
+     218
+    ]
+   },
+   {
+    "name": "Lyra",
+    "seenDeg": 83.4,
+    "head": "approved face",
+    "depthM": 1.66,
+    "heightPx": 318,
+    "tagAt": "the accepted place",
+    "margins": [
+     5,
+     291,
+     449,
+     90
+    ]
+   }
+  ],
+  "out": "Atlas",
+  "window": false,
+  "capsule": true,
+  "minEdgePx": 5
+ },
+ "A-402-100": {
+  "view": "A",
+  "phone": "402x742",
+  "pct": 100,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Mira",
+    "seenDeg": -8,
+    "head": "approved face",
+    "depthM": 2.83,
+    "heightPx": 175,
+    "tagAt": "the feet",
+    "margins": [
+     320,
+     15,
+     240,
+     132
+    ]
+   },
+   {
+    "name": "Echo",
+    "seenDeg": -134.5,
+    "head": "back view",
+    "depthM": 2.84,
+    "heightPx": 174,
+    "tagAt": "the accepted place",
+    "margins": [
+     158,
+     173,
+     239,
+     133
+    ]
+   },
+   {
+    "name": "Lyra",
+    "seenDeg": 83.4,
+    "head": "approved face",
+    "depthM": 1.66,
+    "heightPx": 297,
+    "tagAt": "the accepted place",
+    "margins": [
+     4,
+     272,
+     349,
+     13
+    ]
+   }
+  ],
+  "out": "Atlas",
+  "window": false,
+  "capsule": true,
+  "minEdgePx": 4
+ },
+ "A-402-200": {
+  "view": "A",
+  "phone": "402x742",
+  "pct": 200,
+  "issues": [
+   "Lyra's press area under the Board chip"
+  ],
+  "seen": [
+   {
+    "name": "Mira",
+    "seenDeg": -8,
+    "head": "approved face",
+    "depthM": 2.83,
+    "heightPx": 175,
+    "tagAt": "the accepted place",
+    "margins": [
+     320,
+     15,
+     240,
+     132
+    ]
+   },
+   {
+    "name": "Echo",
+    "seenDeg": -134.5,
+    "head": "back view",
+    "depthM": 2.84,
+    "heightPx": 174,
+    "tagAt": "the accepted place",
+    "margins": [
+     158,
+     173,
+     239,
+     133
+    ]
+   },
+   {
+    "name": "Lyra",
+    "seenDeg": 83.4,
+    "head": "approved face",
+    "depthM": 1.66,
+    "heightPx": 297,
+    "tagAt": "the accepted place",
+    "margins": [
+     4,
+     272,
+     349,
+     13
+    ]
+   }
+  ],
+  "out": "Atlas",
+  "window": false,
+  "capsule": true,
+  "minEdgePx": 4
+ },
+ "B-390-100": {
+  "view": "B",
+  "phone": "390x844",
+  "pct": 100,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Vega",
+    "seenDeg": 178.8,
+    "head": "back view",
+    "depthM": 2.92,
+    "heightPx": 164,
+    "tagAt": "the feet",
+    "margins": [
+     174,
+     156,
+     326,
+     193
+    ]
+   },
+   {
+    "name": "Atlas",
+    "seenDeg": 87.7,
+    "head": "approved face",
+    "depthM": 1.72,
+    "heightPx": 279,
+    "tagAt": "the accepted place",
+    "margins": [
+     24,
+     234,
+     283,
+     81
+    ]
+   },
+   {
+    "name": "Lyra",
+    "seenDeg": -7.1,
+    "head": "approved face",
+    "depthM": 2.69,
+    "heightPx": 178,
+    "tagAt": "the feet",
+    "margins": [
+     309,
+     6,
+     361,
+     179
+    ]
+   }
+  ],
+  "out": "Echo",
+  "window": true,
+  "capsule": false,
+  "minEdgePx": 6
+ },
+ "B-390-200": {
+  "view": "B",
+  "phone": "390x844",
+  "pct": 200,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Vega",
+    "seenDeg": 178.8,
+    "head": "back view",
+    "depthM": 2.92,
+    "heightPx": 164,
+    "tagAt": "the accepted place",
+    "margins": [
+     174,
+     156,
+     326,
+     193
+    ]
+   },
+   {
+    "name": "Atlas",
+    "seenDeg": 87.7,
+    "head": "approved face",
+    "depthM": 1.72,
+    "heightPx": 279,
+    "tagAt": "the accepted place",
+    "margins": [
+     24,
+     234,
+     283,
+     81
+    ]
+   },
+   {
+    "name": "Lyra",
+    "seenDeg": -7.1,
+    "head": "approved face",
+    "depthM": 2.69,
+    "heightPx": 178,
+    "tagAt": "the accepted place",
+    "margins": [
+     309,
+     6,
+     361,
+     179
+    ]
+   }
+  ],
+  "out": "Echo",
+  "window": true,
+  "capsule": false,
+  "minEdgePx": 6
+ },
+ "B-430-100": {
+  "view": "B",
+  "phone": "430x932",
+  "pct": 100,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Vega",
+    "seenDeg": 178.8,
+    "head": "back view",
+    "depthM": 2.92,
+    "heightPx": 181,
+    "tagAt": "the feet",
+    "margins": [
+     192,
+     172,
+     370,
+     224
+    ]
+   },
+   {
+    "name": "Atlas",
+    "seenDeg": 87.7,
+    "head": "approved face",
+    "depthM": 1.72,
+    "heightPx": 308,
+    "tagAt": "the accepted place",
+    "margins": [
+     26,
+     258,
+     322,
+     100
+    ]
+   },
+   {
+    "name": "Lyra",
+    "seenDeg": -7.1,
+    "head": "approved face",
+    "depthM": 2.69,
+    "heightPx": 196,
+    "tagAt": "the feet",
+    "margins": [
+     340,
+     7,
+     409,
+     208
+    ]
+   }
+  ],
+  "out": "Echo",
+  "window": true,
+  "capsule": false,
+  "minEdgePx": 7
+ },
+ "B-430-200": {
+  "view": "B",
+  "phone": "430x932",
+  "pct": 200,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Vega",
+    "seenDeg": 178.8,
+    "head": "back view",
+    "depthM": 2.92,
+    "heightPx": 181,
+    "tagAt": "the accepted place",
+    "margins": [
+     192,
+     172,
+     370,
+     224
+    ]
+   },
+   {
+    "name": "Atlas",
+    "seenDeg": 87.7,
+    "head": "approved face",
+    "depthM": 1.72,
+    "heightPx": 308,
+    "tagAt": "the accepted place",
+    "margins": [
+     26,
+     258,
+     322,
+     100
+    ]
+   },
+   {
+    "name": "Lyra",
+    "seenDeg": -7.1,
+    "head": "approved face",
+    "depthM": 2.69,
+    "heightPx": 196,
+    "tagAt": "the accepted place",
+    "margins": [
+     340,
+     7,
+     409,
+     208
+    ]
+   }
+  ],
+  "out": "Echo",
+  "window": true,
+  "capsule": false,
+  "minEdgePx": 7
+ },
+ "B-402-100": {
+  "view": "B",
+  "phone": "402x742",
+  "pct": 100,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Vega",
+    "seenDeg": 178.8,
+    "head": "back view",
+    "depthM": 2.92,
+    "heightPx": 169,
+    "tagAt": "the feet, nudged 3 px",
+    "margins": [
+     180,
+     161,
+     275,
+     138
+    ]
+   },
+   {
+    "name": "Atlas",
+    "seenDeg": 87.7,
+    "head": "approved face",
+    "depthM": 1.72,
+    "heightPx": 288,
+    "tagAt": "the accepted place",
+    "margins": [
+     24,
+     241,
+     230,
+     22
+    ]
+   },
+   {
+    "name": "Lyra",
+    "seenDeg": -7.1,
+    "head": "approved face",
+    "depthM": 2.69,
+    "heightPx": 183,
+    "tagAt": "the feet",
+    "margins": [
+     318,
+     7,
+     311,
+     123
+    ]
+   }
+  ],
+  "out": "Echo",
+  "window": true,
+  "capsule": false,
+  "minEdgePx": 7
+ },
+ "B-402-200": {
+  "view": "B",
+  "phone": "402x742",
+  "pct": 200,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Vega",
+    "seenDeg": 178.8,
+    "head": "back view",
+    "depthM": 2.92,
+    "heightPx": 169,
+    "tagAt": "the accepted place",
+    "margins": [
+     180,
+     161,
+     275,
+     138
+    ]
+   },
+   {
+    "name": "Atlas",
+    "seenDeg": 87.7,
+    "head": "approved face",
+    "depthM": 1.72,
+    "heightPx": 288,
+    "tagAt": "the accepted place",
+    "margins": [
+     24,
+     241,
+     230,
+     22
+    ]
+   },
+   {
+    "name": "Lyra",
+    "seenDeg": -7.1,
+    "head": "approved face",
+    "depthM": 2.69,
+    "heightPx": 183,
+    "tagAt": "the accepted place",
+    "margins": [
+     318,
+     7,
+     311,
+     123
+    ]
+   }
+  ],
+  "out": "Echo",
+  "window": true,
+  "capsule": false,
+  "minEdgePx": 7
+ },
+ "C-390-100": {
+  "view": "C",
+  "phone": "390x844",
+  "pct": 100,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Vega",
+    "seenDeg": 132.7,
+    "head": "back view",
+    "depthM": 2.89,
+    "heightPx": 166,
+    "tagAt": "the feet",
+    "margins": [
+     313,
+     17,
+     326,
+     192
+    ]
+   },
+   {
+    "name": "Mira",
+    "seenDeg": 82.8,
+    "head": "approved face",
+    "depthM": 1.73,
+    "heightPx": 277,
+    "tagAt": "the feet",
+    "margins": [
+     13,
+     270,
+     286,
+     83
+    ]
+   },
+   {
+    "name": "Atlas",
+    "seenDeg": 35.4,
+    "head": "approved face",
+    "depthM": 2.83,
+    "heightPx": 169,
+    "tagAt": "the feet",
+    "margins": [
+     151,
+     159,
+     290,
+     187
+    ]
+   }
+  ],
+  "out": "Lyra",
+  "window": false,
+  "capsule": false,
+  "minEdgePx": 13
+ },
+ "C-390-200": {
+  "view": "C",
+  "phone": "390x844",
+  "pct": 200,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Vega",
+    "seenDeg": 132.7,
+    "head": "back view",
+    "depthM": 2.89,
+    "heightPx": 166,
+    "tagAt": "the accepted place",
+    "margins": [
+     313,
+     17,
+     326,
+     192
+    ]
+   },
+   {
+    "name": "Mira",
+    "seenDeg": 82.8,
+    "head": "approved face",
+    "depthM": 1.73,
+    "heightPx": 277,
+    "tagAt": "the accepted place",
+    "margins": [
+     13,
+     270,
+     286,
+     83
+    ]
+   },
+   {
+    "name": "Atlas",
+    "seenDeg": 35.4,
+    "head": "approved face",
+    "depthM": 2.83,
+    "heightPx": 169,
+    "tagAt": "the feet",
+    "margins": [
+     151,
+     159,
+     290,
+     187
+    ]
+   }
+  ],
+  "out": "Lyra",
+  "window": false,
+  "capsule": false,
+  "minEdgePx": 13
+ },
+ "C-430-100": {
+  "view": "C",
+  "phone": "430x932",
+  "pct": 100,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Vega",
+    "seenDeg": 132.7,
+    "head": "back view",
+    "depthM": 2.89,
+    "heightPx": 183,
+    "tagAt": "the feet",
+    "margins": [
+     345,
+     18,
+     370,
+     222
+    ]
+   },
+   {
+    "name": "Mira",
+    "seenDeg": 82.8,
+    "head": "approved face",
+    "depthM": 1.73,
+    "heightPx": 305,
+    "tagAt": "the feet",
+    "margins": [
+     15,
+     298,
+     326,
+     102
+    ]
+   },
+   {
+    "name": "Atlas",
+    "seenDeg": 35.4,
+    "head": "approved face",
+    "depthM": 2.83,
+    "heightPx": 187,
+    "tagAt": "the feet",
+    "margins": [
+     166,
+     175,
+     331,
+     217
+    ]
+   }
+  ],
+  "out": "Lyra",
+  "window": false,
+  "capsule": false,
+  "minEdgePx": 15
+ },
+ "C-430-200": {
+  "view": "C",
+  "phone": "430x932",
+  "pct": 200,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Vega",
+    "seenDeg": 132.7,
+    "head": "back view",
+    "depthM": 2.89,
+    "heightPx": 183,
+    "tagAt": "the accepted place",
+    "margins": [
+     345,
+     18,
+     370,
+     222
+    ]
+   },
+   {
+    "name": "Mira",
+    "seenDeg": 82.8,
+    "head": "approved face",
+    "depthM": 1.73,
+    "heightPx": 305,
+    "tagAt": "the accepted place",
+    "margins": [
+     15,
+     298,
+     326,
+     102
+    ]
+   },
+   {
+    "name": "Atlas",
+    "seenDeg": 35.4,
+    "head": "approved face",
+    "depthM": 2.83,
+    "heightPx": 187,
+    "tagAt": "the feet",
+    "margins": [
+     166,
+     175,
+     331,
+     217
+    ]
+   }
+  ],
+  "out": "Lyra",
+  "window": false,
+  "capsule": false,
+  "minEdgePx": 15
+ },
+ "C-402-100": {
+  "view": "C",
+  "phone": "402x742",
+  "pct": 100,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Vega",
+    "seenDeg": 132.7,
+    "head": "back view",
+    "depthM": 2.89,
+    "heightPx": 171,
+    "tagAt": "the feet",
+    "margins": [
+     323,
+     17,
+     275,
+     137
+    ]
+   },
+   {
+    "name": "Mira",
+    "seenDeg": 82.8,
+    "head": "approved face",
+    "depthM": 1.73,
+    "heightPx": 285,
+    "tagAt": "the accepted place",
+    "margins": [
+     14,
+     279,
+     234,
+     25
+    ]
+   },
+   {
+    "name": "Atlas",
+    "seenDeg": 35.4,
+    "head": "approved face",
+    "depthM": 2.83,
+    "heightPx": 174,
+    "tagAt": "the accepted place",
+    "margins": [
+     156,
+     163,
+     238,
+     132
+    ]
+   }
+  ],
+  "out": "Lyra",
+  "window": false,
+  "capsule": false,
+  "minEdgePx": 14
+ },
+ "C-402-200": {
+  "view": "C",
+  "phone": "402x742",
+  "pct": 200,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Vega",
+    "seenDeg": 132.7,
+    "head": "back view",
+    "depthM": 2.89,
+    "heightPx": 171,
+    "tagAt": "the accepted place",
+    "margins": [
+     323,
+     17,
+     275,
+     137
+    ]
+   },
+   {
+    "name": "Mira",
+    "seenDeg": 82.8,
+    "head": "approved face",
+    "depthM": 1.73,
+    "heightPx": 285,
+    "tagAt": "the accepted place",
+    "margins": [
+     14,
+     279,
+     234,
+     25
+    ]
+   },
+   {
+    "name": "Atlas",
+    "seenDeg": 35.4,
+    "head": "approved face",
+    "depthM": 2.83,
+    "heightPx": 174,
+    "tagAt": "the accepted place",
+    "margins": [
+     156,
+     163,
+     238,
+     132
+    ]
+   }
+  ],
+  "out": "Lyra",
+  "window": false,
+  "capsule": false,
+  "minEdgePx": 14
+ },
+ "D-390-100": {
+  "view": "D",
+  "phone": "390x844",
+  "pct": 100,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Vega",
+    "seenDeg": -135.3,
+    "head": "back view",
+    "depthM": 1.6,
+    "heightPx": 299,
+    "tagAt": "the feet",
+    "margins": [
+     20,
+     261,
+     345,
+     64
+    ]
+   },
+   {
+    "name": "Echo",
+    "seenDeg": -178.2,
+    "head": "back view",
+    "depthM": 2.63,
+    "heightPx": 182,
+    "tagAt": "the feet",
+    "margins": [
+     304,
+     11,
+     290,
+     175
+    ]
+   },
+   {
+    "name": "Lyra",
+    "seenDeg": 34.8,
+    "head": "approved face",
+    "depthM": 2.83,
+    "heightPx": 169,
+    "tagAt": "the feet",
+    "margins": [
+     155,
+     164,
+     358,
+     187
+    ]
+   }
+  ],
+  "out": "Mira",
+  "window": true,
+  "capsule": true,
+  "minEdgePx": 11
+ },
+ "D-390-200": {
+  "view": "D",
+  "phone": "390x844",
+  "pct": 200,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Vega",
+    "seenDeg": -135.3,
+    "head": "back view",
+    "depthM": 1.6,
+    "heightPx": 299,
+    "tagAt": "the accepted place",
+    "margins": [
+     20,
+     261,
+     345,
+     64
+    ]
+   },
+   {
+    "name": "Echo",
+    "seenDeg": -178.2,
+    "head": "back view",
+    "depthM": 2.63,
+    "heightPx": 182,
+    "tagAt": "the accepted place",
+    "margins": [
+     304,
+     11,
+     290,
+     175
+    ]
+   },
+   {
+    "name": "Lyra",
+    "seenDeg": 34.8,
+    "head": "approved face",
+    "depthM": 2.83,
+    "heightPx": 169,
+    "tagAt": "the accepted place",
+    "margins": [
+     155,
+     164,
+     358,
+     187
+    ]
+   }
+  ],
+  "out": "Mira",
+  "window": true,
+  "capsule": true,
+  "minEdgePx": 11
+ },
+ "D-430-100": {
+  "view": "D",
+  "phone": "430x932",
+  "pct": 100,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Vega",
+    "seenDeg": -135.3,
+    "head": "back view",
+    "depthM": 1.6,
+    "heightPx": 330,
+    "tagAt": "the feet",
+    "margins": [
+     22,
+     288,
+     391,
+     81
+    ]
+   },
+   {
+    "name": "Echo",
+    "seenDeg": -178.2,
+    "head": "back view",
+    "depthM": 2.63,
+    "heightPx": 201,
+    "tagAt": "the feet",
+    "margins": [
+     335,
+     12,
+     330,
+     203
+    ]
+   },
+   {
+    "name": "Lyra",
+    "seenDeg": 34.8,
+    "head": "approved face",
+    "depthM": 2.83,
+    "heightPx": 187,
+    "tagAt": "the feet",
+    "margins": [
+     171,
+     181,
+     405,
+     217
+    ]
+   }
+  ],
+  "out": "Mira",
+  "window": true,
+  "capsule": true,
+  "minEdgePx": 12
+ },
+ "D-430-200": {
+  "view": "D",
+  "phone": "430x932",
+  "pct": 200,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Vega",
+    "seenDeg": -135.3,
+    "head": "back view",
+    "depthM": 1.6,
+    "heightPx": 330,
+    "tagAt": "the accepted place",
+    "margins": [
+     22,
+     288,
+     391,
+     81
+    ]
+   },
+   {
+    "name": "Echo",
+    "seenDeg": -178.2,
+    "head": "back view",
+    "depthM": 2.63,
+    "heightPx": 201,
+    "tagAt": "the accepted place",
+    "margins": [
+     335,
+     12,
+     330,
+     203
+    ]
+   },
+   {
+    "name": "Lyra",
+    "seenDeg": 34.8,
+    "head": "approved face",
+    "depthM": 2.83,
+    "heightPx": 187,
+    "tagAt": "the accepted place",
+    "margins": [
+     171,
+     181,
+     405,
+     217
+    ]
+   }
+  ],
+  "out": "Mira",
+  "window": true,
+  "capsule": true,
+  "minEdgePx": 12
+ },
+ "D-402-100": {
+  "view": "D",
+  "phone": "402x742",
+  "pct": 100,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Vega",
+    "seenDeg": -135.3,
+    "head": "back view",
+    "depthM": 1.6,
+    "heightPx": 308,
+    "tagAt": "the accepted place",
+    "margins": [
+     21,
+     269,
+     294,
+     5
+    ]
+   },
+   {
+    "name": "Echo",
+    "seenDeg": -178.2,
+    "head": "back view",
+    "depthM": 2.63,
+    "heightPx": 188,
+    "tagAt": "the feet",
+    "margins": [
+     313,
+     11,
+     238,
+     119
+    ]
+   },
+   {
+    "name": "Lyra",
+    "seenDeg": 34.8,
+    "head": "approved face",
+    "depthM": 2.83,
+    "heightPx": 175,
+    "tagAt": "the accepted place",
+    "margins": [
+     160,
+     169,
+     308,
+     132
+    ]
+   }
+  ],
+  "out": "Mira",
+  "window": true,
+  "capsule": true,
+  "minEdgePx": 11
+ },
+ "D-402-200": {
+  "view": "D",
+  "phone": "402x742",
+  "pct": 200,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Vega",
+    "seenDeg": -135.3,
+    "head": "back view",
+    "depthM": 1.6,
+    "heightPx": 308,
+    "tagAt": "the accepted place",
+    "margins": [
+     21,
+     269,
+     294,
+     5
+    ]
+   },
+   {
+    "name": "Echo",
+    "seenDeg": -178.2,
+    "head": "back view",
+    "depthM": 2.63,
+    "heightPx": 188,
+    "tagAt": "the accepted place",
+    "margins": [
+     313,
+     11,
+     238,
+     119
+    ]
+   },
+   {
+    "name": "Lyra",
+    "seenDeg": 34.8,
+    "head": "approved face",
+    "depthM": 2.83,
+    "heightPx": 175,
+    "tagAt": "the accepted place",
+    "margins": [
+     160,
+     169,
+     308,
+     132
+    ]
+   }
+  ],
+  "out": "Mira",
+  "window": true,
+  "capsule": true,
+  "minEdgePx": 11
+ },
+ "E-390-100": {
+  "view": "E",
+  "phone": "390x844",
+  "pct": 100,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Mira",
+    "seenDeg": 31.2,
+    "head": "approved face",
+    "depthM": 2.95,
+    "heightPx": 162,
+    "tagAt": "the feet",
+    "margins": [
+     143,
+     184,
+     293,
+     194
+    ]
+   },
+   {
+    "name": "Echo",
+    "seenDeg": -86.7,
+    "head": "approved face",
+    "depthM": 1.86,
+    "heightPx": 258,
+    "tagAt": "the feet, nudged 5 px",
+    "margins": [
+     11,
+     273,
+     285,
+     102
+    ]
+   },
+   {
+    "name": "Atlas",
+    "seenDeg": -10.3,
+    "head": "approved face",
+    "depthM": 2.88,
+    "heightPx": 166,
+    "tagAt": "the feet",
+    "margins": [
+     290,
+     21,
+     291,
+     190
+    ]
+   }
+  ],
+  "out": "Vega",
+  "window": false,
+  "capsule": false,
+  "minEdgePx": 11
+ },
+ "E-390-200": {
+  "view": "E",
+  "phone": "390x844",
+  "pct": 200,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Mira",
+    "seenDeg": 31.2,
+    "head": "approved face",
+    "depthM": 2.95,
+    "heightPx": 162,
+    "tagAt": "the feet",
+    "margins": [
+     143,
+     184,
+     293,
+     194
+    ]
+   },
+   {
+    "name": "Echo",
+    "seenDeg": -86.7,
+    "head": "approved face",
+    "depthM": 1.86,
+    "heightPx": 258,
+    "tagAt": "the accepted place",
+    "margins": [
+     11,
+     273,
+     285,
+     102
+    ]
+   },
+   {
+    "name": "Atlas",
+    "seenDeg": -10.3,
+    "head": "approved face",
+    "depthM": 2.88,
+    "heightPx": 166,
+    "tagAt": "the accepted place",
+    "margins": [
+     290,
+     21,
+     291,
+     190
+    ]
+   }
+  ],
+  "out": "Vega",
+  "window": false,
+  "capsule": false,
+  "minEdgePx": 11
+ },
+ "E-430-100": {
+  "view": "E",
+  "phone": "430x932",
+  "pct": 100,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Mira",
+    "seenDeg": 31.2,
+    "head": "approved face",
+    "depthM": 2.95,
+    "heightPx": 179,
+    "tagAt": "the feet",
+    "margins": [
+     158,
+     203,
+     333,
+     224
+    ]
+   },
+   {
+    "name": "Echo",
+    "seenDeg": -86.7,
+    "head": "approved face",
+    "depthM": 1.86,
+    "heightPx": 284,
+    "tagAt": "the feet",
+    "margins": [
+     13,
+     300,
+     324,
+     123
+    ]
+   },
+   {
+    "name": "Atlas",
+    "seenDeg": -10.3,
+    "head": "approved face",
+    "depthM": 2.88,
+    "heightPx": 183,
+    "tagAt": "the feet",
+    "margins": [
+     319,
+     24,
+     331,
+     220
+    ]
+   }
+  ],
+  "out": "Vega",
+  "window": false,
+  "capsule": false,
+  "minEdgePx": 13
+ },
+ "E-430-200": {
+  "view": "E",
+  "phone": "430x932",
+  "pct": 200,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Mira",
+    "seenDeg": 31.2,
+    "head": "approved face",
+    "depthM": 2.95,
+    "heightPx": 179,
+    "tagAt": "the feet",
+    "margins": [
+     158,
+     203,
+     333,
+     224
+    ]
+   },
+   {
+    "name": "Echo",
+    "seenDeg": -86.7,
+    "head": "approved face",
+    "depthM": 1.86,
+    "heightPx": 284,
+    "tagAt": "the accepted place",
+    "margins": [
+     13,
+     300,
+     324,
+     123
+    ]
+   },
+   {
+    "name": "Atlas",
+    "seenDeg": -10.3,
+    "head": "approved face",
+    "depthM": 2.88,
+    "heightPx": 183,
+    "tagAt": "the accepted place",
+    "margins": [
+     319,
+     24,
+     331,
+     220
+    ]
+   }
+  ],
+  "out": "Vega",
+  "window": false,
+  "capsule": false,
+  "minEdgePx": 13
+ },
+ "E-402-100": {
+  "view": "E",
+  "phone": "402x742",
+  "pct": 100,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Mira",
+    "seenDeg": 31.2,
+    "head": "approved face",
+    "depthM": 2.95,
+    "heightPx": 167,
+    "tagAt": "the feet, nudged 1 px",
+    "margins": [
+     148,
+     190,
+     241,
+     139
+    ]
+   },
+   {
+    "name": "Echo",
+    "seenDeg": -86.7,
+    "head": "approved face",
+    "depthM": 1.86,
+    "heightPx": 266,
+    "tagAt": "the accepted place",
+    "margins": [
+     12,
+     281,
+     232,
+     44
+    ]
+   },
+   {
+    "name": "Atlas",
+    "seenDeg": -10.3,
+    "head": "approved face",
+    "depthM": 2.88,
+    "heightPx": 171,
+    "tagAt": "the feet",
+    "margins": [
+     299,
+     22,
+     238,
+     135
+    ]
+   }
+  ],
+  "out": "Vega",
+  "window": false,
+  "capsule": false,
+  "minEdgePx": 12
+ },
+ "E-402-200": {
+  "view": "E",
+  "phone": "402x742",
+  "pct": 200,
+  "issues": [],
+  "seen": [
+   {
+    "name": "Mira",
+    "seenDeg": 31.2,
+    "head": "approved face",
+    "depthM": 2.95,
+    "heightPx": 167,
+    "tagAt": "the accepted place",
+    "margins": [
+     148,
+     190,
+     241,
+     139
+    ]
+   },
+   {
+    "name": "Echo",
+    "seenDeg": -86.7,
+    "head": "approved face",
+    "depthM": 1.86,
+    "heightPx": 266,
+    "tagAt": "the accepted place",
+    "margins": [
+     12,
+     281,
+     232,
+     44
+    ]
+   },
+   {
+    "name": "Atlas",
+    "seenDeg": -10.3,
+    "head": "approved face",
+    "depthM": 2.88,
+    "heightPx": 171,
+    "tagAt": "the accepted place",
+    "margins": [
+     299,
+     22,
+     238,
+     135
+    ]
+   }
+  ],
+  "out": "Vega",
+  "window": false,
+  "capsule": false,
+  "minEdgePx": 12
+ }
+}

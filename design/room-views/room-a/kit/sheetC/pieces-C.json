@@ -1,0 +1,44 @@
+[
+ {
+  "grey": 20,
+  "place": "D",
+  "name": "crates",
+  "step": 2,
+  "parts": [
+   "crate",
+   "crate"
+  ],
+  "depthM": 3.38
+ },
+ {
+  "grey": 40,
+  "place": "A",
+  "name": "PC workstation",
+  "step": 2,
+  "parts": [
+   "PC desk",
+   "monitor"
+  ],
+  "depthM": 2.69
+ },
+ {
+  "grey": 60,
+  "place": "E",
+  "name": "toolbox",
+  "step": 2,
+  "parts": [
+   "toolbox"
+  ],
+  "depthM": 1.7
+ },
+ {
+  "grey": 80,
+  "place": "E",
+  "name": "floor hatch",
+  "step": 2,
+  "parts": [
+   "floor hatch"
+  ],
+  "depthM": 1.05
+ }
+]

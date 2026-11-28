@@ -1,0 +1,59 @@
+{
+ "view": "D",
+ "step": "2b",
+ "recipe": "the Lead's recipe of 18 November (lift5.py): d, the largest of |placed - start| over R, G and B; the pixels where d is above 16, inside the mask; closed with a 7 x 7 max then a 7 x 7 min, kept inside the mask; holes filled; parts under 400 px dropped; feathered with a 1 px Gaussian; clipped to the mask",
+ "start": {
+  "isRA-D-3x": true
+ },
+ "pieces": {
+  "E toolbox": {
+   "file": "RA-D-3h-E-toolbox.png",
+   "sha256": "27b1379f67b2bd95150a3b6dd13e34bec33f6d0f97146ea6fd9bd3a5ef21e315",
+   "px": 12560,
+   "x": [
+    415,
+    541
+   ],
+   "y": [
+    1078,
+    1216
+   ],
+   "shareOfItsOutline": 0.9952
+  },
+  "E floor hatch": {
+   "file": "RA-D-3h-E-floor-hatch.png",
+   "sha256": "aa0693e8960d9b7f85eb4e4b145cd98b40592cc95523fbe53e2fb457968b4518",
+   "px": 17305,
+   "x": [
+    512,
+    692
+   ],
+   "y": [
+    1023,
+    1197
+   ],
+   "shareOfItsOutline": 1.0
+  },
+  "E hatch lid": {
+   "file": "RA-D-3h-E-hatch-lid.png",
+   "sha256": "8c12fa8a06778f6d020a3252bb969d8a4a377832dcd68401330a111e42807737",
+   "px": 11333,
+   "x": [
+    587,
+    698
+   ],
+   "y": [
+    916,
+    1043
+   ],
+   "shareOfItsOutline": 0.9913
+  }
+ },
+ "missing": [],
+ "rebuildMeanAbsDiff": 0.0529,
+ "copy": {
+  "of": "Room A Records (the image builder’s records page), version 1795828303-eac0, records/RA-D-3h-lift2b.json",
+  "originalSha256": "fec70db46a45128886fad6daf3c1c821d85f5c995cb18ddba5cee01bba40c649",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

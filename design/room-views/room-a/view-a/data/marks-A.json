@@ -1,0 +1,260 @@
+{
+ "view": "A",
+ "version": 1,
+ "picture": {
+  "name": "RA-A-4",
+  "sha256": "63c0ca59e2caf52d4082bffbb977b50c63ed4dea5e1302a7ef642c2fbb914500",
+  "aiGenerated": true,
+  "note": "view A's accepted step-3 picture; step 4 changes only the cabinet's right side (x 512 to 546), so these marks hold for the fixed picture too"
+ },
+ "hatch": {
+  "opening": {
+   "painting": [
+    [
+     281,
+     1203
+    ],
+    [
+     400,
+     1168
+    ],
+    [
+     560,
+     1357
+    ],
+    [
+     357,
+     1408
+    ]
+   ],
+   "phones": {
+    "390x844": [
+     [
+      89.6,
+      525.3
+     ],
+     [
+      143.9,
+      509.3
+     ],
+     [
+      216.9,
+      595.5
+     ],
+     [
+      124.3,
+      618.8
+     ]
+    ],
+    "430x932": [
+     [
+      98.8,
+      589.7
+     ],
+     [
+      158.6,
+      572
+     ],
+     [
+      239.2,
+      667.1
+     ],
+     [
+      137,
+      692.8
+     ]
+    ],
+    "402x742": [
+     [
+      92.3,
+      480.4
+     ],
+     [
+      148.3,
+      463.9
+     ],
+     [
+      223.6,
+      552.8
+     ],
+     [
+      128.1,
+      576.8
+     ]
+    ]
+   },
+   "corners": [
+    "the north-east inner corner (top left, by the lid's hinge)",
+    "the south-east inner corner (top right)",
+    "the south-west inner corner (bottom right, behind the toolbox)",
+    "the north-west inner corner (bottom left)"
+   ],
+   "how": "the rim's inner edge as painted, where the hole begins: traced on RA-A-4 at 3 times on a 10 px grid and checked by overlay (within about 3 px); the left edge agrees within 2 px with the stage's north edge moved 11 px inward, where the brightness drops most from the rim into the hole"
+  },
+  "nearEdges": [
+   {
+    "from": 3,
+    "to": 0,
+    "side": "left, the hatch's north side, where Lyra kneels: their hands and wrench go in over it"
+   },
+   {
+    "from": 3,
+    "to": 2,
+    "side": "bottom, the hatch's west side, nearest the camera"
+   }
+  ],
+  "farEdges": [
+   {
+    "from": 0,
+    "to": 1,
+    "side": "top, the east side, the lid's hinge"
+   },
+   {
+    "from": 1,
+    "to": 2,
+    "side": "right, the south side"
+   }
+  ],
+  "use": "what is below the rim is seen only inside the opening; the near edges are the rim the camera looks over, so a hand or wrench that goes below the rim is drawn only inside the opening",
+  "stageOutline": {
+   "room": [
+    [
+     0.13,
+     0.012,
+     0.65
+    ],
+    [
+     1.13,
+     0.012,
+     0.65
+    ],
+    [
+     1.13,
+     0.012,
+     1.15
+    ],
+    [
+     0.13,
+     0.012,
+     1.15
+    ]
+   ],
+   "painting": [
+    [
+     565.2,
+     1338.5
+    ],
+    [
+     393.3,
+     1125.2
+    ],
+    [
+     257,
+     1184.5
+    ],
+    [
+     382.2,
+     1486.2
+    ]
+   ],
+   "phones": {
+    "390x844": [
+     [
+      219.3,
+      587.1
+     ],
+     [
+      140.8,
+      489.8
+     ],
+     [
+      78.6,
+      516.8
+     ],
+     [
+      135.7,
+      654.5
+     ]
+    ],
+    "430x932": [
+     [
+      241.8,
+      657.8
+     ],
+     [
+      155.3,
+      550.5
+     ],
+     [
+      86.7,
+      580.3
+     ],
+     [
+      149.7,
+      732.1
+     ]
+    ],
+    "402x742": [
+     [
+      226,
+      544.1
+     ],
+     [
+      145.2,
+      443.8
+     ],
+     [
+      81.1,
+      471.7
+     ],
+     [
+      139.9,
+      613.6
+     ]
+    ]
+   },
+   "note": "the stage's hatch at deck level (1 m by 0.5 m, x 0.13 to 1.13, z 0.65 to 1.15); RA-A-3 painted a raised rim along it, so the painted opening lies inside it"
+  },
+  "wrenchSeen": {
+   "painting": [
+    378,
+    1293
+   ],
+   "note": "the Motion builder's fit: the top bolt of the first collar on the big pipe, inside the opening"
+  }
+ },
+ "wire": {
+  "painting": [
+   408,
+   774
+  ],
+  "phones": {
+   "390x844": [
+    [
+     147.5,
+     329.5
+    ]
+   ],
+   "430x932": [
+    [
+     162.7,
+     373.8
+    ]
+   ],
+   "402x742": [
+    [
+     152.1,
+     278.6
+    ]
+   ]
+  },
+  "room": [
+   1.7,
+   1.303,
+   0.3
+  ],
+  "on": "the middle breaker row's left feed cable, where it leaves its clamp (the clamp x 384 to 406, y 768 to 778); it runs right into the row's first breaker at x 420",
+  "near": "Echo's slot's left edge is at x 420 on all three phones (their box at 390: 153.2 to 222.6 stage px), so the point is 12 px left of it, at Echo's hand height (about 1.25 m up)",
+  "painted": "no loose wire is painted there: the cables are neat"
+ }
+}

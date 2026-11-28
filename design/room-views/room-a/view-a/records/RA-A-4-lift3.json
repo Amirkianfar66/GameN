@@ -1,0 +1,28 @@
+{
+ "view": "A",
+ "step": 3,
+ "recipe": "the Lead's recipe of 18 November (lift5.py): d, the largest of |placed - start| over R, G and B; the pixels where d is above 16, inside the mask; closed with a 7 x 7 max then a 7 x 7 min, kept inside the mask; holes filled; parts under 400 px dropped; feathered with a 1 px Gaussian; clipped to the mask",
+ "pieces": {
+  "wall food capsule": {
+   "file": "RA-A-4-wall-food-capsule.png",
+   "sha256": "c5e2814616a0634cb1f2c34c5b626f0dcfe48188c14b00ec38c9f10ef353178f",
+   "px": 12000,
+   "x": [
+    191,
+    282
+   ],
+   "y": [
+    723,
+    859
+   ],
+   "shareOfItsOutline": 0.9885
+  }
+ },
+ "missing": [],
+ "rebuildMeanAbsDiff": 0.0132,
+ "copy": {
+  "of": "Room A Records (the image builder’s records page), version 1795828303-eac0, records/RA-A-4-lift3.json",
+  "originalSha256": "31c0a7a0931c30b7dc3d1bf1f43582fb4de3aee32674e9e2c1a4552f113d5d7c",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

@@ -1,0 +1,83 @@
+{
+ "sheetHatchCorners": {
+  "topLeft": [
+   339.9,
+   832.5
+  ],
+  "topRight": [
+   367.0,
+   825.7
+  ],
+  "bottomRight": [
+   367.0,
+   857.7
+  ],
+  "bottomLeft": [
+   339.9,
+   866.3
+  ]
+ },
+ "paintedHatchCorners": {
+  "topLeft": [
+   315,
+   828
+  ],
+  "topRight": [
+   368,
+   825
+  ],
+  "bottomRight": [
+   369,
+   885
+  ],
+  "bottomLeft": [
+   314,
+   897
+  ],
+  "bbox": [
+   313,
+   825,
+   369,
+   897
+  ],
+  "px": 3341
+ },
+ "offsetPx": {
+  "topLeft": [
+   -24.9,
+   -4.5
+  ],
+  "topRight": [
+   1.0,
+   -0.7
+  ],
+  "bottomRight": [
+   2.0,
+   27.3
+  ],
+  "bottomLeft": [
+   -25.9,
+   30.7
+  ]
+ },
+ "projectedLens": [
+  353.9,
+  822.0
+ ],
+ "lensMeanRGB": [
+  151.1,
+  84.4,
+  85.0
+ ],
+ "projectedHandle": [
+  [
+   361.0,
+   856.8
+  ],
+  [
+   346.7,
+   861.3
+  ]
+ ],
+ "method": "sheet corners: capsule.units[0].hatch projected with the view's camera (marks json); painted: the largest connected warm paper-white region (R>170, G>150, B>120, R>=B) within 40 px of the sheet's hatch, its corners the extreme points along the diagonals"
+}

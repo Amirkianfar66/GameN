@@ -1,0 +1,189 @@
+{
+ "delay": 12,
+ "period": 240,
+ "ahead": 12,
+ "phones": {
+  "390x844": {
+   "skylightUnits": [
+    446.2,
+    642
+   ],
+   "skylightScale": 1.31,
+   "passers": [
+    {
+     "kind": "comet",
+     "widthUnits": 170,
+     "speed": 22,
+     "skylight": [
+      20.23,
+      36.85
+     ]
+    },
+    {
+     "kind": "giant",
+     "widthUnits": 104,
+     "speed": 9,
+     "skylight": [
+      37.78,
+      71.09
+     ]
+    },
+    {
+     "kind": "binary",
+     "widthUnits": 36,
+     "speed": 6,
+     "skylight": [
+      59.33,
+      97.97
+     ]
+    },
+    {
+     "kind": "teal",
+     "widthUnits": 104,
+     "speed": 6,
+     "skylight": [
+      77.67,
+      127.63
+     ]
+    },
+    {
+     "kind": "belt",
+     "widthUnits": 350,
+     "speed": 28,
+     "skylight": [
+      117.11,
+      136.6
+     ]
+    },
+    {
+     "kind": "ringed",
+     "widthUnits": 80,
+     "speed": 9,
+     "skylight": [
+      127.11,
+      157.76
+     ]
+    },
+    {
+     "kind": "banded",
+     "widthUnits": 60,
+     "speed": 9,
+     "skylight": [
+      150.22,
+      178.65
+     ]
+    },
+    {
+     "kind": "moon",
+     "widthUnits": 32,
+     "speed": 9,
+     "skylight": [
+      169.78,
+      195.09
+     ]
+    },
+    {
+     "kind": "twins",
+     "widthUnits": 48,
+     "speed": 9,
+     "skylight": [
+      182.89,
+      209.98
+     ]
+    }
+   ],
+   "heldAt0": []
+  },
+  "430x932": {
+   "skylightUnits": [
+    457.1,
+    642
+   ],
+   "skylightScale": 1.53,
+   "passers": [
+    {
+     "kind": "comet",
+     "widthUnits": 170,
+     "speed": 22,
+     "skylight": [
+      20.23,
+      36.36
+     ]
+    },
+    {
+     "kind": "giant",
+     "widthUnits": 104,
+     "speed": 9,
+     "skylight": [
+      37.78,
+      69.88
+     ]
+    },
+    {
+     "kind": "binary",
+     "widthUnits": 36,
+     "speed": 6,
+     "skylight": [
+      59.33,
+      96.15
+     ]
+    },
+    {
+     "kind": "teal",
+     "widthUnits": 104,
+     "speed": 6,
+     "skylight": [
+      77.67,
+      125.82
+     ]
+    },
+    {
+     "kind": "belt",
+     "widthUnits": 350,
+     "speed": 28,
+     "skylight": [
+      117.11,
+      136.21
+     ]
+    },
+    {
+     "kind": "ringed",
+     "widthUnits": 80,
+     "speed": 9,
+     "skylight": [
+      127.11,
+      156.55
+     ]
+    },
+    {
+     "kind": "banded",
+     "widthUnits": 60,
+     "speed": 9,
+     "skylight": [
+      150.22,
+      177.44
+     ]
+    },
+    {
+     "kind": "moon",
+     "widthUnits": 32,
+     "speed": 9,
+     "skylight": [
+      169.78,
+      193.88
+     ]
+    },
+    {
+     "kind": "twins",
+     "widthUnits": 48,
+     "speed": 9,
+     "skylight": [
+      182.89,
+      208.77
+     ]
+    }
+   ],
+   "heldAt0": []
+  }
+ }
+}

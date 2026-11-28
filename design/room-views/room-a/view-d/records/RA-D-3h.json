@@ -1,0 +1,227 @@
+{
+ "piece": "RA-D",
+ "pass": "step 2b, one hatch-only masked edit of RA-D-3x",
+ "attempt": "3h",
+ "generated": true,
+ "label": "AI-generated image",
+ "runner": "Designer team Image builder (Claude Code session)",
+ "tool": "OpenAI Images API, POST /v1/images/edits (one input image with an RGBA mask)",
+ "date": "2026-11-27T22:51:33+00:00",
+ "request_id": "req_771c621faa03454086a773ac2290d6fb",
+ "authority": "the Lead's go of 27 November 2026 (about 22:50 UTC) for view D's step 2b (RA-D-3h), one hatch-only masked edit on RA-D-3x, sheet RA-D v2.2",
+ "sheet": {
+  "page": "Room A sheet RA-D",
+  "version": "1795819744-f35b",
+  "manifest": {
+   "sha256": "45c8562f42272eccc489444824c5174333f46dc2ead4c9427d65ec89b4e888db"
+  },
+  "kit2b": {
+   "sha256": "6f6060ed7edf6aab063698d58544609c14b1dc5b3793f32f0247294ae14d5b1d"
+  },
+  "prompts": {
+   "sha256": "dbbf86bc3cd1f9cba0eb1ef067c3b60afd7c2708e0c0221ce65bdd3d2eb823f0"
+  }
+ },
+ "tools": {
+  "rd1_tools.py": "d92ff2d6296e8796f29d8e54ce5919a517cc16e0c733d837ad67cdd19d5331da",
+  "compositeD3x.py": "efcff4088b71f45af2e4a1900edad2484ea45a7d2635efa35eeac94263ddf747",
+  "colour-check-ra1.py": "c882f4f8259b44bf8d689021daa2e5b0e8f028539cc076cc457fe144f582dbd2",
+  "lift5.py": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+  "kitCheck": "all files and expected hashes match",
+  "base": "RA-D-3x rebuilt with compositeD3x.py from RA-D-1, RA-D-3 and RA-D-3-raw on this page: pixels 3575e978f51f10f4f0b722dc4f4bf4c90e9026754ade49e5d361410ba423c0ec, as the kit expects"
+ },
+ "prompt_key": "s2b",
+ "prompt": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool blue-steel shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom A, the crew bay, in the same illustrated world: blue steel, lit warm. The whole room is one blue-steel family, the colours of the attached guide: deep navy in the shadows and corners (#14243F, #1D3D6B), steel blue on the walls and the deck (#2D609E), turning paler where the light falls (#5C92CC, #A9CAEB). The light is warm: the two light bars glow cream along their length (#FCE3A0), with a warm paper-white glow (#F4EBDD) on the ceiling around them and soft pools of pale light on the deck below. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige, olive, purple or violet. The shadows are deep navy, never black-brown or grey. Labels and paper are blank, in a warm paper white (#F4EBDD). Small indicator lights are warm orange (#EC793C); no other coloured light, and no green, purple or red light. Each indicator is a single small dot, never several in a row or a column. Practical and worn, a working bay, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked areas, and leave everything outside them exactly as it is. The two masked areas hold three small pieces: the larger area, ahead, the hatch and its lid together; the smaller area, on the left, the toolbox alone. Each fills its own area exactly, with nothing of it outside, painted in full detail in the picture's style and light. Paint each piece whole, with a crisp drawn outline all round it and its frame closed on every side: nothing fades softly into the wall or the deck at an area's edge. Ahead, in the deck: an open hatch, a long rectangular opening about 1 m by 0.5 m with a raised steel rim all round, its near edge crisp and lit, showing a dark space beneath with pipes and cables; at its far end, on the right, its heavy steel lid, hinged along that edge and raised almost upright; at its near end, on the left, a closed steel toolbox standing on the deck. The hatch is small in the picture, one deck plate long and half a plate wide: its near end lies just past the painted seam that runs under the toolbox, and its far end, where the lid is hinged, just past the next seam over. The toolbox stands inside its own area at the hatch's near end, over the crossing of two painted deck seams: no larger and no nearer the viewer than its area.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+ "prompt_sha256": "e3442e9712ccefd7ac64eaf6112649b7224104ae9ed97b50b4c5ef1cd88a3c13",
+ "revised_prompt": null,
+ "inputs": {
+  "picture": {
+   "file": "ra-D-3x.png",
+   "sha256": "a0c917ab0fe58acfc436b373ec1731ad53e03e8ec7803e024204fc7da3c95ec5",
+   "pixels": "3575e978f51f10f4f0b722dc4f4bf4c90e9026754ade49e5d361410ba423c0ec",
+   "aiGenerated": true,
+   "codeComposite": true
+  },
+  "sentImage": {
+   "file": "RA-D-3h-S2b-input.png",
+   "sha256": "a398976ce2bd9fb4814ea243a5e12a186306e90c3e5b544f5ee8541aba232d86"
+  },
+  "sentMask": {
+   "file": "RA-D-3h-S2b-mask.png",
+   "sha256": "77aa4440f144048c315e926344d5bd13b4438ba17b44902cc37d35c79a9ccf82",
+   "convention": "alpha 0 = repaint",
+   "maskedShare": 0.0263,
+   "rawMaskAlpha": "1014e5d82d55f88befeeecea476521d76fa2111dd7eb3194f51e0b549deb74bb"
+  },
+  "guide": {
+   "file": "img/ra-D-guide-s2.png",
+   "sha256": "5081b7110a5aa728f553c62afd9d933eca4647f501240ac5a552f2218af5fcc7"
+  },
+  "placeMask": {
+   "file": "img/ra-D-place2b.png",
+   "sha256": "b549067b5ec5e4af38305c0a9a1b92fe093647b51d3df65448f85a26b25bb4b0"
+  },
+  "split": {
+   "file": "img/ra-D-split2b.png",
+   "sha256": "bf318b2d0f923fde370a6a5cc7decb416b72b0c4c90440ec71aec79b9e7f18fe"
+  }
+ },
+ "settings": {
+  "size": "1024x1536",
+  "quality": "high",
+  "n": 1,
+  "seed": null
+ },
+ "output": {
+  "raw": {
+   "file": "RA-D-3h-raw.png",
+   "sha256": "3b67e224fb4bcb0a70c938f81754a3b29f617a1f643fbde6ba4a5bc4971d9df2"
+  },
+  "kept": {
+   "file": "RA-D-3h.png",
+   "sha256": "3383dba869dd7fbccf593f44347f685895c9f606a9b10bce43bf8960bd50d86d",
+   "how": "the raw edit over RA-D-3x inside step 2b's mask, feathered by a 2 px Gaussian (rd1_tools.py keep2b)"
+  },
+  "retouched": false
+ },
+ "usage": {
+  "input_tokens": 2403,
+  "input_tokens_details": {
+   "image_tokens": 1536,
+   "text_tokens": 867
+  },
+  "output_tokens": 1372,
+  "output_tokens_details": {
+   "image_tokens": 1372,
+   "text_tokens": 0
+  },
+  "total_tokens": 3775
+ },
+ "cost_usd_est": 0.0578,
+ "roomARunningTotal": {
+  "images": 19,
+  "usd": 1.099,
+  "cap": 5
+ },
+ "terms": "Generated with OpenAI's image model under its Terms of Use as checked by the Lead (c8fbc793): the user owns the output; it is never presented as made by a person.",
+ "check": {
+  "by": "Image builder (rd1_tools.py s2b, keep2b, lift2b and colours D 2b; the pieces' placement by eye on a 2x zoom of the raw with the mask outline and a pixel grid). Not the Designer's review.",
+  "colour": {
+   "pass": true,
+   "result": {
+    "walls and deck in the base": true,
+    "each wall and the deck in the base": true,
+    "orange capped": true,
+    "rust capped": true,
+    "no tan or olive": true,
+    "not purple": true,
+    "not grey": true,
+    "median lightness": true,
+    "accents only orange, cream, rust": true,
+    "openings flat black": true
+   },
+   "window": {
+    "pixels": 36245,
+    "p95L": 0.047,
+    "medianL": 0.0
+   }
+  },
+  "lift2b": {
+   "view": "D",
+   "step": "2b",
+   "recipe": "the Lead's recipe of 18 November (lift5.py): d, the largest of |placed - start| over R, G and B; the pixels where d is above 16, inside the mask; closed with a 7 x 7 max then a 7 x 7 min, kept inside the mask; holes filled; parts under 400 px dropped; feathered with a 1 px Gaussian; clipped to the mask",
+   "start": {
+    "isRA-D-3x": true
+   },
+   "pieces": {
+    "E toolbox": {
+     "file": "RA-D-3h-E-toolbox.png",
+     "sha256": "27b1379f67b2bd95150a3b6dd13e34bec33f6d0f97146ea6fd9bd3a5ef21e315",
+     "px": 12560,
+     "x": [
+      415,
+      541
+     ],
+     "y": [
+      1078,
+      1216
+     ],
+     "shareOfItsOutline": 0.9952
+    },
+    "E floor hatch": {
+     "file": "RA-D-3h-E-floor-hatch.png",
+     "sha256": "aa0693e8960d9b7f85eb4e4b145cd98b40592cc95523fbe53e2fb457968b4518",
+     "px": 17305,
+     "x": [
+      512,
+      692
+     ],
+     "y": [
+      1023,
+      1197
+     ],
+     "shareOfItsOutline": 1.0
+    },
+    "E hatch lid": {
+     "file": "RA-D-3h-E-hatch-lid.png",
+     "sha256": "8c12fa8a06778f6d020a3252bb969d8a4a377832dcd68401330a111e42807737",
+     "px": 11333,
+     "x": [
+      587,
+      698
+     ],
+     "y": [
+      916,
+      1043
+     ],
+     "shareOfItsOutline": 0.9913
+    }
+   },
+   "missing": [],
+   "rebuildMeanAbsDiff": 0.0529
+  },
+  "placement": {
+   "hatch": {
+    "fit": "right-sized, in its place",
+    "overrunsPx": {
+     "lidRight": "6-8",
+     "lidTop": "about 6",
+     "rimRight": "about 5"
+    },
+    "farEndPastSeamPx": "about 12"
+   },
+   "toolbox": {
+    "fit": "right-sized, about 27 px left of its area",
+    "rawBox": [
+     388,
+     1085,
+     515,
+     1222
+    ],
+    "areaBox": [
+     415,
+     1078,
+     542,
+     1217
+    ]
+   }
+  },
+  "outsideMask": {
+   "grownBy": 4,
+   "maxAbsDiff": 2,
+   "meanAbsDiff": 0.0001
+  },
+  "byEye": "1. The hatch: passes. In the raw it is right-sized and in its place: open, with a crisp raised rim and a dark space with pipes and cables; its far end, where the lid is hinged, lies about 12 px past the next seam, as the sheet's fit has it; its near end runs under the toolbox, its near rim at about y 1195-1200 against the area's 1198; the lid raised almost upright. Its overruns are small: the lid's right edge about 6-8 px past the area (x about 705 against 699), its top about 6 px above it (y about 910 against 916), and the rim's right side about 5 px. In the kept picture these are cut along the mask, and the 8 px gap the sheet keeps between the two areas shows RA-D-3x's deck across the hatch's near-left rim, where the raw paints the rim running under the toolbox; a completion from the raw closes all of these. 2. The toolbox: closed and whole in the raw and right-sized (about 127 px wide, as its area), but painted about 27 px left of its area (raw x about 388-515, y about 1085-1222, against the area's x 415-542, y 1078-1217), so the kept picture cuts its left side and bottom-left corner along the mask and leaves the area's right 27 px as deck. A completion from the raw would close it, but it would stand about 27 px left of the plan's place: held for the Lead's decision. 3. Outside the mask: beyond the mask grown 4 px the kept picture differs from RA-D-3x by at most 2 levels (mean 0.0001); the desk, the screens, the cabinet and the window are unchanged (the only other differences are inside the mask's 2 px feather). 4. All 10 colour gates pass on the 2b map (base 0.890, median lightness 0.446, openings flat black); single dots; no people, words, logos or purple.",
+  "verdict": "held for the Lead: the hatch is right-sized and in place (small overruns, completable); the toolbox is right-sized but about 27 px left of its area"
+ },
+ "review": {
+  "result": "held",
+  "by": "the Lead, 27 November 2026",
+  "plan": "The Lead, 27 November 2026: right where it matters, the hatch the right size and in its place. The toolbox is accepted where the raw painted it, about 27 px left of its area: a loose prop, about 10 px on the phone, not worth risking the hatch. The Rooms builder makes RA-D-3hc, a code composite: it completes the hatch's small overruns and the toolbox from the raw (RA-D-3h-raw.png, kept on this page with its checks) and records the toolbox's painted place. No run now; the next go is D's step 3 (the capsule) on RA-D-3hc."
+ },
+ "copy": {
+  "of": "Room A Records (the image builder’s records page), version 1795828303-eac0, records/RA-D-3h.json",
+  "originalSha256": "54ada5b2667a25fab648f651308a1649257f1b6a75265ef14f8109d6c7472f0a",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

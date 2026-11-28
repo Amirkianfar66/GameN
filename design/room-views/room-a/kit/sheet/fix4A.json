@@ -1,0 +1,77 @@
+{
+ "about": "Step 4 of sheet RA-A (version 6): a fix over RA-A-4, the cabinet's right side, as the Lead asked at 13:07 on 19 November and confirmed at 13:24. RA-A-3 painted the cabinet's frame down its left side and along its bottom but not its right: its top bar, with the second orange light, and the breaker rows' cables fade softly into the wall at about x 505 to 540, y 630 to 885. One masked edit of RA-A-4, a narrow mask from just inside the breaker rows' right ends to about 15 px past the cabinet's outline on the wall, the cabinet's full height. Picture pixels of the 1024 x 1536 painting; a rectangle holds the pixels whose x and y lie in its ranges, both ends included.",
+ "picture": {
+  "name": "RA-A-4",
+  "sha256": "63c0ca59e2caf52d4082bffbb977b50c63ed4dea5e1302a7ef642c2fbb914500",
+  "aiGenerated": true,
+  "accepted": "the Lead, 19 November: view A's step 3, the start picture for the cabinet-edge fix"
+ },
+ "stepOne": {
+  "name": "RA-A-1",
+  "sha256": "a565b6e01dec5a51fcedca90ace0331e657c09864411eba032cbe14021d4d635",
+  "use": "the start picture of the cabinet's refreshed lift (lift4), as step 2's lift was"
+ },
+ "measured": {
+  "on": "RA-A-4, by brightness profiles across the cabinet's right side",
+  "breakerRowsRightEnd": {
+   "x": 515,
+   "how": "the breaker bodies of rows one and two are bright (mean of R, G and B above 130) in at least a fifth of their rows up to x 515, and in under a sixth from x 516; row three ends at the same column, darker"
+  },
+  "secondLight": {
+   "box": [
+    511,
+    657,
+    532,
+    664
+   ],
+   "how": "its warm orange pixels (R above 190, G 70 to 190, B under 120, R minus B above 100)"
+  },
+  "wallFrom": {
+   "x": 538,
+   "how": "from x 552 leftward, the first column more than 35 from the wall's median brightness is x 536 to 538 in most rows (the cables' outer edge and the top bar's faded end)"
+  },
+  "cabinetOutlineRight": {
+   "x": 531,
+   "how": "version 4's stage outline of the cabinet (its front face's right edge, y 653 to 853 there); step 2's mask grew it 6 px, to x 537"
+  },
+  "grilleEdge": {
+   "x": 553,
+   "how": "featuresA.json's grille, whose rim starts at x 553 (y 705 to 861): the dark seam of its panel; the seam runs the wall's full height"
+  }
+ },
+ "mask": {
+  "x": [
+   512,
+   546
+  ],
+  "y": [
+   636,
+   883
+  ],
+  "why": "Left edge: just inside the breaker rows' right ends (x 515), so the seam falls on the breakers' own edge. Right edge: 15 px past the cabinet's outline (x 531), on plain wall, 6 px short of the grille's seam. Top and bottom: the cabinet's full height with room for its frame's corners: from the top of step 2's mask at the cabinet (y 636) to y 883, so that the pipe run, which drops to y 899 just past the mask's right edge, is 15 clear pixels away on the square measure."
+ },
+ "piece": {
+  "place": "C",
+  "name": "electrical cabinet",
+  "grey": 20
+ },
+ "frameRule": {
+  "minClearPx": 15,
+  "grilleEdgeX": 553,
+  "frameOuterEdgeAtMostX": 537,
+  "rows": [
+   705,
+   861
+  ],
+  "departs": 35,
+  "rowsShare": 0.5,
+  "how": "on the rows beside the grille (y 705 to 861): a pixel departs from the wall when its brightness (the mean of R, G and B) is more than 35 from the median of the unchanged wall just outside the mask in its row (x 547 to 552, five rows); the frame's outer edge is the rightmost column of the mask in which at least half of those rows depart, so that a vertical frame counts and the wall's seams, scratches and clamp tips, which cross few rows, do not",
+  "why": "The Lead: the new frame edge meets the 15 px rule against the grille, whose edge is at x 553: the frame's outer outline at x 537 or less leaves at least 15 clear pixels. The mask's wall beyond it is there so that the frame's outline and the wall meet cleanly; the wall stays unchanged."
+ },
+ "fixText": [
+  "The masked area holds the right side of the open electrical cabinet on the back wall.",
+  "The cabinet's heavy steel frame continues down its right side and closes the right end of its top bar, matching its left side, with rivets and a crisp drawn outline.",
+  "The second orange light stays whole, inside the frame.",
+  "The wall to its right stays unchanged."
+ ]
+}

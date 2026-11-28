@@ -1,0 +1,323 @@
+{
+ "view": "B",
+ "version": 1,
+ "rule": "by depth at each pixel: where a lifted layer overlaps a person above their feet line, it is drawn in front of them where its surface, met by that pixel's ray, is more than 2 cm nearer the camera than the person",
+ "toleranceM": 0.02,
+ "layers": {
+  "A PC workstation": {
+   "file": "_lift/B-PC-workstation.png",
+   "areaPx": 70907,
+   "depthM": [
+    3.091,
+    4.011
+   ]
+  },
+  "D crates": {
+   "file": "_lift/B-crates.png",
+   "areaPx": 117216,
+   "depthM": [
+    1.122,
+    2.257
+   ]
+  },
+  "E floor hatch": {
+   "file": "_lift/B-floor-hatch.png",
+   "areaPx": 29701,
+   "depthM": [
+    1.85,
+    2.656
+   ]
+  },
+  "E toolbox": {
+   "file": "_lift/B-toolbox.png",
+   "areaPx": 15754,
+   "depthM": [
+    2.338,
+    2.742
+   ]
+  }
+ },
+ "people": [
+  {
+   "id": "A1",
+   "name": "Vega",
+   "Z": 2.919
+  },
+  {
+   "id": "A4",
+   "name": "Atlas",
+   "Z": 1.715
+  },
+  {
+   "id": "A5",
+   "name": "Lyra",
+   "Z": 2.691
+  }
+ ],
+ "order": [
+  "the plate (RA-B-3c, every piece painted in it)",
+  "Vega",
+  "Lyra",
+  "E floor hatch's part in front of Lyra (front-Lyra-floor-hatch.png)",
+  "Atlas",
+  "D crates's part in front of Atlas (front-Atlas-crates.png)"
+ ],
+ "fronts": {
+  "Atlas": [
+   {
+    "phone": "390x844",
+    "layer": "D crates",
+    "nearerPx": 9662
+   },
+   {
+    "phone": "430x932",
+    "layer": "D crates",
+    "nearerPx": 9662
+   },
+   {
+    "phone": "402x742",
+    "layer": "D crates",
+    "nearerPx": 9662
+   }
+  ],
+  "Lyra": [
+   {
+    "phone": "390x844",
+    "layer": "E floor hatch",
+    "nearerPx": 5
+   },
+   {
+    "phone": "430x932",
+    "layer": "E floor hatch",
+    "nearerPx": 5
+   },
+   {
+    "phone": "402x742",
+    "layer": "E floor hatch",
+    "nearerPx": 16
+   }
+  ]
+ },
+ "overlaps": {
+  "390x844": [
+   {
+    "person": "Vega",
+    "layer": "A PC workstation",
+    "overlapPx": 34334,
+    "aboveFeetPx": 34334,
+    "layerDepthHereM": [
+     3.123,
+     3.931
+    ],
+    "personZ": 2.919,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 6124,
+    "drawn": "behind"
+   },
+   {
+    "person": "Atlas",
+    "layer": "A PC workstation",
+    "overlapPx": 14456,
+    "aboveFeetPx": 14456,
+    "layerDepthHereM": [
+     3.406,
+     3.991
+    ],
+    "personZ": 1.715,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 11014,
+    "drawn": "behind"
+   },
+   {
+    "person": "Atlas",
+    "layer": "D crates",
+    "overlapPx": 44919,
+    "aboveFeetPx": 43871,
+    "layerDepthHereM": [
+     1.572,
+     2.178
+    ],
+    "personZ": 1.715,
+    "nearerPx": 9662,
+    "withinTolPx": 2443,
+    "depthFilledPx": 3336,
+    "drawn": "in front where nearer"
+   },
+   {
+    "person": "Lyra",
+    "layer": "E floor hatch",
+    "overlapPx": 690,
+    "aboveFeetPx": 5,
+    "layerDepthHereM": [
+     2.629,
+     2.629
+    ],
+    "personZ": 2.691,
+    "nearerPx": 5,
+    "withinTolPx": 0,
+    "depthFilledPx": 5,
+    "drawn": "in front where nearer"
+   }
+  ],
+  "430x932": [
+   {
+    "person": "Vega",
+    "layer": "A PC workstation",
+    "overlapPx": 34334,
+    "aboveFeetPx": 34334,
+    "layerDepthHereM": [
+     3.123,
+     3.931
+    ],
+    "personZ": 2.919,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 6124,
+    "drawn": "behind"
+   },
+   {
+    "person": "Atlas",
+    "layer": "A PC workstation",
+    "overlapPx": 14456,
+    "aboveFeetPx": 14456,
+    "layerDepthHereM": [
+     3.406,
+     3.991
+    ],
+    "personZ": 1.715,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 11014,
+    "drawn": "behind"
+   },
+   {
+    "person": "Atlas",
+    "layer": "D crates",
+    "overlapPx": 44919,
+    "aboveFeetPx": 43871,
+    "layerDepthHereM": [
+     1.572,
+     2.178
+    ],
+    "personZ": 1.715,
+    "nearerPx": 9662,
+    "withinTolPx": 2443,
+    "depthFilledPx": 3336,
+    "drawn": "in front where nearer"
+   },
+   {
+    "person": "Lyra",
+    "layer": "E floor hatch",
+    "overlapPx": 690,
+    "aboveFeetPx": 5,
+    "layerDepthHereM": [
+     2.629,
+     2.629
+    ],
+    "personZ": 2.691,
+    "nearerPx": 5,
+    "withinTolPx": 0,
+    "depthFilledPx": 5,
+    "drawn": "in front where nearer"
+   }
+  ],
+  "402x742": [
+   {
+    "person": "Vega",
+    "layer": "A PC workstation",
+    "overlapPx": 34334,
+    "aboveFeetPx": 34334,
+    "layerDepthHereM": [
+     3.123,
+     3.931
+    ],
+    "personZ": 2.919,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 6124,
+    "drawn": "behind"
+   },
+   {
+    "person": "Atlas",
+    "layer": "A PC workstation",
+    "overlapPx": 14456,
+    "aboveFeetPx": 14456,
+    "layerDepthHereM": [
+     3.406,
+     3.991
+    ],
+    "personZ": 1.715,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 11014,
+    "drawn": "behind"
+   },
+   {
+    "person": "Atlas",
+    "layer": "D crates",
+    "overlapPx": 44919,
+    "aboveFeetPx": 43871,
+    "layerDepthHereM": [
+     1.572,
+     2.178
+    ],
+    "personZ": 1.715,
+    "nearerPx": 9662,
+    "withinTolPx": 2443,
+    "depthFilledPx": 3336,
+    "drawn": "in front where nearer"
+   },
+   {
+    "person": "Lyra",
+    "layer": "E floor hatch",
+    "overlapPx": 690,
+    "aboveFeetPx": 16,
+    "layerDepthHereM": [
+     2.622,
+     2.629
+    ],
+    "personZ": 2.691,
+    "nearerPx": 16,
+    "withinTolPx": 0,
+    "depthFilledPx": 16,
+    "drawn": "in front where nearer"
+   }
+  ]
+ },
+ "frontParts": [
+  {
+   "person": "Atlas",
+   "layer": "D crates",
+   "file": "front-Atlas-crates.png",
+   "px": 9662,
+   "box": [
+    136,
+    930,
+    178,
+    1284
+   ],
+   "drawn": "right after Atlas, over them and everything farther"
+  },
+  {
+   "person": "Lyra",
+   "layer": "E floor hatch",
+   "file": "front-Lyra-floor-hatch.png",
+   "px": 16,
+   "box": [
+    761,
+    1076,
+    772,
+    1078
+   ],
+   "drawn": "right after Lyra, over them and everything farther"
+  }
+ ],
+ "depthFilledPx": {
+  "A PC workstation": 24353,
+  "D crates": 6511,
+  "E floor hatch": 4898,
+  "E toolbox": 10903
+ }
+}

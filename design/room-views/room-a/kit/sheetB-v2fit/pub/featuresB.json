@@ -1,0 +1,688 @@
+{
+ "about": "Painted features on the walls of RA-B-1 (AI-generated, sheet RA-B's step-1 picture), the kit's fixed obstacles for the Lead's 15 px rule (version 2). Picture pixels of the 1024 x 1536 painting; a polygon holds the pixels whose centres lie inside it. Each outline was read from RA-B-1 at 4 times on a 10 px grid, its dark ink outline and any contact shadow included, and drawn a little generous. Structural lines the guide itself draws (the kick strips, the deck seams, the corners) are not features, as in view A. Where Vega's desk or Atlas's crates stand in front of a painted feature, their outline must cross it: those crossings are named exceptions, each with its zone, for the Lead's decision.",
+ "picture": {
+  "name": "RA-B-1",
+  "sha256": "d05b45889a6bacb69426eba64d26a513c958f407e6c7260bf63f970c6de8822a",
+  "aiGenerated": true,
+  "readOn": "ra-B-1-dim.png (RA-B-1 with two cells in each junction box dimmed in code; the outlines are the same)"
+ },
+ "minClearPx": 15,
+ "rule": "Every step-2 mask edge either clearly overlaps a feature in the test, covering it with at least 15 px to spare, or clears it by at least 15 px (square pixels): no part of the feature lies within 15 px of a mask edge. A named exception, for the Lead's decision, passes only where every such part lies in its zone. The features not in the test are measured and reported.",
+ "features": [
+  {
+   "name": "lower pipe run",
+   "kind": "pipes",
+   "test": true,
+   "measured": "the back wall's lower run, two pipes with their shadow, y 884-912 from the wall box left of the desk (x 368) right past the desk; the outline taken to x 760, 110 px beyond the desk's mask",
+   "polygons": [
+    [
+     [
+      368,
+      883
+     ],
+     [
+      760,
+      883
+     ],
+     [
+      760,
+      914
+     ],
+     [
+      368,
+      914
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "behind the desk's left end",
+     "zone": [
+      [
+       376,
+       874
+      ],
+      [
+       434,
+       874
+      ],
+      [
+       434,
+       922
+      ],
+      [
+       376,
+       922
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "Vega's desk stands in front of the lower pipe run, so the desk's outline must cross it: the run passes behind the desk's left end panel, where the outline also steps in round the wall box."
+    },
+    {
+     "where": "behind the desk's right end",
+     "zone": [
+      [
+       628,
+       874
+      ],
+      [
+       672,
+       874
+      ],
+      [
+       672,
+       922
+      ],
+      [
+       628,
+       922
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The run passes behind the desk's right end panel, as at its left."
+    }
+   ]
+  },
+  {
+   "name": "lower pipe clamp, left",
+   "kind": "clamp",
+   "test": true,
+   "measured": "x 462-487, y 878-918",
+   "polygons": [
+    [
+     [
+      461,
+      877
+     ],
+     [
+      488,
+      877
+     ],
+     [
+      488,
+      919
+     ],
+     [
+      461,
+      919
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "lower pipe clamp, right",
+   "kind": "clamp",
+   "test": true,
+   "measured": "x 591-613, y 878-918",
+   "polygons": [
+    [
+     [
+      590,
+      877
+     ],
+     [
+      614,
+      877
+     ],
+     [
+      614,
+      919
+     ],
+     [
+      590,
+      919
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "upper pipe run",
+   "kind": "pipes",
+   "test": true,
+   "measured": "the back wall's upper run, two pipes y 829-862, from the bend at x 455 right past the desk to x 760",
+   "polygons": [
+    [
+     [
+      455,
+      828
+     ],
+     [
+      760,
+      828
+     ],
+     [
+      760,
+      864
+     ],
+     [
+      455,
+      864
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "behind the left monitor",
+     "zone": [
+      [
+       446,
+       820
+      ],
+      [
+       474,
+       820
+      ],
+      [
+       474,
+       872
+      ],
+      [
+       446,
+       872
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The upper run begins at the pipe bend behind the left-hand monitor: the monitor's outline crosses it there."
+    },
+    {
+     "where": "behind the right monitor",
+     "zone": [
+      [
+       600,
+       820
+      ],
+      [
+       670,
+       820
+      ],
+      [
+       670,
+       872
+      ],
+      [
+       600,
+       872
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The upper run passes behind the right-hand monitor: the monitor's side edge crosses it, and the mask's step out to the desk's right end lies 21 px under it."
+    }
+   ]
+  },
+  {
+   "name": "upper pipe clamp, left",
+   "kind": "clamp",
+   "test": true,
+   "measured": "x 527-546, y 827-866",
+   "polygons": [
+    [
+     [
+      526,
+      826
+     ],
+     [
+      547,
+      826
+     ],
+     [
+      547,
+      867
+     ],
+     [
+      526,
+      867
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "upper pipe clamp, right",
+   "kind": "clamp",
+   "test": true,
+   "measured": "x 657-675, y 827-866",
+   "polygons": [
+    [
+     [
+      656,
+      826
+     ],
+     [
+      677,
+      826
+     ],
+     [
+      677,
+      867
+     ],
+     [
+      656,
+      867
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "its lower left corner",
+     "zone": [
+      [
+       650,
+       846
+      ],
+      [
+       668,
+       846
+      ],
+      [
+       668,
+       872
+      ],
+      [
+       650,
+       872
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The clamp stands 39 px clear of the monitor's side, but its lower left corner is 8 px from the corner where the mask steps out to the desk's right end, which is set by the desk."
+    }
+   ]
+  },
+  {
+   "name": "pipe bend, left",
+   "kind": "pipes",
+   "test": true,
+   "measured": "the pipe bundle coming down from the back-wall junction box (its foot y 690) at x 434-478 and bending right into the upper run at y 835-863",
+   "polygons": [
+    [
+     [
+      434,
+      690
+     ],
+     [
+      480,
+      690
+     ],
+     [
+      480,
+      864
+     ],
+     [
+      434,
+      864
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "behind the left monitor and the desk's top",
+     "zone": [
+      [
+       426,
+       776
+      ],
+      [
+       486,
+       776
+      ],
+      [
+       486,
+       872
+      ],
+      [
+       426,
+       872
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The bundle comes down behind the left-hand monitor and turns into the upper run there: the monitor's top and the desk's outline cross it."
+    }
+   ]
+  },
+  {
+   "name": "wall box, left of the desk",
+   "kind": "box",
+   "test": true,
+   "measured": "x 369-441, y 850-897, with its rivets and shadow",
+   "polygons": [
+    [
+     [
+      368,
+      849
+     ],
+     [
+      442,
+      849
+     ],
+     [
+      442,
+      898
+     ],
+     [
+      368,
+      898
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "its right part",
+     "zone": [
+      [
+       380,
+       842
+      ],
+      [
+       450,
+       842
+      ],
+      [
+       450,
+       905
+      ],
+      [
+       380,
+       905
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The box's right part is behind the desk's left end, so the desk's outline crosses it."
+    }
+   ]
+  },
+  {
+   "name": "vertical pipe, left wall",
+   "kind": "pipes",
+   "test": true,
+   "measured": "x 26-54, from the clamp at y 880 down past the crates' top",
+   "polygons": [
+    [
+     [
+      25,
+      880
+     ],
+     [
+      56,
+      880
+     ],
+     [
+      56,
+      1060
+     ],
+     [
+      25,
+      1060
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "behind the crates' top",
+     "zone": [
+      [
+       18,
+       872
+      ],
+      [
+       64,
+       872
+      ],
+      [
+       64,
+       920
+      ],
+      [
+       18,
+       920
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The pipe runs down the left wall behind Atlas's crates: their top edge crosses it."
+    }
+   ]
+  },
+  {
+   "name": "left-wall pipe clamp, upper",
+   "kind": "clamp",
+   "test": true,
+   "measured": "x 38-58, y 838-881",
+   "polygons": [
+    [
+     [
+      37,
+      837
+     ],
+     [
+      59,
+      837
+     ],
+     [
+      59,
+      882
+     ],
+     [
+      37,
+      882
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "its foot",
+     "zone": [
+      [
+       32,
+       868
+      ],
+      [
+       64,
+       868
+      ],
+      [
+       64,
+       884
+      ],
+      [
+       32,
+       884
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The clamp holds the vertical pipe just above the crates' top: its foot is about 12 px from their edge, which is set by the crates."
+    }
+   ]
+  },
+  {
+   "name": "pipe, left wall top",
+   "kind": "pipes",
+   "test": true,
+   "measured": "the horizontal pipe along the left wall's top, y 843-863, x 0-112",
+   "polygons": [
+    [
+     [
+      0,
+      841
+     ],
+     [
+      112,
+      830
+     ],
+     [
+      112,
+      864
+     ],
+     [
+      0,
+      865
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "grille plate",
+   "kind": "grille",
+   "test": true,
+   "measured": "the riveted vent plate on the left wall, x 82-184, its top from (85, 897) to (178, 883), its foot about y 1040-1046",
+   "polygons": [
+    [
+     [
+      81,
+      899
+     ],
+     [
+      183,
+      881
+     ],
+     [
+      185,
+      1041
+     ],
+     [
+      83,
+      1047
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "its top band",
+     "zone": [
+      [
+       74,
+       872
+      ],
+      [
+       192,
+       872
+      ],
+      [
+       192,
+       918
+      ],
+      [
+       74,
+       918
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "Atlas's crates stand in front of the plate: their top edge crosses its upper band, up to 19 px of which stays above them."
+    },
+    {
+     "where": "its right edge",
+     "zone": [
+      [
+       170,
+       905
+      ],
+      [
+       194,
+       905
+      ],
+      [
+       194,
+       1002
+      ],
+      [
+       170,
+       1002
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The crates' right end stands 13 px from the plate's right edge: the edge is set by the crates."
+    }
+   ]
+  },
+  {
+   "name": "locker bank",
+   "kind": "lockers",
+   "test": true,
+   "measured": "the left wall's lockers, x 207-343, their foot from y 1038 at x 207 to 1002 at x 343",
+   "polygons": [
+    [
+     [
+      207,
+      640
+     ],
+     [
+      343,
+      650
+     ],
+     [
+      343,
+      1002
+     ],
+     [
+      207,
+      1038
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "its left side",
+     "zone": [
+      [
+       194,
+       882
+      ],
+      [
+       222,
+       882
+      ],
+      [
+       222,
+       995
+      ],
+      [
+       194,
+       995
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The crates' right end stands 11 px from the lockers' left frame: the edge is set by the crates."
+    },
+    {
+     "where": "its lower doors",
+     "zone": [
+      [
+       194,
+       966
+      ],
+      [
+       296,
+       966
+      ],
+      [
+       296,
+       1046
+      ],
+      [
+       194,
+       1046
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The crates stand in front of the lockers' lower left door: their top and right edges cross it and the bank's middle frame."
+    }
+   ]
+  }
+ ],
+ "lights": [
+  {
+   "name": "back-wall junction box's lit cell",
+   "box": [
+    467,
+    637,
+    480,
+    647
+   ]
+  },
+  {
+   "name": "left-wall junction box's lit cell",
+   "box": [
+    335,
+    590,
+    344,
+    599
+   ]
+  }
+ ]
+}

@@ -1,0 +1,30 @@
+{
+ "view": "D",
+ "plate": {
+  "label": "PV6-D-3",
+  "sha256": "bdee3fbc45da6dcbfa47f79089fc1b2b408d4fda6b1b6edf9e940028177137a2"
+ },
+ "method": "masks6a.py: the plate darker than lightness 0.15 inside the guide widened by 16 px; opened 1 px, closed 2 px; softened 0.7 px",
+ "skylight": {
+  "file": "mask-skylight.png",
+  "sha256": "e1c005d1a211253e8156f10870807f52f835d596b072be26256029c769afc8ee",
+  "guidePx": 215638,
+  "maskPx": 209023,
+  "iou": 0.9612,
+  "guideCovered": 0.9652,
+  "maskWithinOfGuide": {
+   "2px": 0.9992,
+   "4px": 1.0,
+   "8px": 1.0,
+   "16px": 1.0
+  },
+  "maskP95L": 0.067,
+  "bbox": [
+   329,
+   0,
+   1024,
+   383
+  ]
+ },
+ "window": "not in this view"
+}

@@ -1,0 +1,915 @@
+{
+ "viewer": "E",
+ "viewerName": "Vega",
+ "version": 2,
+ "method": "PV6-A camera report version 4, version 2 of this view",
+ "staging": {
+  "option": 1,
+  "kind": "shared",
+  "why": null,
+  "listed": {
+   "stations": [],
+   "people": [
+    {
+     "place": "C",
+     "name": "Lyra",
+     "movedM": 0.05,
+     "towardDeg": 180,
+     "toward": "south",
+     "from": "PV6-A's spot",
+     "how": "alone: along her console's working edge, her hands staying on it",
+     "overCheatLimit": false
+    },
+    {
+     "place": "D",
+     "name": "Atlas",
+     "movedM": 0.35,
+     "towardDeg": 144,
+     "toward": "south-east",
+     "from": "the layout's spot",
+     "how": "alone: along his bench, his hands staying over it",
+     "overCheatLimit": false
+    }
+   ]
+  },
+  "ownStation": {
+   "pieces": [
+    "bench",
+    "microscope"
+   ],
+   "drawn": false,
+   "390x844": {
+    "shareOfStage": 0.115,
+    "fromY": 501
+   },
+   "430x932": {
+    "shareOfStage": 0.122,
+    "fromY": 563
+   },
+   "note": "never drawn in the viewer's own view (as PV6-A leaves Mira's console out); drawn, Vega's bench would cover Lyra in E"
+  }
+ },
+ "capsule": {
+  "layout": "A1",
+  "units": [
+   {
+    "id": "K1",
+    "kind": "counter",
+    "where": "on Atlas's bench, its north-west end",
+    "ownStationHere": false,
+    "facingDeg": 99,
+    "front": [
+     -1.433,
+     1.04,
+     0.241
+    ],
+    "hatch": [
+     [
+      -1.42,
+      0.97,
+      0.325
+     ],
+     [
+      -1.446,
+      0.97,
+      0.157
+     ],
+     [
+      -1.446,
+      1.11,
+      0.157
+     ],
+     [
+      -1.42,
+      1.11,
+      0.325
+     ]
+    ],
+    "handle": [
+     [
+      -1.426,
+      0.982,
+      0.286
+     ],
+     [
+      -1.44,
+      0.982,
+      0.197
+     ]
+    ],
+    "tray": {
+     "at": [
+      -1.531,
+      0.985,
+      0.257
+     ],
+     "width": 0.145,
+     "depth": 0.154
+    },
+    "light": {
+     "at": [
+      -1.433,
+      1.14,
+      0.241
+     ],
+     "r": 0.028
+    },
+    "note": "room metres: x east, y up from the deck, z north; the hatch slides up into the housing as it opens (ship-life), so the open hatch is drawn up to its own height above y1",
+    "visitor": [
+     -1.297,
+     0.523
+    ],
+    "phones": {
+     "390x844": {
+      "inPicture": false,
+      "box": [
+       430.8,
+       346.2,
+       489.1,
+       407.7
+      ],
+      "hatchToCameraDeg": 38
+     },
+     "430x932": {
+      "inPicture": false,
+      "box": [
+       475,
+       392.2,
+       539.2,
+       460.1
+      ],
+      "hatchToCameraDeg": 38
+     }
+    }
+   }
+  ]
+ },
+ "camera": {
+  "at": [
+   1.04,
+   1.6,
+   1.68
+  ],
+  "yawDeg": 198,
+  "yawDegExact": 197.72,
+  "lens": "straight lines, 70° across on both phones, the middle 5° down by a lens shift (the horizon raised by f·tan 5°, walls upright)"
+ },
+ "outOfView": {
+  "place": "A",
+  "name": "Mira"
+ },
+ "lamps": [
+  {
+   "id": "N1",
+   "wall": "north",
+   "at": [
+    -1,
+    2.05,
+    1.96
+   ]
+  },
+  {
+   "id": "N2",
+   "wall": "north",
+   "at": [
+    1,
+    2.05,
+    1.96
+   ]
+  },
+  {
+   "id": "E1",
+   "wall": "east",
+   "at": [
+    1.96,
+    2.05,
+    1
+   ]
+  },
+  {
+   "id": "E2",
+   "wall": "east",
+   "at": [
+    1.96,
+    2.05,
+    -1
+   ]
+  },
+  {
+   "id": "S1",
+   "wall": "south",
+   "at": [
+    0.15,
+    2.05,
+    -1.96
+   ]
+  },
+  {
+   "id": "S2",
+   "wall": "south",
+   "at": [
+    1.35,
+    2.05,
+    -1.96
+   ]
+  },
+  {
+   "id": "W1",
+   "wall": "west",
+   "at": [
+    -1.96,
+    2.05,
+    0.35
+   ]
+  },
+  {
+   "id": "W2",
+   "wall": "west",
+   "at": [
+    -1.96,
+    2.05,
+    -1
+   ]
+  }
+ ],
+ "ringRadiusM": 1.45,
+ "people": {
+  "B": {
+   "name": "Juno",
+   "crew": "c7",
+   "plan": [
+    0,
+    -1.68
+   ],
+   "pv6a": [
+    0.6,
+    -1.68
+   ],
+   "spot": [
+    0.6,
+    -1.68
+   ],
+   "fromPlanM": 0.6,
+   "fromPv6aM": 0,
+   "movedToward": 90,
+   "fromCamera": {
+    "horizontalM": 3.39,
+    "depthM": 3.33,
+    "azimuthDeg": -10.3
+   },
+   "facing": 70,
+   "facingFromCameraDeg": -127.7,
+   "seenFromDeg": -62.6,
+   "seenSide": "profile, from their left",
+   "station": [
+    {
+     "name": "stool",
+     "centre": [
+      0.52,
+      -1.71
+     ],
+     "frontFacing": null,
+     "fromCameraAxisDeg": {
+      "centre": -9.1,
+      "corners": [
+       -11.9,
+       -6.3
+      ]
+     }
+    },
+    {
+     "name": "laptop cart",
+     "centre": [
+      1.03,
+      -1.52
+     ],
+     "frontFacing": 250,
+     "fromCameraAxisDeg": {
+      "centre": -17.6,
+      "corners": [
+       -12.3,
+       -15.8,
+       -22.4,
+       -19.8
+      ]
+     }
+    }
+   ],
+   "pose": "seated on the stool behind her; the cart's near edge 0.25 m in front of her feet (PV6-A's pose)",
+   "lampsAhead": [
+    {
+     "id": "E2",
+     "wall": "east",
+     "fromFacingDeg": -6.6,
+     "elevationDeg": 28,
+     "distM": 1.72
+    },
+    {
+     "id": "S2",
+     "wall": "south",
+     "fromFacingDeg": 40.5,
+     "elevationDeg": 45.3,
+     "distM": 1.14
+    },
+    {
+     "id": "E1",
+     "wall": "east",
+     "fromFacingDeg": -43.1,
+     "elevationDeg": 15.1,
+     "distM": 3.11
+    }
+   ],
+   "lights": {
+    "warmLamps": [
+     {
+      "id": "S1",
+      "wall": "south",
+      "azimuthDeg": 40.4,
+      "elevationDeg": 58.1,
+      "distM": 1,
+      "share": 0.2
+     },
+     {
+      "id": "S2",
+      "wall": "south",
+      "azimuthDeg": -87.3,
+      "elevationDeg": 46.7,
+      "distM": 1.17,
+      "share": 0.15
+     },
+     {
+      "id": "E2",
+      "wall": "east",
+      "azimuthDeg": -134.3,
+      "elevationDeg": 29.2,
+      "distM": 1.74,
+      "share": 0.07
+     }
+    ],
+    "warmLampsTogether": {
+     "azimuthDeg": -93.9,
+     "elevationDeg": 85.7,
+     "share": 0.51
+    },
+    "skylightRing": {
+     "azimuthDeg": 142.6,
+     "elevationDeg": 59,
+     "share": 0.49
+    },
+    "frame": "from their chest (1.2 m up): azimuth 0 = straight into the picture, +90 = screen right, -90 = screen left, 180 = toward the camera; elevation above level; share of 1/d² of all lights"
+   },
+   "390x844": {
+    "stage": [
+     390,
+     653
+    ],
+    "box": [
+     111,
+     330.9,
+     168.4,
+     440.6
+    ],
+    "feet": [
+     144.4,
+     435.8
+    ],
+    "head": [
+     137.2,
+     352.5
+    ],
+    "headR": 18,
+    "heightPx": 144,
+    "shareOfStageHeight": 0.22,
+    "press": {
+     "x0": 120,
+     "y0": 350.1,
+     "x1": 164,
+     "y1": 394.1
+    },
+    "whole": true,
+    "focalPx": 278.49,
+    "horizonY": 302.1,
+    "covered": {
+     "box": 0.1954,
+     "lower": 0.3847,
+     "face": 0,
+     "press": 0.0341,
+     "byBox": {
+      "B laptop cart": 0.1954
+     },
+     "depthM": 3.33,
+     "ownStation": 0.1954,
+     "others": 0
+    }
+   },
+   "430x932": {
+    "stage": [
+     430,
+     741
+    ],
+    "box": [
+     122.4,
+     375.3,
+     185.7,
+     496.3
+    ],
+    "feet": [
+     159.2,
+     491
+    ],
+    "head": [
+     151.3,
+     399.1
+    ],
+    "headR": 19.8,
+    "heightPx": 158,
+    "shareOfStageHeight": 0.21,
+    "press": {
+     "x0": 134.6,
+     "y0": 398.8,
+     "x1": 178.6,
+     "y1": 442.8
+    },
+    "whole": true,
+    "focalPx": 307.05,
+    "horizonY": 343.6,
+    "covered": {
+     "box": 0.1963,
+     "lower": 0.387,
+     "face": 0,
+     "press": 0.0198,
+     "byBox": {
+      "B laptop cart": 0.1963
+     },
+     "depthM": 3.33,
+     "ownStation": 0.1963,
+     "others": 0
+    }
+   }
+  },
+  "C": {
+   "name": "Lyra",
+   "crew": "c3",
+   "plan": [
+    1.68,
+    -0.4
+   ],
+   "pv6a": [
+    1.28,
+    -0.1
+   ],
+   "spot": [
+    1.28,
+    -0.15
+   ],
+   "fromPlanM": 0.47,
+   "fromPv6aM": 0.05,
+   "movedToward": 302,
+   "fromCamera": {
+    "horizontalM": 1.85,
+    "depthM": 1.67,
+    "azimuthDeg": -25.2
+   },
+   "facing": 90,
+   "facingFromCameraDeg": -107.7,
+   "seenFromDeg": -97.5,
+   "seenSide": "profile, from their left",
+   "station": [
+    {
+     "name": "console",
+     "centre": [
+      1.73,
+      -0.1
+     ],
+     "frontFacing": 270,
+     "fromCameraAxisDeg": {
+      "centre": -39,
+      "corners": [
+       -35.8,
+       -31.2,
+       -41.2,
+       -48.4
+      ]
+     }
+    }
+   ],
+   "pose": "typing: the console's working edge 0.25 m in front of her feet (PV6-A's pose)",
+   "lampsAhead": [
+    {
+     "id": "E2",
+     "wall": "east",
+     "fromFacingDeg": 51.3,
+     "elevationDeg": 36.7,
+     "distM": 1.36
+    },
+    {
+     "id": "E1",
+     "wall": "east",
+     "fromFacingDeg": -59.4,
+     "elevationDeg": 31.2,
+     "distM": 1.56
+    }
+   ],
+   "lights": {
+    "warmLamps": [
+     {
+      "id": "E2",
+      "wall": "east",
+      "azimuthDeg": -56.4,
+      "elevationDeg": 38,
+      "distM": 1.38,
+      "share": 0.12
+     },
+     {
+      "id": "E1",
+      "wall": "east",
+      "azimuthDeg": -167.1,
+      "elevationDeg": 32.5,
+      "distM": 1.58,
+      "share": 0.09
+     },
+     {
+      "id": "S2",
+      "wall": "south",
+      "azimuthDeg": -19.9,
+      "elevationDeg": 25.1,
+      "distM": 2,
+      "share": 0.05
+     }
+    ],
+    "warmLampsTogether": {
+     "azimuthDeg": -45.5,
+     "elevationDeg": 76.8,
+     "share": 0.4
+    },
+    "skylightRing": {
+     "azimuthDeg": 79,
+     "elevationDeg": 69.3,
+     "share": 0.6
+    },
+    "frame": "from their chest (1.2 m up): azimuth 0 = straight into the picture, +90 = screen right, -90 = screen left, 180 = toward the camera; elevation above level; share of 1/d² of all lights"
+   },
+   "390x844": {
+    "stage": [
+     390,
+     653
+    ],
+    "box": [
+     7,
+     282.1,
+     126.3,
+     579.4
+    ],
+    "feet": [
+     63.7,
+     569
+    ],
+    "head": [
+     58.9,
+     333.2
+    ],
+    "headR": 35.9,
+    "heightPx": 287,
+    "shareOfStageHeight": 0.44,
+    "press": {
+     "x0": 28.8,
+     "y0": 343.4,
+     "x1": 92.8,
+     "y1": 407.4
+    },
+    "whole": true,
+    "focalPx": 278.49,
+    "horizonY": 302.1,
+    "covered": {
+     "box": 0.0613,
+     "lower": 0.1082,
+     "face": 0,
+     "press": 0,
+     "byBox": {
+      "C console": 0.0613
+     },
+     "depthM": 1.67,
+     "ownStation": 0.0613,
+     "others": 0
+    }
+   },
+   "430x932": {
+    "stage": [
+     430,
+     741
+    ],
+    "box": [
+     7.8,
+     321.6,
+     139.2,
+     649.4
+    ],
+    "feet": [
+     70.2,
+     637.9
+    ],
+    "head": [
+     64.9,
+     377.9
+    ],
+    "headR": 39.6,
+    "heightPx": 316,
+    "shareOfStageHeight": 0.43,
+    "press": {
+     "x0": 35,
+     "y0": 392.4,
+     "x1": 99,
+     "y1": 456.4
+    },
+    "whole": true,
+    "focalPx": 307.05,
+    "horizonY": 343.6,
+    "covered": {
+     "box": 0.0639,
+     "lower": 0.1126,
+     "face": 0,
+     "press": 0,
+     "byBox": {
+      "C console": 0.0639
+     },
+     "depthM": 1.67,
+     "ownStation": 0.0639,
+     "others": 0
+    }
+   }
+  },
+  "D": {
+   "name": "Atlas",
+   "crew": "c4",
+   "plan": [
+    -1.68,
+    -0.4
+   ],
+   "pv6a": [
+    -1.68,
+    -0.4
+   ],
+   "spot": [
+    -1.47,
+    -0.68
+   ],
+   "fromPlanM": 0.35,
+   "fromPv6aM": 0.35,
+   "movedToward": 144,
+   "fromCamera": {
+    "horizontalM": 3.44,
+    "depthM": 3.01,
+    "azimuthDeg": 29.1
+   },
+   "facing": 54,
+   "facingFromCameraDeg": -144.1,
+   "seenFromDeg": -6.8,
+   "seenSide": "front",
+   "station": [
+    {
+     "name": "bench",
+     "centre": [
+      -1.28,
+      -0.1
+     ],
+     "frontFacing": 234,
+     "fromCameraAxisDeg": {
+      "centre": 34.7,
+      "corners": [
+       45.2,
+       24.5,
+       22.6,
+       46.7
+      ]
+     }
+    },
+    {
+     "name": "food capsule",
+     "centre": [
+      -1.54,
+      0.26
+     ],
+     "frontFacing": 99,
+     "fromCameraAxisDeg": {
+      "centre": 43.4,
+      "corners": [
+       40.3,
+       44,
+       46.6,
+       42.9
+      ]
+     }
+    }
+   ],
+   "pose": "at his bench, 0.5 m in front of him, square to his facing; stand-in: leaning toward the bench (the layout's \"leanBench\"); his pose is the animation builder's, from the place",
+   "lampsAhead": [
+    {
+     "id": "N2",
+     "wall": "north",
+     "fromFacingDeg": -10.4,
+     "elevationDeg": 12.6,
+     "distM": 3.7
+    },
+    {
+     "id": "E1",
+     "wall": "east",
+     "fromFacingDeg": 10.4,
+     "elevationDeg": 12,
+     "distM": 3.91
+    },
+    {
+     "id": "E2",
+     "wall": "east",
+     "fromFacingDeg": 41.8,
+     "elevationDeg": 13.2,
+     "distM": 3.54
+    },
+    {
+     "id": "N1",
+     "wall": "north",
+     "fromFacingDeg": -43.4,
+     "elevationDeg": 16.8,
+     "distM": 2.8
+    }
+   ],
+   "lights": {
+    "warmLamps": [
+     {
+      "id": "W2",
+      "wall": "west",
+      "azimuthDeg": 38.9,
+      "elevationDeg": 55.5,
+      "distM": 1.03,
+      "share": 0.2
+     },
+     {
+      "id": "W1",
+      "wall": "west",
+      "azimuthDeg": 136.9,
+      "elevationDeg": 36.8,
+      "distM": 1.42,
+      "share": 0.11
+     },
+     {
+      "id": "S1",
+      "wall": "south",
+      "azimuthDeg": -69.4,
+      "elevationDeg": 22.3,
+      "distM": 2.24,
+      "share": 0.04
+     }
+    ],
+    "warmLampsTogether": {
+     "azimuthDeg": 101.8,
+     "elevationDeg": 80.6,
+     "share": 0.45
+    },
+    "skylightRing": {
+     "azimuthDeg": -132.6,
+     "elevationDeg": 62.4,
+     "share": 0.55
+    },
+    "frame": "from their chest (1.2 m up): azimuth 0 = straight into the picture, +90 = screen right, -90 = screen left, 180 = toward the camera; elevation above level; share of 1/d² of all lights"
+   },
+   "390x844": {
+    "stage": [
+     390,
+     653
+    ],
+    "box": [
+     318.6,
+     303,
+     384.1,
+     451.5
+    ],
+    "feet": [
+     349.8,
+     450.2
+    ],
+    "head": [
+     349.8,
+     331.3
+    ],
+    "headR": 19.9,
+    "heightPx": 159,
+    "shareOfStageHeight": 0.24,
+    "press": {
+     "x0": 327.8,
+     "y0": 329,
+     "x1": 371.8,
+     "y1": 373
+    },
+    "whole": true,
+    "focalPx": 278.49,
+    "horizonY": 302.1,
+    "covered": {
+     "box": 0.4848,
+     "lower": 0.9713,
+     "face": 0,
+     "press": 0,
+     "byBox": {
+      "D bench": 0.4848
+     },
+     "depthM": 3.01,
+     "ownStation": 0.4848,
+     "others": 0
+    }
+   },
+   "430x932": {
+    "stage": [
+     430,
+     741
+    ],
+    "box": [
+     351.3,
+     344.6,
+     423.5,
+     508.3
+    ],
+    "feet": [
+     385.7,
+     506.8
+    ],
+    "head": [
+     385.7,
+     375.8
+    ],
+    "headR": 22,
+    "heightPx": 175,
+    "shareOfStageHeight": 0.24,
+    "press": {
+     "x0": 363.7,
+     "y0": 375.5,
+     "x1": 407.7,
+     "y1": 419.5
+    },
+    "whole": true,
+    "focalPx": 307.05,
+    "horizonY": 343.6,
+    "covered": {
+     "box": 0.487,
+     "lower": 0.9694,
+     "face": 0,
+     "press": 0,
+     "byBox": {
+      "D bench": 0.487
+     },
+     "depthM": 3.01,
+     "ownStation": 0.487,
+     "others": 0
+    }
+   }
+  }
+ },
+ "features": {
+  "390x844": {
+   "window": {
+    "inPicture": true,
+    "box": [
+     202.9,
+     241.2,
+     293.7,
+     323.6
+    ],
+    "standInBoxCovers": {}
+   },
+   "screen": {
+    "inPicture": false,
+    "box": [
+     589.2,
+     181.8,
+     1061.4,
+     347.2
+    ],
+    "standInBoxCovers": {}
+   }
+  },
+  "430x932": {
+   "window": {
+    "inPicture": true,
+    "box": [
+     223.7,
+     276.4,
+     323.8,
+     367.3
+    ],
+    "standInBoxCovers": {}
+   },
+   "screen": {
+    "inPicture": false,
+    "box": [
+     649.6,
+     211,
+     1170.2,
+     393.3
+    ],
+    "standInBoxCovers": {}
+   }
+  }
+ },
+ "fits": [],
+ "issues": {
+  "390x844": [],
+  "430x932": []
+ }
+}

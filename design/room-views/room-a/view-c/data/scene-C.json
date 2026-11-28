@@ -1,0 +1,729 @@
+{
+ "view": "C",
+ "version": 1,
+ "plate": {
+  "name": "RA-C-2c",
+  "file": "img/ra-C-2c.png",
+  "sha256": "8030149b2303926ae0317466b06cf2fcfa30d6d52cba0cf9314ea40bf0dc7f2b",
+  "pixelsSha256": "a74062edf45357dbb193ea7d93a36b99b6384cc6f25fdcc8b68bac760e138a48",
+  "aiGenerated": true,
+  "codeComposite": true,
+  "record": {
+   "file": "composite-C2.json",
+   "sha256": "e3f97775283ecfffba97da0e7bb33b66bdb6fc03baa3fa5ee709b6564f73e582"
+  },
+  "accepted": "the Lead, 27 November 2026, 20:40",
+  "start": {
+   "name": "RA-C-2",
+   "aiGenerated": true
+  },
+  "layers": {
+   "file": "lift-C2c.json",
+   "sha256": "3788ee30e9f5ced46836e29e9a54a0fa7bf1bed418105d5b352adea95420a6c9",
+   "pieces": {
+    "D crates": {
+     "file": "_lift/C-crates.png",
+     "sha256": "860e28c68ff1bbef1aba3e31b3aa16f2d2275853091f2d882cec31898931d6f2",
+     "px": 56146,
+     "box": [
+      328,
+      796,
+      619,
+      1049
+     ]
+    },
+    "A PC workstation": {
+     "file": "_lift/C-PC-workstation.png",
+     "sha256": "d3619c064dc57b35cbb28bda2733a1a5e79de937b8d3707f9fc3e55cdadf4601",
+     "px": 56928,
+     "box": [
+      831,
+      752,
+      1024,
+      1175
+     ]
+    },
+    "E toolbox": {
+     "file": "_lift/C-toolbox.png",
+     "sha256": "0a7f0beec47ed0e393cb81014fcfb9cbc5c60d207b967ed3361430aa2a18d887",
+     "px": 19163,
+     "box": [
+      886,
+      1165,
+      1024,
+      1330
+     ]
+    },
+    "E floor hatch": {
+     "file": "_lift/C-floor-hatch.png",
+     "sha256": "0d7aa7a776a554a218cb92ed2b9aaa413b9109c8c2348944ce25c84e34b9364c",
+     "px": 21690,
+     "box": [
+      875,
+      1321,
+      1024,
+      1536
+     ]
+    }
+   }
+  }
+ },
+ "names": {
+  "A1": "Vega",
+  "A2": "Mira",
+  "A3": "Echo",
+  "A4": "Atlas",
+  "A5": "Lyra"
+ },
+ "camera": {
+  "at": [
+   1.68,
+   1.6,
+   -0.4
+  ],
+  "yawCompass": 270,
+  "report": 2
+ },
+ "outOfView": {
+  "place": "E",
+  "name": "Lyra",
+  "crew": "c3",
+  "chip": [
+   237,
+   42,
+   384,
+   68
+  ]
+ },
+ "screens": {
+  "file": "screens-C.json",
+  "sha256": "55433858b15def190d9bbb232d5a9f5178edc65be37e7a8b616edef21cd335bc",
+  "painting": [
+   {
+    "name": "screen",
+    "corners": [
+     [
+      928.51,
+      770.32
+     ],
+     [
+      999.78,
+      764.97
+     ],
+     [
+      995.24,
+      849.1
+     ],
+     [
+      923.63,
+      841.09
+     ]
+    ],
+    "p95L": 0,
+    "px": 5543
+   }
+  ]
+ },
+ "phones": {
+  "390x844": {
+   "W": 390,
+   "H": 844,
+   "TOP": 99,
+   "BOT": 92,
+   "SH": 653,
+   "k": 2.1913,
+   "slice": {
+    "x0": 84.7,
+    "y0": 52,
+    "x1": 939.3,
+    "y1": 1482.9
+   },
+   "plate": {
+    "left": -38.7,
+    "top": -23.7,
+    "width": 467.3,
+    "height": 701
+   },
+   "f": 278.49,
+   "hy": 302.1,
+   "people": [
+    {
+     "id": "A1",
+     "place": "A",
+     "name": "Vega",
+     "num": 1,
+     "crew": "c1",
+     "pose": "consoleBack",
+     "Z": 2.893,
+     "feet": [
+      341.5,
+      456.2
+     ],
+     "u": 0.6907,
+     "head": [
+      342.9,
+      354.6
+     ],
+     "headR": 20.7,
+     "headKind": "back view",
+     "box": [
+      312.9,
+      325.8,
+      373.2,
+      461
+     ],
+     "press": [
+      342.3,
+      377.8
+     ],
+     "side": 44,
+     "heightPx": 166,
+     "seen": "from Vega's right",
+     "tagAt": "the feet"
+    },
+    {
+     "id": "A2",
+     "place": "B",
+     "name": "Mira",
+     "num": 2,
+     "crew": "c8",
+     "pose": "think",
+     "Z": 1.73,
+     "feet": [
+      65.7,
+      559.7
+     ],
+     "u": 1.1551,
+     "head": [
+      59.9,
+      333.3
+     ],
+     "headR": 34.7,
+     "headKind": "approved face",
+     "box": [
+      13.3,
+      286.3,
+      119.6,
+      569.7
+     ],
+     "press": [
+      62.2,
+      373.5
+     ],
+     "side": 64,
+     "heightPx": 277,
+     "seen": "from Mira's right",
+     "tagAt": "the feet"
+    },
+    {
+     "id": "A4",
+     "place": "D",
+     "name": "Atlas",
+     "num": 4,
+     "crew": "c4",
+     "pose": "leanCrates",
+     "Z": 2.83,
+     "feet": [
+      190,
+      459.6
+     ],
+     "u": 0.7061,
+     "head": [
+      192.9,
+      321.9
+     ],
+     "headR": 21.2,
+     "headKind": "approved face",
+     "box": [
+      151,
+      290.3,
+      231.5,
+      465.7
+     ],
+     "press": [
+      190.6,
+      346.7
+     ],
+     "side": 44,
+     "heightPx": 169,
+     "seen": "from Atlas's right",
+     "tagAt": "the feet"
+    }
+   ],
+   "chip": {
+    "x0": 237,
+    "y0": 42,
+    "x1": 384,
+    "y1": 68,
+    "press": {
+     "x0": 237,
+     "x1": 384,
+     "y0": 33,
+     "y1": 77
+    },
+    "name": "Lyra",
+    "num": 5
+   },
+   "screens": [
+    {
+     "name": "screen",
+     "corners": [
+      [
+       385.1,
+       327.8
+      ],
+      [
+       417.6,
+       325.4
+      ],
+      [
+       415.5,
+       363.8
+      ],
+      [
+       382.8,
+       360.1
+      ]
+     ],
+     "inSlice": false
+    }
+   ],
+   "byPct": {
+    "100": {
+     "issues": [],
+     "chip": {
+      "x0": 237,
+      "y0": 42,
+      "x1": 384,
+      "y1": 68,
+      "press": {
+       "x0": 237,
+       "x1": 384,
+       "y0": 33,
+       "y1": 77
+      },
+      "name": "Lyra",
+      "num": 5
+     }
+    },
+    "200": {
+     "issues": [],
+     "chip": {
+      "x0": 92,
+      "y0": 62,
+      "x1": 384,
+      "y1": 114,
+      "press": {
+       "x0": 92,
+       "x1": 384,
+       "y0": 62,
+       "y1": 114
+      },
+      "name": "Lyra",
+      "num": 5
+     }
+    }
+   }
+  },
+  "430x932": {
+   "W": 430,
+   "H": 932,
+   "TOP": 99,
+   "BOT": 92,
+   "SH": 741,
+   "k": 1.9874,
+   "slice": {
+    "x0": 84.7,
+    "y0": 31.1,
+    "x1": 939.3,
+    "y1": 1503.8
+   },
+   "plate": {
+    "left": -42.6,
+    "top": -15.6,
+    "width": 515.2,
+    "height": 772.9
+   },
+   "f": 307.05,
+   "hy": 343.6,
+   "people": [
+    {
+     "id": "A1",
+     "place": "A",
+     "name": "Vega",
+     "num": 1,
+     "crew": "c1",
+     "pose": "consoleBack",
+     "Z": 2.893,
+     "feet": [
+      376.5,
+      513.5
+     ],
+     "u": 0.7616,
+     "head": [
+      378,
+      401.5
+     ],
+     "headR": 22.8,
+     "headKind": "back view",
+     "box": [
+      345,
+      369.7,
+      411.5,
+      518.8
+     ],
+     "press": [
+      377.4,
+      427.1
+     ],
+     "side": 44,
+     "heightPx": 183,
+     "seen": "from Vega's right",
+     "tagAt": "the feet"
+    },
+    {
+     "id": "A2",
+     "place": "B",
+     "name": "Mira",
+     "num": 2,
+     "crew": "c8",
+     "pose": "think",
+     "Z": 1.73,
+     "feet": [
+      72.4,
+      627.6
+     ],
+     "u": 1.2736,
+     "head": [
+      66,
+      378
+     ],
+     "headR": 38.2,
+     "headKind": "approved face",
+     "box": [
+      14.7,
+      326.2,
+      131.9,
+      638.7
+     ],
+     "press": [
+      68.6,
+      422.3
+     ],
+     "side": 64,
+     "heightPx": 305,
+     "seen": "from Mira's right",
+     "tagAt": "the feet"
+    },
+    {
+     "id": "A4",
+     "place": "D",
+     "name": "Atlas",
+     "num": 4,
+     "crew": "c4",
+     "pose": "leanCrates",
+     "Z": 2.83,
+     "feet": [
+      209.5,
+      517.2
+     ],
+     "u": 0.7785,
+     "head": [
+      212.6,
+      365.4
+     ],
+     "headR": 23.4,
+     "headKind": "approved face",
+     "box": [
+      166.5,
+      330.6,
+      255.2,
+      524
+     ],
+     "press": [
+      210.2,
+      392.8
+     ],
+     "side": 44,
+     "heightPx": 187,
+     "seen": "from Atlas's right",
+     "tagAt": "the feet"
+    }
+   ],
+   "chip": {
+    "x0": 277,
+    "y0": 42,
+    "x1": 424,
+    "y1": 68,
+    "press": {
+     "x0": 277,
+     "x1": 424,
+     "y0": 33,
+     "y1": 77
+    },
+    "name": "Lyra",
+    "num": 5
+   },
+   "screens": [
+    {
+     "name": "screen",
+     "corners": [
+      [
+       424.6,
+       371.9
+      ],
+      [
+       460.4,
+       369.3
+      ],
+      [
+       458.1,
+       411.6
+      ],
+      [
+       422.1,
+       407.6
+      ]
+     ],
+     "inSlice": false
+    }
+   ],
+   "byPct": {
+    "100": {
+     "issues": [],
+     "chip": {
+      "x0": 277,
+      "y0": 42,
+      "x1": 424,
+      "y1": 68,
+      "press": {
+       "x0": 277,
+       "x1": 424,
+       "y0": 33,
+       "y1": 77
+      },
+      "name": "Lyra",
+      "num": 5
+     }
+    },
+    "200": {
+     "issues": [],
+     "chip": {
+      "x0": 132,
+      "y0": 62,
+      "x1": 424,
+      "y1": 114,
+      "press": {
+       "x0": 132,
+       "x1": 424,
+       "y0": 62,
+       "y1": 114
+      },
+      "name": "Lyra",
+      "num": 5
+     }
+    }
+   }
+  },
+  "402x742": {
+   "W": 402,
+   "H": 742,
+   "TOP": 99,
+   "BOT": 92,
+   "SH": 551,
+   "k": 2.1259,
+   "slice": {
+    "x0": 84.7,
+    "y0": 181.8,
+    "x1": 939.3,
+    "y1": 1353.2
+   },
+   "plate": {
+    "left": -39.8,
+    "top": -85.5,
+    "width": 481.7,
+    "height": 722.5
+   },
+   "f": 287.06,
+   "hy": 250.4,
+   "people": [
+    {
+     "id": "A1",
+     "place": "A",
+     "name": "Vega",
+     "num": 1,
+     "crew": "c1",
+     "pose": "consoleBack",
+     "Z": 2.893,
+     "feet": [
+      352,
+      409.1
+     ],
+     "u": 0.712,
+     "head": [
+      353.4,
+      304.5
+     ],
+     "headR": 21.4,
+     "headKind": "back view",
+     "box": [
+      322.6,
+      274.8,
+      384.7,
+      414.1
+     ],
+     "press": [
+      352.8,
+      328.4
+     ],
+     "side": 44,
+     "heightPx": 171,
+     "seen": "from Vega's right",
+     "tagAt": "the feet"
+    },
+    {
+     "id": "A2",
+     "place": "B",
+     "name": "Mira",
+     "num": 2,
+     "crew": "c8",
+     "pose": "think",
+     "Z": 1.73,
+     "feet": [
+      67.7,
+      515.9
+     ],
+     "u": 1.1906,
+     "head": [
+      61.7,
+      282.5
+     ],
+     "headR": 35.7,
+     "headKind": "approved face",
+     "box": [
+      13.8,
+      234,
+      123.3,
+      526.2
+     ],
+     "press": [
+      64.1,
+      323.9
+     ],
+     "side": 64,
+     "heightPx": 285,
+     "seen": "from Mira's right",
+     "tagAt": "the accepted place"
+    },
+    {
+     "id": "A4",
+     "place": "D",
+     "name": "Atlas",
+     "num": 4,
+     "crew": "c4",
+     "pose": "leanCrates",
+     "Z": 2.83,
+     "feet": [
+      195.9,
+      412.7
+     ],
+     "u": 0.7279,
+     "head": [
+      198.8,
+      270.7
+     ],
+     "headR": 21.8,
+     "headKind": "approved face",
+     "box": [
+      155.6,
+      238.2,
+      238.6,
+      419
+     ],
+     "press": [
+      196.5,
+      296.4
+     ],
+     "side": 44,
+     "heightPx": 174,
+     "seen": "from Atlas's right",
+     "tagAt": "the accepted place"
+    }
+   ],
+   "chip": {
+    "x0": 249,
+    "y0": 42,
+    "x1": 396,
+    "y1": 68,
+    "press": {
+     "x0": 249,
+     "x1": 396,
+     "y0": 33,
+     "y1": 77
+    },
+    "name": "Lyra",
+    "num": 5
+   },
+   "screens": [
+    {
+     "name": "screen",
+     "corners": [
+      [
+       396.9,
+       276.8
+      ],
+      [
+       430.4,
+       274.3
+      ],
+      [
+       428.3,
+       313.9
+      ],
+      [
+       394.6,
+       310.1
+      ]
+     ],
+     "inSlice": false
+    }
+   ],
+   "byPct": {
+    "100": {
+     "issues": [],
+     "chip": {
+      "x0": 249,
+      "y0": 42,
+      "x1": 396,
+      "y1": 68,
+      "press": {
+       "x0": 249,
+       "x1": 396,
+       "y0": 33,
+       "y1": 77
+      },
+      "name": "Lyra",
+      "num": 5
+     }
+    },
+    "200": {
+     "issues": [],
+     "chip": {
+      "x0": 104,
+      "y0": 62,
+      "x1": 396,
+      "y1": 114,
+      "press": {
+       "x0": 104,
+       "x1": 396,
+       "y0": 62,
+       "y1": 114
+      },
+      "name": "Lyra",
+      "num": 5
+     }
+    }
+   }
+  }
+ }
+}

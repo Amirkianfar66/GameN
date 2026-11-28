@@ -1,0 +1,504 @@
+{
+ "view": "D",
+ "step": "2b",
+ "date": "2026-11-27",
+ "decision": "the Lead, 27 November 2026, 21:03: a hatch-only edit sheet, RA-D v2.1, step 2b on RA-D-3x: the hatch and lid as one area and the toolbox as its own area, with the selective growth; the desk and cabinet not masked",
+ "base": {
+  "name": "RA-D-3x",
+  "pixelsSha256": "3575e978f51f10f4f0b722dc4f4bf4c90e9026754ade49e5d361410ba423c0ec",
+  "file": "ra-D-3x.png",
+  "aiGenerated": true,
+  "codeComposite": true,
+  "record": "composite-D3x.json",
+  "rebuild": "python3 -I compositeD3x.py <records folder> (from RA-D-1, RA-D-3 and RA-D-3-raw)"
+ },
+ "rule": {
+  "toolboxArea": "the toolbox's outline grown 6 px, as in step 2, but no more than 2 px over the hatch's outline",
+  "hatchArea": "the hatch's and the lid's outlines grown 6 px, stopping 8 px short of the toolbox's area",
+  "growth": "none: the selective growth is off for step 2b (the Lead, 27 November, 22:29), so each area is its outline plus 6 px",
+  "notMasked": "the desk and its monitors, the cabinet"
+ },
+ "pieces": [
+  {
+   "name": "toolbox",
+   "place": "E",
+   "grey": 80,
+   "depthM": 2.15,
+   "outlinePx": 9983,
+   "outlineBbox": [
+    421,
+    1084,
+    536,
+    1211
+   ],
+   "outlinePxInTheMask": 9983,
+   "areaPx": 12620,
+   "areaBbox": [
+    415,
+    1078,
+    542,
+    1217
+   ]
+  },
+  {
+   "name": "floor hatch",
+   "place": "E",
+   "grey": 60,
+   "depthM": 2.63,
+   "outlinePx": 15032,
+   "outlineBbox": [
+    504,
+    1029,
+    687,
+    1192
+   ],
+   "outlinePxInTheMask": 14137,
+   "areaPx": 17305,
+   "areaBbox": [
+    512,
+    1023,
+    693,
+    1198
+   ]
+  },
+  {
+   "name": "hatch lid",
+   "place": "E",
+   "grey": 20,
+   "depthM": 3.06,
+   "outlinePx": 9940,
+   "outlineBbox": [
+    593,
+    922,
+    693,
+    1048
+   ],
+   "outlinePxInTheMask": 9940,
+   "areaPx": 11433,
+   "areaBbox": [
+    587,
+    916,
+    699,
+    1044
+   ]
+  }
+ ],
+ "areas": [
+  {
+   "pieces": [
+    "toolbox"
+   ],
+   "px": 12620,
+   "bbox": [
+    415,
+    1078,
+    542,
+    1217
+   ],
+   "grownPx": 0
+  },
+  {
+   "pieces": [
+    "floor hatch",
+    "hatch lid"
+   ],
+   "px": 28738,
+   "bbox": [
+    512,
+    916,
+    699,
+    1198
+   ],
+   "grownPx": 0
+  }
+ ],
+ "split2b": {
+  "E toolbox": 80,
+  "E floor hatch": 60,
+  "E hatch lid": 20
+ },
+ "gapPx": {
+  "at6px": 8,
+  "grown": 8,
+  "want": 8
+ },
+ "hatchOutlineLeftOut": {
+  "px": 895,
+  "of": 15032,
+  "bbox": [
+   506,
+   1095,
+   550,
+   1178
+  ],
+  "why": "the hatch's outline within the gap or the toolbox's area: where the toolbox stands in front of the hatch's near-left end, its outline and the hatch's touch, so the strip that parts the two areas is cut from the hatch's side; RA-D-3x keeps its painted deck there"
+ },
+ "growth": {
+  "on": false,
+  "decision": "the Lead, 27 November 2026, 22:29: off for step 2b, on both areas; each area its outline plus 6 px, the 8 px gap kept; a right-sized piece that overruns a little is completed from the raw",
+  "addedPx": 0,
+  "byArea": {
+   "toolbox": 0,
+   "floor hatch + hatch lid": 0
+  },
+  "maskedShareBefore": 0.0263,
+  "maskedShareAfter": 0.0263
+ },
+ "insideStep2Mask": true,
+ "clearPx": {
+  "paintedDeskAndCabinet": 53,
+  "window glass": 119,
+  "window frame (as drawn)": 119,
+  "step3Capsule": 97,
+  "lights": {
+   "indicator dot, light box beside the cabinet": 60,
+   "indicator dot, box high on the north wall": 60
+  }
+ },
+ "paintedPiecesPx": 209232,
+ "crossing": {
+  "world": [
+   0,
+   0,
+   1
+  ],
+  "painted": [
+   465.3,
+   1169.3
+  ],
+  "guide": [
+   476.6,
+   1161.6
+  ],
+  "paintedMinusGuidePx": [
+   -11.3,
+   7.7
+  ],
+  "insideToolboxOutline": true,
+  "insideToolboxArea": true,
+  "how": "where RA-D-1's painted seams x = 0 (eastSeam0) and z = 1 (northSeam1) meet, from their fitted lines (measure-D2.json)"
+ },
+ "seams": {
+  "nearEndPastSeamX0Px": [
+   36.5,
+   30.2
+  ],
+  "farEndPastSeamX1Px": [
+   11.9,
+   11.8
+  ],
+  "how": "at each of the hatch's end corners (the guide's, fitted to the painted deck: floorfit-D.json), the painted seam's y (measure-D2.json's line through RA-D-1's deck) minus the corner's y: how far, in px up the picture, the hatch's end lies beyond the seam"
+ },
+ "featureTest": {
+  "picture": {
+   "name": "RA-D-1",
+   "sha256": "c8842de16d63076fe69306b247bcc643b6dc5576f6c389364ce49bc970f2fe75",
+   "aiGenerated": true
+  },
+  "rule": "Every step-2 and step-3 mask edge either clearly overlaps a feature in the test, covering it with at least 15 px to spare, or clears it by at least 15 px (square pixels): no part of the feature lies within 15 px of a mask edge. A named exception, for the Lead's decision, passes only where every such part lies in its zone. The features not in the test are measured and reported.",
+  "minClearPx": 15,
+  "atLeastPx": 60,
+  "passed": true,
+  "features": [
+   {
+    "name": "vent box and its conduits on the north wall",
+    "kind": "box",
+    "test": true,
+    "px": 14394,
+    "step2": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "pipes along the north wall",
+    "kind": "pipes",
+    "test": true,
+    "px": 49897,
+    "step2": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "junction box and pipes in the corner",
+    "kind": "box",
+    "test": true,
+    "px": 13104,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 1789,
+     "pxOutside": 11315
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 22
+    },
+    "pxWithin15": {
+     "step2": 2794,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "behind the lid's top-left corner",
+      "for": "the Lead's decision",
+      "why": "The hatch's lid stands in front of the corner's fittings: its top-left corner sits at the box's foot and its left side runs down the pipes to the deck.",
+      "pxWithin15": 2794
+     }
+    ]
+   },
+   {
+    "name": "lockers on the east wall",
+    "kind": "locker",
+    "test": true,
+    "px": 50676,
+    "step2": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 58
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "light box beside the cabinet",
+    "kind": "box",
+    "test": true,
+    "px": 3737,
+    "step2": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 7
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 424
+    },
+    "exception": [
+     {
+      "where": "between the cabinet (step 2) and the capsule (step 3)",
+      "for": "the Lead's decision",
+      "why": "The box sits between Echo's cabinet and the food capsule: the cabinet's left side runs 1 to 5 px from the box's frame, and step 3's mask, the capsule's outline grown 2 px, runs 7 px from its left edge. The dot itself is 16 px from the cabinet's mask and 32 px from the capsule's.",
+      "pxWithin15": 424
+     }
+    ]
+   },
+   {
+    "name": "pipe along the east wall",
+    "kind": "pipes",
+    "test": true,
+    "px": 11640,
+    "step2": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 24
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "vent box on the east wall",
+    "kind": "box",
+    "test": true,
+    "px": 22935,
+    "step2": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "paper on the east wall",
+    "kind": "paper",
+    "test": true,
+    "px": 5828,
+    "step2": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 5
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 360
+    },
+    "exception": [
+     {
+      "where": "above the capsule's top (step 3)",
+      "for": "the Lead's decision",
+      "why": "The food capsule hangs below the paper: step 3's mask (the capsule's outline grown 2 px) runs 8 px below the paper's foot.",
+      "pxWithin15": 360
+     }
+    ]
+   }
+  ],
+  "exceptions": [
+   {
+    "name": "junction box and pipes in the corner",
+    "parts": [
+     {
+      "where": "behind the lid's top-left corner",
+      "for": "the Lead's decision",
+      "why": "The hatch's lid stands in front of the corner's fittings: its top-left corner sits at the box's foot and its left side runs down the pipes to the deck.",
+      "pxWithin15": 2794
+     }
+    ]
+   },
+   {
+    "name": "light box beside the cabinet",
+    "parts": [
+     {
+      "where": "between the cabinet (step 2) and the capsule (step 3)",
+      "for": "the Lead's decision",
+      "why": "The box sits between Echo's cabinet and the food capsule: the cabinet's left side runs 1 to 5 px from the box's frame, and step 3's mask, the capsule's outline grown 2 px, runs 7 px from its left edge. The dot itself is 16 px from the cabinet's mask and 32 px from the capsule's.",
+      "pxWithin15": 424
+     }
+    ]
+   },
+   {
+    "name": "paper on the east wall",
+    "parts": [
+     {
+      "where": "above the capsule's top (step 3)",
+      "for": "the Lead's decision",
+      "why": "The food capsule hangs below the paper: step 3's mask (the capsule's outline grown 2 px) runs 8 px below the paper's foot.",
+      "pxWithin15": 360
+     }
+    ]
+   }
+  ],
+  "noted": [],
+  "lights": [
+   {
+    "name": "indicator dot, light box beside the cabinet",
+    "box": [
+     734,
+     739,
+     750,
+     754
+    ],
+    "step2ClearPx": 60,
+    "step3ClearPx": 32
+   },
+   {
+    "name": "indicator dot, box high on the north wall",
+    "box": [
+     83,
+     639,
+     97,
+     658
+    ],
+    "step2ClearPx": 60,
+    "step3ClearPx": 60
+   }
+  ],
+  "pairs": {
+   "E toolbox": {},
+   "E floor hatch": {
+    "junction box and pipes in the corner": {
+     "status": "clear",
+     "clearPx": 59
+    }
+   },
+   "E hatch lid": {
+    "junction box and pipes in the corner": {
+     "status": "crosses",
+     "pxInside": 1789,
+     "pxOutside": 11315
+    }
+   }
+  }
+ },
+ "regions2b": {
+  "file": "ra-D-regions2b.png",
+  "from": "ra-D-regions.png",
+  "mapScreensPx": 18208,
+  "paintedScreensPx": 15303,
+  "screens": "screens-D.json",
+  "screensSha256": "6c29a22b82104f1eab823ed248a71c9d59e19a0599122a799f1c02d7b14bcba5"
+ },
+ "expected": {
+  "s2b": {
+   "maskedShare": 0.0263,
+   "rawMaskAlpha": "1014e5d82d55f88befeeecea476521d76fa2111dd7eb3194f51e0b549deb74bb",
+   "basePixels": "3575e978f51f10f4f0b722dc4f4bf4c90e9026754ade49e5d361410ba423c0ec"
+  }
+ },
+ "files": {
+  "ra-D-place2b.png": "b549067b5ec5e4af38305c0a9a1b92fe093647b51d3df65448f85a26b25bb4b0",
+  "ra-D-split2b.png": "bf318b2d0f923fde370a6a5cc7decb416b72b0c4c90440ec71aec79b9e7f18fe",
+  "ra-D-regions2b.png": "c4d5168dda51ac73d1f04960a213fac9dbd3cd8a4ac4477a4eb3bb5bf91b5786"
+ },
+ "inputs": {
+  "ra-D-stations.png": "062a066dc3fb9b0c4a3de3fda0d4946242aafe81f74522850b8682a7ff5654f9",
+  "ra-D-place.png": "3dd7bad74327b31163009a79ae4e9e9107594866d5969197819222f413c63b64",
+  "ra-D-place3.png": "796dcb31de2abf2218a6364564b8efd5579bbe484a44c3ea915ffec8ddb667dd",
+  "ra-D-regions.png": "b95f8a5a16560029c173551b29b72a04ac3be542cde6258855a26fdc84c7dc7f",
+  "ra-D-empty-regions.png": "7f98a9ba507b0bfd021f2c05ad51f0a6a8c4aa75dc5a131eb0d0ec2168b420c8",
+  "ra-D-capsule.png": "2169f39007431454bb9ef6392855d38952646dc5c6034b04aefdcf7844d8313e",
+  "featuresD.json": "3b7b32c8638c7506319e13c7df54faff2805805886853bc9e64fbeb87c7dc4bb",
+  "measure-D2.json": "a1d9ffc4b0959111ee4b98cae20411a6a028c2229816bfc187f4f9e9eb6fec2b",
+  "floorfit-D.json": "98ce7807830ec63fc6ce967bf5d0946c2de107ddc966884bd4092468f768c954",
+  "RA-D-1": "c8842de16d63076fe69306b247bcc643b6dc5576f6c389364ce49bc970f2fe75"
+ },
+ "colourCheckOnRA-D-3x": {
+  "map2b": {
+   "map": "ra-D-regions2b.png",
+   "pass": true,
+   "failed": [],
+   "openings": {
+    "px": 36245,
+    "p95L": 0.047
+   }
+  },
+  "map2": {
+   "map": "ra-D-regions.png",
+   "pass": false,
+   "failed": [
+    "openings flat black"
+   ],
+   "openings": {
+    "px": 39168,
+    "p95L": 0.4
+   }
+  }
+ }
+}

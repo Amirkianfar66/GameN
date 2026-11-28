@@ -1,0 +1,73 @@
+{
+ "view": "E",
+ "what": "view E's people layers: RA-E-2c's pieces lifted off RA-E-1, one RGBA layer a piece",
+ "recipe": "the Lead's recipe of 18 November (lift5.py): d, the largest of |placed - start| over R, G and B; the pixels where d is above 16, inside the mask; closed with a 7 x 7 max then a 7 x 7 min, kept inside the mask; holes filled; parts under 400 px dropped; feathered with a 1 px Gaussian; clipped to the mask",
+ "area": "step 2's PLACE mask (ra-E-place.png, version 2's) and each code completion's traced outline grown 2 px, covering its 1 px feather (composite-E2.json), each completion in its piece's grey",
+ "start": {
+  "name": "RA-E-1",
+  "sha256": "e0d928ef4c1dabd3968b20568bd0d6e3f923682df7f6d938c61bd26cb2d0730f",
+  "aiGenerated": true
+ },
+ "kept": {
+  "name": "RA-E-2c",
+  "file": "ra-E-2c.png",
+  "pixelsSha256": "af6f06d705f3a275b4e232eb7fdd7067d6fda25f4e93ecb8b9fa30c752e36d74",
+  "aiGenerated": true,
+  "codeComposite": true
+ },
+ "changedOutsideTheArea": {
+  "px": 2229,
+  "maxLevels": 68,
+  "what": "the keep's blend, its 2 px Gaussian reaching up to 6 px past the mask: left in the plate, as the sheet's tool leaves it"
+ },
+ "liftAreaPx": 124386,
+ "completionPxOutsideTheMask": 12756,
+ "pieces": {
+  "C electrical cabinet": {
+   "file": "_lift/E-electrical-cabinet.png",
+   "sha256": "59e5bebcf1d70e6bab8e27e164b7e828ee60666228a9d48147251dd9da230278",
+   "grey": 40,
+   "px": 52082,
+   "box": [
+    0,
+    549,
+    115,
+    1086
+   ],
+   "areaPx": 53380,
+   "shareOfItsArea": 0.9757,
+   "completionPxPastTheMask": {
+    "cabinet": 7700
+   },
+   "alphaFull": 50157,
+   "alphaPartial": 3218
+  },
+  "D crates": {
+   "file": "_lift/E-crates.png",
+   "sha256": "60432747498078fbe292f14b2c5d5bfbf37891e841774d074137320a5484ce19",
+   "grey": 20,
+   "px": 69797,
+   "box": [
+    759,
+    808,
+    1024,
+    1157
+   ],
+   "areaPx": 71006,
+   "shareOfItsArea": 0.983,
+   "completionPxPastTheMask": {
+    "crate-upper": 955,
+    "crate-lower": 2407
+   },
+   "alphaFull": 67333,
+   "alphaPartial": 3451
+  }
+ },
+ "missing": [],
+ "rebuild": {
+  "how": "RA-E-1 with every layer over it, against RA-E-2c",
+  "meanAbsDiff": 0.0211,
+  "pxOver16": 605,
+  "maxDiff": 68
+ }
+}

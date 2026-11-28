@@ -1,0 +1,147 @@
+{
+ "note": "The pictures of Room B's view B (Juno's) for the people and B's page: the plate is PV6-B-1, the empty room; the three furniture pieces are the layers lifted from PV6-B-3 inside step 2's PLACE mask, and the food capsule is the layer lifted from PV6-B-4 inside step 3's mask, each drawn by depth. PV6-B-3 and PV6-B-4 themselves are used only to check the layers and the rebuild. All are AI-generated pictures from the records page, checked by hash.",
+ "view": "B",
+ "records": {
+  "version": "1795010404-1b7a",
+  "passed": "the Lead, 18 November 2026: B's pictures accepted (PV6-B-3, step 2; PV6-B-4, step 3), the larger painted hatch on purpose"
+ },
+ "plate": {
+  "label": "PV6-B-1",
+  "file": "PV6-B-1.png",
+  "records": "img/PV6-B-1.png",
+  "sha256": "42335c0b4eb22abe89f2549c854bade94007ef9533641f5a0a0fbcbca1eb6f81",
+  "what": "the empty room, step 1"
+ },
+ "placed2": {
+  "label": "PV6-B-3",
+  "file": "PV6-B-3.png",
+  "records": "img/PV6-B-3.png",
+  "sha256": "8767d472a3a473d6079ae3cb604ca921f3606e9698f68f2b779d34c3fe20205b",
+  "what": "the furnished room without the capsule, step 2: one masked edit of PV6-B-1, kept inside the PLACE mask in code; for the furniture layers' check only"
+ },
+ "placed": {
+  "label": "PV6-B-4",
+  "file": "PV6-B-4.png",
+  "records": "img/PV6-B-4.png",
+  "sha256": "eb42d9fdda26c67c586565096c592f2334228ba8452a1ead502d8bd5ca14f3c9",
+  "what": "the furnished room with the capsule, step 3: one masked edit of PV6-B-3 inside the capsule's outline grown 2 px, kept in code; for the capsule layer's check and the rebuild check only"
+ },
+ "layers": {
+  "record": {
+   "file": "_in/PV6-B-3-lift.json",
+   "sha256": "58ea06aa22879a538ce2b5896d99edf34f69b0c35ddd88ec318175db528e3aa5"
+  },
+  "recipe": "d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November)",
+  "from": "PV6-B-3 over PV6-B-1 (pv8_tools.py lift B)",
+  "pieces": {
+   "D bench": {
+    "file": "PV6-B-3-D-bench.png",
+    "sha256": "09bded9415390f29a0dfc716b2f849923367878dd4a598c8dc168d160ff50e60"
+   },
+   "A tablet console": {
+    "file": "PV6-B-3-A-tablet-console.png",
+    "sha256": "8cb48ba7705a82c93cd390ab80c894f57ccc221c6a020d719c1d8bc64f19cd93"
+   },
+   "E bench": {
+    "file": "PV6-B-3-E-bench.png",
+    "sha256": "d1c4ce3f78a53a26b11544b2032cbe20918a962f59bbd333ee1ab44f3916010f"
+   }
+  }
+ },
+ "layers3": {
+  "record": {
+   "file": "_in/PV6-B-4-lift3.json",
+   "sha256": "7c1a0c16ce58824c327c5967d05ba60a0cffe5e22a996449969d841522c4a5eb"
+  },
+  "recipe": "d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November)",
+  "from": "PV6-B-4 over PV6-B-3 (pv8_tools.py lift3 B)",
+  "pieces": {
+   "D food capsule": {
+    "file": "PV6-B-4-D-food-capsule.png",
+    "sha256": "3720b13079e789f0e91bbcc58b737d190b49140b2ce3fd6614123835be2f873e"
+   }
+  }
+ },
+ "hatch": {
+  "record": {
+   "file": "_in/PV6-B-4-hatch.json",
+   "sha256": "8333266e7bf1cf74cd59dd29eb33d14c18c2f410e997fce671cc5ce8031fa048"
+  },
+  "lensRecord": {
+   "records": "records/PV6-B-4.json, review.paintedLens",
+   "sha256": "ae3f4574f8e052946984726f02c219f9178e26c667aea5b18f9e70d8a688c678"
+  },
+  "painted": {
+   "topLeft": [
+    315,
+    828
+   ],
+   "topRight": [
+    368,
+    825
+   ],
+   "bottomRight": [
+    369,
+    885
+   ],
+   "bottomLeft": [
+    314,
+    897
+   ],
+   "bbox": [
+    313,
+    825,
+    369,
+    897
+   ],
+   "px": 3341
+  },
+  "lens": {
+   "centre": [
+    342.4,
+    810.6
+   ],
+   "darkCoreBbox": [
+    335,
+    802,
+    350,
+    819
+   ],
+   "from": "glass-B.json (lens8.py): the glass measured from the capsule's layer (the Lead, 18 November: it differs from the records' by more than 1 px, so the scene's lens follows it)"
+  },
+  "decision": "the Lead, 18 November 2026: accepted, with the larger hatch on purpose. Code follows the painting: the light, the shutter, the hatch's opening, the tray, the portion and the wrapper fit the painted hatch and the painted lens, not the sheet's projection",
+  "recordsLens": {
+   "centre": [
+    344.7,
+    805.3
+   ],
+   "darkCoreBbox": [
+    338,
+    802,
+    349,
+    811
+   ],
+   "from": "the records' paintedLens (records/PV6-B-4.json, its review)"
+  }
+ },
+ "sheet": {
+  "version": "1795009181-bcdd"
+ },
+ "camera": {
+  "report": "../camera-report-B.json",
+  "version": 2,
+  "sha256": "a05f39c41068957219afdf072216212e6f6a9bebe9264a4b97958331b579901a"
+ },
+ "glass": {
+  "record": {
+   "file": "_in/glass-B.json",
+   "sha256": "5067e27c0134a756cb0f5f44e07d10079dba65ccb220086411727af0be2c55f1"
+  },
+  "centre": [
+   342.4,
+   810.6
+  ],
+  "radius": 8.6,
+  "why": "the Lead, 18 November: the data and the page agree on the lens, so the glass is measured from the capsule's layer (lens8.py); it is 5.8 px from the records' paintedLens (344.7, 805.3)"
+ }
+}

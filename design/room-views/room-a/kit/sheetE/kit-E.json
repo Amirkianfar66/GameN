@@ -1,0 +1,543 @@
+{
+ "view": "E",
+ "inView": {
+  "window": false,
+  "screens": false,
+  "capsule": false,
+  "own": [
+   "floor hatch",
+   "hatch lid",
+   "toolbox"
+  ]
+ },
+ "pieces": [
+  {
+   "grey": 40,
+   "place": "C",
+   "name": "electrical cabinet",
+   "step": 2,
+   "parts": [
+    "electrical panel"
+   ],
+   "depthM": 1.39,
+   "px": 40139,
+   "bbox": [
+    0,
+    555,
+    89,
+    1078
+   ],
+   "visibleCentreX": 42,
+   "visibleCentreY": 803,
+   "cutByEdge": true
+  },
+  {
+   "grey": 20,
+   "place": "D",
+   "name": "crates",
+   "step": 2,
+   "parts": [
+    "crate",
+    "crate"
+   ],
+   "depthM": 2.86,
+   "px": 55356,
+   "bbox": [
+    798,
+    825,
+    1024,
+    1139
+   ],
+   "visibleCentreX": 923,
+   "visibleCentreY": 967,
+   "cutByEdge": true
+  }
+ ],
+ "shapes": [
+  {
+   "pieces": [
+    0
+   ],
+   "px": 44417,
+   "bbox": [
+    0,
+    549,
+    95,
+    1084
+   ],
+   "visibleCentreX": 44,
+   "cutByEdge": true
+  },
+  {
+   "pieces": [
+    1
+   ],
+   "px": 67213,
+   "bbox": [
+    780,
+    808,
+    1024,
+    1157
+   ],
+   "visibleCentreX": 914,
+   "cutByEdge": true
+  }
+ ],
+ "split": {
+  "C electrical cabinet": 40,
+  "D crates": 20
+ },
+ "outlineShare": 0.0607,
+ "pieces3": [],
+ "shapes3": [],
+ "split3": {},
+ "gaps": {
+  "electrical cabinet / crates": {
+   "tightPx": 199,
+   "grownPx": 199
+  }
+ },
+ "openings": {},
+ "ownStation": {
+  "place": "E",
+  "objects": {
+   "floor hatch": {
+    "paintingPx": 3623,
+    "bbox": [
+     671,
+     1485,
+     810,
+     1536
+    ],
+    "slicePx": {
+     "390x844": 0,
+     "430x932": 520,
+     "402x742": 0
+    }
+   },
+   "hatch lid": {
+    "paintingPx": 1648,
+    "bbox": [
+     181,
+     1444,
+     216,
+     1536
+    ],
+    "slicePx": {
+     "390x844": 311,
+     "430x932": 715,
+     "402x742": 0
+    }
+   },
+   "toolbox": {
+    "paintingPx": 9795,
+    "bbox": [
+     860,
+     1442,
+     1020,
+     1536
+    ],
+    "slicePx": {
+     "390x844": 1700,
+     "430x932": 3359,
+     "402x742": 0
+    }
+   }
+  },
+  "rule": "the approved plan (visA) leaves the viewer's own station out of the viewer's view, and so does this sheet"
+ },
+ "featureTest": {
+  "picture": {
+   "name": "RA-E-1",
+   "sha256": "e0d928ef4c1dabd3968b20568bd0d6e3f923682df7f6d938c61bd26cb2d0730f",
+   "aiGenerated": true
+  },
+  "rule": "Every step-2 mask edge either clearly overlaps a feature in the test, covering it with at least 15 px to spare, or clears it by at least 15 px (square pixels): no part of the feature lies within 15 px of a mask edge. A named exception, for the Lead's decision, passes only where every such part lies in its zone. The features not in the test are measured and reported.",
+  "minClearPx": 15,
+  "atLeastPx": 60,
+  "passed": true,
+  "features": [
+   {
+    "name": "paper on the east wall",
+    "kind": "paper",
+    "test": true,
+    "px": 5168,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 3990,
+     "pxOutside": 1178
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 1694,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "behind the cabinet's top",
+      "for": "the Lead's decision",
+      "why": "Echo's cabinet stands in front of the paper: the cabinet's top edge crosses it, and its lower part lies inside the cabinet's area.",
+      "pxWithin15": 1694
+     }
+    ]
+   },
+   {
+    "name": "pipes on the east wall",
+    "kind": "pipes",
+    "test": true,
+    "px": 20170,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 16415,
+     "pxOutside": 3755
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 4146,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "behind the cabinet, along its right side",
+      "for": "the Lead's decision",
+      "why": "Echo's cabinet stands in front of the pipes: its top crosses them, and inside its area they run 9 px from its right edge.",
+      "pxWithin15": 4146
+     }
+    ]
+   },
+   {
+    "name": "wall box with its indicator light",
+    "kind": "box",
+    "test": true,
+    "px": 9514,
+    "step2": {
+     "status": "inside",
+     "insidePx": 4
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 1474,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "inside the cabinet's area, by its right side",
+      "for": "the Lead's decision",
+      "why": "Echo's cabinet stands in front of the wall box: the box lies inside the cabinet's area, 3 px from its right edge, and the cabinet covers its indicator dot, 14 px inside.",
+      "pxWithin15": 1474
+     }
+    ]
+   },
+   {
+    "name": "pipe along the foot of the east wall",
+    "kind": "pipes",
+    "test": true,
+    "px": 6285,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 3855,
+     "pxOutside": 2430
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 4629,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "behind the cabinet's foot",
+      "for": "the Lead's decision",
+      "why": "The cabinet's lower edge crosses the pipe that runs along the wall's foot: the cabinet stands in front of it.",
+      "pxWithin15": 4629
+     }
+    ]
+   },
+   {
+    "name": "pipe along the west wall",
+    "kind": "pipes",
+    "test": true,
+    "px": 11301,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 8097,
+     "pxOutside": 3204
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 1407,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "behind the crates' far end",
+      "for": "the Lead's decision",
+      "why": "Atlas's crates stand in front of the pipe: their far end crosses its run along the west wall, and its bend round the corner comes within 15 px of their far end.",
+      "pxWithin15": 1407
+     }
+    ]
+   },
+   {
+    "name": "locker on the west wall",
+    "kind": "locker",
+    "test": true,
+    "px": 13493,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 8887,
+     "pxOutside": 4606
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 3610,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "behind the upper crate's top",
+      "for": "the Lead's decision",
+      "why": "Atlas's crates stand in front of the locker: the upper crate's top edge crosses it.",
+      "pxWithin15": 3610
+     }
+    ]
+   }
+  ],
+  "exceptions": [
+   {
+    "name": "paper on the east wall",
+    "parts": [
+     {
+      "where": "behind the cabinet's top",
+      "for": "the Lead's decision",
+      "why": "Echo's cabinet stands in front of the paper: the cabinet's top edge crosses it, and its lower part lies inside the cabinet's area.",
+      "pxWithin15": 1694
+     }
+    ]
+   },
+   {
+    "name": "pipes on the east wall",
+    "parts": [
+     {
+      "where": "behind the cabinet, along its right side",
+      "for": "the Lead's decision",
+      "why": "Echo's cabinet stands in front of the pipes: its top crosses them, and inside its area they run 9 px from its right edge.",
+      "pxWithin15": 4146
+     }
+    ]
+   },
+   {
+    "name": "wall box with its indicator light",
+    "parts": [
+     {
+      "where": "inside the cabinet's area, by its right side",
+      "for": "the Lead's decision",
+      "why": "Echo's cabinet stands in front of the wall box: the box lies inside the cabinet's area, 3 px from its right edge, and the cabinet covers its indicator dot, 14 px inside.",
+      "pxWithin15": 1474
+     }
+    ]
+   },
+   {
+    "name": "pipe along the foot of the east wall",
+    "parts": [
+     {
+      "where": "behind the cabinet's foot",
+      "for": "the Lead's decision",
+      "why": "The cabinet's lower edge crosses the pipe that runs along the wall's foot: the cabinet stands in front of it.",
+      "pxWithin15": 4629
+     }
+    ]
+   },
+   {
+    "name": "pipe along the west wall",
+    "parts": [
+     {
+      "where": "behind the crates' far end",
+      "for": "the Lead's decision",
+      "why": "Atlas's crates stand in front of the pipe: their far end crosses its run along the west wall, and its bend round the corner comes within 15 px of their far end.",
+      "pxWithin15": 1407
+     }
+    ]
+   },
+   {
+    "name": "locker on the west wall",
+    "parts": [
+     {
+      "where": "behind the upper crate's top",
+      "for": "the Lead's decision",
+      "why": "Atlas's crates stand in front of the locker: the upper crate's top edge crosses it.",
+      "pxWithin15": 3610
+     }
+    ]
+   }
+  ],
+  "noted": [],
+  "lights": [
+   {
+    "name": "indicator dot, south wall box",
+    "box": [
+     492,
+     897,
+     504,
+     911
+    ],
+    "step2ClearPx": 60
+   },
+   {
+    "name": "indicator dot, junction box high on the south wall",
+    "box": [
+     711,
+     593,
+     724,
+     608
+    ],
+    "step2ClearPx": 60
+   }
+  ],
+  "pairs": {
+   "C electrical cabinet": {
+    "paper on the east wall": {
+     "status": "crosses",
+     "pxInside": 3990,
+     "pxOutside": 1178
+    },
+    "pipes on the east wall": {
+     "status": "crosses",
+     "pxInside": 16415,
+     "pxOutside": 3755
+    },
+    "wall box with its indicator light": {
+     "status": "inside",
+     "insidePx": 4
+    },
+    "pipe along the foot of the east wall": {
+     "status": "crosses",
+     "pxInside": 3855,
+     "pxOutside": 2430
+    }
+   },
+   "D crates": {
+    "pipe along the west wall": {
+     "status": "crosses",
+     "pxInside": 8097,
+     "pxOutside": 3204
+    },
+    "locker on the west wall": {
+     "status": "crosses",
+     "pxInside": 8887,
+     "pxOutside": 4606
+    }
+   }
+  }
+ },
+ "floorFit": {
+  "objects": [
+   "crate"
+  ],
+  "summary": "Atlas's crates stand on RA-E-1's painted deck: their floor corners, kept at their places between the west wall's foot and the seam 1 m out, are drawn on the painted lines, +11, +0, -1, +12 px; the rest of the guide is the camera's",
+  "corners": [
+   {
+    "world": [
+     -1.4,
+     0,
+     -0.95
+    ],
+    "fromWestWallM": 0.6,
+    "px": [
+     797.94,
+     1014.63
+    ],
+    "fraction": 0.502,
+    "paintedY": 1025.3,
+    "offsetPx": 10.6
+   },
+   {
+    "world": [
+     -1.4,
+     0,
+     0.05
+    ],
+    "fromWestWallM": 0.6,
+    "px": [
+     997.57,
+     1139.4
+    ],
+    "fraction": 0.502,
+    "paintedY": 1139.4,
+    "offsetPx": -0.0
+   },
+   {
+    "world": [
+     -2,
+     0,
+     0.05
+    ],
+    "fromWestWallM": 0,
+    "px": [
+     1102.52,
+     1108.04
+    ],
+    "fraction": 0.0,
+    "paintedY": 1107.4,
+    "offsetPx": -0.7
+   },
+   {
+    "world": [
+     -2,
+     0,
+     -0.95
+    ],
+    "fromWestWallM": 0,
+    "px": [
+     884.38,
+     998.62
+    ],
+    "fraction": 0.0,
+    "paintedY": 1010.4,
+    "offsetPx": 11.8
+   }
+  ],
+  "file": "floorfit-E.json"
+ },
+ "feet": [
+  {
+   "name": "Atlas",
+   "anchor": [
+    803.24,
+    1052.66
+   ],
+   "fractionWallToSeam": 0.792,
+   "paintedY": 1059.5,
+   "offsetPx": 6.8,
+   "moved": false,
+   "rule": "the Lead: move the line only if it is more than 8 px off, and record either way",
+   "how": "kept at its fraction of the way from the guide's west-wall foot to its seam 1 m out, placed at that fraction between the painted ones"
+  }
+ ],
+ "growth": {
+  "px": 12,
+  "decision": "the Lead, 27 November 2026, 18:38: the selective 12 px growth, for views C, E and D",
+  "rule": "step 2's mask grows 12 px more, only where no traced feature, small light, window or step-3 capsule lies within 15 px of the new edge, and each masked area on its own, kept apart from the others, with no islands; each added pixel takes its piece's grey",
+  "addedPx": 7019,
+  "maskedShareBefore": 0.0665,
+  "maskedShareAfter": 0.071,
+  "areasKeptApart": 2
+ },
+ "expected": {
+  "s2": {
+   "maskedShare": 0.071,
+   "rawMaskAlpha": "074b0a9bcdf73739847764e4dc93c940452a00e7275d432969e7ff018a2cf2c1",
+   "over10": false
+  }
+ }
+}

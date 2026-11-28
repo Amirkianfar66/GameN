@@ -1,0 +1,27 @@
+// Sheet RA-D's own words (Room A, view D: Atlas's place), version 1: the manifest's about, blocks and lessons, and the page's view
+// texts, read by buildD.mjs and sheetD.mjs. Every number in them comes from the kit or the manifest.
+import { LESSONS_B, LESSON_CAPSULE, CARRY_WHOLE, carry15 } from '../sheetV/sharedV.mjs';
+const gap = (K, a, b) => K.gaps[`${a} / ${b}`] ?? K.gaps[`${b} / ${a}`];
+const over = v => (v >= 119 ? 'over 100' : String(v));   // the kit measures openings up to 119 px (its limit)
+export const WORDS = {
+  about: "Room A's fourth view, painted as view A was: three pictures, the empty room, the furniture and the food capsule. Atlas's own crates are out of view D, as the approved plan leaves them. No people are painted: code draws them.",
+  blocks: "sheet RA-A's style, lens and keep-out blocks, word for word, and its colour block with one sentence for the indicators (version 1.1); sheet RA-B's room block, with its sentence for the round window, and its whole-piece sentence; sheet RA-A's step-3 opening and capsule front; view D's own view, PLACE and step-3 blocks",
+  lessons: [...LESSONS_B, LESSON_CAPSULE],
+  lede: 'Room A’s fourth view, from Atlas’s place by the west wall, painted the way view A was: three pictures, the empty room, then its furniture, then the food capsule in a step of its own. Atlas’s own crates are out of this view. No people are painted, because code draws them. Every picture made from this sheet is AI-generated and recorded as such. The only inputs are the code-drawn guides and masks on this page, and the pictures its own steps keep.',
+  where: X => `The camera is at Atlas’s place by the west wall, a little south of its middle, at eye height (${X.M.camera.eyeM} m), facing ${X.M.camera.yawCompass}°, toward the north-east corner, which stands a little right of the middle. The north wall is the back wall, with the round window left of the middle; the east wall is on the right.`,
+  carries: X => [CARRY_WHOLE, carry15('D', true),
+    ['Openings', `The round window and the two monitors’ screens are painted flat black and empty, for the game to fill; the colour check holds them to it. Step 2’s mask stays ${X.O['window frame (as drawn)'].clearPx} px clear of the window’s frame as the guide draws it, and step 3’s ${over(X.O['window frame (as drawn)'].step3ClearPx)} px.`],
+    ['The capsule', 'As in view A, the food capsule is painted in a step of its own, after the furniture, closed and unlit, inside its outline grown 2 px. Code draws its open hatch, compartment, tray, light and shutter over it.']],
+  pieces: { 'PC workstation': 'Vega’s desk against the north wall, nearest, cut by the left edge, with its two monitors; their screens are openings, painted flat black. Vega’s chair is drawn with Vega, so none is painted.',
+    toolbox: 'The closed toolbox at the hatch’s near end.', 'floor hatch': 'Lyra’s open hatch in the deck, its near rim crisp and lit.',
+    'hatch lid': 'The hatch’s lid, raised almost upright at its far end: its own piece, as in view A (the Motion builder’s list).',
+    'electrical cabinet': 'Echo’s cabinet on the east wall, open, with no door and two small orange lights, as in view A.' },
+  step1Check: X => `The colour check with the empty room’s map (the window held flat black), and the lines against the annotated guide: the horizon at ${X.M.camera.horizonY}, every vertical upright, the corner and floor seams where the guide puts them, the window round and where the guide has it`,
+  step3: X => `One masked edit of the kept step-2 picture, inside the capsule’s outline grown 2 px (${X.pct(X.V.expected.s3.maskedShare, 2)} of the picture), with none of the furniture in it. The input shows the guide there. The capsule is view A’s: Room A’s wall unit on its bracket, on the east wall 1 m north of its middle, 1.0 to 1.55 m up, here a little right of the far corner and left of the cabinet, with the front Room B’s unit was painted with, so the ship’s dispensers match. It is painted closed and unlit. Code draws its open hatch, its compartment, the tray, its light and the shutter over it, as in Room B and view A.`,
+  gaps: X => { const lc = gap(X.KIT, 'hatch lid', 'electrical cabinet'), g = X.O['window glass'], f = X.O['window frame (as drawn)'];
+    return `The clear space between each two pieces, tight and with the masks’ 6 px growth; the pieces in one area (the hatch, its lid and the toolbox) share it, split by their greys. The hatch’s lid and the cabinet are ${lc.tightPx} px apart (${lc.grownPx} grown), clear of view A’s target of 30 px (18 grown). The round window’s glass is ${g.clearPx} px from step 2’s mask and its frame, as drawn, ${f.clearPx} px; step 3’s mask is ${over(f.step3ClearPx)} px from both. The screens lie inside the desk’s piece. The capsule’s step-3 mask covers none of the furniture: ${X.KIT.capsuleUnderFurniturePx} px of its grown outline lie under it.`; },
+  own: () => '',
+  colour: () => 'Here the round window is in view, so the openings gate holds it to flat black in every step, and the screens too in steps 2 and 3.',
+  alts: { empty: "Step 1's guide: Room A's empty room from Atlas's place, the round window black in the north wall, the east wall on the right",
+    guide: "The guide with the furniture and the capsule: Vega's desk with two black-screened monitors on the left, Lyra's hatch with its raised lid and the toolbox ahead, Echo's open cabinet and the food capsule on the right-hand wall" },
+};

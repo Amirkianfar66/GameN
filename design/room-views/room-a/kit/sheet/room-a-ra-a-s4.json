@@ -1,0 +1,210 @@
+{
+ "sheet": "RA-A",
+ "room": "Room A",
+ "view": "A",
+ "version": 6,
+ "step": 4,
+ "date": "2026-11-19",
+ "about": "Step 4 of sheet RA-A: a fix over RA-A-4, the cabinet's right side, one masked edit (the Lead, 13:07 and 13:24 on 19 November). RA-A-3 painted the cabinet's frame down its left side and along its bottom but not its right: its top bar, with the second orange light, and the breaker rows' cables fade softly into the wall. Version 4's files are kept byte for byte, its manifest room-a-ra-a.json among them, for steps 1 to 3, which are done; this file adds step 4.",
+ "rules": [
+  "Every picture made from this sheet is AI-generated. Its record says so, with its tool, model, prompt, date and settings, and it is never presented as made by a person.",
+  "The owner's reference pictures are never inputs. Step 4's only input is RA-A-4, the accepted step-3 picture, with this file's mask.",
+  "Test pages only: no picture from this sheet is an asset or contract, and none is committed.",
+  "The Lead gives step 4's go, for one call, and names this file's hashes."
+ ],
+ "manifest": {
+  "file": "room-a-ra-a.json",
+  "sha256": "27cab8a2ef473b908020f340da839e9b49230792a44ffbdd0a6dc11a3ada7870",
+  "version": 4,
+  "note": "version 4's manifest, byte for byte (version id 1795092955-447e, restored as 1795094570-9e36): steps 1 to 3. RA-A-3 (step 2) and RA-A-4 (step 3) were painted from it and accepted by the Lead."
+ },
+ "startPicture": {
+  "step": 3,
+  "name": "RA-A-4",
+  "sha256": "63c0ca59e2caf52d4082bffbb977b50c63ed4dea5e1302a7ef642c2fbb914500",
+  "aiGenerated": true,
+  "accepted": "the Lead, 19 November: view A's step 3, the start picture for the cabinet-edge fix"
+ },
+ "stepOnePicture": {
+  "name": "RA-A-1",
+  "sha256": "a565b6e01dec5a51fcedca90ace0331e657c09864411eba032cbe14021d4d635",
+  "use": "the start picture of the cabinet's refreshed lift (lift4), as step 2's lift was"
+ },
+ "tool": {
+  "file": "ra2_tools.py",
+  "sha256": "465cf7a88f84a2907d12b86417e4a3b4ad8e7214778267f7b89017a363662df3",
+  "version": 2,
+  "note": "version 1's commands unchanged (ra1_tools.py, kept byte for byte), with s4, keep4, lift4 and frame4"
+ },
+ "files": {
+  "place4": {
+   "published": "img/ra-A-place4.png",
+   "sha256": "ff7c7046154234f5d1c3131fea3d47db1c65958bf0782e0e5d086ad6f4b659a9"
+  },
+  "split4": {
+   "published": "img/ra-A-split4.png",
+   "sha256": "877694c2f8f89e8a8176b8a6f0e1f54a2da165f7a72cac3a6ea9e436b93d182d"
+  }
+ },
+ "split4": {
+  "C electrical cabinet": 20
+ },
+ "expected": {
+  "s4": {
+   "maskedShare": 0.0055,
+   "rawMaskAlpha": "7719acfa7d2fa09dc6b5a0cbff389e87ecdf777df43b42143d60280506e65d22"
+  }
+ },
+ "prompts": {
+  "s4": {
+   "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool blue-steel shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nThis is a correction of the attached picture. Repaint only the masked area, and leave everything outside it exactly as it is. The masked area holds the right side of the open electrical cabinet on the back wall. The cabinet's heavy steel frame continues down its right side and closes the right end of its top bar, matching its left side, with rivets and a crisp drawn outline. The second orange light stays whole, inside the frame. The wall to its right stays unchanged.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+   "sha256": "23314e9d4c0d6e88ca4d02ec2cdd8a0daff46c3bcc5119e07f2199ea93030471",
+   "chars": 1772
+  }
+ },
+ "mask": {
+  "x": [
+   512,
+   546
+  ],
+  "y": [
+   636,
+   883
+  ],
+  "why": "Left edge: just inside the breaker rows' right ends (x 515), so the seam falls on the breakers' own edge. Right edge: 15 px past the cabinet's outline (x 531), on plain wall, 6 px short of the grille's seam. Top and bottom: the cabinet's full height with room for its frame's corners: from the top of step 2's mask at the cabinet (y 636) to y 883, so that the pipe run, which drops to y 899 just past the mask's right edge, is 15 clear pixels away on the square measure.",
+  "px": 8680,
+  "bbox": [
+   512,
+   636,
+   547,
+   884
+  ],
+  "measured": {
+   "on": "RA-A-4, by brightness profiles across the cabinet's right side",
+   "breakerRowsRightEnd": {
+    "x": 515,
+    "how": "the breaker bodies of rows one and two are bright (mean of R, G and B above 130) in at least a fifth of their rows up to x 515, and in under a sixth from x 516; row three ends at the same column, darker"
+   },
+   "secondLight": {
+    "box": [
+     511,
+     657,
+     532,
+     664
+    ],
+    "how": "its warm orange pixels (R above 190, G 70 to 190, B under 120, R minus B above 100)"
+   },
+   "wallFrom": {
+    "x": 538,
+    "how": "from x 552 leftward, the first column more than 35 from the wall's median brightness is x 536 to 538 in most rows (the cables' outer edge and the top bar's faded end)"
+   },
+   "cabinetOutlineRight": {
+    "x": 531,
+    "how": "version 4's stage outline of the cabinet (its front face's right edge, y 653 to 853 there); step 2's mask grew it 6 px, to x 537"
+   },
+   "grilleEdge": {
+    "x": 553,
+    "how": "featuresA.json's grille, whose rim starts at x 553 (y 705 to 861): the dark seam of its panel; the seam runs the wall's full height"
+   }
+  }
+ },
+ "checks": {
+  "gaps": {
+   "pipe run": {
+    "status": "clear",
+    "clearPx": 15,
+    "test": true
+   },
+   "pipe clamp, middle": {
+    "status": "clear",
+    "clearPx": 16,
+    "test": true
+   },
+   "pipe clamp, right": {
+    "status": "clear",
+    "clearPx": 15,
+    "test": true
+   },
+   "grille": {
+    "status": "clear",
+    "clearPx": 6,
+    "test": true
+   },
+   "pipes above": {
+    "status": "clear",
+    "clearPx": 29,
+    "test": false
+   },
+   "riveted plate and ledge": {
+    "status": "clear",
+    "clearPx": 6,
+    "test": false
+   }
+  },
+  "paintedOverInStep2": [
+   "papers: clip",
+   "papers: large sheet",
+   "papers: small sheet",
+   "narrow panel",
+   "lower panel"
+  ],
+  "gapToStep3Px": 60,
+  "secondLight": {
+   "box": [
+    511,
+    657,
+    532,
+    664
+   ],
+   "px": 176,
+   "insideMaskPx": 168
+  },
+  "lift4Area": {
+   "px": 44838,
+   "step2SplitPx": 41786,
+   "addedByStep4Px": 3052
+  }
+ },
+ "frameRule": {
+  "minClearPx": 15,
+  "grilleEdgeX": 553,
+  "frameOuterEdgeAtMostX": 537,
+  "rows": [
+   705,
+   861
+  ],
+  "departs": 35,
+  "rowsShare": 0.5,
+  "how": "on the rows beside the grille (y 705 to 861): a pixel departs from the wall when its brightness (the mean of R, G and B) is more than 35 from the median of the unchanged wall just outside the mask in its row (x 547 to 552, five rows); the frame's outer edge is the rightmost column of the mask in which at least half of those rows depart, so that a vertical frame counts and the wall's seams, scratches and clamp tips, which cross few rows, do not",
+  "why": "The Lead: the new frame edge meets the 15 px rule against the grille, whose edge is at x 553: the frame's outer outline at x 537 or less leaves at least 15 clear pixels. The mask's wall beyond it is there so that the frame's outline and the wall meet cleanly; the wall stays unchanged."
+ },
+ "steps": [
+  {
+   "step": 4,
+   "what": "a fix: the cabinet's right side, one masked edit",
+   "inputs": [
+    "RA-A-4, the kept step-3 picture (sha256 63c0ca59e2caf52d4082bffbb977b50c63ed4dea5e1302a7ef642c2fbb914500), itself, with no guide (ra2_tools.py s4)"
+   ],
+   "mask": "img/ra-A-place4.png (white = repaint; the tool writes it as RGBA, alpha 0 = repaint)",
+   "secondPicture": "none",
+   "prompt": "s4",
+   "keep": "ra2_tools.py keep4",
+   "lift": "ra2_tools.py lift4: the cabinet's layer refreshed, the Lead's recipe on RA-A-1 and the step-4 picture inside the cabinet's step-2 split area with step 4's mask",
+   "measure": "ra2_tools.py frame4: the frame's outer edge beside the grille, at x 537 or less (15 px from the grille's edge at x 553)"
+  }
+ ],
+ "budget": "one edit, about $0.06, over RA-A-4; Room A has spent about $0.23 of its cap under $5 (the Lead, 13:20)",
+ "changes": [
+  {
+   "version": 5,
+   "date": "2026-11-19",
+   "what": "Published in error, at about 13:14 to 13:16 (1795094103-c6d4, then 1795094212-bc2a), after RA-A-3 and RA-A-4 had been painted from version 4 and after the Lead had stopped it: the Lead's messages reached this session late. No picture was made from it. It was replaced by version 4's bytes, every file and the page byte for byte (1795094570-9e36), and it is set aside."
+  },
+  {
+   "version": 6,
+   "date": "2026-11-19",
+   "by": "the Lead, 13:07 and 13:24 on 19 November",
+   "what": "Step 4, a fix over RA-A-4: the cabinet's right side. The mask is x 512 to 546, y 636 to 883 (8680 px): from just inside the breaker rows' right ends to 15 px past the cabinet's outline, its full height. Version 4's files are kept byte for byte; this file, its prompt, the mask, the split, the tool's version 2 and two review overlays are added."
+  }
+ ]
+}

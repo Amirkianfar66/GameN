@@ -1,0 +1,414 @@
+{
+ "about": "Rooms A and B, every view’s plate. Every plate is an AI-generated picture: Room A’s are code composites of the image tool’s pictures, Room B’s are the image tool’s own files, kept byte for byte with the tool’s embedded content credentials (its own disclosure that they are AI-generated). pixelsSha256 is the sha256 of the decoded 8-bit RGB pixels, row by row.",
+ "plates": [
+  {
+   "room": "A",
+   "view": "A",
+   "file": "room-a/view-a/ra-A-4-frame.png",
+   "bytes": 2774796,
+   "sha256": "1484be0b33a96dfb111270b2bd4febf4c2fb5f772d4ae8cc77ba6ea3f30c41ae",
+   "pixelsSha256": "8f8d90c7a8ffabe55c7ed075a2979d445d07423ce0818a4f6eae5c5218877b90",
+   "aiGenerated": true,
+   "made": "RA-A-4 with the electrical cabinet’s right frame drawn in code (sheet/frameA.py)",
+   "contentCredentials": false,
+   "records": [
+    "room-a/view-a/records/RA-A-1.json",
+    "room-a/view-a/records/RA-A-3.json",
+    "room-a/view-a/records/RA-A-4.json"
+   ]
+  },
+  {
+   "room": "A",
+   "view": "B",
+   "file": "room-a/view-b/ra-B-3c.png",
+   "bytes": 3020241,
+   "sha256": "1176d31bd05c812bf1e23cd3fbd46ae54f07433e04cfd1d396c22511d7137343",
+   "pixelsSha256": "f387d99ddbdbbb54ae4618306779be98dcc258426f0b6b715f0e1d85af516344",
+   "aiGenerated": true,
+   "made": "RA-B-3 completed in code (sheetB/compositeB3.py)",
+   "contentCredentials": false,
+   "records": [
+    "room-a/view-b/records/RA-B-2.json",
+    "room-a/view-b/records/RA-B-3.json"
+   ]
+  },
+  {
+   "room": "A",
+   "view": "C",
+   "file": "room-a/view-c/ra-C-2c.png",
+   "bytes": 2944119,
+   "sha256": "7d033ae977d3ef14eb2bcbf8f302830a016333e35d2ba934dff2f41ca5cde203",
+   "pixelsSha256": "a74062edf45357dbb193ea7d93a36b99b6384cc6f25fdcc8b68bac760e138a48",
+   "aiGenerated": true,
+   "made": "RA-C-2 completed in code (sheetC/compositeC2.py)",
+   "contentCredentials": false,
+   "records": [
+    "room-a/view-c/records/RA-C-1.json",
+    "room-a/view-c/records/RA-C-2.json"
+   ]
+  },
+  {
+   "room": "A",
+   "view": "D",
+   "file": "room-a/view-d/ra-D-4c.png",
+   "bytes": 3111156,
+   "sha256": "05d7a5f7a67810bf5e377ed6d4a8aaa58d333e370ea56123bf10a45977df212c",
+   "pixelsSha256": "e94c257ab580f014debb133a443940c545166dd7ef5ea9dd02ec0555628da59d",
+   "aiGenerated": true,
+   "made": "RA-D-4 completed in code (sheetD/compositeD4c.py), over RA-D-3hc and RA-D-3x, both code composites",
+   "contentCredentials": false,
+   "records": [
+    "room-a/view-d/records/RA-D-1.json",
+    "room-a/view-d/records/RA-D-3.json",
+    "room-a/view-d/records/RA-D-3h.json",
+    "room-a/view-d/records/RA-D-4.json"
+   ]
+  },
+  {
+   "room": "A",
+   "view": "E",
+   "file": "room-a/view-e/ra-E-2c.png",
+   "bytes": 2947258,
+   "sha256": "50a8046250bcd81c63e8d6fcd027ad8fbf335a1b73791271a1232623a1b87772",
+   "pixelsSha256": "af6f06d705f3a275b4e232eb7fdd7067d6fda25f4e93ecb8b9fa30c752e36d74",
+   "aiGenerated": true,
+   "made": "RA-E-2 completed in code (sheetE/compositeE2.py)",
+   "contentCredentials": false,
+   "records": [
+    "room-a/view-e/records/RA-E-1.json",
+    "room-a/view-e/records/RA-E-2.json"
+   ]
+  },
+  {
+   "room": "B",
+   "view": "A",
+   "file": "room-b/view-a/PV6-A-2.png",
+   "bytes": 2716970,
+   "sha256": "738061ae21931cabf70ba7e82ebb916c1dabcc5c2b16ac3bf6c65663d13783a5",
+   "pixelsSha256": "25d8d3044de888fced084c512e342860ae5713cf231f8407908040d4be436e44",
+   "aiGenerated": true,
+   "made": "the image tool’s own file, the empty room (step 1)",
+   "contentCredentials": true,
+   "records": [
+    "room-b/view-a/records/PV6-A-2.json"
+   ]
+  },
+  {
+   "room": "B",
+   "view": "B",
+   "file": "room-b/view-b/PV6-B-1.png",
+   "bytes": 2533305,
+   "sha256": "42335c0b4eb22abe89f2549c854bade94007ef9533641f5a0a0fbcbca1eb6f81",
+   "pixelsSha256": "9daa109a9c0eb6f8bd3404b841bad146ff552b59dc6bc3815b88b66e987deeb4",
+   "aiGenerated": true,
+   "made": "the image tool’s own file, the empty room (step 1)",
+   "contentCredentials": true,
+   "records": [
+    "room-b/view-b/records/PV6-B-1.json"
+   ]
+  },
+  {
+   "room": "B",
+   "view": "C",
+   "file": "room-b/view-c/PV6-C-2.png",
+   "bytes": 2380383,
+   "sha256": "b8e59a54f9634225fa2c1932323e3e3ea326e8aa7bec19e788e042810cdb182c",
+   "pixelsSha256": "ef1b5726f7b9662efe10cd9213f2473e6826b5b8c916b8598a1bc9c25f94de47",
+   "aiGenerated": true,
+   "made": "the image tool’s own file, the empty room (step 1)",
+   "contentCredentials": true,
+   "records": [
+    "room-b/view-c/records/PV6-C-2.json"
+   ]
+  },
+  {
+   "room": "B",
+   "view": "D",
+   "file": "room-b/view-d/PV6-D-3.png",
+   "bytes": 2649215,
+   "sha256": "bdee3fbc45da6dcbfa47f79089fc1b2b408d4fda6b1b6edf9e940028177137a2",
+   "pixelsSha256": "2723a087559b3c21d5bd91f571fd32effc3a3b5f7659048cadae4e71aec55b92",
+   "aiGenerated": true,
+   "made": "the image tool’s own file, the empty room (step 1)",
+   "contentCredentials": true,
+   "records": [
+    "room-b/view-d/records/PV6-D-3.json"
+   ]
+  },
+  {
+   "room": "B",
+   "view": "E",
+   "file": "room-b/view-e/PV6-E-1.png",
+   "bytes": 2622518,
+   "sha256": "4b00f639165de3d7e1c6156a9f866f4571b409a49d5162425ed942d7bb82d3f3",
+   "pixelsSha256": "ee237276775ad543c709c864d9bd3e1a2e0a8462bc877585b5083d5693d602ca",
+   "aiGenerated": true,
+   "made": "the image tool’s own file, the empty room (step 1)",
+   "contentCredentials": true,
+   "records": [
+    "room-b/view-e/records/PV6-E-1.json"
+   ]
+  }
+ ],
+ "notIncluded": {
+  "why": "The repository holds the final plates, layers and data, not the image tool’s step pictures and raw edits they were made from, so it cannot rebuild them alone. Each is on its records page, by name, size and sha256.",
+  "pictures": [
+   {
+    "room": "A",
+    "picture": "RA-A-1",
+    "kind": "kept step picture",
+    "bytes": 2912581,
+    "sha256": "a565b6e01dec5a51fcedca90ace0331e657c09864411eba032cbe14021d4d635",
+    "page": "Room A Records, version 1795828303-eac0, img/RA-A-1.png"
+   },
+   {
+    "room": "A",
+    "picture": "RA-A-4",
+    "kind": "kept step picture",
+    "bytes": 2782947,
+    "sha256": "63c0ca59e2caf52d4082bffbb977b50c63ed4dea5e1302a7ef642c2fbb914500",
+    "page": "Room A Records, version 1795828303-eac0, img/RA-A-4.png"
+   },
+   {
+    "room": "A",
+    "picture": "RA-B-2",
+    "kind": "kept step picture",
+    "bytes": 3090434,
+    "sha256": "aefddadcb3ce554c215d121dd7a49b8e4197a1dcce77325e54982252c8038605",
+    "page": "Room A Records, version 1795828303-eac0, img/RA-B-2.png"
+   },
+   {
+    "room": "A",
+    "picture": "RA-B-3",
+    "kind": "kept step picture",
+    "bytes": 2912350,
+    "sha256": "95c742f2e47b4ea37a197b339b4377a5fe75c41405d589f54076af26ec55eb25",
+    "page": "Room A Records, version 1795828303-eac0, img/RA-B-3.png"
+   },
+   {
+    "room": "A",
+    "picture": "RA-B-3-raw",
+    "kind": "raw edit",
+    "bytes": 2933459,
+    "sha256": "392431f68b83dc4c20415befdb25ac6c39f42d72a4baeea7a192cd225b7bedba",
+    "page": "Room A Records, version 1795828303-eac0, img/RA-B-3-raw.png"
+   },
+   {
+    "room": "A",
+    "picture": "RA-C-1",
+    "kind": "kept step picture",
+    "bytes": 3095664,
+    "sha256": "ad56119d60d86073282585044f82b4fceb5a9d130d217f096e814516990783b5",
+    "page": "Room A Records, version 1795828303-eac0, img/RA-C-1.png"
+   },
+   {
+    "room": "A",
+    "picture": "RA-C-2",
+    "kind": "kept step picture",
+    "bytes": 2932220,
+    "sha256": "70f1a853492bb577bd00b274cac8411dc5928e6a84fe53279b46c8c7ea363910",
+    "page": "Room A Records, version 1795828303-eac0, img/RA-C-2.png"
+   },
+   {
+    "room": "A",
+    "picture": "RA-C-2-raw",
+    "kind": "raw edit",
+    "bytes": 3122646,
+    "sha256": "0a489ff011c94c12b83e9ed65af1f93b4a90b70a28b3f47882904b1e4fe5e74d",
+    "page": "Room A Records, version 1795828303-eac0, img/RA-C-2-raw.png"
+   },
+   {
+    "room": "A",
+    "picture": "RA-D-1",
+    "kind": "kept step picture",
+    "bytes": 3308473,
+    "sha256": "c8842de16d63076fe69306b247bcc643b6dc5576f6c389364ce49bc970f2fe75",
+    "page": "Room A Records, version 1795828303-eac0, img/RA-D-1.png"
+   },
+   {
+    "room": "A",
+    "picture": "RA-D-3",
+    "kind": "kept step picture",
+    "bytes": 3094983,
+    "sha256": "abaf334d030a674e9e030f14477a25ec57d82a3870d4850db1637329fd1d7c2a",
+    "page": "Room A Records, version 1795828303-eac0, img/RA-D-3.png"
+   },
+   {
+    "room": "A",
+    "picture": "RA-D-3-raw",
+    "kind": "raw edit",
+    "bytes": 3088067,
+    "sha256": "0a7eb69d4b2e40ad12e61c09af585a614088a091ce717aa36c57a1671cb2c648",
+    "page": "Room A Records, version 1795828303-eac0, img/RA-D-3-raw.png"
+   },
+   {
+    "room": "A",
+    "picture": "RA-D-3h",
+    "kind": "kept step picture",
+    "bytes": 3091264,
+    "sha256": "3383dba869dd7fbccf593f44347f685895c9f606a9b10bce43bf8960bd50d86d",
+    "page": "Room A Records, version 1795828303-eac0, img/RA-D-3h.png"
+   },
+   {
+    "room": "A",
+    "picture": "RA-D-3h-raw",
+    "kind": "raw edit",
+    "bytes": 2977925,
+    "sha256": "3b67e224fb4bcb0a70c938f81754a3b29f617a1f643fbde6ba4a5bc4971d9df2",
+    "page": "Room A Records, version 1795828303-eac0, img/RA-D-3h-raw.png"
+   },
+   {
+    "room": "A",
+    "picture": "RA-D-4",
+    "kind": "kept step picture",
+    "bytes": 3096036,
+    "sha256": "4b1c22bedee4232919863bdcccd6a38e06c9dae92c977a0d1ff585b4bec1f45a",
+    "page": "Room A Records, version 1795828303-eac0, img/RA-D-4.png"
+   },
+   {
+    "room": "A",
+    "picture": "RA-D-4-raw",
+    "kind": "raw edit",
+    "bytes": 2967489,
+    "sha256": "5b744e667bfbc275a1947672bf6b405e0e13f74e52bae2e4a268e446f33a1a86",
+    "page": "Room A Records, version 1795828303-eac0, img/RA-D-4-raw.png"
+   },
+   {
+    "room": "A",
+    "picture": "RA-E-1",
+    "kind": "kept step picture",
+    "bytes": 3117761,
+    "sha256": "e0d928ef4c1dabd3968b20568bd0d6e3f923682df7f6d938c61bd26cb2d0730f",
+    "page": "Room A Records, version 1795828303-eac0, img/RA-E-1.png"
+   },
+   {
+    "room": "A",
+    "picture": "RA-E-2",
+    "kind": "kept step picture",
+    "bytes": 2947479,
+    "sha256": "eeadc937bf93f79152a5e0e6d8aee77816d4a8d845d45bdf88bce65fbfae9b95",
+    "page": "Room A Records, version 1795828303-eac0, img/RA-E-2.png"
+   },
+   {
+    "room": "A",
+    "picture": "RA-E-2-raw",
+    "kind": "raw edit",
+    "bytes": 2867074,
+    "sha256": "d33ed69614725431ef2172494c74952fad39726a64c6e64dcf18a53a66222d73",
+    "page": "Room A Records, version 1795828303-eac0, img/RA-E-2-raw.png"
+   },
+   {
+    "room": "B",
+    "picture": "PV6-A-3",
+    "kind": "kept step picture",
+    "bytes": 2625489,
+    "sha256": "731ec58d6773dc0ae6fd17ec4e12bf7cecec92a8b66ff25f99408a1e6b76e4dc",
+    "page": "Room B Four Views, version 1795044447-5e2a, img/PV6-A-3.png"
+   },
+   {
+    "room": "B",
+    "picture": "PV6-B-3",
+    "kind": "kept step picture",
+    "bytes": 2450816,
+    "sha256": "8767d472a3a473d6079ae3cb604ca921f3606e9698f68f2b779d34c3fe20205b",
+    "page": "Room B Four Views, version 1795044447-5e2a, img/PV6-B-3.png"
+   },
+   {
+    "room": "B",
+    "picture": "PV6-B-3-raw",
+    "kind": "raw edit",
+    "bytes": 2451508,
+    "sha256": "541e12c265aad8a4540ac74bd1ad7df6068c23cfbb51b118ef146331bbedfe30",
+    "page": "Room B Four Views, version 1795044447-5e2a, img/PV6-B-3-raw.png"
+   },
+   {
+    "room": "B",
+    "picture": "PV6-B-4",
+    "kind": "kept step picture",
+    "bytes": 2452381,
+    "sha256": "eb42d9fdda26c67c586565096c592f2334228ba8452a1ead502d8bd5ca14f3c9",
+    "page": "Room B Four Views, version 1795044447-5e2a, img/PV6-B-4.png"
+   },
+   {
+    "room": "B",
+    "picture": "PV6-B-4-raw",
+    "kind": "raw edit",
+    "bytes": 2351614,
+    "sha256": "bb84134c6c8e5b22ac440a65c267858ef74cb2369929f6398991b2a18bc99483",
+    "page": "Room B Four Views, version 1795044447-5e2a, img/PV6-B-4-raw.png"
+   },
+   {
+    "room": "B",
+    "picture": "PV6-C-3",
+    "kind": "kept step picture",
+    "bytes": 2369840,
+    "sha256": "c9170c5d8cb620a8877ba7eb8d290a2b10aa1572ebeb3a75232a5693bf542284",
+    "page": "Room B Four Views, version 1795044447-5e2a, img/PV6-C-3.png"
+   },
+   {
+    "room": "B",
+    "picture": "PV6-C-4",
+    "kind": "kept step picture",
+    "bytes": 2372018,
+    "sha256": "b634e18b7d552590746cacd3d5614b845fcaaad3be9e11076a84db0e9f5b220a",
+    "page": "Room B Four Views, version 1795044447-5e2a, img/PV6-C-4.png"
+   },
+   {
+    "room": "B",
+    "picture": "PV6-C-4-raw",
+    "kind": "raw edit",
+    "bytes": 2410370,
+    "sha256": "36da1efb54554f4059e0ea5192da554e2f89c266642fa4347af7d17390fe6133",
+    "page": "Room B Four Views, version 1795044447-5e2a, img/PV6-C-4-raw.png"
+   },
+   {
+    "room": "B",
+    "picture": "PV6-C-5",
+    "kind": "kept step picture",
+    "bytes": 2374875,
+    "sha256": "9e1bd0ea067b75965b24b5bd28f8325a53418b81c3ba2b8cfffcabe0c1bcc23a",
+    "page": "Room B Four Views, version 1795044447-5e2a, img/PV6-C-5.png"
+   },
+   {
+    "room": "B",
+    "picture": "PV6-D-4",
+    "kind": "kept step picture",
+    "bytes": 2560317,
+    "sha256": "674f050b6ddb935032c719f1059c903090eec5c958ed7b0f4b6e32078c3c5213",
+    "page": "Room B Four Views, version 1795044447-5e2a, img/PV6-D-4.png"
+   },
+   {
+    "room": "B",
+    "picture": "PV6-E-3",
+    "kind": "kept step picture",
+    "bytes": 2513449,
+    "sha256": "fcd8c31fa5ad4e9b533445d5c0a7a9962d8d4c5445d17c769d648d61a7c69013",
+    "page": "Room B Four Views, version 1795044447-5e2a, img/PV6-E-3.png"
+   },
+   {
+    "room": "B",
+    "picture": "PV6-E-3-raw",
+    "kind": "raw edit",
+    "bytes": 2541171,
+    "sha256": "55da9eb72a84be38471e5138e9e5889c4f3daeded1fc7158bd7d6867461479a5",
+    "page": "Room B Four Views, version 1795044447-5e2a, img/PV6-E-3-raw.png"
+   },
+   {
+    "room": "B",
+    "picture": "PV6-E-4",
+    "kind": "kept step picture",
+    "bytes": 2515771,
+    "sha256": "12fb6d6f1eb7591913e44e280c58b2142aa51dc5c13389531b8c1cce809982d9",
+    "page": "Room B Four Views, version 1795044447-5e2a, img/PV6-E-4.png"
+   },
+   {
+    "room": "B",
+    "picture": "PV6-E-4-raw",
+    "kind": "raw edit",
+    "bytes": 2493037,
+    "sha256": "b8b3bd22300eeb08444cf0f9ea0328abaa093311b1e9f58e97cbaf4b6688d0f8",
+    "page": "Room B Four Views, version 1795044447-5e2a, img/PV6-E-4-raw.png"
+   }
+  ]
+ }
+}

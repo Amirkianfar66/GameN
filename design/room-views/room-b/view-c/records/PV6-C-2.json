@@ -1,0 +1,161 @@
+{
+ "piece": "PV6-C",
+ "pass": "step 1, the empty room, from the guide alone (s1-one)",
+ "attempt": 2,
+ "generated": true,
+ "label": "AI-generated image",
+ "runner": "Designer team Image builder (Claude Code session)",
+ "tool": "OpenAI Images API, POST /v1/images/edits (one input image, no mask)",
+ "date": "2026-11-18T15:00:36+00:00",
+ "request_id": "req_0235ad30472349bbb6fc00c723238671",
+ "authority": "the Lead's go of 18 November 2026 for C (steps 1 to 3, one re-run in all; about $0.18, at most $0.24)",
+ "sheet": {
+  "page": "Room B PV6-C Sheet",
+  "version": "1795013664-a2ea",
+  "manifest": {
+   "file": "room-b-pv6c.json",
+   "sha256": "5866d472a65a4d8fb9c33fa7dce66bda1e76708e19dd61ed2f54a11392ee22d3"
+  },
+  "prompts": {
+   "file": "room-b-pv6c-prompts.txt",
+   "sha256": "1b738051ed82ba30d628fdbadbf028897f15976f2b1b37dfc079727686d9fe1d"
+  }
+ },
+ "tools": {
+  "pv8_tools.py": "5304717eaf2967e48b4a0ed27806023dd20ff68330c6b9c898c5514e9c77da8d",
+  "lift5.py": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+  "colour-check-v4.py": "7634828cb8fc1d30b3a10ecb15b6eb85dd3ac8249d30a08ce4b9eca58f4d110b",
+  "kitCheck": "all files and expected hashes match"
+ },
+ "prompt_key": "s1-one",
+ "prompt": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThe room: Room B, a 4 m square laboratory with a 3 m ceiling, here with no furniture in it. In the middle of the ceiling, a round skylight about 2.2 m across in a heavy round frame with a lit inner edge, divided into four panes by a thin cross of two mullions; its glass is flat black and empty, with no stars, planets, reflections or other bars across it. Around it, a ring of sixteen small round lights set in the solid ceiling, lit warm cream with an orange glow. On the walls, caged lamps a little above head height, two on each wall, glowing warm cream behind their bars, each throwing an orange glow on the wall around it and a warm reflection on the deck below. The walls are panels, pipes, conduits and shelves, worn and repaired; the deck is metal plates with seams, scuffs and a little rust, lit plum under the ring of lights and warm under the lamps, darker toward the corners. No beams, rays or shafts of light in the air.\n\nView: a straight-lined view at standing eye height, exactly as the attached guide shows: 80 degrees across and level, every vertical line perfectly straight and upright, every straight line in the room straight in the picture. The horizon, at eye level, is a straight line 714 px from the top, a little above the middle. Match the guide's layout, perspective, horizon and proportions exactly, line for line, as its floor seams, wall bases, corners and ceiling edges show. Do not curve the lines, tilt the view, zoom in or out, or move the horizon.\n\nThis picture: from a place by the east wall, a little south of its middle, at standing eye height, looking straight across the open room at the west wall. On the left, close, the south wall, with a wide exterior window in a heavy riveted frame; its opening is flat black and empty, with no panes, bars or reflections across it, near the left edge. Ahead, the west wall, with a caged lamp left of the middle and a second right of it, and further right on that wall a small flat black, empty screen in a metal housing. On the right, past the corner, the west end of the north wall. Above, the ceiling, with the round skylight in its upper middle and right, its near edge cut off by the top of the picture, and the ring of warm lights around it. The deck is open and clear, with nothing standing on it, while the walls keep their pipes, panels and shelves.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+ "prompt_sha256": "927da5249a1f496d6c77763f4c00b77fb73dc30a541f4f2685f249a6eee7f978",
+ "revised_prompt": null,
+ "inputs": [
+  {
+   "order": 1,
+   "file": "pv6-C-empty.png",
+   "sha256": "5855973f7220bb1969975b7a6e6dd3cfac61db3808722c0fb7bf13bf34673283"
+  }
+ ],
+ "mask": null,
+ "settings": {
+  "size": "1024x1536",
+  "quality": "high",
+  "n": 1,
+  "seed": null,
+  "background": "opaque",
+  "output_format": "png"
+ },
+ "output": {
+  "file": "PV6-C-2.png",
+  "sha256": "b8e59a54f9634225fa2c1932323e3e3ea326e8aa7bec19e788e042810cdb182c",
+  "width": 1024,
+  "height": 1536,
+  "retouched": false
+ },
+ "usage": {
+  "input_tokens": 2599,
+  "input_tokens_details": {
+   "image_tokens": 1536,
+   "text_tokens": 1063
+  },
+  "output_tokens": 1372,
+  "output_tokens_details": {
+   "image_tokens": 1372,
+   "text_tokens": 0
+  },
+  "total_tokens": 3971
+ },
+ "cost_usd_est": 0.0588,
+ "terms": "Generated with OpenAI's image model under its Terms of Use as checked by the Lead (c8fbc793): the user owns the output; it is never presented as made by a person.",
+ "check": {
+  "by": "Image builder (pv8_tools.py same, incl. colour-check-v4.py; colour-check-v4.py with the empty-room map for the openings; lines by overlay; the rest by eye). Not the Designer's review.",
+  "sameRoom": {
+   "pass": true,
+   "gates": {
+    "colour check version 4 with the view's map": true,
+    "walls and deck: median lightness, chroma and hue as PV6-A-2's": true,
+    "deck: median lightness as PV6-A-2's": true,
+    "warm light: orange and cream shares as PV6-A-2's": true,
+    "every lamp in view lit at its place": true,
+    "the ring lights lit at their places": true,
+    "the surfaces both pictures show: PV6-A-2's colour (median delta E)": true
+   },
+   "lamps": {
+    "N1": 0.233,
+    "W1": 0.1882,
+    "W2": 0.2076
+   },
+   "ring": "8 of 8",
+   "palette": {
+    "walls and deck median lightness": {
+     "picture": 0.409,
+     "PV6-A-2": 0.395
+    },
+    "walls and deck median chroma": {
+     "picture": 0.098,
+     "PV6-A-2": 0.102
+    },
+    "walls and deck median hue": {
+     "picture": 334.1,
+     "PV6-A-2": 328.1
+    },
+    "deck median lightness": {
+     "picture": 0.414,
+     "PV6-A-2": 0.404
+    },
+    "orange share": {
+     "picture": 0.037,
+     "PV6-A-2": 0.0383
+    },
+    "cream share": {
+     "picture": 0.0077,
+     "PV6-A-2": 0.0111
+    },
+    "rust share": {
+     "picture": 0.0025,
+     "PV6-A-2": 0.0016
+    }
+   },
+   "sharedSurfacesAll": {
+    "shareOfPicture": 0.4145,
+    "medianDeltaE": 0.0666,
+    "edgeCorrelation": 0.215
+   }
+  },
+  "openings": {
+   "window": {
+    "pixels": 55464,
+    "p95L": 0.077,
+    "medianL": 0.0
+   },
+   "screen": {
+    "pixels": 11680,
+    "p95L": 0.067,
+    "medianL": 0.0
+   },
+   "skylight": {
+    "pixels": 226439,
+    "p95L": 0.067,
+    "medianL": 0.0
+   }
+  },
+  "byEye": "all 7 same-room gates pass and the openings are flat black; but two lit indicator strips, each a row of four glowing teal cells, sit at the foot of the back wall (about x 285-335 and 780-830, y 940-960), which reads as baked status lights; otherwise the walls, lamps, ring and openings sit on the guide and the deck is empty",
+  "verdict": "passes every gate; fails by eye: baked status lights (held)",
+  "result": "accepted as C's step 1",
+  "reason": "Lead Designer, 18 November 2026: accepted as C's step 1. passes every measured gate. The two lit strips at the foot of the back wall read as a level gauge a player could take for game state; they will not stay. No extra call: C's next sheet version adds them as two more tight shapes in step 3, beside the capsule and the stool's seat, repainted as plain, unlit vent grilles. The Rooms builder cuts their shapes from PV6-C-2. C has spent about $0.118; with steps 2 and 3 about $0.245, within the owner's cap of $0.27 (no new approval needed), and past the Lead's earlier $0.24 estimate by about a cent."
+ },
+ "review": {
+  "by": "Lead Designer",
+  "date": "2026-11-18",
+  "result": "accepted as C's step 1",
+  "note": "passes every measured gate. The two lit strips at the foot of the back wall read as a level gauge a player could take for game state; they will not stay. No extra call: C's next sheet version adds them as two more tight shapes in step 3, beside the capsule and the stool's seat, repainted as plain, unlit vent grilles. The Rooms builder cuts their shapes from PV6-C-2.",
+  "budget": "C has spent about $0.118; with steps 2 and 3 about $0.245, within the owner's cap of $0.27 (no new approval needed), and past the Lead's earlier $0.24 estimate by about a cent."
+ },
+ "copy": {
+  "of": "Room B Four Views (the image builder’s records page), version 1795044447-5e2a, records/PV6-C-2.json",
+  "originalSha256": "7806a43e90c48733673659ec244d93119add5a1a82b6a60ad7d5774a34b0dc51",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

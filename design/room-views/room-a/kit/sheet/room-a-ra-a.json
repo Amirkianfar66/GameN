@@ -1,0 +1,1144 @@
+{
+ "sheet": "RA-A",
+ "room": "Room A",
+ "view": "A",
+ "viewer": "Vega (c1)",
+ "version": 4,
+ "date": "2026-11-19",
+ "about": "Room A's first view, painted as Room B's PV6 views were: three pictures, the empty room, the furniture and the food capsule. No people are painted: code draws them.",
+ "plan": {
+  "page": "Room A plan",
+  "version": "1795050100-be2f",
+  "approved": "the owner, about 10:45 UTC on 19 November: Room A all as recommended (a solid ceiling; the back view for walks between 100 and 118 degrees), the cap under $5 for Room A (docs/design/owner-decisions.md, ab849d40 on #280)"
+ },
+ "rules": [
+  "Every picture made from this sheet is AI-generated. Its record says so, with its tool, model, prompt, date and settings, and it is never presented as made by a person.",
+  "The owner's reference pictures are never inputs. The only inputs are this sheet's code-drawn guides and masks, and the pictures its own steps keep.",
+  "Test pages only: no picture from this sheet is an asset or contract, and none is committed.",
+  "The Lead gives each step's go and names this sheet's version and hashes. The work stops and asks before it would pass the cap."
+ ],
+ "camera": {
+  "painting": [
+   1024,
+   1536
+  ],
+  "lens": "straight lines, level, every vertical upright",
+  "acrossDeg": 80,
+  "focalPx": 610.2,
+  "horizonY": 714,
+  "eyeM": 1.6,
+  "at": [
+   -1.04,
+   1.6,
+   1.68
+  ],
+  "yawCompass": 126.4,
+  "phones": {
+   "fovDeg": 70,
+   "downDeg": 5,
+   "how": "each phone's 70 degree slice, 5 degrees down, is a centred crop of the painting (the same straight-line camera, scaled about the horizon point)",
+   "slices": {
+    "390x844": {
+     "stage": [
+      390,
+      653
+     ],
+     "paintingRect": [
+      84.7,
+      52,
+      939.3,
+      1482.8
+     ],
+     "scale": 2.191
+    },
+    "430x932": {
+     "stage": [
+      430,
+      741
+     ],
+     "paintingRect": [
+      84.7,
+      31.1,
+      939.3,
+      1503.6
+     ],
+     "scale": 1.9872
+    },
+    "402x742": {
+     "stage": [
+      402,
+      551
+     ],
+     "paintingRect": [
+      84.7,
+      181.8,
+      939.3,
+      1353
+     ],
+     "scale": 2.1256
+    }
+   }
+  },
+  "walls": {
+   "south": "right",
+   "east": "back"
+  },
+  "report": {
+   "file": "camera-report-A.json",
+   "version": 2,
+   "sha256": "aa0084ec26d7fc471d00b55c8f7adefd89765bf2e9eaf3250ee29ad9037712fe"
+  }
+ },
+ "kit": {
+  "views": {
+   "A": {
+    "files": {
+     "empty": {
+      "published": "img/ra-A-empty.png",
+      "sha256": "630d43ad9f54023e2fa506d9f0361ecfd3d69c961d58670cad45b9db3981a3f4"
+     },
+     "emptyRegions": {
+      "published": "img/ra-A-empty-regions.png",
+      "sha256": "d4b415fda48bada87be7c46d5b274be48c8a36f4ed2877b60c84a3e754097028"
+     },
+     "emptyAnnotated": {
+      "published": "img/ra-A-empty-annotated.png",
+      "sha256": "dddd8057b6e98b1d5ed8b67ec42effcd94eeab64387f18fe19d131ca8b303c67"
+     },
+     "guide": {
+      "published": "img/ra-A-guide.png",
+      "sha256": "9b4a8b8b00f67d70ee19271f23012347d98ddd2118fcd4b092c38429db692c8d"
+     },
+     "guideS2": {
+      "published": "img/ra-A-guide-s2.png",
+      "sha256": "77b4850fcbb34685b5bf37f75e8acdc3d145dd550713bf67f387dd300e53ecd0"
+     },
+     "regions": {
+      "published": "img/ra-A-regions.png",
+      "sha256": "b779718fb87388ca5b2ede5c8eefdbfd5cd8d39d13906518acf98b07e2d8eddb"
+     },
+     "place": {
+      "published": "img/ra-A-place.png",
+      "sha256": "67657b147a3778fc28358dfef4f4d39a07af8fad45fff4853a19cd16ce1c6bdc"
+     },
+     "split": {
+      "published": "img/ra-A-split.png",
+      "sha256": "b70352078678e2f6216c8f738438ae2388d07351d9137d43142d5f86b4df2711"
+     },
+     "place3": {
+      "published": "img/ra-A-place3.png",
+      "sha256": "3ea02a13cff100a89efff8e78290218e4c973ef09b17ba10317f8ad067baa95c"
+     },
+     "split3": {
+      "published": "img/ra-A-split3.png",
+      "sha256": "2e1593a314b6f57cf2151dc3a4289043db57df15df7e6e6b43e77d0dc6c94539"
+     }
+    },
+    "prompts": {
+     "s1": {
+      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool blue-steel shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom A, the crew bay, in the same illustrated world: blue steel, lit warm. The whole room is one blue-steel family, the colours of the attached guide: deep navy in the shadows and corners (#14243F, #1D3D6B), steel blue on the walls and the deck (#2D609E), turning paler where the light falls (#5C92CC, #A9CAEB). The light is warm: the two light bars glow cream along their length (#FCE3A0), with a warm paper-white glow (#F4EBDD) on the ceiling around them and soft pools of pale light on the deck below. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige, olive, purple or violet. The shadows are deep navy, never black-brown or grey. Labels and paper are blank, in a warm paper white (#F4EBDD). Small indicator lights are warm orange (#EC793C); no other coloured light, and no green, purple or red light. Practical and worn, a working bay, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThe room: Room A, the crew bay, a 4 m square room with a 3 m ceiling, here with no furniture in it. The ceiling is solid steel panels, with no skylight and no opening in it: two long light bars set into it run across the room about 1.4 m apart, each glowing warm cream along its whole length behind a plain diffuser, lighting the ceiling around it and throwing soft pools of light on the deck below. The walls are steel panels, pipes, conduits, cable runs and small lockers, worn and repaired, darker toward the deck, with a narrow rust-brown kick strip along their foot; the deck is metal plates with seams, scuffs and a little rust, lit pale under the light bars and darker toward the corners. No beams, rays or shafts of light in the air.\n\nView: a straight-lined view at standing eye height, exactly as the attached guide shows: 80 degrees across and level, every vertical line perfectly straight and upright, every straight line in the room straight in the picture. The horizon, at eye level, is a straight line 714 px from the top, a little above the middle. Match the guide's layout, perspective, horizon and proportions exactly, line for line, as its floor seams, wall bases, corners and ceiling edges show. Do not curve the lines, tilt the view, zoom in or out, or move the horizon.\n\nThis picture: from a place by the north wall, west of its middle, at standing eye height, looking diagonally across the room toward its south-east corner, which stands right of the middle. Ahead and on the left, the east wall; on the right, past the corner, the south wall. Above, the solid ceiling, with the two light bars running from its middle up to the right and out of the picture at its top and right edges, the nearer one higher. The deck is open and clear, with nothing standing on it, while the walls keep their pipes, panels and conduits.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+      "sha256": "f13dcb963c482621a666267a2dea53b3f6a848a6b64dca32bb3fe6518401cfb4",
+      "chars": 4278
+     },
+     "s2": {
+      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool blue-steel shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom A, the crew bay, in the same illustrated world: blue steel, lit warm. The whole room is one blue-steel family, the colours of the attached guide: deep navy in the shadows and corners (#14243F, #1D3D6B), steel blue on the walls and the deck (#2D609E), turning paler where the light falls (#5C92CC, #A9CAEB). The light is warm: the two light bars glow cream along their length (#FCE3A0), with a warm paper-white glow (#F4EBDD) on the ceiling around them and soft pools of pale light on the deck below. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige, olive, purple or violet. The shadows are deep navy, never black-brown or grey. Labels and paper are blank, in a warm paper white (#F4EBDD). Small indicator lights are warm orange (#EC793C); no other coloured light, and no green, purple or red light. Practical and worn, a working bay, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked areas, and leave everything outside them exactly as it is. The two masked areas hold four pieces of furniture, each filling its own part exactly, painted in full detail in the picture's style and light. Ahead, in the upper area, mounted on the back wall about 0.8 m above the deck: a steel electrical cabinet, about 0.9 m wide and 1.15 m tall, with no door, its front open on rows of breakers and neatly bundled cables, every cable in its place and none hanging loose, with two small warm orange indicator lights near its top. The rest of the upper area, mostly to the cabinet's left, is plain wall: paint it as the same steel wall panels as the wall around it, with their seams, rivets and wear, and with nothing on them: no lockers, doors, vents, papers, boxes or panels. Lower, ahead and to the left, in the deck: an open hatch, a long rectangular opening about 1 m by 0.5 m with a raised steel rim all round, its near edge crisp and lit, showing a dark space beneath with pipes and cables; at its far end, on the left, its heavy steel lid, hinged along that edge and raised almost upright. At the bottom edge, nearest, cut off by it: a closed steel toolbox standing on the deck beside the hatch's near end.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+      "sha256": "261dd7da04bd86a0d75a2ed6ec0a0fe606d733bab6b5597017f69e7f3eb67969",
+      "chars": 3717
+     },
+     "s3": {
+      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool blue-steel shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom A, the crew bay, in the same illustrated world: blue steel, lit warm. The whole room is one blue-steel family, the colours of the attached guide: deep navy in the shadows and corners (#14243F, #1D3D6B), steel blue on the walls and the deck (#2D609E), turning paler where the light falls (#5C92CC, #A9CAEB). The light is warm: the two light bars glow cream along their length (#FCE3A0), with a warm paper-white glow (#F4EBDD) on the ceiling around them and soft pools of pale light on the deck below. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige, olive, purple or violet. The shadows are deep navy, never black-brown or grey. Labels and paper are blank, in a warm paper white (#F4EBDD). Small indicator lights are warm orange (#EC793C); no other coloured light, and no green, purple or red light. Practical and worn, a working bay, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked shape, and leave everything outside it exactly as it is. The masked shape holds one small food dispenser that fills the shape exactly, with nothing of it outside the shape, painted in full detail in the picture's style and light. It is mounted on the back wall, on the left, on a bracket in the wall's own colours, at waist to chest height: a narrow upright steel housing about 0.32 m wide, 0.55 m tall and 0.22 m deep; a small round lens high on its front, unlit and dark; below it, a large closed hatch of warm paper-white filling most of the front, with a small dark handle along its bottom edge; no vent slots; nothing written, printed or lit on it. Paint it in the same metal, paint and wear as the furniture in the picture.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+      "sha256": "0b5a2cf4ae811090374295fcc14d01f9e68aa02c76efca51c4354fcad45e33ba",
+      "chars": 3236
+     }
+    },
+    "split": {
+     "back plain wall": 10,
+     "E hatch lid": 40,
+     "E floor hatch": 60,
+     "C electrical cabinet": 20,
+     "E toolbox": 80
+    },
+    "split3": {
+     "wall food capsule": 100
+    },
+    "expected": {
+     "s2": {
+      "maskedShare": 0.1461,
+      "rawMaskAlpha": "89eca4db837b0d371011b428cd4c26b7fa427a1cafb409c63713bcf76d8c91f2"
+     },
+     "s3": {
+      "maskedShare": 0.0077,
+      "rawMaskAlpha": "f075547c1bd3a5d8028993b11ec8ba37c42fd20bdeea808c9249887f756b01eb"
+     }
+    }
+   }
+  },
+  "lift": {
+   "file": "lift5.py",
+   "sha256": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+   "recipe": "the Lead's recipe of 18 November (lift5.py): d, the largest of |placed - start| over R, G and B; the pixels where d is above 16, inside the mask; closed with a 7 x 7 max then a 7 x 7 min, kept inside the mask; holes filled; parts under 400 px dropped; feathered with a 1 px Gaussian; clipped to the mask"
+  },
+  "colourCheck": {
+   "file": "colour-check-ra1.py",
+   "sha256": "c882f4f8259b44bf8d689021daa2e5b0e8f028539cc076cc457fe144f582dbd2",
+   "version": 1
+  },
+  "tool": {
+   "file": "ra1_tools.py",
+   "sha256": "a1d3bbca594b0461735e75879bb1ab4b5f9d6ed177fffefc5d734395abcb63d2",
+   "version": 1
+  }
+ },
+ "steps": [
+  {
+   "step": 1,
+   "what": "the empty room, a first pass",
+   "inputs": [
+    "img/ra-A-empty.png"
+   ],
+   "mask": "none",
+   "secondPicture": "none",
+   "prompt": "s1",
+   "check": "ra1_tools.py colours A 1 (colour-check-ra1.py with img/ra-A-empty-regions.png), and the lines against img/ra-A-empty-annotated.png"
+  },
+  {
+   "step": 2,
+   "what": "PLACE, one masked edit: the furniture, without the capsule, and the plain-wall area",
+   "inputs": [
+    "RA-A-1, the step-1 picture (sha256 a565b6e01dec5a51fcedca90ace0331e657c09864411eba032cbe14021d4d635), with the step-2 guide inside the PLACE mask (ra1_tools.py s2)"
+   ],
+   "mask": "img/ra-A-place.png (white = repaint; the tool writes it as RGBA, alpha 0 = repaint)",
+   "secondPicture": "none",
+   "prompt": "s2",
+   "keep": "ra1_tools.py keep",
+   "lift": "ra1_tools.py lift"
+  },
+  {
+   "step": 3,
+   "what": "the food capsule alone, one masked edit",
+   "inputs": [
+    "the kept step-2 picture, with the guide inside step 3's mask (ra1_tools.py s3)"
+   ],
+   "mask": "img/ra-A-place3.png (white = repaint)",
+   "secondPicture": "none",
+   "prompt": "s3",
+   "keep": "ra1_tools.py keep3",
+   "lift": "ra1_tools.py lift3"
+  }
+ ],
+ "pieces": {
+  "step2": [
+   {
+    "name": "plain wall",
+    "place": "back",
+    "kind": "background",
+    "parts": [
+     "the locker bank",
+     "the narrow panel",
+     "the lower panel",
+     "the papers' clip"
+    ],
+    "grey": 10,
+    "depthM": null,
+    "px": 76485,
+    "bbox": [
+     113,
+     587,
+     497,
+     916
+    ]
+   },
+   {
+    "name": "hatch lid",
+    "place": "E",
+    "parts": [
+     "hatch lid"
+    ],
+    "grey": 40,
+    "depthM": 2.24,
+    "px": 19288,
+    "bbox": [
+     251,
+     993,
+     393,
+     1182
+    ]
+   },
+   {
+    "name": "floor hatch",
+    "place": "E",
+    "parts": [
+     "floor hatch"
+    ],
+    "grey": 60,
+    "depthM": 1.81,
+    "px": 50038,
+    "bbox": [
+     257,
+     1125,
+     565,
+     1492
+    ]
+   },
+   {
+    "name": "electrical cabinet",
+    "place": "C",
+    "parts": [
+     "electrical panel"
+    ],
+    "grey": 20,
+    "depthM": 3.35,
+    "px": 36794,
+    "bbox": [
+     365,
+     642,
+     532,
+     879
+    ]
+   },
+   {
+    "name": "toolbox",
+    "place": "E",
+    "parts": [
+     "toolbox"
+    ],
+    "grey": 80,
+    "depthM": 1.24,
+    "px": 32001,
+    "bbox": [
+     388,
+     1324,
+     591,
+     1536
+    ]
+   }
+  ],
+  "step3": [
+   {
+    "name": "food capsule",
+    "kind": "wall",
+    "parts": [
+     "food capsule"
+    ],
+    "grey": 100,
+    "depthM": 2.73,
+    "px": 11239,
+    "bbox": [
+     193,
+     725,
+     281,
+     858
+    ]
+   }
+  ]
+ },
+ "style": {
+  "base": "the owner's style text (pv1-shared version 2)",
+  "changes": [
+   {
+    "from": "Use controlled colour palettes with selective luminous accents, giving each location its own atmosphere.",
+    "to": "Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere."
+   },
+   {
+    "from": "Overall: dark, cyber, noir, illustrated science fiction.",
+    "to": "Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool blue-steel shadow, dark only in the corners."
+   }
+  ]
+ },
+ "startPicture": {
+  "step": 1,
+  "name": "RA-A-1",
+  "sha256": "a565b6e01dec5a51fcedca90ace0331e657c09864411eba032cbe14021d4d635",
+  "aiGenerated": true,
+  "size": [
+   1024,
+   1536
+  ],
+  "role": "the Lead's base for steps 2 and 3 (19 November): step 2's input is this picture with the step-2 guide inside the PLACE mask",
+  "record": "its record, with the tool, prompt, date and settings, is kept with the image session's pictures; this sheet keeps its hash, not a link"
+ },
+ "changes": [
+  {
+   "version": 2,
+   "date": "2026-11-19",
+   "by": "the Lead, 19 November: one fix before step 2",
+   "what": "The electrical cabinet and its folded door are mounted 0.2 m higher, 0.65 to 2.1 m above the deck (version 1: 0.45 to 1.9 m), so that in this view the hatch's lid stands clear of them: 51 px between the two shapes (version 1: 10), 39 px between their grown outlines (version 1: 0), and step 2's mask in 2 areas (version 1: 1). Nothing on the floor plan moved: the five views' layout checks and the five camera reports are as before.",
+   "stepOne": {
+    "sameAsVersion1": true,
+    "files": {
+     "empty": "630d43ad9f54023e2fa506d9f0361ecfd3d69c961d58670cad45b9db3981a3f4",
+     "emptyRegions": "d4b415fda48bada87be7c46d5b274be48c8a36f4ed2877b60c84a3e754097028",
+     "s1Prompt": "f13dcb963c482621a666267a2dea53b3f6a848a6b64dca32bb3fe6518401cfb4",
+     "tool": "a1d3bbca594b0461735e75879bb1ab4b5f9d6ed177fffefc5d734395abcb63d2",
+     "lift": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+     "colourCheck": "c882f4f8259b44bf8d689021daa2e5b0e8f028539cc076cc457fe144f582dbd2"
+    },
+    "note": "step 1's input, its region map, its prompt, the tool, the lift and the colour check are version 1's bytes, so a step-1 picture made on version 1 carries over"
+   }
+  },
+  {
+   "version": 3,
+   "date": "2026-11-19",
+   "by": "the Lead, 19 November: version 2 checked against RA-A-1 itself",
+   "what": "Fitted to RA-A-1, the AI-generated step-1 picture, whose wall carries painted lockers, panels, papers, a grille and two junction boxes. Step 2's mask gains the plain-wall area (plainA.json, 8.4% of the picture): the locker bank, the panels beside it and below it, the small square panel and the grille are repainted as plain steel wall, so that no locker door, seam or handle runs into the food capsule (step 3's mask lies 49 px inside that area) and the cabinet's door no longer ends on the grille. The area is its own background piece in the split map (grey 10, \"back plain wall\"), and step 2's text names it in one sentence. The cabinet's top is 0.15 m lower, at 1.95 m (its door's at 1.93 m), so that its top edge stays 15 px clear of the riveted plate RA-A-1 painted above it; its foot, the floor plan, the five views' layout checks and the five camera reports are as before. Every step-2 and step-3 mask edge was tested against RA-A-1's painted features (featuresA.json): each feature in the test lies wholly inside a mask or at least 15 px clear of it, with one exception for the Lead's decision, the locker bank's foot (see checks.featureTest.exceptions). Inside less than 15 px: square panel 4 px inside, papers 7 px inside, grille 3 px inside.",
+   "stepOne": {
+    "sameAsVersion1": true,
+    "files": {
+     "empty": "630d43ad9f54023e2fa506d9f0361ecfd3d69c961d58670cad45b9db3981a3f4",
+     "emptyRegions": "d4b415fda48bada87be7c46d5b274be48c8a36f4ed2877b60c84a3e754097028",
+     "s1Prompt": "f13dcb963c482621a666267a2dea53b3f6a848a6b64dca32bb3fe6518401cfb4",
+     "tool": "a1d3bbca594b0461735e75879bb1ab4b5f9d6ed177fffefc5d734395abcb63d2",
+     "lift": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+     "colourCheck": "c882f4f8259b44bf8d689021daa2e5b0e8f028539cc076cc457fe144f582dbd2"
+    },
+    "note": "step 1's input, its region map, its prompt, the tool, the lift and the colour check are version 1's bytes"
+   }
+  },
+  {
+   "version": 4,
+   "date": "2026-11-19",
+   "by": "the Lead, 19 November: one rule for every step-2 and step-3 edge, checked against RA-A-1's painted features",
+   "what": "RA-A-1's painted features are now the kit's fixed obstacles (featuresA.json): the pipe run along the back wall's foot and its three clamps, the locker bank, the grille, the four junction boxes and the papers (three parts). Every step-2 and step-3 mask edge covers each of them with at least 15 px to spare or clears it by at least 15 px, and the build measures it: 11 of the 13 pass outright, and two have named exceptions for the Lead's decision. The electrical cabinet is 0.88 m wide (was 1.1 m), its north side where it was, so it centres on Echo's spot; it hangs 0.8 to 1.95 m above the deck, clear of the pipe run by 29 px and of the clamps by at least 27 px; it has no door, since folded south the door would end on the grille and folded north it would reach the food capsule; it clears the grille by 15 px. The hatch's lid is 0.48 m long (was 0.6 m), so its top stays 20 px under the pipe run: raised less, it hardly moves in the picture (65 degrees puts its top within 3 px of where 80 degrees does). The lid and the cabinet are 114 px apart (grown 102). The plain-wall area keeps the locker bank and the panels beside it, and adds a small patch above the cabinet's top so the papers' clip is covered with 15 px to spare; the grille is no longer repainted. Nothing else on the floor plan moved: the five views' layout checks and the five camera reports are as before.",
+   "stepOne": {
+    "sameAsVersion1": true,
+    "files": {
+     "empty": "630d43ad9f54023e2fa506d9f0361ecfd3d69c961d58670cad45b9db3981a3f4",
+     "emptyRegions": "d4b415fda48bada87be7c46d5b274be48c8a36f4ed2877b60c84a3e754097028",
+     "s1Prompt": "f13dcb963c482621a666267a2dea53b3f6a848a6b64dca32bb3fe6518401cfb4",
+     "tool": "a1d3bbca594b0461735e75879bb1ab4b5f9d6ed177fffefc5d734395abcb63d2",
+     "lift": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+     "colourCheck": "c882f4f8259b44bf8d689021daa2e5b0e8f028539cc076cc457fe144f582dbd2"
+    },
+    "note": "step 1's input, its region map, its prompt, the tool, the lift and the colour check are version 1's bytes"
+   }
+  }
+ ],
+ "checks": {
+  "gaps": {
+   "hatch lid / floor hatch": {
+    "tightPx": 1,
+    "grownPx": 0
+   },
+   "hatch lid / electrical cabinet": {
+    "tightPx": 114,
+    "grownPx": 102
+   },
+   "hatch lid / toolbox": {
+    "tightPx": 181,
+    "grownPx": 180
+   },
+   "floor hatch / electrical cabinet": {
+    "tightPx": 199,
+    "grownPx": 199
+   },
+   "floor hatch / toolbox": {
+    "tightPx": 0,
+    "grownPx": 0
+   },
+   "electrical cabinet / toolbox": {
+    "tightPx": 199,
+    "grownPx": 199
+   }
+  },
+  "target": {
+   "pair": "hatch lid / electrical cabinet",
+   "minTightPx": 30,
+   "minGrownPx": 18,
+   "met": true
+  },
+  "featureTest": {
+   "picture": {
+    "name": "RA-A-1",
+    "sha256": "a565b6e01dec5a51fcedca90ace0331e657c09864411eba032cbe14021d4d635",
+    "aiGenerated": true
+   },
+   "rule": "Every step-2 and step-3 mask edge either clearly overlaps a feature in the test, covering it with at least 15 px to spare, or clears it by at least 15 px (square pixels): no part of the feature lies within 15 px of a mask edge. A named exception, for the Lead's decision, passes only where every such part lies in its zone. The features not in the test are measured and reported.",
+   "minClearPx": 15,
+   "atLeastPx": 60,
+   "passed": true,
+   "features": [
+    {
+     "name": "pipe run",
+     "kind": "pipes",
+     "test": true,
+     "px": 16069,
+     "step2": {
+      "status": "clear",
+      "clearPx": 19
+     },
+     "step3": {
+      "status": "clear",
+      "clearPx": 60
+     },
+     "pxWithin15": {
+      "step2": 0,
+      "step3": 0
+     }
+    },
+    {
+     "name": "pipe clamp, left",
+     "kind": "clamp",
+     "test": true,
+     "px": 1104,
+     "step2": {
+      "status": "clear",
+      "clearPx": 15
+     },
+     "step3": {
+      "status": "clear",
+      "clearPx": 60
+     },
+     "pxWithin15": {
+      "step2": 0,
+      "step3": 0
+     }
+    },
+    {
+     "name": "pipe clamp, middle",
+     "kind": "clamp",
+     "test": true,
+     "px": 846,
+     "step2": {
+      "status": "clear",
+      "clearPx": 27
+     },
+     "step3": {
+      "status": "clear",
+      "clearPx": 60
+     },
+     "pxWithin15": {
+      "step2": 0,
+      "step3": 0
+     }
+    },
+    {
+     "name": "pipe clamp, right",
+     "kind": "clamp",
+     "test": true,
+     "px": 960,
+     "step2": {
+      "status": "clear",
+      "clearPx": 30
+     },
+     "step3": {
+      "status": "clear",
+      "clearPx": 60
+     },
+     "pxWithin15": {
+      "step2": 0,
+      "step3": 0
+     }
+    },
+    {
+     "name": "locker bank",
+     "kind": "lockers",
+     "test": true,
+     "px": 63437,
+     "step2": {
+      "status": "crosses",
+      "pxInside": 63364,
+      "pxOutside": 73
+     },
+     "step3": {
+      "status": "clear",
+      "clearPx": 53
+     },
+     "pxWithin15": {
+      "step2": 5777,
+      "step3": 0
+     },
+     "exception": [
+      {
+       "where": "its top",
+       "for": "the Lead's decision",
+       "why": "The rail above the lockers (not on the list) runs 12 to 14 px above their top, and under the upper junction box only 21 to 31 px separate the box's foot from the lockers' top. The box keeps its 15 px (17); the edge runs in the strip of plain wall between rail and lockers, about 6 px from each.",
+       "pxWithin15": 2287
+      },
+      {
+       "where": "its foot",
+       "for": "the Lead's decision",
+       "why": "Between x 128 and 205 the lockers' foot outline and the lower junction box are 13 to 15 rows apart, the outline running straight into its own shadow. The box keeps its 15 px: the outline's lowest one or two rows stay outside the mask there, on the top of the shadow band, which step 2 leaves; further right the foot is covered by 0 to 5 px, the pipe run 19 px below.",
+       "pxWithin15": 3490
+      }
+     ]
+    },
+    {
+     "name": "grille",
+     "kind": "grille",
+     "test": true,
+     "px": 12393,
+     "step2": {
+      "status": "clear",
+      "clearPx": 15
+     },
+     "step3": {
+      "status": "clear",
+      "clearPx": 60
+     },
+     "pxWithin15": {
+      "step2": 0,
+      "step3": 0
+     }
+    },
+    {
+     "name": "junction box, upper",
+     "kind": "box",
+     "test": true,
+     "px": 6615,
+     "step2": {
+      "status": "clear",
+      "clearPx": 17
+     },
+     "step3": {
+      "status": "clear",
+      "clearPx": 60
+     },
+     "pxWithin15": {
+      "step2": 0,
+      "step3": 0
+     }
+    },
+    {
+     "name": "junction box, lower",
+     "kind": "box",
+     "test": true,
+     "px": 6779,
+     "step2": {
+      "status": "clear",
+      "clearPx": 15
+     },
+     "step3": {
+      "status": "clear",
+      "clearPx": 60
+     },
+     "pxWithin15": {
+      "step2": 0,
+      "step3": 0
+     }
+    },
+    {
+     "name": "junction box, south wall",
+     "kind": "box",
+     "test": true,
+     "px": 2745,
+     "step2": {
+      "status": "clear",
+      "clearPx": 60
+     },
+     "step3": {
+      "status": "clear",
+      "clearPx": 60
+     },
+     "pxWithin15": {
+      "step2": 0,
+      "step3": 0
+     }
+    },
+    {
+     "name": "junction box, far right",
+     "kind": "box",
+     "test": true,
+     "px": 6161,
+     "step2": {
+      "status": "clear",
+      "clearPx": 60
+     },
+     "step3": {
+      "status": "clear",
+      "clearPx": 60
+     },
+     "pxWithin15": {
+      "step2": 0,
+      "step3": 0
+     }
+    },
+    {
+     "name": "papers: clip",
+     "kind": "papers",
+     "test": true,
+     "px": 352,
+     "step2": {
+      "status": "inside",
+      "insidePx": 15
+     },
+     "step3": {
+      "status": "repainted in step 2"
+     },
+     "pxWithin15": {
+      "step2": 0,
+      "step3": 0
+     }
+    },
+    {
+     "name": "papers: large sheet",
+     "kind": "papers",
+     "test": true,
+     "px": 7403,
+     "step2": {
+      "status": "inside",
+      "insidePx": 19
+     },
+     "step3": {
+      "status": "repainted in step 2"
+     },
+     "pxWithin15": {
+      "step2": 0,
+      "step3": 0
+     }
+    },
+    {
+     "name": "papers: small sheet",
+     "kind": "papers",
+     "test": true,
+     "px": 2386,
+     "step2": {
+      "status": "inside",
+      "insidePx": 13
+     },
+     "step3": {
+      "status": "repainted in step 2"
+     },
+     "pxWithin15": {
+      "step2": 15,
+      "step3": 0
+     },
+     "exception": [
+      {
+       "where": "its lower right corner",
+       "for": "the Lead's decision",
+       "why": "The small sheet's corner (x 523 at y 790) and the grille (x 553) are 28 px apart, so no edge can be 15 px from both. The grille keeps its 15 px: the cabinet's edge passes 13 px beyond the sheet's corner and 17 px beyond its edge higher up. The sheet is behind the cabinet, so none of it shows.",
+       "pxWithin15": 15
+      }
+     ]
+    },
+    {
+     "name": "rail above the lockers",
+     "kind": "rail",
+     "test": false,
+     "px": 6591,
+     "step2": {
+      "status": "clear",
+      "clearPx": 4
+     },
+     "step3": {
+      "status": "clear",
+      "clearPx": 60
+     },
+     "pxWithin15": {
+      "step2": 2719,
+      "step3": 0
+     }
+    },
+    {
+     "name": "pipes above",
+     "kind": "pipes",
+     "test": false,
+     "px": 13693,
+     "step2": {
+      "status": "clear",
+      "clearPx": 17
+     },
+     "step3": {
+      "status": "clear",
+      "clearPx": 60
+     },
+     "pxWithin15": {
+      "step2": 0,
+      "step3": 0
+     }
+    },
+    {
+     "name": "riveted plate and ledge",
+     "kind": "panel",
+     "test": false,
+     "px": 8502,
+     "step2": {
+      "status": "clear",
+      "clearPx": 12
+     },
+     "step3": {
+      "status": "clear",
+      "clearPx": 60
+     },
+     "pxWithin15": {
+      "step2": 40,
+      "step3": 0
+     }
+    },
+    {
+     "name": "narrow panel",
+     "kind": "panel",
+     "test": false,
+     "px": 5265,
+     "step2": {
+      "status": "inside",
+      "insidePx": 16
+     },
+     "step3": {
+      "status": "repainted in step 2"
+     },
+     "pxWithin15": {
+      "step2": 0,
+      "step3": 0
+     }
+    },
+    {
+     "name": "lower panel",
+     "kind": "panel",
+     "test": false,
+     "px": 6160,
+     "step2": {
+      "status": "inside",
+      "insidePx": 38
+     },
+     "step3": {
+      "status": "repainted in step 2"
+     },
+     "pxWithin15": {
+      "step2": 0,
+      "step3": 0
+     }
+    },
+    {
+     "name": "square panel",
+     "kind": "panel",
+     "test": false,
+     "px": 3852,
+     "step2": {
+      "status": "crosses",
+      "pxInside": 2483,
+      "pxOutside": 1369
+     },
+     "step3": {
+      "status": "clear",
+      "clearPx": 60
+     },
+     "pxWithin15": {
+      "step2": 1844,
+      "step3": 0
+     }
+    },
+    {
+     "name": "corner pipes",
+     "kind": "pipes",
+     "test": false,
+     "px": 18420,
+     "step2": {
+      "status": "clear",
+      "clearPx": 60
+     },
+     "step3": {
+      "status": "clear",
+      "clearPx": 60
+     },
+     "pxWithin15": {
+      "step2": 0,
+      "step3": 0
+     }
+    },
+    {
+     "name": "left pipe",
+     "kind": "pipes",
+     "test": false,
+     "px": 21500,
+     "step2": {
+      "status": "clear",
+      "clearPx": 15
+     },
+     "step3": {
+      "status": "clear",
+      "clearPx": 60
+     },
+     "pxWithin15": {
+      "step2": 0,
+      "step3": 0
+     }
+    }
+   ],
+   "step3InsidePlainWallPx": 49,
+   "exceptions": [
+    {
+     "name": "locker bank",
+     "parts": [
+      {
+       "where": "its top",
+       "for": "the Lead's decision",
+       "why": "The rail above the lockers (not on the list) runs 12 to 14 px above their top, and under the upper junction box only 21 to 31 px separate the box's foot from the lockers' top. The box keeps its 15 px (17); the edge runs in the strip of plain wall between rail and lockers, about 6 px from each.",
+       "pxWithin15": 2287
+      },
+      {
+       "where": "its foot",
+       "for": "the Lead's decision",
+       "why": "Between x 128 and 205 the lockers' foot outline and the lower junction box are 13 to 15 rows apart, the outline running straight into its own shadow. The box keeps its 15 px: the outline's lowest one or two rows stay outside the mask there, on the top of the shadow band, which step 2 leaves; further right the foot is covered by 0 to 5 px, the pipe run 19 px below.",
+       "pxWithin15": 3490
+      }
+     ]
+    },
+    {
+     "name": "papers: small sheet",
+     "parts": [
+      {
+       "where": "its lower right corner",
+       "for": "the Lead's decision",
+       "why": "The small sheet's corner (x 523 at y 790) and the grille (x 553) are 28 px apart, so no edge can be 15 px from both. The grille keeps its 15 px: the cabinet's edge passes 13 px beyond the sheet's corner and 17 px beyond its edge higher up. The sheet is behind the cabinet, so none of it shows.",
+       "pxWithin15": 15
+      }
+     ]
+    }
+   ],
+   "noted": [
+    {
+     "name": "rail above the lockers",
+     "step2": {
+      "status": "clear",
+      "clearPx": 4
+     },
+     "pxWithin15": 2719
+    },
+    {
+     "name": "riveted plate and ledge",
+     "step2": {
+      "status": "clear",
+      "clearPx": 12
+     },
+     "pxWithin15": 40
+    },
+    {
+     "name": "square panel",
+     "step2": {
+      "status": "crosses",
+      "pxInside": 2483,
+      "pxOutside": 1369
+     },
+     "pxWithin15": 1844
+    }
+   ],
+   "lights": [
+    {
+     "name": "small light, far right",
+     "box": [
+      940,
+      526,
+      967,
+      538
+     ],
+     "step2ClearPx": 60,
+     "step3ClearPx": 60
+    },
+    {
+     "name": "the junction box's light",
+     "box": [
+      236,
+      550,
+      254,
+      558
+     ],
+     "step2ClearPx": 39,
+     "step3ClearPx": 60
+    },
+    {
+     "name": "small light, lower right",
+     "box": [
+      704,
+      790,
+      713,
+      794
+     ],
+     "step2ClearPx": 60,
+     "step3ClearPx": 60
+    },
+    {
+     "name": "the lower junction box's light",
+     "box": [
+      174,
+      970,
+      190,
+      977
+     ],
+     "step2ClearPx": 54,
+     "step3ClearPx": 60
+    }
+   ],
+   "pairs": {
+    "back plain wall": {
+     "pipe run": {
+      "status": "clear",
+      "clearPx": 19
+     },
+     "pipe clamp, left": {
+      "status": "clear",
+      "clearPx": 15
+     },
+     "locker bank": {
+      "status": "crosses",
+      "pxInside": 63364,
+      "pxOutside": 73
+     },
+     "grille": {
+      "status": "clear",
+      "clearPx": 56
+     },
+     "junction box, upper": {
+      "status": "clear",
+      "clearPx": 17
+     },
+     "junction box, lower": {
+      "status": "clear",
+      "clearPx": 15
+     },
+     "papers: clip": {
+      "status": "crosses",
+      "pxInside": 144,
+      "pxOutside": 208
+     },
+     "papers: large sheet": {
+      "status": "clear",
+      "clearPx": 1
+     },
+     "rail above the lockers": {
+      "status": "clear",
+      "clearPx": 4
+     },
+     "pipes above": {
+      "status": "clear",
+      "clearPx": 17
+     },
+     "riveted plate and ledge": {
+      "status": "clear",
+      "clearPx": 12
+     },
+     "narrow panel": {
+      "status": "inside",
+      "insidePx": 13
+     },
+     "lower panel": {
+      "status": "crosses",
+      "pxInside": 3840,
+      "pxOutside": 2320
+     },
+     "square panel": {
+      "status": "crosses",
+      "pxInside": 294,
+      "pxOutside": 3558
+     },
+     "left pipe": {
+      "status": "clear",
+      "clearPx": 15
+     }
+    },
+    "E hatch lid": {
+     "pipe run": {
+      "status": "clear",
+      "clearPx": 20
+     },
+     "pipe clamp, left": {
+      "status": "clear",
+      "clearPx": 28
+     },
+     "junction box, lower": {
+      "status": "clear",
+      "clearPx": 39
+     }
+    },
+    "E floor hatch": {},
+    "C electrical cabinet": {
+     "pipe run": {
+      "status": "clear",
+      "clearPx": 29
+     },
+     "pipe clamp, left": {
+      "status": "clear",
+      "clearPx": 28
+     },
+     "pipe clamp, middle": {
+      "status": "clear",
+      "clearPx": 27
+     },
+     "pipe clamp, right": {
+      "status": "clear",
+      "clearPx": 30
+     },
+     "locker bank": {
+      "status": "clear",
+      "clearPx": 21
+     },
+     "grille": {
+      "status": "clear",
+      "clearPx": 15
+     },
+     "papers: clip": {
+      "status": "inside",
+      "insidePx": 8
+     },
+     "papers: large sheet": {
+      "status": "inside",
+      "insidePx": 19
+     },
+     "papers: small sheet": {
+      "status": "inside",
+      "insidePx": 13
+     },
+     "rail above the lockers": {
+      "status": "clear",
+      "clearPx": 29
+     },
+     "pipes above": {
+      "status": "clear",
+      "clearPx": 22
+     },
+     "riveted plate and ledge": {
+      "status": "clear",
+      "clearPx": 16
+     },
+     "narrow panel": {
+      "status": "crosses",
+      "pxInside": 2269,
+      "pxOutside": 2996
+     },
+     "lower panel": {
+      "status": "crosses",
+      "pxInside": 4720,
+      "pxOutside": 1440
+     },
+     "square panel": {
+      "status": "crosses",
+      "pxInside": 2483,
+      "pxOutside": 1369
+     }
+    },
+    "E toolbox": {},
+    "wall food capsule (step 3)": {
+     "locker bank": {
+      "status": "crosses",
+      "pxInside": 12139,
+      "pxOutside": 51298
+     },
+     "narrow panel": {
+      "status": "clear",
+      "clearPx": 54
+     },
+     "lower panel": {
+      "status": "clear",
+      "clearPx": 58
+     }
+    }
+   }
+  },
+  "plainWall": {
+   "file": "plainA.json",
+   "sha256": "6ba68b14fc442205db83172f9bd2ce1551d10a2e6d78d1d00c63c3701d0b0452",
+   "drawnPx": 85725,
+   "splitPx": 76485,
+   "share": 0.0545
+  },
+  "features": {
+   "file": "featuresA.json",
+   "sha256": "84f5d28a32a8f5e4cfea5d2a40fec179963657a10816fe6040ae1403017228a8",
+   "picture": {
+    "name": "RA-A-1",
+    "sha256": "a565b6e01dec5a51fcedca90ace0331e657c09864411eba032cbe14021d4d635",
+    "aiGenerated": true
+   }
+  }
+ }
+}

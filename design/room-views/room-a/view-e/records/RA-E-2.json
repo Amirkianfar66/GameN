@@ -1,0 +1,155 @@
+{
+ "piece": "RA-E",
+ "pass": "step 2, PLACE, one masked edit of RA-E-1",
+ "attempt": 2,
+ "generated": true,
+ "label": "AI-generated image",
+ "runner": "Designer team Image builder (Claude Code session)",
+ "tool": "OpenAI Images API, POST /v1/images/edits (one input image with an RGBA mask)",
+ "date": "2026-11-27T19:12:55+00:00",
+ "request_id": "req_73a9fbe2af7644d6bdc9a2e7837d903f",
+ "authority": "the Lead's go of 27 November 2026 (about 19:12 UTC) for view E's step 2 (RA-E-2), one masked edit on RA-E-1, sheet RA-E v2",
+ "sheet": {
+  "page": "Room A sheet RA-E",
+  "version": "1795806629-b28d",
+  "manifest": {
+   "sha256": "95acae6c67815077d22b0eaca2bc7953cc928893e53be18dd4d4da3fee08195b"
+  },
+  "prompts": {
+   "sha256": "78dafd58e911d885a87df6b3cb718858b13f7827cf599484376b96feeab28367"
+  }
+ },
+ "tools": {
+  "re1_tools.py": "ebaad5694204cf0869fb679460f8655f0be1f2ca027c18c81cf4ae79bae3a363",
+  "colour-check-ra1.py": "c882f4f8259b44bf8d689021daa2e5b0e8f028539cc076cc457fe144f582dbd2",
+  "lift5.py": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+  "kitCheck": "all files and expected hashes match"
+ },
+ "prompt_key": "s2",
+ "prompt": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool blue-steel shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom A, the crew bay, in the same illustrated world: blue steel, lit warm. The whole room is one blue-steel family, the colours of the attached guide: deep navy in the shadows and corners (#14243F, #1D3D6B), steel blue on the walls and the deck (#2D609E), turning paler where the light falls (#5C92CC, #A9CAEB). The light is warm: the two light bars glow cream along their length (#FCE3A0), with a warm paper-white glow (#F4EBDD) on the ceiling around them and soft pools of pale light on the deck below. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige, olive, purple or violet. The shadows are deep navy, never black-brown or grey. Labels and paper are blank, in a warm paper white (#F4EBDD). Small indicator lights are warm orange (#EC793C); no other coloured light, and no green, purple or red light. Each indicator is a single small dot, never several in a row or a column. Practical and worn, a working bay, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked areas, and leave everything outside them exactly as it is. The two masked areas hold two pieces of furniture, each filling its own area exactly, painted in full detail in the picture's style and light. Paint each piece whole, with a crisp drawn outline all round it and its frame closed on every side: nothing fades softly into the wall or the deck at an area's edge. On the left, mounted on the left-hand wall about 0.8 m above the deck and cut off by the picture's left edge: a steel electrical cabinet about 1.15 m tall, with no door, its front, seen at a slant, open on rows of breakers and neatly bundled cables, every cable in its place and none hanging loose. On the right, against the right-hand wall and cut off by the picture's right edge: two closed steel crates, a long low one with a smaller one on top, held by straps. The upper crate's top face stays clear: nothing lies or stands on it, because code adds the parcel Atlas lifts.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+ "prompt_sha256": "fe60e96cfd00c65f8c01f241f1519bf4899deee59bbe51812a85fa2dd63a1407",
+ "revised_prompt": null,
+ "inputs": {
+  "picture": {
+   "file": "RA-E-1.png",
+   "sha256": "e0d928ef4c1dabd3968b20568bd0d6e3f923682df7f6d938c61bd26cb2d0730f"
+  },
+  "sentImage": {
+   "file": "RA-E-2-S2-input.png",
+   "sha256": "679627143c1fdb14cfefbc34db061cf5a5b3dee2301e2ef1ca5a5a073456a787"
+  },
+  "sentMask": {
+   "file": "RA-E-2-S2-mask.png",
+   "sha256": "a14653475bfb45060a9a78deae7dcc4c1532e3368509a90960ffd81c3b72ff0d",
+   "convention": "alpha 0 = repaint",
+   "maskedShare": 0.071,
+   "rawMaskAlpha": "074b0a9bcdf73739847764e4dc93c940452a00e7275d432969e7ff018a2cf2c1"
+  },
+  "guide": {
+   "file": "img/ra-E-guide.png",
+   "sha256": "ca39c107e76b0ccc940a1ebe5dc412375af38e6b65df629223a246f5f27b4bc1"
+  },
+  "placeMask": {
+   "file": "img/ra-E-place.png",
+   "sha256": "973550c2f32612b185e4994e9c8134c5f157984f48407e71714cad3b533fc366"
+  },
+  "split": {
+   "file": "img/ra-E-split.png",
+   "sha256": "47644893ea0bc866fd3861a45488bb4df04dad5885add061e7090b5887191988"
+  }
+ },
+ "settings": {
+  "size": "1024x1536",
+  "quality": "high",
+  "n": 1,
+  "seed": null
+ },
+ "output": {
+  "raw": {
+   "file": "RA-E-2-raw.png",
+   "sha256": "d33ed69614725431ef2172494c74952fad39726a64c6e64dcf18a53a66222d73"
+  },
+  "kept": {
+   "file": "RA-E-2.png",
+   "sha256": "eeadc937bf93f79152a5e0e6d8aee77816d4a8d845d45bdf88bce65fbfae9b95",
+   "how": "the raw edit over RA-E-1 inside the PLACE mask, feathered by a 2 px Gaussian (re1_tools.py keep)"
+  },
+  "retouched": false
+ },
+ "usage": {
+  "input_tokens": 2335,
+  "input_tokens_details": {
+   "image_tokens": 1536,
+   "text_tokens": 799
+  },
+  "output_tokens": 1372,
+  "output_tokens_details": {
+   "image_tokens": 1372,
+   "text_tokens": 0
+  },
+  "total_tokens": 3707
+ },
+ "cost_usd_est": 0.0574,
+ "roomARunningTotal": {
+  "images": 16,
+  "usd": 0.9254,
+  "cap": 5
+ },
+ "terms": "Generated with OpenAI's image model under its Terms of Use as checked by the Lead (c8fbc793): the user owns the output; it is never presented as made by a person.",
+ "check": {
+  "by": "Image builder (re1_tools.py keep and colours with the step-2 map; the edges by eye on zooms with the mask outline, raw beside kept). Not the Designer's review.",
+  "colour": {
+   "pass": true,
+   "result": {
+    "walls and deck in the base": true,
+    "each wall and the deck in the base": true,
+    "orange capped": true,
+    "rust capped": true,
+    "no tan or olive": true,
+    "not purple": true,
+    "not grey": true,
+    "median lightness": true,
+    "accents only orange, cream, rust": true,
+    "openings flat black": true
+   }
+  },
+  "outsideMask": {
+   "grownBy": 4,
+   "maxAbsDiff": 2,
+   "meanAbsDiff": 0.0001
+  },
+  "byEye": "Misses point 1. Both pieces are whole in the raw, but the kept picture cuts them along the mask: the crates' left ends (the raw paints both crates' near-left corners and brackets about 20 px left of the mask's left edge, at x about 760 for the lower crate and 805 for the upper; the kept crates stop at the mask, their corner brackets missing); and the cabinet's right frame (the raw's open frame closes at x about 110; the mask's right edge is at x about 94-104, so the kept cabinet's right side is cut). Note for point 2: the raw's frame at x about 110 reaches about 3 px past the corner at x 107. Otherwise passes 2: the cabinet is on the left-hand wall about 0.8 m up, with no door, its front at a slant on rows of breakers and neatly bundled cables, none loose. Passes 3 apart from the cut: two closed strapped crates against the right-hand wall, the far end standing on the painted deck, the upper top clear. Passes 4: beyond the mask grown 4 px the kept picture differs from RA-E-1 by at most 2 levels (mean 0.0001). Passes 5: all 10 colour gates (base 0.888, median lightness 0.433); single dots; no people, words, logos or purple.",
+  "verdict": "held: the crates' left ends and the cabinet's right frame cut at the mask (whole in the raw)"
+ },
+ "review": {
+  "result": "held",
+  "by": "the Lead, 27 November 2026",
+  "plan": "The Lead, 27 November 2026: held was right; no re-run. The Rooms builder makes RA-E-2c, a code composite: it completes the crates' left ends and the cabinet's right frame from the raw (RA-E-2-raw.png, kept on this page with check/RA-E-2-cuts.png), and closes the frame at the painted corner if the raw's 3 px overrun reads wrong."
+ },
+ "successor": {
+  "name": "RA-E-2c",
+  "what": "view E's step-2 result, accepted by the Lead on 27 November 2026: a code composite made by the Rooms builder from two AI-generated pictures, RA-E-1 (e0d928ef…) and RA-E-2's raw (d33ed696…), with the crates' left ends and the cabinet's frame completed; no image call",
+  "sheet": {
+   "page": "Room A sheet RA-E",
+   "version": "1795814767-b067",
+   "record": {
+    "file": "composite-E2.json",
+    "sha256Prefix": "1b217ad68dd565e6a57a4cdadb054f37"
+   },
+   "tool": {
+    "file": "compositeE2.py",
+    "sha256Prefix": "aeda70b1f570fcad370ed038a660aea8"
+   },
+   "picture": {
+    "file": "img/ra-E-2c-full.png",
+    "sha256Prefix": "f7a84ce0dc676445a7965e20853cf437"
+   }
+  },
+  "note": "RA-E-2 itself stays held, as its base."
+ },
+ "copy": {
+  "of": "Room A Records (the image builder’s records page), version 1795828303-eac0, records/RA-E-2.json",
+  "originalSha256": "88f7f4e76b79def75d884176242f90e88c9e297a519b854ce76e1d51c44646a9",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

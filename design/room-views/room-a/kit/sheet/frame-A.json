@@ -1,0 +1,235 @@
+{
+ "sheet": "RA-A",
+ "version": 7,
+ "view": "A",
+ "step": 4,
+ "date": "2026-11-19",
+ "what": "the cabinet's right frame, drawn by code into the cabinet on RA-A-4: a steel post with three rivets, cut away around the second orange light; the soft fade outside it cleaned to RA-A-1's wall",
+ "drawnBy": "code",
+ "generated": false,
+ "decision": "the Lead, 19 November 2026, 13:59: step 4 failed twice (RA-A-5 and RA-A-6 extended the breaker rows into the strip and drew no frame); RA-A-4 stays view A's picture and the frame is drawn in code, as view C's dispenser edge was in Room B",
+ "tries": [
+  {
+   "name": "RA-A-5",
+   "sha256": "abee8d08a0ceead3e72d1d8aebcd3f819ee1e12b8c7290b6a5486e78c0b17cfa",
+   "frameOuterEdgeX": 546,
+   "clearPxToTheGrille": 6,
+   "pass": false
+  },
+  {
+   "name": "RA-A-6",
+   "sha256": "489db1882757121e3fde5c3931ee2f3629c3109c57dc7c31f17ec284a0ff047d",
+   "frameOuterEdgeX": 544,
+   "clearPxToTheGrille": 8,
+   "pass": false
+  }
+ ],
+ "kit": {
+  "file": "room-a-ra-a-s4.json",
+  "sha256": "6fc6fe86bb58b2d84f4c32da8af63b5d390b90b4beec9d7d4fa7f38fda7e819a",
+  "version": 6
+ },
+ "start": {
+  "name": "RA-A-4",
+  "file": "img/RA-A-4.png",
+  "sha256": "63c0ca59e2caf52d4082bffbb977b50c63ed4dea5e1302a7ef642c2fbb914500",
+  "aiGenerated": true
+ },
+ "wallFrom": {
+  "name": "RA-A-1",
+  "file": "img/RA-A-1.png",
+  "sha256": "a565b6e01dec5a51fcedca90ace0331e657c09864411eba032cbe14021d4d635",
+  "aiGenerated": true
+ },
+ "layerFrom": {
+  "name": "the cabinet's step-2 layer",
+  "file": "img/RA-A-3-C-electrical-cabinet.png",
+  "sha256": "07114df95037978e45554d2c840619f75f439c9075d37dc4f4f715f971fb0e6b"
+ },
+ "post": {
+  "x": [
+   527,
+   537
+  ],
+  "y": [
+   639,
+   880
+  ],
+  "outerCornersRadius": 3.0,
+  "innerCornersRadius": 2,
+  "ink": {
+   "rgb": [
+    6,
+    18,
+    41
+   ],
+   "where": "x 536-537; rows 639-640 and 879-880; and the inner side of the foot below the ledge (x 527-528, from row 866)"
+  },
+  "steel": {
+   "rgb": [
+    31,
+    68,
+    109
+   ],
+   "grain": "the left frame's own steel: its brightness at x 360-367, mirrored, less its median, within 14; rows below 830 mirrored back up, away from its stencilled letters (rows 840-865)"
+  },
+  "lighterColumn": {
+   "rgb": [
+    39,
+    82,
+    128
+   ],
+   "x": 528
+  },
+  "innerEdge": {
+   "rgb": [
+    18,
+    39,
+    69
+   ],
+   "x": 527,
+   "alsoAround": "the cut for the light"
+  },
+  "lightTopEdge": {
+   "rgb": [
+    150,
+    157,
+    173
+   ],
+   "row": 641
+  },
+  "rivets": {
+   "centres": [
+    [
+     531.5,
+     683.5
+    ],
+    [
+     531.5,
+     765.5
+    ],
+    [
+     531.5,
+     871.5
+    ]
+   ],
+   "radius": 3.2,
+   "colours": {
+    "ring": [
+     30,
+     27,
+     37
+    ],
+    "head": [
+     190,
+     174,
+     142
+    ],
+    "shade": [
+     118,
+     102,
+     84
+    ],
+    "shine": [
+     246,
+     238,
+     214
+    ],
+    "centre": [
+     66,
+     52,
+     46
+    ]
+   }
+  },
+  "cutForTheLight": {
+   "x": [
+    527,
+    534
+   ],
+   "y": [
+    654,
+    668
+   ],
+   "why": "the second orange light and its rim (x 509-534, y 655-667; its warm pixels [511, 657, 532, 664]) stay whole as painted"
+  },
+  "ledge": {
+   "rows": [
+    859,
+    865
+   ],
+   "note": "the bottom frame's ledge meets the post's inner edge; below it the post's foot stands against the wall"
+  },
+  "from": "the left frame on RA-A-4, the median of rows 700 to 850: ink x 355-356 (5, 17, 40), steel x 357-370 (31, 68, 109), a lighter column x 371 (39, 82, 128), a groove x 372 (18, 39, 69), a highlight ridge x 374 (150, 157, 173); rivets at (382, 625) and (382, 872)"
+ },
+ "wall": {
+  "x": [
+   538,
+   546
+  ],
+  "rows": [
+   630,
+   890
+  ],
+  "from": "RA-A-1, the start picture of the lift (the wall the cabinet was painted on)"
+ },
+ "rule": {
+  "grilleEdgeX": 553,
+  "frameOuterEdgeAtMostX": 537,
+  "minClearPx": 15,
+  "how": "step 4's frame rule (room-a-ra-a-s4.json's frameRule), as ra2_tools.py frame4 measures it"
+ },
+ "checks": {
+  "changedOnlyInTheStrip": true,
+  "changedBox": [
+   527,
+   639,
+   542,
+   880
+  ],
+  "changedPx": 3609,
+  "lightWhole": true,
+  "lightPx": 284,
+  "outerEdgeByTheFrameRule": 537,
+  "outerEdgeBefore": 537,
+  "clearOfTheGrillePx": 15,
+  "wallEqualsRA-A-1": true,
+  "wallUnchangedOffTheCabinetRows": true,
+  "wallRowsCleaned": [
+   643,
+   862
+  ],
+  "rightOfTheWallUnchanged": true,
+  "leftOfThePostUnchanged": true,
+  "layerOverRA-A-1EqualsThePlate": {
+   "onThePostAndTheCleanedWall": 0,
+   "inTheWholeStripMax": 1,
+   "inTheWholeStripMean": 0.0006
+  }
+ },
+ "pass": true,
+ "outputs": {
+  "ra-A-4-frame.png": {
+   "what": "the plate: RA-A-4, AI-generated, with the code-drawn frame",
+   "sha256": "e7a218c924cc228efc3e019f4c9ca966d63208687b0ee927678769ba6d9460d4",
+   "pixelsSha256": "8f8d90c7a8ffabe55c7ed075a2979d445d07423ce0818a4f6eae5c5218877b90",
+   "size": [
+    1024,
+    1536
+   ],
+   "aiGenerated": true
+  },
+  "ra-A-cabinet-frame.png": {
+   "what": "the cabinet's step-2 layer with the frame drawn into it (RGBA)",
+   "sha256": "7e07daae05939ca8f3ca0e46a21ac8fb647694223ecc43494a2b2eb85e95630c",
+   "pixelsSha256": "09aeafd98029dd6fcf15eceb98b04bb5c94070cc757dc24e53f42277a7898da0",
+   "size": [
+    1024,
+    1536
+   ],
+   "aiGenerated": true
+  }
+ },
+ "note": "pixelsSha256 is of the decoded pixels (8-bit RGB or RGBA, row by row), which another Pillow writes the same; the PNG files' own sha256 may differ with another Pillow or zlib",
+ "units": "painting pixel indices (1024 x 1536), inclusive ranges; rivet centres in pixel coordinates (a pixel spans i to i + 1)"
+}

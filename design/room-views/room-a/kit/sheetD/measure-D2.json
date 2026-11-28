@@ -1,0 +1,744 @@
+{
+ "picture": {
+  "name": "RA-D-1",
+  "sha256": "c8842de16d63076fe69306b247bcc643b6dc5576f6c389364ce49bc970f2fe75",
+  "aiGenerated": true
+ },
+ "guide": {
+  "northFoot": {
+   "slope": -0.53726,
+   "intercept": 1230.9
+  },
+  "eastFoot": {
+   "slope": 0.2581,
+   "intercept": 795.35
+  },
+  "northSeam1": {
+   "slope": -0.92195,
+   "intercept": 1601.01
+  },
+  "eastSeam1": {
+   "slope": 0.3544,
+   "intercept": 825.71
+  },
+  "eastSeam0": {
+   "slope": 0.56535,
+   "intercept": 892.2
+  }
+ },
+ "northFoot": {
+  "how": "the foot of the wall's rust kick strip, every 4 px; a straight line through x 100-530",
+  "slope": -0.47397,
+  "intercept": 1217.33,
+  "readings": 92,
+  "of": 103,
+  "rmsPx": 0.67,
+  "readingsByX": {
+   "8": 1201,
+   "12": 1206,
+   "16": 1210,
+   "20": 1203,
+   "24": 1201,
+   "28": 1204,
+   "32": 1198,
+   "36": 1193,
+   "40": 1186,
+   "52": 1192,
+   "56": 1188,
+   "60": 1182,
+   "64": 1180,
+   "68": 1185,
+   "72": 1183,
+   "76": 1178,
+   "80": 1175,
+   "88": 1163,
+   "92": 1164,
+   "96": 1161,
+   "100": 1170,
+   "104": 1168,
+   "108": 1167,
+   "120": 1160,
+   "124": 1159,
+   "128": 1157,
+   "132": 1155,
+   "136": 1152,
+   "140": 1151,
+   "144": 1149,
+   "148": 1148,
+   "152": 1146,
+   "156": 1144,
+   "160": 1142,
+   "164": 1140,
+   "168": 1138,
+   "172": 1122,
+   "176": 1122,
+   "180": 1132,
+   "184": 1131,
+   "188": 1128,
+   "192": 1127,
+   "196": 1124,
+   "200": 1123,
+   "204": 1121,
+   "208": 1119,
+   "212": 1117,
+   "216": 1115,
+   "220": 1101,
+   "224": 1098,
+   "228": 1103,
+   "232": 1107,
+   "236": 1105,
+   "240": 1103,
+   "244": 1101,
+   "248": 1100,
+   "252": 1098,
+   "256": 1096,
+   "260": 1094,
+   "264": 1092,
+   "268": 1078,
+   "272": 1088,
+   "276": 1086,
+   "280": 1084,
+   "284": 1082,
+   "288": 1081,
+   "292": 1078,
+   "296": 1077,
+   "300": 1075,
+   "308": 1060,
+   "312": 1069,
+   "316": 1067,
+   "320": 1065,
+   "324": 1064,
+   "328": 1062,
+   "332": 1060,
+   "336": 1058,
+   "340": 1056,
+   "344": 1054,
+   "348": 1052,
+   "352": 1050,
+   "356": 1048,
+   "360": 1047,
+   "364": 1044,
+   "368": 1034,
+   "372": 1041,
+   "376": 1039,
+   "380": 1037,
+   "384": 1035,
+   "388": 1033,
+   "392": 1031,
+   "396": 1029,
+   "400": 1028,
+   "404": 1026,
+   "408": 1015,
+   "412": 1022,
+   "416": 1020,
+   "420": 1019,
+   "424": 1016,
+   "428": 1015,
+   "432": 1013,
+   "436": 1011,
+   "440": 1009,
+   "444": 1007,
+   "448": 1005,
+   "452": 1003,
+   "456": 1002,
+   "460": 1000,
+   "464": 998,
+   "468": 996,
+   "472": 989,
+   "476": 984,
+   "484": 988,
+   "488": 987,
+   "492": 985,
+   "496": 983,
+   "500": 981,
+   "504": 970,
+   "508": 977,
+   "512": 975,
+   "516": 973,
+   "520": 971,
+   "524": 970
+  },
+  "offsetByX": {
+   "100": -7.2,
+   "210": -0.3,
+   "320": 6.7,
+   "430": 13.6,
+   "540": 20.6
+  }
+ },
+ "eastFoot": {
+  "how": "the foot of the wall's rust kick strip, every 4 px; a straight line through x 600-1010",
+  "slope": 0.1535,
+  "intercept": 881.81,
+  "readings": 70,
+  "of": 89,
+  "rmsPx": 0.83,
+  "readingsByX": {
+   "556": 967,
+   "568": 961,
+   "572": 961,
+   "576": 970,
+   "580": 971,
+   "584": 971,
+   "588": 972,
+   "592": 963,
+   "596": 965,
+   "608": 968,
+   "612": 976,
+   "616": 976,
+   "620": 977,
+   "624": 977,
+   "628": 972,
+   "632": 969,
+   "636": 970,
+   "640": 971,
+   "644": 980,
+   "648": 981,
+   "652": 982,
+   "656": 982,
+   "660": 983,
+   "664": 984,
+   "668": 984,
+   "672": 985,
+   "680": 978,
+   "684": 987,
+   "688": 987,
+   "692": 988,
+   "696": 988,
+   "700": 989,
+   "708": 984,
+   "712": 991,
+   "716": 992,
+   "720": 984,
+   "724": 993,
+   "728": 994,
+   "732": 986,
+   "736": 989,
+   "740": 995,
+   "744": 996,
+   "748": 997,
+   "752": 997,
+   "756": 998,
+   "760": 999,
+   "764": 999,
+   "768": 1000,
+   "772": 1001,
+   "780": 1002,
+   "784": 995,
+   "788": 1003,
+   "792": 1004,
+   "796": 1004,
+   "800": 1005,
+   "804": 1006,
+   "808": 1006,
+   "812": 1007,
+   "816": 1007,
+   "824": 1000,
+   "828": 1009,
+   "832": 1010,
+   "836": 1010,
+   "840": 1011,
+   "844": 1012,
+   "848": 1012,
+   "852": 1013,
+   "856": 1014,
+   "868": 1015,
+   "872": 1016,
+   "876": 1012,
+   "880": 1017,
+   "884": 1018,
+   "888": 1018,
+   "892": 1019,
+   "896": 1020,
+   "900": 1020,
+   "904": 1021,
+   "908": 1021,
+   "912": 1022,
+   "916": 1023,
+   "932": 1017,
+   "940": 1023,
+   "944": 1021,
+   "948": 1028,
+   "952": 1028,
+   "956": 1029,
+   "960": 1026,
+   "964": 1030,
+   "968": 1031,
+   "972": 1025,
+   "976": 1032,
+   "984": 1033,
+   "988": 1034,
+   "992": 1024,
+   "1000": 1026,
+   "1004": 1029,
+   "1008": 1029,
+   "1012": 1027,
+   "1016": 1029
+  },
+  "offsetByX": {
+   "560": 27.9,
+   "670": 16.4,
+   "780": 4.9,
+   "890": -6.6,
+   "1000": -18.1
+  }
+ },
+ "northSeam1": {
+  "how": "the darkest straight line within 40 px of the guide's",
+  "x0": 120,
+  "x1": 560,
+  "slope": -0.87195,
+  "intercept": 1575.01,
+  "meanLum": 49.2,
+  "offsetByX": {
+   "100": -21.0,
+   "210": -15.5,
+   "320": -10.0,
+   "430": -4.5,
+   "540": 1.0
+  }
+ },
+ "eastSeam1": {
+  "how": "the darkest straight line within 40 px of the guide's",
+  "x0": 600,
+  "x1": 1000,
+  "slope": 0.2324,
+  "intercept": 904.91,
+  "meanLum": 58.4,
+  "offsetByX": {
+   "560": 10.9,
+   "670": -2.5,
+   "780": -16.0,
+   "890": -29.4,
+   "1000": -42.8
+  }
+ },
+ "eastSeam0": {
+  "how": "the darkest straight line within 40 px of the guide's",
+  "x0": 330,
+  "x1": 1000,
+  "slope": 0.52135,
+  "intercept": 926.72,
+  "meanLum": 39.7,
+  "offsetByX": {
+   "560": 9.9,
+   "670": 5.0,
+   "780": 0.2,
+   "890": -4.6,
+   "1000": -9.5
+  }
+ },
+ "corner": {
+  "painted": [
+   534.7,
+   963.9
+  ],
+  "guide": [
+   547.61,
+   936.69
+  ],
+  "how": "where the two painted wall feet's lines meet"
+ },
+ "feet": [
+  {
+   "name": "Vega",
+   "anchor": [
+    241.46,
+    1323.81
+   ],
+   "onDeck": [
+    -0.813,
+    0,
+    1.125
+   ],
+   "lines": [
+    "northFoot",
+    "northSeam1"
+   ],
+   "fraction": 0.803,
+   "paintedY": 1313.0,
+   "offsetPx": -10.8,
+   "moved": true,
+   "movedTo": [
+    241.46,
+    1313.0
+   ],
+   "rule": "the Lead: move a foot line more than 8 px off, and record all four"
+  },
+  {
+   "name": "Echo",
+   "anchor": [
+    839.69,
+    1085.2
+   ],
+   "onDeck": [
+    1.275,
+    0,
+    0.028
+   ],
+   "lines": [
+    "eastFoot",
+    "eastSeam1"
+   ],
+   "fraction": 0.657,
+   "paintedY": 1069.4,
+   "offsetPx": -15.8,
+   "moved": true,
+   "movedTo": [
+    839.69,
+    1069.4
+   ],
+   "rule": "the Lead: move a foot line more than 8 px off, and record all four"
+  },
+  {
+   "name": "Lyra",
+   "anchor": [
+    500.35,
+    1059.34
+   ],
+   "onDeck": [
+    0.563,
+    0,
+    1.325
+   ],
+   "lines": [
+    "northFoot",
+    "northSeam1"
+   ],
+   "fraction": 0.548,
+   "paintedY": 1067.0,
+   "offsetPx": 7.7,
+   "moved": false,
+   "rule": "the Lead: move a foot line more than 8 px off, and record all four"
+  },
+  {
+   "name": "capsule visitors",
+   "what": "where a visitor stands at the food capsule (stageA.mjs's VISIT: side-on to the east wall, the unit at the right hand)",
+   "anchor": [
+    612.88,
+    995.62
+   ],
+   "onDeck": [
+    1.45,
+    0,
+    1.2
+   ],
+   "lines": [
+    "eastFoot",
+    "eastSeam1"
+   ],
+   "fraction": 0.471,
+   "paintedY": 1009.5,
+   "offsetPx": 13.9,
+   "crossCheck": {
+    "lines": [
+     "northFoot",
+     "northSeam1"
+    ],
+    "fraction": 0.7,
+    "offsetPx": 10.8,
+    "note": "the north wall's lines run past the painted corner here, so this is a cross-check only"
+   },
+   "moved": true,
+   "movedTo": [
+    612.88,
+    1009.5
+   ],
+   "rule": "the Lead: move a foot line more than 8 px off, and record all four"
+  }
+ ],
+ "floorPoints": [
+  {
+   "object": "PC desk",
+   "world": [
+    -1.66,
+    0,
+    1.45
+   ],
+   "px": [
+    -296.72,
+    1591.75
+   ],
+   "left": "outside the picture"
+  },
+  {
+   "object": "PC desk",
+   "world": [
+    -0.36,
+    0,
+    1.45
+   ],
+   "px": [
+    313.41,
+    1166.31
+   ],
+   "lines": [
+    "northFoot",
+    "northSeam1"
+   ],
+   "fraction": 0.416,
+   "offsetPx": -0.6,
+   "moved": false
+  },
+  {
+   "object": "PC desk",
+   "world": [
+    -0.36,
+    0,
+    2
+   ],
+   "px": [
+    230.82,
+    1106.88
+   ],
+   "lines": [
+    "northFoot",
+    "northSeam1"
+   ],
+   "fraction": -0.0,
+   "offsetPx": 1.0,
+   "moved": false
+  },
+  {
+   "object": "PC desk",
+   "world": [
+    -1.66,
+    0,
+    2
+   ],
+   "px": [
+    -300.91,
+    1392.56
+   ],
+   "left": "outside the picture"
+  },
+  {
+   "object": "floor hatch",
+   "world": [
+    0.13,
+    0,
+    0.65
+   ],
+   "px": [
+    580.19,
+    1183.85
+   ],
+   "lines": [
+    "eastSeam1",
+    "eastSeam0"
+   ],
+   "fraction": 0.807,
+   "offsetPx": 8.9,
+   "moved": true,
+   "to": [
+    580.19,
+    1192.73
+   ]
+  },
+  {
+   "object": "floor hatch",
+   "world": [
+    1.13,
+    0,
+    0.65
+   ],
+   "px": [
+    686.8,
+    1052.68
+   ],
+   "lines": [
+    "eastFoot",
+    "eastSeam1"
+   ],
+   "fraction": 0.83,
+   "offsetPx": -1.3,
+   "moved": false
+  },
+  {
+   "object": "floor hatch",
+   "world": [
+    1.13,
+    0.012,
+    0.65
+   ],
+   "px": [
+    686.8,
+    1050.14
+   ],
+   "lines": [
+    "eastFoot",
+    "eastSeam1"
+   ],
+   "fraction": 0.803,
+   "offsetPx": -0.8,
+   "moved": false
+  },
+  {
+   "object": "floor hatch",
+   "world": [
+    0.13,
+    0.012,
+    0.65
+   ],
+   "px": [
+    580.19,
+    1180.32
+   ],
+   "lines": [
+    "eastSeam1",
+    "eastSeam0"
+   ],
+   "fraction": 0.789,
+   "offsetPx": 8.9,
+   "moved": true,
+   "to": [
+    580.19,
+    1189.19
+   ]
+  },
+  {
+   "object": "floor hatch",
+   "world": [
+    1.13,
+    0,
+    1.15
+   ],
+   "px": [
+    593.26,
+    1021.06
+   ],
+   "lines": [
+    "eastFoot",
+    "eastSeam1"
+   ],
+   "fraction": 0.83,
+   "offsetPx": 9.8,
+   "moved": true,
+   "to": [
+    593.26,
+    1030.88
+   ]
+  },
+  {
+   "object": "floor hatch",
+   "world": [
+    1.13,
+    0.012,
+    1.15
+   ],
+   "px": [
+    593.26,
+    1018.76
+   ],
+   "lines": [
+    "eastFoot",
+    "eastSeam1"
+   ],
+   "fraction": 0.803,
+   "offsetPx": 10.3,
+   "moved": true,
+   "to": [
+    593.26,
+    1029.04
+   ]
+  },
+  {
+   "object": "floor hatch",
+   "world": [
+    0.13,
+    0,
+    1.15
+   ],
+   "px": [
+    468.27,
+    1125.12
+   ],
+   "lines": [
+    "eastSeam1",
+    "eastSeam0"
+   ],
+   "fraction": 0.807,
+   "offsetPx": 15.5,
+   "moved": true,
+   "to": [
+    468.27,
+    1140.61
+   ]
+  },
+  {
+   "object": "floor hatch",
+   "world": [
+    0.13,
+    0.012,
+    1.15
+   ],
+   "px": [
+    468.27,
+    1122.04
+   ],
+   "lines": [
+    "eastSeam1",
+    "eastSeam0"
+   ],
+   "fraction": 0.789,
+   "offsetPx": 15.6,
+   "moved": true,
+   "to": [
+    468.27,
+    1137.68
+   ]
+  },
+  {
+   "object": "hatch lid",
+   "world": [
+    1.13,
+    0.02,
+    0.65
+   ],
+   "px": [
+    686.8,
+    1048.45
+   ],
+   "lines": [
+    "eastFoot",
+    "eastSeam1"
+   ],
+   "fraction": 0.786,
+   "offsetPx": -0.5,
+   "moved": false
+  },
+  {
+   "object": "hatch lid",
+   "world": [
+    1.13,
+    0.02,
+    1.15
+   ],
+   "px": [
+    593.26,
+    1017.22
+   ],
+   "lines": [
+    "eastFoot",
+    "eastSeam1"
+   ],
+   "fraction": 0.786,
+   "offsetPx": 10.6,
+   "moved": true,
+   "to": [
+    593.26,
+    1027.81
+   ]
+  }
+ ],
+ "leadsFigures": {
+  "Vega": 13,
+  "Lyra": 17,
+  "Echo": -1,
+  "capsule visitors": [
+   20,
+   29
+  ],
+  "what": "the Lead's figures, from RA-D-1's base readings, for comparison"
+ }
+}

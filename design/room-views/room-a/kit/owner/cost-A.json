@@ -1,0 +1,45 @@
+{
+ "pictures": [
+  {
+   "name": "RA-A-1",
+   "usd": "0.0583",
+   "result": "accepted as view A's step 1 (option (c))"
+  },
+  {
+   "name": "RA-A-2",
+   "usd": "0.0577",
+   "result": "rejected"
+  },
+  {
+   "name": "RA-A-3",
+   "usd": "0.0577",
+   "result": "accepted as view A's step 2"
+  },
+  {
+   "name": "RA-A-4",
+   "usd": "0.0572",
+   "result": "accepted as view A's step 3"
+  },
+  {
+   "name": "RA-A-5",
+   "usd": "0.0553",
+   "result": "rejected"
+  },
+  {
+   "name": "RA-A-6",
+   "usd": "0.0553",
+   "result": "rejected"
+  }
+ ],
+ "used": 6,
+ "usedExact": "0.3415",
+ "usedUsd": "0.34",
+ "averageUsd": "0.0569",
+ "planned": 9,
+ "plannedExact": "0.5123",
+ "plannedUsd": "0.51",
+ "most": 15,
+ "mostExact": "0.8538",
+ "mostUsd": "0.85",
+ "source": "the image session's records, version 1795096800-0c3e: each record's cost_usd_est and roomARunningTotal"
+}

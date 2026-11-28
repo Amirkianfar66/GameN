@@ -1,0 +1,68 @@
+{
+ "note": "The pictures Room B test page v5 shows (the room half of PV6-A): the plate is PV6-A-2, the empty room; the four pieces are the layers lifted from PV6-A-3 inside its PLACE mask, drawn by depth; PV6-A-3 itself is used only to check that the room and its layers rebuild it. All are from the records page and are checked by hash in make6a.sh.",
+ "view": "A",
+ "records": {
+  "version": "1794975496-c1f4",
+  "accepted": "the Lead, 18 November 2026: the PV6-A pictures are done and accepted"
+ },
+ "plate": {
+  "label": "PV6-A-2",
+  "file": "PV6-A-2.png",
+  "records": "img/PV6-A-2.png",
+  "sha256": "738061ae21931cabf70ba7e82ebb916c1dabcc5c2b16ac3bf6c65663d13783a5",
+  "record": {
+   "file": "_in/records/PV6-A-2.json",
+   "sha256": "76df6794aba6b7f554331fb57158ef9ae4d442617228bdafa7c1c629a16ea98b"
+  },
+  "what": "the empty room, step 1 (a re-run after PV6-A-1 failed): nothing standing on the deck, the skylight glass flat black"
+ },
+ "placed": {
+  "label": "PV6-A-3",
+  "file": "PV6-A-3.png",
+  "records": "img/PV6-A-3.png",
+  "sha256": "731ec58d6773dc0ae6fd17ec4e12bf7cecec92a8b66ff25f99408a1e6b76e4dc",
+  "record": {
+   "file": "_in/records/PV6-A-3.json",
+   "sha256": "60c53290394780324281e007801b39c89fba6ef40f5f525e902089368df79491"
+  },
+  "what": "the furnished room, step 2: one masked edit of PV6-A-2, kept inside the PLACE mask in code; for reference and the rebuild check only"
+ },
+ "layers": {
+  "record": {
+   "file": "_in/records/PV6-A-3-lift.json",
+   "sha256": "a79b7b7ec4dd84f56bd4d7d128bc720171d98ec1f4d8d2b3764332075863ce55"
+  },
+  "recipe": "the Lead's, 18 November: d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask",
+  "pieces": {
+   "E bench": {
+    "file": "_in/img/PV6-A-3-E-bench.png",
+    "records": "img/PV6-A-3-E-bench.png",
+    "sha256": "4bfa1856bf7f3be7b3d0bc9418fdc57563b6390bda8fd691f61b2765fae67c36"
+   },
+   "C console": {
+    "file": "_in/img/PV6-A-3-C-console.png",
+    "records": "img/PV6-A-3-C-console.png",
+    "sha256": "de3fc0ac61ba77700e5b7b3b7b9d12dc3cac832f87ce5a0b5723397eb420841b"
+   },
+   "B laptop cart": {
+    "file": "_in/img/PV6-A-3-B-laptop-cart.png",
+    "records": "img/PV6-A-3-B-laptop-cart.png",
+    "sha256": "c052446dc83dbae65425e5a8e6c594525ab6a7023251881b0a42beed1c4a403b"
+   },
+   "B stool": {
+    "file": "_in/img/PV6-A-3-B-stool.png",
+    "records": "img/PV6-A-3-B-stool.png",
+    "sha256": "288eaad1cfde75480643426d67aa856ac8f4e8e358e52f2413088d47d5bd3a6c"
+   }
+  }
+ },
+ "sheet": {
+  "step1": "1794973285-d61a",
+  "step2": "1794975250-9d28"
+ },
+ "camera": {
+  "report": "../pv6/camera-report.json",
+  "version": 4,
+  "sha256": "688a68a8272f62d64060bd0d5389e7cf890a192ae5bcc3b9a4072646f22bbc2e"
+ }
+}

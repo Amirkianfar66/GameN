@@ -1,0 +1,38 @@
+{
+ "layer": {
+  "file": "PV6-C-4-D-food-capsule.png",
+  "sha256": "1f646cfcdf4b55a5a7b6edd5f0e80fd1ef5963256d3adcb2a851f28c81a01d06"
+ },
+ "method": "the glass inside the bright rim (luminance above 60), from the seed [633, 804], holes filled, in the box [616, 786, 656, 817]",
+ "painting": {
+  "centre": [
+   631.7,
+   803.3
+  ],
+  "radius": 7.0,
+  "px": 154,
+  "bbox": [
+   625,
+   797,
+   638,
+   810
+  ],
+  "units": "pixel indices, as the records give points; the radius of the circle of the same area"
+ },
+ "phones": {
+  "390x844": {
+   "centre": [
+    249.9,
+    343.1
+   ],
+   "radius": 3.2
+  },
+  "430x932": {
+   "centre": [
+    275.5,
+    388.8
+   ],
+   "radius": 3.5
+  }
+ }
+}

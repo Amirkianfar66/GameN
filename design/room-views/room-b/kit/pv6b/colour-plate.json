@@ -1,0 +1,123 @@
+{
+ "picture": "PV6-A-2.png",
+ "map": "../pv6/pv6-A-empty-regions.png",
+ "method": "OKLCH",
+ "hueBand": [
+  285.0,
+  355.0
+ ],
+ "gates": {
+  "walls and deck in the base": "at least 60% of the wall and deck area: hue 285-355, chroma 0.035 or more, lightness 0.15 or more",
+  "each wall and the deck in the base": "at least 45% of each area on its own",
+  "orange capped": "at most 8% of the picture warm orange (hue 30-75, chroma 0.10 or more, lightness 0.60 or more)",
+  "rust capped": "at most 3% of the picture rust (hue 25-55, chroma 0.05-0.11, lightness 0.30-0.50)",
+  "no tan or olive": "at most 3% of the wall and deck area in hue 70-115 (chroma 0.035 or more, lightness 0.15-0.80)",
+  "not grey": "at most 15% of the wall and deck area neutral grey (chroma under 0.035, lightness 0.15 or more)",
+  "median lightness": "the median lightness of the wall and deck area between 0.30 and 0.60",
+  "accents only orange, cream, rust, blue-green": "at most 0.2% of the picture bright and saturated (lightness 0.55+, chroma 0.08+) outside hue 285-355, 355-105 and 170-235",
+  "openings flat black": "the window, the screen and the skylight: 95% of each opening under lightness 0.12"
+ },
+ "areas": {
+  "walls and deck": {
+   "pixels": 1003740,
+   "inBase": 0.786,
+   "tanOlive": 0.0,
+   "grey": 0.0006,
+   "tooDark": 0.0229,
+   "medianL": 0.395,
+   "onRamp": "between shadow (0.357) and mid (0.491)",
+   "medianChroma": 0.102,
+   "medianHueOfReadable": 328.1
+  },
+  "back wall": {
+   "pixels": 343304,
+   "inBase": 0.725,
+   "tanOlive": 0.0,
+   "grey": 0.001,
+   "tooDark": 0.0416,
+   "medianL": 0.374,
+   "onRamp": "between shadow (0.357) and mid (0.491)",
+   "medianChroma": 0.104,
+   "medianHueOfReadable": 320.7
+  },
+  "side walls": {
+   "pixels": 147888,
+   "inBase": 0.6939,
+   "tanOlive": 0.0,
+   "grey": 0.0014,
+   "tooDark": 0.0371,
+   "medianL": 0.394,
+   "onRamp": "between shadow (0.357) and mid (0.491)",
+   "medianChroma": 0.106,
+   "medianHueOfReadable": 322.2
+  },
+  "deck": {
+   "pixels": 512548,
+   "inBase": 0.8534,
+   "tanOlive": 0.0,
+   "grey": 0.0001,
+   "tooDark": 0.0063,
+   "medianL": 0.404,
+   "onRamp": "between shadow (0.357) and mid (0.491)",
+   "medianChroma": 0.101,
+   "medianHueOfReadable": 332.3
+  },
+  "window": {
+   "pixels": 0,
+   "p95L": null,
+   "medianL": null
+  },
+  "screen": {
+   "pixels": 0,
+   "p95L": null,
+   "medianL": null
+  },
+  "display": {
+   "pixels": 0,
+   "p95L": null,
+   "medianL": null
+  },
+  "liquid": {
+   "pixels": 0,
+   "p95L": null,
+   "medianL": null
+  },
+  "skylight": {
+   "pixels": 190995,
+   "p95L": 0.067,
+   "medianL": 0.0
+  },
+  "lamp": {
+   "pixels": 12401,
+   "p95L": 0.955,
+   "medianL": 0.605
+  }
+ },
+ "warm": {
+  "orange": 0.0383,
+  "rust": 0.0016,
+  "cream": 0.0111,
+  "blueGreen": 0.0001
+ },
+ "accents": {
+  "brightSaturated": 0.1059,
+  "strayShare": 0.00012,
+  "strayPixels": 188
+ },
+ "result": {
+  "walls and deck in the base": true,
+  "each wall and the deck in the base": true,
+  "orange capped": true,
+  "rust capped": true,
+  "accents only orange, cream, rust, blue-green": true,
+  "no tan or olive": true,
+  "not grey": true,
+  "median lightness": true,
+  "openings flat black": true
+ },
+ "absent": [
+  "window",
+  "screen"
+ ],
+ "pass": true
+}

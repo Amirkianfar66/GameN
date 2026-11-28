@@ -1,0 +1,540 @@
+{
+ "view": "C",
+ "inView": {
+  "window": false,
+  "screens": true,
+  "capsule": false,
+  "own": []
+ },
+ "pieces": [
+  {
+   "grey": 20,
+   "place": "D",
+   "name": "crates",
+   "step": 2,
+   "parts": [
+    "crate",
+    "crate"
+   ],
+   "depthM": 3.38,
+   "px": 37257,
+   "bbox": [
+    402,
+    814,
+    601,
+    1031
+   ],
+   "visibleCentreX": 499,
+   "visibleCentreY": 934,
+   "cutByEdge": false
+  },
+  {
+   "grey": 40,
+   "place": "A",
+   "name": "PC workstation",
+   "step": 2,
+   "parts": [
+    "PC desk",
+    "monitor"
+   ],
+   "depthM": 2.69,
+   "px": 40993,
+   "bbox": [
+    849,
+    810,
+    1024,
+    1157
+   ],
+   "visibleCentreX": 950,
+   "visibleCentreY": 967,
+   "cutByEdge": true
+  },
+  {
+   "grey": 60,
+   "place": "E",
+   "name": "toolbox",
+   "step": 2,
+   "parts": [
+    "toolbox"
+   ],
+   "depthM": 1.7,
+   "px": 11991,
+   "bbox": [
+    918,
+    1195,
+    1024,
+    1324
+   ],
+   "visibleCentreX": 976,
+   "visibleCentreY": 1253,
+   "cutByEdge": true
+  },
+  {
+   "grey": 80,
+   "place": "E",
+   "name": "floor hatch",
+   "step": 2,
+   "parts": [
+    "floor hatch"
+   ],
+   "depthM": 1.05,
+   "px": 8133,
+   "bbox": [
+    924,
+    1339,
+    1024,
+    1496
+   ],
+   "visibleCentreX": 989,
+   "visibleCentreY": 1391,
+   "cutByEdge": true
+  }
+ ],
+ "shapes": [
+  {
+   "pieces": [
+    0
+   ],
+   "px": 49539,
+   "bbox": [
+    384,
+    796,
+    619,
+    1049
+   ],
+   "visibleCentreX": 499,
+   "cutByEdge": false
+  },
+  {
+   "pieces": [
+    1
+   ],
+   "px": 50705,
+   "bbox": [
+    831,
+    804,
+    1024,
+    1175
+   ],
+   "visibleCentreX": 943,
+   "cutByEdge": true
+  },
+  {
+   "pieces": [
+    2
+   ],
+   "px": 17647,
+   "bbox": [
+    900,
+    1177,
+    1024,
+    1330
+   ],
+   "visibleCentreX": 965,
+   "cutByEdge": true
+  },
+  {
+   "pieces": [
+    3
+   ],
+   "px": 14185,
+   "bbox": [
+    906,
+    1321,
+    1024,
+    1514
+   ],
+   "visibleCentreX": 977,
+   "cutByEdge": true
+  }
+ ],
+ "split": {
+  "D crates": 20,
+  "A PC workstation": 40,
+  "E toolbox": 60,
+  "E floor hatch": 80
+ },
+ "outlineShare": 0.0625,
+ "pieces3": [],
+ "shapes3": [],
+ "split3": {},
+ "gaps": {
+  "crates / PC workstation": {
+   "tightPx": 199,
+   "grownPx": 199
+  },
+  "crates / toolbox": {
+   "tightPx": 199,
+   "grownPx": 199
+  },
+  "crates / floor hatch": {
+   "tightPx": 199,
+   "grownPx": 199
+  },
+  "PC workstation / toolbox": {
+   "tightPx": 38,
+   "grownPx": 2
+  },
+  "PC workstation / floor hatch": {
+   "tightPx": 182,
+   "grownPx": 146
+  },
+  "toolbox / floor hatch": {
+   "tightPx": 15,
+   "grownPx": 1
+  }
+ },
+ "openings": {
+  "screens": {
+   "px": 4938,
+   "insidePlaceMask": true,
+   "note": "the monitors' screens are part of the PC workstation's piece: openings painted flat black inside the mask"
+  }
+ },
+ "ownStation": {
+  "place": "C",
+  "objects": {
+   "electrical panel": {
+    "paintingPx": 0,
+    "slicePx": {
+     "390x844": 0,
+     "430x932": 0,
+     "402x742": 0
+    }
+   }
+  },
+  "rule": "the approved plan (visA) leaves the viewer's own station out of the viewer's view, and so does this sheet"
+ },
+ "featureTest": {
+  "picture": {
+   "name": "RA-C-1",
+   "sha256": "ad56119d60d86073282585044f82b4fceb5a9d130d217f096e814516990783b5",
+   "aiGenerated": true
+  },
+  "rule": "Every step-2 mask edge either clearly overlaps a feature in the test, covering it with at least 15 px to spare, or clears it by at least 15 px (square pixels): no part of the feature lies within 15 px of a mask edge. A named exception, for the Lead's decision, passes only where every such part lies in its zone. The features not in the test are measured and reported.",
+  "minClearPx": 15,
+  "atLeastPx": 60,
+  "passed": true,
+  "features": [
+   {
+    "name": "wall panel behind the crates",
+    "kind": "panel",
+    "test": true,
+    "px": 9718,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 9032,
+     "pxOutside": 686
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 3041,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "behind the upper crate's top and left side",
+      "for": "the Lead's decision",
+      "why": "Atlas's crates stand in front of the panel: the upper crate's top edge runs 8 px above the panel's top edge, and its left side crosses the panel.",
+      "pxWithin15": 3041
+     }
+    ]
+   },
+   {
+    "name": "vent box above the crates",
+    "kind": "vent",
+    "test": true,
+    "px": 5865,
+    "step2": {
+     "status": "clear",
+     "clearPx": 9
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 662,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "above the upper crate's top",
+      "for": "the Lead's decision",
+      "why": "The upper crate's top edge (the mask's edge at y 808) runs 10 to 12 px under the vent box's foot: the crate stands in front of the wall just below it.",
+      "pxWithin15": 662
+     }
+    ]
+   },
+   {
+    "name": "pipe bends right of the crates",
+    "kind": "pipes",
+    "test": true,
+    "px": 13444,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 449,
+     "pxOutside": 12995
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 1425,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "behind the lower crate's top right corner",
+      "for": "the Lead's decision",
+      "why": "The lowest pipe's bend passes behind the lower crate's top right corner, which crosses it; the runs beside it lie just above the crate's sloping side.",
+      "pxWithin15": 1425
+     }
+    ]
+   },
+   {
+    "name": "vented wall box behind the monitor",
+    "kind": "box",
+    "test": true,
+    "px": 9030,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 4749,
+     "pxOutside": 4281
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 3381,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "behind the monitor's top and left side",
+      "for": "the Lead's decision",
+      "why": "Vega's monitor stands in front of the box: its top crosses the vent and its left side runs along the box's left edge.",
+      "pxWithin15": 3381
+     }
+    ]
+   },
+   {
+    "name": "pipes behind the desk's far end",
+    "kind": "pipes",
+    "test": true,
+    "px": 6550,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 2184,
+     "pxOutside": 4366
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 3180,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "behind the desk's far end",
+      "for": "the Lead's decision",
+      "why": "The desk's far end stands in front of the pipes: its top and its near side cross them.",
+      "pxWithin15": 3180
+     }
+    ]
+   },
+   {
+    "name": "vertical pipe beside the monitor",
+    "kind": "pipes",
+    "test": true,
+    "px": 5764,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 2970,
+     "pxOutside": 2794
+    },
+    "step3": {
+     "status": "no step 3"
+    },
+    "pxWithin15": {
+     "step2": 1331,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "beside the monitor's left side and behind the desk's far end",
+      "for": "the Lead's decision",
+      "why": "The pipe runs 7 to 22 px left of the monitor's outline and passes behind the desk's far end, whose top crosses it.",
+      "pxWithin15": 1331
+     }
+    ]
+   }
+  ],
+  "exceptions": [
+   {
+    "name": "wall panel behind the crates",
+    "parts": [
+     {
+      "where": "behind the upper crate's top and left side",
+      "for": "the Lead's decision",
+      "why": "Atlas's crates stand in front of the panel: the upper crate's top edge runs 8 px above the panel's top edge, and its left side crosses the panel.",
+      "pxWithin15": 3041
+     }
+    ]
+   },
+   {
+    "name": "vent box above the crates",
+    "parts": [
+     {
+      "where": "above the upper crate's top",
+      "for": "the Lead's decision",
+      "why": "The upper crate's top edge (the mask's edge at y 808) runs 10 to 12 px under the vent box's foot: the crate stands in front of the wall just below it.",
+      "pxWithin15": 662
+     }
+    ]
+   },
+   {
+    "name": "pipe bends right of the crates",
+    "parts": [
+     {
+      "where": "behind the lower crate's top right corner",
+      "for": "the Lead's decision",
+      "why": "The lowest pipe's bend passes behind the lower crate's top right corner, which crosses it; the runs beside it lie just above the crate's sloping side.",
+      "pxWithin15": 1425
+     }
+    ]
+   },
+   {
+    "name": "vented wall box behind the monitor",
+    "parts": [
+     {
+      "where": "behind the monitor's top and left side",
+      "for": "the Lead's decision",
+      "why": "Vega's monitor stands in front of the box: its top crosses the vent and its left side runs along the box's left edge.",
+      "pxWithin15": 3381
+     }
+    ]
+   },
+   {
+    "name": "pipes behind the desk's far end",
+    "parts": [
+     {
+      "where": "behind the desk's far end",
+      "for": "the Lead's decision",
+      "why": "The desk's far end stands in front of the pipes: its top and its near side cross them.",
+      "pxWithin15": 3180
+     }
+    ]
+   },
+   {
+    "name": "vertical pipe beside the monitor",
+    "parts": [
+     {
+      "where": "beside the monitor's left side and behind the desk's far end",
+      "for": "the Lead's decision",
+      "why": "The pipe runs 7 to 22 px left of the monitor's outline and passes behind the desk's far end, whose top crosses it.",
+      "pxWithin15": 1331
+     }
+    ]
+   }
+  ],
+  "noted": [],
+  "lights": [
+   {
+    "name": "indicator dot, left wall box",
+    "box": [
+     192,
+     623,
+     202,
+     638
+    ],
+    "step2ClearPx": 60
+   },
+   {
+    "name": "indicator dot, far wall box, left",
+    "box": [
+     360,
+     567,
+     366,
+     574
+    ],
+    "step2ClearPx": 60
+   },
+   {
+    "name": "indicator dot, far wall box, right",
+    "box": [
+     625,
+     607,
+     636,
+     619
+    ],
+    "step2ClearPx": 60
+   },
+   {
+    "name": "indicator dot, right-hand wall",
+    "box": [
+     967,
+     670,
+     972,
+     676
+    ],
+    "step2ClearPx": 60
+   }
+  ],
+  "pairs": {
+   "D crates": {
+    "wall panel behind the crates": {
+     "status": "crosses",
+     "pxInside": 9032,
+     "pxOutside": 686
+    },
+    "vent box above the crates": {
+     "status": "clear",
+     "clearPx": 9
+    },
+    "pipe bends right of the crates": {
+     "status": "crosses",
+     "pxInside": 449,
+     "pxOutside": 12995
+    }
+   },
+   "A PC workstation": {
+    "vented wall box behind the monitor": {
+     "status": "crosses",
+     "pxInside": 4749,
+     "pxOutside": 4281
+    },
+    "pipes behind the desk's far end": {
+     "status": "crosses",
+     "pxInside": 2184,
+     "pxOutside": 4366
+    },
+    "vertical pipe beside the monitor": {
+     "status": "crosses",
+     "pxInside": 2970,
+     "pxOutside": 2794
+    }
+   },
+   "E toolbox": {},
+   "E floor hatch": {}
+  }
+ },
+ "growth": {
+  "px": 12,
+  "decision": "the Lead, 27 November 2026, 18:38: the selective 12 px growth, for views C, E and D",
+  "rule": "step 2's mask grows 12 px more, only where no traced feature, small light, window or step-3 capsule lies within 15 px of the new edge, and each masked area on its own, kept apart from the others, with no islands; each added pixel takes its piece's grey",
+  "addedPx": 19898,
+  "maskedShareBefore": 0.0713,
+  "maskedShareAfter": 0.084,
+  "areasKeptApart": 4
+ },
+ "expected": {
+  "s2": {
+   "maskedShare": 0.084,
+   "rawMaskAlpha": "6aa77f64988050726fe2550d208c92e34d0546363f04b116a58a8197649f3b4b",
+   "over10": false
+  }
+ }
+}

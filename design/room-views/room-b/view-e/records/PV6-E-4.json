@@ -1,0 +1,190 @@
+{
+ "piece": "PV6-E",
+ "generated": true,
+ "label": "AI-generated, composited in code from a masked edit",
+ "runner": "Designer team Image builder (Claude Code session)",
+ "authority": "the Lead's go of 18 November 2026 for E (steps 2 and 3 from PV6-E-1, one re-run in all; about $0.12, at most $0.18); the owner's approval of the fix for E, about $0.27 in all, at most $0.34",
+ "sheet": {
+  "page": "Room B PV6-E Sheet",
+  "version": "1795013666-8d7e",
+  "manifest": {
+   "file": "room-b-pv6e.json",
+   "sha256": "e057da6676cdbea398bfc2350c67e306c469fb7449a03efa8b5b5133779f61b3"
+  },
+  "prompts": {
+   "file": "room-b-pv6e-prompts.txt",
+   "sha256": "2e5734ccb3a5893a1686e7482314ea79eac90ce577ea024c2002d3d290cfb50e"
+  }
+ },
+ "tools": {
+  "pv8_tools.py": "5304717eaf2967e48b4a0ed27806023dd20ff68330c6b9c898c5514e9c77da8d",
+  "lift5.py": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+  "colour-check-v4.py": "7634828cb8fc1d30b3a10ecb15b6eb85dd3ac8249d30a08ce4b9eca58f4d110b",
+  "kitCheck": "all files and expected hashes match"
+ },
+ "terms": "Generated with OpenAI's image model under its Terms of Use as checked by the Lead (c8fbc793): the user owns the output; it is never presented as made by a person.",
+ "pass": "step 3 (version 3): the stool alone, one masked edit of PV6-E-3 inside the stool's outline grown 2 px, with the guide there and no second picture (s3), kept inside the mask in code",
+ "attempt": 4,
+ "tool": "OpenAI Images API, POST /v1/images/edits (one input, the S3 input with the mask), then pv8_tools.py keep3 and lift3",
+ "date": "2026-11-18T15:05:29+00:00",
+ "request_id": "req_bf15b5172bea480483a643874a37de47",
+ "start": {
+  "file": "PV6-E-3.png",
+  "sha256": "fcd8c31fa5ad4e9b533445d5c0a7a9962d8d4c5445d17c769d648d61a7c69013"
+ },
+ "s3": {
+  "maskedShare": 0.0044,
+  "rawInputRGB": "ac5f273e792a4ad64beefb2ece68b54f487b176319a7f776b20c9aca2a17b6e2",
+  "rawMaskAlpha": "f46ad461579b47a9e2db90b7565fc7608caae88484ee3ec9eeb0de297d134196",
+  "inputs": [
+   {
+    "role": "the picture to edit: the kept step-2 picture with the guide inside step 3's mask (the capsule's outline grown 2 px), and the mask (alpha 0 = repaint)",
+    "file": "PV6-E-4-S3-input.png",
+    "sha256": "ac5f043779e8242c68c3536d59a3faeeffae19d97ecf26fe678929cf47847789",
+    "mask": {
+     "file": "PV6-E-4-S3-mask.png",
+     "sha256": "bf0a67ebb8273865588515004edfc23ec254933f19234f2af9b56e8611bd5e99"
+    }
+   }
+  ],
+  "secondPicture": "none: s3 and s3-one are the same text"
+ },
+ "prompt_key": "s3 (= s3-one)",
+ "prompt": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked shape, and leave everything outside it exactly as it is. The masked shape holds a round stool on a single post with a ring of feet, which fills the shape exactly, with nothing of it outside the shape, painted in full detail in the picture's style and light. It stands on its own on the deck, just behind the cart's right end. Paint it in the same metal, paint and wear as the furniture around it.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+ "prompt_sha256": "d2f98ca98b3da32126f206c35a236b0540e782dbb87653cb6b41accad7ce7bb7",
+ "revised_prompt": null,
+ "inputs": [
+  {
+   "order": 1,
+   "file": "PV6-E-4-S3-input.png",
+   "sha256": "ac5f043779e8242c68c3536d59a3faeeffae19d97ecf26fe678929cf47847789"
+  }
+ ],
+ "mask": {
+  "file": "PV6-E-4-S3-mask.png",
+  "sha256": "bf0a67ebb8273865588515004edfc23ec254933f19234f2af9b56e8611bd5e99",
+  "convention": "alpha 0 = repaint"
+ },
+ "settings": {
+  "size": "1024x1536",
+  "quality": "high",
+  "n": 1,
+  "seed": null,
+  "background": "opaque",
+  "output_format": "png"
+ },
+ "raw_output": {
+  "file": "PV6-E-4-raw.png",
+  "sha256": "b8b3bd22300eeb08444cf0f9ea0328abaa093311b1e9f58e97cbaf4b6688d0f8"
+ },
+ "output": {
+  "file": "PV6-E-4.png",
+  "sha256": "12fb6d6f1eb7591913e44e280c58b2142aa51dc5c13389531b8c1cce809982d9",
+  "rawRGBsha256": "6ce17a84db55c34948da7bc326d041c2bc7964ce3dfb6b1b7259505ef516843a",
+  "width": 1024,
+  "height": 1536,
+  "retouched": "composited in code only: the raw edit over PV6-E-3 inside step 3's mask, feathered by a 2 px Gaussian"
+ },
+ "moreThan4pxOutsideMask": {
+  "meanAbsDiff": 0.0,
+  "maxAbsDiff": 1
+ },
+ "lift": {
+  "view": "E",
+  "step": 3,
+  "recipe": "d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November)",
+  "pieces": {
+   "B stool": {
+    "file": "PV6-E-4-B-stool.png",
+    "sha256": "113a77bcf8a731c96f93e24e286498d8a3629b678547dc416a3a0e4bdc5b43fc",
+    "px": 6421,
+    "x": [
+     381,
+     446
+    ],
+    "y": [
+     910,
+     1019
+    ],
+    "shareOfItsOutline": 0.9286
+   }
+  },
+  "missing": [],
+  "rebuildMeanAbsDiff": 0.0098
+ },
+ "usage": {
+  "input_tokens": 2167,
+  "input_tokens_details": {
+   "image_tokens": 1536,
+   "text_tokens": 631
+  },
+  "output_tokens": 1372,
+  "output_tokens_details": {
+   "image_tokens": 1372,
+   "text_tokens": 0
+  },
+  "total_tokens": 3539
+ },
+ "cost_usd_est": 0.0566,
+ "check": {
+  "by": "Image builder (colour-check-v4.py; pv8_tools.py same and lift3; the rest by eye). Not the Designer's review.",
+  "colour": {
+   "pass": true,
+   "result": {
+    "walls and deck in the base": true,
+    "each wall and the deck in the base": true,
+    "orange capped": true,
+    "rust capped": true,
+    "accents only orange, cream, rust, blue-green": true,
+    "no tan or olive": true,
+    "not grey": true,
+    "median lightness": true,
+    "openings flat black": true
+   },
+   "json": "PV6-E-4-colour.json"
+  },
+  "sameRoom": {
+   "pass": true,
+   "gates": {
+    "colour check version 4 with the view's map": true,
+    "walls and deck: median lightness, chroma and hue as PV6-A-2's": true,
+    "deck: median lightness as PV6-A-2's": true,
+    "warm light: orange and cream shares as PV6-A-2's": true,
+    "every lamp in view lit at its place": true,
+    "the ring lights lit at their places": true,
+    "the surfaces both pictures show: PV6-A-2's colour (median delta E)": true
+   },
+   "json": "PV6-E-4-same.json"
+  },
+  "liftPieces": {
+   "B stool": {
+    "px": 6421,
+    "x": [
+     381,
+     446
+    ],
+    "y": [
+     910,
+     1019
+    ],
+    "shareOfItsOutline": 0.9286
+   }
+  },
+  "liftMissing": [],
+  "byEye": "one round stool on a single post with a ring of feet, standing alone just right of the cart's right end with its base set back, not merged with the cart; nothing on it lit or written; nothing outside its shape changed; the lifted layer carries a small fringe of unchanged wall and floor beside the post (identical to the plate, so invisible in place)",
+  "verdict": "pass on every measured check and by eye",
+  "result": "accepted",
+  "reason": "Lead Designer, 18 November 2026: accepted. one round stool on its post and ring of feet, standing alone right of the cart; the fringe beside the post does not matter, since the stool never moves on its own and the fringe matches the plate."
+ },
+ "review": {
+  "by": "Lead Designer",
+  "date": "2026-11-18",
+  "result": "accepted",
+  "note": "one round stool on its post and ring of feet, standing alone right of the cart; the fringe beside the post does not matter, since the stool never moves on its own and the fringe matches the plate."
+ },
+ "copy": {
+  "of": "Room B Four Views (the image builder’s records page), version 1795044447-5e2a, records/PV6-E-4.json",
+  "originalSha256": "efdf428a344c1a646945c5168775e9d04d915c914122a2d04ffeef8aa8c97c0a",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

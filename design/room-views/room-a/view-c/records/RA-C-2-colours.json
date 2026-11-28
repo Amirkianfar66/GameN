@@ -1,0 +1,109 @@
+{
+ "picture": "../out-raC/RA-C-2.png",
+ "map": "/tmp/claude-0/-home-user-GameN/167767f7-eaa3-5e27-a6bf-390141e7bffd/scratchpad/raC21/img/ra-C-regions.png",
+ "method": "OKLCH",
+ "hueBand": [
+  233.0,
+  275.0
+ ],
+ "gates": {
+  "walls and deck in the base": "at least 60% of the wall and deck area: hue 233-275, chroma 0.035 or more, lightness 0.15 or more",
+  "each wall and the deck in the base": "at least 45% of each area on its own",
+  "orange capped": "at most 8% of the picture warm orange (hue 30-75, chroma 0.10 or more, lightness 0.60 or more)",
+  "rust capped": "at most 3% of the picture rust (hue 25-55, chroma 0.05-0.11, lightness 0.30-0.50)",
+  "no tan or olive": "at most 3% of the wall and deck area in hue 70-115 (chroma 0.035 or more, lightness 0.15-0.80)",
+  "not purple": "at most 3% of the wall and deck area in hue 285-355 (chroma 0.035 or more, lightness 0.15 or more): Room B's colours",
+  "not grey": "at most 15% of the wall and deck area neutral grey (chroma under 0.035, lightness 0.15 or more)",
+  "median lightness": "the median lightness of the wall and deck area between 0.28 and 0.60",
+  "accents only orange, cream, rust": "at most 0.2% of the picture bright and saturated (lightness 0.55+, chroma 0.08+) outside hue 233-275 and 355-105",
+  "openings flat black": "the window, where the view holds it: 95% of it under lightness 0.12"
+ },
+ "areas": {
+  "walls and deck": {
+   "pixels": 900173,
+   "inBase": 0.8491,
+   "tanOlive": 0.0009,
+   "purple": 0.0004,
+   "grey": 0.108,
+   "tooDark": 0.0159,
+   "medianL": 0.479,
+   "onRamp": "between shadow (0.361) and mid (0.486)",
+   "medianChroma": 0.075,
+   "medianHueOfReadable": 252.9
+  },
+  "back wall": {
+   "pixels": 254746,
+   "inBase": 0.8137,
+   "tanOlive": 0.0012,
+   "purple": 0.0004,
+   "grey": 0.1251,
+   "tooDark": 0.024,
+   "medianL": 0.444,
+   "onRamp": "between shadow (0.361) and mid (0.486)",
+   "medianChroma": 0.073,
+   "medianHueOfReadable": 252.5
+  },
+  "side walls": {
+   "pixels": 189511,
+   "inBase": 0.7393,
+   "tanOlive": 0.0025,
+   "purple": 0.0006,
+   "grey": 0.1714,
+   "tooDark": 0.0372,
+   "medianL": 0.413,
+   "onRamp": "between shadow (0.361) and mid (0.486)",
+   "medianChroma": 0.066,
+   "medianHueOfReadable": 253.3
+  },
+  "deck": {
+   "pixels": 455916,
+   "inBase": 0.9144,
+   "tanOlive": 0.0001,
+   "purple": 0.0003,
+   "grey": 0.072,
+   "tooDark": 0.0025,
+   "medianL": 0.521,
+   "onRamp": "between mid (0.486) and light (0.647)",
+   "medianChroma": 0.079,
+   "medianHueOfReadable": 253.0
+  },
+  "window": {
+   "pixels": 3505,
+   "p95L": 0.584,
+   "medianL": 0.334
+  },
+  "lamp": {
+   "pixels": 27659,
+   "p95L": 0.932,
+   "medianL": 0.92
+  }
+ },
+ "warm": {
+  "orange": 0.0006,
+  "rust": 0.0056,
+  "cream": 0.0267
+ },
+ "accents": {
+  "brightSaturated": 0.0504,
+  "strayShare": 0.0,
+  "strayPixels": 2
+ },
+ "result": {
+  "walls and deck in the base": true,
+  "each wall and the deck in the base": true,
+  "orange capped": true,
+  "rust capped": true,
+  "no tan or olive": true,
+  "not purple": true,
+  "not grey": true,
+  "median lightness": true,
+  "accents only orange, cream, rust": true,
+  "openings flat black": false
+ },
+ "pass": false,
+ "copy": {
+  "of": "Room A Records (the image builder’s records page), version 1795828303-eac0, records/RA-C-2-colours.json",
+  "originalSha256": "2ac7cfff4e0ee2aff40527a8f39f02efb795affe1bd41e6e05174ee897da2caf",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

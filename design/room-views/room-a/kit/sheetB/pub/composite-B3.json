@@ -1,0 +1,692 @@
+{
+ "sheet": "RA-B",
+ "version": 3,
+ "view": "B",
+ "step": 2,
+ "date": "2026-11-27",
+ "name": "RA-B-3c",
+ "what": "view B's step-2 picture completed in code: RA-B-3 with RA-B-3's raw edit taken back inside each cut piece's own ink outline",
+ "drawnBy": "code",
+ "generated": false,
+ "codeComposite": {
+  "of": [
+   "RA-B-2",
+   "RA-B-3's raw edit"
+  ],
+  "aiGenerated": true,
+  "how": "RA-B-3 (the keep of RA-B-3's raw over RA-B-2 in the step-2 mask, rebuilt here and equal pixel for pixel) is the base; inside each traced outline, the raw's pixels, with 1 px of feather outside the outline; nothing else from the raw"
+ },
+ "decision": "the Lead, 27 November 2026, 17:43: RA-B-3 held for cut edges; make RA-B-3c, a code composite, before any lift",
+ "sources": [
+  {
+   "name": "RA-B-3",
+   "file": "img/RA-B-3.png",
+   "sha256": "95c742f2e47b4ea37a197b339b4377a5fe75c41405d589f54076af26ec55eb25",
+   "aiGenerated": true,
+   "what": "the kept step 2 (the base)"
+  },
+  {
+   "name": "RA-B-3-raw",
+   "file": "img/RA-B-3-raw.png",
+   "sha256": "392431f68b83dc4c20415befdb25ac6c39f42d72a4baeea7a192cd225b7bedba",
+   "aiGenerated": true,
+   "what": "RA-B-3's raw edit (inside the outlines)"
+  },
+  {
+   "name": "RA-B-2",
+   "file": "img/RA-B-2.png",
+   "sha256": "aefddadcb3ce554c215d121dd7a49b8e4197a1dcce77325e54982252c8038605",
+   "aiGenerated": true,
+   "what": "view B's accepted step 1 (in RA-B-3, outside the mask)"
+  }
+ ],
+ "mask": {
+  "file": "ra-B-place.png",
+  "sha256": "aa7f2e0e400d8f17531fc93a591aa08c414a15720ecb376375fc2d477bfa3a98",
+  "what": "version 2's step-2 PLACE mask"
+ },
+ "feather": {
+  "px": 1.0,
+  "how": "alpha = 1 inside the outline, falling linearly to 0 at 1 px outside it, by each pixel centre's distance from the outline"
+ },
+ "pieces": [
+  {
+   "listed": true,
+   "name": "the desk's left end: the tabletop's left end and back corner, the pedestal and its foot on the deck",
+   "outline": [
+    [
+     341.0,
+     870.0
+    ],
+    [
+     343.0,
+     870.0
+    ],
+    [
+     372.0,
+     860.0
+    ],
+    [
+     386.0,
+     854.5
+    ],
+    [
+     399.0,
+     850.0
+    ],
+    [
+     428.0,
+     850.0
+    ],
+    [
+     428.0,
+     858.0
+    ],
+    [
+     404.0,
+     866.0
+    ],
+    [
+     404.0,
+     1004.0
+    ],
+    [
+     365.0,
+     1004.0
+    ],
+    [
+     365.0,
+     1013.0
+    ],
+    [
+     367.0,
+     1015.0
+    ],
+    [
+     350.0,
+     1015.0
+    ],
+    [
+     350.0,
+     888.0
+    ],
+    [
+     341.0,
+     888.0
+    ]
+   ],
+   "ink": "the tabletop's side and back edges, its left end (on the pipe's ink, x 341), the leg's outer ink (x 350), the drawers' base (y 1002-1003) and the foot plate (to y 1014)",
+   "key": "desk-left",
+   "checks": {
+    "changedPx": 8101,
+    "changedOutsideTheMask": 7350,
+    "changedInsideTheMask": 751,
+    "changedBox": [
+     340,
+     849,
+     424,
+     1015
+    ],
+    "featherPx": 486
+   }
+  },
+  {
+   "listed": true,
+   "name": "the left monitor: its left frame and its top bezel",
+   "outline": [
+    [
+     409.0,
+     772.0
+    ],
+    [
+     510.0,
+     772.0
+    ],
+    [
+     512.0,
+     774.0
+    ],
+    [
+     512.0,
+     796.0
+    ],
+    [
+     461.0,
+     796.0
+    ],
+    [
+     461.0,
+     840.0
+    ],
+    [
+     406.0,
+     840.0
+    ],
+    [
+     406.0,
+     816.0
+    ],
+    [
+     407.0,
+     814.0
+    ],
+    [
+     407.0,
+     774.0
+    ]
+   ],
+   "ink": "the frame outline: left x 406-407, top y 772, bottom y 838-839, the right frame x 510-511",
+   "key": "monitor-left",
+   "checks": {
+    "changedPx": 4809,
+    "changedOutsideTheMask": 4251,
+    "changedInsideTheMask": 558,
+    "changedBox": [
+     405,
+     771,
+     512,
+     840
+    ],
+    "featherPx": 347
+   }
+  },
+  {
+   "listed": true,
+   "name": "the toolbox: its left side, its handle and its bottom edge",
+   "outline": [
+    [
+     591.0,
+     1073.0
+    ],
+    [
+     592.0,
+     1070.0
+    ],
+    [
+     593.0,
+     1068.0
+    ],
+    [
+     596.0,
+     1066.0
+    ],
+    [
+     600.0,
+     1065.0
+    ],
+    [
+     604.0,
+     1063.0
+    ],
+    [
+     608.0,
+     1061.5
+    ],
+    [
+     612.0,
+     1060.0
+    ],
+    [
+     616.0,
+     1058.5
+    ],
+    [
+     620.0,
+     1057.0
+    ],
+    [
+     624.0,
+     1055.5
+    ],
+    [
+     628.0,
+     1054.0
+    ],
+    [
+     632.0,
+     1052.0
+    ],
+    [
+     636.0,
+     1050.5
+    ],
+    [
+     638.0,
+     1049.5
+    ],
+    [
+     639.0,
+     1049.0
+    ],
+    [
+     639.0,
+     1045.0
+    ],
+    [
+     640.0,
+     1043.0
+    ],
+    [
+     641.0,
+     1042.0
+    ],
+    [
+     642.0,
+     1041.0
+    ],
+    [
+     643.0,
+     1040.0
+    ],
+    [
+     644.0,
+     1039.0
+    ],
+    [
+     645.0,
+     1038.0
+    ],
+    [
+     648.0,
+     1037.0
+    ],
+    [
+     650.0,
+     1036.0
+    ],
+    [
+     652.0,
+     1035.5
+    ],
+    [
+     660.0,
+     1032.5
+    ],
+    [
+     670.0,
+     1029.0
+    ],
+    [
+     673.0,
+     1028.0
+    ],
+    [
+     677.0,
+     1027.0
+    ],
+    [
+     680.0,
+     1028.0
+    ],
+    [
+     683.0,
+     1031.0
+    ],
+    [
+     686.0,
+     1034.0
+    ],
+    [
+     680.0,
+     1040.0
+    ],
+    [
+     680.0,
+     1122.0
+    ],
+    [
+     690.0,
+     1122.0
+    ],
+    [
+     690.0,
+     1134.0
+    ],
+    [
+     688.0,
+     1134.5
+    ],
+    [
+     685.0,
+     1136.0
+    ],
+    [
+     680.0,
+     1139.0
+    ],
+    [
+     675.0,
+     1142.0
+    ],
+    [
+     670.0,
+     1145.0
+    ],
+    [
+     665.0,
+     1148.5
+    ],
+    [
+     660.0,
+     1151.5
+    ],
+    [
+     655.0,
+     1155.0
+    ],
+    [
+     650.0,
+     1158.0
+    ],
+    [
+     645.0,
+     1160.0
+    ],
+    [
+     640.0,
+     1159.5
+    ],
+    [
+     635.0,
+     1158.0
+    ],
+    [
+     630.0,
+     1156.0
+    ],
+    [
+     625.0,
+     1155.0
+    ],
+    [
+     620.0,
+     1153.0
+    ],
+    [
+     615.0,
+     1152.0
+    ],
+    [
+     610.0,
+     1150.0
+    ],
+    [
+     605.0,
+     1149.0
+    ],
+    [
+     600.0,
+     1148.0
+    ],
+    [
+     595.0,
+     1146.0
+    ],
+    [
+     593.0,
+     1144.0
+    ],
+    [
+     592.0,
+     1141.0
+    ],
+    [
+     592.0,
+     1091.0
+    ],
+    [
+     591.0,
+     1090.0
+    ]
+   ],
+   "holes": [
+    [
+     [
+      650.0,
+      1050.0
+     ],
+     [
+      651.0,
+      1048.0
+     ],
+     [
+      652.0,
+      1047.0
+     ],
+     [
+      656.0,
+      1045.5
+     ],
+     [
+      660.0,
+      1044.0
+     ],
+     [
+      664.0,
+      1042.5
+     ],
+     [
+      668.0,
+      1041.0
+     ],
+     [
+      672.0,
+      1039.5
+     ],
+     [
+      675.5,
+      1038.5
+     ],
+     [
+      675.5,
+      1046.5
+     ],
+     [
+      672.0,
+      1047.5
+     ],
+     [
+      668.0,
+      1049.0
+     ],
+     [
+      664.0,
+      1051.0
+     ],
+     [
+      660.0,
+      1052.5
+     ],
+     [
+      656.0,
+      1054.0
+     ],
+     [
+      652.0,
+      1055.5
+     ],
+     [
+      650.0,
+      1056.0
+     ]
+    ]
+   ],
+   "ink": "the lid's back edge, the handle's outer ink (the deck seen through the handle stays RA-B-2's), the left side (x 591-593) and the bottom edge to x 690, where it meets the lid's foot",
+   "key": "toolbox",
+   "checks": {
+    "changedPx": 8970,
+    "changedOutsideTheMask": 8434,
+    "changedInsideTheMask": 536,
+    "changedBox": [
+     590,
+     1026,
+     690,
+     1160
+    ],
+    "featherPx": 454
+   }
+  },
+  {
+   "listed": false,
+   "name": "the right monitor: its top bezel and right frame",
+   "outline": [
+    [
+     518.0,
+     772.0
+    ],
+    [
+     624.5,
+     772.0
+    ],
+    [
+     626.0,
+     774.0
+    ],
+    [
+     626.0,
+     841.0
+    ],
+    [
+     610.0,
+     841.0
+    ],
+    [
+     610.0,
+     801.0
+    ],
+    [
+     525.0,
+     797.0
+    ],
+    [
+     517.0,
+     797.0
+    ],
+    [
+     517.0,
+     774.0
+    ]
+   ],
+   "ink": "the frame outline: top y 772, the right frame x 623-625 down to its corner at y 840, the left frame x 517 above the mask",
+   "key": "monitor-right",
+   "checks": {
+    "changedPx": 3310,
+    "changedOutsideTheMask": 2598,
+    "changedInsideTheMask": 712,
+    "changedBox": [
+     516,
+     771,
+     626,
+     841
+    ],
+    "featherPx": 353
+   }
+  },
+  {
+   "listed": false,
+   "name": "the desk's right foot: its right side and corner",
+   "outline": [
+    [
+     640.0,
+     1000.0
+    ],
+    [
+     648.0,
+     1000.0
+    ],
+    [
+     648.0,
+     1009.0
+    ],
+    [
+     650.0,
+     1011.0
+    ],
+    [
+     650.0,
+     1021.5
+    ],
+    [
+     645.0,
+     1028.0
+    ],
+    [
+     634.0,
+     1028.0
+    ],
+    [
+     634.0,
+     1013.0
+    ]
+   ],
+   "ink": "the leg's and the foot's outer ink (x 647-649) and the foot's bottom corner (to y 1027)",
+   "key": "foot-right",
+   "checks": {
+    "changedPx": 214,
+    "changedOutsideTheMask": 89,
+    "changedInsideTheMask": 125,
+    "changedBox": [
+     638,
+     999,
+     650,
+     1028
+    ],
+    "featherPx": 82
+   }
+  }
+ ],
+ "leftAlone": [
+  {
+   "what": "the lid's foot at the toolbox's right",
+   "why": "the Lead: leave it"
+  },
+  {
+   "what": "the shadow under the drawers, x 365-396, y 1004-1015",
+   "why": "a shadow on the deck, not a piece: nothing else is taken from the raw"
+  },
+  {
+   "what": "the brace at the desk's right end, x 650-670, y 980-1003",
+   "why": "wholly outside the mask, so absent from RA-B-3 rather than cut"
+  }
+ ],
+ "checks": {
+  "keepRebuiltExactly": true,
+  "changedPx": 25404,
+  "changedInTheListedThree": 21880,
+  "changedOutsideTheCompletions": 0,
+  "rawTakenWholeInsideTheOutlines": true,
+  "overlappingPx": 0,
+  "keepBlendReachesPxInsideTheMask": 5,
+  "closedInsideTheMaskAtLeastPx": 6
+ },
+ "pass": true,
+ "screens": {
+  "file": "screens-B.json",
+  "sha256": "62f23844df6ec6d86a1061d9dae63f4a9daa98ab1ca12262768fd93a09147e44",
+  "gate": {
+   "left screen": {
+    "p95L": 0.0847,
+    "pass": true
+   },
+   "right screen": {
+    "p95L": 0.0979,
+    "pass": true
+   }
+  }
+ },
+ "outputs": {
+  "ra-B-3c.png": {
+   "what": "the plate: RA-B-3c, a code composite of two AI-generated pictures",
+   "sha256": "aabe4082441cdc87ae0970eb74c49a525b413e78fa71e5df3fea3995faa4c216",
+   "pixelsSha256": "f387d99ddbdbbb54ae4618306779be98dcc258426f0b6b715f0e1d85af516344",
+   "size": [
+    1024,
+    1536
+   ],
+   "aiGenerated": true,
+   "codeComposite": true
+  }
+ },
+ "note": "pixelsSha256 is of the decoded pixels (8-bit RGB, row by row), which another Pillow writes the same; the PNG file's own sha256 may differ with another Pillow or zlib",
+ "units": "painting pixels (1024 x 1536); outlines in pixel-edge coordinates (a pixel spans i to i + 1)"
+}

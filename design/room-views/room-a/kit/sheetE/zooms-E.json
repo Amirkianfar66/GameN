@@ -1,0 +1,60 @@
+[
+ {
+  "name": "crates-foot",
+  "what": "the crates' far end",
+  "box": [
+   730,
+   930,
+   900,
+   1070
+  ],
+  "scale": 3,
+  "section": "crates",
+  "lines": [
+   "westFoot",
+   "westSeam1"
+  ],
+  "key": "version 2's mask red, version 1.1's gold | the crates' outline cyan | the painted wall foot magenta, its seam green"
+ },
+ {
+  "name": "cabinet-edge",
+  "what": "the cabinet's side",
+  "box": [
+   0,
+   560,
+   190,
+   1000
+  ],
+  "scale": 2,
+  "section": "cabinet",
+  "lines": [],
+  "polygons": [
+   {
+    "points": [
+     [
+      107,
+      570
+     ],
+     [
+      108,
+      570
+     ],
+     [
+      108,
+      1000
+     ],
+     [
+      107,
+      1000
+     ]
+    ],
+    "colour": [
+     0,
+     255,
+     0
+    ]
+   }
+  ],
+  "key": "the cabinet's mask red | its outline cyan | the painted corner green, x 107"
+ }
+]

@@ -1,0 +1,837 @@
+{
+ "view": "D",
+ "inView": {
+  "window": true,
+  "screens": true,
+  "capsule": true,
+  "own": []
+ },
+ "pieces": [
+  {
+   "grey": 100,
+   "place": "A",
+   "name": "PC workstation",
+   "step": 2,
+   "parts": [
+    "PC desk",
+    "monitor",
+    "monitor"
+   ],
+   "depthM": 1.7,
+   "px": 119975,
+   "bbox": [
+    0,
+    846,
+    313,
+    1384
+   ],
+   "visibleCentreX": 136,
+   "visibleCentreY": 1087,
+   "cutByEdge": true
+  },
+  {
+   "grey": 80,
+   "place": "E",
+   "name": "toolbox",
+   "step": 2,
+   "parts": [
+    "toolbox"
+   ],
+   "depthM": 2.15,
+   "px": 9983,
+   "bbox": [
+    421,
+    1084,
+    536,
+    1211
+   ],
+   "visibleCentreX": 479,
+   "visibleCentreY": 1145,
+   "cutByEdge": false
+  },
+  {
+   "grey": 60,
+   "place": "E",
+   "name": "floor hatch",
+   "step": 2,
+   "parts": [
+    "floor hatch"
+   ],
+   "depthM": 2.63,
+   "px": 15032,
+   "bbox": [
+    504,
+    1029,
+    687,
+    1192
+   ],
+   "visibleCentreX": 591,
+   "visibleCentreY": 1101,
+   "cutByEdge": false
+  },
+  {
+   "grey": 20,
+   "place": "E",
+   "name": "hatch lid",
+   "step": 2,
+   "parts": [
+    "hatch lid"
+   ],
+   "depthM": 3.06,
+   "px": 9940,
+   "bbox": [
+    593,
+    922,
+    693,
+    1048
+   ],
+   "visibleCentreX": 643,
+   "visibleCentreY": 985,
+   "cutByEdge": false
+  },
+  {
+   "grey": 40,
+   "place": "C",
+   "name": "electrical cabinet",
+   "step": 2,
+   "parts": [
+    "electrical panel"
+   ],
+   "depthM": 3.05,
+   "px": 51403,
+   "bbox": [
+    773,
+    634,
+    986,
+    897
+   ],
+   "visibleCentreX": 882,
+   "visibleCentreY": 761,
+   "cutByEdge": false
+  }
+ ],
+ "shapes": [
+  {
+   "pieces": [
+    0
+   ],
+   "px": 138160,
+   "bbox": [
+    0,
+    828,
+    331,
+    1402
+   ],
+   "visibleCentreX": 143,
+   "cutByEdge": true
+  },
+  {
+   "pieces": [
+    1,
+    2,
+    3
+   ],
+   "px": 56013,
+   "bbox": [
+    403,
+    911,
+    711,
+    1229
+   ],
+   "visibleCentreX": 571,
+   "cutByEdge": false
+  },
+  {
+   "pieces": [
+    4
+   ],
+   "px": 59186,
+   "bbox": [
+    755,
+    628,
+    1004,
+    903
+   ],
+   "visibleCentreX": 880,
+   "cutByEdge": false
+  }
+ ],
+ "split": {
+  "A PC workstation": 100,
+  "E toolbox": 80,
+  "E floor hatch": 60,
+  "E hatch lid": 20,
+  "C electrical cabinet": 40
+ },
+ "outlineShare": 0.1312,
+ "pieces3": [
+  {
+   "grey": 120,
+   "place": null,
+   "name": "food capsule",
+   "step": 3,
+   "kind": "wall",
+   "parts": [
+    "food capsule"
+   ],
+   "depthM": 3.73,
+   "px": 5925,
+   "bbox": [
+    636,
+    722,
+    700,
+    817
+   ],
+   "visibleCentreX": 668,
+   "visibleCentreY": 768,
+   "cutByEdge": false
+  }
+ ],
+ "shapes3": [
+  {
+   "pieces": [
+    0
+   ],
+   "px": 6577,
+   "bbox": [
+    634,
+    720,
+    702,
+    819
+   ],
+   "visibleCentreX": 668,
+   "cutByEdge": false
+  }
+ ],
+ "split3": {
+  "wall food capsule": 120
+ },
+ "outlineShare3": 0.0038,
+ "capsuleUnderFurniturePx": 0,
+ "gaps": {
+  "PC workstation / toolbox": {
+   "tightPx": 108,
+   "grownPx": 72
+  },
+  "PC workstation / floor hatch": {
+   "tightPx": 191,
+   "grownPx": 168
+  },
+  "PC workstation / hatch lid": {
+   "tightPx": 199,
+   "grownPx": 199
+  },
+  "PC workstation / electrical cabinet": {
+   "tightPx": 199,
+   "grownPx": 199
+  },
+  "toolbox / floor hatch": {
+   "tightPx": 0,
+   "grownPx": 0
+  },
+  "toolbox / hatch lid": {
+   "tightPx": 82,
+   "grownPx": 69
+  },
+  "toolbox / electrical cabinet": {
+   "tightPx": 199,
+   "grownPx": 199
+  },
+  "floor hatch / hatch lid": {
+   "tightPx": 0,
+   "grownPx": 0
+  },
+  "floor hatch / electrical cabinet": {
+   "tightPx": 165,
+   "grownPx": 134
+  },
+  "hatch lid / electrical cabinet": {
+   "tightPx": 80,
+   "grownPx": 44
+  }
+ },
+ "target": {
+  "pair": "hatch lid / electrical cabinet",
+  "minTightPx": 30,
+  "minGrownPx": 18,
+  "met": true
+ },
+ "openings": {
+  "window glass": {
+   "px": 33778,
+   "clearPx": 82,
+   "step3ClearPx": 119
+  },
+  "window frame (as drawn)": {
+   "px": 10680,
+   "clearPx": 68,
+   "step3ClearPx": 119
+  },
+  "screens": {
+   "px": 18208,
+   "insidePlaceMask": true,
+   "note": "the monitors' screens are part of the PC workstation's piece: openings painted flat black inside the mask"
+  }
+ },
+ "ownStation": {
+  "place": "D",
+  "objects": {
+   "crate": {
+    "paintingPx": 0,
+    "slicePx": {
+     "390x844": 0,
+     "430x932": 0,
+     "402x742": 0
+    }
+   }
+  },
+  "rule": "the approved plan (visA) leaves the viewer's own station out of the viewer's view, and so does this sheet"
+ },
+ "featureTest": {
+  "picture": {
+   "name": "RA-D-1",
+   "sha256": "c8842de16d63076fe69306b247bcc643b6dc5576f6c389364ce49bc970f2fe75",
+   "aiGenerated": true
+  },
+  "rule": "Every step-2 and step-3 mask edge either clearly overlaps a feature in the test, covering it with at least 15 px to spare, or clears it by at least 15 px (square pixels): no part of the feature lies within 15 px of a mask edge. A named exception, for the Lead's decision, passes only where every such part lies in its zone. The features not in the test are measured and reported.",
+  "minClearPx": 15,
+  "atLeastPx": 60,
+  "passed": true,
+  "features": [
+   {
+    "name": "vent box and its conduits on the north wall",
+    "kind": "box",
+    "test": true,
+    "px": 14394,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 3048,
+     "pxOutside": 11346
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 3038,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "behind the monitors' tops",
+      "for": "the Lead's decision",
+      "why": "Vega's monitors stand in front of the box: their tops run along its foot, 0 to 9 px from it, and the conduits below it lie inside the desk's area.",
+      "pxWithin15": 3038
+     }
+    ]
+   },
+   {
+    "name": "pipes along the north wall",
+    "kind": "pipes",
+    "test": true,
+    "px": 49897,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 33196,
+     "pxOutside": 16701
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 7719,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "behind the desk and its monitors",
+      "for": "the Lead's decision",
+      "why": "Vega's desk and monitors stand in front of the pipes: the desk's area covers them to x 210, and its right side and the desk's top cross them from x 210 to 320.",
+      "pxWithin15": 7719
+     }
+    ]
+   },
+   {
+    "name": "junction box and pipes in the corner",
+    "kind": "box",
+    "test": true,
+    "px": 13104,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 1789,
+     "pxOutside": 11315
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 22
+    },
+    "pxWithin15": {
+     "step2": 2794,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "behind the lid's top-left corner",
+      "for": "the Lead's decision",
+      "why": "The hatch's lid stands in front of the corner's fittings: its top-left corner sits at the box's foot and its left side runs down the pipes to the deck.",
+      "pxWithin15": 2794
+     }
+    ]
+   },
+   {
+    "name": "lockers on the east wall",
+    "kind": "locker",
+    "test": true,
+    "px": 50676,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 20657,
+     "pxOutside": 30019
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 58
+    },
+    "pxWithin15": {
+     "step2": 11707,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "behind the cabinet's top",
+      "for": "the Lead's decision",
+      "why": "Echo's cabinet stands in front of the lockers: its top crosses their doors at the handles' height, and their lower part lies inside its area.",
+      "pxWithin15": 11707
+     }
+    ]
+   },
+   {
+    "name": "light box beside the cabinet",
+    "kind": "box",
+    "test": true,
+    "px": 3737,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 159,
+     "pxOutside": 3578
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 7
+    },
+    "pxWithin15": {
+     "step2": 990,
+     "step3": 424
+    },
+    "exception": [
+     {
+      "where": "between the cabinet (step 2) and the capsule (step 3)",
+      "for": "the Lead's decision",
+      "why": "The box sits between Echo's cabinet and the food capsule: the cabinet's left side runs 1 to 5 px from the box's frame, and step 3's mask, the capsule's outline grown 2 px, runs 7 px from its left edge. The dot itself is 16 px from the cabinet's mask and 32 px from the capsule's.",
+      "pxWithin15": 1414
+     }
+    ]
+   },
+   {
+    "name": "pipe along the east wall",
+    "kind": "pipes",
+    "test": true,
+    "px": 11640,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 8793,
+     "pxOutside": 2847
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 24
+    },
+    "pxWithin15": {
+     "step2": 2340,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "behind the cabinet",
+      "for": "the Lead's decision",
+      "why": "Echo's cabinet stands in front of the pipe: the pipe runs into the cabinet's area at its left side and on behind it.",
+      "pxWithin15": 2340
+     }
+    ]
+   },
+   {
+    "name": "vent box on the east wall",
+    "kind": "box",
+    "test": true,
+    "px": 22935,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 11583,
+     "pxOutside": 11352
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 7116,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "behind the cabinet's lower right",
+      "for": "the Lead's decision",
+      "why": "Echo's cabinet stands in front of the vent box: the cabinet's foot crosses the box's upper vents.",
+      "pxWithin15": 7116
+     }
+    ]
+   },
+   {
+    "name": "paper on the east wall",
+    "kind": "paper",
+    "test": true,
+    "px": 5828,
+    "step2": {
+     "status": "clear",
+     "clearPx": 24
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 5
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 360
+    },
+    "exception": [
+     {
+      "where": "above the capsule's top (step 3)",
+      "for": "the Lead's decision",
+      "why": "The food capsule hangs below the paper: step 3's mask (the capsule's outline grown 2 px) runs 8 px below the paper's foot.",
+      "pxWithin15": 360
+     }
+    ]
+   }
+  ],
+  "exceptions": [
+   {
+    "name": "vent box and its conduits on the north wall",
+    "parts": [
+     {
+      "where": "behind the monitors' tops",
+      "for": "the Lead's decision",
+      "why": "Vega's monitors stand in front of the box: their tops run along its foot, 0 to 9 px from it, and the conduits below it lie inside the desk's area.",
+      "pxWithin15": 3038
+     }
+    ]
+   },
+   {
+    "name": "pipes along the north wall",
+    "parts": [
+     {
+      "where": "behind the desk and its monitors",
+      "for": "the Lead's decision",
+      "why": "Vega's desk and monitors stand in front of the pipes: the desk's area covers them to x 210, and its right side and the desk's top cross them from x 210 to 320.",
+      "pxWithin15": 7719
+     }
+    ]
+   },
+   {
+    "name": "junction box and pipes in the corner",
+    "parts": [
+     {
+      "where": "behind the lid's top-left corner",
+      "for": "the Lead's decision",
+      "why": "The hatch's lid stands in front of the corner's fittings: its top-left corner sits at the box's foot and its left side runs down the pipes to the deck.",
+      "pxWithin15": 2794
+     }
+    ]
+   },
+   {
+    "name": "lockers on the east wall",
+    "parts": [
+     {
+      "where": "behind the cabinet's top",
+      "for": "the Lead's decision",
+      "why": "Echo's cabinet stands in front of the lockers: its top crosses their doors at the handles' height, and their lower part lies inside its area.",
+      "pxWithin15": 11707
+     }
+    ]
+   },
+   {
+    "name": "light box beside the cabinet",
+    "parts": [
+     {
+      "where": "between the cabinet (step 2) and the capsule (step 3)",
+      "for": "the Lead's decision",
+      "why": "The box sits between Echo's cabinet and the food capsule: the cabinet's left side runs 1 to 5 px from the box's frame, and step 3's mask, the capsule's outline grown 2 px, runs 7 px from its left edge. The dot itself is 16 px from the cabinet's mask and 32 px from the capsule's.",
+      "pxWithin15": 1414
+     }
+    ]
+   },
+   {
+    "name": "pipe along the east wall",
+    "parts": [
+     {
+      "where": "behind the cabinet",
+      "for": "the Lead's decision",
+      "why": "Echo's cabinet stands in front of the pipe: the pipe runs into the cabinet's area at its left side and on behind it.",
+      "pxWithin15": 2340
+     }
+    ]
+   },
+   {
+    "name": "vent box on the east wall",
+    "parts": [
+     {
+      "where": "behind the cabinet's lower right",
+      "for": "the Lead's decision",
+      "why": "Echo's cabinet stands in front of the vent box: the cabinet's foot crosses the box's upper vents.",
+      "pxWithin15": 7116
+     }
+    ]
+   },
+   {
+    "name": "paper on the east wall",
+    "parts": [
+     {
+      "where": "above the capsule's top (step 3)",
+      "for": "the Lead's decision",
+      "why": "The food capsule hangs below the paper: step 3's mask (the capsule's outline grown 2 px) runs 8 px below the paper's foot.",
+      "pxWithin15": 360
+     }
+    ]
+   }
+  ],
+  "noted": [],
+  "lights": [
+   {
+    "name": "indicator dot, light box beside the cabinet",
+    "box": [
+     734,
+     739,
+     750,
+     754
+    ],
+    "step2ClearPx": 16,
+    "step3ClearPx": 32
+   },
+   {
+    "name": "indicator dot, box high on the north wall",
+    "box": [
+     83,
+     639,
+     97,
+     658
+    ],
+    "step2ClearPx": 60,
+    "step3ClearPx": 60
+   }
+  ],
+  "pairs": {
+   "A PC workstation": {
+    "vent box and its conduits on the north wall": {
+     "status": "crosses",
+     "pxInside": 3048,
+     "pxOutside": 11346
+    },
+    "pipes along the north wall": {
+     "status": "crosses",
+     "pxInside": 33196,
+     "pxOutside": 16701
+    }
+   },
+   "E toolbox": {},
+   "E floor hatch": {
+    "junction box and pipes in the corner": {
+     "status": "clear",
+     "clearPx": 47
+    }
+   },
+   "E hatch lid": {
+    "junction box and pipes in the corner": {
+     "status": "crosses",
+     "pxInside": 1789,
+     "pxOutside": 11315
+    }
+   },
+   "C electrical cabinet": {
+    "lockers on the east wall": {
+     "status": "crosses",
+     "pxInside": 20657,
+     "pxOutside": 30019
+    },
+    "light box beside the cabinet": {
+     "status": "crosses",
+     "pxInside": 159,
+     "pxOutside": 3578
+    },
+    "pipe along the east wall": {
+     "status": "crosses",
+     "pxInside": 8793,
+     "pxOutside": 2847
+    },
+    "vent box on the east wall": {
+     "status": "crosses",
+     "pxInside": 11583,
+     "pxOutside": 11352
+    },
+    "paper on the east wall": {
+     "status": "clear",
+     "clearPx": 24
+    }
+   },
+   "wall food capsule (step 3)": {
+    "junction box and pipes in the corner": {
+     "status": "clear",
+     "clearPx": 22
+    },
+    "lockers on the east wall": {
+     "status": "clear",
+     "clearPx": 58
+    },
+    "light box beside the cabinet": {
+     "status": "clear",
+     "clearPx": 7
+    },
+    "pipe along the east wall": {
+     "status": "clear",
+     "clearPx": 24
+    },
+    "paper on the east wall": {
+     "status": "clear",
+     "clearPx": 5
+    }
+   }
+  }
+ },
+ "feet": [
+  {
+   "name": "Vega",
+   "anchor": [
+    241.46,
+    1323.81
+   ],
+   "onDeck": [
+    -0.813,
+    0,
+    1.125
+   ],
+   "lines": [
+    "northFoot",
+    "northSeam1"
+   ],
+   "fraction": 0.803,
+   "paintedY": 1313.0,
+   "offsetPx": -10.8,
+   "moved": true,
+   "movedTo": [
+    241.46,
+    1313.0
+   ],
+   "rule": "the Lead: move a foot line more than 8 px off, and record all four"
+  },
+  {
+   "name": "Echo",
+   "anchor": [
+    839.69,
+    1085.2
+   ],
+   "onDeck": [
+    1.275,
+    0,
+    0.028
+   ],
+   "lines": [
+    "eastFoot",
+    "eastSeam1"
+   ],
+   "fraction": 0.657,
+   "paintedY": 1069.4,
+   "offsetPx": -15.8,
+   "moved": true,
+   "movedTo": [
+    839.69,
+    1069.4
+   ],
+   "rule": "the Lead: move a foot line more than 8 px off, and record all four"
+  },
+  {
+   "name": "Lyra",
+   "anchor": [
+    500.35,
+    1059.34
+   ],
+   "onDeck": [
+    0.563,
+    0,
+    1.325
+   ],
+   "lines": [
+    "northFoot",
+    "northSeam1"
+   ],
+   "fraction": 0.548,
+   "paintedY": 1067.0,
+   "offsetPx": 7.7,
+   "moved": false,
+   "rule": "the Lead: move a foot line more than 8 px off, and record all four"
+  },
+  {
+   "name": "capsule visitors",
+   "what": "where a visitor stands at the food capsule (stageA.mjs's VISIT: side-on to the east wall, the unit at the right hand)",
+   "anchor": [
+    612.88,
+    995.62
+   ],
+   "onDeck": [
+    1.45,
+    0,
+    1.2
+   ],
+   "lines": [
+    "eastFoot",
+    "eastSeam1"
+   ],
+   "fraction": 0.471,
+   "paintedY": 1009.5,
+   "offsetPx": 13.9,
+   "crossCheck": {
+    "lines": [
+     "northFoot",
+     "northSeam1"
+    ],
+    "fraction": 0.7,
+    "offsetPx": 10.8,
+    "note": "the north wall's lines run past the painted corner here, so this is a cross-check only"
+   },
+   "moved": true,
+   "movedTo": [
+    612.88,
+    1009.5
+   ],
+   "rule": "the Lead: move a foot line more than 8 px off, and record all four"
+  }
+ ],
+ "growth": {
+  "px": 12,
+  "decision": "the Lead, 27 November 2026, 18:38: the selective 12 px growth, for views C, E and D",
+  "rule": "step 2's mask grows 12 px more, only where no traced feature, small light, window or step-3 capsule lies within 15 px of the new edge, and each masked area on its own, kept apart from the others, with no islands; each added pixel takes its piece's grey",
+  "addedPx": 25320,
+  "maskedShareBefore": 0.145,
+  "maskedShareAfter": 0.1611,
+  "areasKeptApart": 3
+ },
+ "expected": {
+  "s2": {
+   "maskedShare": 0.1611,
+   "rawMaskAlpha": "db93847960d79a8b6da9233f970b7b45e9ae35a2b76d4d7e091d8f1001a1300d",
+   "over10": true
+  },
+  "s3": {
+   "maskedShare": 0.0042,
+   "rawMaskAlpha": "894867aaba0460955312e1080a5acf0adea0f59d819cc2180833a5dd3a1257b8"
+  }
+ }
+}

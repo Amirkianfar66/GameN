@@ -1,0 +1,251 @@
+{
+ "view": "D",
+ "what": "view D's pieces painted away from the plan's place, for view D's lift, occlusion and overlays, on its final plate RA-D-4c",
+ "date": "2026-11-28",
+ "picture": {
+  "name": "RA-D-4c",
+  "sha256": "8dbbc5075771e0f035b6a6eb7e97b602eb64eee98891734d26b3ce5094ffcdbe",
+  "pixelsSha256": "e94c257ab580f014debb133a443940c545166dd7ef5ea9dd02ec0555628da59d",
+  "size": [
+   1024,
+   1536
+  ],
+  "aiGenerated": true,
+  "codeComposite": true
+ },
+ "toolbox": {
+  "station": "E toolbox",
+  "decision": "the Lead, 27 November 2026, 22:54: keep the toolbox where RA-D-3h's raw painted it, about 27 px left of its area (a loose prop, about 10 px on the phone)",
+  "picture": {
+   "outlineBox": [
+    386.9,
+    1097.0,
+    515.9,
+    1223.9
+   ],
+   "planBox": [
+    420.55,
+    1084.22,
+    535.47,
+    1210.65
+   ],
+   "area": [
+    415,
+    1078,
+    542,
+    1217
+   ],
+   "baseCorners": {
+    "left (north-west)": [
+     388.5,
+     1193.34
+    ],
+    "front (south-west)": [
+     479.6,
+     1224.41
+    ],
+    "right (south-east)": [
+     515.21,
+     1192.7
+    ]
+   },
+   "how": "the base corners where the outline's runs meet: the left side's foot (the body's left side and the bottom-left edge), the front-bottom corner (the bottom-left and bottom-right edges) and the right side's foot (the right side under the near rim and the bottom-right edge)"
+  },
+  "deck": {
+   "baseCorners": {
+    "left (north-west)": [
+     -0.2401,
+     1.1385
+    ],
+    "front (south-west)": [
+     -0.157,
+     0.8103
+    ],
+    "right (south-east)": [
+     0.0173,
+     0.7942
+    ]
+   },
+   "planCorners": {
+    "left (north-west)": [
+     -0.12,
+     1.16
+    ],
+    "front (south-west)": [
+     -0.12,
+     0.8
+    ],
+    "right (south-east)": [
+     0.08,
+     0.8
+    ]
+   },
+   "centre": [
+    -0.103,
+    0.979
+   ],
+   "planCentre": [
+    -0.02,
+    0.98
+   ],
+   "shift": [
+    -0.083,
+    -0.001
+   ],
+   "turnDeg": 8.7,
+   "fitResidualM": {
+    "left (north-west)": 0.012,
+    "front (south-west)": 0.03,
+    "right (south-east)": 0.023
+   },
+   "faceLengthsM": {
+    "west face (left to front)": {
+     "painted": 0.339,
+     "plan": 0.36
+    },
+    "south face (front to right)": {
+     "painted": 0.175,
+     "plan": 0.2
+    }
+   },
+   "how": "each painted base corner moved by the painted deck's local offset from the guide's at the box (painted minus guide (-11.3, +7.7) px, where the painted seams x = 0 and z = 1 cross under it: kit-D2b.json) and taken down to the deck through view D's guide camera; the plan's box then placed on them by the least-squares turn and shift (its size kept)",
+   "units": "room metres: x east, z north; the turn is about the vertical, positive from east toward north"
+  },
+  "use": "view D's lift and occlusion use this place for the toolbox, not the plan's: the lift's area for the toolbox is its outline here (composite-D3hc.json), and its solid is the plan's box turned and shifted as above"
+ },
+ "camera": {
+  "C": [
+   -1.68,
+   1.6,
+   -0.39659600000000017
+  ],
+  "yaw": 0.9352521329736817,
+  "focalPx": 610.178,
+  "cx": 512,
+  "horizonY": 714,
+  "from": "guideD.mjs (the camera report camera-report-D.json, version 2)"
+ },
+ "capsule": {
+  "station": "wall food capsule",
+  "decision": "the Lead, 27 November 2026, 23:54: the housing runs about 11 px below the shape and 2-4 px past its right edge; add the capsule's painted box, as for the toolbox, so D's lift and any eating-visit overlay use the painted capsule",
+  "picture": {
+   "outlineBox": [
+    631.92,
+    712.63,
+    705.59,
+    829.85
+   ],
+   "shapeBox": [
+    634,
+    720,
+    702,
+    819
+   ],
+   "planBox": [
+    636.22,
+    721.79,
+    700.22,
+    817.18
+   ],
+   "pastTheShapePx": {
+    "left": 2.08,
+    "top": 7.37,
+    "right": 3.59,
+    "bottom": 10.85
+   },
+   "pastThePlanPx": {
+    "left": 4.3,
+    "top": 9.16,
+    "right": 5.37,
+    "bottom": 12.67
+   },
+   "centre": [
+    668.75,
+    771.24
+   ],
+   "planCentre": [
+    668.22,
+    769.49
+   ],
+   "parts": {
+    "hatch": {
+     "box": [
+      639,
+      756,
+      681,
+      814
+     ],
+     "px": 2074,
+     "how": "its paper-white pixels (luminance over 150, red over blue by 16 or more), the largest connected part"
+    },
+    "lens": {
+     "box": [
+      649,
+      727,
+      671,
+      751
+     ],
+     "how": "its dark ring and glass (luminance under 45) high on the front"
+    }
+   },
+   "how": "the box of the capsule's traced outline (composite-D4c.json); step 3's shape is the plan's outline grown 2 px; the plan's box is the plan's capsule through view D's guide camera"
+  },
+  "wall": {
+   "painted": {
+    "x": [
+     1.78,
+     2.0
+    ],
+    "z": [
+     0.857,
+     1.239
+    ],
+    "y": [
+     0.93,
+     1.608
+    ]
+   },
+   "plan": {
+    "x": [
+     1.78,
+     2.0
+    ],
+    "z": [
+     0.89,
+     1.21
+    ],
+    "y": [
+     1.0,
+     1.55
+    ]
+   },
+   "centre": [
+    1.048,
+    1.269
+   ],
+   "planCentre": [
+    1.05,
+    1.275
+   ],
+   "sizeM": {
+    "painted": [
+     0.382,
+     0.678
+    ],
+    "plan": [
+     0.32,
+     0.55
+    ]
+   },
+   "fitResidualPx": [
+    -0.0,
+    0.0,
+    -0.0,
+    0.0
+   ],
+   "how": "on the east wall, the plan's depth (0.22 m) kept: the box whose outline through view D's guide camera has the painted outline's box (its left, top, right and bottom), found by Newton's method from the plan's; the painting draws the housing's top face as if seen from above, which a box at this height is not, so the box spans the painted outline rather than modelling the top face",
+   "units": "room metres: x east, y up, z north; z and y are the box's south and north sides and its bottom and top"
+  },
+  "use": "view D's lift takes the capsule's area from its outline here (composite-D4c.json's capsule outline, grown 2 px, with step 3's mask); its solid for the occlusion is the painted box above, not the plan's; an overlay at the capsule (an eating visit) goes on the painted outline and its hatch and lens boxes"
+ }
+}

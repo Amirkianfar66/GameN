@@ -1,0 +1,171 @@
+{
+ "piece": "RA-A",
+ "pass": "step 3: the food unit alone, one masked edit of RA-A-3 inside its shape (s3), kept inside the mask in code",
+ "attempt": 4,
+ "generated": true,
+ "label": "AI-generated, composited in code from a masked edit",
+ "runner": "Designer team Image builder (Claude Code session)",
+ "tool": "OpenAI Images API, POST /v1/images/edits (one input with its mask, no second picture), then ra1_tools.py keep3 and lift3",
+ "date": "2026-11-19T13:04:20+00:00",
+ "request_id": "req_991f8688e4844be891a3dcf0239bec51",
+ "authority": "the Lead's go of 19 November 2026 for RA-A steps 2 and 3 on sheet v4 (at most 4 calls); the owner's approval of Room A with a cap under $5 in total (#280 at ab849d40)",
+ "sheet": {
+  "page": "Room A sheet RA-A",
+  "version": "1795092955-447e",
+  "manifest": {
+   "file": "room-a-ra-a.json",
+   "sha256": "27cab8a2ef473b908020f340da839e9b49230792a44ffbdd0a6dc11a3ada7870"
+  },
+  "prompts": {
+   "file": "room-a-ra-a-prompts.txt",
+   "sha256": "32279e00ef39452972f055ad96eed4f8c199d706cb8914649c0ae19df8545c6a"
+  }
+ },
+ "tools": {
+  "ra1_tools.py": "a1d3bbca594b0461735e75879bb1ab4b5f9d6ed177fffefc5d734395abcb63d2",
+  "lift5.py": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+  "colour-check-ra1.py": "c882f4f8259b44bf8d689021daa2e5b0e8f028539cc076cc457fe144f582dbd2",
+  "kitCheck": "all files and expected hashes match"
+ },
+ "start": {
+  "file": "RA-A-3.png",
+  "sha256": "ae6a5aa8bec10e958cddd6aeaa1b3a101057f45b941db9ce0cf94d0212be7108"
+ },
+ "maskedShare": 0.0077,
+ "rawInputRGB": "ab0d8140c82bdc1948eca320e183f18d933d6a7fbec390cb31d07dd7b6940809",
+ "rawMaskAlpha": "f075547c1bd3a5d8028993b11ec8ba37c42fd20bdeea808c9249887f756b01eb",
+ "prompt_key": "s3",
+ "prompt": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool blue-steel shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom A, the crew bay, in the same illustrated world: blue steel, lit warm. The whole room is one blue-steel family, the colours of the attached guide: deep navy in the shadows and corners (#14243F, #1D3D6B), steel blue on the walls and the deck (#2D609E), turning paler where the light falls (#5C92CC, #A9CAEB). The light is warm: the two light bars glow cream along their length (#FCE3A0), with a warm paper-white glow (#F4EBDD) on the ceiling around them and soft pools of pale light on the deck below. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige, olive, purple or violet. The shadows are deep navy, never black-brown or grey. Labels and paper are blank, in a warm paper white (#F4EBDD). Small indicator lights are warm orange (#EC793C); no other coloured light, and no green, purple or red light. Practical and worn, a working bay, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked shape, and leave everything outside it exactly as it is. The masked shape holds one small food dispenser that fills the shape exactly, with nothing of it outside the shape, painted in full detail in the picture's style and light. It is mounted on the back wall, on the left, on a bracket in the wall's own colours, at waist to chest height: a narrow upright steel housing about 0.32 m wide, 0.55 m tall and 0.22 m deep; a small round lens high on its front, unlit and dark; below it, a large closed hatch of warm paper-white filling most of the front, with a small dark handle along its bottom edge; no vent slots; nothing written, printed or lit on it. Paint it in the same metal, paint and wear as the furniture in the picture.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+ "prompt_sha256": "0b5a2cf4ae811090374295fcc14d01f9e68aa02c76efca51c4354fcad45e33ba",
+ "revised_prompt": null,
+ "inputs": [
+  {
+   "order": 1,
+   "file": "RA-A-4-S3-input.png",
+   "sha256": "def8dd2fbd4170b5ea073a292f44011643d68b4706480b74a6b2a1f8ed1694ca"
+  }
+ ],
+ "mask": {
+  "file": "RA-A-4-S3-mask.png",
+  "sha256": "7a200bb873833bc190d0c23e553db5047989977bc3e9355d0d973a7fee059e06",
+  "convention": "alpha 0 = repaint"
+ },
+ "settings": {
+  "size": "1024x1536",
+  "quality": "high",
+  "n": 1,
+  "seed": null,
+  "background": "opaque",
+  "output_format": "png"
+ },
+ "raw_output": {
+  "file": "RA-A-4-raw.png",
+  "sha256": "1af312e0322f4458ef24a85fef83bc685396ac5792287f252fc34d805a170c5e"
+ },
+ "output": {
+  "file": "RA-A-4.png",
+  "sha256": "63c0ca59e2caf52d4082bffbb977b50c63ed4dea5e1302a7ef642c2fbb914500",
+  "rawRGBsha256": "b689098d66489ef6f6bd39d66584ada59ca83f60fc38553a24c55fd1fba875ec",
+  "width": 1024,
+  "height": 1536,
+  "retouched": "composited in code only: the raw edit over its start picture inside the mask, feathered by a 2 px Gaussian"
+ },
+ "keep": {
+  "moreThan4pxOutsideMask": {
+   "meanAbsDiff": 0.0001,
+   "maxAbsDiff": 1
+  }
+ },
+ "lift": {
+  "view": "A",
+  "step": 3,
+  "recipe": "the Lead's recipe of 18 November (lift5.py): d, the largest of |placed - start| over R, G and B; the pixels where d is above 16, inside the mask; closed with a 7 x 7 max then a 7 x 7 min, kept inside the mask; holes filled; parts under 400 px dropped; feathered with a 1 px Gaussian; clipped to the mask",
+  "pieces": {
+   "wall food capsule": {
+    "file": "RA-A-4-wall-food-capsule.png",
+    "sha256": "c5e2814616a0634cb1f2c34c5b626f0dcfe48188c14b00ec38c9f10ef353178f",
+    "px": 12000,
+    "x": [
+     191,
+     282
+    ],
+    "y": [
+     723,
+     859
+    ],
+    "shareOfItsOutline": 0.9885
+   }
+  },
+  "missing": [],
+  "rebuildMeanAbsDiff": 0.0132
+ },
+ "usage": {
+  "input_tokens": 2277,
+  "input_tokens_details": {
+   "image_tokens": 1536,
+   "text_tokens": 741
+  },
+  "output_tokens": 1372,
+  "output_tokens_details": {
+   "image_tokens": 1372,
+   "text_tokens": 0
+  },
+  "total_tokens": 3649
+ },
+ "cost_usd_est": 0.0572,
+ "roomARunningTotal": {
+  "images": 4,
+  "usd": 0.2309,
+  "cap": "under $5"
+ },
+ "terms": "Generated with OpenAI's image model under its Terms of Use as checked by the Lead (c8fbc793): the user owns the output; it is never presented as made by a person.",
+ "check": {
+  "by": "Image builder (ra1_tools.py colours, lift and keep numbers; the rest by eye). Not the Designer's review.",
+  "colour": {
+   "pass": true,
+   "result": {
+    "walls and deck in the base": true,
+    "each wall and the deck in the base": true,
+    "orange capped": true,
+    "rust capped": true,
+    "no tan or olive": true,
+    "not purple": true,
+    "not grey": true,
+    "median lightness": true,
+    "accents only orange, cream, rust": true,
+    "openings flat black": true
+   }
+  },
+  "liftPieces": {
+   "wall food capsule": {
+    "px": 12000,
+    "x": [
+     191,
+     282
+    ],
+    "y": [
+     723,
+     859
+    ],
+    "shareOfItsOutline": 0.9885
+   }
+  },
+  "liftMissing": [],
+  "byEye": "pass: one narrow upright housing on plain wall, no locker edge near it; a small dark round lens high on its front, unlit (a glint only); a large closed paper-white hatch filling most of the front, with a handle along its bottom edge (darker blue steel rather than very dark); no vents; nothing written or lit; outside its shape unchanged (largest difference 1).",
+  "verdict": "pass on every listed check",
+  "result": "accepted as view A's step 3",
+  "reason": "Lead Designer, 19 November 2026: accepted as view A's step 3. the food unit as painted; it is the start picture for the cabinet-edge fix."
+ },
+ "review": {
+  "by": "Lead Designer",
+  "date": "2026-11-19",
+  "result": "accepted as view A's step 3",
+  "note": "the food unit as painted; it is the start picture for the cabinet-edge fix.",
+  "final": "view A's final picture (the Lead, 19 November 2026); the cabinet's right frame is drawn in code after two failed step-4 fixes (RA-A-5, RA-A-6)"
+ },
+ "copy": {
+  "of": "Room A Records (the image builder’s records page), version 1795828303-eac0, records/RA-A-4.json",
+  "originalSha256": "181ff4202dd2d308b3e05a56b5413b5969150123b9fb7fb57e11f0f9ef4f752d",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

@@ -1,0 +1,836 @@
+{
+ "sheet": "RA-C",
+ "room": "Room A",
+ "view": "C",
+ "viewer": "Echo (c9)",
+ "version": 2.1,
+ "date": "2026-11-27",
+ "about": "Room A's third view, painted as views A and B were: two pictures, the empty room and the furniture. The food capsule and the round window are out of view C, so there is no step 3. No people are painted: code draws them.",
+ "plan": {
+  "page": "Room A plan",
+  "version": "1795050100-be2f",
+  "approved": "the owner, about 10:45 UTC on 19 November: Room A all as recommended, the cap under $5 for Room A (docs/design/owner-decisions.md, ab849d40 on #280)"
+ },
+ "rules": [
+  "Every picture made from this sheet is AI-generated. Its record says so, with its tool, model, prompt, date and settings, and it is never presented as made by a person.",
+  "The owner's reference pictures are never inputs. The only inputs are this sheet's code-drawn guides and masks, and the picture its own step 1 keeps.",
+  "Test pages only: no picture from this sheet is an asset or contract, and none is committed.",
+  "Nothing is painted before the owner's go on view A's page. The Lead gives each step's go and names this sheet's version and hashes. The work stops and asks before it would pass the cap."
+ ],
+ "camera": {
+  "painting": [
+   1024,
+   1536
+  ],
+  "lens": "straight lines, level, every vertical upright",
+  "acrossDeg": 80,
+  "focalPx": 610.2,
+  "horizonY": 714,
+  "eyeM": 1.6,
+  "at": [
+   1.68,
+   1.6,
+   -0.4
+  ],
+  "yawCompass": 270,
+  "phones": {
+   "fovDeg": 70,
+   "downDeg": 5,
+   "how": "each phone's 70 degree slice, 5 degrees down, is a centred crop of the painting (the same straight-line camera, scaled about the horizon point)",
+   "slices": {
+    "390x844": {
+     "stage": [
+      390,
+      653
+     ],
+     "paintingRect": [
+      84.7,
+      52,
+      939.3,
+      1482.8
+     ],
+     "scale": 2.191
+    },
+    "430x932": {
+     "stage": [
+      430,
+      741
+     ],
+     "paintingRect": [
+      84.7,
+      31.1,
+      939.3,
+      1503.6
+     ],
+     "scale": 1.9872
+    },
+    "402x742": {
+     "stage": [
+      402,
+      551
+     ],
+     "paintingRect": [
+      84.7,
+      181.8,
+      939.3,
+      1353
+     ],
+     "scale": 2.1256
+    }
+   }
+  },
+  "walls": {
+   "north": "right",
+   "south": "left",
+   "west": "back"
+  },
+  "report": {
+   "file": "camera-report-C.json",
+   "version": 2,
+   "sha256": "f438a2271812ca52b53da603a4f587f9040ffe046727f54cde91c96f32de8f64"
+  }
+ },
+ "kit": {
+  "views": {
+   "C": {
+    "files": {
+     "empty": {
+      "published": "img/ra-C-empty.png",
+      "sha256": "6404389a334982920708b06f2ab7509ab8d5412391bdcbd31dafa4e353b318fe"
+     },
+     "emptyRegions": {
+      "published": "img/ra-C-empty-regions.png",
+      "sha256": "5d49e067beaebfdbfe51a89281785e75a19a6753e27b477d5347f9c12e512bda"
+     },
+     "emptyAnnotated": {
+      "published": "img/ra-C-empty-annotated.png",
+      "sha256": "435b20f7f8cdcd1ad44f3adb58c1d87b98cf7629ce818132962a223a61652caa"
+     },
+     "guide": {
+      "published": "img/ra-C-guide.png",
+      "sha256": "96c33418d283b924a946c62c0c93f62dd25826aea54b0e6f69627daedb2f20ff"
+     },
+     "regions": {
+      "published": "img/ra-C-regions.png",
+      "sha256": "9d733786ba6bdc214fc560e22dcf1ee69fe748e1415891fb111e793b78f4e3da"
+     },
+     "place": {
+      "published": "img/ra-C-place.png",
+      "sha256": "f5a0a84ba4db2544f95b7406cfc24abacf84dae31386d07224d7883eb0c3c5c2"
+     },
+     "split": {
+      "published": "img/ra-C-split.png",
+      "sha256": "8dfaf78bf1d2e3ed49f289cf1b0ae1b1b59029f2e18c42669b534e73177b2f61"
+     },
+     "guideS2": {
+      "published": "img/ra-C-guide.png",
+      "sha256": "96c33418d283b924a946c62c0c93f62dd25826aea54b0e6f69627daedb2f20ff"
+     }
+    },
+    "prompts": {
+     "s1": {
+      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool blue-steel shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom A, the crew bay, in the same illustrated world: blue steel, lit warm. The whole room is one blue-steel family, the colours of the attached guide: deep navy in the shadows and corners (#14243F, #1D3D6B), steel blue on the walls and the deck (#2D609E), turning paler where the light falls (#5C92CC, #A9CAEB). The light is warm: the two light bars glow cream along their length (#FCE3A0), with a warm paper-white glow (#F4EBDD) on the ceiling around them and soft pools of pale light on the deck below. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige, olive, purple or violet. The shadows are deep navy, never black-brown or grey. Labels and paper are blank, in a warm paper white (#F4EBDD). Small indicator lights are warm orange (#EC793C); no other coloured light, and no green, purple or red light. Each indicator is a single small dot, never several in a row or a column. Practical and worn, a working bay, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThe room: Room A, the crew bay, a 4 m square room with a 3 m ceiling, here with no furniture in it. The ceiling is solid steel panels, with no skylight and no opening in it: two long light bars set into it run across the room about 1.4 m apart, each glowing warm cream along its whole length behind a plain diffuser, lighting the ceiling around it and throwing soft pools of light on the deck below. The walls are steel panels, pipes, conduits, cable runs and small lockers, worn and repaired, darker toward the deck, with a narrow rust-brown kick strip along their foot; the deck is metal plates with seams, scuffs and a little rust, lit pale under the light bars and darker toward the corners. No beams, rays or shafts of light in the air.\n\nView: a straight-lined view at standing eye height, exactly as the attached guide shows: 80 degrees across and level, every vertical line perfectly straight and upright, every straight line in the room straight in the picture. The horizon, at eye level, is a straight line 714 px from the top, a little above the middle. Match the guide's layout, perspective, horizon and proportions exactly, line for line, as its floor seams, wall bases, corners and ceiling edges show. Do not curve the lines, tilt the view, zoom in or out, or move the horizon.\n\nThis picture: from a place by the east wall, a little south of its middle, at standing eye height, looking straight across the room toward the west wall. Ahead, the west wall, square to the view, from its corner with the south wall left of the middle to its corner with the north wall near the right edge; on the left, the south wall; on the right, a narrow strip of the north wall. Above, the solid ceiling, with the two light bars running from near the far wall toward you and out of the picture, the left one almost upright to the top edge and the right one out at the right edge near the top. The deck is open and clear, with nothing standing on it, while the walls keep their pipes, panels and conduits.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+      "sha256": "50d0cf95ad787fd23336999f63cb583bfa9f8efbb51409801ab9259c04b68cfc",
+      "chars": 4511
+     },
+     "s2": {
+      "text": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool blue-steel shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom A, the crew bay, in the same illustrated world: blue steel, lit warm. The whole room is one blue-steel family, the colours of the attached guide: deep navy in the shadows and corners (#14243F, #1D3D6B), steel blue on the walls and the deck (#2D609E), turning paler where the light falls (#5C92CC, #A9CAEB). The light is warm: the two light bars glow cream along their length (#FCE3A0), with a warm paper-white glow (#F4EBDD) on the ceiling around them and soft pools of pale light on the deck below. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige, olive, purple or violet. The shadows are deep navy, never black-brown or grey. Labels and paper are blank, in a warm paper white (#F4EBDD). Small indicator lights are warm orange (#EC793C); no other coloured light, and no green, purple or red light. Each indicator is a single small dot, never several in a row or a column. Practical and worn, a working bay, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked areas, and leave everything outside them exactly as it is. The four masked areas hold four pieces of furniture, each filling its own area exactly, painted in full detail in the picture's style and light. Paint each piece whole, with a crisp drawn outline all round it and its frame closed on every side: nothing fades softly into the wall or the deck at an area's edge. Ahead, against the middle of the far wall: two closed steel crates, a long low one about 1 m long with a smaller one on top, held by straps. The upper crate's top face stays clear: nothing lies or stands on it, because code adds the parcel Atlas lifts. On the right, against the right-hand wall and running out of the picture at its right edge: a long steel desk about 0.74 m high, seen along its length, with a flat monitor standing toward its far end; the monitor's screen is flat black and empty, for the game to fill. No chair stands at the desk. Lower on the right, on the deck and cut off by the picture's right edge: a closed steel toolbox, and nearer, below it, the end of an open hatch in the deck with a raised steel rim, showing a dark space beneath.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+      "sha256": "857158003f7f3a9db9a92e19f1654d78530ebd0348d5e73ad1d06980dc4e7495",
+      "chars": 3712
+     }
+    },
+    "split": {
+     "D crates": 20,
+     "A PC workstation": 40,
+     "E toolbox": 60,
+     "E floor hatch": 80
+    },
+    "expected": {
+     "s2": {
+      "maskedShare": 0.084,
+      "rawMaskAlpha": "6aa77f64988050726fe2550d208c92e34d0546363f04b116a58a8197649f3b4b"
+     }
+    }
+   }
+  },
+  "lift": {
+   "file": "lift5.py",
+   "sha256": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+   "recipe": "the Lead's recipe of 18 November (lift5.py): d, the largest of |placed - start| over R, G and B; the pixels where d is above 16, inside the mask; closed with a 7 x 7 max then a 7 x 7 min, kept inside the mask; holes filled; parts under 400 px dropped; feathered with a 1 px Gaussian; clipped to the mask"
+  },
+  "colourCheck": {
+   "file": "colour-check-ra1.py",
+   "sha256": "c882f4f8259b44bf8d689021daa2e5b0e8f028539cc076cc457fe144f582dbd2",
+   "version": 1
+  },
+  "tool": {
+   "file": "rc1_tools.py",
+   "sha256": "43988dba876acffcd3036de66bda69a5e471f96eb863cf192104977d9b892de5",
+   "version": 1,
+   "note": "sheet RA-B's tool (rb1_tools.py, version 1) with view C's manifest: the same two steps, with no step 3"
+  }
+ },
+ "steps": [
+  {
+   "step": 1,
+   "what": "the empty room, a first pass",
+   "inputs": [
+    "img/ra-C-empty.png"
+   ],
+   "mask": "none",
+   "secondPicture": "none",
+   "prompt": "s1",
+   "check": "rc1_tools.py colours C 1 (colour-check-ra1.py with img/ra-C-empty-regions.png), and the lines against img/ra-C-empty-annotated.png",
+   "done": {
+    "picture": "RA-C-1",
+    "sha256": "ad56119d60d86073282585044f82b4fceb5a9d130d217f096e814516990783b5",
+    "madeOn": "sheet RA-C version 1.1 (manifest 18118df1a732e7ced3b216200fd073313e1fc3b9cc7691b40b9784824c0fde24)",
+    "result": "accepted by the Lead on 27 November",
+    "record": "the image session's records"
+   }
+  },
+  {
+   "step": 2,
+   "what": "PLACE, one masked edit: the furniture",
+   "inputs": [
+    "RA-C-1.png (sha256 ad56119d60d86073282585044f82b4fceb5a9d130d217f096e814516990783b5), the accepted step-1 picture, with the step-2 guide inside the PLACE mask (rc1_tools.py s2)"
+   ],
+   "picture": {
+    "name": "RA-C-1",
+    "sha256": "ad56119d60d86073282585044f82b4fceb5a9d130d217f096e814516990783b5"
+   },
+   "mask": "img/ra-C-place.png (white = repaint; the tool writes it as RGBA, alpha 0 = repaint)",
+   "secondPicture": "none",
+   "prompt": "s2",
+   "keep": "rc1_tools.py keep",
+   "lift": "rc1_tools.py lift",
+   "before": "the 15 px rule against RA-C-1's painted features (sheet RA-A version 4's rule): passed, with 6 named exceptions for the Lead's decision (featuresC.json; checks.featureTest)",
+   "go": "after the Lead's review of this version"
+  }
+ ],
+ "pieces": {
+  "step2": [
+   {
+    "name": "crates",
+    "place": "D",
+    "parts": [
+     "crate",
+     "crate"
+    ],
+    "grey": 20,
+    "depthM": 3.38,
+    "px": 37257,
+    "bbox": [
+     402,
+     814,
+     601,
+     1031
+    ]
+   },
+   {
+    "name": "PC workstation",
+    "place": "A",
+    "parts": [
+     "PC desk",
+     "monitor"
+    ],
+    "grey": 40,
+    "depthM": 2.69,
+    "px": 40993,
+    "bbox": [
+     849,
+     810,
+     1024,
+     1157
+    ]
+   },
+   {
+    "name": "toolbox",
+    "place": "E",
+    "parts": [
+     "toolbox"
+    ],
+    "grey": 60,
+    "depthM": 1.7,
+    "px": 11991,
+    "bbox": [
+     918,
+     1195,
+     1024,
+     1324
+    ]
+   },
+   {
+    "name": "floor hatch",
+    "place": "E",
+    "parts": [
+     "floor hatch"
+    ],
+    "grey": 80,
+    "depthM": 1.05,
+    "px": 8133,
+    "bbox": [
+     924,
+     1339,
+     1024,
+     1496
+    ]
+   }
+  ]
+ },
+ "checks": {
+  "inView": {
+   "window": false,
+   "screens": true,
+   "capsule": false,
+   "own": []
+  },
+  "gaps": {
+   "crates / PC workstation": {
+    "tightPx": 199,
+    "grownPx": 199
+   },
+   "crates / toolbox": {
+    "tightPx": 199,
+    "grownPx": 199
+   },
+   "crates / floor hatch": {
+    "tightPx": 199,
+    "grownPx": 199
+   },
+   "PC workstation / toolbox": {
+    "tightPx": 38,
+    "grownPx": 2
+   },
+   "PC workstation / floor hatch": {
+    "tightPx": 182,
+    "grownPx": 146
+   },
+   "toolbox / floor hatch": {
+    "tightPx": 15,
+    "grownPx": 1
+   }
+  },
+  "openings": {
+   "screens": {
+    "px": 4938,
+    "insidePlaceMask": true,
+    "note": "the monitors' screens are part of the PC workstation's piece: openings painted flat black inside the mask"
+   }
+  },
+  "ownStation": {
+   "place": "C",
+   "objects": {
+    "electrical panel": {
+     "paintingPx": 0,
+     "slicePx": {
+      "390x844": 0,
+      "430x932": 0,
+      "402x742": 0
+     }
+    }
+   },
+   "rule": "the approved plan (visA) leaves the viewer's own station out of the viewer's view, and so does this sheet"
+  },
+  "featureTest": {
+   "picture": {
+    "name": "RA-C-1",
+    "sha256": "ad56119d60d86073282585044f82b4fceb5a9d130d217f096e814516990783b5",
+    "aiGenerated": true
+   },
+   "rule": "Every step-2 mask edge either clearly overlaps a feature in the test, covering it with at least 15 px to spare, or clears it by at least 15 px (square pixels): no part of the feature lies within 15 px of a mask edge. A named exception, for the Lead's decision, passes only where every such part lies in its zone. The features not in the test are measured and reported.",
+   "minClearPx": 15,
+   "atLeastPx": 60,
+   "passed": true,
+   "features": [
+    {
+     "name": "wall panel behind the crates",
+     "kind": "panel",
+     "test": true,
+     "px": 9718,
+     "step2": {
+      "status": "crosses",
+      "pxInside": 9032,
+      "pxOutside": 686
+     },
+     "step3": {
+      "status": "no step 3"
+     },
+     "pxWithin15": {
+      "step2": 3041,
+      "step3": 0
+     },
+     "exception": [
+      {
+       "where": "behind the upper crate's top and left side",
+       "for": "the Lead's decision",
+       "why": "Atlas's crates stand in front of the panel: the upper crate's top edge runs 8 px above the panel's top edge, and its left side crosses the panel.",
+       "pxWithin15": 3041
+      }
+     ]
+    },
+    {
+     "name": "vent box above the crates",
+     "kind": "vent",
+     "test": true,
+     "px": 5865,
+     "step2": {
+      "status": "clear",
+      "clearPx": 9
+     },
+     "step3": {
+      "status": "no step 3"
+     },
+     "pxWithin15": {
+      "step2": 662,
+      "step3": 0
+     },
+     "exception": [
+      {
+       "where": "above the upper crate's top",
+       "for": "the Lead's decision",
+       "why": "The upper crate's top edge (the mask's edge at y 808) runs 10 to 12 px under the vent box's foot: the crate stands in front of the wall just below it.",
+       "pxWithin15": 662
+      }
+     ]
+    },
+    {
+     "name": "pipe bends right of the crates",
+     "kind": "pipes",
+     "test": true,
+     "px": 13444,
+     "step2": {
+      "status": "crosses",
+      "pxInside": 449,
+      "pxOutside": 12995
+     },
+     "step3": {
+      "status": "no step 3"
+     },
+     "pxWithin15": {
+      "step2": 1425,
+      "step3": 0
+     },
+     "exception": [
+      {
+       "where": "behind the lower crate's top right corner",
+       "for": "the Lead's decision",
+       "why": "The lowest pipe's bend passes behind the lower crate's top right corner, which crosses it; the runs beside it lie just above the crate's sloping side.",
+       "pxWithin15": 1425
+      }
+     ]
+    },
+    {
+     "name": "vented wall box behind the monitor",
+     "kind": "box",
+     "test": true,
+     "px": 9030,
+     "step2": {
+      "status": "crosses",
+      "pxInside": 4749,
+      "pxOutside": 4281
+     },
+     "step3": {
+      "status": "no step 3"
+     },
+     "pxWithin15": {
+      "step2": 3381,
+      "step3": 0
+     },
+     "exception": [
+      {
+       "where": "behind the monitor's top and left side",
+       "for": "the Lead's decision",
+       "why": "Vega's monitor stands in front of the box: its top crosses the vent and its left side runs along the box's left edge.",
+       "pxWithin15": 3381
+      }
+     ]
+    },
+    {
+     "name": "pipes behind the desk's far end",
+     "kind": "pipes",
+     "test": true,
+     "px": 6550,
+     "step2": {
+      "status": "crosses",
+      "pxInside": 2184,
+      "pxOutside": 4366
+     },
+     "step3": {
+      "status": "no step 3"
+     },
+     "pxWithin15": {
+      "step2": 3180,
+      "step3": 0
+     },
+     "exception": [
+      {
+       "where": "behind the desk's far end",
+       "for": "the Lead's decision",
+       "why": "The desk's far end stands in front of the pipes: its top and its near side cross them.",
+       "pxWithin15": 3180
+      }
+     ]
+    },
+    {
+     "name": "vertical pipe beside the monitor",
+     "kind": "pipes",
+     "test": true,
+     "px": 5764,
+     "step2": {
+      "status": "crosses",
+      "pxInside": 2970,
+      "pxOutside": 2794
+     },
+     "step3": {
+      "status": "no step 3"
+     },
+     "pxWithin15": {
+      "step2": 1331,
+      "step3": 0
+     },
+     "exception": [
+      {
+       "where": "beside the monitor's left side and behind the desk's far end",
+       "for": "the Lead's decision",
+       "why": "The pipe runs 7 to 22 px left of the monitor's outline and passes behind the desk's far end, whose top crosses it.",
+       "pxWithin15": 1331
+      }
+     ]
+    }
+   ],
+   "exceptions": [
+    {
+     "name": "wall panel behind the crates",
+     "parts": [
+      {
+       "where": "behind the upper crate's top and left side",
+       "for": "the Lead's decision",
+       "why": "Atlas's crates stand in front of the panel: the upper crate's top edge runs 8 px above the panel's top edge, and its left side crosses the panel.",
+       "pxWithin15": 3041
+      }
+     ]
+    },
+    {
+     "name": "vent box above the crates",
+     "parts": [
+      {
+       "where": "above the upper crate's top",
+       "for": "the Lead's decision",
+       "why": "The upper crate's top edge (the mask's edge at y 808) runs 10 to 12 px under the vent box's foot: the crate stands in front of the wall just below it.",
+       "pxWithin15": 662
+      }
+     ]
+    },
+    {
+     "name": "pipe bends right of the crates",
+     "parts": [
+      {
+       "where": "behind the lower crate's top right corner",
+       "for": "the Lead's decision",
+       "why": "The lowest pipe's bend passes behind the lower crate's top right corner, which crosses it; the runs beside it lie just above the crate's sloping side.",
+       "pxWithin15": 1425
+      }
+     ]
+    },
+    {
+     "name": "vented wall box behind the monitor",
+     "parts": [
+      {
+       "where": "behind the monitor's top and left side",
+       "for": "the Lead's decision",
+       "why": "Vega's monitor stands in front of the box: its top crosses the vent and its left side runs along the box's left edge.",
+       "pxWithin15": 3381
+      }
+     ]
+    },
+    {
+     "name": "pipes behind the desk's far end",
+     "parts": [
+      {
+       "where": "behind the desk's far end",
+       "for": "the Lead's decision",
+       "why": "The desk's far end stands in front of the pipes: its top and its near side cross them.",
+       "pxWithin15": 3180
+      }
+     ]
+    },
+    {
+     "name": "vertical pipe beside the monitor",
+     "parts": [
+      {
+       "where": "beside the monitor's left side and behind the desk's far end",
+       "for": "the Lead's decision",
+       "why": "The pipe runs 7 to 22 px left of the monitor's outline and passes behind the desk's far end, whose top crosses it.",
+       "pxWithin15": 1331
+      }
+     ]
+    }
+   ],
+   "noted": [],
+   "lights": [
+    {
+     "name": "indicator dot, left wall box",
+     "box": [
+      192,
+      623,
+      202,
+      638
+     ],
+     "step2ClearPx": 60
+    },
+    {
+     "name": "indicator dot, far wall box, left",
+     "box": [
+      360,
+      567,
+      366,
+      574
+     ],
+     "step2ClearPx": 60
+    },
+    {
+     "name": "indicator dot, far wall box, right",
+     "box": [
+      625,
+      607,
+      636,
+      619
+     ],
+     "step2ClearPx": 60
+    },
+    {
+     "name": "indicator dot, right-hand wall",
+     "box": [
+      967,
+      670,
+      972,
+      676
+     ],
+     "step2ClearPx": 60
+    }
+   ],
+   "pairs": {
+    "D crates": {
+     "wall panel behind the crates": {
+      "status": "crosses",
+      "pxInside": 9032,
+      "pxOutside": 686
+     },
+     "vent box above the crates": {
+      "status": "clear",
+      "clearPx": 9
+     },
+     "pipe bends right of the crates": {
+      "status": "crosses",
+      "pxInside": 449,
+      "pxOutside": 12995
+     }
+    },
+    "A PC workstation": {
+     "vented wall box behind the monitor": {
+      "status": "crosses",
+      "pxInside": 4749,
+      "pxOutside": 4281
+     },
+     "pipes behind the desk's far end": {
+      "status": "crosses",
+      "pxInside": 2184,
+      "pxOutside": 4366
+     },
+     "vertical pipe beside the monitor": {
+      "status": "crosses",
+      "pxInside": 2970,
+      "pxOutside": 2794
+     }
+    },
+    "E toolbox": {},
+    "E floor hatch": {}
+   }
+  }
+ },
+ "evidence": {
+  "featuresC.json": {
+   "what": "the step-1 picture's painted features and the named exceptions (the 15 px rule's obstacles)",
+   "sha256": "6d2c6b23521408f5c1484e85ba045c2d36422c75f538439a6a1b371b7dab37f3"
+  }
+ },
+ "style": {
+  "base": "the owner's style text (pv1-shared version 2)",
+  "changes": [
+   {
+    "from": "Use controlled colour palettes with selective luminous accents, giving each location its own atmosphere.",
+    "to": "Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere."
+   },
+   {
+    "from": "Overall: dark, cyber, noir, illustrated science fiction.",
+    "to": "Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool blue-steel shadow, dark only in the corners."
+   }
+  ],
+  "blocks": "sheet RA-A's style, room, lens and keep-out blocks, word for word, and its colour block with one sentence for the indicators (version 1.1); sheet RA-B's whole-piece sentence; view C's own view and PLACE blocks, with the Lead's crate-top line"
+ },
+ "lessons": [
+  "View A's step 2 left the cabinet's right side open, fading into the wall at the mask's edge (RA-A-2, RA-A-3), and two masked fixes could not close it (RA-A-5, RA-A-6): the frame was drawn in code. Step 2's prompt here asks for every piece whole, its outline and frame closed on every side, nothing fading into the wall or the deck at an area's edge.",
+  "View A's step-1 picture painted wall features (lockers, a grille, papers, pipes) that the step-2 mask then had to clear by 15 px: here the rule is applied once RA-B-1 exists, before step 2's go.",
+  "The Lead, 19 November: wherever Atlas works at the crates in view, the upper crate's top face stays clear, because code adds the parcel Atlas lifts. Step 2's prompt says so in the Lead's words."
+ ],
+ "changes": [
+  {
+   "version": 2.1,
+   "date": "2026-11-27",
+   "from": "the Lead's review of the step-1 pictures, 27 November",
+   "why": [
+    "RA-C-1, made on version 1.1, is accepted as view C's step 1 (sha256 ad56119d60d86073282585044f82b4fceb5a9d130d217f096e814516990783b5): its far wall's foot is within 8 px of the guide everywhere, so no floor fit is needed. The Lead's list for version 2: the 15 px rule against RA-C-1's painted features, and the crate-top line."
+   ],
+   "featureTest": "passed: 6 features, 6 named exceptions in 6 of them, 4 indicator dots clear of every mask",
+   "guide": "unchanged: version 1.1's guides",
+   "growth": "the selective 12 px growth (the Lead, 27 November 2026, 18:38: the selective 12 px growth, for views C, E and D): 19898 px added; step 2's mask 0.0713 -> 0.084 of the picture",
+   "previous": {
+    "version": 2,
+    "published": "1795804597-5020",
+    "manifest": "419b46bd5ef3811a7658cc36c6952a1c2c01106f189203f57ceeb3be97d47f81",
+    "review": "the Lead accepted its six named exceptions and approved the selective 12 px growth (27 November, 18:38)"
+   },
+   "prompts": {
+    "s1": {
+     "v11": "50d0cf95ad787fd23336999f63cb583bfa9f8efbb51409801ab9259c04b68cfc",
+     "now": "50d0cf95ad787fd23336999f63cb583bfa9f8efbb51409801ab9259c04b68cfc"
+    },
+    "s2": {
+     "v11": "857158003f7f3a9db9a92e19f1654d78530ebd0348d5e73ad1d06980dc4e7495",
+     "now": "857158003f7f3a9db9a92e19f1654d78530ebd0348d5e73ad1d06980dc4e7495"
+    }
+   },
+   "files": {
+    "empty": {
+     "published": "img/ra-C-empty.png",
+     "v11": "6404389a334982920708b06f2ab7509ab8d5412391bdcbd31dafa4e353b318fe",
+     "now": "6404389a334982920708b06f2ab7509ab8d5412391bdcbd31dafa4e353b318fe",
+     "same": true
+    },
+    "emptyRegions": {
+     "published": "img/ra-C-empty-regions.png",
+     "v11": "5d49e067beaebfdbfe51a89281785e75a19a6753e27b477d5347f9c12e512bda",
+     "now": "5d49e067beaebfdbfe51a89281785e75a19a6753e27b477d5347f9c12e512bda",
+     "same": true
+    },
+    "emptyAnnotated": {
+     "published": "img/ra-C-empty-annotated.png",
+     "v11": "435b20f7f8cdcd1ad44f3adb58c1d87b98cf7629ce818132962a223a61652caa",
+     "now": "435b20f7f8cdcd1ad44f3adb58c1d87b98cf7629ce818132962a223a61652caa",
+     "same": true
+    },
+    "guide": {
+     "published": "img/ra-C-guide.png",
+     "v11": "96c33418d283b924a946c62c0c93f62dd25826aea54b0e6f69627daedb2f20ff",
+     "now": "96c33418d283b924a946c62c0c93f62dd25826aea54b0e6f69627daedb2f20ff",
+     "same": true
+    },
+    "regions": {
+     "published": "img/ra-C-regions.png",
+     "v11": "9d733786ba6bdc214fc560e22dcf1ee69fe748e1415891fb111e793b78f4e3da",
+     "now": "9d733786ba6bdc214fc560e22dcf1ee69fe748e1415891fb111e793b78f4e3da",
+     "same": true
+    },
+    "place": {
+     "published": "img/ra-C-place.png",
+     "v11": "ccb1da5130516b7477f7687942c62b6e8e5b7ca25d9361d77caacb5f6153686b",
+     "now": "f5a0a84ba4db2544f95b7406cfc24abacf84dae31386d07224d7883eb0c3c5c2",
+     "same": false
+    },
+    "split": {
+     "published": "img/ra-C-split.png",
+     "v11": "54a5a8ad10b09fbaec5602213fdf92e84b33f5ce2f90dbae449e492cc58bd08d",
+     "now": "8dfaf78bf1d2e3ed49f289cf1b0ae1b1b59029f2e18c42669b534e73177b2f61",
+     "same": false
+    },
+    "guideS2": {
+     "published": "img/ra-C-guide.png",
+     "v11": "96c33418d283b924a946c62c0c93f62dd25826aea54b0e6f69627daedb2f20ff",
+     "now": "96c33418d283b924a946c62c0c93f62dd25826aea54b0e6f69627daedb2f20ff",
+     "same": true
+    }
+   }
+  },
+  {
+   "version": 1.1,
+   "date": "2026-11-27",
+   "from": "the Lead's review of RA-B-1, 27 November",
+   "why": [
+    "RA-B-1 painted the indicators of view B's two wall junction boxes as stacks of lit cells (two and three), which read as a level meter. The colour block now asks for single dots, in every sheet B to E."
+   ],
+   "added": [
+    {
+     "block": "colour",
+     "steps": [
+      "s1",
+      "s2"
+     ],
+     "after": "no green, purple or red light.",
+     "text": "Each indicator is a single small dot, never several in a row or a column."
+    }
+   ],
+   "guide": "unchanged: version 1's guides",
+   "prompts": {
+    "s1": {
+     "v1": "74dd6de26c4ce7e6e9e1c10912f06613ebbce015b8b0a81768684005b9cf1eea",
+     "now": "50d0cf95ad787fd23336999f63cb583bfa9f8efbb51409801ab9259c04b68cfc"
+    },
+    "s2": {
+     "v1": "44d835b4d0dff35c12ee620a148d9f6fec01ade3251899600cd98c189f2877cc",
+     "now": "857158003f7f3a9db9a92e19f1654d78530ebd0348d5e73ad1d06980dc4e7495"
+    }
+   },
+   "files": {
+    "empty": {
+     "published": "img/ra-C-empty.png",
+     "v1": "6404389a334982920708b06f2ab7509ab8d5412391bdcbd31dafa4e353b318fe",
+     "now": "6404389a334982920708b06f2ab7509ab8d5412391bdcbd31dafa4e353b318fe",
+     "same": true
+    },
+    "emptyRegions": {
+     "published": "img/ra-C-empty-regions.png",
+     "v1": "5d49e067beaebfdbfe51a89281785e75a19a6753e27b477d5347f9c12e512bda",
+     "now": "5d49e067beaebfdbfe51a89281785e75a19a6753e27b477d5347f9c12e512bda",
+     "same": true
+    },
+    "emptyAnnotated": {
+     "published": "img/ra-C-empty-annotated.png",
+     "v1": "435b20f7f8cdcd1ad44f3adb58c1d87b98cf7629ce818132962a223a61652caa",
+     "now": "435b20f7f8cdcd1ad44f3adb58c1d87b98cf7629ce818132962a223a61652caa",
+     "same": true
+    },
+    "guide": {
+     "published": "img/ra-C-guide.png",
+     "v1": "96c33418d283b924a946c62c0c93f62dd25826aea54b0e6f69627daedb2f20ff",
+     "now": "96c33418d283b924a946c62c0c93f62dd25826aea54b0e6f69627daedb2f20ff",
+     "same": true
+    },
+    "regions": {
+     "published": "img/ra-C-regions.png",
+     "v1": "9d733786ba6bdc214fc560e22dcf1ee69fe748e1415891fb111e793b78f4e3da",
+     "now": "9d733786ba6bdc214fc560e22dcf1ee69fe748e1415891fb111e793b78f4e3da",
+     "same": true
+    },
+    "place": {
+     "published": "img/ra-C-place.png",
+     "v1": "ccb1da5130516b7477f7687942c62b6e8e5b7ca25d9361d77caacb5f6153686b",
+     "now": "ccb1da5130516b7477f7687942c62b6e8e5b7ca25d9361d77caacb5f6153686b",
+     "same": true
+    },
+    "split": {
+     "published": "img/ra-C-split.png",
+     "v1": "54a5a8ad10b09fbaec5602213fdf92e84b33f5ce2f90dbae449e492cc58bd08d",
+     "now": "54a5a8ad10b09fbaec5602213fdf92e84b33f5ce2f90dbae449e492cc58bd08d",
+     "same": true
+    },
+    "guideS2": {
+     "published": "img/ra-C-guide.png",
+     "v1": "96c33418d283b924a946c62c0c93f62dd25826aea54b0e6f69627daedb2f20ff",
+     "now": "96c33418d283b924a946c62c0c93f62dd25826aea54b0e6f69627daedb2f20ff",
+     "same": true
+    }
+   }
+  }
+ ]
+}

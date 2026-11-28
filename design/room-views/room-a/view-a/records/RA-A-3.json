@@ -1,0 +1,274 @@
+{
+ "piece": "RA-A",
+ "pass": "step 2: one masked PLACE edit of RA-A-1 with the step-2 guide inside the mask (s2), kept inside the mask in code",
+ "attempt": 3,
+ "generated": true,
+ "label": "AI-generated, composited in code from a masked edit",
+ "runner": "Designer team Image builder (Claude Code session)",
+ "tool": "OpenAI Images API, POST /v1/images/edits (one input with its mask, no second picture), then ra1_tools.py keep and lift",
+ "date": "2026-11-19T13:02:57+00:00",
+ "request_id": "req_32caf5abe73f47cc89c9966fb140f72f",
+ "authority": "the Lead's go of 19 November 2026 for RA-A steps 2 and 3 on sheet v4 (at most 4 calls); the owner's approval of Room A with a cap under $5 in total (#280 at ab849d40)",
+ "sheet": {
+  "page": "Room A sheet RA-A",
+  "version": "1795092955-447e",
+  "manifest": {
+   "file": "room-a-ra-a.json",
+   "sha256": "27cab8a2ef473b908020f340da839e9b49230792a44ffbdd0a6dc11a3ada7870"
+  },
+  "prompts": {
+   "file": "room-a-ra-a-prompts.txt",
+   "sha256": "32279e00ef39452972f055ad96eed4f8c199d706cb8914649c0ae19df8545c6a"
+  }
+ },
+ "tools": {
+  "ra1_tools.py": "a1d3bbca594b0461735e75879bb1ab4b5f9d6ed177fffefc5d734395abcb63d2",
+  "lift5.py": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+  "colour-check-ra1.py": "c882f4f8259b44bf8d689021daa2e5b0e8f028539cc076cc457fe144f582dbd2",
+  "kitCheck": "all files and expected hashes match"
+ },
+ "start": {
+  "file": "RA-A-1.png",
+  "sha256": "a565b6e01dec5a51fcedca90ace0331e657c09864411eba032cbe14021d4d635"
+ },
+ "maskedShare": 0.1461,
+ "rawInputRGB": "27ec3cfa7239d462b2320c4d8106a7c69fbf53cef7a89f71a9539e85d992492c",
+ "rawMaskAlpha": "89eca4db837b0d371011b428cd4c26b7fa427a1cafb409c63713bcf76d8c91f2",
+ "prompt_key": "s2",
+ "prompt": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool blue-steel shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom A, the crew bay, in the same illustrated world: blue steel, lit warm. The whole room is one blue-steel family, the colours of the attached guide: deep navy in the shadows and corners (#14243F, #1D3D6B), steel blue on the walls and the deck (#2D609E), turning paler where the light falls (#5C92CC, #A9CAEB). The light is warm: the two light bars glow cream along their length (#FCE3A0), with a warm paper-white glow (#F4EBDD) on the ceiling around them and soft pools of pale light on the deck below. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige, olive, purple or violet. The shadows are deep navy, never black-brown or grey. Labels and paper are blank, in a warm paper white (#F4EBDD). Small indicator lights are warm orange (#EC793C); no other coloured light, and no green, purple or red light. Practical and worn, a working bay, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked areas, and leave everything outside them exactly as it is. The two masked areas hold four pieces of furniture, each filling its own part exactly, painted in full detail in the picture's style and light. Ahead, in the upper area, mounted on the back wall about 0.8 m above the deck: a steel electrical cabinet, about 0.9 m wide and 1.15 m tall, with no door, its front open on rows of breakers and neatly bundled cables, every cable in its place and none hanging loose, with two small warm orange indicator lights near its top. The rest of the upper area, mostly to the cabinet's left, is plain wall: paint it as the same steel wall panels as the wall around it, with their seams, rivets and wear, and with nothing on them: no lockers, doors, vents, papers, boxes or panels. Lower, ahead and to the left, in the deck: an open hatch, a long rectangular opening about 1 m by 0.5 m with a raised steel rim all round, its near edge crisp and lit, showing a dark space beneath with pipes and cables; at its far end, on the left, its heavy steel lid, hinged along that edge and raised almost upright. At the bottom edge, nearest, cut off by it: a closed steel toolbox standing on the deck beside the hatch's near end.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+ "prompt_sha256": "261dd7da04bd86a0d75a2ed6ec0a0fe606d733bab6b5597017f69e7f3eb67969",
+ "revised_prompt": null,
+ "inputs": [
+  {
+   "order": 1,
+   "file": "RA-A-3-S2-input.png",
+   "sha256": "933a960ebd4ee5816c1872ae7f24d28287453cf218ea7a1a28dad024c7670f05"
+  }
+ ],
+ "mask": {
+  "file": "RA-A-3-S2-mask.png",
+  "sha256": "b4c5ae6dda8e5205415b720ed381b005e5bdebf17cf13bf28af3bde50bee06d2",
+  "convention": "alpha 0 = repaint"
+ },
+ "settings": {
+  "size": "1024x1536",
+  "quality": "high",
+  "n": 1,
+  "seed": null,
+  "background": "opaque",
+  "output_format": "png"
+ },
+ "raw_output": {
+  "file": "RA-A-3-raw.png",
+  "sha256": "6de402fce58785fac1e31adf71433ce56a4a79dfb67b959632560a37c43d1699"
+ },
+ "output": {
+  "file": "RA-A-3.png",
+  "sha256": "ae6a5aa8bec10e958cddd6aeaa1b3a101057f45b941db9ce0cf94d0212be7108",
+  "rawRGBsha256": "b4752eb795f08d82fdcdb5171d522baa7f7541cbcb241e065f1ab22fa3b281a1",
+  "width": 1024,
+  "height": 1536,
+  "retouched": "composited in code only: the raw edit over its start picture inside the mask, feathered by a 2 px Gaussian"
+ },
+ "keep": {
+  "moreThan4pxOutsideMask": {
+   "meanAbsDiff": 0.0005,
+   "maxAbsDiff": 1
+  }
+ },
+ "lift": {
+  "view": "A",
+  "step": 2,
+  "recipe": "the Lead's recipe of 18 November (lift5.py): d, the largest of |placed - start| over R, G and B; the pixels where d is above 16, inside the mask; closed with a 7 x 7 max then a 7 x 7 min, kept inside the mask; holes filled; parts under 400 px dropped; feathered with a 1 px Gaussian; clipped to the mask",
+  "pieces": {
+   "back plain wall": {
+    "file": "RA-A-3-back-plain-wall.png",
+    "sha256": "da95fe3586cdf1a926a080c84db85d238efc4e284d3618da5316e3491c00649e",
+    "px": 75140,
+    "x": [
+     113,
+     496
+    ],
+    "y": [
+     588,
+     915
+    ],
+    "shareOfItsOutline": 0.9824
+   },
+   "E hatch lid": {
+    "file": "RA-A-3-E-hatch-lid.png",
+    "sha256": "eb26c4e069e1ae554f802ec786f2b703e1b6bc6cdd1c2f2681b3b067fe7485a4",
+    "px": 21201,
+    "x": [
+     245,
+     398
+    ],
+    "y": [
+     987,
+     1177
+    ],
+    "shareOfItsOutline": 0.9976
+   },
+   "E floor hatch": {
+    "file": "RA-A-3-E-floor-hatch.png",
+    "sha256": "6ef83dd1e1dad1cd437b2dd718649c84eb25c56d65f4f8dc69b91f685eee706e",
+    "px": 54047,
+    "x": [
+     251,
+     570
+    ],
+    "y": [
+     1119,
+     1497
+    ],
+    "shareOfItsOutline": 0.9987
+   },
+   "C electrical cabinet": {
+    "file": "RA-A-3-C-electrical-cabinet.png",
+    "sha256": "07114df95037978e45554d2c840619f75f439c9075d37dc4f4f715f971fb0e6b",
+    "px": 41769,
+    "x": [
+     359,
+     537
+    ],
+    "y": [
+     636,
+     884
+    ],
+    "shareOfItsOutline": 0.9996
+   },
+   "E toolbox": {
+    "file": "RA-A-3-E-toolbox.png",
+    "sha256": "3be9daaeb9481575a589899e8374b3a6138de635e80a5d618ce3af41aed0faee",
+    "px": 36095,
+    "x": [
+     382,
+     596
+    ],
+    "y": [
+     1318,
+     1535
+    ],
+    "shareOfItsOutline": 0.9992
+   }
+  },
+  "missing": [],
+  "rebuildMeanAbsDiff": 0.0898
+ },
+ "usage": {
+  "input_tokens": 2390,
+  "input_tokens_details": {
+   "image_tokens": 1536,
+   "text_tokens": 854
+  },
+  "output_tokens": 1372,
+  "output_tokens_details": {
+   "image_tokens": 1372,
+   "text_tokens": 0
+  },
+  "total_tokens": 3762
+ },
+ "cost_usd_est": 0.0577,
+ "roomARunningTotal": {
+  "images": 3,
+  "usd": 0.1737,
+  "cap": "under $5"
+ },
+ "terms": "Generated with OpenAI's image model under its Terms of Use as checked by the Lead (c8fbc793): the user owns the output; it is never presented as made by a person.",
+ "check": {
+  "by": "Image builder (ra1_tools.py colours, lift and keep numbers; the rest by eye). Not the Designer's review.",
+  "colour": {
+   "pass": true,
+   "result": {
+    "walls and deck in the base": true,
+    "each wall and the deck in the base": true,
+    "orange capped": true,
+    "rust capped": true,
+    "no tan or olive": true,
+    "not purple": true,
+    "not grey": true,
+    "median lightness": true,
+    "accents only orange, cream, rust": true,
+    "openings flat black": true
+   }
+  },
+  "liftPieces": {
+   "back plain wall": {
+    "px": 75140,
+    "x": [
+     113,
+     496
+    ],
+    "y": [
+     588,
+     915
+    ],
+    "shareOfItsOutline": 0.9824
+   },
+   "E hatch lid": {
+    "px": 21201,
+    "x": [
+     245,
+     398
+    ],
+    "y": [
+     987,
+     1177
+    ],
+    "shareOfItsOutline": 0.9976
+   },
+   "E floor hatch": {
+    "px": 54047,
+    "x": [
+     251,
+     570
+    ],
+    "y": [
+     1119,
+     1497
+    ],
+    "shareOfItsOutline": 0.9987
+   },
+   "C electrical cabinet": {
+    "px": 41769,
+    "x": [
+     359,
+     537
+    ],
+    "y": [
+     636,
+     884
+    ],
+    "shareOfItsOutline": 0.9996
+   },
+   "E toolbox": {
+    "px": 36095,
+    "x": [
+     382,
+     596
+    ],
+    "y": [
+     1318,
+     1535
+    ],
+    "shareOfItsOutline": 0.9992
+   }
+  },
+  "liftMissing": [],
+  "byEye": "pass on every listed check: the cabinet about 0.9 m wide with no door, three rows of breakers and neat cables, two whole orange lights near its top, clear of the pipes below; the lid upright at the hatch's far end, hinged, its top clear below the pipes; the hatch with a crisp riveted near rim, dark beneath with pipes and cables, no loose cable; the toolbox closed, cut by the bottom edge; the plain wall bare riveted panels with nothing mounted; the upper and lower junction boxes and their lights untouched; no people, words, logos, new lights or purple. Finish flaws, not failures: the cabinet's right side has no drawn frame and fades softly into the wall; a soft band along the plain wall's lower edge at the mask boundary.",
+  "verdict": "pass on every listed check; two small finish flaws noted",
+  "result": "accepted as view A's step 2",
+  "reason": "Lead Designer, 19 November 2026: accepted as view A's step 2. the soft band at the plain wall's foot is accepted (it reads as the panels' shadow line). The cabinet's right side is not accepted as it stands: it fades into the wall with no frame and shows whenever Echo is not at the panel; it gets one small masked fix (a narrow mask on the cabinet's right edge, one short prompt, RA-A-4 as the start), on a fix sheet from the Rooms builder; no call until the Lead's go."
+ },
+ "review": {
+  "by": "Lead Designer",
+  "date": "2026-11-19",
+  "result": "accepted as view A's step 2",
+  "note": "the soft band at the plain wall's foot is accepted (it reads as the panels' shadow line). The cabinet's right side is not accepted as it stands: it fades into the wall with no frame and shows whenever Echo is not at the panel; it gets one small masked fix (a narrow mask on the cabinet's right edge, one short prompt, RA-A-4 as the start), on a fix sheet from the Rooms builder; no call until the Lead's go."
+ },
+ "copy": {
+  "of": "Room A Records (the image builder’s records page), version 1795828303-eac0, records/RA-A-3.json",
+  "originalSha256": "4dfca0970304a933e45ecba3960125f8ff4eedea1bf3427666c8389a9ef7e31a",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

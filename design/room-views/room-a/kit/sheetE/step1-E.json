@@ -1,0 +1,11 @@
+{
+ "name": "RA-E-1",
+ "sha256": "e0d928ef4c1dabd3968b20568bd0d6e3f923682df7f6d938c61bd26cb2d0730f",
+ "next": "RA-E-2",
+ "next3": null,
+ "madeOn": "sheet RA-E version 1.1 (manifest 577a1a4a66781603241bb8fd66d228a43c77654e52bf490aebffd53b2d655c72)",
+ "result": "accepted by the Lead on 27 November",
+ "why": [
+  "RA-E-1, made on version 1.1, is accepted as view E's step 1 (sha256 e0d928ef4c1dabd3968b20568bd0d6e3f923682df7f6d938c61bd26cb2d0730f). Its walls' foot is within 16 px of the guide but at the far corner, where it runs 15 to 19 px low beside Atlas's crates, and the near-left corner, painted about 19 px left of the guide's, where Echo's cabinet stands. The Lead's list for version 2: the 15 px rule against RA-E-1's painted features; the crates' area extended down to the painted base, as for B's desk; Atlas's foot line measured, and moved only if more than 8 px off; the cabinet's area confirmed inside the painted east-wall strip; and the crate-top line."
+ ]
+}

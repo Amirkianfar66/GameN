@@ -1,0 +1,217 @@
+{
+ "390x844": {
+  "B2": {
+   "name": "Juno",
+   "moment": 0,
+   "after": [
+    "band-1",
+    "band-2"
+   ],
+   "drawingPx": 2967.6,
+   "hiddenShare": 0.0122,
+   "boxShare": 0.0741,
+   "faceShare": 0.0,
+   "faceShows": true,
+   "pressShare": 0.0741,
+   "pressCentreCovered": 0.0
+  },
+  "B3": {
+   "name": "Lyra",
+   "moment": 0,
+   "after": [
+    "band-2"
+   ],
+   "drawingPx": 4745.9,
+   "hiddenShare": 0.0,
+   "boxShare": 0.0,
+   "faceShare": 0.0,
+   "faceShows": false,
+   "pressShare": 0.0,
+   "pressCentreCovered": 0.0
+  },
+  "B5": {
+   "name": "Vega",
+   "moment": 0,
+   "after": [],
+   "drawingPx": 17046.0,
+   "hiddenShare": 0.0,
+   "boxShare": 0.0,
+   "faceShare": 0.0,
+   "faceShows": true,
+   "pressShare": 0.0,
+   "pressCentreCovered": 0.0
+  }
+ },
+ "430x932": {
+  "B2": {
+   "name": "Juno",
+   "moment": 0,
+   "after": [
+    "band-1",
+    "band-2"
+   ],
+   "drawingPx": 3604.5,
+   "hiddenShare": 0.0105,
+   "boxShare": 0.074,
+   "faceShare": 0.0,
+   "faceShows": true,
+   "pressShare": 0.074,
+   "pressCentreCovered": 0.0
+  },
+  "B3": {
+   "name": "Lyra",
+   "moment": 0,
+   "after": [
+    "band-2"
+   ],
+   "drawingPx": 5768.7,
+   "hiddenShare": 0.0,
+   "boxShare": 0.0,
+   "faceShare": 0.0,
+   "faceShows": false,
+   "pressShare": 0.0,
+   "pressCentreCovered": 0.0
+  },
+  "B5": {
+   "name": "Vega",
+   "moment": 0,
+   "after": [],
+   "drawingPx": 20714.7,
+   "hiddenShare": 0.0,
+   "boxShare": 0.0,
+   "faceShare": 0.0,
+   "faceShows": true,
+   "pressShare": 0.0,
+   "pressCentreCovered": 0.0
+  }
+ },
+ "390x844@1300": {
+  "B2": {
+   "name": "Juno",
+   "moment": 1300,
+   "after": [
+    "band-1",
+    "band-2"
+   ],
+   "drawingPx": 2972.3,
+   "hiddenShare": 0.0122,
+   "boxShare": 0.0742,
+   "faceShare": 0.0,
+   "faceShows": true,
+   "pressShare": 0.0742,
+   "pressCentreCovered": 0.0
+  },
+  "B3": {
+   "name": "Lyra",
+   "moment": 1300,
+   "after": [
+    "band-2"
+   ],
+   "drawingPx": 4755.9,
+   "hiddenShare": 0.0,
+   "boxShare": 0.0,
+   "faceShare": 0.0,
+   "faceShows": false,
+   "pressShare": 0.0,
+   "pressCentreCovered": 0.0
+  },
+  "B5": {
+   "name": "Vega",
+   "moment": 1300,
+   "after": [],
+   "drawingPx": 17073.3,
+   "hiddenShare": 0.0,
+   "boxShare": 0.0,
+   "faceShare": 0.0,
+   "faceShows": true,
+   "pressShare": 0.0,
+   "pressCentreCovered": 0.0
+  }
+ },
+ "390x844@2600": {
+  "B2": {
+   "name": "Juno",
+   "moment": 2600,
+   "after": [
+    "band-1",
+    "band-2"
+   ],
+   "drawingPx": 2985.6,
+   "hiddenShare": 0.012,
+   "boxShare": 0.0734,
+   "faceShare": 0.0,
+   "faceShows": true,
+   "pressShare": 0.0734,
+   "pressCentreCovered": 0.0
+  },
+  "B3": {
+   "name": "Lyra",
+   "moment": 2600,
+   "after": [
+    "band-2"
+   ],
+   "drawingPx": 4750.3,
+   "hiddenShare": 0.0,
+   "boxShare": 0.0,
+   "faceShare": 0.0,
+   "faceShows": false,
+   "pressShare": 0.0,
+   "pressCentreCovered": 0.0
+  },
+  "B5": {
+   "name": "Vega",
+   "moment": 2600,
+   "after": [],
+   "drawingPx": 17070.1,
+   "hiddenShare": 0.0,
+   "boxShare": 0.0,
+   "faceShare": 0.0,
+   "faceShows": true,
+   "pressShare": 0.0,
+   "pressCentreCovered": 0.0
+  }
+ },
+ "390x844@3900": {
+  "B2": {
+   "name": "Juno",
+   "moment": 3900,
+   "after": [
+    "band-1",
+    "band-2"
+   ],
+   "drawingPx": 2968.2,
+   "hiddenShare": 0.0121,
+   "boxShare": 0.0742,
+   "faceShare": 0.0,
+   "faceShows": true,
+   "pressShare": 0.0742,
+   "pressCentreCovered": 0.0
+  },
+  "B3": {
+   "name": "Lyra",
+   "moment": 3900,
+   "after": [
+    "band-2"
+   ],
+   "drawingPx": 4746.5,
+   "hiddenShare": 0.0,
+   "boxShare": 0.0,
+   "faceShare": 0.0,
+   "faceShows": false,
+   "pressShare": 0.0,
+   "pressCentreCovered": 0.0
+  },
+  "B5": {
+   "name": "Vega",
+   "moment": 3900,
+   "after": [],
+   "drawingPx": 17065.7,
+   "hiddenShare": 0.0,
+   "boxShare": 0.0,
+   "faceShare": 0.0,
+   "faceShows": true,
+   "pressShare": 0.0,
+   "pressCentreCovered": 0.0
+  }
+ }
+}

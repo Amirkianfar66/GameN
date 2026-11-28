@@ -1,0 +1,135 @@
+{
+ "about": "Step 2's plain-wall area in view A (sheet RA-A version 4, the Lead's rule of 19 November): the patch of the back wall that step 2 repaints as plain steel wall, so that no locker door, seam or handle runs into the food capsule. Two parts: the locker bank with the panels beside and below it, to the cabinet's left; and a small patch just above the cabinet's top, so that the papers' clip, behind the cabinet, is covered with 15 px to spare. Drawn as it is, not grown: step 2's mask is the furniture's outlines grown 6 px and this area. Fitted to RA-A-1 (featuresA.json). Picture pixels; the pixels whose centres lie inside a polygon.",
+ "basedOn": {
+  "picture": "RA-A-1",
+  "sha256": "a565b6e01dec5a51fcedca90ace0331e657c09864411eba032cbe14021d4d635"
+ },
+ "name": "plain wall",
+ "place": "back",
+ "kind": "background",
+ "grey": 10,
+ "repaints": [
+  "the locker bank",
+  "the narrow panel",
+  "the lower panel",
+  "the papers' clip"
+ ],
+ "polygons": [
+  [
+   [
+    113,
+    587.4
+   ],
+   [
+    150,
+    592
+   ],
+   [
+    200,
+    598
+   ],
+   [
+    230,
+    602
+   ],
+   [
+    280,
+    607
+   ],
+   [
+    320,
+    612
+   ],
+   [
+    338,
+    614
+   ],
+   [
+    346,
+    618
+   ],
+   [
+    387,
+    618
+   ],
+   [
+    404,
+    645
+   ],
+   [
+    412,
+    700
+   ],
+   [
+    389,
+    700
+   ],
+   [
+    389,
+    885
+   ],
+   [
+    365,
+    885
+   ],
+   [
+    338,
+    901
+   ],
+   [
+    320,
+    904
+   ],
+   [
+    280,
+    907
+   ],
+   [
+    240,
+    910
+   ],
+   [
+    203,
+    912
+   ],
+   [
+    185,
+    913
+   ],
+   [
+    160,
+    913
+   ],
+   [
+    140,
+    915
+   ],
+   [
+    128,
+    915.5
+   ],
+   [
+    113,
+    916
+   ]
+  ],
+  [
+   [
+    451,
+    636
+   ],
+   [
+    497,
+    636
+   ],
+   [
+    497,
+    660
+   ],
+   [
+    451,
+    660
+   ]
+  ]
+ ]
+}

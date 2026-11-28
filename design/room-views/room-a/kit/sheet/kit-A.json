@@ -1,0 +1,919 @@
+{
+ "pieces": [
+  {
+   "grey": 10,
+   "place": "back",
+   "name": "plain wall",
+   "step": 2,
+   "kind": "background",
+   "parts": [
+    "the locker bank",
+    "the narrow panel",
+    "the lower panel",
+    "the papers' clip"
+   ],
+   "depthM": null,
+   "px": 76485,
+   "bbox": [
+    113,
+    587,
+    497,
+    916
+   ],
+   "visibleCentreX": 235,
+   "visibleCentreY": 754,
+   "cutByEdge": false,
+   "drawnPx": 85725
+  },
+  {
+   "grey": 40,
+   "place": "E",
+   "name": "hatch lid",
+   "step": 2,
+   "parts": [
+    "hatch lid"
+   ],
+   "depthM": 2.24,
+   "px": 19288,
+   "bbox": [
+    251,
+    993,
+    393,
+    1182
+   ],
+   "visibleCentreX": 319,
+   "visibleCentreY": 1083,
+   "cutByEdge": false
+  },
+  {
+   "grey": 60,
+   "place": "E",
+   "name": "floor hatch",
+   "step": 2,
+   "parts": [
+    "floor hatch"
+   ],
+   "depthM": 1.81,
+   "px": 50038,
+   "bbox": [
+    257,
+    1125,
+    565,
+    1492
+   ],
+   "visibleCentreX": 393,
+   "visibleCentreY": 1280,
+   "cutByEdge": false
+  },
+  {
+   "grey": 20,
+   "place": "C",
+   "name": "electrical cabinet",
+   "step": 2,
+   "parts": [
+    "electrical panel"
+   ],
+   "depthM": 3.35,
+   "px": 36794,
+   "bbox": [
+    365,
+    642,
+    532,
+    879
+   ],
+   "visibleCentreX": 446,
+   "visibleCentreY": 757,
+   "cutByEdge": false
+  },
+  {
+   "grey": 80,
+   "place": "E",
+   "name": "toolbox",
+   "step": 2,
+   "parts": [
+    "toolbox"
+   ],
+   "depthM": 1.24,
+   "px": 32001,
+   "bbox": [
+    388,
+    1324,
+    591,
+    1536
+   ],
+   "visibleCentreX": 493,
+   "visibleCentreY": 1449,
+   "cutByEdge": true
+  }
+ ],
+ "shapes": [
+  {
+   "pieces": [
+    0,
+    3
+   ],
+   "px": 118271,
+   "bbox": [
+    113,
+    587,
+    538,
+    916
+   ],
+   "visibleCentreX": 309,
+   "cutByEdge": false,
+   "tall": 0.77
+  },
+  {
+   "pieces": [
+    1,
+    2,
+    4
+   ],
+   "px": 111490,
+   "bbox": [
+    245,
+    987,
+    597,
+    1536
+   ],
+   "visibleCentreX": 410,
+   "cutByEdge": false,
+   "tall": 1.56
+  }
+ ],
+ "split": {
+  "back plain wall": 10,
+  "E hatch lid": 40,
+  "E floor hatch": 60,
+  "C electrical cabinet": 20,
+  "E toolbox": 80
+ },
+ "outlineShare": 0.0878,
+ "plainShare": 0.0545,
+ "pieces3": [
+  {
+   "grey": 100,
+   "place": null,
+   "name": "food capsule",
+   "step": 3,
+   "kind": "wall",
+   "parts": [
+    "food capsule"
+   ],
+   "depthM": 2.73,
+   "px": 11239,
+   "bbox": [
+    193,
+    725,
+    281,
+    858
+   ],
+   "visibleCentreX": 236,
+   "visibleCentreY": 788,
+   "cutByEdge": false
+  }
+ ],
+ "shapes3": [
+  {
+   "pieces": [
+    0
+   ],
+   "px": 12139,
+   "bbox": [
+    191,
+    723,
+    283,
+    860
+   ],
+   "visibleCentreX": 236,
+   "cutByEdge": false,
+   "tall": 1.49
+  }
+ ],
+ "split3": {
+  "wall food capsule": 100
+ },
+ "outlineShare3": 0.0071,
+ "capsuleUnderFurniturePx": 0,
+ "gaps": {
+  "hatch lid / floor hatch": {
+   "tightPx": 1,
+   "grownPx": 0
+  },
+  "hatch lid / electrical cabinet": {
+   "tightPx": 114,
+   "grownPx": 102
+  },
+  "hatch lid / toolbox": {
+   "tightPx": 181,
+   "grownPx": 180
+  },
+  "floor hatch / electrical cabinet": {
+   "tightPx": 199,
+   "grownPx": 199
+  },
+  "floor hatch / toolbox": {
+   "tightPx": 0,
+   "grownPx": 0
+  },
+  "electrical cabinet / toolbox": {
+   "tightPx": 199,
+   "grownPx": 199
+  }
+ },
+ "target": {
+  "pair": "hatch lid / electrical cabinet",
+  "minTightPx": 30,
+  "minGrownPx": 18,
+  "met": true
+ },
+ "featureTest": {
+  "picture": {
+   "name": "RA-A-1",
+   "sha256": "a565b6e01dec5a51fcedca90ace0331e657c09864411eba032cbe14021d4d635",
+   "aiGenerated": true
+  },
+  "rule": "Every step-2 and step-3 mask edge either clearly overlaps a feature in the test, covering it with at least 15 px to spare, or clears it by at least 15 px (square pixels): no part of the feature lies within 15 px of a mask edge. A named exception, for the Lead's decision, passes only where every such part lies in its zone. The features not in the test are measured and reported.",
+  "minClearPx": 15,
+  "atLeastPx": 60,
+  "passed": true,
+  "features": [
+   {
+    "name": "pipe run",
+    "kind": "pipes",
+    "test": true,
+    "px": 16069,
+    "step2": {
+     "status": "clear",
+     "clearPx": 19
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "pipe clamp, left",
+    "kind": "clamp",
+    "test": true,
+    "px": 1104,
+    "step2": {
+     "status": "clear",
+     "clearPx": 15
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "pipe clamp, middle",
+    "kind": "clamp",
+    "test": true,
+    "px": 846,
+    "step2": {
+     "status": "clear",
+     "clearPx": 27
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "pipe clamp, right",
+    "kind": "clamp",
+    "test": true,
+    "px": 960,
+    "step2": {
+     "status": "clear",
+     "clearPx": 30
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "locker bank",
+    "kind": "lockers",
+    "test": true,
+    "px": 63437,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 63364,
+     "pxOutside": 73
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 53
+    },
+    "pxWithin15": {
+     "step2": 5777,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "its top",
+      "for": "the Lead's decision",
+      "why": "The rail above the lockers (not on the list) runs 12 to 14 px above their top, and under the upper junction box only 21 to 31 px separate the box's foot from the lockers' top. The box keeps its 15 px (17); the edge runs in the strip of plain wall between rail and lockers, about 6 px from each.",
+      "pxWithin15": 2287
+     },
+     {
+      "where": "its foot",
+      "for": "the Lead's decision",
+      "why": "Between x 128 and 205 the lockers' foot outline and the lower junction box are 13 to 15 rows apart, the outline running straight into its own shadow. The box keeps its 15 px: the outline's lowest one or two rows stay outside the mask there, on the top of the shadow band, which step 2 leaves; further right the foot is covered by 0 to 5 px, the pipe run 19 px below.",
+      "pxWithin15": 3490
+     }
+    ]
+   },
+   {
+    "name": "grille",
+    "kind": "grille",
+    "test": true,
+    "px": 12393,
+    "step2": {
+     "status": "clear",
+     "clearPx": 15
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "junction box, upper",
+    "kind": "box",
+    "test": true,
+    "px": 6615,
+    "step2": {
+     "status": "clear",
+     "clearPx": 17
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "junction box, lower",
+    "kind": "box",
+    "test": true,
+    "px": 6779,
+    "step2": {
+     "status": "clear",
+     "clearPx": 15
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "junction box, south wall",
+    "kind": "box",
+    "test": true,
+    "px": 2745,
+    "step2": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "junction box, far right",
+    "kind": "box",
+    "test": true,
+    "px": 6161,
+    "step2": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "papers: clip",
+    "kind": "papers",
+    "test": true,
+    "px": 352,
+    "step2": {
+     "status": "inside",
+     "insidePx": 15
+    },
+    "step3": {
+     "status": "repainted in step 2"
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "papers: large sheet",
+    "kind": "papers",
+    "test": true,
+    "px": 7403,
+    "step2": {
+     "status": "inside",
+     "insidePx": 19
+    },
+    "step3": {
+     "status": "repainted in step 2"
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "papers: small sheet",
+    "kind": "papers",
+    "test": true,
+    "px": 2386,
+    "step2": {
+     "status": "inside",
+     "insidePx": 13
+    },
+    "step3": {
+     "status": "repainted in step 2"
+    },
+    "pxWithin15": {
+     "step2": 15,
+     "step3": 0
+    },
+    "exception": [
+     {
+      "where": "its lower right corner",
+      "for": "the Lead's decision",
+      "why": "The small sheet's corner (x 523 at y 790) and the grille (x 553) are 28 px apart, so no edge can be 15 px from both. The grille keeps its 15 px: the cabinet's edge passes 13 px beyond the sheet's corner and 17 px beyond its edge higher up. The sheet is behind the cabinet, so none of it shows.",
+      "pxWithin15": 15
+     }
+    ]
+   },
+   {
+    "name": "rail above the lockers",
+    "kind": "rail",
+    "test": false,
+    "px": 6591,
+    "step2": {
+     "status": "clear",
+     "clearPx": 4
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 2719,
+     "step3": 0
+    }
+   },
+   {
+    "name": "pipes above",
+    "kind": "pipes",
+    "test": false,
+    "px": 13693,
+    "step2": {
+     "status": "clear",
+     "clearPx": 17
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "riveted plate and ledge",
+    "kind": "panel",
+    "test": false,
+    "px": 8502,
+    "step2": {
+     "status": "clear",
+     "clearPx": 12
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 40,
+     "step3": 0
+    }
+   },
+   {
+    "name": "narrow panel",
+    "kind": "panel",
+    "test": false,
+    "px": 5265,
+    "step2": {
+     "status": "inside",
+     "insidePx": 16
+    },
+    "step3": {
+     "status": "repainted in step 2"
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "lower panel",
+    "kind": "panel",
+    "test": false,
+    "px": 6160,
+    "step2": {
+     "status": "inside",
+     "insidePx": 38
+    },
+    "step3": {
+     "status": "repainted in step 2"
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "square panel",
+    "kind": "panel",
+    "test": false,
+    "px": 3852,
+    "step2": {
+     "status": "crosses",
+     "pxInside": 2483,
+     "pxOutside": 1369
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 1844,
+     "step3": 0
+    }
+   },
+   {
+    "name": "corner pipes",
+    "kind": "pipes",
+    "test": false,
+    "px": 18420,
+    "step2": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   },
+   {
+    "name": "left pipe",
+    "kind": "pipes",
+    "test": false,
+    "px": 21500,
+    "step2": {
+     "status": "clear",
+     "clearPx": 15
+    },
+    "step3": {
+     "status": "clear",
+     "clearPx": 60
+    },
+    "pxWithin15": {
+     "step2": 0,
+     "step3": 0
+    }
+   }
+  ],
+  "step3InsidePlainWallPx": 49,
+  "exceptions": [
+   {
+    "name": "locker bank",
+    "parts": [
+     {
+      "where": "its top",
+      "for": "the Lead's decision",
+      "why": "The rail above the lockers (not on the list) runs 12 to 14 px above their top, and under the upper junction box only 21 to 31 px separate the box's foot from the lockers' top. The box keeps its 15 px (17); the edge runs in the strip of plain wall between rail and lockers, about 6 px from each.",
+      "pxWithin15": 2287
+     },
+     {
+      "where": "its foot",
+      "for": "the Lead's decision",
+      "why": "Between x 128 and 205 the lockers' foot outline and the lower junction box are 13 to 15 rows apart, the outline running straight into its own shadow. The box keeps its 15 px: the outline's lowest one or two rows stay outside the mask there, on the top of the shadow band, which step 2 leaves; further right the foot is covered by 0 to 5 px, the pipe run 19 px below.",
+      "pxWithin15": 3490
+     }
+    ]
+   },
+   {
+    "name": "papers: small sheet",
+    "parts": [
+     {
+      "where": "its lower right corner",
+      "for": "the Lead's decision",
+      "why": "The small sheet's corner (x 523 at y 790) and the grille (x 553) are 28 px apart, so no edge can be 15 px from both. The grille keeps its 15 px: the cabinet's edge passes 13 px beyond the sheet's corner and 17 px beyond its edge higher up. The sheet is behind the cabinet, so none of it shows.",
+      "pxWithin15": 15
+     }
+    ]
+   }
+  ],
+  "noted": [
+   {
+    "name": "rail above the lockers",
+    "step2": {
+     "status": "clear",
+     "clearPx": 4
+    },
+    "pxWithin15": 2719
+   },
+   {
+    "name": "riveted plate and ledge",
+    "step2": {
+     "status": "clear",
+     "clearPx": 12
+    },
+    "pxWithin15": 40
+   },
+   {
+    "name": "square panel",
+    "step2": {
+     "status": "crosses",
+     "pxInside": 2483,
+     "pxOutside": 1369
+    },
+    "pxWithin15": 1844
+   }
+  ],
+  "lights": [
+   {
+    "name": "small light, far right",
+    "box": [
+     940,
+     526,
+     967,
+     538
+    ],
+    "step2ClearPx": 60,
+    "step3ClearPx": 60
+   },
+   {
+    "name": "the junction box's light",
+    "box": [
+     236,
+     550,
+     254,
+     558
+    ],
+    "step2ClearPx": 39,
+    "step3ClearPx": 60
+   },
+   {
+    "name": "small light, lower right",
+    "box": [
+     704,
+     790,
+     713,
+     794
+    ],
+    "step2ClearPx": 60,
+    "step3ClearPx": 60
+   },
+   {
+    "name": "the lower junction box's light",
+    "box": [
+     174,
+     970,
+     190,
+     977
+    ],
+    "step2ClearPx": 54,
+    "step3ClearPx": 60
+   }
+  ],
+  "pairs": {
+   "back plain wall": {
+    "pipe run": {
+     "status": "clear",
+     "clearPx": 19
+    },
+    "pipe clamp, left": {
+     "status": "clear",
+     "clearPx": 15
+    },
+    "locker bank": {
+     "status": "crosses",
+     "pxInside": 63364,
+     "pxOutside": 73
+    },
+    "grille": {
+     "status": "clear",
+     "clearPx": 56
+    },
+    "junction box, upper": {
+     "status": "clear",
+     "clearPx": 17
+    },
+    "junction box, lower": {
+     "status": "clear",
+     "clearPx": 15
+    },
+    "papers: clip": {
+     "status": "crosses",
+     "pxInside": 144,
+     "pxOutside": 208
+    },
+    "papers: large sheet": {
+     "status": "clear",
+     "clearPx": 1
+    },
+    "rail above the lockers": {
+     "status": "clear",
+     "clearPx": 4
+    },
+    "pipes above": {
+     "status": "clear",
+     "clearPx": 17
+    },
+    "riveted plate and ledge": {
+     "status": "clear",
+     "clearPx": 12
+    },
+    "narrow panel": {
+     "status": "inside",
+     "insidePx": 13
+    },
+    "lower panel": {
+     "status": "crosses",
+     "pxInside": 3840,
+     "pxOutside": 2320
+    },
+    "square panel": {
+     "status": "crosses",
+     "pxInside": 294,
+     "pxOutside": 3558
+    },
+    "left pipe": {
+     "status": "clear",
+     "clearPx": 15
+    }
+   },
+   "E hatch lid": {
+    "pipe run": {
+     "status": "clear",
+     "clearPx": 20
+    },
+    "pipe clamp, left": {
+     "status": "clear",
+     "clearPx": 28
+    },
+    "junction box, lower": {
+     "status": "clear",
+     "clearPx": 39
+    }
+   },
+   "E floor hatch": {},
+   "C electrical cabinet": {
+    "pipe run": {
+     "status": "clear",
+     "clearPx": 29
+    },
+    "pipe clamp, left": {
+     "status": "clear",
+     "clearPx": 28
+    },
+    "pipe clamp, middle": {
+     "status": "clear",
+     "clearPx": 27
+    },
+    "pipe clamp, right": {
+     "status": "clear",
+     "clearPx": 30
+    },
+    "locker bank": {
+     "status": "clear",
+     "clearPx": 21
+    },
+    "grille": {
+     "status": "clear",
+     "clearPx": 15
+    },
+    "papers: clip": {
+     "status": "inside",
+     "insidePx": 8
+    },
+    "papers: large sheet": {
+     "status": "inside",
+     "insidePx": 19
+    },
+    "papers: small sheet": {
+     "status": "inside",
+     "insidePx": 13
+    },
+    "rail above the lockers": {
+     "status": "clear",
+     "clearPx": 29
+    },
+    "pipes above": {
+     "status": "clear",
+     "clearPx": 22
+    },
+    "riveted plate and ledge": {
+     "status": "clear",
+     "clearPx": 16
+    },
+    "narrow panel": {
+     "status": "crosses",
+     "pxInside": 2269,
+     "pxOutside": 2996
+    },
+    "lower panel": {
+     "status": "crosses",
+     "pxInside": 4720,
+     "pxOutside": 1440
+    },
+    "square panel": {
+     "status": "crosses",
+     "pxInside": 2483,
+     "pxOutside": 1369
+    }
+   },
+   "E toolbox": {},
+   "wall food capsule (step 3)": {
+    "locker bank": {
+     "status": "crosses",
+     "pxInside": 12139,
+     "pxOutside": 51298
+    },
+    "narrow panel": {
+     "status": "clear",
+     "clearPx": 54
+    },
+    "lower panel": {
+     "status": "clear",
+     "clearPx": 58
+    }
+   }
+  }
+ },
+ "expected": {
+  "s2": {
+   "maskedShare": 0.1461,
+   "rawMaskAlpha": "89eca4db837b0d371011b428cd4c26b7fa427a1cafb409c63713bcf76d8c91f2",
+   "over10": true
+  },
+  "s3": {
+   "maskedShare": 0.0077,
+   "rawMaskAlpha": "f075547c1bd3a5d8028993b11ec8ba37c42fd20bdeea808c9249887f756b01eb"
+  }
+ }
+}

@@ -1,0 +1,1124 @@
+{
+ "sheet": "RA-E",
+ "version": 3,
+ "view": "E",
+ "step": 2,
+ "date": "2026-11-27",
+ "name": "RA-E-2c",
+ "what": "view E's step-2 picture completed in code: RA-E-2 with RA-E-2's raw edit taken back inside each cut piece's own ink outline",
+ "drawnBy": "code",
+ "generated": false,
+ "codeComposite": {
+  "of": [
+   "RA-E-1",
+   "RA-E-2's raw edit"
+  ],
+  "aiGenerated": true,
+  "how": "RA-E-2 (the keep of RA-E-2's raw over RA-E-1 in the step-2 mask, rebuilt here and equal pixel for pixel) is the base; inside each traced outline, the raw's pixels, with 1 px of feather outside the outline; nothing else from the raw"
+ },
+ "decision": "the Lead, 27 November 2026, 19:15: RA-E-2 held for two cut edges; make RA-E-2c, a code composite of RA-E-1 and RA-E-2's raw: complete both crates' near-left corners and their brackets, and the cabinet's right frame, never left open",
+ "sources": [
+  {
+   "name": "RA-E-2",
+   "file": "img/RA-E-2.png",
+   "sha256": "eeadc937bf93f79152a5e0e6d8aee77816d4a8d845d45bdf88bce65fbfae9b95",
+   "aiGenerated": true,
+   "what": "the kept step 2 (the base)"
+  },
+  {
+   "name": "RA-E-2-raw",
+   "file": "img/RA-E-2-raw.png",
+   "sha256": "d33ed69614725431ef2172494c74952fad39726a64c6e64dcf18a53a66222d73",
+   "aiGenerated": true,
+   "what": "RA-E-2's raw edit (inside the outlines)"
+  },
+  {
+   "name": "RA-E-1",
+   "file": "img/RA-E-1.png",
+   "sha256": "e0d928ef4c1dabd3968b20568bd0d6e3f923682df7f6d938c61bd26cb2d0730f",
+   "aiGenerated": true,
+   "what": "view E's accepted step 1 (in RA-E-2, outside the mask)"
+  }
+ ],
+ "record": {
+  "file": "records/RA-E-2.json",
+  "sha256": "751c6901662a09eea2f55f3defc0a084653618237ab330b5a0e48a48d0764c92",
+  "what": "the image session's record of RA-E-2 (its records page)"
+ },
+ "mask": {
+  "file": "ra-E-place.png",
+  "sha256": "973550c2f32612b185e4994e9c8134c5f157984f48407e71714cad3b533fc366",
+  "what": "version 2's step-2 PLACE mask"
+ },
+ "feather": {
+  "px": 1.0,
+  "how": "alpha = 1 inside the outline, falling linearly to 0 at 1 px outside it, by each pixel centre's distance from the outline"
+ },
+ "tracing": "on the raw, along scan lines across each ink line, at the midpoint between the ink's value and the value just outside it, linear between pixel centres; where the wall beside the ink was as dark as the ink, or a pipe or the wall's kick strip met the scan line first, read from the luminance at 8 times (the far side of the ink, 1.5 to 2 px); the cabinet's bottom edge a least-squares line through its readings (within 0.7 px), its right side a vertical line",
+ "theFrameAtTheCorner": {
+  "paintedCornerX": 107,
+  "how": "the corner of the left-hand wall and the south wall in RA-E-1 (and in the raw above the cabinet): the darkest column in x 100-115, a 1 px line at x 107 from y 460 to 1000",
+  "rawFrame": {
+   "faceX": [
+    104,
+    111
+   ],
+   "inkX": [
+    112,
+    113
+   ],
+   "outerEdgeX": 113.9,
+   "pastTheCornerPx": {
+    "toTheFace": 4,
+    "toTheInksOuterEdge": 6.9
+   }
+  },
+  "decision": "taken whole: at 3 times the raw's right post stands where the corner was, the corner line above and below the cabinet meeting its top and foot, and reads as the cabinet standing in the corner, not as a face wrapping onto the south wall (the Lead: take the raw's frame whole if it reads as the cabinet ending at the corner; otherwise close it at the corner in code)",
+  "ifTheLeadReadsItAsWrapping": "the right post would be closed at the corner in code instead, as view A's cabinet frame was drawn"
+ },
+ "maskGaps": [
+  {
+   "what": "a notch in the mask's left edge inside the upper crate",
+   "box": [
+    818,
+    881,
+    830,
+    889
+   ],
+   "piece": "crate-upper",
+   "changedPx": 96,
+   "unmaskedPx": 72
+  },
+  {
+   "what": "a slot in the mask inside the lower crate's front",
+   "box": [
+    788,
+    941,
+    792,
+    957
+   ],
+   "piece": "crate-lower",
+   "changedPx": 64,
+   "unmaskedPx": 64
+  }
+ ],
+ "pieces": [
+  {
+   "listed": true,
+   "lead": 1,
+   "name": "the upper crate's left end: its top edge, its top-left bracket and its left side, down to where the mask holds it",
+   "ink": "the top edge (y 833.0-842.0, from inside the mask to x 801.5), the bracket's outer ink (x 800.0-801.1, y 844-860) and the side (x 801.8-802.2, to y 898.5)",
+   "note": "the raw's bracket reaches x 800, 18 px past the mask (x 818); the mask's notch at x 818-829, y 881-888 lies inside the outline",
+   "outline": [
+    [
+     831.0,
+     833.05
+    ],
+    [
+     830.5,
+     833.05
+    ],
+    [
+     829.5,
+     833.04
+    ],
+    [
+     828.5,
+     833.27
+    ],
+    [
+     827.5,
+     833.77
+    ],
+    [
+     826.5,
+     833.92
+    ],
+    [
+     825.5,
+     834.0
+    ],
+    [
+     823.5,
+     834.48
+    ],
+    [
+     822.5,
+     834.94
+    ],
+    [
+     821.5,
+     835.04
+    ],
+    [
+     820.5,
+     835.08
+    ],
+    [
+     817.5,
+     835.79
+    ],
+    [
+     816.5,
+     835.99
+    ],
+    [
+     813.5,
+     836.23
+    ],
+    [
+     812.5,
+     836.62
+    ],
+    [
+     811.5,
+     836.76
+    ],
+    [
+     810.5,
+     836.98
+    ],
+    [
+     808.5,
+     837.06
+    ],
+    [
+     806.5,
+     837.99
+    ],
+    [
+     805.5,
+     838.59
+    ],
+    [
+     804.5,
+     839.1
+    ],
+    [
+     803.5,
+     839.94
+    ],
+    [
+     802.5,
+     840.79
+    ],
+    [
+     801.5,
+     841.96
+    ],
+    [
+     800.12,
+     844.5
+    ],
+    [
+     799.99,
+     846.5
+    ],
+    [
+     800.03,
+     848.5
+    ],
+    [
+     800.05,
+     850.5
+    ],
+    [
+     800.06,
+     852.5
+    ],
+    [
+     800.0,
+     854.5
+    ],
+    [
+     799.98,
+     856.5
+    ],
+    [
+     799.99,
+     858.5
+    ],
+    [
+     801.09,
+     860.5
+    ],
+    [
+     801.96,
+     862.5
+    ],
+    [
+     801.99,
+     864.5
+    ],
+    [
+     801.9,
+     866.5
+    ],
+    [
+     802.03,
+     868.5
+    ],
+    [
+     802.23,
+     870.5
+    ],
+    [
+     802.11,
+     872.5
+    ],
+    [
+     801.84,
+     888.5
+    ],
+    [
+     801.89,
+     890.5
+    ],
+    [
+     801.89,
+     892.5
+    ],
+    [
+     801.85,
+     894.5
+    ],
+    [
+     801.83,
+     896.5
+    ],
+    [
+     801.76,
+     898.5
+    ],
+    [
+     838.0,
+     898.5
+    ],
+    [
+     838.0,
+     833.05
+    ]
+   ],
+   "closing": [
+    [
+     801.76,
+     898.5
+    ],
+    [
+     838.0,
+     898.5
+    ],
+    [
+     838.0,
+     833.05
+    ],
+    [
+     831.0,
+     833.05
+    ]
+   ],
+   "key": "crate-upper",
+   "checks": {
+    "changedPx": 1413,
+    "changedOutsideTheMask": 985,
+    "changedInsideTheMask": 428,
+    "changedBox": [
+     799,
+     834,
+     834,
+     895
+    ],
+    "featherPx": 167,
+    "closingPathPx": 182,
+    "closingPathPxWhereRA-E-2DiffersFromTheRaw": 0,
+    "closingPathMinDepthPx": 8.0,
+    "closingAlongThePicturesEdge": false
+   }
+  },
+  {
+   "listed": true,
+   "lead": 1,
+   "name": "the lower crate's left end: its top face's back edge, its top-left bracket, its left side, its bottom-left bracket and its bottom edge into the mask",
+   "ink": "the top face's back edge (y 917.0-923.3, with 1.5 px of its ink), the bracket's top-left corner and outer side (x 760.0-762.1), the side (x 762.2-762.4), the bottom bracket (x 760.2-760.9), its lower diagonal and the bottom edge (y 1026.2-1039.0)",
+   "note": "the raw's end reaches x 760, 20 px past the mask (x 780); the mask's slot at x 788-791, y 941-956 lies inside the outline",
+   "outline": [
+    [
+     800.6,
+     917.2
+    ],
+    [
+     799.0,
+     917.0
+    ],
+    [
+     796.0,
+     917.5
+    ],
+    [
+     793.0,
+     918.5
+    ],
+    [
+     788.0,
+     919.5
+    ],
+    [
+     783.0,
+     920.5
+    ],
+    [
+     780.0,
+     921.5
+    ],
+    [
+     777.0,
+     922.5
+    ],
+    [
+     774.0,
+     923.0
+    ],
+    [
+     771.0,
+     923.3
+    ],
+    [
+     768.0,
+     923.3
+    ],
+    [
+     766.0,
+     924.3
+    ],
+    [
+     764.5,
+     925.5
+    ],
+    [
+     763.0,
+     927.0
+    ],
+    [
+     762.0,
+     928.3
+    ],
+    [
+     761.1,
+     930.0
+    ],
+    [
+     760.5,
+     931.5
+    ],
+    [
+     760.0,
+     935.5
+    ],
+    [
+     760.0,
+     940.5
+    ],
+    [
+     760.1,
+     945.5
+    ],
+    [
+     760.8,
+     950.5
+    ],
+    [
+     762.1,
+     952.5
+    ],
+    [
+     762.16,
+     960.5
+    ],
+    [
+     762.24,
+     962.5
+    ],
+    [
+     762.26,
+     964.5
+    ],
+    [
+     762.28,
+     966.5
+    ],
+    [
+     762.2,
+     968.5
+    ],
+    [
+     762.27,
+     970.5
+    ],
+    [
+     762.29,
+     972.5
+    ],
+    [
+     762.23,
+     974.5
+    ],
+    [
+     762.23,
+     976.5
+    ],
+    [
+     762.28,
+     978.5
+    ],
+    [
+     762.36,
+     980.5
+    ],
+    [
+     762.34,
+     982.5
+    ],
+    [
+     762.32,
+     984.5
+    ],
+    [
+     762.31,
+     986.5
+    ],
+    [
+     762.34,
+     988.5
+    ],
+    [
+     762.33,
+     990.5
+    ],
+    [
+     762.3,
+     992.5
+    ],
+    [
+     762.31,
+     994.5
+    ],
+    [
+     762.25,
+     996.5
+    ],
+    [
+     762.21,
+     998.5
+    ],
+    [
+     762.22,
+     1000.5
+    ],
+    [
+     762.25,
+     1002.5
+    ],
+    [
+     762.28,
+     1004.5
+    ],
+    [
+     761.92,
+     1006.5
+    ],
+    [
+     760.46,
+     1008.5
+    ],
+    [
+     760.16,
+     1010.5
+    ],
+    [
+     760.22,
+     1012.5
+    ],
+    [
+     760.48,
+     1014.5
+    ],
+    [
+     760.56,
+     1016.5
+    ],
+    [
+     760.61,
+     1018.5
+    ],
+    [
+     760.89,
+     1020.5
+    ],
+    [
+     760.5,
+     1022.5
+    ],
+    [
+     761.5,
+     1026.18
+    ],
+    [
+     762.5,
+     1027.23
+    ],
+    [
+     763.5,
+     1028.71
+    ],
+    [
+     764.5,
+     1029.89
+    ],
+    [
+     765.5,
+     1030.68
+    ],
+    [
+     766.5,
+     1031.21
+    ],
+    [
+     767.5,
+     1031.89
+    ],
+    [
+     768.5,
+     1032.29
+    ],
+    [
+     769.5,
+     1032.92
+    ],
+    [
+     770.5,
+     1033.25
+    ],
+    [
+     771.5,
+     1033.9
+    ],
+    [
+     772.5,
+     1034.52
+    ],
+    [
+     774.5,
+     1035.52
+    ],
+    [
+     776.0,
+     1036.0
+    ],
+    [
+     781.5,
+     1036.2
+    ],
+    [
+     785.0,
+     1037.4
+    ],
+    [
+     788.0,
+     1039.0
+    ],
+    [
+     790.0,
+     1039.0
+    ],
+    [
+     790.0,
+     966.0
+    ],
+    [
+     800.6,
+     966.0
+    ]
+   ],
+   "closing": [
+    [
+     788.0,
+     1039.0
+    ],
+    [
+     790.0,
+     1039.0
+    ],
+    [
+     790.0,
+     966.0
+    ],
+    [
+     800.6,
+     966.0
+    ],
+    [
+     800.6,
+     917.2
+    ]
+   ],
+   "key": "crate-lower",
+   "checks": {
+    "changedPx": 3205,
+    "changedOutsideTheMask": 2514,
+    "changedInsideTheMask": 691,
+    "changedBox": [
+     759,
+     917,
+     796,
+     1037
+    ],
+    "featherPx": 304,
+    "closingPathPx": 223,
+    "closingPathPxWhereRA-E-2DiffersFromTheRaw": 0,
+    "closingPathMinDepthPx": 8.51,
+    "closingAlongThePicturesEdge": false
+   }
+  },
+  {
+   "listed": true,
+   "lead": 2,
+   "name": "the cabinet's frame, all round: its right post with its top-right and bottom-right corners, its bottom bar's lower edge to the picture's left edge, and its top bar's top edge",
+   "ink": "the top bar's top ink (y 549.5-612.8), the top-right corner, the right post's outer ink (x 113.9), the bottom-right corner, the bottom bar's lower ink (x = 977.29 - 0.8908 y, y 978-1076) and the frame's bottom edge (y 1084.0) to the picture's left edge",
+   "note": "the Lead named the right frame; the same cut ran on along the bottom bar's lower edge (5 to 6 px past the mask's diagonal edge) and the top bar's top ink (0 to 2.5 px past it), so the piece follows the frame's outer ink all round and closes up the picture's left edge",
+   "outline": [
+    [
+     -1.0,
+     549.86
+    ],
+    [
+     0.5,
+     549.86
+    ],
+    [
+     12.5,
+     549.5
+    ],
+    [
+     18.5,
+     551.9
+    ],
+    [
+     24.5,
+     556.0
+    ],
+    [
+     30.5,
+     560.35
+    ],
+    [
+     36.5,
+     563.2
+    ],
+    [
+     42.5,
+     567.14
+    ],
+    [
+     48.5,
+     570.4
+    ],
+    [
+     56.5,
+     576.0
+    ],
+    [
+     60.5,
+     579.87
+    ],
+    [
+     64.5,
+     583.06
+    ],
+    [
+     70.5,
+     587.0
+    ],
+    [
+     76.5,
+     591.5
+    ],
+    [
+     80.5,
+     594.7
+    ],
+    [
+     86.5,
+     597.9
+    ],
+    [
+     90.5,
+     601.0
+    ],
+    [
+     96.5,
+     606.28
+    ],
+    [
+     100.5,
+     609.64
+    ],
+    [
+     104.5,
+     612.82
+    ],
+    [
+     106.5,
+     613.85
+    ],
+    [
+     108.5,
+     615.0
+    ],
+    [
+     110.5,
+     616.9
+    ],
+    [
+     111.5,
+     618.3
+    ],
+    [
+     112.8,
+     619.6
+    ],
+    [
+     113.9,
+     621.0
+    ],
+    [
+     113.9,
+     966.5
+    ],
+    [
+     113.5,
+     968.5
+    ],
+    [
+     112.7,
+     971.0
+    ],
+    [
+     111.7,
+     972.0
+    ],
+    [
+     110.8,
+     973.0
+    ],
+    [
+     110.3,
+     974.0
+    ],
+    [
+     109.5,
+     975.0
+    ],
+    [
+     109.0,
+     976.0
+    ],
+    [
+     106.11,
+     978.0
+    ],
+    [
+     104.33,
+     980.0
+    ],
+    [
+     102.55,
+     982.0
+    ],
+    [
+     100.77,
+     984.0
+    ],
+    [
+     98.99,
+     986.0
+    ],
+    [
+     97.21,
+     988.0
+    ],
+    [
+     95.42,
+     990.0
+    ],
+    [
+     93.64,
+     992.0
+    ],
+    [
+     91.86,
+     994.0
+    ],
+    [
+     90.08,
+     996.0
+    ],
+    [
+     88.3,
+     998.0
+    ],
+    [
+     86.52,
+     1000.0
+    ],
+    [
+     84.74,
+     1002.0
+    ],
+    [
+     82.95,
+     1004.0
+    ],
+    [
+     81.17,
+     1006.0
+    ],
+    [
+     79.39,
+     1008.0
+    ],
+    [
+     77.61,
+     1010.0
+    ],
+    [
+     75.83,
+     1012.0
+    ],
+    [
+     74.05,
+     1014.0
+    ],
+    [
+     72.26,
+     1016.0
+    ],
+    [
+     70.48,
+     1018.0
+    ],
+    [
+     68.7,
+     1020.0
+    ],
+    [
+     66.92,
+     1022.0
+    ],
+    [
+     65.14,
+     1024.0
+    ],
+    [
+     63.36,
+     1026.0
+    ],
+    [
+     61.58,
+     1028.0
+    ],
+    [
+     59.79,
+     1030.0
+    ],
+    [
+     58.01,
+     1032.0
+    ],
+    [
+     56.23,
+     1034.0
+    ],
+    [
+     54.45,
+     1036.0
+    ],
+    [
+     52.67,
+     1038.0
+    ],
+    [
+     50.89,
+     1040.0
+    ],
+    [
+     49.1,
+     1042.0
+    ],
+    [
+     47.32,
+     1044.0
+    ],
+    [
+     45.54,
+     1046.0
+    ],
+    [
+     43.76,
+     1048.0
+    ],
+    [
+     41.98,
+     1050.0
+    ],
+    [
+     40.2,
+     1052.0
+    ],
+    [
+     38.42,
+     1054.0
+    ],
+    [
+     36.63,
+     1056.0
+    ],
+    [
+     34.85,
+     1058.0
+    ],
+    [
+     33.07,
+     1060.0
+    ],
+    [
+     31.29,
+     1062.0
+    ],
+    [
+     29.51,
+     1064.0
+    ],
+    [
+     27.73,
+     1066.0
+    ],
+    [
+     25.94,
+     1068.0
+    ],
+    [
+     24.16,
+     1070.0
+    ],
+    [
+     22.38,
+     1072.0
+    ],
+    [
+     20.6,
+     1074.0
+    ],
+    [
+     18.82,
+     1076.0
+    ],
+    [
+     13.5,
+     1080.0
+    ],
+    [
+     11.5,
+     1081.6
+    ],
+    [
+     9.5,
+     1083.0
+    ],
+    [
+     8.0,
+     1084.0
+    ],
+    [
+     -1.0,
+     1084.0
+    ]
+   ],
+   "closing": [
+    [
+     -1.0,
+     1084.0
+    ],
+    [
+     -1.0,
+     549.86
+    ]
+   ],
+   "key": "cabinet",
+   "checks": {
+    "changedPx": 10836,
+    "changedOutsideTheMask": 8155,
+    "changedInsideTheMask": 2681,
+    "changedBox": [
+     0,
+     549,
+     114,
+     1084
+    ],
+    "featherPx": 646,
+    "closingPathPx": 0,
+    "closingPathPxWhereRA-E-2DiffersFromTheRaw": 0,
+    "closingPathMinDepthPx": null,
+    "closingAlongThePicturesEdge": true
+   }
+  }
+ ],
+ "cabinetParts": {
+  "theTopBarsTopEdge": 587,
+  "theRightPostAndItsCorners": 7374,
+  "theBottomBarsLowerEdge": 1480,
+  "elsewhereOnTheFrame": 1395
+ },
+ "leftAlone": [
+  {
+   "what": "the contact shadows under the crates",
+   "why": "shadows, not pieces, as the Lead asked for B"
+  },
+  {
+   "what": "the wall's pipe behind the crates' left ends, left of the mask",
+   "why": "RA-E-1's wall, outside the crates' outlines; the raw's pipe meets it at the keep's own seam, inside the mask"
+  },
+  {
+   "what": "the bracket above the cabinet's top bar, x 15-40, y 543-556",
+   "why": "RA-E-1's own wall fixture, outside the frame's outline; the raw paints one much like it"
+  }
+ ],
+ "checks": {
+  "keepRebuiltExactly": true,
+  "changedPx": 15454,
+  "changedOutsideTheCompletions": 0,
+  "unchangedPx": 1557410,
+  "unchangedOutsideTheCompletions": 1513981,
+  "picturePx": 1572864,
+  "rawTakenWholeInsideTheOutlines": true,
+  "overlappingPx": 0,
+  "closingPathsWhereRA-E-2DiffersFromTheRaw": 0,
+  "keepBlendReachesPxInsideTheMask": 5,
+  "closingPathMinDepthPx": 8.0
+ },
+ "pass": true,
+ "outputs": {
+  "ra-E-2c.png": {
+   "what": "the plate: RA-E-2c, a code composite of two AI-generated pictures",
+   "sha256": "ee28f5fad8a12a71183af27d98e959bb238c19e910c73a2c078b8da036343667",
+   "pixelsSha256": "af6f06d705f3a275b4e232eb7fdd7067d6fda25f4e93ecb8b9fa30c752e36d74",
+   "size": [
+    1024,
+    1536
+   ],
+   "aiGenerated": true,
+   "codeComposite": true
+  }
+ },
+ "note": "pixelsSha256 is of the decoded pixels (8-bit RGB, row by row), which another Pillow writes the same; the PNG file's own sha256 may differ with another Pillow or zlib",
+ "units": "painting pixels (1024 x 1536); outlines in pixel-edge coordinates (a pixel spans i to i + 1)"
+}

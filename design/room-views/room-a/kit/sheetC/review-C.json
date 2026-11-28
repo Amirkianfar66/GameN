@@ -1,0 +1,26 @@
+[
+ {
+  "file": "ra-C-1-masks.png",
+  "alt": "AI-generated picture RA-C-1, view C's empty room, with version 2's masks tinted over it",
+  "caption": "AI-generated picture RA-C-1, with step 2\u2019s mask over it (tinted, its edge gold); the selective 12 px growth tinted cyan, its new edge cyan.",
+  "w": 1024,
+  "h": 1536,
+  "section": "step1"
+ },
+ {
+  "file": "ra-C-1-features-1.png",
+  "alt": "AI-generated picture RA-C-1, x 334 to 670, with the traced features in cyan and the exception zones in magenta",
+  "caption": "AI-generated picture RA-C-1, x 334\u2013670, y 746\u20131100 at 2\u00d7: features cyan, exception zones magenta, the mask gold.",
+  "w": 672,
+  "h": 708,
+  "section": "rule15"
+ },
+ {
+  "file": "ra-C-1-features-2.png",
+  "alt": "AI-generated picture RA-C-1, x 781 to 1024, with the traced features in cyan and the exception zones in magenta",
+  "caption": "AI-generated picture RA-C-1, x 781\u20131024, y 754\u20131226 at 2\u00d7: features cyan, exception zones magenta, the mask gold.",
+  "w": 486,
+  "h": 944,
+  "section": "rule15"
+ }
+]

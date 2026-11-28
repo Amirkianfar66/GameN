@@ -1,0 +1,108 @@
+{
+ "picture": {
+  "name": "RA-D-1",
+  "sha256": "c8842de16d63076fe69306b247bcc643b6dc5576f6c389364ce49bc970f2fe75",
+  "aiGenerated": true
+ },
+ "mask3": {
+  "file": "ra-D-place3.png",
+  "sha256": "796dcb31de2abf2218a6364564b8efd5579bbe484a44c3ea915ffec8ddb667dd"
+ },
+ "capsule": {
+  "how": "the painted corner of the north and east walls: the column in x 515-565 darkest on average over the capsule's rows; in each row, every 10 px, the darkest column within 3 px of it, against step 3's mask's left edge there",
+  "rows": [
+   {
+    "y": 720,
+    "maskLeftEdgeX": 634,
+    "paintedCornerX": 561,
+    "clearPx": 72
+   },
+   {
+    "y": 730,
+    "maskLeftEdgeX": 634,
+    "paintedCornerX": 561,
+    "clearPx": 72
+   },
+   {
+    "y": 740,
+    "maskLeftEdgeX": 634,
+    "paintedCornerX": 561,
+    "clearPx": 72
+   },
+   {
+    "y": 750,
+    "maskLeftEdgeX": 634,
+    "paintedCornerX": 561,
+    "clearPx": 72
+   },
+   {
+    "y": 760,
+    "maskLeftEdgeX": 634,
+    "paintedCornerX": 561,
+    "clearPx": 72
+   },
+   {
+    "y": 770,
+    "maskLeftEdgeX": 634,
+    "paintedCornerX": 561,
+    "clearPx": 72
+   },
+   {
+    "y": 780,
+    "maskLeftEdgeX": 634,
+    "paintedCornerX": 561,
+    "clearPx": 72
+   },
+   {
+    "y": 790,
+    "maskLeftEdgeX": 634,
+    "paintedCornerX": 562,
+    "clearPx": 71
+   },
+   {
+    "y": 800,
+    "maskLeftEdgeX": 634,
+    "paintedCornerX": 561,
+    "clearPx": 72
+   },
+   {
+    "y": 810,
+    "maskLeftEdgeX": 634,
+    "paintedCornerX": 558,
+    "clearPx": 75
+   }
+  ],
+  "paintedCornerX": 561,
+  "paintedCornerAtTheDeck": [
+   534.7,
+   963.9
+  ],
+  "guideCorner": [
+   547.61,
+   936.69
+  ],
+  "maskLeftEdgeX": 634,
+  "clearPxMin": 71,
+  "clearOfTheFeetCornerPx": 99.3,
+  "note": "over the capsule's rows the darkest column by the corner is the shadow at the corner's pipes, right of where the walls' feet meet on the deck: the mask is measured against both",
+  "onThePaintedEastWall": true
+ },
+ "window": {
+  "mapOpeningPx": 29864,
+  "mapOpeningBox": [
+   198,
+   527,
+   374,
+   747
+  ],
+  "paintedOpeningPx": 32353,
+  "paintedOpeningBox": [
+   190,
+   527,
+   374,
+   753
+  ],
+  "share": 0.9231,
+  "what": "steps 2 and 3's colour map takes the window's opening from the painted black where it lies inside the guide's glass, so the colour check's opening gate reads flat black on the painting and on the dry run's code guides alike"
+ }
+}
