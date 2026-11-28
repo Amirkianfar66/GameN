@@ -1,0 +1,184 @@
+{
+ "view": "E",
+ "version": 1,
+ "rule": "by depth at each pixel: where a lifted layer overlaps a person above their feet line, it is drawn in front of them where its surface, met by that pixel's ray, is more than 2 cm nearer the camera than the person",
+ "toleranceM": 0.02,
+ "layers": {
+  "C electrical cabinet": {
+   "file": "_lift/E-electrical-cabinet.png",
+   "areaPx": 53375,
+   "depthM": [
+    0.926,
+    1.856
+   ]
+  },
+  "D crates": {
+   "file": "_lift/E-crates.png",
+   "areaPx": 70784,
+   "depthM": [
+    2.295,
+    3.43
+   ]
+  }
+ },
+ "people": [
+  {
+   "id": "A2",
+   "name": "Mira",
+   "Z": 2.953
+  },
+  {
+   "id": "A3",
+   "name": "Echo",
+   "Z": 1.859
+  },
+  {
+   "id": "A4",
+   "name": "Atlas",
+   "Z": 2.883
+  }
+ ],
+ "order": [
+  "the plate (RA-E-2c, every piece painted in it)",
+  "Mira",
+  "Atlas",
+  "D crates's part in front of Atlas (front-Atlas-crates.png)",
+  "Echo"
+ ],
+ "fronts": {
+  "Atlas": [
+   {
+    "phone": "390x844",
+    "layer": "D crates",
+    "nearerPx": 4337
+   },
+   {
+    "phone": "430x932",
+    "layer": "D crates",
+    "nearerPx": 4337
+   },
+   {
+    "phone": "402x742",
+    "layer": "D crates",
+    "nearerPx": 4548
+   }
+  ]
+ },
+ "overlaps": {
+  "390x844": [
+   {
+    "person": "Echo",
+    "layer": "C electrical cabinet",
+    "overlapPx": 1792,
+    "aboveFeetPx": 1792,
+    "layerDepthHereM": [
+     1.855,
+     1.855
+    ],
+    "personZ": 1.859,
+    "nearerPx": 0,
+    "withinTolPx": 1792,
+    "depthFilledPx": 1792,
+    "drawn": "behind"
+   },
+   {
+    "person": "Atlas",
+    "layer": "D crates",
+    "overlapPx": 28007,
+    "aboveFeetPx": 26917,
+    "layerDepthHereM": [
+     2.719,
+     3.313
+    ],
+    "personZ": 2.883,
+    "nearerPx": 4337,
+    "withinTolPx": 900,
+    "depthFilledPx": 9567,
+    "drawn": "in front where nearer"
+   }
+  ],
+  "430x932": [
+   {
+    "person": "Echo",
+    "layer": "C electrical cabinet",
+    "overlapPx": 1792,
+    "aboveFeetPx": 1792,
+    "layerDepthHereM": [
+     1.855,
+     1.855
+    ],
+    "personZ": 1.859,
+    "nearerPx": 0,
+    "withinTolPx": 1792,
+    "depthFilledPx": 1792,
+    "drawn": "behind"
+   },
+   {
+    "person": "Atlas",
+    "layer": "D crates",
+    "overlapPx": 28007,
+    "aboveFeetPx": 26917,
+    "layerDepthHereM": [
+     2.719,
+     3.313
+    ],
+    "personZ": 2.883,
+    "nearerPx": 4337,
+    "withinTolPx": 900,
+    "depthFilledPx": 9567,
+    "drawn": "in front where nearer"
+   }
+  ],
+  "402x742": [
+   {
+    "person": "Echo",
+    "layer": "C electrical cabinet",
+    "overlapPx": 1792,
+    "aboveFeetPx": 1792,
+    "layerDepthHereM": [
+     1.855,
+     1.855
+    ],
+    "personZ": 1.859,
+    "nearerPx": 0,
+    "withinTolPx": 1792,
+    "depthFilledPx": 1792,
+    "drawn": "behind"
+   },
+   {
+    "person": "Atlas",
+    "layer": "D crates",
+    "overlapPx": 28253,
+    "aboveFeetPx": 27150,
+    "layerDepthHereM": [
+     2.714,
+     3.313
+    ],
+    "personZ": 2.883,
+    "nearerPx": 4548,
+    "withinTolPx": 901,
+    "depthFilledPx": 9574,
+    "drawn": "in front where nearer"
+   }
+  ]
+ },
+ "frontParts": [
+  {
+   "person": "Atlas",
+   "layer": "D crates",
+   "file": "front-Atlas-crates.png",
+   "px": 4548,
+   "box": [
+    863,
+    842,
+    893,
+    1053
+   ],
+   "drawn": "right after Atlas, over them and everything farther"
+  }
+ ],
+ "depthFilledPx": {
+  "C electrical cabinet": 13234,
+  "D crates": 16495
+ }
+}

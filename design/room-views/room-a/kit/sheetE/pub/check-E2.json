@@ -1,0 +1,257 @@
+{
+ "picture": {
+  "name": "RA-E-1",
+  "sha256": "e0d928ef4c1dabd3968b20568bd0d6e3f923682df7f6d938c61bd26cb2d0730f",
+  "aiGenerated": true
+ },
+ "mask": {
+  "file": "ra-E-place.png",
+  "sha256": "973550c2f32612b185e4994e9c8134c5f157984f48407e71714cad3b533fc366"
+ },
+ "echoCabinet": {
+  "how": "the painted corner of the east and south walls: the column in x 88-112 darkest on average over the cabinet's rows (y 600-980); in each row, every 10 px, the darkest column within 3 px of it, against the step-2 mask's right edge there",
+  "guideCornerX": 125.21,
+  "paintedCornerX": 107,
+  "paintedLeftOfGuidePx": 18.2,
+  "rows": [
+   {
+    "y": 600,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 610,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 109,
+    "clearPx": 14
+   },
+   {
+    "y": 620,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 630,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 108,
+    "clearPx": 13
+   },
+   {
+    "y": 640,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 108,
+    "clearPx": 13
+   },
+   {
+    "y": 650,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 108,
+    "clearPx": 13
+   },
+   {
+    "y": 660,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 108,
+    "clearPx": 13
+   },
+   {
+    "y": 670,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 108,
+    "clearPx": 13
+   },
+   {
+    "y": 680,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 108,
+    "clearPx": 13
+   },
+   {
+    "y": 690,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 108,
+    "clearPx": 13
+   },
+   {
+    "y": 700,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 710,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 720,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 730,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 740,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 750,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 760,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 770,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 780,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 790,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 800,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 810,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 820,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 830,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 840,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 850,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 108,
+    "clearPx": 13
+   },
+   {
+    "y": 860,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 870,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 880,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 890,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 900,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 910,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 920,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 930,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 940,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 950,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 960,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   },
+   {
+    "y": 970,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 108,
+    "clearPx": 13
+   },
+   {
+    "y": 980,
+    "maskRightEdgeX": 94,
+    "paintedCornerX": 107,
+    "clearPx": 12
+   }
+  ],
+  "maskRightEdgeX": 94,
+  "clearPxMin": 12,
+  "clearPxMedian": 12.0,
+  "insideTheEastWallStrip": true
+ }
+}

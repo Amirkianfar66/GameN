@@ -1,0 +1,330 @@
+{
+ "390x844 \u00b7 100% \u00b7 pack": {
+  "phone": "390x844",
+  "pct": "100%",
+  "mode": "pack",
+  "issues": [],
+  "people": {
+   "B2": {
+    "name": "Juno",
+    "coveredByTags": 0.2295,
+    "coveredByOwnTag": 0.2295,
+    "touches": {
+     "name": "Juno",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   },
+   "B3": {
+    "name": "Lyra",
+    "coveredByTags": 0.1907,
+    "coveredByOwnTag": 0.1907,
+    "touches": {
+     "name": "Lyra",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   },
+   "B5": {
+    "name": "Vega",
+    "coveredByTags": 0.0853,
+    "coveredByOwnTag": 0.0853,
+    "touches": {
+     "name": "Vega",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   }
+  }
+ },
+ "390x844 \u00b7 200% \u00b7 pack": {
+  "phone": "390x844",
+  "pct": "200%",
+  "mode": "pack",
+  "issues": [],
+  "people": {
+   "B2": {
+    "name": "Juno",
+    "coveredByTags": 0.321,
+    "coveredByOwnTag": 0.321,
+    "touches": {
+     "name": "Juno",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   },
+   "B3": {
+    "name": "Lyra",
+    "coveredByTags": 0.4071,
+    "coveredByOwnTag": 0.4071,
+    "touches": {
+     "name": "Lyra",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   },
+   "B5": {
+    "name": "Vega",
+    "coveredByTags": 0.1891,
+    "coveredByOwnTag": 0.1891,
+    "touches": {
+     "name": "Vega",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   }
+  }
+ },
+ "430x932 \u00b7 100% \u00b7 pack": {
+  "phone": "430x932",
+  "pct": "100%",
+  "mode": "pack",
+  "issues": [],
+  "people": {
+   "B2": {
+    "name": "Juno",
+    "coveredByTags": 0.2285,
+    "coveredByOwnTag": 0.2285,
+    "touches": {
+     "name": "Juno",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   },
+   "B3": {
+    "name": "Lyra",
+    "coveredByTags": 0.1791,
+    "coveredByOwnTag": 0.1791,
+    "touches": {
+     "name": "Lyra",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   },
+   "B5": {
+    "name": "Vega",
+    "coveredByTags": 0.0752,
+    "coveredByOwnTag": 0.0752,
+    "touches": {
+     "name": "Vega",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   }
+  }
+ },
+ "430x932 \u00b7 200% \u00b7 pack": {
+  "phone": "430x932",
+  "pct": "200%",
+  "mode": "pack",
+  "issues": [],
+  "people": {
+   "B2": {
+    "name": "Juno",
+    "coveredByTags": 0.3466,
+    "coveredByOwnTag": 0.3466,
+    "touches": {
+     "name": "Juno",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   },
+   "B3": {
+    "name": "Lyra",
+    "coveredByTags": 0.3774,
+    "coveredByOwnTag": 0.3774,
+    "touches": {
+     "name": "Lyra",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   },
+   "B5": {
+    "name": "Vega",
+    "coveredByTags": 0.1673,
+    "coveredByOwnTag": 0.1673,
+    "touches": {
+     "name": "Vega",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   }
+  }
+ },
+ "390x844 \u00b7 100% \u00b7 feet": {
+  "phone": "390x844",
+  "pct": "100%",
+  "mode": "feet",
+  "issues": [],
+  "people": {
+   "B2": {
+    "name": "Juno",
+    "coveredByTags": 0.0,
+    "coveredByOwnTag": 0.0,
+    "touches": {
+     "name": "Juno",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   },
+   "B3": {
+    "name": "Lyra",
+    "coveredByTags": 0.0,
+    "coveredByOwnTag": 0.0,
+    "touches": {
+     "name": "Lyra",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   },
+   "B5": {
+    "name": "Vega",
+    "coveredByTags": 0.0,
+    "coveredByOwnTag": 0.0,
+    "touches": {
+     "name": "Vega",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   }
+  }
+ },
+ "390x844 \u00b7 200% \u00b7 feet": {
+  "phone": "390x844",
+  "pct": "200%",
+  "mode": "feet",
+  "issues": [],
+  "people": {
+   "B2": {
+    "name": "Juno",
+    "coveredByTags": 0.0,
+    "coveredByOwnTag": 0.0,
+    "touches": {
+     "name": "Juno",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   },
+   "B3": {
+    "name": "Lyra",
+    "coveredByTags": 0.0,
+    "coveredByOwnTag": 0.0,
+    "touches": {
+     "name": "Lyra",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   },
+   "B5": {
+    "name": "Vega",
+    "coveredByTags": 0.0,
+    "coveredByOwnTag": 0.0,
+    "touches": {
+     "name": "Vega",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   }
+  }
+ },
+ "430x932 \u00b7 100% \u00b7 feet": {
+  "phone": "430x932",
+  "pct": "100%",
+  "mode": "feet",
+  "issues": [],
+  "people": {
+   "B2": {
+    "name": "Juno",
+    "coveredByTags": 0.0,
+    "coveredByOwnTag": 0.0,
+    "touches": {
+     "name": "Juno",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   },
+   "B3": {
+    "name": "Lyra",
+    "coveredByTags": 0.0,
+    "coveredByOwnTag": 0.0,
+    "touches": {
+     "name": "Lyra",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   },
+   "B5": {
+    "name": "Vega",
+    "coveredByTags": 0.0,
+    "coveredByOwnTag": 0.0,
+    "touches": {
+     "name": "Vega",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   }
+  }
+ },
+ "430x932 \u00b7 200% \u00b7 feet": {
+  "phone": "430x932",
+  "pct": "200%",
+  "mode": "feet",
+  "issues": [],
+  "people": {
+   "B2": {
+    "name": "Juno",
+    "coveredByTags": 0.0,
+    "coveredByOwnTag": 0.0,
+    "touches": {
+     "name": "Juno",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   },
+   "B3": {
+    "name": "Lyra",
+    "coveredByTags": 0.0,
+    "coveredByOwnTag": 0.0,
+    "touches": {
+     "name": "Lyra",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   },
+   "B5": {
+    "name": "Vega",
+    "coveredByTags": 0.0,
+    "coveredByOwnTag": 0.0,
+    "touches": {
+     "name": "Vega",
+     "faces": [],
+     "otherPress": [],
+     "bottomChips": []
+    }
+   }
+  }
+ }
+}

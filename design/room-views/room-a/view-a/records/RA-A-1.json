@@ -1,0 +1,159 @@
+{
+ "piece": "RA-A",
+ "pass": "step 1, the empty room, from the guide alone (s1)",
+ "attempt": 1,
+ "generated": true,
+ "label": "AI-generated image",
+ "runner": "Designer team Image builder (Claude Code session)",
+ "tool": "OpenAI Images API, POST /v1/images/edits (one input image, no mask)",
+ "date": "2026-11-19T11:25:32+00:00",
+ "request_id": "req_4481f6061adc401a9b3707b6c6d33d40",
+ "authority": "the Lead's go of 19 November 2026 for RA-A step 1 only (one picture, one re-run if a check fails); the owner's approval of Room A with a cap under $5 in total (#280 at ab849d40)",
+ "sheet": {
+  "page": "Room A sheet RA-A",
+  "version": "1795086808-585b",
+  "manifest": {
+   "file": "room-a-ra-a.json",
+   "sha256": "1f3f1f69fd711ded3d522adc0412a8274f34be46ae2f046c83d7f9d9ee20f742"
+  },
+  "prompts": {
+   "file": "room-a-ra-a-prompts.txt",
+   "sha256": "7f262530bd9213ee1bd1403b782390186a6196b93e427c57cc6cbecc9de2740c"
+  }
+ },
+ "tools": {
+  "ra1_tools.py": "a1d3bbca594b0461735e75879bb1ab4b5f9d6ed177fffefc5d734395abcb63d2",
+  "lift5.py": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+  "colour-check-ra1.py": "c882f4f8259b44bf8d689021daa2e5b0e8f028539cc076cc457fe144f582dbd2",
+  "kitCheck": "all files and expected hashes match"
+ },
+ "prompt_key": "s1",
+ "prompt": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool blue-steel shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom A, the crew bay, in the same illustrated world: blue steel, lit warm. The whole room is one blue-steel family, the colours of the attached guide: deep navy in the shadows and corners (#14243F, #1D3D6B), steel blue on the walls and the deck (#2D609E), turning paler where the light falls (#5C92CC, #A9CAEB). The light is warm: the two light bars glow cream along their length (#FCE3A0), with a warm paper-white glow (#F4EBDD) on the ceiling around them and soft pools of pale light on the deck below. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige, olive, purple or violet. The shadows are deep navy, never black-brown or grey. Labels and paper are blank, in a warm paper white (#F4EBDD). Small indicator lights are warm orange (#EC793C); no other coloured light, and no green, purple or red light. Practical and worn, a working bay, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThe room: Room A, the crew bay, a 4 m square room with a 3 m ceiling, here with no furniture in it. The ceiling is solid steel panels, with no skylight and no opening in it: two long light bars set into it run across the room about 1.4 m apart, each glowing warm cream along its whole length behind a plain diffuser, lighting the ceiling around it and throwing soft pools of light on the deck below. The walls are steel panels, pipes, conduits, cable runs and small lockers, worn and repaired, darker toward the deck, with a narrow rust-brown kick strip along their foot; the deck is metal plates with seams, scuffs and a little rust, lit pale under the light bars and darker toward the corners. No beams, rays or shafts of light in the air.\n\nView: a straight-lined view at standing eye height, exactly as the attached guide shows: 80 degrees across and level, every vertical line perfectly straight and upright, every straight line in the room straight in the picture. The horizon, at eye level, is a straight line 714 px from the top, a little above the middle. Match the guide's layout, perspective, horizon and proportions exactly, line for line, as its floor seams, wall bases, corners and ceiling edges show. Do not curve the lines, tilt the view, zoom in or out, or move the horizon.\n\nThis picture: from a place by the north wall, west of its middle, at standing eye height, looking diagonally across the room toward its south-east corner, which stands right of the middle. Ahead and on the left, the east wall; on the right, past the corner, the south wall. Above, the solid ceiling, with the two light bars running from its middle up to the right and out of the picture at its top and right edges, the nearer one higher. The deck is open and clear, with nothing standing on it, while the walls keep their pipes, panels and conduits.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+ "prompt_sha256": "f13dcb963c482621a666267a2dea53b3f6a848a6b64dca32bb3fe6518401cfb4",
+ "revised_prompt": null,
+ "inputs": [
+  {
+   "order": 1,
+   "file": "ra-A-empty.png",
+   "sha256": "630d43ad9f54023e2fa506d9f0361ecfd3d69c961d58670cad45b9db3981a3f4"
+  }
+ ],
+ "mask": null,
+ "settings": {
+  "size": "1024x1536",
+  "quality": "high",
+  "n": 1,
+  "seed": null,
+  "background": "opaque",
+  "output_format": "png"
+ },
+ "output": {
+  "file": "RA-A-1.png",
+  "sha256": "a565b6e01dec5a51fcedca90ace0331e657c09864411eba032cbe14021d4d635",
+  "width": 1024,
+  "height": 1536,
+  "retouched": false
+ },
+ "usage": {
+  "input_tokens": 2505,
+  "input_tokens_details": {
+   "image_tokens": 1536,
+   "text_tokens": 969
+  },
+  "output_tokens": 1372,
+  "output_tokens_details": {
+   "image_tokens": 1372,
+   "text_tokens": 0
+  },
+  "total_tokens": 3877
+ },
+ "cost_usd_est": 0.0583,
+ "roomARunningTotal": {
+  "images": 1,
+  "usd": 0.0583,
+  "cap": "under $5"
+ },
+ "terms": "Generated with OpenAI's image model under its Terms of Use as checked by the Lead (c8fbc793): the user owns the output; it is never presented as made by a person.",
+ "check": {
+  "by": "Image builder (ra1_tools.py colours, i.e. colour-check-ra1.py with the empty-room map; lines by the region map's boundaries and the guide's edges; the rest by eye). Not the Designer's review.",
+  "colour": {
+   "pass": true,
+   "result": {
+    "walls and deck in the base": true,
+    "each wall and the deck in the base": true,
+    "orange capped": true,
+    "rust capped": true,
+    "no tan or olive": true,
+    "not purple": true,
+    "not grey": true,
+    "median lightness": true,
+    "accents only orange, cream, rust": true,
+    "openings flat black": true
+   },
+   "wallsAndDeck": {
+    "inBase": 0.8769,
+    "grey": 0.0899,
+    "purple": 0.0004,
+    "tanOlive": 0.0002,
+    "medianL": 0.457,
+    "medianHueOfReadable": 253.3
+   },
+   "warm": {
+    "orange": 0.0003,
+    "rust": 0.0077,
+    "cream": 0.0194
+   },
+   "accents": {
+    "brightSaturated": 0.0817,
+    "strayShare": 0.0,
+    "strayPixels": 4
+   },
+   "absent": [
+    "window"
+   ]
+  },
+  "lines": "the region map's boundaries drawn on the picture fall on its far corner, both ceiling edges, the wall bases (the orange skirting) and inside both light bars' outlines; the horizon at y 714 matches the guide (camera eye 1.6 m, level)",
+  "byEye": "deck clear: nothing standing on it, no cabinet, hatch, toolbox or food unit; no people, no words or logos (the three papers are blank); ceiling solid, no skylight, opening or window; no beams or shafts of light; no purple (0.04% of walls and deck). But four small lit orange indicator windows sit on junction boxes (x 940-967 y 526-538, x 236-254 y 550-558, x 704-713 y 790-794, x 174-190 y 970-977): baked status lights, against the standing rule 'no baked controls or status lights'. Not one of the go's listed checks, so the re-run is not spent; held for the Lead.",
+  "statusLights": [
+   [
+    940,
+    967,
+    526,
+    538
+   ],
+   [
+    236,
+    254,
+    550,
+    558
+   ],
+   [
+    704,
+    713,
+    790,
+    794
+   ],
+   [
+    174,
+    190,
+    970,
+    977
+   ]
+  ],
+  "verdict": "pass on every listed check; four baked status lights (held)",
+  "result": "accepted as view A's step 1 (option (c))",
+  "reason": "Lead Designer, 19 November 2026: accepted as view A's step 1 (option (c)). each light is one small lit window on a fitting, which the sheet's prompt asks for ('Small indicator lights are warm orange (#EC793C)'); not a gauge, readout or control, so nothing reads as game state. The rest is good: on the guide, ceiling solid, papers blank, deck clear. Re-run unused. Rule for Room A from here on: small single indicator lights on fittings are fine; hold anything that reads as a control, readout, gauge or level (rows of lit cells, bars, numbers, screens)."
+ },
+ "review": {
+  "by": "Lead Designer",
+  "date": "2026-11-19",
+  "result": "accepted as view A's step 1 (option (c))",
+  "note": "each light is one small lit window on a fitting, which the sheet's prompt asks for ('Small indicator lights are warm orange (#EC793C)'); not a gauge, readout or control, so nothing reads as game state. The rest is good: on the guide, ceiling solid, papers blank, deck clear. Re-run unused.",
+  "ruleForRoomA": "small single indicator lights on fittings are fine; hold anything that reads as a control, readout, gauge or level (rows of lit cells, bars, numbers, screens)."
+ },
+ "copy": {
+  "of": "Room A Records (the image builder’s records page), version 1795828303-eac0, records/RA-A-1.json",
+  "originalSha256": "67659fb8f96d3f97635e0bcc5bf03d081f5805a9806bf06dc24426f5348f92ce",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

@@ -1,0 +1,126 @@
+{
+ "piece": "PV6-A",
+ "pass": "step 1, the empty room (first pass)",
+ "attempt": 2,
+ "generated": true,
+ "label": "AI-generated image",
+ "runner": "Designer team Image builder (Claude Code session)",
+ "tool": "OpenAI Images API, POST /v1/images/edits (input image only, no mask)",
+ "date": "2026-11-18T03:45:08+00:00",
+ "request_id": "req_669987de2cfe4c1fbb2dd359c26545b5",
+ "authority": "owner's approval recorded on #280 at 78b14160; the Lead's step-1 go of 18 November 2026",
+ "sheet": {
+  "page": "Room B PV6-A Sheet",
+  "version": "1794973285-d61a",
+  "title": "sheet PV6-A v3",
+  "manifest": {
+   "file": "room-b-pv6a.json",
+   "sha256": "f1fef22574773043d405de8813d052d5145110ade53249f894adbe6022ff6059"
+  }
+ },
+ "tools": {
+  "pv6_tools.py": "b44347b6439e46ea7c923c43d5e1ee7f5dd0c2ae1b3de61a2b28ce7e9c6ccd9d",
+  "lift5.py": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+  "colour-check-v4.py": "7634828cb8fc1d30b3a10ecb15b6eb85dd3ac8249d30a08ce4b9eca58f4d110b",
+  "kitCheck": "all files and expected hashes match"
+ },
+ "prompt": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThe room: Room B, a 4 m square laboratory with a 3 m ceiling, here with no furniture in it. In the middle of the ceiling, a round skylight about 2.2 m across in a heavy round frame with a lit inner edge, divided into four panes by a thin cross of two mullions; its glass is flat black and empty, with no stars, planets, reflections or other bars across it. Around it, a ring of sixteen small round lights set in the solid ceiling, lit warm cream with an orange glow. On the walls, caged lamps a little above head height, two on each wall, glowing warm cream behind their bars, each throwing an orange glow on the wall around it and a warm reflection on the deck below. The walls are panels, pipes, conduits and shelves, worn and repaired; the deck is metal plates with seams, scuffs and a little rust, lit plum under the ring of lights and warm under the lamps, darker toward the corners. No beams, rays or shafts of light in the air.\n\nView: a straight-lined view at standing eye height, exactly as the attached guide shows: 80 degrees across and level, every vertical line perfectly straight and upright, every straight line in the room straight in the picture. The horizon, at eye level, is a straight line 714 px from the top, a little above the middle. Match the guide's layout, perspective, horizon and proportions exactly, line for line, as its floor seams, wall bases, corners and ceiling edges show. Do not curve the lines, tilt the view, zoom in or out, or move the horizon.\n\nThis picture: from a place by the north wall, a little west of its middle, at standing eye height, looking diagonally across the open room toward its south-east corner. Ahead, the east wall with two caged lamps; on the right, past the corner, the south wall's east end with a caged lamp, and a second at the right edge. Above, the ceiling, with the round skylight in its upper middle and right, its near edge cut off by the top of the picture, and the ring of warm lights around it. The deck is open and clear, with nothing standing on it, while the walls keep their pipes, panels and shelves.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+ "prompt_sha256": "8f78921a3a1909792b79291d64d3590c3d964229ab6eb595c01e7e77c07f122d",
+ "prompt_chars": 4433,
+ "revised_prompt": null,
+ "inputs": [
+  {
+   "file": "pv6-A-empty.png",
+   "published": "img/pv6-A-empty.png",
+   "sha256": "4f2454ef7781f58ffd7546fa485472b7fa2fa55c13cb6b08e463a78776734fb3",
+   "rawRGB": "411ac213449062b22e5571aa032a62676b04ccd19ebf5260c5137c8ff1ffe1b4"
+  }
+ ],
+ "mask": null,
+ "settings": {
+  "size": "1024x1536",
+  "quality": "high",
+  "n": 1,
+  "seed": null,
+  "background": "opaque",
+  "output_format": "png"
+ },
+ "output": {
+  "file": "PV6-A-2.png",
+  "sha256": "738061ae21931cabf70ba7e82ebb916c1dabcc5c2b16ac3bf6c65663d13783a5",
+  "width": 1024,
+  "height": 1536,
+  "retouched": false
+ },
+ "usage": {
+  "input_tokens": 2539,
+  "input_tokens_details": {
+   "image_tokens": 1536,
+   "text_tokens": 1003
+  },
+  "output_tokens": 1372,
+  "output_tokens_details": {
+   "image_tokens": 1372,
+   "text_tokens": 0
+  },
+  "total_tokens": 3911
+ },
+ "terms": "Generated with OpenAI's image model under its Terms of Use as checked by the Lead (c8fbc793): the user owns the output; it is never presented as made by a person.",
+ "check": {
+  "by": "Image builder (colour-check-v4.py with img/pv6-A-empty-regions.png; lines by overlay of the plain empty-room guide's edges, read against img/pv6-A-empty-annotated.png; the rest by eye). Pixel figures are approximate. Not the Designer's review.",
+  "horizonWithin8px": "pass (the wall bases and floor seams converge on the guide's lines)",
+  "shellWithin16px": "pass: the skylight's rim, both bars of the cross and the ring of sixteen lights, all four caged lamps (E1, E2, S2, S1), the corner (x ~665), the ceiling edge, the wall bases and the floor seams on the guide's lines, by the overlay well within 16 px",
+  "byEye": "nothing standing on the deck and no furniture; no people, words or logos (the papers on the walls are blank); the skylight glass flat black; no beams of light in the air",
+  "verdict": "pass on every check",
+  "colour": {
+   "script": "colour-check-v4.py",
+   "sha256": "7634828cb8fc1d30b3a10ecb15b6eb85dd3ac8249d30a08ce4b9eca58f4d110b",
+   "pass": true,
+   "result": {
+    "walls and deck in the base": true,
+    "each wall and the deck in the base": true,
+    "orange capped": true,
+    "rust capped": true,
+    "accents only orange, cream, rust, blue-green": true,
+    "no tan or olive": true,
+    "not grey": true,
+    "median lightness": true,
+    "openings flat black": true
+   },
+   "inBase": 0.786,
+   "back": 0.725,
+   "sides": 0.6939,
+   "deck": 0.8534,
+   "medianL": 0.395,
+   "tanOlive": 0.0,
+   "grey": 0.0006,
+   "warm": {
+    "orange": 0.0383,
+    "rust": 0.0016,
+    "cream": 0.0111,
+    "blueGreen": 0.0001
+   },
+   "strayShare": 0.00012,
+   "skylightP95L": 0.067,
+   "absent": [
+    "window",
+    "screen"
+   ],
+   "json": "PV6-A-2-colour.json"
+  },
+  "result": "accepted",
+  "reason": "colour-check-v4.py (7634828c…), run on the Lead's own copy of PV6-A-2 (738061ae…) with the empty-room map (c3a00e20…): all 9 gates pass; in the base 78.6% (back 72.5%, sides 69.4%, deck 85.3%), median lightness 0.395; orange 3.83%, rust 0.16%, cream 1.11%; stray accents 0.012%; skylight p95 0.067. The lines, from an overlay of the empty-room guide's edges on the picture at the 390 slice: the floor seams, wall bases, corner, ceiling edge, skylight rim and cross, ring of lights, and lamps E1, E2, S2 and S1 sit on the guide's lines; the horizon is at 714. By eye: no furniture and nothing on the deck; no people, words or logos; the skylight glass flat black; no beams in the air. The warm lamps, plum walls and lit floor match the owner's references.",
+  "review": {
+   "result": "accepted",
+   "by": "Lead Designer, 18 November 2026",
+   "status": "accepted as the empty room for step 2",
+   "reason": "colour-check-v4.py (7634828c…), run on the Lead's own copy of PV6-A-2 (738061ae…) with the empty-room map (c3a00e20…): all 9 gates pass; in the base 78.6% (back 72.5%, sides 69.4%, deck 85.3%), median lightness 0.395; orange 3.83%, rust 0.16%, cream 1.11%; stray accents 0.012%; skylight p95 0.067. The lines, from an overlay of the empty-room guide's edges on the picture at the 390 slice: the floor seams, wall bases, corner, ceiling edge, skylight rim and cross, ring of lights, and lamps E1, E2, S2 and S1 sit on the guide's lines; the horizon is at 714. By eye: no furniture and nothing on the deck; no people, words or logos; the skylight glass flat black; no beams in the air. The warm lamps, plum walls and lit floor match the owner's references."
+  }
+ },
+ "rerun_of": "PV6-A-1 (failed: skylight glass not flat black, skylight off the guide); the go allows one re-run",
+ "copy": {
+  "of": "Room B Four Views (the image builder’s records page), version 1795044447-5e2a, records/PV6-A-2.json",
+  "originalSha256": "76df6794aba6b7f554331fb57158ef9ae4d442617228bdafa7c1c629a16ea98b",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

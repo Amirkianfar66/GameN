@@ -1,0 +1,116 @@
+{
+ "view": "C",
+ "what": "view C's people layers: RA-C-2c's pieces lifted off RA-C-1, one RGBA layer a piece",
+ "recipe": "the Lead's recipe of 18 November (lift5.py): d, the largest of |placed - start| over R, G and B; the pixels where d is above 16, inside the mask; closed with a 7 x 7 max then a 7 x 7 min, kept inside the mask; holes filled; parts under 400 px dropped; feathered with a 1 px Gaussian; clipped to the mask",
+ "area": "step 2's PLACE mask (ra-C-place.png, version 2.1's, with the selective growth) and each code completion's traced outline grown 2 px, covering its 1 px feather (composite-C2.json), each completion in its piece's grey",
+ "start": {
+  "name": "RA-C-1",
+  "sha256": "ad56119d60d86073282585044f82b4fceb5a9d130d217f096e814516990783b5",
+  "aiGenerated": true
+ },
+ "kept": {
+  "name": "RA-C-2c",
+  "file": "ra-C-2c.png",
+  "pixelsSha256": "a74062edf45357dbb193ea7d93a36b99b6384cc6f25fdcc8b68bac760e138a48",
+  "aiGenerated": true,
+  "codeComposite": true,
+  "codeFill": true
+ },
+ "changedOutsideTheArea": {
+  "px": 4793,
+  "maxLevels": 95,
+  "what": "the keep's blend, its 2 px Gaussian reaching up to 6 px past the mask: left in the plate, as the sheet's tool leaves it"
+ },
+ "liftAreaPx": 158879,
+ "completionPxOutsideTheMask": 26803,
+ "screenFill": {
+  "px": 5543,
+  "outsideTheMaskPx": 0
+ },
+ "pieces": {
+  "D crates": {
+   "file": "_lift/C-crates.png",
+   "sha256": "860e28c68ff1bbef1aba3e31b3aa16f2d2275853091f2d882cec31898931d6f2",
+   "grey": 20,
+   "px": 56146,
+   "box": [
+    328,
+    796,
+    619,
+    1049
+   ],
+   "areaPx": 59437,
+   "shareOfItsArea": 0.9446,
+   "completionPxPastTheMask": {
+    "crates": 9291
+   },
+   "alphaFull": 52681,
+   "alphaPartial": 5656
+  },
+  "A PC workstation": {
+   "file": "_lift/C-PC-workstation.png",
+   "sha256": "d3619c064dc57b35cbb28bda2733a1a5e79de937b8d3707f9fc3e55cdadf4601",
+   "grey": 40,
+   "px": 56928,
+   "box": [
+    831,
+    752,
+    1024,
+    1175
+   ],
+   "areaPx": 57469,
+   "shareOfItsArea": 0.9906,
+   "completionPxPastTheMask": {
+    "monitor": 6324
+   },
+   "alphaFull": 54572,
+   "alphaPartial": 2895
+  },
+  "E toolbox": {
+   "file": "_lift/C-toolbox.png",
+   "sha256": "0a7f0beec47ed0e393cb81014fcfb9cbc5c60d207b967ed3361430aa2a18d887",
+   "grey": 60,
+   "px": 19163,
+   "box": [
+    886,
+    1165,
+    1024,
+    1330
+   ],
+   "areaPx": 19668,
+   "shareOfItsArea": 0.9743,
+   "completionPxPastTheMask": {
+    "toolbox": 1149,
+    "handle": 513
+   },
+   "alphaFull": 18281,
+   "alphaPartial": 1361
+  },
+  "E floor hatch": {
+   "file": "_lift/C-floor-hatch.png",
+   "sha256": "0d7aa7a776a554a218cb92ed2b9aaa413b9109c8c2348944ce25c84e34b9364c",
+   "grey": 80,
+   "px": 21690,
+   "box": [
+    875,
+    1321,
+    1024,
+    1536
+   ],
+   "areaPx": 22305,
+   "shareOfItsArea": 0.9724,
+   "completionPxPastTheMask": {
+    "hatch": 7593
+   },
+   "alphaFull": 20782,
+   "alphaPartial": 1513
+  }
+ },
+ "missing": [],
+ "rebuild": {
+  "how": "RA-C-1 with every layer over it, against RA-C-2c",
+  "meanAbsDiff": 0.049,
+  "pxOver16": 1544,
+  "maxDiff": 95
+ }
+}

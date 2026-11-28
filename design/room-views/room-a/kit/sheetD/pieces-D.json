@@ -1,0 +1,65 @@
+[
+ {
+  "grey": 120,
+  "place": null,
+  "name": "food capsule",
+  "step": 3,
+  "kind": "wall",
+  "parts": [
+   "food capsule"
+  ],
+  "depthM": 3.73
+ },
+ {
+  "grey": 20,
+  "place": "E",
+  "name": "hatch lid",
+  "step": 2,
+  "parts": [
+   "hatch lid"
+  ],
+  "depthM": 3.06
+ },
+ {
+  "grey": 40,
+  "place": "C",
+  "name": "electrical cabinet",
+  "step": 2,
+  "parts": [
+   "electrical panel"
+  ],
+  "depthM": 3.05
+ },
+ {
+  "grey": 60,
+  "place": "E",
+  "name": "floor hatch",
+  "step": 2,
+  "parts": [
+   "floor hatch"
+  ],
+  "depthM": 2.63
+ },
+ {
+  "grey": 80,
+  "place": "E",
+  "name": "toolbox",
+  "step": 2,
+  "parts": [
+   "toolbox"
+  ],
+  "depthM": 2.15
+ },
+ {
+  "grey": 100,
+  "place": "A",
+  "name": "PC workstation",
+  "step": 2,
+  "parts": [
+   "PC desk",
+   "monitor",
+   "monitor"
+  ],
+  "depthM": 1.7
+ }
+]

@@ -1,0 +1,34 @@
+[
+ {
+  "file": "ra-D-1-masks.png",
+  "alt": "AI-generated picture RA-D-1, view D's empty room, with version 2's masks tinted over it and the window's painted opening outlined",
+  "caption": "AI-generated picture RA-D-1, with step 2\u2019s mask over it (tinted, its edge gold); the selective 12 px growth tinted cyan, its new edge cyan; step 3\u2019s orange; the window\u2019s painted opening, the moving sky\u2019s outline, green.",
+  "w": 1024,
+  "h": 1536,
+  "section": "step1"
+ },
+ {
+  "file": "ra-D-1-features-1.png",
+  "alt": "AI-generated picture RA-D-1, x 0 to 1024, with the traced features in cyan and the exception zones in magenta",
+  "caption": "AI-generated picture RA-D-1, x 0\u20131024, y 578\u20131453 at 1\u00d7: features cyan, exception zones magenta, the masks gold and orange.",
+  "w": 1024,
+  "h": 875,
+  "section": "rule15"
+ },
+ {
+  "file": "ra-D-1-window-edge.png",
+  "alt": "AI-generated picture RA-D-1, the round window, zoomed",
+  "caption": "AI-generated picture RA-D-1, the round window at 2\u00d7: the painted opening green (the sky's outline); the guide's window magenta; no mask reaches it.",
+  "w": 456,
+  "h": 512,
+  "section": "window"
+ },
+ {
+  "file": "ra-D-1-capsule-spot.png",
+  "alt": "AI-generated picture RA-D-1, the capsule and its visitors' spot, zoomed",
+  "caption": "AI-generated picture RA-D-1, the capsule and its visitors' spot at 2\u00d7: the capsule's mask (step 3) orange; step 2's mask red, version 1.1's gold, the furniture's outline cyan; the painted east foot magenta, its seam 1 m out green; the painted corner yellow, x 534.7 at the deck; visitors' spot: guide magenta, painted deck green (+13.9 px).",
+  "w": 560,
+  "h": 720,
+  "section": "capsule"
+ }
+]

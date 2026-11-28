@@ -1,0 +1,183 @@
+{
+ "view": "B",
+ "what": "view B's two monitor screens, fitted to the painted screens' flat black in RA-B-3c, for the live monitors",
+ "date": "2026-11-27",
+ "picture": {
+  "name": "RA-B-3c",
+  "file": "ra-B-3c.png",
+  "sha256": "aabe4082441cdc87ae0970eb74c49a525b413e78fa71e5df3fea3995faa4c216",
+  "pixelsSha256": "f387d99ddbdbbb54ae4618306779be98dcc258426f0b6b715f0e1d85af516344",
+  "size": [
+   1024,
+   1536
+  ],
+  "aiGenerated": true,
+  "codeComposite": true
+ },
+ "gate": "flat black, as the colour check gates an opening (colour-check-ra1.py): 95% of the region under OKLCH lightness 0.12",
+ "method": "along each side, scanning out from inside the black every 2 px, the edge where the OKLCH lightness crosses 0.12 (between pixel centres, linear); a straight line fitted through each side's points (least squares, points more than 1.5 px off dropped once); the corners where the lines meet. The region is the pixels whose centres lie inside the corners' outline.",
+ "screens": [
+  {
+   "name": "left screen",
+   "corners": [
+    [
+     413.82,
+     778.37
+    ],
+    [
+     502.79,
+     778.58
+    ],
+    [
+     502.35,
+     832.4
+    ],
+    [
+     412.42,
+     831.28
+    ]
+   ],
+   "cornerOrder": "top-left, top-right, bottom-right, bottom-left",
+   "box": [
+    412.42,
+    778.37,
+    502.79,
+    832.4
+   ],
+   "size": [
+    90.4,
+    54.0
+   ],
+   "px": 4782,
+   "p95L": 0.0847,
+   "maxL": 0.1335,
+   "medianL": 0.0,
+   "pass": true,
+   "edges": {
+    "left": {
+     "a": 434.28299004002645,
+     "b": -0.026295697284901047,
+     "points": 19,
+     "dropped": 0,
+     "rmsPx": 0.079,
+     "form": "x = a + b y"
+    },
+    "top": {
+     "a": 777.3895082097617,
+     "b": 0.0023655675205556223,
+     "points": 37,
+     "dropped": 0,
+     "rmsPx": 0.052,
+     "form": "y = a + b x"
+    },
+    "right": {
+     "a": 509.07804983595975,
+     "b": -0.008081386905209473,
+     "points": 19,
+     "dropped": 0,
+     "rmsPx": 0.12,
+     "form": "x = a + b y"
+    },
+    "bottom": {
+     "a": 826.1682180910342,
+     "b": 0.012402120917582618,
+     "points": 37,
+     "dropped": 0,
+     "rmsPx": 0.16,
+     "form": "y = a + b x"
+    }
+   },
+   "map": {
+    "box": [
+     459,
+     794,
+     529,
+     849
+    ],
+    "px": 3625
+   }
+  },
+  {
+   "name": "right screen",
+   "corners": [
+    [
+     523.86,
+     779.06
+    ],
+    [
+     617.78,
+     779.23
+    ],
+    [
+     616.15,
+     831.35
+    ],
+    [
+     521.91,
+     830.9
+    ]
+   ],
+   "cornerOrder": "top-left, top-right, bottom-right, bottom-left",
+   "box": [
+    521.91,
+    779.06,
+    617.78,
+    831.35
+   ],
+   "size": [
+    95.9,
+    52.3
+   ],
+   "px": 4892,
+   "p95L": 0.0979,
+   "maxL": 0.1276,
+   "medianL": 0.0,
+   "pass": true,
+   "edges": {
+    "left": {
+     "a": 553.2159978575935,
+     "b": -0.037680016993718625,
+     "points": 19,
+     "dropped": 0,
+     "rmsPx": 0.143,
+     "form": "x = a + b y"
+    },
+    "top": {
+     "a": 778.0974414124106,
+     "b": 0.001836374971199243,
+     "points": 39,
+     "dropped": 0,
+     "rmsPx": 0.068,
+     "form": "y = a + b x"
+    },
+    "right": {
+     "a": 642.1910808244012,
+     "b": -0.03132871460953995,
+     "points": 18,
+     "dropped": 1,
+     "rmsPx": 0.206,
+     "form": "x = a + b y"
+    },
+    "bottom": {
+     "a": 828.4184595337179,
+     "b": 0.004760385740535501,
+     "points": 24,
+     "dropped": 15,
+     "rmsPx": 0.894,
+     "form": "y = a + b x"
+    }
+   },
+   "map": {
+    "box": [
+     535,
+     797,
+     611,
+     855
+    ],
+    "px": 4104
+   }
+  }
+ ],
+ "map": "the step-2 map's screens (ra-B-regions.png, the window colour less the window), for comparison: the painted screens are not where the map draws them",
+ "units": "painting pixels (1024 x 1536); a pixel spans i to i + 1, so corners are in pixel-edge coordinates"
+}

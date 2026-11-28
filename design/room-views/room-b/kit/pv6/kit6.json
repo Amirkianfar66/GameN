@@ -1,0 +1,196 @@
+{
+ "pieces": [
+  {
+   "grey": 80,
+   "place": "E",
+   "name": "bench",
+   "parts": [
+    "bench",
+    "microscope"
+   ],
+   "depthM": 2.24,
+   "wall": "east",
+   "wallGapM": 0.26,
+   "longSideToWallDeg": 81,
+   "longSideToSightDeg": 27,
+   "dist": 2.24,
+   "partsX": {
+    "bench": 307,
+    "microscope": 274
+   },
+   "partsDist": {
+    "bench": 2.24,
+    "microscope": 2.44
+   },
+   "partsInPicture": {
+    "bench": true,
+    "microscope": true
+   },
+   "px": 83855,
+   "bbox": [
+    193,
+    804,
+    443,
+    1280
+   ],
+   "visibleCentreX": 316,
+   "cutByEdge": false
+  },
+  {
+   "grey": 40,
+   "place": "C",
+   "name": "console",
+   "parts": [
+    "console"
+   ],
+   "depthM": 3.28,
+   "wall": "east",
+   "wallGapM": 0.07,
+   "longSideToWallDeg": 0,
+   "longSideToSightDeg": 57,
+   "dist": 3.28,
+   "partsX": {
+    "console": 473
+   },
+   "partsDist": {
+    "console": 3.28
+   },
+   "partsInPicture": {
+    "console": true
+   },
+   "px": 21449,
+   "bbox": [
+    410,
+    824,
+    536,
+    1044
+   ],
+   "visibleCentreX": 477,
+   "cutByEdge": false
+  },
+  {
+   "grey": 20,
+   "place": "B",
+   "name": "laptop cart",
+   "parts": [
+    "laptop cart"
+   ],
+   "depthM": 3.57,
+   "wall": "south",
+   "wallGapM": 0.17,
+   "longSideToWallDeg": 70,
+   "longSideToSightDeg": 13,
+   "dist": 3.57,
+   "partsX": {
+    "laptop cart": 743
+   },
+   "partsDist": {
+    "laptop cart": 3.57
+   },
+   "partsInPicture": {
+    "laptop cart": true
+   },
+   "px": 12372,
+   "bbox": [
+    694,
+    868,
+    789,
+    1015
+   ],
+   "visibleCentreX": 741,
+   "cutByEdge": false
+  },
+  {
+   "grey": 60,
+   "place": "B",
+   "name": "stool",
+   "parts": [
+    "stool"
+   ],
+   "depthM": 3.27,
+   "wall": "south",
+   "wallGapM": 0.12,
+   "longSideToWallDeg": 45,
+   "longSideToSightDeg": 20,
+   "dist": 3.27,
+   "partsX": {
+    "stool": 848
+   },
+   "partsDist": {
+    "stool": 3.27
+   },
+   "partsInPicture": {
+    "stool": true
+   },
+   "px": 7381,
+   "bbox": [
+    813,
+    918,
+    885,
+    1029
+   ],
+   "visibleCentreX": 849,
+   "cutByEdge": false
+  }
+ ],
+ "shapes": [
+  {
+   "pieces": [
+    0,
+    1
+   ],
+   "px": 116487,
+   "bbox": [
+    187,
+    798,
+    542,
+    1286
+   ],
+   "visibleCentreX": 350,
+   "cutByEdge": false,
+   "tall": 1.37
+  },
+  {
+   "pieces": [
+    2
+   ],
+   "px": 15420,
+   "bbox": [
+    688,
+    862,
+    795,
+    1021
+   ],
+   "visibleCentreX": 741,
+   "cutByEdge": false,
+   "tall": 1.49
+  },
+  {
+   "pieces": [
+    3
+   ],
+   "px": 9721,
+   "bbox": [
+    807,
+    912,
+    891,
+    1035
+   ],
+   "visibleCentreX": 849,
+   "cutByEdge": false,
+   "tall": 1.46
+  }
+ ],
+ "split": {
+  "E bench": 80,
+  "C console": 40,
+  "B laptop cart": 20,
+  "B stool": 60
+ },
+ "outlineShare": 0.0795,
+ "expected": {
+  "maskedShare": 0.09,
+  "rawMaskAlpha": "3e67381f0e29aebb47f44b4a1c313f3d3bc9fed9d7721310e5905db6f1d8d0ef",
+  "over10": false
+ }
+}

@@ -1,0 +1,134 @@
+{
+ "view": "C",
+ "what": "view C's monitor screen, fitted to the black filled into the painted screen in RA-C-2c, for the live monitor",
+ "date": "2026-11-27",
+ "picture": {
+  "name": "RA-C-2c",
+  "file": "ra-C-2c.png",
+  "sha256": "8030149b2303926ae0317466b06cf2fcfa30d6d52cba0cf9314ea40bf0dc7f2b",
+  "pixelsSha256": "a74062edf45357dbb193ea7d93a36b99b6384cc6f25fdcc8b68bac760e138a48",
+  "size": [
+   1024,
+   1536
+  ],
+  "aiGenerated": true,
+  "codeComposite": true,
+  "codeFill": true
+ },
+ "gate": "flat black, as the colour check gates an opening (colour-check-ra1.py): 95% of the region under OKLCH lightness 0.12",
+ "fill": {
+  "what": "the monitor's painted screen, mid grey in the raw, filled with flat black in code, keeping its bezel",
+  "colour": [
+   0,
+   0,
+   0
+  ],
+  "seed": [
+   961,
+   805
+  ],
+  "how": "the 4-connected pixels at luminance 50 or more (Pillow's 'L') from the seed, bounded by the bezel's inner ink, plus the one ring of pixels touching them (all darker than 50)",
+  "px": 5523,
+  "box": [
+   924,
+   766,
+   1000,
+   849
+  ],
+  "screenPx": 5236,
+  "ringPx": 287
+ },
+ "method": "along each side, scanning out from inside the black every 2 px, the edge where the OKLCH lightness crosses 0.12 (between pixel centres, linear); a straight line fitted through each side's points (least squares, points more than 1.5 px off dropped once); the corners where the lines meet. The region is the pixels whose centres lie inside the corners' outline.",
+ "seedBox": [
+  936,
+  776,
+  988,
+  838
+ ],
+ "screens": [
+  {
+   "name": "screen",
+   "corners": [
+    [
+     928.51,
+     770.32
+    ],
+    [
+     999.78,
+     764.97
+    ],
+    [
+     995.24,
+     849.1
+    ],
+    [
+     923.63,
+     841.09
+    ]
+   ],
+   "cornerOrder": "top-left, top-right, bottom-right, bottom-left",
+   "box": [
+    923.63,
+    764.97,
+    999.78,
+    849.1
+   ],
+   "size": [
+    76.1,
+    84.1
+   ],
+   "px": 5543,
+   "p95L": 0.0,
+   "maxL": 0.2473,
+   "medianL": 0.0,
+   "pass": true,
+   "blackPxInside": 5500,
+   "blackPxOutside": 23,
+   "edges": {
+    "left": {
+     "a": 981.6036217615961,
+     "b": -0.06892451598694946,
+     "points": 30,
+     "dropped": 0,
+     "rmsPx": 0.308,
+     "form": "x = a + b y"
+    },
+    "top": {
+     "a": 839.9947895126952,
+     "b": -0.07503770636426813,
+     "points": 25,
+     "dropped": 0,
+     "rmsPx": 0.215,
+     "form": "y = a + b x"
+    },
+    "right": {
+     "a": 1041.056293020222,
+     "b": -0.05395965587532632,
+     "points": 30,
+     "dropped": 0,
+     "rmsPx": 0.096,
+     "form": "x = a + b y"
+    },
+    "bottom": {
+     "a": 737.7326335671031,
+     "b": 0.11190511747217217,
+     "points": 25,
+     "dropped": 0,
+     "rmsPx": 0.194,
+     "form": "y = a + b x"
+    }
+   },
+   "map": {
+    "box": [
+     949,
+     810,
+     1024,
+     898
+    ],
+    "px": 4938
+   }
+  }
+ ],
+ "map": "the step-2 map's screen (ra-C-regions.png, magenta), for comparison: the painted screen is not where the map draws it",
+ "units": "painting pixels (1024 x 1536); a pixel spans i to i + 1, so corners are in pixel-edge coordinates"
+}

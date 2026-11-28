@@ -1,0 +1,663 @@
+{
+ "about": "Painted features on the walls of RA-B-2 (AI-generated, sheet RA-B's accepted step-1 picture), the kit's fixed obstacles for the Lead's 15 px rule (version 2). Picture pixels of the 1024 x 1536 painting; a polygon holds the pixels whose centres lie inside it. Each outline was read from RA-B-2 at three or four times on a 10 px grid, its dark ink outline and any contact shadow included, and drawn a little generous. Structural lines the guide itself draws (the kick strips, the deck seams, the corners) are not features, as in view A. Where Vega's desk, its monitors or Atlas's crates stand in front of a painted feature, their outline must cross it or run along it: those places are named exceptions, each with its zone, for the Lead's decision. Near the toolbox and the hatch, only structural lines lie within 60 px of the mask.",
+ "picture": {
+  "name": "RA-B-2",
+  "sha256": "aefddadcb3ce554c215d121dd7a49b8e4197a1dcce77325e54982252c8038605",
+  "aiGenerated": true
+ },
+ "minClearPx": 15,
+ "rule": "Every step-2 mask edge either clearly overlaps a feature in the test, covering it with at least 15 px to spare, or clears it by at least 15 px (square pixels): no part of the feature lies within 15 px of a mask edge. A named exception, for the Lead's decision, passes only where every such part lies in its zone. The features not in the test are measured and reported.",
+ "features": [
+  {
+   "name": "lower pipe run",
+   "kind": "pipes",
+   "test": true,
+   "measured": "the back wall's long pipe behind the monitors, y 803-818 with its outline and shadow, with its couplings and clamps; from the elbow at x 383 to x 712, 60 px beyond the desk's mask",
+   "polygons": [
+    [
+     [
+      383,
+      800
+     ],
+     [
+      712,
+      800
+     ],
+     [
+      712,
+      821
+     ],
+     [
+      383,
+      821
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "behind the two monitors",
+     "zone": [
+      [
+       431,
+       780
+      ],
+      [
+       641,
+       780
+      ],
+      [
+       641,
+       826
+      ],
+      [
+       431,
+       826
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "Vega's monitors stand in front of the pipe: their outer sides cross it (x 452 and 619) and their tops run 9 to 14 px above it, so the monitors' outline must cross it and run along it."
+    }
+   ]
+  },
+  {
+   "name": "pipe elbow and upper pipe, left",
+   "kind": "pipes",
+   "test": true,
+   "measured": "the pipe that comes down the wall at x 386-399 and turns into the lower run at y 789-820",
+   "polygons": [
+    [
+     [
+      380,
+      740
+     ],
+     [
+      403,
+      740
+     ],
+     [
+      403,
+      786
+     ],
+     [
+      421,
+      786
+     ],
+     [
+      421,
+      823
+     ],
+     [
+      380,
+      823
+     ]
+    ]
+   ],
+   "exceptions": []
+  },
+  {
+   "name": "vertical pipe behind the desk's left end",
+   "kind": "pipes",
+   "test": true,
+   "measured": "the light pipe at x 381-414 from under the elbow down to the kick strip (y 823-968), with its clamp at y 917-932",
+   "polygons": [
+    [
+     [
+      378,
+      823
+     ],
+     [
+      417,
+      823
+     ],
+     [
+      417,
+      969
+     ],
+     [
+      378,
+      969
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "behind the desk's left end",
+     "zone": [
+      [
+       372,
+       818
+      ],
+      [
+       420,
+       818
+      ],
+      [
+       420,
+       972
+      ],
+      [
+       372,
+       972
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The pipe runs down behind the desk's left end: the desk's outline (x 402, the mask's edge x 396) crosses it along its length, and its top meets the tabletop's back-left corner."
+    }
+   ]
+  },
+  {
+   "name": "pipe bend, upper left",
+   "kind": "pipes",
+   "test": true,
+   "measured": "the large pipe that comes down from the ceiling and bends right at y 770-786, ending at the left monitor's top-left corner",
+   "polygons": [
+    [
+     [
+      420,
+      748
+     ],
+     [
+      470,
+      748
+     ],
+     [
+      470,
+      790
+     ],
+     [
+      420,
+      790
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "at the left monitor's top-left corner",
+     "zone": [
+      [
+       431,
+       765
+      ],
+      [
+       475,
+       765
+      ],
+      [
+       475,
+       808
+      ],
+      [
+       431,
+       808
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The bend ends behind the left monitor's top-left corner: the monitor's outline (its top at y 793, the mask's edge y 787) runs along it."
+    }
+   ]
+  },
+  {
+   "name": "clamp bracket on the lower run",
+   "kind": "clamp",
+   "test": true,
+   "measured": "the bracket that stands up from the lower run at x 491-501, y 777-818",
+   "polygons": [
+    [
+     [
+      487,
+      774
+     ],
+     [
+      505,
+      774
+     ],
+     [
+      505,
+      821
+     ],
+     [
+      487,
+      821
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "behind the left monitor's top",
+     "zone": [
+      [
+       482,
+       766
+      ],
+      [
+       510,
+       766
+      ],
+      [
+       510,
+       808
+      ],
+      [
+       482,
+       808
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The bracket stands up behind the left monitor's top edge, which crosses it."
+    }
+   ]
+  },
+  {
+   "name": "junction box on the lower run",
+   "kind": "box",
+   "test": true,
+   "measured": "the box on the lower run at x 540-585, y 788-825, with its outline",
+   "polygons": [
+    [
+     [
+      537,
+      785
+     ],
+     [
+      589,
+      785
+     ],
+     [
+      589,
+      828
+     ],
+     [
+      537,
+      828
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "behind the right monitor's top",
+     "zone": [
+      [
+       532,
+       770
+      ],
+      [
+       594,
+       770
+      ],
+      [
+       594,
+       813
+      ],
+      [
+       532,
+       813
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The box sits behind the right monitor's top edge (y 797, the mask's edge y 791), which crosses it."
+    }
+   ]
+  },
+  {
+   "name": "vented panel behind the desk",
+   "kind": "panel",
+   "test": true,
+   "measured": "the large wall panel with its vent, x 429-669, y 834-941, with its frame and bolts; the desk stands in front of it, and its right end leaves the panel's last 20 px showing",
+   "polygons": [
+    [
+     [
+      426,
+      831
+     ],
+     [
+      672,
+      831
+     ],
+     [
+      672,
+      944
+     ],
+     [
+      426,
+      944
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "behind the tabletop's back edge, left",
+     "zone": [
+      [
+       392,
+       816
+      ],
+      [
+       470,
+       816
+      ],
+      [
+       470,
+       880
+      ],
+      [
+       392,
+       880
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The tabletop's back edge and the left monitor's lower left side run along the panel's top edge, and the desk's left end crosses its top-left corner."
+    },
+    {
+     "where": "behind the desk's right end",
+     "zone": [
+      [
+       600,
+       826
+      ],
+      [
+       674,
+       826
+      ],
+      [
+       674,
+       948
+      ],
+      [
+       600,
+       948
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The desk's right end crosses the panel (its outline at x 643, the mask's edge x 649), leaving the panel's right 20 px showing; the right monitor's lower right side and the tabletop's right corner run along its top edge."
+    }
+   ]
+  },
+  {
+   "name": "left-wall pipe, outer",
+   "kind": "pipes",
+   "test": true,
+   "measured": "the west wall's large pipe at x 44-90, from above down to its elbow at y 1046, with its clamp rings (y 909-928 and 969-986)",
+   "polygons": [
+    [
+     [
+      40,
+      760
+     ],
+     [
+      94,
+      760
+     ],
+     [
+      94,
+      1050
+     ],
+     [
+      40,
+      1050
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "behind the crates' top",
+     "zone": [
+      [
+       28,
+       868
+      ],
+      [
+       102,
+       868
+      ],
+      [
+       102,
+       932
+      ],
+      [
+       28,
+       932
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "Atlas's crates stand in front of the pipe: the upper crate's top edge crosses it, and its clamp ring at y 909-928 lies just under that edge."
+    }
+   ]
+  },
+  {
+   "name": "left-wall pipe, inner",
+   "kind": "pipes",
+   "test": true,
+   "measured": "the west wall's second pipe at x 92-135, with its clamp ring at y 877-889",
+   "polygons": [
+    [
+     [
+      89,
+      760
+     ],
+     [
+      140,
+      760
+     ],
+     [
+      140,
+      1002
+     ],
+     [
+      89,
+      1002
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "behind the crates' top",
+     "zone": [
+      [
+       84,
+       864
+      ],
+      [
+       146,
+       864
+      ],
+      [
+       146,
+       924
+      ],
+      [
+       84,
+       924
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The upper crate's top edge crosses the pipe at its clamp ring."
+    }
+   ]
+  },
+  {
+   "name": "pipe elbow and low run, left wall",
+   "kind": "pipes",
+   "test": true,
+   "measured": "the outer pipe's elbow and the short run to its coupling, x 44-170, y 970-1047: behind the crates, inside their area",
+   "polygons": [
+    [
+     [
+      40,
+      968
+     ],
+     [
+      173,
+      968
+     ],
+     [
+      173,
+      1050
+     ],
+     [
+      40,
+      1050
+     ]
+    ]
+   ],
+   "exceptions": []
+  },
+  {
+   "name": "locker with its vent, left wall",
+   "kind": "locker",
+   "test": true,
+   "measured": "the west wall locker at x 149-275, y 786-960, its vent at x 205-259, y 881-919",
+   "polygons": [
+    [
+     [
+      146,
+      783
+     ],
+     [
+      278,
+      783
+     ],
+     [
+      278,
+      963
+     ],
+     [
+      146,
+      963
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "behind the crates' top right corner",
+     "zone": [
+      [
+       140,
+       876
+      ],
+      [
+       221,
+       876
+      ],
+      [
+       221,
+       966
+      ],
+      [
+       140,
+       966
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The upper crate's top edge and right side cross the locker's lower part; its vent sits 6 px beyond the crates' mask."
+    }
+   ]
+  },
+  {
+   "name": "thin pipe run right of the crates",
+   "kind": "pipes",
+   "test": true,
+   "measured": "the thin pipe at y 952-986 from x 168 to 330, with its clamp at x 222-245, y 946-986",
+   "polygons": [
+    [
+     [
+      165,
+      943
+     ],
+     [
+      333,
+      943
+     ],
+     [
+      333,
+      990
+     ],
+     [
+      165,
+      990
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "behind the crates' right side and the lower crate's top",
+     "zone": [
+      [
+       178,
+       936
+      ],
+      [
+       304,
+       936
+      ],
+      [
+       304,
+       1003
+      ],
+      [
+       178,
+       1003
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The pipe passes behind the upper crate's right side and just above the lower crate's top, whose outline runs along it."
+    }
+   ]
+  },
+  {
+   "name": "bracket on the thin conduits",
+   "kind": "clamp",
+   "test": true,
+   "measured": "the bracket at x 295-310, y 917-943",
+   "polygons": [
+    [
+     [
+      292,
+      914
+     ],
+     [
+      313,
+      914
+     ],
+     [
+      313,
+      946
+     ],
+     [
+      292,
+      946
+     ]
+    ]
+   ],
+   "exceptions": []
+  }
+ ],
+ "lights": [
+  {
+   "name": "indicator dot, left wall",
+   "box": [
+    337,
+    536,
+    339,
+    541
+   ]
+  },
+  {
+   "name": "indicator dot, back-wall box",
+   "box": [
+    478,
+    593,
+    484,
+    602
+   ]
+  },
+  {
+   "name": "indicator dot, right of the window",
+   "box": [
+    934,
+    786,
+    942,
+    794
+   ]
+  }
+ ]
+}

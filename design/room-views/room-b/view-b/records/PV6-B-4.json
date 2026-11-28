@@ -1,0 +1,347 @@
+{
+ "piece": "PV6-B",
+ "generated": true,
+ "label": "AI-generated, composited in code from a masked edit",
+ "runner": "Designer team Image builder (Claude Code session)",
+ "authority": "the Lead's go of 18 November 2026 for B version 4 (steps 2 and 3 from PV6-B-1); the owner's approval of about $0.27 for B in all, at most $0.34 with one re-run",
+ "sheet": {
+  "page": "Room B PV6-B Sheet",
+  "version": "1795009181-bcdd",
+  "manifest": {
+   "file": "room-b-pv6b.json",
+   "sha256": "40e14d1d77d7db4967fd3315938affee3be478c0974b53dbc9eb768344338020"
+  },
+  "prompts": {
+   "file": "room-b-pv6b-prompts.txt",
+   "sha256": "cf033a8f43069d8ff3746d1d9428b33816d98fd17b60ff4b6cede5a3635875d9"
+  }
+ },
+ "tools": {
+  "pv8_tools.py": "5304717eaf2967e48b4a0ed27806023dd20ff68330c6b9c898c5514e9c77da8d",
+  "lift5.py": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+  "colour-check-v4.py": "7634828cb8fc1d30b3a10ecb15b6eb85dd3ac8249d30a08ce4b9eca58f4d110b",
+  "kitCheck": "all files and expected hashes match"
+ },
+ "terms": "Generated with OpenAI's image model under its Terms of Use as checked by the Lead (c8fbc793): the user owns the output; it is never presented as made by a person.",
+ "pass": "step 3 (version 4): the food capsule alone, one masked edit of PV6-B-3 inside the capsule's outline grown 2 px, with the guide there and no second picture (s3), kept inside the mask in code",
+ "attempt": 4,
+ "tool": "OpenAI Images API, POST /v1/images/edits (one input, the S3 input with the mask), then pv8_tools.py keep3 and lift3",
+ "date": "2026-11-18T13:54:12+00:00",
+ "request_id": "req_675bc897b41a4ad7b98d320b1f228a91",
+ "start": {
+  "file": "PV6-B-3.png",
+  "sha256": "8767d472a3a473d6079ae3cb604ca921f3606e9698f68f2b779d34c3fe20205b"
+ },
+ "s3": {
+  "maskedShare": 0.0054,
+  "rawInputRGB": "628b6bebb8923a9ef78b5dc247f6c2ef9ad28b3778e5de85aa459d50fda39474",
+  "rawMaskAlpha": "711a2f28b825a7ce84b8b5d06096be03611306fc8bfdc4b3e482218a4fd81737",
+  "inputs": [
+   {
+    "role": "the picture to edit: the kept step-2 picture with the guide inside step 3's mask (the capsule's outline grown 2 px), and the mask (alpha 0 = repaint)",
+    "file": "PV6-B-4-S3-input.png",
+    "sha256": "e34616d7e2f543ef7a97a41833995f546713d4470170c547409ee062c709c439",
+    "mask": {
+     "file": "PV6-B-4-S3-mask.png",
+     "sha256": "a313772c625bf2dd7173684e980ec9429e44e47f9e622fdf729436e2a503892f"
+    }
+   }
+  ],
+  "secondPicture": "none: s3 and s3-one are the same text"
+ },
+ "prompt_key": "s3 (= s3-one)",
+ "prompt": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked shape, and leave everything outside it exactly as it is. The masked shape holds one small food dispenser that fills the shape exactly, with nothing of it outside the shape, painted in full detail in the picture's style and light. It stands on the far end of the workbench's top, the left end in this picture, its foot on the bench's top: a steel housing with a rounded top on a short foot, about 0.24 m wide, 0.40 m tall and 0.22 m deep, its front a flat, plain hatch of warm paper-white, closed, with a small dark handle along its bottom edge, two thin vent slots under the hatch, and a small round lens above it, unlit and dark; nothing written, printed or lit on it. Paint it in the same metal, paint and wear as the furniture around it.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+ "prompt_sha256": "f319cad6134e954e64b107cd1a11a17974e8f1fc751e95597432109ffeac2972",
+ "revised_prompt": null,
+ "inputs": [
+  {
+   "order": 1,
+   "file": "PV6-B-4-S3-input.png",
+   "sha256": "e34616d7e2f543ef7a97a41833995f546713d4470170c547409ee062c709c439"
+  }
+ ],
+ "mask": {
+  "file": "PV6-B-4-S3-mask.png",
+  "sha256": "a313772c625bf2dd7173684e980ec9429e44e47f9e622fdf729436e2a503892f",
+  "convention": "alpha 0 = repaint"
+ },
+ "settings": {
+  "size": "1024x1536",
+  "quality": "high",
+  "n": 1,
+  "seed": null,
+  "background": "opaque",
+  "output_format": "png"
+ },
+ "raw_output": {
+  "file": "PV6-B-4-raw.png",
+  "sha256": "bb84134c6c8e5b22ac440a65c267858ef74cb2369929f6398991b2a18bc99483"
+ },
+ "output": {
+  "file": "PV6-B-4.png",
+  "sha256": "eb42d9fdda26c67c586565096c592f2334228ba8452a1ead502d8bd5ca14f3c9",
+  "rawRGBsha256": "72534151097d2c4100619201a6a34d7086449a49fef1b2af6cff332d93490c11",
+  "width": 1024,
+  "height": 1536,
+  "retouched": "composited in code only: the raw edit over PV6-B-3 inside step 3's mask, feathered by a 2 px Gaussian"
+ },
+ "moreThan4pxOutsideMask": {
+  "meanAbsDiff": 0.0,
+  "maxAbsDiff": 1
+ },
+ "lift": {
+  "view": "B",
+  "step": 3,
+  "recipe": "d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November)",
+  "pieces": {
+   "D food capsule": {
+    "file": "PV6-B-4-D-food-capsule.png",
+    "sha256": "3720b13079e789f0e91bbcc58b737d190b49140b2ce3fd6614123835be2f873e",
+    "px": 8314,
+    "x": [
+     292,
+     373
+    ],
+    "y": [
+     790,
+     901
+    ],
+    "shareOfItsOutline": 0.9715
+   }
+  },
+  "missing": [],
+  "rebuildMeanAbsDiff": 0.0088
+ },
+ "usage": {
+  "input_tokens": 2257,
+  "input_tokens_details": {
+   "image_tokens": 1536,
+   "text_tokens": 721
+  },
+  "output_tokens": 1372,
+  "output_tokens_details": {
+   "image_tokens": 1372,
+   "text_tokens": 0
+  },
+  "total_tokens": 3629
+ },
+ "cost_usd_est": 0.0571,
+ "check": {
+  "by": "Image builder (colour-check-v4.py; pv8_tools.py same and lift3; hatch.py; the rest by eye). Not the Designer's review.",
+  "colour": {
+   "pass": true,
+   "result": {
+    "walls and deck in the base": true,
+    "each wall and the deck in the base": true,
+    "orange capped": true,
+    "rust capped": true,
+    "accents only orange, cream, rust, blue-green": true,
+    "no tan or olive": true,
+    "not grey": true,
+    "median lightness": true,
+    "openings flat black": true
+   },
+   "json": "PV6-B-4-colour.json"
+  },
+  "sameRoom": {
+   "pass": true,
+   "gates": {
+    "colour check version 4 with the view's map": true,
+    "walls and deck: median lightness, chroma and hue as PV6-A-2's": true,
+    "deck: median lightness as PV6-A-2's": true,
+    "warm light: orange and cream shares as PV6-A-2's": true,
+    "every lamp in view lit at its place": true,
+    "the ring lights lit at their places": true,
+    "the surfaces both pictures show: PV6-A-2's colour (median delta E)": true
+   },
+   "json": "PV6-B-4-same.json"
+  },
+  "liftPieces": {
+   "D food capsule": {
+    "px": 8314,
+    "x": [
+     292,
+     373
+    ],
+    "y": [
+     790,
+     901
+    ],
+    "shareOfItsOutline": 0.9715
+   }
+  },
+  "liftMissing": [],
+  "hatch": {
+   "sheetHatchCorners": {
+    "topLeft": [
+     339.9,
+     832.5
+    ],
+    "topRight": [
+     367.0,
+     825.7
+    ],
+    "bottomRight": [
+     367.0,
+     857.7
+    ],
+    "bottomLeft": [
+     339.9,
+     866.3
+    ]
+   },
+   "paintedHatchCorners": {
+    "topLeft": [
+     315,
+     828
+    ],
+    "topRight": [
+     368,
+     825
+    ],
+    "bottomRight": [
+     369,
+     885
+    ],
+    "bottomLeft": [
+     314,
+     897
+    ],
+    "bbox": [
+     313,
+     825,
+     369,
+     897
+    ],
+    "px": 3341
+   },
+   "offsetPx": {
+    "topLeft": [
+     -24.9,
+     -4.5
+    ],
+    "topRight": [
+     1.0,
+     -0.7
+    ],
+    "bottomRight": [
+     2.0,
+     27.3
+    ],
+    "bottomLeft": [
+     -25.9,
+     30.7
+    ]
+   },
+   "projectedLens": [
+    353.9,
+    822.0
+   ],
+   "lensMeanRGB": [
+    151.1,
+    84.4,
+    85.0
+   ],
+   "projectedHandle": [
+    [
+     361.0,
+     856.8
+    ],
+    [
+     346.7,
+     861.3
+    ]
+   ],
+   "method": "sheet corners: capsule.units[0].hatch projected with the view's camera (marks json); painted: the largest connected warm paper-white region (R>170, G>150, B>120, R>=B) within 40 px of the sheet's hatch, its corners the extreme points along the diagonals"
+  },
+  "byEye": "one dispenser, inside its shape and not doubled; hatch closed, plain and paper-white, nothing written or lit; lens dark plum (the projected lens point falls on the rim just below and right of it, hence the reddish reading); the hatch fills almost the whole front of the dispenser, about twice the sheet hatch's width and height; nothing outside the shape changed",
+  "verdict": "pass on every measured check; the hatch is larger than the sheet's (see by eye)",
+  "result": "accepted, with the larger hatch on purpose",
+  "reason": "Lead Designer, 18 November 2026: accepted, with the larger hatch on purpose. The painted hatch reads far better at phone size than the sheet's (about 21 x 27 points against 10 x 15); the eating visit happens at that hatch. From now on code follows the painting: the light, the shutter, the hatch's opening, the tray, the portion and the wrapper fit the painted hatch and the painted lens, not the sheet's projection."
+ },
+ "review": {
+  "by": "Lead Designer",
+  "date": "2026-11-18",
+  "result": "accepted, with the larger hatch on purpose",
+  "decision": "The painted hatch reads far better at phone size than the sheet's (about 21 x 27 points against 10 x 15); the eating visit happens at that hatch. From now on code follows the painting: the light, the shutter, the hatch's opening, the tray, the portion and the wrapper fit the painted hatch and the painted lens, not the sheet's projection.",
+  "paintedHatch": {
+   "bbox": [
+    313,
+    825,
+    369,
+    897
+   ],
+   "corners": {
+    "topLeft": [
+     315,
+     828
+    ],
+    "topRight": [
+     368,
+     825
+    ],
+    "bottomRight": [
+     369,
+     885
+    ],
+    "bottomLeft": [
+     314,
+     897
+    ]
+   }
+  },
+  "sheetHatch": {
+   "bbox": [
+    339.9,
+    825.7,
+    367.0,
+    866.3
+   ],
+   "corners": {
+    "topLeft": [
+     339.9,
+     832.5
+    ],
+    "topRight": [
+     367.0,
+     825.7
+    ],
+    "bottomRight": [
+     367.0,
+     857.7
+    ],
+    "bottomLeft": [
+     339.9,
+     866.3
+    ]
+   }
+  },
+  "paintedLens": {
+   "centre": [
+    344.7,
+    805.3
+   ],
+   "darkCoreBbox": [
+    338,
+    802,
+    349,
+    811
+   ],
+   "meanRGB": [
+    30,
+    10,
+    25
+   ],
+   "method": "the largest connected region under the 12th luminance percentile in x 320-370, y 785-830"
+  },
+  "sheetLensProjected": [
+   353.9,
+   822.0
+  ]
+ },
+ "copy": {
+  "of": "Room B Four Views (the image builder’s records page), version 1795044447-5e2a, records/PV6-B-4.json",
+  "originalSha256": "ae3f4574f8e052946984726f02c219f9178e26c667aea5b18f9e70d8a688c678",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

@@ -1,0 +1,341 @@
+{
+ "view": "C",
+ "viewer": "Echo",
+ "viewerCrew": "c9",
+ "version": 2,
+ "room": "room-a",
+ "layout": "perimeter-five-v1",
+ "designSha256": "36edd4c7ade15cab02dbdfa64cd799edb27e9c3ee338cfb6aea35397ac1ba3df",
+ "method": "the stand-in layout test (rooma/stageA.mjs): flat cut-outs of the approved crew drawing; the furniture the same in every view; a cheat moves a person only, along that person's own station",
+ "camera": {
+  "at": [
+   1.68,
+   1.6,
+   -0.4
+  ],
+  "eyeM": 1.6,
+  "yawCompass": 270,
+  "lens": "straight lines",
+  "acrossDeg": 70,
+  "downDeg": 5,
+  "stagePx": {
+   "390x844": [
+    390,
+    653
+   ],
+   "430x932": [
+    430,
+    741
+   ],
+   "402x742": [
+    402,
+    551
+   ]
+  }
+ },
+ "lamps": {
+  "kind": "two light bars across the ceiling, east to west",
+  "zM": [
+   0.7,
+   -0.7
+  ],
+  "halfLengthM": 1.3,
+  "heightM": 3
+ },
+ "lights": {
+  "frame": "from the person's chest (1.2 m up): azimuth 0 = straight into the picture, +90 = screen right, -90 = screen left, 180 = toward the camera; elevation above level; share of 1/d² of all lights",
+  "method": "each bar as 27 equal point lights 0.1 m apart along its 2.6 m, both ends included, 3 m up; its share is the sum of their 1/d²; its direction is their 1/d²-weighted mean; only the two bars count (the window gives no light; the monitors' glow is Vega's own)"
+ },
+ "headRule": {
+  "band": [
+   100,
+   118
+  ],
+  "keptClear": [
+   97,
+   121
+  ],
+  "turnedHeads": [
+   "Juno",
+   "Atlas",
+   "Lyra"
+  ]
+ },
+ "people": {
+  "A": {
+   "name": "Vega",
+   "crew": "c1",
+   "work": "PC workstation",
+   "does": "types, pauses to read a monitor, reaches to a control, types again",
+   "gestureStandIn": "consoleBack",
+   "spot": [
+    -1.213,
+    1.125
+   ],
+   "plan": [
+    -1.04,
+    1.68
+   ],
+   "fromPlanM": 0.58,
+   "station": [
+    -1.013,
+    1.125
+   ],
+   "fromStationM": 0.2,
+   "cheat": "slides 0.2 m along the station",
+   "bodyFacesCompass": 345,
+   "seenDeg": 132.7,
+   "seenSide": "from Vega's right",
+   "head": "back view",
+   "depthM": 2.89,
+   "box390x653": [
+    312.9,
+    325.8,
+    373.2,
+    461
+   ],
+   "box430x741": [
+    345,
+    369.7,
+    411.5,
+    518.8
+   ],
+   "box402x551": [
+    322.6,
+    274.8,
+    384.7,
+    414.1
+   ],
+   "heightPx390": 166,
+   "marginsPx390": {
+    "left": 313,
+    "right": 17,
+    "top": 326,
+    "foot": 192
+   },
+   "tagAt390": "the feet",
+   "lights": {
+    "northBar": {
+     "azimuthDeg": -153.7,
+     "elevationDeg": 61.9,
+     "share": 0.63
+    },
+    "southBar": {
+     "azimuthDeg": -118.3,
+     "elevationDeg": 41,
+     "share": 0.37
+    }
+   },
+   "covers": "nothing covers the face"
+  },
+  "B": {
+   "name": "Mira",
+   "crew": "c8",
+   "work": "open deck",
+   "does": "reads a maintenance checklist from the belt, glances round, puts it away",
+   "gestureStandIn": "think",
+   "spot": [
+    -0.05,
+    -1.2
+   ],
+   "plan": [
+    0,
+    -1.68
+   ],
+   "fromPlanM": 0.48,
+   "station": [
+    0.15,
+    -1.2
+   ],
+   "fromStationM": 0.2,
+   "cheat": "slides 0.2 m along the station",
+   "bodyFacesCompass": 342.3,
+   "seenDeg": 82.8,
+   "seenSide": "from Mira's right",
+   "head": "approved face",
+   "depthM": 1.73,
+   "box390x653": [
+    13.3,
+    286.3,
+    119.6,
+    569.7
+   ],
+   "box430x741": [
+    14.7,
+    326.2,
+    131.9,
+    638.7
+   ],
+   "box402x551": [
+    13.8,
+    234,
+    123.3,
+    526.2
+   ],
+   "heightPx390": 277,
+   "marginsPx390": {
+    "left": 13,
+    "right": 270,
+    "top": 286,
+    "foot": 83
+   },
+   "tagAt390": "the feet",
+   "lights": {
+    "northBar": {
+     "azimuthDeg": 91.2,
+     "elevationDeg": 43.4,
+     "share": 0.35
+    },
+    "southBar": {
+     "azimuthDeg": 93.8,
+     "elevationDeg": 74.4,
+     "share": 0.65
+    }
+   },
+   "covers": "nothing covers the face"
+  },
+  "D": {
+   "name": "Atlas",
+   "crew": "c4",
+   "work": "crates",
+   "does": "reads a label, tightens a strap, lifts a small parcel off the top crate and puts it back",
+   "gestureStandIn": "leanCrates",
+   "spot": [
+    -1.15,
+    -0.447
+   ],
+   "plan": [
+    -1.68,
+    -0.4
+   ],
+   "fromPlanM": 0.53,
+   "station": [
+    -1.15,
+    -0.447
+   ],
+   "fromStationM": 0,
+   "cheat": "none",
+   "bodyFacesCompass": 53.6,
+   "seenDeg": 35.4,
+   "seenSide": "from Atlas's right",
+   "head": "approved face",
+   "depthM": 2.83,
+   "box390x653": [
+    151,
+    290.3,
+    231.5,
+    465.7
+   ],
+   "box430x741": [
+    166.5,
+    330.6,
+    255.2,
+    524
+   ],
+   "box402x551": [
+    155.6,
+    238.2,
+    238.6,
+    419
+   ],
+   "heightPx390": 169,
+   "marginsPx390": {
+    "left": 151,
+    "right": 159,
+    "top": 290,
+    "foot": 187
+   },
+   "tagAt390": "the feet",
+   "lights": {
+    "northBar": {
+     "azimuthDeg": 127.1,
+     "elevationDeg": 51.4,
+     "share": 0.44
+    },
+    "southBar": {
+     "azimuthDeg": -162.5,
+     "elevationDeg": 64.9,
+     "share": 0.56
+    }
+   },
+   "covers": "nothing covers the face"
+  }
+ },
+ "outOfView": {
+  "place": "E",
+  "name": "Lyra",
+  "crew": "c3",
+  "chip": [
+   237,
+   42,
+   384,
+   68
+  ]
+ },
+ "features": {
+  "390x844": {
+   "window": "not in the picture",
+   "capsule": "not in the picture"
+  },
+  "430x932": {
+   "window": "not in the picture",
+   "capsule": "not in the picture"
+  },
+  "402x742": {
+   "window": "not in the picture",
+   "capsule": "not in the picture"
+  }
+ },
+ "capsuleSpot": {
+  "name": "east wall, north",
+  "wall": "e",
+  "u": -1.05,
+  "heightM": [
+   1,
+   1.55
+  ]
+ },
+ "capsuleVisit": {
+  "standAt": [
+   1.45,
+   1.2
+  ],
+  "faceCompass": 15,
+  "stance": "side-on to the wall, the unit at the right hand",
+  "seenDeg": 156.8,
+  "seenSide": "from the visitor's right",
+  "head": "back view",
+  "depthM": 0.23,
+  "fromCameraM": 1.61,
+  "fromCameraAxisDeg": 81.8,
+  "standingPoint": "outside the 70° slice",
+  "beyondTheSliceEdgeM": 1.44,
+  "nearestPerson": {
+   "name": "Lyra",
+   "m": 0.9
+  },
+  "wayIn": {
+   "intoTheStrip": [
+    1.4,
+    0.5
+   ],
+   "roundTheHatchSouthAtZ": 0.42,
+   "westOfEcho": [
+    0.95,
+    0.2
+   ],
+   "lyraRoundTheHatchNorth": [
+    1.3,
+    1.34
+   ]
+  }
+ },
+ "issues": {
+  "390x844@100": [],
+  "390x844@200": [],
+  "430x932@100": [],
+  "430x932@200": [],
+  "402x742@100": [],
+  "402x742@200": []
+ }
+}

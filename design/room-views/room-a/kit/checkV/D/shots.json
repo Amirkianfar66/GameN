@@ -1,0 +1,90 @@
+{
+ "shots": [
+  {
+   "file": "shots/first-402x742.webp",
+   "w": 804,
+   "h": 1545,
+   "caption": "The first screen at 402 \u00d7 742, your phone in the app, the room set to that phone. The live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: the first screen at 402 \u00d7 742, your phone in the app, the room set to that phone; the room is an AI-generated picture, the screens, people, layers, tags and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-402x742-100.webp",
+   "w": 740,
+   "h": 1429,
+   "caption": "The room at 402 \u00d7 742, your phone in the app, 100% text. The live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: the room at 402 \u00d7 742, your phone in the app, 100% text; the room is an AI-generated picture, the screens, people, layers, tags and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-402x742-200.webp",
+   "w": 740,
+   "h": 1429,
+   "caption": "The room at 402 \u00d7 742, your phone in the app, 200% text. The live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: the room at 402 \u00d7 742, your phone in the app, 200% text; the room is an AI-generated picture, the screens, people, layers, tags and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-402x742-room.webp",
+   "w": 740,
+   "h": 1440,
+   "caption": "The room only at 402 \u00d7 742, your phone in the app: the painting with nothing drawn over it.",
+   "alt": "Capture of this page: the room only at 402 \u00d7 742, your phone in the app: the painting with nothing drawn over it; the room is an AI-generated picture"
+  },
+  {
+   "file": "shots/first-390x844.webp",
+   "w": 780,
+   "h": 1749,
+   "caption": "The first screen at 390 \u00d7 844, the room set to that phone. The live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: the first screen at 390 \u00d7 844, the room set to that phone; the room is an AI-generated picture, the screens, people, layers, tags and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-390x844-100.webp",
+   "w": 716,
+   "h": 1608,
+   "caption": "The room at 390 \u00d7 844, 100% text. The live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: the room at 390 \u00d7 844, 100% text; the room is an AI-generated picture, the screens, people, layers, tags and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-390x844-200.webp",
+   "w": 716,
+   "h": 1608,
+   "caption": "The room at 390 \u00d7 844, 200% text. The live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: the room at 390 \u00d7 844, 200% text; the room is an AI-generated picture, the screens, people, layers, tags and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-390x844-room.webp",
+   "w": 716,
+   "h": 1620,
+   "caption": "The room only at 390 \u00d7 844: the painting with nothing drawn over it.",
+   "alt": "Capture of this page: the room only at 390 \u00d7 844: the painting with nothing drawn over it; the room is an AI-generated picture"
+  },
+  {
+   "file": "shots/first-430x932.webp",
+   "w": 860,
+   "h": 1931,
+   "caption": "The first screen at 430 \u00d7 932, the room set to that phone. The live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: the first screen at 430 \u00d7 932, the room set to that phone; the room is an AI-generated picture, the screens, people, layers, tags and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-430x932-100.webp",
+   "w": 796,
+   "h": 1795,
+   "caption": "The room at 430 \u00d7 932, 100% text. The live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: the room at 430 \u00d7 932, 100% text; the room is an AI-generated picture, the screens, people, layers, tags and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-430x932-200.webp",
+   "w": 796,
+   "h": 1795,
+   "caption": "The room at 430 \u00d7 932, 200% text. The live screens, the people, the layer parts over them and the controls are drawn by code.",
+   "alt": "Capture of this page: the room at 430 \u00d7 932, 200% text; the room is an AI-generated picture, the screens, people, layers, tags and controls drawn by code"
+  },
+  {
+   "file": "shots/phone-430x932-room.webp",
+   "w": 796,
+   "h": 1806,
+   "caption": "The room only at 430 \u00d7 932: the painting with nothing drawn over it.",
+   "alt": "Capture of this page: the room only at 430 \u00d7 932: the painting with nothing drawn over it; the room is an AI-generated picture"
+  }
+ ],
+ "summary": "on all three phones at both text sizes, every name tag, chip and control lands within 0.02 px of the layout and its words fit inside it; the stage draws the plate, the two live screens, then the people far to near (Lyra, Echo, Vega), each followed by the layer parts in front of them; the page never scrolls sideways at 390, 402, 430 px; every picture loads; no script errors; Room only leaves the painting alone on the stage on every phone",
+ "worstPx": 0.02
+}

@@ -1,0 +1,50 @@
+{
+ "view": "C",
+ "recipe": "d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November)",
+ "pieces": {
+  "B laptop cart": {
+   "file": "PV6-C-3-B-laptop-cart.png",
+   "sha256": "1e1100ea4530b20181a34c356b3870f97228ae97d08dd72484c02f5ac97ce27b",
+   "px": 119331,
+   "x": [
+    70,
+    399
+   ],
+   "y": [
+    1099,
+    1535
+   ],
+   "shareOfItsOutline": 0.9307
+  },
+  "D bench": {
+   "file": "PV6-C-3-D-bench.png",
+   "sha256": "7ac0948451c6e950f1e842cd2aaed5e9f6a631719dfa42f43985df163b07a24a",
+   "px": 56887,
+   "x": [
+    440,
+    693
+   ],
+   "y": [
+    844,
+    1120
+   ],
+   "shareOfItsOutline": 0.9855
+  },
+  "A tablet console": {
+   "file": "PV6-C-3-A-tablet-console.png",
+   "sha256": "633b4124eb08042e4ee451b1e4e190230971171dccac003cad6ae028b283522b",
+   "px": 42324,
+   "x": [
+    842,
+    1021
+   ],
+   "y": [
+    837,
+    1103
+   ],
+   "shareOfItsOutline": 0.9711
+  }
+ },
+ "missing": [],
+ "rebuildMeanAbsDiff": 0.0754
+}

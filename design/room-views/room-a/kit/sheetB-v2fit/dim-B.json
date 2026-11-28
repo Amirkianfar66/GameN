@@ -1,0 +1,175 @@
+{
+ "picture": {
+  "name": "RA-B-1",
+  "sha256": "d05b45889a6bacb69426eba64d26a513c958f407e6c7260bf63f970c6de8822a",
+  "aiGenerated": true
+ },
+ "boxes": {
+  "back wall": {
+   "window": [
+    445,
+    622,
+    492,
+    695
+   ],
+   "steelOklab": {
+    "L": 0.533,
+    "a": -0.0226,
+    "b": -0.0753
+   },
+   "cells": [
+    {
+     "cell": "top",
+     "box": [
+      467,
+      637,
+      480,
+      647
+     ],
+     "kept": "lit",
+     "untouched": true
+    },
+    {
+     "cell": "middle",
+     "box": [
+      467,
+      655,
+      480,
+      664
+     ],
+     "kept": "dimmed to unlit steel",
+     "outline": {
+      "x": [
+       467.0,
+       480.0
+      ],
+      "top": 655.0,
+      "bottom": 663.0,
+      "slope": -0.003,
+      "rimPx": 2.0
+     },
+     "cellPx": 200,
+     "castPx": 398,
+     "litOrangePxAfter": 0
+    },
+    {
+     "cell": "bottom",
+     "box": [
+      467,
+      672,
+      480,
+      681
+     ],
+     "kept": "dimmed to unlit steel",
+     "outline": {
+      "x": [
+       467.0,
+       480.0
+      ],
+      "top": 672.0,
+      "bottom": 680.1,
+      "slope": -0.033,
+      "rimPx": 2.0
+     },
+     "cellPx": 217,
+     "castPx": 449,
+     "litOrangePxAfter": 0
+    }
+   ]
+  },
+  "left wall": {
+   "window": [
+    318,
+    575,
+    358,
+    636
+   ],
+   "steelOklab": {
+    "L": 0.434,
+    "a": -0.0151,
+    "b": -0.058
+   },
+   "cells": [
+    {
+     "cell": "top",
+     "box": [
+      335,
+      590,
+      344,
+      599
+     ],
+     "kept": "lit",
+     "untouched": true
+    },
+    {
+     "cell": "middle",
+     "box": [
+      334,
+      603,
+      343,
+      609
+     ],
+     "kept": "dimmed to unlit steel",
+     "outline": {
+      "x": [
+       334.0,
+       343.0
+      ],
+      "top": 603.8,
+      "bottom": 607.8,
+      "slope": 0.333,
+      "rimPx": 2.0
+     },
+     "cellPx": 112,
+     "castPx": 153,
+     "litOrangePxAfter": 0
+    },
+    {
+     "cell": "bottom",
+     "box": [
+      334,
+      614,
+      344,
+      621
+     ],
+     "kept": "dimmed to unlit steel",
+     "outline": {
+      "x": [
+       334.0,
+       344.0
+      ],
+      "top": 615.0,
+      "bottom": 620.2,
+      "slope": 0.303,
+      "rimPx": 2.0
+     },
+     "cellPx": 137,
+     "castPx": 480,
+     "litOrangePxAfter": 0
+    }
+   ]
+  }
+ },
+ "changed": {
+  "px": 1914,
+  "box": [
+   318,
+   599,
+   492,
+   695
+  ],
+  "outsideTheWindows": 0
+ },
+ "output": {
+  "name": "RA-B-1, cells dimmed",
+  "file": "ra-B-1-dim.png",
+  "sha256": "50ea3d44c1dbb805ab57a01bb9db485bc8c2c4188de743300a0f6bc1b195a7e2",
+  "pixelsSha256": "54a8ad362868a4a550e19582815ad9d5fd113c8b8e29f83f6d34b22034fd7afd",
+  "pngCompression": 6,
+  "aiGenerated": true,
+  "edit": "a code edit on an AI-generated picture: two of the three lit cells in each junction box dimmed to unlit steel (dimB.py)"
+ },
+ "input": {
+  "pixelsSha256": "e68365c918e085da264a6e7e1d3a96dd70146703f24b19af0d44d8861068d8ed"
+ }
+}

@@ -1,0 +1,210 @@
+{
+ "view": "A",
+ "version": 1,
+ "rule": "by depth at each pixel: where a piece overlaps a person above their feet line, it is drawn in front of them where its surface, met by that pixel's ray, is more than 2 cm nearer the camera than the person",
+ "toleranceM": 0.02,
+ "pieces": {
+  "back plain wall": {
+   "areaPx": 76485,
+   "depthM": [
+    null,
+    null
+   ]
+  },
+  "E hatch lid": {
+   "areaPx": 21251,
+   "depthM": [
+    2.06,
+    2.423
+   ]
+  },
+  "E floor hatch": {
+   "areaPx": 54115,
+   "depthM": [
+    1.255,
+    2.356
+   ]
+  },
+  "C electrical cabinet": {
+   "areaPx": 41786,
+   "depthM": [
+    2.963,
+    3.727
+   ]
+  },
+  "E toolbox": {
+   "areaPx": 36124,
+   "depthM": [
+    1.048,
+    1.422
+   ]
+  },
+  "wall food capsule": {
+   "areaPx": 12139,
+   "depthM": [
+    2.547,
+    2.914
+   ]
+  }
+ },
+ "people": [
+  {
+   "id": "A2",
+   "name": "Mira",
+   "Z": 2.827
+  },
+  {
+   "id": "A3",
+   "name": "Echo",
+   "Z": 2.842
+  },
+  {
+   "id": "A5",
+   "name": "Lyra",
+   "Z": 1.66
+  }
+ ],
+ "order": [
+  "the plate (RA-A-4, every piece painted in it)",
+  "Echo",
+  "Mira",
+  "Lyra"
+ ],
+ "fronts": {},
+ "bands": [],
+ "overlaps": {
+  "390x844": [
+   {
+    "person": "Echo",
+    "piece": "C electrical cabinet",
+    "overlapPx": 21379,
+    "aboveFeetPx": 21379,
+    "pieceDepthHereM": [
+     3.064,
+     3.485
+    ],
+    "personZ": 2.842,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "drawn": "behind"
+   },
+   {
+    "person": "Lyra",
+    "piece": "E hatch lid",
+    "overlapPx": 16534,
+    "aboveFeetPx": 16534,
+    "pieceDepthHereM": [
+     2.064,
+     2.362
+    ],
+    "personZ": 1.66,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "drawn": "behind"
+   },
+   {
+    "person": "Lyra",
+    "piece": "E floor hatch",
+    "overlapPx": 15023,
+    "aboveFeetPx": 13711,
+    "pieceDepthHereM": [
+     1.646,
+     2.272
+    ],
+    "personZ": 1.66,
+    "nearerPx": 0,
+    "withinTolPx": 280,
+    "drawn": "behind"
+   }
+  ],
+  "430x932": [
+   {
+    "person": "Echo",
+    "piece": "C electrical cabinet",
+    "overlapPx": 21188,
+    "aboveFeetPx": 21188,
+    "pieceDepthHereM": [
+     3.067,
+     3.485
+    ],
+    "personZ": 2.842,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "drawn": "behind"
+   },
+   {
+    "person": "Lyra",
+    "piece": "E hatch lid",
+    "overlapPx": 16534,
+    "aboveFeetPx": 16534,
+    "pieceDepthHereM": [
+     2.064,
+     2.362
+    ],
+    "personZ": 1.66,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "drawn": "behind"
+   },
+   {
+    "person": "Lyra",
+    "piece": "E floor hatch",
+    "overlapPx": 15023,
+    "aboveFeetPx": 13711,
+    "pieceDepthHereM": [
+     1.646,
+     2.272
+    ],
+    "personZ": 1.66,
+    "nearerPx": 0,
+    "withinTolPx": 280,
+    "drawn": "behind"
+   }
+  ],
+  "402x742": [
+   {
+    "person": "Echo",
+    "piece": "C electrical cabinet",
+    "overlapPx": 21188,
+    "aboveFeetPx": 21188,
+    "pieceDepthHereM": [
+     3.067,
+     3.485
+    ],
+    "personZ": 2.842,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "drawn": "behind"
+   },
+   {
+    "person": "Lyra",
+    "piece": "E hatch lid",
+    "overlapPx": 16534,
+    "aboveFeetPx": 16534,
+    "pieceDepthHereM": [
+     2.064,
+     2.362
+    ],
+    "personZ": 1.66,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "drawn": "behind"
+   },
+   {
+    "person": "Lyra",
+    "piece": "E floor hatch",
+    "overlapPx": 15023,
+    "aboveFeetPx": 13711,
+    "pieceDepthHereM": [
+     1.646,
+     2.272
+    ],
+    "personZ": 1.66,
+    "nearerPx": 0,
+    "withinTolPx": 280,
+    "drawn": "behind"
+   }
+  ]
+ },
+ "note": "No piece is nearer than a person it overlaps, so no band is needed: the plate is drawn first and the people over it, far to near. Two cases are the Motion builder's: Lyra's hands and wrench below the hatch's rim are drawn only inside the hatch's opening (marks-A.json); a visitor at the food unit (2.59 m) stands behind the hatch's lid (2.06 to 2.42 m) where they overlap (geo-A.json's solids)"
+}

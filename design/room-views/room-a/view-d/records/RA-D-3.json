@@ -1,0 +1,191 @@
+{
+ "piece": "RA-D",
+ "pass": "step 2, PLACE, one masked edit of RA-D-1",
+ "attempt": 3,
+ "generated": true,
+ "label": "AI-generated image",
+ "runner": "Designer team Image builder (Claude Code session)",
+ "tool": "OpenAI Images API, POST /v1/images/edits (one input image with an RGBA mask)",
+ "date": "2026-11-27T20:57:48+00:00",
+ "request_id": "req_d09f31c4606044e487ce908bf7686b30",
+ "authority": "the Lead's go of 27 November 2026 (about 20:57 UTC) for view D's step 2 (RA-D-3), one masked edit on RA-D-1, sheet RA-D v2",
+ "sheet": {
+  "page": "Room A sheet RA-D",
+  "version": "1795812844-7ba4",
+  "manifest": {
+   "sha256": "dce7c7af618512da41b9edd478654eff8a352c276257aa6ebbf91f9ebe362b20"
+  },
+  "prompts": {
+   "sha256": "e38aa2c3e642ef84cbb518f47431318a268da3a23d960b51caf6918eb9a41b54"
+  }
+ },
+ "tools": {
+  "rd1_tools.py": "9551657c0217de8e7c8ff5fffe810f1f885fbca57d30cab641cd89e35d68b78d",
+  "colour-check-ra1.py": "c882f4f8259b44bf8d689021daa2e5b0e8f028539cc076cc457fe144f582dbd2",
+  "lift5.py": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+  "kitCheck": "all files and expected hashes match"
+ },
+ "prompt_key": "s2",
+ "prompt": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool blue-steel shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom A, the crew bay, in the same illustrated world: blue steel, lit warm. The whole room is one blue-steel family, the colours of the attached guide: deep navy in the shadows and corners (#14243F, #1D3D6B), steel blue on the walls and the deck (#2D609E), turning paler where the light falls (#5C92CC, #A9CAEB). The light is warm: the two light bars glow cream along their length (#FCE3A0), with a warm paper-white glow (#F4EBDD) on the ceiling around them and soft pools of pale light on the deck below. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige, olive, purple or violet. The shadows are deep navy, never black-brown or grey. Labels and paper are blank, in a warm paper white (#F4EBDD). Small indicator lights are warm orange (#EC793C); no other coloured light, and no green, purple or red light. Each indicator is a single small dot, never several in a row or a column. Practical and worn, a working bay, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked areas, and leave everything outside them exactly as it is. The three masked areas hold five pieces of furniture, each filling its own part exactly, painted in full detail in the picture's style and light. Paint each piece whole, with a crisp drawn outline all round it and its frame closed on every side: nothing fades softly into the wall or the deck at an area's edge. On the left, nearest, against the far wall and cut off by the picture's left edge: a long steel desk about 1.3 m wide and 0.74 m high, with two flat monitors standing side by side on it; their screens are flat black and empty, for the game to fill. No chair stands at the desk. Ahead, in the deck: an open hatch, a long rectangular opening about 1 m by 0.5 m with a raised steel rim all round, its near edge crisp and lit, showing a dark space beneath with pipes and cables; at its far end, on the right, its heavy steel lid, hinged along that edge and raised almost upright; at its near end, on the left, a closed steel toolbox standing on the deck. On the right, mounted on the right-hand wall about 0.8 m above the deck: a steel electrical cabinet, about 0.9 m wide and 1.15 m tall, with no door, its front open on rows of breakers and neatly bundled cables, every cable in its place and none hanging loose, with two small warm orange indicator lights near its top.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+ "prompt_sha256": "2f249da5f03677831ff957970f071b9d8fb343b3226bc7ddd83f065d024d215b",
+ "revised_prompt": null,
+ "inputs": {
+  "picture": {
+   "file": "RA-D-1.png",
+   "sha256": "c8842de16d63076fe69306b247bcc643b6dc5576f6c389364ce49bc970f2fe75"
+  },
+  "sentImage": {
+   "file": "RA-D-3-S2-input.png",
+   "sha256": "6c03d26edab048ffba1fe07bbf0143e1046a35564e04d72141135a9698c23df0"
+  },
+  "sentMask": {
+   "file": "RA-D-3-S2-mask.png",
+   "sha256": "336c523b59ae49cdbd54e573170349ba973ddaa865732a5b5a0beb455d3af705",
+   "convention": "alpha 0 = repaint",
+   "maskedShare": 0.1611,
+   "rawMaskAlpha": "db93847960d79a8b6da9233f970b7b45e9ae35a2b76d4d7e091d8f1001a1300d"
+  },
+  "guide": {
+   "file": "img/ra-D-guide-s2.png",
+   "sha256": "5081b7110a5aa728f553c62afd9d933eca4647f501240ac5a552f2218af5fcc7"
+  },
+  "placeMask": {
+   "file": "img/ra-D-place.png",
+   "sha256": "3dd7bad74327b31163009a79ae4e9e9107594866d5969197819222f413c63b64"
+  },
+  "split": {
+   "file": "img/ra-D-split.png",
+   "sha256": "2b8352991765a13eaf1ff2c89f495adc030ab883e817278157b4bd6bce96f035"
+  }
+ },
+ "settings": {
+  "size": "1024x1536",
+  "quality": "high",
+  "n": 1,
+  "seed": null
+ },
+ "output": {
+  "raw": {
+   "file": "RA-D-3-raw.png",
+   "sha256": "0a7eb69d4b2e40ad12e61c09af585a614088a091ce717aa36c57a1671cb2c648"
+  },
+  "kept": {
+   "file": "RA-D-3.png",
+   "sha256": "abaf334d030a674e9e030f14477a25ec57d82a3870d4850db1637329fd1d7c2a",
+   "how": "the raw edit over RA-D-1 inside the PLACE mask, feathered by a 2 px Gaussian (rd1_tools.py keep)"
+  },
+  "retouched": false
+ },
+ "usage": {
+  "input_tokens": 2436,
+  "input_tokens_details": {
+   "image_tokens": 1536,
+   "text_tokens": 900
+  },
+  "output_tokens": 1372,
+  "output_tokens_details": {
+   "image_tokens": 1372,
+   "text_tokens": 0
+  },
+  "total_tokens": 3808
+ },
+ "cost_usd_est": 0.0579,
+ "roomARunningTotal": {
+  "images": 17,
+  "usd": 0.9833,
+  "cap": 5
+ },
+ "terms": "Generated with OpenAI's image model under its Terms of Use as checked by the Lead (c8fbc793): the user owns the output; it is never presented as made by a person.",
+ "check": {
+  "by": "Image builder (rd1_tools.py keep and colours with the step-2 map; the screens per part and by their black parts in the raw; the edges by eye on zooms with the mask outline, raw beside kept). Not the Designer's review.",
+  "colour": {
+   "pass": false,
+   "result": {
+    "walls and deck in the base": true,
+    "each wall and the deck in the base": true,
+    "orange capped": true,
+    "rust capped": true,
+    "no tan or olive": true,
+    "not purple": true,
+    "not grey": true,
+    "median lightness": true,
+    "accents only orange, cream, rust": true,
+    "openings flat black": false
+   },
+   "window": {
+    "pixels": 39168,
+    "p95L": 0.4,
+    "medianL": 0.0
+   }
+  },
+  "screens": {
+   "map": [
+    {
+     "x": [
+      0,
+      41
+     ],
+     "y": [
+      877,
+      992
+     ],
+     "erodedP95L": 0.483
+    },
+    {
+     "x": [
+      57,
+      204
+     ],
+     "y": [
+      848,
+      974
+     ],
+     "erodedP95L": 0.574
+    }
+   ],
+   "paintedRaw": [
+    {
+     "x": [
+      4,
+      107
+     ],
+     "y": [
+      878,
+      977
+     ]
+    },
+    {
+     "x": [
+      127,
+      225
+     ],
+     "y": [
+      864,
+      952
+     ]
+    }
+   ]
+  },
+  "window": {
+   "p95L": 0.047
+  },
+  "outsideMask": {
+   "grownBy": 4,
+   "maxAbsDiff": 3,
+   "meanAbsDiff": 0.0005
+  },
+  "byEye": "Misses points 1, 2 and 3. (1) Not every piece whole, and here the raw does not simply run past the mask: it places the hatch and the toolbox off their areas. The raw paints the hatch larger, nearer and further left than its area, so the kept picture cuts the hatch's near and left rim and the top of its lid (the lid's handle) along the mask; the raw's toolbox stands at about x 330-445, y 1200-1340, wholly outside the mask, so the kept picture has no toolbox at all. The cabinet: the raw paints it whole, its frame reaching about 15-20 px past the mask's right and bottom edges, so the kept cabinet's right side and bottom frame are cut, the wall's vent box showing beside them. The desk is whole apart from the picture's left edge. (2) The screens are black in the raw but off their regions: painted left screen x 4-107, y 878-977, right screen x 127-225, y 864-952, against the map's x 0-41, y 877-992 and x 57-204, y 848-974, about 60-70 px to the right; eroded p95 lightness 0.483 and 0.574 (gate under 0.12). The desk otherwise stands against the far wall on the left with two monitors and no chair. (3) The hatch is open with a crisp rim, pipes and cables in a dark space, its lid hinged at the far end and raised almost upright, but cut as above, and the toolbox is missing. (4) The cabinet otherwise passes: on the right-hand wall about 0.8 m up, no door, rows of breakers and neat cables, two separate orange dots near its top. (5) The window is unchanged and flat black (p95 0.047). (6) Beyond the mask grown 4 px the kept picture differs from RA-D-1 by at most 3 levels (mean 0.0005). (7) The other 9 colour gates pass (base 0.892, median lightness 0.444); single dots; no people, words, logos or purple.",
+  "verdict": "held: the hatch and toolbox placed off their areas in the raw (toolbox wholly outside the mask), the cabinet cut, the screens off their regions"
+ },
+ "review": {
+  "result": "held",
+  "by": "the Lead, 27 November 2026",
+  "note": "Held was right. Its desk and cabinet are usable (the desk whole, the screens black, the cabinet only overrunning); its hatch is painted bigger and nearer and its toolbox stands outside the area. The hatch's place is fixed in the room's plan and shared with the other views, Lyra's place and the walkers, so the room is not moved to fit the picture. One re-run (RA-D-3b) allowed; the Rooms builder can take each area from whichever run has it right.",
+  "plan": "The Lead, 27 November 2026: held as it should be; no more full runs for D's step 2. The Rooms builder makes a base composite, RA-D-3x, from RA-D-1, with the desk and cabinet areas from RA-D-3 or RA-D-3b, completed from their raws and the screens fitted; and a hatch-only edit sheet, RA-D v2.1, whose step 2b masks just the hatch with its lid and the toolbox. The next go for D is that one edit, naming v2.1's hashes. Both raws (RA-D-3-raw.png, RA-D-3b-raw.png) and both cuts sheets stay on this page."
+ },
+ "copy": {
+  "of": "Room A Records (the image builder’s records page), version 1795828303-eac0, records/RA-D-3.json",
+  "originalSha256": "d58ef421907a056017d40d9dfa551b5e26c5b8178bb69b61c883295ee8538a3b",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

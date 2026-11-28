@@ -1,0 +1,53 @@
+[
+ {
+  "grey": 20,
+  "place": "C",
+  "name": "electrical cabinet",
+  "step": 2,
+  "parts": [
+   "electrical panel"
+  ],
+  "depthM": 3.35
+ },
+ {
+  "grey": 100,
+  "place": null,
+  "name": "food capsule",
+  "step": 3,
+  "kind": "wall",
+  "parts": [
+   "food capsule"
+  ],
+  "depthM": 2.73
+ },
+ {
+  "grey": 40,
+  "place": "E",
+  "name": "hatch lid",
+  "step": 2,
+  "parts": [
+   "hatch lid"
+  ],
+  "depthM": 2.24
+ },
+ {
+  "grey": 60,
+  "place": "E",
+  "name": "floor hatch",
+  "step": 2,
+  "parts": [
+   "floor hatch"
+  ],
+  "depthM": 1.81
+ },
+ {
+  "grey": 80,
+  "place": "E",
+  "name": "toolbox",
+  "step": 2,
+  "parts": [
+   "toolbox"
+  ],
+  "depthM": 1.24
+ }
+]

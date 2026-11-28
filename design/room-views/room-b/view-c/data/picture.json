@@ -1,0 +1,220 @@
+{
+ "note": "The pictures of Room B's view C (Lyra's) for the people and C's page: the plate is PV6-C-2, the empty room; the three furniture pieces are the layers lifted from PV6-C-3 inside step 2's PLACE mask; the food capsule, Juno's stool and the two vent strips are the layers lifted from PV6-C-4 inside step 3's mask; the three jars' tops are the layers lifted from PV6-C-5 inside step 4's mask (sheet C version 9); the dispenser's left edge, which that edit did not fix, is drawn by code in its own band file, fix-2.png, just after the capsule's (edge4-C.json). All are AI-generated pictures from the records page, checked by hash. This record keeps hashes, not links (the Lead, 18 November).",
+ "view": "C",
+ "records": {
+  "version": "1795027723-1201",
+  "passed": "the Lead, 18 November 2026: PV6-C-3 accepted (step 2); PV6-C-4, step 3's picture; PV6-C-5 accepted as C's final picture (step 4, sheet C version 9: the jars' tops; the dispenser's left edge did not take and is fixed in code)"
+ },
+ "plate": {
+  "label": "PV6-C-2",
+  "file": "PV6-C-2.png",
+  "records": "img/PV6-C-2.png",
+  "sha256": "b8e59a54f9634225fa2c1932323e3e3ea326e8aa7bec19e788e042810cdb182c",
+  "what": "the empty room, step 1"
+ },
+ "placed2": {
+  "label": "PV6-C-3",
+  "file": "PV6-C-3.png",
+  "records": "img/PV6-C-3.png",
+  "sha256": "c9170c5d8cb620a8877ba7eb8d290a2b10aa1572ebeb3a75232a5693bf542284",
+  "what": "the furnished room without the capsule and the stool, step 2: one masked edit of PV6-C-2, kept inside the PLACE mask in code; for the furniture layers' check only"
+ },
+ "placed3": {
+  "label": "PV6-C-4",
+  "file": "PV6-C-4.png",
+  "records": "img/PV6-C-4.png",
+  "sha256": "b634e18b7d552590746cacd3d5614b845fcaaad3be9e11076a84db0e9f5b220a",
+  "what": "step 3: the food capsule, Juno's stool and the two vent strips, one masked edit of PV6-C-3 inside step 3's four shapes, kept in code; for step 3's layers' check"
+ },
+ "placed4": {
+  "label": "PV6-C-5",
+  "file": "PV6-C-5.png",
+  "records": "img/PV6-C-5.png",
+  "sha256": "9e1bd0ea067b75965b24b5bd28f8325a53418b81c3ba2b8cfffcabe0c1bcc23a",
+  "what": "step 4: the three glass jars' tops on the cart and the dispenser's left edge, one masked edit of PV6-C-4 inside step 4's four shapes (sheet C version 9), kept in code; for step 4's layers' check"
+ },
+ "placed": {
+  "label": "PV6-C-5",
+  "file": "PV6-C-5.png",
+  "records": "img/PV6-C-5.png",
+  "sha256": "9e1bd0ea067b75965b24b5bd28f8325a53418b81c3ba2b8cfffcabe0c1bcc23a",
+  "what": "the picture the bands rebuild: PV6-C-5, step 4's"
+ },
+ "layers": {
+  "record": {
+   "file": "_in/PV6-C-3-lift.json",
+   "records": "records/PV6-C-3-lift.json",
+   "sha256": "b4abcf8631f79f13f3bb9916ec52a3729e648fc7acc7d72dfe0db1e955623ab8"
+  },
+  "recipe": "d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November)",
+  "from": "PV6-C-3 over PV6-C-2 (pv8_tools.py lift C)",
+  "pieces": {
+   "B laptop cart": {
+    "file": "PV6-C-3-B-laptop-cart.png",
+    "sha256": "1e1100ea4530b20181a34c356b3870f97228ae97d08dd72484c02f5ac97ce27b"
+   },
+   "D bench": {
+    "file": "PV6-C-3-D-bench.png",
+    "sha256": "7ac0948451c6e950f1e842cd2aaed5e9f6a631719dfa42f43985df163b07a24a"
+   },
+   "A tablet console": {
+    "file": "PV6-C-3-A-tablet-console.png",
+    "sha256": "633b4124eb08042e4ee451b1e4e190230971171dccac003cad6ae028b283522b"
+   }
+  }
+ },
+ "layers3": {
+  "record": {
+   "file": "_in/PV6-C-4-lift3.json",
+   "records": "records/PV6-C-4-lift3.json",
+   "sha256": "00cc8ffa66c443ef3ea2ffb57fd130ca20902df94f7b1f2214962352a6e5bde6"
+  },
+  "recipe": "d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November)",
+  "from": "PV6-C-4 over PV6-C-3 (pv8_tools.py lift3 C)",
+  "pieces": {
+   "B stool": {
+    "file": "PV6-C-4-B-stool.png",
+    "sha256": "1b5143adeb7fbb87a00be5fcb9ca503952ec116170e0f48b8c0d57a5855853bf"
+   },
+   "wall vent strip left": {
+    "file": "PV6-C-4-wall-vent-strip-left.png",
+    "sha256": "f24af41485eb45ca02d07014cf0e7ac3363dcd86f3d0c13dd509ac793fccc0c4"
+   },
+   "D food capsule": {
+    "file": "PV6-C-4-D-food-capsule.png",
+    "sha256": "1f646cfcdf4b55a5a7b6edd5f0e80fd1ef5963256d3adcb2a851f28c81a01d06"
+   },
+   "wall vent strip right": {
+    "file": "PV6-C-4-wall-vent-strip-right.png",
+    "sha256": "172a16d6a7b6b93f56bc1fbb2c76189b4623d5bb71e9124cb54f436ecae2d974"
+   }
+  }
+ },
+ "layers4": {
+  "record": {
+   "file": "_in/PV6-C-5-lift4.json",
+   "records": "records/PV6-C-5-lift4.json",
+   "sha256": "24d2717f02f6e302be0a39ac9c70e1440f2619d11db8374cf5a6548bb290232c"
+  },
+  "recipe": "d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November)",
+  "from": "PV6-C-5 over PV6-C-4 (pv9_tools.py lift4 C)",
+  "pieces": {
+   "B coral jar top": {
+    "file": "PV6-C-5-B-coral-jar-top.png",
+    "sha256": "9dce75dfbab1d8fc5ce5e618c8a789d62243e6a5844f647afacfddd1d5de0284",
+    "px": 3745,
+    "x": [
+     167,
+     243
+    ],
+    "y": [
+     1084,
+     1144
+    ],
+    "shareOfItsOutline": 0.9398
+   },
+   "B bead jar top": {
+    "file": "PV6-C-5-B-bead-jar-top.png",
+    "sha256": "078954eb9a63556938e77fd54bc2a0d35bfd6a62b6f185e3c3d07b07af18344a",
+    "px": 1279,
+    "x": [
+     248,
+     296
+    ],
+    "y": [
+     1095,
+     1127
+    ],
+    "shareOfItsOutline": 0.9315
+   },
+   "B flask top": {
+    "file": "PV6-C-5-B-flask-top.png",
+    "sha256": "5647eda41412781cda584343ec5dccc57c041aec47d55320b40d109b36171644",
+    "px": 1222,
+    "x": [
+     300,
+     347
+    ],
+    "y": [
+     1073,
+     1116
+    ],
+    "shareOfItsOutline": 0.7278
+   }
+  },
+  "notLifted": {
+   "D dispenser left edge": {
+    "changedPx": 341,
+    "minPartPx": 400,
+    "then": "drawn by code in its own band file, fix-2.png, just after the capsule's (edge4c.py, edge4-C.json): the edit did not take there (the Lead, 18 November)"
+   }
+  }
+ },
+ "sheet": {
+  "label": "PV6-C",
+  "version": 9,
+  "manifest": "../pub-C/room-b-pv6c.json",
+  "sha256": "990d9f27927134babd3f4c63be4fae2d583d9ccd55959c2db056af9ba4fb6705"
+ },
+ "camera": {
+  "report": "../camera-report-C.json",
+  "version": 2,
+  "sha256": "39a0e51dfad20884e1b3dea2b94c93b9e304897a1a187f3c544583eacf29935b"
+ },
+ "hatch": {
+  "record": {
+   "file": "hatch-C.json",
+   "sha256": "42d5b2bd440fe2a7b26f0d40298f0ee2af801e097ca6c0da1905b8d25c257c3c"
+  },
+  "painted": {
+   "topLeft": [
+    611,
+    819
+   ],
+   "topRight": [
+    653,
+    819
+   ],
+   "bottomRight": [
+    653,
+    862
+   ],
+   "bottomLeft": [
+    611,
+    862
+   ],
+   "bbox": [
+    611,
+    819,
+    653,
+    862
+   ],
+   "px": 1892
+  },
+  "lens": {
+   "centre": [
+    631.7,
+    803.3
+   ],
+   "darkCoreBbox": [
+    625,
+    797,
+    638,
+    810
+   ],
+   "from": "glass-C.json (lens8.py)"
+  },
+  "decision": "code follows the painting (the Lead's decision for view B, 18 November): the hatch and the lens as PV6-C-4 paints them; step 4 repaints neither"
+ },
+ "glass": {
+  "record": {
+   "file": "glass-C.json",
+   "sha256": "9f2e9fb6809819d4516a9ea4e7a2a1fa6c695dc0320e65c2e14e85eb9f08925a"
+  },
+  "centre": [
+   631.7,
+   803.3
+  ],
+  "radius": 7.0
+ }
+}

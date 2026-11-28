@@ -1,0 +1,23 @@
+[
+ {
+  "grey": 20,
+  "place": "D",
+  "name": "crates",
+  "step": 2,
+  "parts": [
+   "crate",
+   "crate"
+  ],
+  "depthM": 2.86
+ },
+ {
+  "grey": 40,
+  "place": "C",
+  "name": "electrical cabinet",
+  "step": 2,
+  "parts": [
+   "electrical panel"
+  ],
+  "depthM": 1.39
+ }
+]

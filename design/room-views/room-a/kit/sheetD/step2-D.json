@@ -1,0 +1,47 @@
+{
+ "step": 2,
+ "sheetVersion": 2.1,
+ "madeOn": "sheet RA-D version 2 (1795812844-7ba4; manifest dce7c7af618512da41b9edd478654eff8a352c276257aa6ebbf91f9ebe362b20)",
+ "runs": [
+  {
+   "name": "RA-D-3",
+   "sha256": "abaf334d030a674e9e030f14477a25ec57d82a3870d4850db1637329fd1d7c2a",
+   "raw": {
+    "name": "RA-D-3-raw",
+    "sha256": "0a7eb69d4b2e40ad12e61c09af585a614088a091ce717aa36c57a1671cb2c648"
+   },
+   "record": {
+    "file": "records/RA-D-3.json",
+    "sha256": "d58ef421907a056017d40d9dfa551b5e26c5b8178bb69b61c883295ee8538a3b"
+   },
+   "aiGenerated": true
+  },
+  {
+   "name": "RA-D-3b",
+   "sha256": "7abd1f4fd9c3d0a669703d970dd0eb1eaf511c330898388db84093ed8ffe6561",
+   "raw": {
+    "name": "RA-D-3b-raw",
+    "sha256": "ce9c0cdee029bf2f2009ed5fbe78ef2a394357a3fb49ad5195c9e06819efbd8a"
+   },
+   "record": {
+    "file": "records/RA-D-3b.json",
+    "sha256": "d28aae8ddc2cd6c554a52b45c6779d7809f58d9d1ee33b96d986e97f6faf9132"
+   },
+   "aiGenerated": true
+  }
+ ],
+ "result": "held by the Lead on 27 November (21:03): both runs painted the hatch bigger and nearer than its area, running it across the toolbox's part of the same area, and put the toolbox outside its area; their desks and cabinets are usable",
+ "base2b": {
+  "name": "RA-D-3x",
+  "pixelsSha256": "3575e978f51f10f4f0b722dc4f4bf4c90e9026754ade49e5d361410ba423c0ec",
+  "record": "composite-D3x.json",
+  "script": "compositeD3x.py",
+  "from": [
+   "RA-D-1",
+   "RA-D-3",
+   "RA-D-3-raw"
+  ],
+  "what": "RA-D-1 with RA-D-3's desk and cabinet, completed in code from RA-D-3's raw, the two screens fitted and gated; the hatch's area left as RA-D-1's empty deck"
+ },
+ "decision": "the Lead, 27 November 2026, 21:03: make RA-D-3x and sheet RA-D v2.1, step 2b on RA-D-3x, the hatch and lid as one area and the toolbox as its own, with the selective growth; the desk and cabinet not masked; prompt lines to hold the size and place. One go; if the hatch still will not sit, building it in code from another view's painted hatch comes before any more runs."
+}

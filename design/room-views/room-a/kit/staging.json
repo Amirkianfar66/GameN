@@ -1,0 +1,257 @@
+{
+ "A": {
+  "name": "Vega",
+  "work": "PC workstation",
+  "gesture": "consoleBack",
+  "wall": "n",
+  "w": 0.875,
+  "along": -1.013,
+  "at": [
+   -1.013,
+   1.125
+  ],
+  "faceDeg": 345,
+  "turnFromWorkDeg": -15,
+  "fromPlanM": 0.56,
+  "score": 2.8,
+  "views": {
+   "B": {
+    "slideM": 0.2,
+    "at": [
+     -0.813,
+     1.125
+    ],
+    "fromPlanM": 0.6,
+    "marginPx": 155.9,
+    "seenDeg": 178.8,
+    "headClearDeg": 60.8
+   },
+   "C": {
+    "slideM": -0.2,
+    "at": [
+     -1.213,
+     1.125
+    ],
+    "fromPlanM": 0.58,
+    "marginPx": 16.8,
+    "seenDeg": 132.7,
+    "headClearDeg": 14.7
+   },
+   "D": {
+    "slideM": 0.2,
+    "at": [
+     -0.813,
+     1.125
+    ],
+    "fromPlanM": 0.6,
+    "marginPx": 19.9,
+    "seenDeg": -135.3,
+    "headClearDeg": 17.3
+   }
+  }
+ },
+ "B": {
+  "name": "Mira",
+  "work": "open deck",
+  "gesture": "think",
+  "wall": "s",
+  "w": 0.8,
+  "along": 0.15,
+  "at": [
+   0.15,
+   -1.2
+  ],
+  "faceDeg": 342.275,
+  "turnFromWorkDeg": 0,
+  "fromPlanM": 0.5,
+  "score": 2.22,
+  "views": {
+   "A": {
+    "slideM": 0.2,
+    "at": [
+     0.35,
+     -1.2
+    ],
+    "fromPlanM": 0.59,
+    "marginPx": 14.8,
+    "seenDeg": -8,
+    "headClearDeg": 92
+   },
+   "C": {
+    "slideM": -0.2,
+    "at": [
+     -0.05,
+     -1.2
+    ],
+    "fromPlanM": 0.48,
+    "marginPx": 13.3,
+    "seenDeg": 82.8,
+    "headClearDeg": 17.2
+   },
+   "E": {
+    "slideM": 0.2,
+    "at": [
+     0.35,
+     -1.2
+    ],
+    "fromPlanM": 0.59,
+    "marginPx": 143.5,
+    "seenDeg": 31.2,
+    "headClearDeg": 68.8
+   }
+  }
+ },
+ "C": {
+  "name": "Echo",
+  "work": "electrical panel",
+  "gesture": "wallPanelBack",
+  "wall": "e",
+  "w": 0.725,
+  "along": -0.147,
+  "at": [
+   1.275,
+   -0.147
+  ],
+  "faceDeg": 80,
+  "turnFromWorkDeg": -10,
+  "fromPlanM": 0.48,
+  "score": 1.85,
+  "views": {
+   "A": {
+    "slideM": 0.175,
+    "at": [
+     1.275,
+     0.028
+    ],
+    "fromPlanM": 0.59,
+    "marginPx": 153.2,
+    "seenDeg": -134.5,
+    "headClearDeg": 16.5
+   },
+   "D": {
+    "slideM": 0.175,
+    "at": [
+     1.275,
+     0.028
+    ],
+    "fromPlanM": 0.59,
+    "marginPx": 11.1,
+    "seenDeg": -178.2,
+    "headClearDeg": 60.2
+   },
+   "E": {
+    "slideM": -0.2,
+    "at": [
+     1.275,
+     -0.347
+    ],
+    "fromPlanM": 0.41,
+    "marginPx": 11.4,
+    "seenDeg": -86.7,
+    "headClearDeg": 13.3
+   }
+  }
+ },
+ "D": {
+  "name": "Atlas",
+  "work": "crates",
+  "gesture": "leanCrates",
+  "wall": "w",
+  "w": 0.85,
+  "along": -0.447,
+  "at": [
+   -1.15,
+   -0.447
+  ],
+  "faceDeg": 53.58600000000001,
+  "turnFromWorkDeg": 0,
+  "fromPlanM": 0.53,
+  "score": 3.55,
+  "views": {
+   "B": {
+    "slideM": 0.2,
+    "at": [
+     -1.15,
+     -0.247
+    ],
+    "fromPlanM": 0.55,
+    "marginPx": 23.6,
+    "seenDeg": 87.7,
+    "headClearDeg": 90
+   },
+   "C": {
+    "slideM": 0,
+    "at": [
+     -1.15,
+     -0.447
+    ],
+    "fromPlanM": 0.53,
+    "marginPx": 151,
+    "seenDeg": 35.4,
+    "headClearDeg": 90
+   },
+   "E": {
+    "slideM": -0.2,
+    "at": [
+     -1.15,
+     -0.647
+    ],
+    "fromPlanM": 0.59,
+    "marginPx": 21.3,
+    "seenDeg": -10.3,
+    "headClearDeg": 90
+   }
+  }
+ },
+ "E": {
+  "name": "Lyra",
+  "work": "floor hatch",
+  "gesture": "floorSit",
+  "wall": "n",
+  "w": 0.675,
+  "along": 0.563,
+  "at": [
+   0.563,
+   1.325
+  ],
+  "faceDeg": 197.72500000000002,
+  "turnFromWorkDeg": 0,
+  "fromPlanM": 0.59,
+  "score": 0.97,
+  "views": {
+   "A": {
+    "slideM": 0,
+    "at": [
+     0.563,
+     1.325
+    ],
+    "fromPlanM": 0.59,
+    "marginPx": 5.8,
+    "seenDeg": 84.8,
+    "headClearDeg": 90
+   },
+   "B": {
+    "slideM": 0,
+    "at": [
+     0.563,
+     1.325
+    ],
+    "fromPlanM": 0.59,
+    "marginPx": 6.4,
+    "seenDeg": -7.1,
+    "headClearDeg": 90
+   },
+   "D": {
+    "slideM": 0,
+    "at": [
+     0.563,
+     1.325
+    ],
+    "fromPlanM": 0.59,
+    "marginPx": 154.9,
+    "seenDeg": 34.8,
+    "headClearDeg": 90
+   }
+  }
+ }
+}

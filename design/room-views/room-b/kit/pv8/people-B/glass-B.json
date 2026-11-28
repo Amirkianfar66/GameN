@@ -1,0 +1,38 @@
+{
+ "layer": {
+  "file": "capsule-2.png",
+  "sha256": "552862c55fcee56dec97164e4e5e34fc6e0ff1de7107bcc785c4a88ab0697e3a"
+ },
+ "method": "the glass inside the bright rim (luminance above 100), from the seed [342, 812], holes filled, in the box [326, 790, 366, 832]",
+ "painting": {
+  "centre": [
+   342.4,
+   810.6
+  ],
+  "radius": 8.6,
+  "px": 233,
+  "bbox": [
+   335,
+   802,
+   350,
+   819
+  ],
+  "units": "pixel indices, as the records give points; the radius of the circle of the same area"
+ },
+ "phones": {
+  "390x844": {
+   "centre": [
+    117.9,
+    346.4
+   ],
+   "radius": 3.9
+  },
+  "430x932": {
+   "centre": [
+    129.9,
+    392.5
+   ],
+   "radius": 4.3
+  }
+ }
+}

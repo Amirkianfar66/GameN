@@ -1,0 +1,117 @@
+{
+ "view": "C",
+ "picture": {
+  "label": "PV6-C-4",
+  "sha256": "b634e18b7d552590746cacd3d5614b845fcaaad3be9e11076a84db0e9f5b220a"
+ },
+ "sheetHatchCorners": {
+  "bottomRight": [
+   654.0,
+   838.0
+  ],
+  "bottomLeft": [
+   620.1,
+   837.0
+  ],
+  "topLeft": [
+   620.1,
+   809.6
+  ],
+  "topRight": [
+   654.0,
+   810.4
+  ]
+ },
+ "paintedHatchCorners": {
+  "topLeft": [
+   611,
+   819
+  ],
+  "topRight": [
+   653,
+   819
+  ],
+  "bottomRight": [
+   653,
+   862
+  ],
+  "bottomLeft": [
+   611,
+   862
+  ],
+  "bbox": [
+   611,
+   819,
+   653,
+   862
+  ],
+  "px": 1892,
+  "rule": "fix8.py's face rule: rows from the frame line to the last row whose middle (x 615-650) is brighter than 140; left edge at the middle of its ramp (median over the rows); right edge the column before the dark outline (median)",
+  "leftEdges": [
+   611
+  ],
+  "rightEdges": [
+   653,
+   656,
+   657
+  ]
+ },
+ "byViewBsColourRule": {
+  "topLeft": [
+   612,
+   819
+  ],
+  "topRight": [
+   652,
+   819
+  ],
+  "bottomRight": [
+   645,
+   847
+  ],
+  "bottomLeft": [
+   611,
+   847
+  ],
+  "bbox": [
+   611,
+   819,
+   652,
+   852
+  ],
+  "px": 1026
+ },
+ "offsetPx": {
+  "bottomRight": [
+   -1.0,
+   24.0
+  ],
+  "bottomLeft": [
+   -9.1,
+   25.0
+  ],
+  "topLeft": [
+   -9.1,
+   9.4
+  ],
+  "topRight": [
+   -1.0,
+   8.6
+  ]
+ },
+ "projectedLens": [
+  637.0,
+  804.2
+ ],
+ "projectedHandle": [
+  [
+   646.1,
+   835.4
+  ],
+  [
+   628.1,
+   834.9
+  ]
+ ],
+ "method": "sheet corners: camera report C's capsule.units[0].hatch projected with the view's camera (pv6-C-marks.json); painted: the largest connected warm paper-white region (R>170, G>150, B>120, R>=B) within 40 px of the sheet's hatch, its corners the extreme points along the diagonals (view B's hatch record's method)"
+}

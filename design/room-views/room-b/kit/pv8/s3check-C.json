@@ -1,0 +1,61 @@
+{
+ "view": "C",
+ "what": "s3's input on the accepted step-2 picture, made by the published folder's tool and checked (the Lead, 18 November); hashes and counts only",
+ "picture": {
+  "label": "PV6-C-3",
+  "sha256": "c9170c5d8cb620a8877ba7eb8d290a2b10aa1572ebeb3a75232a5693bf542284",
+  "asTheManifest": true
+ },
+ "cartLift": {
+  "sha256": "1e1100ea4530b20181a34c356b3870f97228ae97d08dd72484c02f5ac97ce27b",
+  "asTheTrim": true
+ },
+ "tool": {
+  "file": "pv9_tools.py",
+  "sha256": "585048e17b0abb1583712b509f8df3c8af7395362034d828dace48f03bbdb1b1"
+ },
+ "s3": {
+  "inputFile": "0051256087c1f584782c956141ab71e7d1c18c5b2d5e9ca8c3ee7db5f0e4c808",
+  "rawInputRGB": "5c629e9e787f8833c9c6d3d868300332f79d2ce1ecd9bd8289da45e1b5252079",
+  "maskFile": "114fbf718992689ff0fa88d5bd1fef9739cb35b036589e7e5584b03310b8c67f",
+  "rawMaskAlpha": "18e67f375619e5d59322ef500f7f82c3e97b140ce1dc5d991f8419de6d11309c",
+  "prompt": "51dd714453be359935dfc9c31a4b68a2e08081a4da4eb26481c10e611e7ae959",
+  "maskAsTheManifest": true,
+  "promptAsTheManifest": true
+ },
+ "shapes": {
+  "B stool": {
+   "px": 4182,
+   "differingFromTheGuidePx": 0
+  },
+  "wall vent strip left": {
+   "px": 1224,
+   "differingFromTheGuidePx": 0
+  },
+  "D food capsule": {
+   "px": 4519,
+   "differingFromTheGuidePx": 0
+  },
+  "wall vent strip right": {
+   "px": 1224,
+   "differingFromTheGuidePx": 0
+  }
+ },
+ "outside": {
+  "px": 1561715,
+  "differingFromThePicturePx": 0
+ },
+ "jars": {
+  "liftPx": 121602,
+  "liftSolidPx": 119316,
+  "solidInsideTheShapesPx": 0,
+  "liftOutsideTheShapesDifferingPx": 0
+ },
+ "strips": {
+  "litTealPx": {
+   "wall vent strip left": 0,
+   "wall vent strip right": 0
+  }
+ },
+ "pass": true
+}

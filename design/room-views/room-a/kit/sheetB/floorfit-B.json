@@ -1,0 +1,25 @@
+{
+ "about": "Sheet RA-B version 2's floor fit (the Lead, 27 November: the desk stands on the painted deck and covers the skirting behind it): the objects whose floor points are drawn on RA-B-2's painted deck, and the painted lines they keep their place between, from measure-B2.json (measureB2.py).",
+ "picture": {
+  "name": "RA-B-2",
+  "sha256": "aefddadcb3ce554c215d121dd7a49b8e4197a1dcce77325e54982252c8038605",
+  "aiGenerated": true
+ },
+ "objects": [
+  "PC desk"
+ ],
+ "painted": {
+  "wallFoot": {
+   "slope": 0.09278,
+   "intercept": 940.51,
+   "rmsPx": 1.17,
+   "readings": 64
+  },
+  "seam1": {
+   "slope": 0.1538,
+   "intercept": 983.69,
+   "x0": 420,
+   "x1": 960
+  }
+ }
+}

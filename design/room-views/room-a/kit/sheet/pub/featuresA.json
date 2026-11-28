@@ -1,0 +1,1045 @@
+{
+ "about": "Painted features on the wall of RA-A-1 (AI-generated, sheet RA-A's step-1 picture), the kit's fixed obstacles, measured for the Lead's rule of 19 November (version 4). Picture pixels of the 1024 x 1536 painting; a polygon holds the pixels whose centres lie inside it. Each outline was read from RA-A-1's brightness profiles across it, its dark outline and any contact shadow included.",
+ "picture": {
+  "name": "RA-A-1",
+  "sha256": "a565b6e01dec5a51fcedca90ace0331e657c09864411eba032cbe14021d4d635",
+  "aiGenerated": true
+ },
+ "minClearPx": 15,
+ "rule": "Every step-2 and step-3 mask edge either clearly overlaps a feature in the test, covering it with at least 15 px to spare, or clears it by at least 15 px (square pixels): no part of the feature lies within 15 px of a mask edge. A named exception, for the Lead's decision, passes only where every such part lies in its zone. The features not in the test are measured and reported.",
+ "features": [
+  {
+   "name": "pipe run",
+   "kind": "pipes",
+   "test": true,
+   "measured": "two pipes along the back wall's foot, from the lower junction box (they bend down into its right side near x 245) to the corner pipes; the upper pipe's top y 966 at x 208, 931 at x 265, 919 at x 385, 912 at x 440, 902 at x 530, 891 at x 604; the lower pipe's foot with its shadow y 1004 at x 208, 972 at x 265, 954 at x 385, 946 at x 440, 936 at x 530, 922 at x 604",
+   "polygons": [
+    [
+     [
+      206,
+      966
+     ],
+     [
+      215,
+      965
+     ],
+     [
+      225,
+      961
+     ],
+     [
+      235,
+      942
+     ],
+     [
+      245,
+      935
+     ],
+     [
+      255,
+      932
+     ],
+     [
+      265,
+      931
+     ],
+     [
+      280,
+      929
+     ],
+     [
+      300,
+      927
+     ],
+     [
+      330,
+      924
+     ],
+     [
+      350,
+      922
+     ],
+     [
+      385,
+      919
+     ],
+     [
+      400,
+      917
+     ],
+     [
+      420,
+      915
+     ],
+     [
+      440,
+      912
+     ],
+     [
+      460,
+      910
+     ],
+     [
+      485,
+      907
+     ],
+     [
+      515,
+      904
+     ],
+     [
+      530,
+      902
+     ],
+     [
+      550,
+      900
+     ],
+     [
+      592,
+      896
+     ],
+     [
+      604,
+      891
+     ],
+     [
+      625,
+      893
+     ],
+     [
+      640,
+      889
+     ],
+     [
+      640,
+      920
+     ],
+     [
+      615,
+      921
+     ],
+     [
+      604,
+      923
+     ],
+     [
+      592,
+      926
+     ],
+     [
+      550,
+      933
+     ],
+     [
+      530,
+      937
+     ],
+     [
+      515,
+      937
+     ],
+     [
+      505,
+      940
+     ],
+     [
+      485,
+      942
+     ],
+     [
+      460,
+      944
+     ],
+     [
+      440,
+      947
+     ],
+     [
+      420,
+      950
+     ],
+     [
+      400,
+      953
+     ],
+     [
+      385,
+      955
+     ],
+     [
+      350,
+      958
+     ],
+     [
+      330,
+      962
+     ],
+     [
+      300,
+      966
+     ],
+     [
+      280,
+      970
+     ],
+     [
+      265,
+      973
+     ],
+     [
+      255,
+      990
+     ],
+     [
+      245,
+      1000
+     ],
+     [
+      225,
+      1004
+     ],
+     [
+      206,
+      1005
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "pipe clamp, left",
+   "kind": "clamp",
+   "test": true,
+   "measured": "x 358 to 381, y 913 to 958",
+   "polygons": [
+    [
+     [
+      358,
+      913
+     ],
+     [
+      382,
+      913
+     ],
+     [
+      382,
+      959
+     ],
+     [
+      358,
+      959
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "pipe clamp, middle",
+   "kind": "clamp",
+   "test": true,
+   "measured": "x 491 to 508, y 900 to 946",
+   "polygons": [
+    [
+     [
+      491,
+      900
+     ],
+     [
+      509,
+      900
+     ],
+     [
+      509,
+      947
+     ],
+     [
+      491,
+      947
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "pipe clamp, right",
+   "kind": "clamp",
+   "test": true,
+   "measured": "x 562 to 581, y 891 to 938",
+   "polygons": [
+    [
+     [
+      562,
+      891
+     ],
+     [
+      582,
+      891
+     ],
+     [
+      582,
+      939
+     ],
+     [
+      562,
+      939
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "locker bank",
+   "kind": "lockers",
+   "test": true,
+   "measured": "frame outline: left x 134 (its shadow from 128), right x 337; top y 599 at x 150 to 618 at x 320; foot y 915 at x 140 to 899 at x 335",
+   "exceptions": [
+    {
+     "where": "its top",
+     "zone": [
+      [
+       110,
+       578
+      ],
+      [
+       352,
+       590
+      ],
+      [
+       352,
+       642
+      ],
+      [
+       110,
+       630
+      ]
+     ],
+     "why": "The rail above the lockers (not on the list) runs 12 to 14 px above their top, and under the upper junction box only 21 to 31 px separate the box's foot from the lockers' top. The box keeps its 15 px (17); the edge runs in the strip of plain wall between rail and lockers, about 6 px from each.",
+     "for": "the Lead's decision"
+    },
+    {
+     "where": "its foot",
+     "zone": [
+      [
+       110,
+       880
+      ],
+      [
+       300,
+       880
+      ],
+      [
+       352,
+       865
+      ],
+      [
+       352,
+       919
+      ],
+      [
+       110,
+       919
+      ]
+     ],
+     "why": "Between x 128 and 205 the lockers' foot outline and the lower junction box are 13 to 15 rows apart, the outline running straight into its own shadow. The box keeps its 15 px: the outline's lowest one or two rows stay outside the mask there, on the top of the shadow band, which step 2 leaves; further right the foot is covered by 0 to 5 px, the pipe run 19 px below.",
+     "for": "the Lead's decision"
+    }
+   ],
+   "polygons": [
+    [
+     [
+      128,
+      596
+     ],
+     [
+      150,
+      599
+     ],
+     [
+      200,
+      604
+     ],
+     [
+      230,
+      607
+     ],
+     [
+      280,
+      613
+     ],
+     [
+      320,
+      618
+     ],
+     [
+      338,
+      620
+     ],
+     [
+      338,
+      900
+     ],
+     [
+      320,
+      904
+     ],
+     [
+      280,
+      907
+     ],
+     [
+      240,
+      910
+     ],
+     [
+      203,
+      912
+     ],
+     [
+      185,
+      913
+     ],
+     [
+      160,
+      915
+     ],
+     [
+      140,
+      916
+     ],
+     [
+      128,
+      917
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "grille",
+   "kind": "grille",
+   "test": true,
+   "measured": "rim x 553 to 633; y 707 at x 580 and 710 at x 610 to 860 with its shadow; the corner pipe 6 px right of it",
+   "polygons": [
+    [
+     [
+      553,
+      705
+     ],
+     [
+      634,
+      711
+     ],
+     [
+      634,
+      861
+     ],
+     [
+      553,
+      861
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "junction box, upper",
+   "kind": "box",
+   "test": true,
+   "measured": "x 190 to 268, y 497 to 577 at x 200 and 581 at x 230 (its light x 236 to 254, y 550 to 558)",
+   "polygons": [
+    [
+     [
+      190,
+      497
+     ],
+     [
+      269,
+      497
+     ],
+     [
+      269,
+      582
+     ],
+     [
+      230,
+      582
+     ],
+     [
+      200,
+      578
+     ],
+     [
+      190,
+      578
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "junction box, lower",
+   "kind": "box",
+   "test": true,
+   "measured": "x 121 to 205; top outline y 933 at x 126, 930 at x 160, 928 at x 185 (its light x 174 to 190, y 970 to 977)",
+   "polygons": [
+    [
+     [
+      121,
+      933
+     ],
+     [
+      140,
+      932
+     ],
+     [
+      160,
+      930
+     ],
+     [
+      185,
+      928
+     ],
+     [
+      200,
+      928
+     ],
+     [
+      206,
+      934
+     ],
+     [
+      206,
+      1010
+     ],
+     [
+      121,
+      1010
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "junction box, south wall",
+   "kind": "box",
+   "test": true,
+   "measured": "x 686 to 730, y 772 to 832 with its shadow (its light x 704 to 713, y 790 to 794)",
+   "polygons": [
+    [
+     [
+      686,
+      772
+     ],
+     [
+      731,
+      772
+     ],
+     [
+      731,
+      833
+     ],
+     [
+      686,
+      833
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "junction box, far right",
+   "kind": "box",
+   "test": true,
+   "measured": "about x 912 to 972, y 488 to 588 (its light x 940 to 967, y 526 to 538)",
+   "polygons": [
+    [
+     [
+      912,
+      488
+     ],
+     [
+      973,
+      488
+     ],
+     [
+      973,
+      589
+     ],
+     [
+      912,
+      589
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "papers: clip",
+   "kind": "papers",
+   "test": true,
+   "measured": "x 466 to 481, y 651 to 672",
+   "polygons": [
+    [
+     [
+      466,
+      651
+     ],
+     [
+      482,
+      651
+     ],
+     [
+      482,
+      673
+     ],
+     [
+      466,
+      673
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "papers: large sheet",
+   "kind": "papers",
+   "test": true,
+   "measured": "x 439 to 505, top y 661 at x 445 and 666 at x 500, foot y 772 with its shadow",
+   "polygons": [
+    [
+     [
+      439,
+      660
+     ],
+     [
+      506,
+      665
+     ],
+     [
+      506,
+      773
+     ],
+     [
+      439,
+      773
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "papers: small sheet",
+   "kind": "papers",
+   "test": true,
+   "measured": "x 487 to its right edge, 519 at y 740 and 523 at y 790; y 731 to 799 with its shadow",
+   "exceptions": [
+    {
+     "where": "its lower right corner",
+     "zone": [
+      [
+       500,
+       731
+      ],
+      [
+       527,
+       731
+      ],
+      [
+       527,
+       801
+      ],
+      [
+       500,
+       801
+      ]
+     ],
+     "why": "The small sheet's corner (x 523 at y 790) and the grille (x 553) are 28 px apart, so no edge can be 15 px from both. The grille keeps its 15 px: the cabinet's edge passes 13 px beyond the sheet's corner and 17 px beyond its edge higher up. The sheet is behind the cabinet, so none of it shows.",
+     "for": "the Lead's decision"
+    }
+   ],
+   "polygons": [
+    [
+     [
+      487,
+      731
+     ],
+     [
+      520,
+      731
+     ],
+     [
+      521,
+      770
+     ],
+     [
+      525,
+      800
+     ],
+     [
+      487,
+      800
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "rail above the lockers",
+   "kind": "rail",
+   "test": false,
+   "measured": "its foot and shadow to y 585 at x 150 and 609 at x 335; 12 to 14 px of plain wall between it and the lockers' top",
+   "polygons": [
+    [
+     [
+      100,
+      560
+     ],
+     [
+      340,
+      575
+     ],
+     [
+      340,
+      610
+     ],
+     [
+      320,
+      607
+     ],
+     [
+      280,
+      602
+     ],
+     [
+      230,
+      597
+     ],
+     [
+      200,
+      592
+     ],
+     [
+      150,
+      586
+     ],
+     [
+      110,
+      582
+     ],
+     [
+      100,
+      582
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "pipes above",
+   "kind": "pipes",
+   "test": false,
+   "measured": "their foot y 592 at x 345 and 599 at x 400; the bend down to y 614 at x 440; the bend at x 409 to 465 down to y 615",
+   "polygons": [
+    [
+     [
+      338,
+      520
+     ],
+     [
+      500,
+      520
+     ],
+     [
+      500,
+      600
+     ],
+     [
+      465,
+      614
+     ],
+     [
+      440,
+      615
+     ],
+     [
+      400,
+      600
+     ],
+     [
+      365,
+      598
+     ],
+     [
+      345,
+      593
+     ],
+     [
+      338,
+      593
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "riveted plate and ledge",
+   "kind": "panel",
+   "test": false,
+   "measured": "the plate x 502 to 598 from y 552, its foot y 623 at x 510 to 634 at x 595; its ledge x 440 to 515, foot y 619 at x 480",
+   "polygons": [
+    [
+     [
+      502,
+      552
+     ],
+     [
+      599,
+      552
+     ],
+     [
+      599,
+      635
+     ],
+     [
+      570,
+      632
+     ],
+     [
+      540,
+      628
+     ],
+     [
+      510,
+      624
+     ],
+     [
+      480,
+      620
+     ],
+     [
+      440,
+      616
+     ],
+     [
+      440,
+      603
+     ],
+     [
+      502,
+      603
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "narrow panel",
+   "kind": "panel",
+   "test": false,
+   "measured": "x 337 (the lockers' outline) to 375; y 638 at x 345 and 640 at x 365 to 773",
+   "polygons": [
+    [
+     [
+      337,
+      637
+     ],
+     [
+      376,
+      641
+     ],
+     [
+      376,
+      774
+     ],
+     [
+      337,
+      774
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "lower panel",
+   "kind": "panel",
+   "test": false,
+   "measured": "x 342 to 417; y 757 to 835",
+   "polygons": [
+    [
+     [
+      341,
+      756
+     ],
+     [
+      418,
+      756
+     ],
+     [
+      418,
+      836
+     ],
+     [
+      341,
+      836
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "square panel",
+   "kind": "panel",
+   "test": false,
+   "measured": "x 384 to 436; y 838 to its foot, 908 at x 388 and 903 at x 433, 8 to 9 px above the pipe run",
+   "polygons": [
+    [
+     [
+      383,
+      836
+     ],
+     [
+      437,
+      836
+     ],
+     [
+      437,
+      905
+     ],
+     [
+      433,
+      905
+     ],
+     [
+      425,
+      907
+     ],
+     [
+      410,
+      907
+     ],
+     [
+      395,
+      909
+     ],
+     [
+      388,
+      909
+     ],
+     [
+      383,
+      907
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "corner pipes",
+   "kind": "pipes",
+   "test": false,
+   "measured": "the first corner pipe's left outline x 639 to 640, the corner at about x 700; its brackets from x 635 at y 740 to 752 and 843 to 855",
+   "polygons": [
+    [
+     [
+      639,
+      600
+     ],
+     [
+      700,
+      600
+     ],
+     [
+      700,
+      900
+     ],
+     [
+      639,
+      900
+     ]
+    ],
+    [
+     [
+      635,
+      739
+     ],
+     [
+      639,
+      739
+     ],
+     [
+      639,
+      754
+     ],
+     [
+      635,
+      754
+     ]
+    ],
+    [
+     [
+      635,
+      842
+     ],
+     [
+      639,
+      842
+     ],
+     [
+      639,
+      857
+     ],
+     [
+      635,
+      857
+     ]
+    ]
+   ]
+  },
+  {
+   "name": "left pipe",
+   "kind": "pipes",
+   "test": false,
+   "measured": "its right outline x 87 to 89, brackets to x 96",
+   "polygons": [
+    [
+     [
+      55,
+      500
+     ],
+     [
+      98,
+      500
+     ],
+     [
+      98,
+      1000
+     ],
+     [
+      55,
+      1000
+     ]
+    ]
+   ]
+  }
+ ],
+ "lights": [
+  {
+   "name": "small light, far right",
+   "box": [
+    940,
+    526,
+    967,
+    538
+   ]
+  },
+  {
+   "name": "the junction box's light",
+   "box": [
+    236,
+    550,
+    254,
+    558
+   ]
+  },
+  {
+   "name": "small light, lower right",
+   "box": [
+    704,
+    790,
+    713,
+    794
+   ]
+  },
+  {
+   "name": "the lower junction box's light",
+   "box": [
+    174,
+    970,
+    190,
+    977
+   ]
+  }
+ ]
+}

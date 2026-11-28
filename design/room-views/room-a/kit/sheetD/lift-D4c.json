@@ -1,0 +1,151 @@
+{
+ "view": "D",
+ "what": "view D's people layers: RA-D-4c's pieces lifted off RA-D-1, one RGBA layer a piece",
+ "recipe": "the Lead's recipe of 18 November (lift5.py): d, the largest of |placed - start| over R, G and B; the pixels where d is above 16, inside the mask; closed with a 7 x 7 max then a 7 x 7 min, kept inside the mask; holes filled; parts under 400 px dropped; feathered with a 1 px Gaussian; clipped to the mask",
+ "area": "step 2's PLACE mask where RA-D-3x kept the desk and the cabinet (less the trim in front of the desk), step 2b's mask, step 3's mask, and each code completion's traced outline grown 2 px (RA-D-3x's three, RA-D-3hc's one by its parts, RA-D-4c's capsule), each in its piece's grey; less the toolbox's cast shadow",
+ "start": {
+  "name": "RA-D-1",
+  "sha256": "c8842de16d63076fe69306b247bcc643b6dc5576f6c389364ce49bc970f2fe75",
+  "aiGenerated": true
+ },
+ "kept": {
+  "name": "RA-D-4c",
+  "file": "ra-D-4c.png",
+  "pixelsSha256": "e94c257ab580f014debb133a443940c545166dd7ef5ea9dd02ec0555628da59d",
+  "aiGenerated": true,
+  "codeComposite": true,
+  "standIn": false
+ },
+ "leftInThePlate": {
+  "px": 9131,
+  "shadowPx": 3682,
+  "keepBlendPx": 5449,
+  "ofWhichRoundTheCapsulePx": 5,
+  "what": "the toolbox's cast shadow on the deck, and the keeps' blends (step 3's round the capsule, outside its area)"
+ },
+ "liftAreaPx": 266931,
+ "pieces": {
+  "A PC workstation": {
+   "file": "_lift/D-PC-workstation.png",
+   "sha256": "8f9092af898d57f43a6cc6d36091f2f043d8ef61faf124bae695faa0246bda46",
+   "grey": 100,
+   "px": 134474,
+   "box": [
+    0,
+    828,
+    333,
+    1402
+   ],
+   "areaPx": 137029,
+   "shareOfItsArea": 0.9814,
+   "completionPxPastTheMasks": {
+    "RA-D-3x monitor": 1411,
+    "RA-D-3x desk-end": 345
+   },
+   "alphaFull": 130860,
+   "alphaPartial": 5686
+  },
+  "E toolbox": {
+   "file": "_lift/D-toolbox.png",
+   "sha256": "1b6a938cd9e86094012a780d1f0fbb4df1da73eb6e62c91bdb75616d97cb2324",
+   "grey": 80,
+   "px": 15707,
+   "box": [
+    386,
+    1078,
+    542,
+    1218
+   ],
+   "areaPx": 15889,
+   "shareOfItsArea": 0.9885,
+   "completionPxPastTheMasks": {
+    "RA-D-3hc E toolbox": 3236
+   },
+   "alphaFull": 14698,
+   "alphaPartial": 1191
+  },
+  "E floor hatch": {
+   "file": "_lift/D-floor-hatch.png",
+   "sha256": "342fd1752e6625490f7b0a28b44724d665e096e9290035a1917832e4f7bd9c28",
+   "grey": 60,
+   "px": 20684,
+   "box": [
+    489,
+    1023,
+    703,
+    1206
+   ],
+   "areaPx": 21125,
+   "shareOfItsArea": 0.9791,
+   "completionPxPastTheMasks": {
+    "RA-D-3hc E floor hatch": 3379
+   },
+   "alphaFull": 19620,
+   "alphaPartial": 1505
+  },
+  "E hatch lid": {
+   "file": "_lift/D-hatch-lid.png",
+   "sha256": "7a87a8a88f0f9f18fae4c3cedd50d665177be12b3c924888b501e5e32e781d36",
+   "grey": 20,
+   "px": 14740,
+   "box": [
+    579,
+    896,
+    711,
+    1044
+   ],
+   "areaPx": 15351,
+   "shareOfItsArea": 0.9602,
+   "completionPxPastTheMasks": {
+    "RA-D-3hc E hatch lid": 3324
+   },
+   "alphaFull": 13649,
+   "alphaPartial": 1702
+  },
+  "C electrical cabinet": {
+   "file": "_lift/D-electrical-cabinet.png",
+   "sha256": "69c574588c3025406651c7c39a56274d64f76965d09918e62923a5206dff4b8e",
+   "grey": 40,
+   "px": 66864,
+   "box": [
+    759,
+    628,
+    1004,
+    927
+   ],
+   "areaPx": 68550,
+   "shareOfItsArea": 0.9754,
+   "completionPxPastTheMasks": {
+    "RA-D-3x cabinet": 8381
+   },
+   "alphaFull": 63726,
+   "alphaPartial": 4561
+  },
+  "wall food capsule": {
+   "file": "_lift/D-food-capsule.png",
+   "sha256": "150cfd67154e4e291d9cbfe0db5f911eca3b39d3313bba4c1b75fd7e8d520b2e",
+   "grey": 120,
+   "px": 8509,
+   "box": [
+    631,
+    712,
+    706,
+    831
+   ],
+   "areaPx": 8987,
+   "shareOfItsArea": 0.9468,
+   "completionPxPastTheMasks": {
+    "RA-D-4c capsule": 1932
+   },
+   "alphaFull": 7471,
+   "alphaPartial": 1516
+  }
+ },
+ "missing": [],
+ "rebuild": {
+  "how": "RA-D-1 with every layer over it, against RA-D-4c, inside the lift's area (the shadow and the keeps' blends are left in the plate)",
+  "meanAbsDiff": 0.2511,
+  "pxOver16": 1224,
+  "maxDiff": 74
+ }
+}

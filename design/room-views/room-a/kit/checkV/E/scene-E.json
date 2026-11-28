@@ -1,0 +1,614 @@
+{
+ "view": "E",
+ "version": 1,
+ "plate": {
+  "name": "RA-E-2c",
+  "file": "img/ra-E-2c.png",
+  "sha256": "ee28f5fad8a12a71183af27d98e959bb238c19e910c73a2c078b8da036343667",
+  "pixelsSha256": "af6f06d705f3a275b4e232eb7fdd7067d6fda25f4e93ecb8b9fa30c752e36d74",
+  "aiGenerated": true,
+  "codeComposite": true,
+  "record": {
+   "file": "composite-E2.json",
+   "sha256": "1b217ad68dd565e6a57a4cdadb054f371f023baeaf877f6ff306b52d24ca4237"
+  },
+  "accepted": "the Lead, 27 November 2026, 21:28",
+  "start": {
+   "name": "RA-E-2",
+   "aiGenerated": true
+  },
+  "layers": {
+   "file": "lift-E2c.json",
+   "sha256": "1ae74080a54cce8dc73ff8b5d70c0abe8b2f1582765181dae2564425885dabaf",
+   "pieces": {
+    "C electrical cabinet": {
+     "file": "_lift/E-electrical-cabinet.png",
+     "sha256": "59e5bebcf1d70e6bab8e27e164b7e828ee60666228a9d48147251dd9da230278",
+     "px": 52082,
+     "box": [
+      0,
+      549,
+      115,
+      1086
+     ]
+    },
+    "D crates": {
+     "file": "_lift/E-crates.png",
+     "sha256": "60432747498078fbe292f14b2c5d5bfbf37891e841774d074137320a5484ce19",
+     "px": 69797,
+     "box": [
+      759,
+      808,
+      1024,
+      1157
+     ]
+    }
+   }
+  }
+ },
+ "names": {
+  "A1": "Vega",
+  "A2": "Mira",
+  "A3": "Echo",
+  "A4": "Atlas",
+  "A5": "Lyra"
+ },
+ "camera": {
+  "at": [
+   1.04,
+   1.6,
+   1.68
+  ],
+  "yawCompass": 197.7,
+  "report": 2
+ },
+ "outOfView": {
+  "place": "A",
+  "name": "Vega",
+  "crew": "c1",
+  "chip": [
+   231,
+   42,
+   384,
+   68
+  ]
+ },
+ "screens": {
+  "file": null,
+  "sha256": null,
+  "painting": []
+ },
+ "phones": {
+  "390x844": {
+   "W": 390,
+   "H": 844,
+   "TOP": 99,
+   "BOT": 92,
+   "SH": 653,
+   "k": 2.1913,
+   "slice": {
+    "x0": 84.7,
+    "y0": 52,
+    "x1": 939.3,
+    "y1": 1482.9
+   },
+   "plate": {
+    "left": -38.7,
+    "top": -23.7,
+    "width": 467.3,
+    "height": 701
+   },
+   "f": 278.49,
+   "hy": 302.1,
+   "people": [
+    {
+     "id": "A2",
+     "place": "B",
+     "name": "Mira",
+     "num": 2,
+     "crew": "c8",
+     "pose": "think",
+     "Z": 2.953,
+     "feet": [
+      174.1,
+      453
+     ],
+     "u": 0.6768,
+     "head": [
+      170.8,
+      320.4
+     ],
+     "headR": 20.3,
+     "headKind": "approved face",
+     "box": [
+      143.5,
+      292.8,
+      205.7,
+      458.9
+     ],
+     "press": [
+      172.1,
+      343.9
+     ],
+     "side": 44,
+     "heightPx": 162,
+     "seen": "from Mira's right",
+     "tagAt": "the feet"
+    },
+    {
+     "id": "A3",
+     "place": "C",
+     "name": "Echo",
+     "num": 3,
+     "crew": "c9",
+     "pose": "wallPanelBack",
+     "Z": 1.859,
+     "feet": [
+      68.8,
+      541.9
+     ],
+     "u": 1.0751,
+     "head": [
+      62.3,
+      330.1
+     ],
+     "headR": 32.3,
+     "headKind": "approved face",
+     "box": [
+      11.5,
+      284.6,
+      117.5,
+      551.2
+     ],
+     "press": [
+      64.9,
+      367.9
+     ],
+     "side": 59.8,
+     "heightPx": 258,
+     "seen": "from Echo's left",
+     "tagAt": "the feet, nudged 5 px"
+    },
+    {
+     "id": "A4",
+     "place": "D",
+     "name": "Atlas",
+     "num": 4,
+     "crew": "c4",
+     "pose": "leanCrates",
+     "Z": 2.883,
+     "feet": [
+      327.9,
+      456.7
+     ],
+     "u": 0.6932,
+     "head": [
+      330.7,
+      321.5
+     ],
+     "headR": 20.8,
+     "headKind": "approved face",
+     "box": [
+      289.6,
+      290.5,
+      368.6,
+      462.7
+     ],
+     "press": [
+      328.5,
+      345.9
+     ],
+     "side": 44,
+     "heightPx": 166,
+     "seen": "from Atlas's left",
+     "tagAt": "the feet"
+    }
+   ],
+   "chip": {
+    "x0": 231,
+    "y0": 42,
+    "x1": 384,
+    "y1": 68,
+    "press": {
+     "x0": 231,
+     "x1": 384,
+     "y0": 33,
+     "y1": 77
+    },
+    "name": "Vega",
+    "num": 1
+   },
+   "screens": [],
+   "byPct": {
+    "100": {
+     "issues": [],
+     "chip": {
+      "x0": 231,
+      "y0": 42,
+      "x1": 384,
+      "y1": 68,
+      "press": {
+       "x0": 231,
+       "x1": 384,
+       "y0": 33,
+       "y1": 77
+      },
+      "name": "Vega",
+      "num": 1
+     }
+    },
+    "200": {
+     "issues": [],
+     "chip": {
+      "x0": 81,
+      "y0": 62,
+      "x1": 384,
+      "y1": 114,
+      "press": {
+       "x0": 81,
+       "x1": 384,
+       "y0": 62,
+       "y1": 114
+      },
+      "name": "Vega",
+      "num": 1
+     }
+    }
+   }
+  },
+  "430x932": {
+   "W": 430,
+   "H": 932,
+   "TOP": 99,
+   "BOT": 92,
+   "SH": 741,
+   "k": 1.9874,
+   "slice": {
+    "x0": 84.7,
+    "y0": 31.1,
+    "x1": 939.3,
+    "y1": 1503.8
+   },
+   "plate": {
+    "left": -42.6,
+    "top": -15.6,
+    "width": 515.2,
+    "height": 772.9
+   },
+   "f": 307.05,
+   "hy": 343.6,
+   "people": [
+    {
+     "id": "A2",
+     "place": "B",
+     "name": "Mira",
+     "num": 2,
+     "crew": "c8",
+     "pose": "think",
+     "Z": 2.953,
+     "feet": [
+      192,
+      510
+     ],
+     "u": 0.7462,
+     "head": [
+      188.3,
+      363.8
+     ],
+     "headR": 22.4,
+     "headKind": "approved face",
+     "box": [
+      158.2,
+      333.4,
+      226.8,
+      516.5
+     ],
+     "press": [
+      189.8,
+      389.7
+     ],
+     "side": 44,
+     "heightPx": 179,
+     "seen": "from Mira's right",
+     "tagAt": "the feet"
+    },
+    {
+     "id": "A3",
+     "place": "C",
+     "name": "Echo",
+     "num": 3,
+     "crew": "c9",
+     "pose": "wallPanelBack",
+     "Z": 1.859,
+     "feet": [
+      75.8,
+      608
+     ],
+     "u": 1.1854,
+     "head": [
+      68.7,
+      374.4
+     ],
+     "headR": 35.6,
+     "headKind": "approved face",
+     "box": [
+      12.6,
+      324.3,
+      129.5,
+      618.3
+     ],
+     "press": [
+      71.5,
+      416.2
+     ],
+     "side": 64,
+     "heightPx": 284,
+     "seen": "from Echo's left",
+     "tagAt": "the feet"
+    },
+    {
+     "id": "A4",
+     "place": "D",
+     "name": "Atlas",
+     "num": 4,
+     "crew": "c4",
+     "pose": "leanCrates",
+     "Z": 2.883,
+     "feet": [
+      361.6,
+      514.1
+     ],
+     "u": 0.7643,
+     "head": [
+      364.6,
+      365
+     ],
+     "headR": 22.9,
+     "headKind": "approved face",
+     "box": [
+      319.3,
+      330.9,
+      406.4,
+      520.7
+     ],
+     "press": [
+      362.2,
+      391.9
+     ],
+     "side": 44,
+     "heightPx": 183,
+     "seen": "from Atlas's left",
+     "tagAt": "the feet"
+    }
+   ],
+   "chip": {
+    "x0": 271,
+    "y0": 42,
+    "x1": 424,
+    "y1": 68,
+    "press": {
+     "x0": 271,
+     "x1": 424,
+     "y0": 33,
+     "y1": 77
+    },
+    "name": "Vega",
+    "num": 1
+   },
+   "screens": [],
+   "byPct": {
+    "100": {
+     "issues": [],
+     "chip": {
+      "x0": 271,
+      "y0": 42,
+      "x1": 424,
+      "y1": 68,
+      "press": {
+       "x0": 271,
+       "x1": 424,
+       "y0": 33,
+       "y1": 77
+      },
+      "name": "Vega",
+      "num": 1
+     }
+    },
+    "200": {
+     "issues": [],
+     "chip": {
+      "x0": 121,
+      "y0": 62,
+      "x1": 424,
+      "y1": 114,
+      "press": {
+       "x0": 121,
+       "x1": 424,
+       "y0": 62,
+       "y1": 114
+      },
+      "name": "Vega",
+      "num": 1
+     }
+    }
+   }
+  },
+  "402x742": {
+   "W": 402,
+   "H": 742,
+   "TOP": 99,
+   "BOT": 92,
+   "SH": 551,
+   "k": 2.1259,
+   "slice": {
+    "x0": 84.7,
+    "y0": 181.8,
+    "x1": 939.3,
+    "y1": 1353.2
+   },
+   "plate": {
+    "left": -39.8,
+    "top": -85.5,
+    "width": 481.7,
+    "height": 722.5
+   },
+   "f": 287.06,
+   "hy": 250.4,
+   "people": [
+    {
+     "id": "A2",
+     "place": "B",
+     "name": "Mira",
+     "num": 2,
+     "crew": "c8",
+     "pose": "think",
+     "Z": 2.953,
+     "feet": [
+      179.5,
+      405.9
+     ],
+     "u": 0.6976,
+     "head": [
+      176,
+      269.2
+     ],
+     "headR": 20.9,
+     "headKind": "approved face",
+     "box": [
+      147.9,
+      240.8,
+      212.1,
+      412
+     ],
+     "press": [
+      177.4,
+      293.5
+     ],
+     "side": 44,
+     "heightPx": 167,
+     "seen": "from Mira's right",
+     "tagAt": "the feet, nudged 1 px"
+    },
+    {
+     "id": "A3",
+     "place": "C",
+     "name": "Echo",
+     "num": 3,
+     "crew": "c9",
+     "pose": "wallPanelBack",
+     "Z": 1.859,
+     "feet": [
+      70.9,
+      497.5
+     ],
+     "u": 1.1082,
+     "head": [
+      64.2,
+      279.2
+     ],
+     "headR": 33.2,
+     "headKind": "approved face",
+     "box": [
+      11.8,
+      232.3,
+      121.1,
+      507.1
+     ],
+     "press": [
+      66.9,
+      318.2
+     ],
+     "side": 61.7,
+     "heightPx": 266,
+     "seen": "from Echo's left",
+     "tagAt": "the accepted place"
+    },
+    {
+     "id": "A4",
+     "place": "D",
+     "name": "Atlas",
+     "num": 4,
+     "crew": "c4",
+     "pose": "leanCrates",
+     "Z": 2.883,
+     "feet": [
+      338,
+      409.7
+     ],
+     "u": 0.7145,
+     "head": [
+      340.9,
+      270.4
+     ],
+     "headR": 21.4,
+     "headKind": "approved face",
+     "box": [
+      298.5,
+      238.4,
+      380,
+      415.9
+     ],
+     "press": [
+      338.6,
+      295.5
+     ],
+     "side": 44,
+     "heightPx": 171,
+     "seen": "from Atlas's left",
+     "tagAt": "the feet"
+    }
+   ],
+   "chip": {
+    "x0": 243,
+    "y0": 42,
+    "x1": 396,
+    "y1": 68,
+    "press": {
+     "x0": 243,
+     "x1": 396,
+     "y0": 33,
+     "y1": 77
+    },
+    "name": "Vega",
+    "num": 1
+   },
+   "screens": [],
+   "byPct": {
+    "100": {
+     "issues": [],
+     "chip": {
+      "x0": 243,
+      "y0": 42,
+      "x1": 396,
+      "y1": 68,
+      "press": {
+       "x0": 243,
+       "x1": 396,
+       "y0": 33,
+       "y1": 77
+      },
+      "name": "Vega",
+      "num": 1
+     }
+    },
+    "200": {
+     "issues": [],
+     "chip": {
+      "x0": 93,
+      "y0": 62,
+      "x1": 396,
+      "y1": 114,
+      "press": {
+       "x0": 93,
+       "x1": 396,
+       "y0": 62,
+       "y1": 114
+      },
+      "name": "Vega",
+      "num": 1
+     }
+    }
+   }
+  }
+ }
+}

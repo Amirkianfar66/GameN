@@ -1,0 +1,214 @@
+{
+ "view": "C",
+ "version": 1,
+ "rule": "by depth at each pixel: where a lifted layer overlaps a person above their feet line, it is drawn in front of them where its surface, met by that pixel's ray, is more than 2 cm nearer the camera than the person",
+ "toleranceM": 0.02,
+ "layers": {
+  "A PC workstation": {
+   "file": "_lift/C-PC-workstation.png",
+   "areaPx": 57467,
+   "depthM": [
+    2.04,
+    3.34
+   ]
+  },
+  "D crates": {
+   "file": "_lift/C-crates.png",
+   "areaPx": 58337,
+   "depthM": [
+    3.08,
+    3.68
+   ]
+  },
+  "E floor hatch": {
+   "file": "_lift/C-floor-hatch.png",
+   "areaPx": 22295,
+   "depthM": [
+    0.55,
+    1.55
+   ]
+  },
+  "E toolbox": {
+   "file": "_lift/C-toolbox.png",
+   "areaPx": 19642,
+   "depthM": [
+    1.6,
+    1.8
+   ]
+  }
+ },
+ "people": [
+  {
+   "id": "A1",
+   "name": "Vega",
+   "Z": 2.893
+  },
+  {
+   "id": "A2",
+   "name": "Mira",
+   "Z": 1.73
+  },
+  {
+   "id": "A4",
+   "name": "Atlas",
+   "Z": 2.83
+  }
+ ],
+ "order": [
+  "the plate (RA-C-2c, every piece painted in it)",
+  "Vega",
+  "Atlas",
+  "Mira"
+ ],
+ "fronts": {},
+ "overlaps": {
+  "390x844": [
+   {
+    "person": "Vega",
+    "layer": "A PC workstation",
+    "overlapPx": 12636,
+    "aboveFeetPx": 12307,
+    "layerDepthHereM": [
+     2.885,
+     3.339
+    ],
+    "personZ": 2.893,
+    "nearerPx": 0,
+    "withinTolPx": 158,
+    "depthFilledPx": 3937,
+    "drawn": "behind"
+   },
+   {
+    "person": "Mira",
+    "layer": "D crates",
+    "overlapPx": 2245,
+    "aboveFeetPx": 2245,
+    "layerDepthHereM": [
+     3.08,
+     3.08
+    ],
+    "personZ": 1.73,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 2245,
+    "drawn": "behind"
+   },
+   {
+    "person": "Atlas",
+    "layer": "D crates",
+    "overlapPx": 39494,
+    "aboveFeetPx": 39494,
+    "layerDepthHereM": [
+     3.08,
+     3.68
+    ],
+    "personZ": 2.83,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 5437,
+    "drawn": "behind"
+   }
+  ],
+  "430x932": [
+   {
+    "person": "Vega",
+    "layer": "A PC workstation",
+    "overlapPx": 12833,
+    "aboveFeetPx": 12494,
+    "layerDepthHereM": [
+     2.885,
+     3.339
+    ],
+    "personZ": 2.893,
+    "nearerPx": 0,
+    "withinTolPx": 315,
+    "depthFilledPx": 3943,
+    "drawn": "behind"
+   },
+   {
+    "person": "Mira",
+    "layer": "D crates",
+    "overlapPx": 2245,
+    "aboveFeetPx": 2245,
+    "layerDepthHereM": [
+     3.08,
+     3.08
+    ],
+    "personZ": 1.73,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 2245,
+    "drawn": "behind"
+   },
+   {
+    "person": "Atlas",
+    "layer": "D crates",
+    "overlapPx": 39494,
+    "aboveFeetPx": 39494,
+    "layerDepthHereM": [
+     3.08,
+     3.68
+    ],
+    "personZ": 2.83,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 5437,
+    "drawn": "behind"
+   }
+  ],
+  "402x742": [
+   {
+    "person": "Vega",
+    "layer": "A PC workstation",
+    "overlapPx": 12833,
+    "aboveFeetPx": 12494,
+    "layerDepthHereM": [
+     2.885,
+     3.339
+    ],
+    "personZ": 2.893,
+    "nearerPx": 0,
+    "withinTolPx": 315,
+    "depthFilledPx": 3943,
+    "drawn": "behind"
+   },
+   {
+    "person": "Mira",
+    "layer": "D crates",
+    "overlapPx": 2245,
+    "aboveFeetPx": 2245,
+    "layerDepthHereM": [
+     3.08,
+     3.08
+    ],
+    "personZ": 1.73,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 2245,
+    "drawn": "behind"
+   },
+   {
+    "person": "Atlas",
+    "layer": "D crates",
+    "overlapPx": 39713,
+    "aboveFeetPx": 39713,
+    "layerDepthHereM": [
+     3.08,
+     3.68
+    ],
+    "personZ": 2.83,
+    "nearerPx": 0,
+    "withinTolPx": 0,
+    "depthFilledPx": 5510,
+    "drawn": "behind"
+   }
+  ]
+ },
+ "frontParts": [],
+ "depthFilledPx": {
+  "A PC workstation": 16477,
+  "D crates": 21335,
+  "E floor hatch": 14166,
+  "E toolbox": 7651
+ }
+}

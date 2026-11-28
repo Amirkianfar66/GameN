@@ -1,0 +1,83 @@
+{
+ "view": "C",
+ "what": "the dispenser's left edge, drawn by code, opaque, in its own band file just after the capsule's (fix-2.png), so the capsule's layer stays as it was",
+ "drawnBy": "code",
+ "decision": "the Lead, 18 November 2026: PV6-C-5 is C's final picture; its edit did not take at the dispenser's left edge (341 px changed, the soft streaks into the books remain), so the edge is fixed in code, with no further generation",
+ "line": {
+  "rgb": [
+   52,
+   11,
+   43
+  ],
+  "hex": "#340B2B",
+  "columns": [
+   609,
+   610
+  ],
+  "rows": [
+   793,
+   865
+  ],
+  "what": "a 2 px line just outside the housing's left side, from under the rounded top's corner down to the bench"
+ },
+ "housing": {
+  "rgb": [
+   149,
+   61,
+   102
+  ],
+  "hex": "#953D66",
+  "columns": [
+   611,
+   616
+  ],
+  "rows": [
+   795,
+   816
+  ],
+  "what": "the housing's colour inside its left side, above the hatch"
+ },
+ "leftAsPainted": {
+  "hatchFace": {
+   "fromColumn": 611,
+   "rows": [
+    819,
+    862
+   ]
+  },
+  "rimCorner": {
+   "rows": [
+    785,
+    792
+   ]
+  }
+ },
+ "fromTheGuide": {
+  "record": "fix4-C.json",
+  "sha256": "bb4177ed30c88074ec6ad65f45bee969048d3422d84483b0a0cd4bb7fd72a207",
+  "checks": {
+   "line colour": true,
+   "line columns": true,
+   "line rows": true,
+   "housing colour": true,
+   "housing columns": true,
+   "housing rows": true,
+   "hatch face": true,
+   "rim corner": true,
+   "colours as hex": true
+  }
+ },
+ "units": "painting pixel indices (1024 x 1536), inclusive ranges",
+ "layer": {
+  "file": "fix-2.png",
+  "band": 2,
+  "sha256": "cdab56addf9870495d41626a433134d234df11de41fc3a7f3fefbaefa342edfc",
+  "drawnAfter": "capsule-2.png",
+  "capsuleLayerSha256": "7a335d59ba0550e7179e886a6d28271eba711cd43cfed8e5c03fa44a37c81ff2",
+  "capsuleLayerUnchanged": true,
+  "drawnPx": 278,
+  "overTheCapsulesLiftPx": 132,
+  "newPx": 146,
+  "how": "its own band file, opaque, drawn just after the capsule's, which stays byte for byte (the Lead, 18 November, 19:01)"
+ }
+}

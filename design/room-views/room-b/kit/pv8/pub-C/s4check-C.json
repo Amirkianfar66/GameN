@@ -1,0 +1,67 @@
+{
+ "view": "C",
+ "what": "s4's input on step 3's picture, made by the published folder's tool and checked (the Lead, 18 November); hashes and counts only",
+ "picture": {
+  "label": "PV6-C-4",
+  "sha256": "b634e18b7d552590746cacd3d5614b845fcaaad3be9e11076a84db0e9f5b220a",
+  "asTheManifest": true
+ },
+ "tool": {
+  "file": "pv9_tools.py",
+  "sha256": "585048e17b0abb1583712b509f8df3c8af7395362034d828dace48f03bbdb1b1"
+ },
+ "s4": {
+  "inputFile": "465123b27cf3cf426edf97229207059afa945cb82ab8cdf95321720881356a32",
+  "rawInputRGB": "f5cd8304e0acfd1b73c5aedc4e27b74f83fa07346a2f56194d99d535386e12cd",
+  "maskFile": "5d29074d29a737070f60636f6b9cfd32c14abef58226ac6be3efbea35cd9d2fa",
+  "rawMaskAlpha": "db6a8c777344f24f9734507acf19b1e48c22f965d5e8bdbe2ef4619417646bba",
+  "prompt": "7188f468c6841654be9a95084a3a28d28d173b6954c8e4c85f12c7fb401d90bc",
+  "maskAsTheManifest": true,
+  "promptAsTheManifest": true
+ },
+ "shapes": {
+  "B coral jar top": {
+   "px": 3985,
+   "guideDrawnPx": 549,
+   "differingFromTheGuidePx": 0,
+   "differingFromThePicturePx": 0
+  },
+  "B bead jar top": {
+   "px": 1373,
+   "guideDrawnPx": 310,
+   "differingFromTheGuidePx": 0,
+   "differingFromThePicturePx": 0
+  },
+  "B flask top": {
+   "px": 1679,
+   "guideDrawnPx": 322,
+   "differingFromTheGuidePx": 0,
+   "differingFromThePicturePx": 0
+  },
+  "D dispenser left edge": {
+   "px": 516,
+   "guideDrawnPx": 278,
+   "differingFromTheGuidePx": 0,
+   "differingFromThePicturePx": 0
+  }
+ },
+ "outside": {
+  "px": 1565311,
+  "differingFromThePicturePx": 0
+ },
+ "jars": {
+  "shapePxMoreThan4pxBelowTheCut": 0
+ },
+ "edge": {
+  "hatchFrameRow": 818,
+  "faceRows": [
+   819,
+   862
+  ],
+  "facePx": 3036,
+  "hatchFacePx": 0,
+  "intoTheBooksPx": 4,
+  "insideTheHousingInTheHatchRowsPx": 0
+ },
+ "pass": true
+}

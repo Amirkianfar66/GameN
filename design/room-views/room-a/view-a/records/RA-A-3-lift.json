@@ -1,0 +1,84 @@
+{
+ "view": "A",
+ "step": 2,
+ "recipe": "the Lead's recipe of 18 November (lift5.py): d, the largest of |placed - start| over R, G and B; the pixels where d is above 16, inside the mask; closed with a 7 x 7 max then a 7 x 7 min, kept inside the mask; holes filled; parts under 400 px dropped; feathered with a 1 px Gaussian; clipped to the mask",
+ "pieces": {
+  "back plain wall": {
+   "file": "RA-A-3-back-plain-wall.png",
+   "sha256": "da95fe3586cdf1a926a080c84db85d238efc4e284d3618da5316e3491c00649e",
+   "px": 75140,
+   "x": [
+    113,
+    496
+   ],
+   "y": [
+    588,
+    915
+   ],
+   "shareOfItsOutline": 0.9824
+  },
+  "E hatch lid": {
+   "file": "RA-A-3-E-hatch-lid.png",
+   "sha256": "eb26c4e069e1ae554f802ec786f2b703e1b6bc6cdd1c2f2681b3b067fe7485a4",
+   "px": 21201,
+   "x": [
+    245,
+    398
+   ],
+   "y": [
+    987,
+    1177
+   ],
+   "shareOfItsOutline": 0.9976
+  },
+  "E floor hatch": {
+   "file": "RA-A-3-E-floor-hatch.png",
+   "sha256": "6ef83dd1e1dad1cd437b2dd718649c84eb25c56d65f4f8dc69b91f685eee706e",
+   "px": 54047,
+   "x": [
+    251,
+    570
+   ],
+   "y": [
+    1119,
+    1497
+   ],
+   "shareOfItsOutline": 0.9987
+  },
+  "C electrical cabinet": {
+   "file": "RA-A-3-C-electrical-cabinet.png",
+   "sha256": "07114df95037978e45554d2c840619f75f439c9075d37dc4f4f715f971fb0e6b",
+   "px": 41769,
+   "x": [
+    359,
+    537
+   ],
+   "y": [
+    636,
+    884
+   ],
+   "shareOfItsOutline": 0.9996
+  },
+  "E toolbox": {
+   "file": "RA-A-3-E-toolbox.png",
+   "sha256": "3be9daaeb9481575a589899e8374b3a6138de635e80a5d618ce3af41aed0faee",
+   "px": 36095,
+   "x": [
+    382,
+    596
+   ],
+   "y": [
+    1318,
+    1535
+   ],
+   "shareOfItsOutline": 0.9992
+  }
+ },
+ "missing": [],
+ "rebuildMeanAbsDiff": 0.0898,
+ "copy": {
+  "of": "Room A Records (the image builder’s records page), version 1795828303-eac0, records/RA-A-3-lift.json",
+  "originalSha256": "e010c9579bced5b3fcd0927053489b62c0b0024bb9d56b0fbc1f8fa6dfb8aaeb",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

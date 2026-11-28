@@ -1,0 +1,124 @@
+{
+ "picture": "PV6-C-3.png",
+ "map": "../pv6c6/img/pv6-C-regions.png",
+ "method": "OKLCH",
+ "hueBand": [
+  285.0,
+  355.0
+ ],
+ "gates": {
+  "walls and deck in the base": "at least 60% of the wall and deck area: hue 285-355, chroma 0.035 or more, lightness 0.15 or more",
+  "each wall and the deck in the base": "at least 45% of each area on its own",
+  "orange capped": "at most 8% of the picture warm orange (hue 30-75, chroma 0.10 or more, lightness 0.60 or more)",
+  "rust capped": "at most 3% of the picture rust (hue 25-55, chroma 0.05-0.11, lightness 0.30-0.50)",
+  "no tan or olive": "at most 3% of the wall and deck area in hue 70-115 (chroma 0.035 or more, lightness 0.15-0.80)",
+  "not grey": "at most 15% of the wall and deck area neutral grey (chroma under 0.035, lightness 0.15 or more)",
+  "median lightness": "the median lightness of the wall and deck area between 0.30 and 0.60",
+  "accents only orange, cream, rust, blue-green": "at most 0.2% of the picture bright and saturated (lightness 0.55+, chroma 0.08+) outside hue 285-355, 355-105 and 170-235",
+  "openings flat black": "the window, the screen and the skylight: 95% of each opening under lightness 0.12"
+ },
+ "areas": {
+  "walls and deck": {
+   "pixels": 633058,
+   "inBase": 0.8074,
+   "tanOlive": 0.0,
+   "grey": 0.0016,
+   "tooDark": 0.0198,
+   "medianL": 0.408,
+   "onRamp": "between shadow (0.357) and mid (0.491)",
+   "medianChroma": 0.098,
+   "medianHueOfReadable": 334.0
+  },
+  "back wall": {
+   "pixels": 203551,
+   "inBase": 0.6896,
+   "tanOlive": 0.0001,
+   "grey": 0.0028,
+   "tooDark": 0.0339,
+   "medianL": 0.398,
+   "onRamp": "between shadow (0.357) and mid (0.491)",
+   "medianChroma": 0.103,
+   "medianHueOfReadable": 326.0
+  },
+  "side walls": {
+   "pixels": 104153,
+   "inBase": 0.7341,
+   "tanOlive": 0.0001,
+   "grey": 0.0034,
+   "tooDark": 0.0394,
+   "medianL": 0.405,
+   "onRamp": "between shadow (0.357) and mid (0.491)",
+   "medianChroma": 0.102,
+   "medianHueOfReadable": 333.5
+  },
+  "deck": {
+   "pixels": 325354,
+   "inBase": 0.9045,
+   "tanOlive": 0.0,
+   "grey": 0.0003,
+   "tooDark": 0.0048,
+   "medianL": 0.411,
+   "onRamp": "between shadow (0.357) and mid (0.491)",
+   "medianChroma": 0.097,
+   "medianHueOfReadable": 336.1
+  },
+  "window": {
+   "pixels": 55464,
+   "p95L": 0.077,
+   "medianL": 0.0
+  },
+  "screen": {
+   "pixels": 11680,
+   "p95L": 0.067,
+   "medianL": 0.0
+  },
+  "display": {
+   "pixels": 3516,
+   "p95L": 0.672,
+   "medianL": 0.288
+  },
+  "liquid": {
+   "pixels": 0,
+   "p95L": null,
+   "medianL": null
+  },
+  "skylight": {
+   "pixels": 226439,
+   "p95L": 0.067,
+   "medianL": 0.0
+  },
+  "lamp": {
+   "pixels": 5402,
+   "p95L": 0.952,
+   "medianL": 0.635
+  }
+ },
+ "warm": {
+  "orange": 0.0425,
+  "rust": 0.0028,
+  "cream": 0.0089,
+  "blueGreen": 0.0002
+ },
+ "accents": {
+  "brightSaturated": 0.0991,
+  "strayShare": 4e-05,
+  "strayPixels": 64
+ },
+ "result": {
+  "walls and deck in the base": true,
+  "each wall and the deck in the base": true,
+  "orange capped": true,
+  "rust capped": true,
+  "accents only orange, cream, rust, blue-green": true,
+  "no tan or olive": true,
+  "not grey": true,
+  "median lightness": true,
+  "openings flat black": true
+ },
+ "pass": true,
+ "copy": {
+  "of": "Room B Four Views (the image builder’s records page), version 1795044447-5e2a, records/PV6-C-3-colour.json",
+  "originalSha256": "ba97fbf6fcce11bb4752bc78e32bae32f2c30de1fbf8594918147837c8a2832f",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

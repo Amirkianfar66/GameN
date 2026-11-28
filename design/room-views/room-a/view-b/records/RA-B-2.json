@@ -1,0 +1,446 @@
+{
+ "piece": "RA-B",
+ "pass": "step 1, the empty room, from the guide alone (s1, sheet v1.1)",
+ "attempt": 3,
+ "generated": true,
+ "label": "AI-generated image",
+ "runner": "Designer team Image builder (Claude Code session)",
+ "tool": "OpenAI Images API, POST /v1/images/edits (one input image, no mask)",
+ "date": "2026-11-27T16:59:05+00:00",
+ "request_id": "req_8b251b5954ef47fb9b09f758e8cdca1c",
+ "authority": "the Lead's go of 27 November 2026 for one run of RA-B step 1 on sheet v1.1 (RA-B-2)",
+ "sheet": {
+  "page": "Room A sheet RA-B",
+  "version": "1795798187-af10",
+  "manifest": {
+   "file": "room-a-ra-b.json",
+   "sha256": "87851edb45ee2cb44d66bddfaf8577d636377775afd39db10f2854682e428a65"
+  },
+  "prompts": {
+   "file": "room-a-ra-b-prompts.txt",
+   "sha256": "f78dcff4fc8f3fb24647202d56872660e81aa90a92fb0b4c8fcd33e126f41b1a"
+  }
+ },
+ "tools": {
+  "rb1_tools.py": "4c9dd4720f2cc1298c7cad92c09b549d561a287e4f3f76584a7acb343d578b06",
+  "lift5.py": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+  "colour-check-ra1.py": "c882f4f8259b44bf8d689021daa2e5b0e8f028539cc076cc457fe144f582dbd2",
+  "kitCheck": "all files and expected hashes match",
+  "measure": "gen/rab_measure.py (reads the guide's seam slope as 0.183)"
+ },
+ "prompt_key": "s1",
+ "prompt": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool blue-steel shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom A, the crew bay, in the same illustrated world: blue steel, lit warm. The whole room is one blue-steel family, the colours of the attached guide: deep navy in the shadows and corners (#14243F, #1D3D6B), steel blue on the walls and the deck (#2D609E), turning paler where the light falls (#5C92CC, #A9CAEB). The light is warm: the two light bars glow cream along their length (#FCE3A0), with a warm paper-white glow (#F4EBDD) on the ceiling around them and soft pools of pale light on the deck below. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige, olive, purple or violet. The shadows are deep navy, never black-brown or grey. Labels and paper are blank, in a warm paper white (#F4EBDD). Small indicator lights are warm orange (#EC793C); no other coloured light, and no green, purple or red light. Each indicator is a single small dot, never several in a row or a column. Practical and worn, a working bay, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThe room: Room A, the crew bay, a 4 m square room with a 3 m ceiling, here with no furniture in it. The ceiling is solid steel panels, with no skylight and no opening in it: two long light bars set into it run across the room about 1.4 m apart, each glowing warm cream along its whole length behind a plain diffuser, lighting the ceiling around it and throwing soft pools of light on the deck below. In the middle of the north wall, about 1.95 m above the deck, a round window about 1 m across sits in a heavy steel frame; its glass is flat black and empty, with nothing seen through it. The walls are steel panels, pipes, conduits, cable runs and small lockers, worn and repaired, darker toward the deck, with a narrow rust-brown kick strip along their foot; the deck is metal plates with seams, scuffs and a little rust, lit pale under the light bars and darker toward the corners. No beams, rays or shafts of light in the air.\n\nView: a straight-lined view at standing eye height, exactly as the attached guide shows: 80 degrees across and level, every vertical line perfectly straight and upright, every straight line in the room straight in the picture. The horizon, at eye level, is a straight line 714 px from the top, a little above the middle. Match the guide's layout, perspective, horizon and proportions exactly, line for line, as its floor seams, wall bases, corners and ceiling edges show. Do not curve the lines, tilt the view, zoom in or out, or move the horizon.\n\nThis picture: from a place by the south wall, at its middle, at standing eye height, looking across the room toward the north wall. Ahead, the north wall, from its corner with the west wall a little left of the middle out to the right edge, with the round window right of the middle; on the left, the west wall. The north wall is seen at a slant, not square on: its foot and the deck seams along it run down from the far corner to the right edge, as the guide shows. Above, the solid ceiling, with the two light bars running across it from left to right, the nearer one high at the top of the picture and the farther one lower, nearer the far wall. The deck is open and clear, with nothing standing on it, while the walls keep their pipes, panels and conduits.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+ "prompt_sha256": "fc22f7ccdfe9b1b23bbb1e931764bc53f50450e0302a7d96ce9f30e38d2e4df0",
+ "revised_prompt": null,
+ "inputs": [
+  {
+   "order": 1,
+   "file": "ra-B-empty.png",
+   "sha256": "9b522addc87bda21d0d90f3d701e09f70f3803a826bbcf2952489de5d9145861"
+  }
+ ],
+ "mask": null,
+ "settings": {
+  "size": "1024x1536",
+  "quality": "high",
+  "n": 1,
+  "seed": null,
+  "background": "opaque",
+  "output_format": "png"
+ },
+ "output": {
+  "file": "RA-B-2.png",
+  "sha256": "aefddadcb3ce554c215d121dd7a49b8e4197a1dcce77325e54982252c8038605",
+  "width": 1024,
+  "height": 1536,
+  "retouched": false
+ },
+ "usage": {
+  "input_tokens": 2620,
+  "input_tokens_details": {
+   "image_tokens": 1536,
+   "text_tokens": 1084
+  },
+  "output_tokens": 1372,
+  "output_tokens_details": {
+   "image_tokens": 1372,
+   "text_tokens": 0
+  },
+  "total_tokens": 3992
+ },
+ "cost_usd_est": 0.0589,
+ "roomARunningTotal": {
+  "images": 9,
+  "usd": 0.5176,
+  "cap": "under $5"
+ },
+ "terms": "Generated with OpenAI's image model under its Terms of Use as checked by the Lead (c8fbc793): the user owns the output; it is never presented as made by a person.",
+ "check": {
+  "by": "Image builder (rb1_tools.py colours; gen/rab_measure.py for the base, the seam slope and the lit cells; the base also by eye on a zoom; the rest by eye). Not the Designer's review.",
+  "colour": {
+   "pass": true,
+   "result": {
+    "walls and deck in the base": true,
+    "each wall and the deck in the base": true,
+    "orange capped": true,
+    "rust capped": true,
+    "no tan or olive": true,
+    "not purple": true,
+    "not grey": true,
+    "median lightness": true,
+    "accents only orange, cream, rust": true,
+    "openings flat black": true
+   },
+   "window": {
+    "pixels": 20942,
+    "p95L": 0.065,
+    "medianL": 0.0
+   }
+  },
+  "measure": {
+   "base": {
+    "420": [
+     954,
+     980,
+     26
+    ],
+    "520": [
+     967,
+     988,
+     21
+    ],
+    "620": [
+     980,
+     997,
+     17
+    ],
+    "720": [
+     993,
+     1059,
+     66
+    ],
+    "820": [
+     1007,
+     1016,
+     9
+    ],
+    "920": [
+     1020,
+     1060,
+     40
+    ],
+    "1000": [
+     1030,
+     1034,
+     4
+    ]
+   },
+   "cells": [
+    [
+     15,
+     337,
+     339,
+     536,
+     541
+    ],
+    [
+     45,
+     478,
+     484,
+     593,
+     602
+    ],
+    [
+     63,
+     934,
+     942,
+     786,
+     794
+    ],
+    [
+     19,
+     493,
+     510,
+     976,
+     977
+    ],
+    [
+     36,
+     553,
+     587,
+     981,
+     983
+    ],
+    [
+     21,
+     589,
+     609,
+     984,
+     985
+    ],
+    [
+     32,
+     714,
+     745,
+     995,
+     997
+    ],
+    [
+     39,
+     759,
+     790,
+     999,
+     1001
+    ],
+    [
+     15,
+     268,
+     280,
+     1024,
+     1033
+    ],
+    [
+     16,
+     252,
+     265,
+     1035,
+     1045
+    ],
+    [
+     31,
+     223,
+     247,
+     1048,
+     1065
+    ],
+    [
+     58,
+     155,
+     196,
+     1085,
+     1115
+    ],
+    [
+     71,
+     106,
+     153,
+     1116,
+     1151
+    ]
+   ],
+   "seam": {
+    "slope": 0.156,
+    "intercept": 981.8,
+    "pointsUsed": 25,
+    "of": 28,
+    "points": [
+     [
+      440,
+      1051,
+      -45.1
+     ],
+     [
+      460,
+      1054,
+      -52.8
+     ],
+     [
+      480,
+      1054,
+      -26.5
+     ],
+     [
+      500,
+      1061,
+      -48.5
+     ],
+     [
+      520,
+      1063,
+      -56.5
+     ],
+     [
+      540,
+      1066,
+      -56.8
+     ],
+     [
+      560,
+      1069,
+      -55.4
+     ],
+     [
+      580,
+      1072,
+      -49.6
+     ],
+     [
+      600,
+      1076,
+      -47.5
+     ],
+     [
+      620,
+      1079,
+      -51.3
+     ],
+     [
+      640,
+      1082,
+      -48.7
+     ],
+     [
+      660,
+      1084,
+      -44.3
+     ],
+     [
+      680,
+      1088,
+      -51.7
+     ],
+     [
+      700,
+      1090,
+      -42.4
+     ],
+     [
+      720,
+      1095,
+      -38.0
+     ],
+     [
+      740,
+      1097,
+      -49.2
+     ],
+     [
+      760,
+      1101,
+      -43.3
+     ],
+     [
+      780,
+      1103,
+      -43.4
+     ],
+     [
+      800,
+      1107,
+      -38.3
+     ],
+     [
+      820,
+      1110,
+      -42.4
+     ],
+     [
+      840,
+      1114,
+      -53.5
+     ],
+     [
+      860,
+      1116,
+      -46.9
+     ],
+     [
+      880,
+      1119,
+      -45.0
+     ],
+     [
+      900,
+      1123,
+      -49.2
+     ],
+     [
+      920,
+      1126,
+      -43.3
+     ],
+     [
+      940,
+      1129,
+      -45.2
+     ],
+     [
+      960,
+      1135,
+      -38.2
+     ],
+     [
+      980,
+      1138,
+      -20.7
+     ]
+    ]
+   }
+  },
+  "comparison": [
+   {
+    "point": "x 420",
+    "RA-B-1": "+36",
+    "RA-B-1b": "+66",
+    "RA-B-2": "+26"
+   },
+   {
+    "point": "x 520",
+    "RA-B-1": "no clean reading",
+    "RA-B-1b": "+56",
+    "RA-B-2": "+21"
+   },
+   {
+    "point": "x 620",
+    "RA-B-1": "+19",
+    "RA-B-1b": "+45",
+    "RA-B-2": "+17"
+   },
+   {
+    "point": "x 720",
+    "RA-B-1": "+11",
+    "RA-B-1b": "+35",
+    "RA-B-2": "+13 (by eye; the tool caught deck rust, +66)"
+   },
+   {
+    "point": "x 820",
+    "RA-B-1": "+7",
+    "RA-B-1b": "+24",
+    "RA-B-2": "+9"
+   },
+   {
+    "point": "far deck seam slope (guide 0.182, ±25%)",
+    "RA-B-1": "0.047",
+    "RA-B-1b": "not measured",
+    "RA-B-2": "0.156"
+   },
+   {
+    "point": "window p95 lightness (under 0.12)",
+    "RA-B-1": "0.067",
+    "RA-B-1b": "0.552",
+    "RA-B-2": "0.065"
+   },
+   {
+    "point": "lit cells",
+    "RA-B-1": "columns of three on two boxes",
+    "RA-B-1b": "columns of two on two boxes",
+    "RA-B-2": "single small dots only"
+   }
+  ],
+  "byEye": "Misses the Lead's point 1: the back wall's base is still low on its left: +26 px at x 420, +21 at x 520, +17 at x 620 (want within 16); +13 at x 720 and +9 at x 820 pass. The painted base slopes about 0.105 against the map's 0.143, closer than RA-B-1. Passes points 2 to 5: the far deck seam's slope 0.156 (guide 0.182, within 25%; RA-B-1 0.047); all 10 colour gates, the window flat black (p95 0.065); the indicators single small dots, no rows or columns; deck clear, ceiling solid, papers blank, no people, words, logos or purple.",
+  "verdict": "misses point 1 (base +26/+21/+17 at x 420/520/620); passes points 2-5",
+  "result": "accepted as view B's step 1",
+  "reason": "Lead Designer, 27 November 2026: accepted as view B's step 1. v1.1 turned the deck (seam 0.156) and the corner sits on the guide. The 17-26 px base at x 420-620 lies behind where the desk goes: the Rooms builder extends the desk's mask down to the painted base in v2, so nothing shows. RA-B-1 stays recorded as the old fallback."
+ },
+ "review": {
+  "by": "Lead Designer",
+  "date": "2026-11-27",
+  "result": "accepted as view B's step 1",
+  "note": "v1.1 turned the deck (seam 0.156) and the corner sits on the guide. The 17-26 px base at x 420-620 lies behind where the desk goes: the Rooms builder extends the desk's mask down to the painted base in v2, so nothing shows. RA-B-1 stays recorded as the old fallback."
+ },
+ "copy": {
+  "of": "Room A Records (the image builder’s records page), version 1795828303-eac0, records/RA-B-2.json",
+  "originalSha256": "c9f0136789ab22e9e2d9f985acc1ad2eaf4f80390d57d765b3be035a0a72aca4",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

@@ -1,0 +1,199 @@
+{
+ "view": "C",
+ "what": "step 4 over PV6-C-4: the three glass jars' tops, blurred off at step 2's PLACE mask, and the dispenser's left edge, which has no ink line (the Lead, 18 November; the owner's yes)",
+ "method": "each jar's outline columns below the cut (the darkest column in a window, the median over rows), its base's front edge at the centre column; the flask's sides fitted as lines; the cylinders' heights and the flask's neck set by the proportions recorded here; the dispenser's side at the middle of its soft ramp, its hatch's face the paper-white from its left edge in each of the hatch's rows; colours as medians of the picture's pixels",
+ "source": {
+  "label": "PV6-C-4",
+  "records": "img/PV6-C-4.png",
+  "sha256": "b634e18b7d552590746cacd3d5614b845fcaaad3be9e11076a84db0e9f5b220a"
+ },
+ "ellipseRatio": 0.21,
+ "jars": [
+  {
+   "name": "coral jar",
+   "kind": "cylinder",
+   "outline": [
+    169,
+    241
+   ],
+   "width": 72,
+   "baseBottom": 1169,
+   "baseCentre": 1161.4,
+   "ellipseHalfHeight": 7.6,
+   "heightOverWidth": 0.95,
+   "height": 68,
+   "rimCentre": 1093.4,
+   "glass": [
+    202,
+    107,
+    114
+   ]
+  },
+  {
+   "name": "bead jar",
+   "kind": "cylinder",
+   "outline": [
+    250,
+    294
+   ],
+   "width": 44,
+   "baseBottom": 1156,
+   "baseCentre": 1151.4,
+   "ellipseHalfHeight": 4.6,
+   "heightOverWidth": 1.15,
+   "height": 51,
+   "rimCentre": 1100.4,
+   "glass": [
+    172,
+    86,
+    99
+   ]
+  },
+  {
+   "name": "flask",
+   "kind": "flask",
+   "sides": {
+    "left": [
+     308.58,
+     -0.401
+    ],
+    "right": [
+     345.14,
+     0.36
+    ],
+    "form": "x = a + b (y - 1100), fitted over y 1100-1124"
+   },
+   "baseWidth": 56,
+   "baseBottom": 1142,
+   "ellipseHalfHeight": 5.9,
+   "neckOverBase": 0.4,
+   "neckWidth": 22.4,
+   "shoulder": 1081.4,
+   "axis": 327.2,
+   "neckHeightOverBase": 0.25,
+   "neckHeight": 14,
+   "lipCentre": 1067.4,
+   "lipWidth": 26.4,
+   "lipHalfHeight": 2.8,
+   "glass": [
+    132,
+    62,
+    101
+   ]
+  }
+ ],
+ "ink": [
+  26,
+  2,
+  16
+ ],
+ "band": {
+  "side": 610.5,
+  "outside": 4,
+  "inside": 6,
+  "columns": [
+   607,
+   616
+  ],
+  "top": 785,
+  "bottom": 865,
+  "insideRows": [
+   785,
+   816
+  ],
+  "hatch": {
+   "frameRow": 818,
+   "faceRows": [
+    819,
+    862
+   ],
+   "faceLeftByRow": {
+    "819": 611,
+    "820": 611,
+    "821": 611,
+    "822": 611,
+    "823": 611,
+    "824": 611,
+    "825": 611,
+    "826": 611,
+    "827": 611,
+    "828": 611,
+    "829": 611,
+    "830": 611,
+    "831": 611,
+    "832": 611,
+    "833": 611,
+    "834": 611,
+    "835": 611,
+    "836": 611,
+    "837": 611,
+    "838": 611,
+    "839": 611,
+    "840": 611,
+    "841": 611,
+    "842": 611,
+    "843": 611,
+    "844": 611,
+    "845": 611,
+    "846": 611,
+    "847": 611,
+    "848": 611,
+    "849": 611,
+    "850": 611,
+    "851": 611,
+    "852": 611,
+    "853": 611,
+    "854": 611,
+    "855": 611,
+    "856": 611,
+    "857": 611,
+    "858": 611,
+    "859": 611,
+    "860": 611,
+    "861": 611,
+    "862": 611
+   }
+  },
+  "housing": [
+   149,
+   61,
+   102
+  ],
+  "rightOutline": {
+   "column": 673,
+   "rows": [
+    796,
+    840
+   ],
+   "rgb": [
+    52,
+    11,
+    43
+   ],
+   "widthPx": 1
+  },
+  "ink": {
+   "rgb": [
+    52,
+    11,
+    43
+   ],
+   "columns": [
+    609,
+    610
+   ],
+   "rows": [
+    793,
+    865
+   ],
+   "widthPx": 2
+  },
+  "housingRows": [
+   795,
+   816
+  ],
+  "rule": "the housing's left side, 4 px outside and 6 px inside, from its rounded top (y 785, below the shelf's line) to the bench (y 865); inside the side only above the hatch (its frame line and face below stay out), so none of the hatch's face; the guide draws the housing's colour inside and a 2 px line in the right outline's colour (1 px there; 2 so the edit reads it) just outside"
+ },
+ "shapeMargin": 2,
+ "cutBelow": 4
+}

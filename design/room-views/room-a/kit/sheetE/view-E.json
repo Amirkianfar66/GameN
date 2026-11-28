@@ -1,0 +1,44 @@
+{
+ "view": "E",
+ "sheet": "RA-E",
+ "roles": {
+  "south": "back",
+  "east": "left",
+  "west": "right"
+ },
+ "inView": {
+  "window": false,
+  "screens": false,
+  "capsule": false,
+  "own": [
+   "floor hatch",
+   "hatch lid",
+   "toolbox"
+  ]
+ },
+ "own": [
+  "floor hatch",
+  "hatch lid",
+  "toolbox"
+ ],
+ "slices": {
+  "390x844": [
+   84.7,
+   52,
+   939.3,
+   1482.8
+  ],
+  "430x932": [
+   84.7,
+   31.1,
+   939.3,
+   1503.6
+  ],
+  "402x742": [
+   84.7,
+   181.8,
+   939.3,
+   1353
+  ]
+ }
+}

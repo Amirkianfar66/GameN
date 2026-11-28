@@ -1,0 +1,42 @@
+[
+ {
+  "file": "ra-E-1-masks.png",
+  "alt": "AI-generated picture RA-E-1, view E's empty room, with version 2's masks tinted over it",
+  "caption": "AI-generated picture RA-E-1, with step 2\u2019s mask over it (tinted, its edge gold); the selective 12 px growth tinted cyan, its new edge cyan.",
+  "w": 1024,
+  "h": 1536,
+  "section": "step1"
+ },
+ {
+  "file": "ra-E-1-features-1.png",
+  "alt": "AI-generated picture RA-E-1, x 0 to 146, with the traced features in cyan and the exception zones in magenta",
+  "caption": "AI-generated picture RA-E-1, x 0\u2013146, y 499\u20131135 at 2\u00d7: features cyan, exception zones magenta, the mask gold.",
+  "w": 292,
+  "h": 1272,
+  "section": "rule15"
+ },
+ {
+  "file": "ra-E-1-features-2.png",
+  "alt": "AI-generated picture RA-E-1, x 730 to 1024, with the traced features in cyan and the exception zones in magenta",
+  "caption": "AI-generated picture RA-E-1, x 730\u20131024, y 758\u20131208 at 2\u00d7: features cyan, exception zones magenta, the mask gold.",
+  "w": 588,
+  "h": 900,
+  "section": "rule15"
+ },
+ {
+  "file": "ra-E-1-crates-foot.png",
+  "alt": "AI-generated picture RA-E-1, the crates' far end, zoomed",
+  "caption": "AI-generated picture RA-E-1, the crates' far end at 3\u00d7: version 2's mask red, version 1.1's gold; the crates' outline cyan; the painted wall foot magenta, its seam green.",
+  "w": 510,
+  "h": 420,
+  "section": "crates"
+ },
+ {
+  "file": "ra-E-1-cabinet-edge.png",
+  "alt": "AI-generated picture RA-E-1, the cabinet's side, zoomed",
+  "caption": "AI-generated picture RA-E-1, the cabinet's side at 2\u00d7: the cabinet's mask red; its outline cyan; the painted corner green, x 107.",
+  "w": 380,
+  "h": 880,
+  "section": "cabinet"
+ }
+]

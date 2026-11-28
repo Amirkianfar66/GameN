@@ -1,0 +1,195 @@
+{
+ "piece": "RA-D",
+ "pass": "step 3, the food capsule, one masked edit of RA-D-3hc",
+ "attempt": 4,
+ "generated": true,
+ "label": "AI-generated image",
+ "runner": "Designer team Image builder (Claude Code session)",
+ "tool": "OpenAI Images API, POST /v1/images/edits (one input image with an RGBA mask)",
+ "date": "2026-11-27T23:50:17+00:00",
+ "request_id": "req_fd57f4afcaef41b5b80307bf753862f0",
+ "authority": "the Lead's go of 27 November 2026 (about 23:49 UTC) for view D's step 3 (the food capsule), one masked edit on RA-D-3hc, sheet RA-D v2.3",
+ "sheet": {
+  "page": "Room A sheet RA-D",
+  "version": "1795822738-4ed7",
+  "manifest": {
+   "sha256": "36593953b9b7d8c077b62f0ef469658ac67b0dc624d8bd26e5999b2954d03d3d"
+  },
+  "prompts": {
+   "sha256": "dbbf86bc3cd1f9cba0eb1ef067c3b60afd7c2708e0c0221ce65bdd3d2eb823f0"
+  }
+ },
+ "tools": {
+  "rd1_tools.py": "b9ee2a3bc0b0c692ca0c845b4aba1f29404ed1f2180e9b6db303f2cf9e8dd5e8",
+  "compositeD3hc.py": "d9e8fcabb322cd95ba47449dec42b7db2adab2690bc2de64a51b6797b2f94617",
+  "colour-check-ra1.py": "c882f4f8259b44bf8d689021daa2e5b0e8f028539cc076cc457fe144f582dbd2",
+  "lift5.py": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+  "kitCheck": "all files and expected hashes match",
+  "base": "RA-D-3hc rebuilt with compositeD3hc.py from RA-D-3h, RA-D-3h-raw and RA-D-3x on this page: pixels 5a7f55ad9bbf048e0784afe8da0c2dd49d10fadedc33a275208872b5d7beef09, as the kit expects; painted-D.json identical to the sheet's"
+ },
+ "prompt_key": "s3",
+ "prompt": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool blue-steel shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom A, the crew bay, in the same illustrated world: blue steel, lit warm. The whole room is one blue-steel family, the colours of the attached guide: deep navy in the shadows and corners (#14243F, #1D3D6B), steel blue on the walls and the deck (#2D609E), turning paler where the light falls (#5C92CC, #A9CAEB). The light is warm: the two light bars glow cream along their length (#FCE3A0), with a warm paper-white glow (#F4EBDD) on the ceiling around them and soft pools of pale light on the deck below. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige, olive, purple or violet. The shadows are deep navy, never black-brown or grey. Labels and paper are blank, in a warm paper white (#F4EBDD). Small indicator lights are warm orange (#EC793C); no other coloured light, and no green, purple or red light. Each indicator is a single small dot, never several in a row or a column. Practical and worn, a working bay, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the masked shape, and leave everything outside it exactly as it is. The masked shape holds one small food dispenser that fills the shape exactly, with nothing of it outside the shape, painted in full detail in the picture's style and light. It is mounted on the right-hand wall, a little right of the far corner and left of the electrical cabinet, on a bracket in the wall's own colours, at waist to chest height: a narrow upright steel housing about 0.32 m wide, 0.55 m tall and 0.22 m deep; a small round lens high on its front, unlit and dark; below it, a large closed hatch of warm paper-white filling most of the front, with a small dark handle along its bottom edge; no vent slots; nothing written, printed or lit on it. Paint it in the same metal, paint and wear as the furniture in the picture.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+ "prompt_sha256": "3b5b159f8e4e37d5ba15f32668c9cd9aa7adaec1e2180ffdc9e7d80eeb093eb8",
+ "revised_prompt": null,
+ "inputs": {
+  "picture": {
+   "file": "ra-D-3hc.png",
+   "sha256": "715e4e3baca20b699bb57e85bdd815d7facc60af3bbbd3d6ce18fca7f4f651d4",
+   "pixels": "5a7f55ad9bbf048e0784afe8da0c2dd49d10fadedc33a275208872b5d7beef09",
+   "aiGenerated": true,
+   "codeComposite": true
+  },
+  "sentImage": {
+   "file": "RA-D-4-S3-input.png",
+   "sha256": "d657602ce03e9a9c38a9a1d67f3216db350dbbf34311c8a1a294bb3714296a5b"
+  },
+  "sentMask": {
+   "file": "RA-D-4-S3-mask.png",
+   "sha256": "caa7e592eb9f783671c84e5ea005e595d76b3895d38159ad551e08ec80f98c0b",
+   "convention": "alpha 0 = repaint",
+   "maskedShare": 0.0042,
+   "rawMaskAlpha": "894867aaba0460955312e1080a5acf0adea0f59d819cc2180833a5dd3a1257b8"
+  },
+  "guide": {
+   "file": "img/ra-D-guide.png",
+   "sha256": "567f981381a29c068b882f072cc0607cf8a4bc0a8cc0a0efa214d41e1e7025a8"
+  },
+  "placeMask": {
+   "file": "img/ra-D-place3.png",
+   "sha256": "796dcb31de2abf2218a6364564b8efd5579bbe484a44c3ea915ffec8ddb667dd"
+  },
+  "split": {
+   "file": "img/ra-D-split3.png",
+   "sha256": "9056896c711e3d548378d8e43ca8133fc03fad64e7150603f0e8544f9b74d6ef"
+  }
+ },
+ "settings": {
+  "size": "1024x1536",
+  "quality": "high",
+  "n": 1,
+  "seed": null
+ },
+ "output": {
+  "raw": {
+   "file": "RA-D-4-raw.png",
+   "sha256": "5b744e667bfbc275a1947672bf6b405e0e13f74e52bae2e4a268e446f33a1a86"
+  },
+  "kept": {
+   "file": "RA-D-4.png",
+   "sha256": "4b1c22bedee4232919863bdcccd6a38e06c9dae92c977a0d1ff585b4bec1f45a",
+   "how": "the raw edit over RA-D-3hc inside step 3's mask, feathered by a 2 px Gaussian (rd1_tools.py keep3)"
+  },
+  "retouched": false
+ },
+ "usage": {
+  "input_tokens": 2305,
+  "input_tokens_details": {
+   "image_tokens": 1536,
+   "text_tokens": 769
+  },
+  "output_tokens": 1372,
+  "output_tokens_details": {
+   "image_tokens": 1372,
+   "text_tokens": 0
+  },
+  "total_tokens": 3677
+ },
+ "cost_usd_est": 0.0573,
+ "roomARunningTotal": {
+  "images": 20,
+  "usd": 1.1563,
+  "cap": 5
+ },
+ "terms": "Generated with OpenAI's image model under its Terms of Use as checked by the Lead (c8fbc793): the user owns the output; it is never presented as made by a person.",
+ "check": {
+  "by": "Image builder (rd1_tools.py s3, keep3, lift3 and colours D 3; the capsule's edges by eye on a 3x zoom, raw beside kept, with the shape's outline). Not the Designer's review.",
+  "colour": {
+   "pass": true,
+   "result": {
+    "walls and deck in the base": true,
+    "each wall and the deck in the base": true,
+    "orange capped": true,
+    "rust capped": true,
+    "no tan or olive": true,
+    "not purple": true,
+    "not grey": true,
+    "median lightness": true,
+    "accents only orange, cream, rust": true,
+    "openings flat black": true
+   },
+   "window": {
+    "pixels": 36245,
+    "p95L": 0.047,
+    "medianL": 0.0
+   }
+  },
+  "lift3": {
+   "view": "D",
+   "step": 3,
+   "recipe": "the Lead's recipe of 18 November (lift5.py): d, the largest of |placed - start| over R, G and B; the pixels where d is above 16, inside the mask; closed with a 7 x 7 max then a 7 x 7 min, kept inside the mask; holes filled; parts under 400 px dropped; feathered with a 1 px Gaussian; clipped to the mask",
+   "start": {
+    "isRA-D-3hc": true
+   },
+   "pieces": {
+    "wall food capsule": {
+     "file": "RA-D-4-wall-food-capsule.png",
+     "sha256": "89668efc2023c6d099c9684679308c720abbc5b800dae38e1090d50c625cedfd",
+     "px": 6574,
+     "x": [
+      634,
+      701
+     ],
+     "y": [
+      720,
+      818
+     ],
+     "shareOfItsOutline": 0.9995
+    }
+   },
+   "missing": [],
+   "rebuildMeanAbsDiff": 0.0111
+  },
+  "capsule": {
+   "shapeBox": [
+    634,
+    701,
+    720,
+    818
+   ],
+   "rawEdgesApprox": {
+    "left": 633,
+    "top": 721,
+    "right": "702-705",
+    "bottom": 829,
+    "bracketBottom": 848
+   },
+   "cutInKept": [
+    "the bottom edge and the handle's lower half",
+    "the bracket plate",
+    "the right side's outer ink line"
+   ]
+  },
+  "outsideMask": {
+   "grownBy": 4,
+   "maxAbsDiff": 1,
+   "meanAbsDiff": 0.0001
+  },
+  "byEye": "1. The raw paints the capsule whole and in its place, on the right-hand wall right of the far corner and left of the cabinet's light box: a narrow upright steel housing with a crisp ink outline all round, on a wall-coloured bracket plate beneath it. Its left side (x about 633, the shape's 634) and top (y about 721, the shape's 720) sit on the shape; its right side face runs about 2-4 px past it (to x about 702-705), its bottom edge with the handle about 11 px below it (to y about 829, the shape's 818), and the bracket plate about 30 px below (to y about 848). The keep cuts it there: in RA-D-4 the housing's bottom edge, its handle's lower half and the bracket are cut along the shape's lower edge, and the right side's outer ink line along its right edge, so the housing fades into the wall at the bottom. Kept, as the go says, with the raw beside it, for completion in code. 2. Its front passes: a small round lens high up, unlit and dark; below it, a closed hatch in warm paper-white filling most of the front, with a small handle along its bottom edge; no vent slots, nothing written, printed or lit, and no new indicator light (the light box's orange dot to its right is RA-D-3hc's, unchanged). 3. Outside the mask: keep3 reports that beyond the mask grown 4 px RA-D-4 differs from RA-D-3hc by at most 1 level (mean 0.0001); the hatch, toolbox, desk, screens, cabinet and window are unchanged. 4. colours D 3 passes all 10 gates on step 2b's map (base 0.888, median lightness 0.445, openings flat black); no people, words, logos or purple.",
+  "verdict": "kept, as the go asks: the raw paints the capsule whole, the keep cuts its bottom, handle, bracket and right outline at the shape's edge; for completion in code"
+ },
+ "review": {
+  "result": "accepted by the Lead (27 November, about 23:58 UTC) for completion in code by Rooms; bracket plate left out",
+  "by": "the Lead, 27 November 2026",
+  "plan": "The Rooms builder completes it as RA-D-4c: the housing closed on its own ink, with its bottom edge, handle and right outline taken from the raw; the bracket plate left out, to match view A's accepted capsule, which has none; the toolbox's shadow added from RA-D-3h's raw in the same code step.",
+  "checkedByLead": {
+   "raw": "5b744e66…",
+   "kept": "4b1c22be…",
+   "start": "715e4e3b…"
+  }
+ },
+ "copy": {
+  "of": "Room A Records (the image builder’s records page), version 1795828303-eac0, records/RA-D-4.json",
+  "originalSha256": "339aebdc57657c2847ae43357e5e8cc7f0602dd00b90d9ecb5f9bd6d515fca2d",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

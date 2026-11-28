@@ -1,0 +1,829 @@
+{
+ "view": "C",
+ "layers": "the records page's layers (picture.json), by the Lead's recipe: d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November); the furniture from PV6-C-3 over PV6-C-2, step 3's four pieces (the food capsule, Juno's stool, the two vent strips) from PV6-C-4 over PV6-C-3",
+ "camera": "straight lines: d = forward + u right + v up; depth along the camera's axis",
+ "rule": "by depth alone: each pixel after every person farther than it; a seat stays behind its owner; the vent strips are wall, behind everyone (band 0); step 3's bands each just after the furniture band of the same number, and a step-3 pixel painted over a furniture pixel never under it; step 4's parts at the depth of the piece each belongs to, their bands (fix-<b>) each just after step 3's of the same number, never under a pixel they were painted over",
+ "layers4": "step 4's parts lifted from PV6-C-5 over PV6-C-4: the coral jar top, the bead jar top, the flask top; the dispenser's left edge did not take in that edit and is drawn by code in its own file, just after the capsule's (edge4-C.json)",
+ "benchWallStrip": {
+  "record": "bench-C.json",
+  "sha256": "5d05c499edcbefe69feef0a8024b7eb6209ee6620f998b35f125ac6432bfa13e",
+  "px": 2095,
+  "fromBands": {
+   "0": 99,
+   "1": 18,
+   "2": 1978
+  },
+  "toBand": 0
+ },
+ "parts": [
+  {
+   "station": "B laptop cart",
+   "file": "PV6-C-3-B-laptop-cart.png",
+   "from": "PV6-C-3",
+   "px": 121602,
+   "x": [
+    70,
+    399
+   ],
+   "y": [
+    1099,
+    1535
+   ],
+   "inItsOutline": 1.0,
+   "outlineCovered": 0.9536,
+   "iouWithOutline": 0.9075,
+   "offPlan": {
+    "left": -6,
+    "right": 6,
+    "top": -6,
+    "bottom": 0,
+    "centre": [
+     2.5,
+     -13.9
+    ]
+   }
+  },
+  {
+   "station": "D bench",
+   "file": "PV6-C-3-D-bench.png",
+   "from": "PV6-C-3",
+   "px": 57474,
+   "x": [
+    440,
+    693
+   ],
+   "y": [
+    843,
+    1121
+   ],
+   "inItsOutline": 1.0,
+   "outlineCovered": 0.9998,
+   "iouWithOutline": 0.8937,
+   "offPlan": {
+    "left": -6,
+    "right": 6,
+    "top": -6,
+    "bottom": 6,
+    "centre": [
+     0.8,
+     0.8
+    ]
+   }
+  },
+  {
+   "station": "A tablet console",
+   "file": "PV6-C-3-A-tablet-console.png",
+   "from": "PV6-C-3",
+   "px": 42765,
+   "x": [
+    842,
+    1021
+   ],
+   "y": [
+    836,
+    1103
+   ],
+   "inItsOutline": 1.0,
+   "outlineCovered": 0.9903,
+   "iouWithOutline": 0.8804,
+   "offPlan": {
+    "left": -6,
+    "right": 6,
+    "top": -6,
+    "bottom": 6,
+    "centre": [
+     1.7,
+     2.1
+    ]
+   }
+  },
+  {
+   "station": "B stool",
+   "file": "PV6-C-4-B-stool.png",
+   "from": "PV6-C-4",
+   "px": 4176,
+   "x": [
+    197,
+    327
+   ],
+   "y": [
+    1077,
+    1132
+   ],
+   "inItsOutline": 1.0,
+   "outlineCovered": 0.7837,
+   "iouWithOutline": 0.7207,
+   "offPlan": {
+    "left": -2,
+    "right": 2,
+    "top": -2,
+    "bottom": -8,
+    "centre": [
+     -0.2,
+     -5.7
+    ]
+   }
+  },
+  {
+   "station": "wall vent strip left",
+   "file": "PV6-C-4-wall-vent-strip-left.png",
+   "from": "PV6-C-4",
+   "px": 1224,
+   "x": [
+    283,
+    333
+   ],
+   "y": [
+    941,
+    964
+   ]
+  },
+  {
+   "station": "D food capsule",
+   "file": "PV6-C-4-D-food-capsule.png",
+   "from": "PV6-C-4",
+   "px": 4387,
+   "x": [
+    611,
+    662
+   ],
+   "y": [
+    778,
+    865
+   ],
+   "inItsOutline": 1.0,
+   "outlineCovered": 0.9889,
+   "iouWithOutline": 0.8872,
+   "offPlan": {
+    "left": -2,
+    "right": 2,
+    "top": -2,
+    "bottom": 2,
+    "centre": [
+     -1.2,
+     2.2
+    ]
+   }
+  },
+  {
+   "station": "wall vent strip right",
+   "file": "PV6-C-4-wall-vent-strip-right.png",
+   "from": "PV6-C-4",
+   "px": 1224,
+   "x": [
+    781,
+    831
+   ],
+   "y": [
+    941,
+    964
+   ]
+  },
+  {
+   "station": "B coral jar top",
+   "file": "PV6-C-5-B-coral-jar-top.png",
+   "from": "PV6-C-5",
+   "px": 3962,
+   "x": [
+    167,
+    243
+   ],
+   "y": [
+    1084,
+    1144
+   ]
+  },
+  {
+   "station": "B bead jar top",
+   "file": "PV6-C-5-B-bead-jar-top.png",
+   "from": "PV6-C-5",
+   "px": 1373,
+   "x": [
+    248,
+    296
+   ],
+   "y": [
+    1094,
+    1127
+   ]
+  },
+  {
+   "station": "B flask top",
+   "file": "PV6-C-5-B-flask-top.png",
+   "from": "PV6-C-5",
+   "px": 1440,
+   "x": [
+    300,
+    348
+   ],
+   "y": [
+    1071,
+    1116
+   ]
+  },
+  {
+   "station": "D dispenser left edge",
+   "file": "edge4-C.json",
+   "from": "code",
+   "px": 278,
+   "x": [
+    609,
+    616
+   ],
+   "y": [
+    793,
+    865
+   ]
+  }
+ ],
+ "depthHits": {
+  "B laptop cart": {
+   "hit": 115440,
+   "pixels": 121602,
+   "depthM": [
+    0.97,
+    1.53
+   ]
+  },
+  "D bench": {
+   "hit": 51724,
+   "pixels": 57474,
+   "depthM": [
+    2.43,
+    3.45
+   ]
+  },
+  "A tablet console": {
+   "hit": 37971,
+   "pixels": 42765,
+   "depthM": [
+    2.55,
+    3.09
+   ]
+  },
+  "B stool": {
+   "hit": 3758,
+   "pixels": 4176,
+   "depthM": [
+    1.68,
+    1.92
+   ]
+  },
+  "wall vent strip left": {
+   "hit": 0,
+   "pixels": 1224,
+   "depthM": "wall: behind everyone"
+  },
+  "D food capsule": {
+   "hit": 4031,
+   "pixels": 4387,
+   "depthM": [
+    3.09,
+    3.3
+   ]
+  },
+  "wall vent strip right": {
+   "hit": 0,
+   "pixels": 1224,
+   "depthM": "wall: behind everyone"
+  },
+  "B coral jar top": {
+   "hit": 0,
+   "pixels": 3962,
+   "of": "B laptop cart",
+   "depthM": [
+    1.38,
+    1.44
+   ]
+  },
+  "B bead jar top": {
+   "hit": 0,
+   "pixels": 1373,
+   "of": "B laptop cart",
+   "depthM": [
+    1.44,
+    1.48
+   ]
+  },
+  "B flask top": {
+   "hit": 0,
+   "pixels": 1440,
+   "of": "B laptop cart",
+   "depthM": [
+    1.47,
+    1.52
+   ]
+  },
+  "D dispenser left edge": {
+   "hit": 0,
+   "pixels": 278,
+   "of": "D food capsule",
+   "depthM": [
+    3.12,
+    3.12
+   ],
+   "drawnBy": "code (edge4-C.json): at the capsule's median depth"
+  }
+ },
+ "people": [
+  {
+   "id": "B4",
+   "name": "Atlas",
+   "Z": 3.36
+  },
+  {
+   "id": "B1",
+   "name": "Mira",
+   "Z": 3.309
+  },
+  {
+   "id": "B2",
+   "name": "Juno",
+   "Z": 1.68
+  }
+ ],
+ "order": [
+  "wall-0",
+  "band-0",
+  "B4",
+  "band-1",
+  "B1",
+  "band-2",
+  "stool-2",
+  "capsule-2",
+  "fix-2",
+  "B4 front",
+  "B1 front",
+  "B2",
+  "band-3",
+  "stool-3",
+  "fix-3",
+  "B2 front"
+ ],
+ "fronts": {
+  "B4": "band-2",
+  "B1": "band-2",
+  "B2": "band-3"
+ },
+ "bands": [
+  {
+   "band": 0,
+   "file": "band-0.png",
+   "after": [],
+   "before": [
+    "B4",
+    "B1",
+    "B2"
+   ],
+   "px": 2210,
+   "seamFillPx": 543,
+   "stations": [
+    "D bench"
+   ]
+  },
+  {
+   "band": 1,
+   "file": "band-1.png",
+   "after": [
+    "B4"
+   ],
+   "before": [
+    "B1",
+    "B2"
+   ],
+   "px": 113,
+   "seamFillPx": 68,
+   "stations": [
+    "D bench"
+   ]
+  },
+  {
+   "band": 2,
+   "file": "band-2.png",
+   "after": [
+    "B4",
+    "B1"
+   ],
+   "before": [
+    "B2"
+   ],
+   "px": 97916,
+   "seamFillPx": 0,
+   "stations": [
+    "A tablet console",
+    "D bench"
+   ]
+  },
+  {
+   "band": 3,
+   "file": "band-3.png",
+   "after": [
+    "B4",
+    "B1",
+    "B2"
+   ],
+   "before": [],
+   "px": 121602,
+   "seamFillPx": 0,
+   "stations": [
+    "B laptop cart"
+   ]
+  }
+ ],
+ "stoolBands": [
+  {
+   "band": 2,
+   "file": "stool-2.png",
+   "after": [
+    "B4",
+    "B1"
+   ],
+   "before": [
+    "B2"
+   ],
+   "px": 4165,
+   "seamFillPx": 0,
+   "stations": [
+    "B stool"
+   ]
+  },
+  {
+   "band": 3,
+   "file": "stool-3.png",
+   "after": [
+    "B4",
+    "B1",
+    "B2"
+   ],
+   "before": [],
+   "px": 11,
+   "seamFillPx": 0,
+   "stations": [
+    "B stool"
+   ]
+  }
+ ],
+ "capsuleBands": [
+  {
+   "band": 2,
+   "file": "capsule-2.png",
+   "after": [
+    "B4",
+    "B1"
+   ],
+   "before": [
+    "B2"
+   ],
+   "px": 4387,
+   "seamFillPx": 0,
+   "stations": [
+    "D food capsule"
+   ]
+  }
+ ],
+ "wallBands": [
+  {
+   "band": 0,
+   "file": "wall-0.png",
+   "after": [],
+   "before": [
+    "B4",
+    "B1",
+    "B2"
+   ],
+   "px": 2448,
+   "seamFillPx": 0,
+   "stations": [
+    "wall vent strip left",
+    "wall vent strip right"
+   ]
+  }
+ ],
+ "fixBands": [
+  {
+   "band": 2,
+   "file": "fix-2.png",
+   "after": [
+    "B4",
+    "B1"
+   ],
+   "before": [
+    "B2"
+   ],
+   "px": 278,
+   "seamFillPx": 0,
+   "stations": [
+    "D dispenser left edge"
+   ]
+  },
+  {
+   "band": 3,
+   "file": "fix-3.png",
+   "after": [
+    "B4",
+    "B1",
+    "B2"
+   ],
+   "before": [],
+   "px": 6775,
+   "seamFillPx": 0,
+   "stations": [
+    "B bead jar top",
+    "B coral jar top",
+    "B flask top"
+   ]
+  }
+ ],
+ "conflictPx": 0,
+ "check": {
+  "bandsAgainstLayers": {
+   "maxAbsDiff": 0,
+   "furnitureOnly": 0
+  },
+  "againstPlaced": {
+   "meanAbsDiff": 0.1658,
+   "p99": 5.0,
+   "max": 205,
+   "measure": "the largest of |R|, |G|, |B| per pixel, over the whole picture"
+  },
+  "furnitureAgainstStep2": {
+   "meanAbsDiff": 0.1187,
+   "p99": 4.0
+  },
+  "seatBehindItsOwnerPx": {
+   "B stool": 6
+  },
+  "step3RaisedOverTheFurniture": {
+   "px": 11,
+   "x": [
+    278,
+    315
+   ],
+   "y": [
+    1109,
+    1116
+   ],
+   "over": [
+    "B laptop cart"
+   ],
+   "fromBands": [
+    2
+   ],
+   "toBands": [
+    3
+   ],
+   "stoolOpaquePx": 0,
+   "furnitureOpaquePx": 0,
+   "againstPlaced": {
+    "asDrawn": {
+     "meanAbsDiff": 1.45,
+     "max": 7,
+     "over16Px": 0
+    },
+    "furnitureOverStep3": {
+     "meanAbsDiff": 37.55,
+     "max": 98,
+     "over16Px": 6
+    }
+   }
+  },
+  "step3UnderTheFurniturePx": 0,
+  "step2AgainstStep3UnderTheFurniture": {
+   "furniturePx": 219721,
+   "differingPx": 0,
+   "maxAbsDiff": 0
+  },
+  "sameOnBothPhones": {
+   "390x844 Mira": 0.0,
+   "390x844 Juno": 0.0,
+   "390x844 Atlas": 0.0,
+   "430x932 Mira": 0.278,
+   "430x932 Juno": 0.082,
+   "430x932 Atlas": 0.239
+  },
+  "edge4": {
+   "record": "edge4-C.json",
+   "file": "fix-2.png",
+   "band": 2,
+   "drawnPx": 278,
+   "overTheCapsulesLiftPx": 132,
+   "newPx": 146,
+   "sha256": "cdab56addf9870495d41626a433134d234df11de41fc3a7f3fefbaefa342edfc",
+   "drawnAfter": "capsule-2.png",
+   "capsuleLayerSha256": "7a335d59ba0550e7179e886a6d28271eba711cd43cfed8e5c03fa44a37c81ff2"
+  },
+  "againstPlacedByRegion": {
+   "jarsShapes": {
+    "px": 7037,
+    "meanAbsDiff": 1.8124,
+    "p99": 19.0,
+    "max": 51
+   },
+   "edgeShape": {
+    "px": 516,
+    "meanAbsDiff": 43.9729,
+    "p99": 187.70000000000005,
+    "max": 205
+   },
+   "elsewhere": {
+    "px": 1565311,
+    "meanAbsDiff": 0.144,
+    "p99": 5.0,
+    "max": 108
+   },
+   "note": "against PV6-C-5: in the edge's shape the code draws the guide's edge where the edit left soft streaks"
+  },
+  "step4": {
+   "bands": {
+    "B coral jar top": {
+     "bands": [
+      3
+     ],
+     "of": "B laptop cart",
+     "itsPieceBands": [
+      3
+     ]
+    },
+    "B bead jar top": {
+     "bands": [
+      3
+     ],
+     "of": "B laptop cart",
+     "itsPieceBands": [
+      3
+     ]
+    },
+    "B flask top": {
+     "bands": [
+      3
+     ],
+     "of": "B laptop cart",
+     "itsPieceBands": [
+      3
+     ]
+    },
+    "D dispenser left edge": {
+     "bands": [
+      2
+     ],
+     "of": "D food capsule",
+     "itsPieceBands": [
+      2
+     ],
+     "drawnBy": "code"
+    }
+   },
+   "raisedOverEarlierPx": 0,
+   "step3AgainstStep4AwayFromIt": {
+    "px": 1560292,
+    "differingPx": 0,
+    "maxAbsDiff": 0
+   },
+   "hatchFace": {
+    "px": 1892,
+    "differingPx": 142,
+    "faceRuleBbox": {
+     "PV6-C-4": [
+      611,
+      819,
+      653,
+      862
+     ],
+     "PV6-C-5": [
+      611,
+      819,
+      653,
+      862
+     ]
+    },
+    "sameCorners": true
+   },
+   "glass": {
+    "px": 154,
+    "differingPx": 0
+   }
+  }
+ },
+ "report": {
+  "B4": {
+   "name": "Atlas",
+   "Z": 3.36,
+   "seat": null,
+   "overlaps": {
+    "D bench": {
+     "px": 9135,
+     "nearerPx": 9135,
+     "depthM": [
+      2.43,
+      3.14
+     ],
+     "drawn": "in front where nearer"
+    }
+   },
+   "inFrontOfThem": {
+    "D bench": 0.4805
+   },
+   "hiddenShare": 0.4805,
+   "boxShare": 0.4874,
+   "lowerShare": 0.9686,
+   "faceHidden": 0.0,
+   "pressHiddenShare": 0.0,
+   "pressCentreHidden": 0.0
+  },
+  "B1": {
+   "name": "Mira",
+   "Z": 3.309,
+   "seat": null,
+   "overlaps": {
+    "A tablet console": {
+     "px": 10357,
+     "nearerPx": 10357,
+     "depthM": [
+      2.55,
+      3.09
+     ],
+     "drawn": "in front where nearer"
+    }
+   },
+   "inFrontOfThem": {
+    "A tablet console": 0.4199
+   },
+   "hiddenShare": 0.4199,
+   "boxShare": 0.4013,
+   "lowerShare": 0.7443,
+   "faceHidden": 0.0,
+   "pressHiddenShare": 0.0243,
+   "pressCentreHidden": 0.0
+  },
+  "B2": {
+   "name": "Juno",
+   "Z": 1.68,
+   "seat": "B stool",
+   "overlaps": {
+    "B laptop cart": {
+     "px": 22406,
+     "nearerPx": 22406,
+     "depthM": [
+      1.0,
+      1.49
+     ],
+     "drawn": "in front where nearer"
+    },
+    "B stool": {
+     "px": 3913,
+     "nearerPx": 6,
+     "depthM": [
+      1.68,
+      1.92
+     ],
+     "drawn": "behind them: their seat"
+    },
+    "wall vent strip left": {
+     "px": 1142,
+     "drawn": "behind them: wall"
+    },
+    "B coral jar top": {
+     "px": 3962,
+     "nearerPx": 3962,
+     "depthM": [
+      1.38,
+      1.44
+     ],
+     "drawn": "in front where nearer"
+    },
+    "B bead jar top": {
+     "px": 1373,
+     "nearerPx": 1373,
+     "depthM": [
+      1.44,
+      1.48
+     ],
+     "drawn": "in front where nearer"
+    },
+    "B flask top": {
+     "px": 274,
+     "nearerPx": 274,
+     "depthM": [
+      1.47,
+      1.52
+     ],
+     "drawn": "in front where nearer"
+    }
+   },
+   "inFrontOfThem": {
+    "B laptop cart": 0.3603,
+    "B stool": 0.0,
+    "B coral jar top": 0.0612,
+    "B bead jar top": 0.0206,
+    "B flask top": 0.0032
+   },
+   "hiddenShare": 0.4367,
+   "boxShare": 0.4416,
+   "lowerShare": 0.8802,
+   "faceHidden": 0.0,
+   "pressHiddenShare": 0.0124,
+   "pressCentreHidden": 0.0
+  }
+ },
+ "tags": "drawn above every layer (the page's overlay)"
+}

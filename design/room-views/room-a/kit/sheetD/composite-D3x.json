@@ -1,0 +1,395 @@
+{
+ "sheet": "RA-D",
+ "version": "2.1",
+ "view": "D",
+ "step": "2 (base for step 2b)",
+ "date": "2026-11-27",
+ "name": "RA-D-3x",
+ "what": "view D's base for the hatch-only step 2b: RA-D-1 with RA-D-3's desk and cabinet, completed in code, and the hatch's area left as RA-D-1's empty deck",
+ "drawnBy": "code",
+ "generated": false,
+ "codeComposite": {
+  "of": [
+   "RA-D-1",
+   "RA-D-3's raw edit"
+  ],
+  "aiGenerated": true,
+  "how": "RA-D-3's raw over RA-D-1 inside the step-2 mask limited to the desk's and the cabinet's areas and trimmed in front of the desk, feathered by a 2 px Gaussian (the image tool's keep, so equal to RA-D-3 there); inside each traced outline, the raw's pixels, with 1 px of feather outside it; nothing else from the raw"
+ },
+ "decision": "the Lead, 27 November 2026, 21:03: both runs painted the hatch bigger and nearer and put the toolbox outside its area; make RA-D-3x, RA-D-1 with the desk and the cabinet each from whichever run has it better, completed from its raw where needed, the screens fitted and gated, the hatch's area left as RA-D-1's empty deck",
+ "whichRun": {
+  "desk": "RA-D-3",
+  "cabinet": "RA-D-3",
+  "why": {
+   "cabinet": "RA-D-3's frame ends 22 to 30 px below the mask, RA-D-3b's 46 to 56 px (a taller cabinet, with two boxes hanging below it); both run about 7 px past the mask on the right",
+   "desk": "RA-D-3's desk runs past the mask only at the right monitor's right bezel (22 px) and the desk top's right corner (up to 14 px); RA-D-3b's also at the left monitor's top (about 15 px) and at the desk's right end (about 15 px)",
+   "both": "both raws carry a sliver of the misplaced toolbox into the desk's area, on the deck in front of it: trimmed out"
+  },
+  "theOtherRun": {
+   "RA-D-3b": {
+    "sha256": "7abd1f4fd9c3d0a669703d970dd0eb1eaf511c330898388db84093ed8ffe6561",
+    "aiGenerated": true
+   },
+   "RA-D-3b-raw": {
+    "sha256": "ce9c0cdee029bf2f2009ed5fbe78ef2a394357a3fb49ad5195c9e06819efbd8a",
+    "aiGenerated": true
+   }
+  }
+ },
+ "sources": [
+  {
+   "name": "RA-D-1",
+   "file": "img/RA-D-1.png",
+   "sha256": "c8842de16d63076fe69306b247bcc643b6dc5576f6c389364ce49bc970f2fe75",
+   "aiGenerated": true,
+   "what": "view D's accepted step 1 (the base)"
+  },
+  {
+   "name": "RA-D-3",
+   "file": "img/RA-D-3.png",
+   "sha256": "abaf334d030a674e9e030f14477a25ec57d82a3870d4850db1637329fd1d7c2a",
+   "aiGenerated": true,
+   "what": "the kept step 2 of the first run (its keep, rebuilt here and equal pixel for pixel)"
+  },
+  {
+   "name": "RA-D-3-raw",
+   "file": "img/RA-D-3-raw.png",
+   "sha256": "0a7eb69d4b2e40ad12e61c09af585a614088a091ce717aa36c57a1671cb2c648",
+   "aiGenerated": true,
+   "what": "RA-D-3's raw edit (the desk's and cabinet's areas, and inside the outlines)"
+  }
+ ],
+ "records": {
+  "RA-D-3": {
+   "file": "records/RA-D-3.json",
+   "sha256": "d58ef421907a056017d40d9dfa551b5e26c5b8178bb69b61c883295ee8538a3b"
+  },
+  "RA-D-3b": {
+   "file": "records/RA-D-3b.json",
+   "sha256": "d28aae8ddc2cd6c554a52b45c6779d7809f58d9d1ee33b96d986e97f6faf9132"
+  }
+ },
+ "mask": {
+  "file": "ra-D-place.png",
+  "sha256": "3dd7bad74327b31163009a79ae4e9e9107594866d5969197819222f413c63b64",
+  "what": "version 2's step-2 PLACE mask: its desk's and cabinet's areas taken, its hatch's area left out",
+  "deskPx": 138160,
+  "cabinetPx": 59186,
+  "hatchPx": 56013,
+  "trimmedPx": 3135
+ },
+ "trim": {
+  "polygon": [
+   [
+    196.0,
+    1236.0
+   ],
+   [
+    250.0,
+    1218.0
+   ],
+   [
+    300.0,
+    1188.0
+   ],
+   [
+    318.0,
+    1184.0
+   ],
+   [
+    331.0,
+    1184.0
+   ],
+   [
+    331.0,
+    1300.0
+   ],
+   [
+    196.0,
+    1300.0
+   ]
+  ],
+  "px": 3135,
+  "what": "the deck in front of the desk where the misplaced toolbox's sliver reached into the desk's area: left as RA-D-1's deck",
+  "sliverPx": 603,
+  "sliverMaxLevelsFromRA-D-1": {
+   "inRA-D-3": 208,
+   "inRA-D-3x": 34
+  },
+  "sliverHow": "the trimmed pixels where RA-D-3 differs from RA-D-1 by more than 40 levels; after the trim, RA-D-3x's largest difference from RA-D-1 on them"
+ },
+ "feather": {
+  "px": 1.0,
+  "how": "alpha = 1 inside the outline, falling linearly to 0 at 1 px outside it, by each pixel centre's distance from the outline"
+ },
+ "tracing": "on the raw: the cabinet's frame read across its ink every 4 px on each side, at the midpoint between the ink and the wall beside it, straight lines fitted (readings over 1.2 px off dropped once); the monitor's bezel and the desk's end read from the luminance at 5 to 6 times",
+ "pieces": [
+  {
+   "name": "the cabinet's frame, all round its outer ink",
+   "ink": "the top edge (y = 690.40 - 0.0583 x), the right side (x = 995.51 + 0.0045 y), the bottom edge (y = 863.67 + 0.0633 x) and the left side (its outer lip at x 763.8 down to y 723, its ink at x 767.0 below), the corners cut 4 px across",
+   "note": "the raw's frame runs about 7 px past the mask on the right, 22 to 30 px below it at the bottom and up to 4 px past it at the left lip; its top lies 5 px inside",
+   "outline": [
+    [
+     763.8,
+     649.84
+    ],
+    [
+     767.8,
+     645.61
+    ],
+    [
+     994.37,
+     632.39
+    ],
+    [
+     998.39,
+     636.15
+    ],
+    [
+     999.69,
+     922.91
+    ],
+    [
+     995.71,
+     926.66
+    ],
+    [
+     771.0,
+     912.45
+    ],
+    [
+     767.0,
+     908.19
+    ],
+    [
+     767.0,
+     723.0
+    ],
+    [
+     763.8,
+     723.0
+    ]
+   ],
+   "closing": [],
+   "key": "cabinet",
+   "checks": {
+    "changedPxAgainstTheKeep": 11937,
+    "outsideTheMask": 8593,
+    "insideTheMask": 3344,
+    "changedBox": [
+     763,
+     631,
+     1000,
+     927
+    ],
+    "featherPx": 1020,
+    "closingPathPx": 0,
+    "closingPathPxWhereTheKeepDiffersFromTheRaw": 0,
+    "closingPathMinDepthPx": null,
+    "closesOnItsOwnInk": true
+   }
+  },
+  {
+   "name": "the right monitor's right bezel",
+   "ink": "the bezel's top ink (y 855.5), its top-right corner and its right side's outer ink (x 233.0); the screen and the rest of the monitor lie inside the mask",
+   "note": "the raw's monitor reaches x 233, 22 px past the mask (x 211) from y 852 to 922",
+   "outline": [
+    [
+     203.0,
+     855.5
+    ],
+    [
+     228.0,
+     855.5
+    ],
+    [
+     230.5,
+     856.5
+    ],
+    [
+     232.4,
+     858.4
+    ],
+    [
+     233.0,
+     861.0
+    ],
+    [
+     233.0,
+     931.0
+    ],
+    [
+     203.0,
+     931.0
+    ]
+   ],
+   "closing": [
+    [
+     233.0,
+     931.0
+    ],
+    [
+     203.0,
+     931.0
+    ],
+    [
+     203.0,
+     855.5
+    ]
+   ],
+   "key": "monitor",
+   "checks": {
+    "changedPxAgainstTheKeep": 1927,
+    "outsideTheMask": 1488,
+    "insideTheMask": 439,
+    "changedBox": [
+     206,
+     855,
+     233,
+     927
+    ],
+    "featherPx": 186,
+    "closingPathPx": 217,
+    "closingPathPxWhereTheKeepDiffersFromTheRaw": 0,
+    "closingPathMinDepthPx": 8.5,
+    "closesOnItsOwnInk": false
+   }
+  },
+  {
+   "name": "the desk top's right end, with its right leg's outer edge",
+   "ink": "the desk top's top edge (y 966.6-972.2), its rounded corner and end (x 332.2), the leg's outer ink (x 328.0) down to its foot (y 1175)",
+   "note": "the raw's desk top reaches x 332, up to 14 px past the mask (x 318) from y 966 to 996; the leg's ink lies 3 px inside the mask, where the keep's feather had faded it",
+   "outline": [
+    [
+     311.5,
+     966.6
+    ],
+    [
+     318.0,
+     968.1
+    ],
+    [
+     324.0,
+     970.0
+    ],
+    [
+     328.0,
+     972.2
+    ],
+    [
+     330.6,
+     975.0
+    ],
+    [
+     332.0,
+     979.0
+    ],
+    [
+     332.2,
+     990.0
+    ],
+    [
+     331.6,
+     995.6
+    ],
+    [
+     328.0,
+     997.0
+    ],
+    [
+     328.0,
+     1175.0
+    ],
+    [
+     323.0,
+     1175.0
+    ],
+    [
+     323.0,
+     1004.0
+    ],
+    [
+     311.5,
+     1004.0
+    ]
+   ],
+   "closing": [
+    [
+     323.0,
+     1175.0
+    ],
+    [
+     323.0,
+     1004.0
+    ],
+    [
+     311.5,
+     1004.0
+    ],
+    [
+     311.5,
+     966.6
+    ]
+   ],
+   "key": "desk-end",
+   "checks": {
+    "changedPxAgainstTheKeep": 968,
+    "outsideTheMask": 357,
+    "insideTheMask": 611,
+    "changedBox": [
+     314,
+     967,
+     332,
+     1175
+    ],
+    "featherPx": 417,
+    "closingPathPx": 408,
+    "closingPathPxWhereTheKeepDiffersFromTheRaw": 0,
+    "closingPathMinDepthPx": 7.5,
+    "closesOnItsOwnInk": false
+   }
+  }
+ ],
+ "checks": {
+  "keepRebuiltExactly": true,
+  "changedPxAgainstRA-D-1": 209232,
+  "changedOutsideTheAreasAndTheCompletions": 0,
+  "unchangedPxAgainstRA-D-1": 1363632,
+  "picturePx": 1572864,
+  "hatchAreaEqualsRA-D-1": true,
+  "hatchAreaPxTheFeatherReaches": 0,
+  "rawTakenWholeInsideTheOutlines": true,
+  "closingPathsWhereTheKeepDiffersFromTheRaw": 0,
+  "closingPathMinDepthPx": 7.5
+ },
+ "pass": true,
+ "screens": {
+  "file": "screens-D.json",
+  "sha256": "6c29a22b82104f1eab823ed248a71c9d59e19a0599122a799f1c02d7b14bcba5",
+  "gate": {
+   "left screen": {
+    "p95L": 0.0935,
+    "pass": true
+   },
+   "right screen": {
+    "p95L": 0.0951,
+    "pass": true
+   }
+  }
+ },
+ "outputs": {
+  "ra-D-3x.png": {
+   "what": "the plate: RA-D-3x, a code composite of two AI-generated pictures",
+   "sha256": "a0c917ab0fe58acfc436b373ec1731ad53e03e8ec7803e024204fc7da3c95ec5",
+   "pixelsSha256": "3575e978f51f10f4f0b722dc4f4bf4c90e9026754ade49e5d361410ba423c0ec",
+   "size": [
+    1024,
+    1536
+   ],
+   "aiGenerated": true,
+   "codeComposite": true
+  }
+ },
+ "note": "pixelsSha256 is of the decoded pixels (8-bit RGB, row by row), which another Pillow writes the same; the PNG file's own sha256 may differ with another Pillow or zlib",
+ "units": "painting pixels (1024 x 1536); outlines in pixel-edge coordinates (a pixel spans i to i + 1)"
+}

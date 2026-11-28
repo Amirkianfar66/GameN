@@ -1,0 +1,300 @@
+{
+ "piece": "PV6-C",
+ "pass": "step 3 (version 7): the stool's seat (trimmed by the cart's lift), both wall vent strips and the food capsule, one masked edit of PV6-C-3 inside the four shapes, with the guide there and no second picture (s3-one), kept inside the mask in code",
+ "attempt": 4,
+ "generated": true,
+ "label": "AI-generated, composited in code from a masked edit",
+ "runner": "Designer team Image builder (Claude Code session)",
+ "tool": "OpenAI Images API, POST /v1/images/edits (one input, the S3 input with the mask), then pv8_tools.py keep3 and lift3",
+ "date": "2026-11-18T15:56:43+00:00",
+ "request_id": "req_fe3b19ae67744042adf60d143633b44e",
+ "authority": "the Lead's go of 18 November 2026 for C version 7, step 3, one call over PV6-C-3, no re-run; C ends at about $0.245, inside the owner's cap of $0.27",
+ "sheet": {
+  "page": "Room B PV6-C Sheet",
+  "version": "1795017006-7490",
+  "manifest": {
+   "file": "room-b-pv6c.json",
+   "sha256": "7bb9fd4152ebb623ba5f8e63f33cd71da1ea765292dd3e6389b6e8eb1c11b71a"
+  },
+  "prompts": {
+   "file": "room-b-pv6c-prompts.txt",
+   "sha256": "bf0943bb7ab753bcd20ac53050c6c95ee64cbf0cb9bceb3e8645a3980541f877"
+  },
+  "dryRun": {
+   "file": "s3check-C.json",
+   "sha256": "5a9ce5f96a9fa660e87b019a693113120597b33c2e69b2c52fec2ff80e2e29a8",
+   "matched": true
+  }
+ },
+ "tools": {
+  "pv8_tools.py": "5304717eaf2967e48b4a0ed27806023dd20ff68330c6b9c898c5514e9c77da8d",
+  "lift5.py": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+  "colour-check-v4.py": "7634828cb8fc1d30b3a10ecb15b6eb85dd3ac8249d30a08ce4b9eca58f4d110b",
+  "kitCheck": "all files and expected hashes match"
+ },
+ "start": {
+  "file": "PV6-C-3.png",
+  "sha256": "c9170c5d8cb620a8877ba7eb8d290a2b10aa1572ebeb3a75232a5693bf542284"
+ },
+ "s3": {
+  "maskedShare": 0.0071,
+  "rawInputRGB": "5c629e9e787f8833c9c6d3d868300332f79d2ce1ecd9bd8289da45e1b5252079",
+  "rawMaskAlpha": "18e67f375619e5d59322ef500f7f82c3e97b140ce1dc5d991f8419de6d11309c",
+  "inputs": [
+   {
+    "role": "the picture to edit: the kept step-2 picture with the guide inside step 3's mask (the capsule's outline grown 2 px), and the mask (alpha 0 = repaint)",
+    "file": "PV6-C-4-S3-input.png",
+    "sha256": "0051256087c1f584782c956141ab71e7d1c18c5b2d5e9ca8c3ee7db5f0e4c808",
+    "mask": {
+     "file": "PV6-C-4-S3-mask.png",
+     "sha256": "114fbf718992689ff0fa88d5bd1fef9739cb35b036589e7e5584b03310b8c67f"
+    }
+   }
+  ],
+  "secondPicture": "none: s3 and s3-one are the same text"
+ },
+ "prompt_key": "s3-one",
+ "prompt": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool purple shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom B, the laboratory, in the same illustrated world: purple, lit warm. The whole room is one purple family, the colours of the attached guide: deep violet in the shadows and corners (#2A1446, #4B2079), turning to plum where the warm light falls (#582D59, #684166, #774B70), warmest closest to the lamps (#8C5675). The lamps' light is warm: cream at their cores (#FCE3A0) and an orange glow (#EC793C) on the walls, the ceiling and the deck around them. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige or olive. The shadows are deep violet, never black-brown or grey. Pale specimen glass; labels and paper are blank, in a warm paper white. Small indicator lights are blue-green (#3A9497); no other coloured light, and no green or blue light. Clinical and worn, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThis is a correction of the attached picture. Repaint only the four masked shapes, and leave everything outside them exactly as it is. Each shape holds one object that fills it exactly, with nothing of it outside its shape, painted in full detail in the picture's style and light. The small shape on the bench's far end, the right end in this picture, holds one small food dispenser standing on the workbench's top: a steel housing with a rounded top, about 0.24 m wide, 0.40 m tall and 0.22 m deep; a small round lens high on its front, unlit and dark; below it, a large closed hatch of warm paper-white filling most of the front, with a small dark handle along its bottom edge; no vent slots; nothing written, printed or lit on it. The shape behind the cart, over its middle, holds the top of a round stool that stands on the deck behind the low wheeled cart: only its round seat shows above the cart, which hides its single post and its ring of feet. The glass jars standing on the cart are in front of the seat and hide its lower edge; leave them as they are. Paint both in the same metal, paint and wear as the furniture around them. The two narrow shapes at the foot of the back wall each hold a plain vent grille: dark slots in a steel frame, unlit, with no colour and no light.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+ "prompt_sha256": "51dd714453be359935dfc9c31a4b68a2e08081a4da4eb26481c10e611e7ae959",
+ "revised_prompt": null,
+ "inputs": [
+  {
+   "order": 1,
+   "file": "PV6-C-4-S3-input.png",
+   "sha256": "0051256087c1f584782c956141ab71e7d1c18c5b2d5e9ca8c3ee7db5f0e4c808"
+  }
+ ],
+ "mask": {
+  "file": "PV6-C-4-S3-mask.png",
+  "sha256": "114fbf718992689ff0fa88d5bd1fef9739cb35b036589e7e5584b03310b8c67f",
+  "convention": "alpha 0 = repaint"
+ },
+ "settings": {
+  "size": "1024x1536",
+  "quality": "high",
+  "n": 1,
+  "seed": null,
+  "background": "opaque",
+  "output_format": "png"
+ },
+ "raw_output": {
+  "file": "PV6-C-4-raw.png",
+  "sha256": "36da1efb54554f4059e0ea5192da554e2f89c266642fa4347af7d17390fe6133"
+ },
+ "output": {
+  "file": "PV6-C-4.png",
+  "sha256": "b634e18b7d552590746cacd3d5614b845fcaaad3be9e11076a84db0e9f5b220a",
+  "rawRGBsha256": "363a1dcc48ac8b6377022cd0743419a5f610ed2dc777c24addf9bcf882ca9538",
+  "width": 1024,
+  "height": 1536,
+  "retouched": "composited in code only: the raw edit over PV6-C-3 inside step 3's mask, feathered by a 2 px Gaussian"
+ },
+ "moreThan4pxOutsideMask": {
+  "meanAbsDiff": 0.0001,
+  "maxAbsDiff": 2
+ },
+ "lift": {
+  "view": "C",
+  "step": 3,
+  "recipe": "d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November)",
+  "pieces": {
+   "B stool": {
+    "file": "PV6-C-4-B-stool.png",
+    "sha256": "1b5143adeb7fbb87a00be5fcb9ca503952ec116170e0f48b8c0d57a5855853bf",
+    "px": 4053,
+    "x": [
+     197,
+     327
+    ],
+    "y": [
+     1077,
+     1131
+    ],
+    "shareOfItsOutline": 0.9692
+   },
+   "wall vent strip left": {
+    "file": "PV6-C-4-wall-vent-strip-left.png",
+    "sha256": "f24af41485eb45ca02d07014cf0e7ac3363dcd86f3d0c13dd509ac793fccc0c4",
+    "px": 1209,
+    "x": [
+     283,
+     333
+    ],
+    "y": [
+     941,
+     964
+    ],
+    "shareOfItsOutline": 0.9877
+   },
+   "D food capsule": {
+    "file": "PV6-C-4-D-food-capsule.png",
+    "sha256": "1f646cfcdf4b55a5a7b6edd5f0e80fd1ef5963256d3adcb2a851f28c81a01d06",
+    "px": 4070,
+    "x": [
+     611,
+     662
+    ],
+    "y": [
+     778,
+     865
+    ],
+    "shareOfItsOutline": 0.9006
+   },
+   "wall vent strip right": {
+    "file": "PV6-C-4-wall-vent-strip-right.png",
+    "sha256": "172a16d6a7b6b93f56bc1fbb2c76189b4623d5bb71e9124cb54f436ecae2d974",
+    "px": 1208,
+    "x": [
+     781,
+     831
+    ],
+    "y": [
+     941,
+     964
+    ],
+    "shareOfItsOutline": 0.9869
+   }
+  },
+  "missing": [],
+  "rebuildMeanAbsDiff": 0.0209
+ },
+ "usage": {
+  "input_tokens": 2361,
+  "input_tokens_details": {
+   "image_tokens": 1536,
+   "text_tokens": 825
+  },
+  "output_tokens": 1372,
+  "output_tokens_details": {
+   "image_tokens": 1372,
+   "text_tokens": 0
+  },
+  "total_tokens": 3733
+ },
+ "cost_usd_est": 0.0576,
+ "terms": "Generated with OpenAI's image model under its Terms of Use as checked by the Lead (c8fbc793): the user owns the output; it is never presented as made by a person.",
+ "check": {
+  "by": "Image builder (colour-check-v4.py; pv8_tools.py same and lift3; lit-teal count in the strips; step 2's mask against the seat shape; the rest by eye). Not the Designer's review.",
+  "colour": {
+   "pass": true,
+   "result": {
+    "walls and deck in the base": true,
+    "each wall and the deck in the base": true,
+    "orange capped": true,
+    "rust capped": true,
+    "accents only orange, cream, rust, blue-green": true,
+    "no tan or olive": true,
+    "not grey": true,
+    "median lightness": true,
+    "openings flat black": true
+   }
+  },
+  "sameRoom": {
+   "pass": true,
+   "gates": {
+    "colour check version 4 with the view's map": true,
+    "walls and deck: median lightness, chroma and hue as PV6-A-2's": true,
+    "deck: median lightness as PV6-A-2's": true,
+    "warm light: orange and cream shares as PV6-A-2's": true,
+    "every lamp in view lit at its place": true,
+    "the ring lights lit at their places": true,
+    "the surfaces both pictures show: PV6-A-2's colour (median delta E)": true
+   }
+  },
+  "liftPieces": {
+   "B stool": {
+    "px": 4053,
+    "x": [
+     197,
+     327
+    ],
+    "y": [
+     1077,
+     1131
+    ],
+    "shareOfItsOutline": 0.9692
+   },
+   "wall vent strip left": {
+    "px": 1209,
+    "x": [
+     283,
+     333
+    ],
+    "y": [
+     941,
+     964
+    ],
+    "shareOfItsOutline": 0.9877
+   },
+   "D food capsule": {
+    "px": 4070,
+    "x": [
+     611,
+     662
+    ],
+    "y": [
+     778,
+     865
+    ],
+    "shareOfItsOutline": 0.9006
+   },
+   "wall vent strip right": {
+    "px": 1208,
+    "x": [
+     781,
+     831
+    ],
+    "y": [
+     941,
+     964
+    ],
+    "shareOfItsOutline": 0.9869
+   }
+  },
+  "liftMissing": [],
+  "litTealPx": {
+   "wall vent strip left": 0,
+   "wall vent strip right": 0
+  },
+  "step2MaskTopOverCart": {
+   "x230": 1127,
+   "x265": 1119,
+   "x300": 1112,
+   "x330": 1105
+  },
+  "seatShapeY": {
+   "x230": [
+    1091,
+    1125
+   ],
+   "x265": [
+    1078,
+    1117
+   ],
+   "x300": [
+    1078,
+    1110
+   ]
+  },
+  "byEye": "strips: both plain unlit grilles, no teal (0 lit-teal px each), drawn with three slots where the guide has six; nothing else changed (outside the shapes largest difference 2). Capsule: B-4's look (rounded top, dark lens high, large paper-white hatch with handle, no vents), but its left side has no drawn edge and fades softly into the books on the shelf. Seat: a round riveted seat now sits behind the jars, but the jars are not whole: their tops end in soft, blurred cuts right under the seat's ring, and the right flask gains a faint second rim above it. The cuts are not step 3's: step 2's PLACE mask ends at y 1105-1127 over the cart, so PV6-C-3 painted the jars only up to that line, and the trimmed seat shape sits right above it. Fails the go's 'the jars whole in front, no seam along their tops'. No re-run: held for the Lead.",
+  "verdict": "pass on every measured check; fails by eye: jar tops cut under the seat (seam from step 2's mask), capsule's left edge soft",
+  "result": "accepted as C's step 3, as the base for step 4",
+  "reason": "Lead Designer, 18 November 2026: accepted as C's step 3, as the base for step 4. the grilles, the dispenser's shape and the seat are good; the strips' three slots, where the guide drew six, are fine (plain, unlit grilles were the point). Flaws by eye: the three jars on the cart end in soft, blurred cuts under the seat (their tops were never painted: step 2's PLACE mask ended at y 1105-1127 over the cart); the dispenser's left side has no drawn edge and fades softly into the books on the shelf. Fix: the owner approved option (b) in the Lead's question dialog, 18 November 2026 ('One more small edit (Recommended)'): one masked edit over PV6-C-4 repainting the three jar tops (whole, in front of the seat) and the dispenser's left edge, about $0.06, one call, no re-run; C ends at about $0.30, about $0.03 over its $0.27 limit with the owner's yes. Sheet version 8 (step 4) to come."
+ },
+ "review": {
+  "by": "Lead Designer",
+  "date": "2026-11-18",
+  "result": "accepted as C's step 3, as the base for step 4",
+  "note": "the grilles, the dispenser's shape and the seat are good; the strips' three slots, where the guide drew six, are fine (plain, unlit grilles were the point).",
+  "flawsByEye": [
+   "the three jars on the cart end in soft, blurred cuts under the seat (their tops were never painted: step 2's PLACE mask ended at y 1105-1127 over the cart)",
+   "the dispenser's left side has no drawn edge and fades softly into the books on the shelf"
+  ],
+  "fix": "the owner approved option (b) in the Lead's question dialog, 18 November 2026 ('One more small edit (Recommended)'): one masked edit over PV6-C-4 repainting the three jar tops (whole, in front of the seat) and the dispenser's left edge, about $0.06, one call, no re-run; C ends at about $0.30, about $0.03 over its $0.27 limit with the owner's yes. Sheet version 8 (step 4) to come."
+ },
+ "copy": {
+  "of": "Room B Four Views (the image builder’s records page), version 1795044447-5e2a, records/PV6-C-4.json",
+  "originalSha256": "8d8a758656d44257e049781b234d23d7842f112711355dc4dd40c7c4f682d9dd",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

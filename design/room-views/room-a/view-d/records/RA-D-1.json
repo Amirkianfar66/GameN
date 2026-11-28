@@ -1,0 +1,389 @@
+{
+ "piece": "RA-D",
+ "pass": "step 1, the empty room, from the guide alone",
+ "attempt": 1,
+ "generated": true,
+ "label": "AI-generated image",
+ "runner": "Designer team Image builder (Claude Code session)",
+ "tool": "OpenAI Images API, POST /v1/images/edits (one input image, no mask)",
+ "date": "2026-11-27T17:05:56+00:00",
+ "request_id": "req_f4b1bc28fe8a4689b6bec8007eaef3bb",
+ "authority": "the Lead's go of 27 November 2026 (about 17:03 UTC) for step 1 of views C, D and E on sheets v1.1, one run each",
+ "sheet": {
+  "page": "Room A sheet RA-D",
+  "version": "1795798324-33e6",
+  "manifest": {
+   "file": "room-a-ra-d.json",
+   "sha256": "38879499e56c7abf59365f7dae0bdf6b229f8cc7502f2aa7f5815f282eb29c63"
+  },
+  "prompts": {
+   "file": "room-a-ra-d-prompts.txt",
+   "sha256": "e38aa2c3e642ef84cbb518f47431318a268da3a23d960b51caf6918eb9a41b54"
+  }
+ },
+ "tools": {
+  "rd1_tools.py": "9551657c0217de8e7c8ff5fffe810f1f885fbca57d30cab641cd89e35d68b78d",
+  "colour-check-ra1.py": "c882f4f8259b44bf8d689021daa2e5b0e8f028539cc076cc457fe144f582dbd2",
+  "lift5.py": "aa3620e37f96906bc3d121a2f0c1490921db4a3ca0b60872ee4263b0a8d83eee",
+  "kitCheck": "all files and expected hashes match"
+ },
+ "prompt_key": "s1",
+ "prompt": "Create an illustrated science-fiction world with convincing three-dimensional depth and a hand-inked graphic-novel finish. Use strong silhouettes, expressive outlines, textured shadows and worn materials. Build environments from layered machinery, exposed pipes, suspended cables, overlapping panels and objects that suggest everyday use and repair. Organize dense detail around clear focal points. Use controlled colour palettes with warm luminous accents against cool shadow, giving each location its own atmosphere. The world should feel active, inhabited and larger than the visible frame, with layered depth, while the composition stays clear. Overall: lived-in, cyber, illustrated science fiction, lit and readable: warm lamplight against cool blue-steel shadow, dark only in the corners. This is a still picture and code adds the motion, so paint everything crisply: no motion blur, no lens blur, no film grain.\n\nRoom A, the crew bay, in the same illustrated world: blue steel, lit warm. The whole room is one blue-steel family, the colours of the attached guide: deep navy in the shadows and corners (#14243F, #1D3D6B), steel blue on the walls and the deck (#2D609E), turning paler where the light falls (#5C92CC, #A9CAEB). The light is warm: the two light bars glow cream along their length (#FCE3A0), with a warm paper-white glow (#F4EBDD) on the ceiling around them and soft pools of pale light on the deck below. Walls, panels, pipes, cables and deck plates take their colour from that family; worn edges, rivets and plate seams show a little rust (#75402E); nothing is neutral grey, and nothing is tan, beige, olive, purple or violet. The shadows are deep navy, never black-brown or grey. Labels and paper are blank, in a warm paper white (#F4EBDD). Small indicator lights are warm orange (#EC793C); no other coloured light, and no green, purple or red light. Each indicator is a single small dot, never several in a row or a column. Practical and worn, a working bay, quiet but lived in. The guide is the room's colour plan: paint over it in full detail and texture, but keep its colours and where its light falls.\n\nThe room: Room A, the crew bay, a 4 m square room with a 3 m ceiling, here with no furniture in it. The ceiling is solid steel panels, with no skylight and no opening in it: two long light bars set into it run across the room about 1.4 m apart, each glowing warm cream along its whole length behind a plain diffuser, lighting the ceiling around it and throwing soft pools of light on the deck below. In the middle of the north wall, about 1.95 m above the deck, a round window about 1 m across sits in a heavy steel frame; its glass is flat black and empty, with nothing seen through it. The walls are steel panels, pipes, conduits, cable runs and small lockers, worn and repaired, darker toward the deck, with a narrow rust-brown kick strip along their foot; the deck is metal plates with seams, scuffs and a little rust, lit pale under the light bars and darker toward the corners. No beams, rays or shafts of light in the air.\n\nView: a straight-lined view at standing eye height, exactly as the attached guide shows: 80 degrees across and level, every vertical line perfectly straight and upright, every straight line in the room straight in the picture. The horizon, at eye level, is a straight line 714 px from the top, a little above the middle. Match the guide's layout, perspective, horizon and proportions exactly, line for line, as its floor seams, wall bases, corners and ceiling edges show. Do not curve the lines, tilt the view, zoom in or out, or move the horizon.\n\nThis picture: from a place by the west wall, a little south of its middle, at standing eye height, looking diagonally across the room toward its north-east corner, which stands a little right of the middle. Ahead and on the left, the north wall, with the round window left of the middle; on the right, past the corner, the east wall. Above, the solid ceiling: one light bar runs from the top edge, left of the middle, down to the right toward the far corner, and the other lies just out of the picture at the top right, its glow at that corner. The deck is open and clear, with nothing standing on it, while the walls keep their pipes, panels and conduits.\n\nNo people, and no words, letters or logos. Leave screens plain for the game to fill: openings marked black in the guide stay flat black and empty. No figures, faces, hands, silhouettes or animals; no signs, symbols or readable screens (any label is blank or abstract marks); no buttons or panels that look like game controls; no emblems, insignia, signature, watermark or border.",
+ "prompt_sha256": "d0bb8afea165ac3cfd32eb747b29aa160bf562cb6aac68fedfeee510db619b01",
+ "revised_prompt": null,
+ "inputs": [
+  {
+   "order": 1,
+   "file": "ra-D-empty.png",
+   "sha256": "9d9935394f30e277182babc772d71c28f2f01c487671ffa2424bfba746b63668"
+  }
+ ],
+ "mask": null,
+ "settings": {
+  "size": "1024x1536",
+  "quality": "high",
+  "n": 1,
+  "seed": null
+ },
+ "output": {
+  "file": "RA-D-1.png",
+  "sha256": "c8842de16d63076fe69306b247bcc643b6dc5576f6c389364ce49bc970f2fe75",
+  "width": 1024,
+  "height": 1536,
+  "retouched": false
+ },
+ "usage": {
+  "input_tokens": 2595,
+  "input_tokens_details": {
+   "image_tokens": 1536,
+   "text_tokens": 1059
+  },
+  "output_tokens": 1372,
+  "output_tokens_details": {
+   "image_tokens": 1372,
+   "text_tokens": 0
+  },
+  "total_tokens": 3967
+ },
+ "cost_usd_est": 0.0587,
+ "roomARunningTotal": {
+  "images": 11,
+  "usd": 0.6349,
+  "cap": 5
+ },
+ "terms": "Generated with OpenAI's image model under its Terms of Use as checked by the Lead (c8fbc793): the user owns the output; it is never presented as made by a person.",
+ "check": {
+  "by": "Image builder (rd1_tools.py colours; gen/rax_measure.py for the wall foot, the seam slope and the lit cells; gen/foot_dense.py for the foot every 20 px within 32 px of the map; the foot also by eye on a zoom; the rest by eye). Not the Designer's review.",
+  "colour": {
+   "pass": false,
+   "result": {
+    "walls and deck in the base": true,
+    "each wall and the deck in the base": true,
+    "orange capped": true,
+    "rust capped": true,
+    "no tan or olive": true,
+    "not purple": true,
+    "not grey": true,
+    "median lightness": true,
+    "accents only orange, cream, rust": true,
+    "openings flat black": false
+   },
+   "window": {
+    "pixels": 28925,
+    "p95L": 0.136,
+    "medianL": 0.0
+   },
+   "wallsAndDeck": {
+    "pixels": 994541,
+    "inBase": 0.8879,
+    "tanOlive": 0.0006,
+    "purple": 0.0005,
+    "grey": 0.0565,
+    "tooDark": 0.0357,
+    "medianL": 0.433,
+    "onRamp": "between shadow (0.361) and mid (0.486)",
+    "medianChroma": 0.085,
+    "medianHueOfReadable": 254.6
+   },
+   "absent": []
+  },
+  "measure": {
+   "base": {
+    "30": [
+     1214,
+     1226,
+     12
+    ],
+    "120": [
+     1165,
+     1160,
+     -5
+    ],
+    "220": [
+     1111,
+     1112,
+     1
+    ],
+    "320": [
+     1058,
+     1065,
+     7
+    ],
+    "420": [
+     1004,
+     1018,
+     14
+    ],
+    "520": [
+     950,
+     971,
+     21
+    ],
+    "600": [
+     949,
+     958,
+     9
+    ],
+    "680": [
+     970,
+     null,
+     null
+    ],
+    "760": [
+     991,
+     998,
+     7
+    ],
+    "840": [
+     1011,
+     1010,
+     -1
+    ],
+    "920": [
+     1032,
+     1023,
+     -9
+    ],
+    "1000": [
+     1053,
+     1035,
+     -18
+    ]
+   },
+   "cells": [
+    [
+     15,
+     87,
+     92,
+     643,
+     653
+    ],
+    [
+     20,
+     738,
+     745,
+     743,
+     749
+    ]
+   ],
+   "seam": {
+    "slope": -0.576,
+    "intercept": 1311.0,
+    "pointsUsed": 12,
+    "of": 24,
+    "points": [
+     [
+      40,
+      1232,
+      -6.7
+     ],
+     [
+      60,
+      1259,
+      -7.5
+     ],
+     [
+      80,
+      1287,
+      -10.9
+     ],
+     [
+      100,
+      1296,
+      -9.8
+     ],
+     [
+      120,
+      1225,
+      -8.3
+     ],
+     [
+      140,
+      1240,
+      -4.6
+     ],
+     [
+      160,
+      1236,
+      -5.5
+     ],
+     [
+      180,
+      1251,
+      -5.0
+     ],
+     [
+      200,
+      1172,
+      -4.7
+     ],
+     [
+      220,
+      1169,
+      -6.0
+     ],
+     [
+      240,
+      1220,
+      -4.4
+     ],
+     [
+      260,
+      1146,
+      -5.9
+     ],
+     [
+      280,
+      1198,
+      -3.9
+     ],
+     [
+      300,
+      1094,
+      -4.8
+     ],
+     [
+      320,
+      1094,
+      -20.9
+     ],
+     [
+      340,
+      1105,
+      -21.9
+     ],
+     [
+      360,
+      1115,
+      -26.8
+     ],
+     [
+      380,
+      1125,
+      -26.5
+     ],
+     [
+      400,
+      1135,
+      -33.1
+     ],
+     [
+      420,
+      1128,
+      -12.8
+     ],
+     [
+      440,
+      1111,
+      -6.6
+     ],
+     [
+      460,
+      1014,
+      -18.7
+     ],
+     [
+      480,
+      1018,
+      -10.5
+     ],
+     [
+      500,
+      1022,
+      -25.1
+     ]
+    ]
+   }
+  },
+  "footEvery20px": "10:-12 30:-11 50:-10 70:-8 90:-7 110:-6 130:-5 150:-3 170:-2 190:-1 210:0 230:2 250:3 270:3 290:13 310:15 330:8 350:8 370:10 390:12 410:13 430:14 450:16 470:17 490:19 510:20 530:21 550:29 570:27 590:25 610:23 630:21 650:19 670:17 690:14 710:12 730:10 750:8 770:7 790:5 810:2 830:0 850:-2 870:-4 890:-6 910:-8 930:-11 950:-13 970:-15 990:-17 1010:-19",
+  "footTable": [
+   [
+    "x 30 (window wall)",
+    "-11"
+   ],
+   [
+    "x 120",
+    "-5"
+   ],
+   [
+    "x 220",
+    "0"
+   ],
+   [
+    "x 320",
+    "+8"
+   ],
+   [
+    "x 420 (Vega, desk)",
+    "+13"
+   ],
+   [
+    "x 520",
+    "+20"
+   ],
+   [
+    "x 550 (far corner)",
+    "+29"
+   ],
+   [
+    "x 600 (capsule wall)",
+    "+23 (first tool +9)"
+   ],
+   [
+    "x 680 (Lyra, hatch)",
+    "+17"
+   ],
+   [
+    "x 760",
+    "+7"
+   ],
+   [
+    "x 840 (Echo)",
+    "-1"
+   ],
+   [
+    "x 920",
+    "-8"
+   ],
+   [
+    "x 1000",
+    "-18"
+   ]
+  ],
+  "byEye": "(1) The wall foot: within 16 px from x 30 to x 440 and from x 700 to x 970, but +17 to +29 px from x 470 to x 690 around the far corner (the painted corner sits about 25 px below the map's), and -17 to -19 at x 990-1010. The painted window wall's foot slopes about 0.47 against the map's 0.54. (2) The colour check fails only 'openings flat black': window p95 lightness 0.136 (want under 0.12). The painted opening is black x 190-373, y 529-751 against the map's x 198-391, y 524-746: its right edge is 18 px inside the map, so the frame falls in the measured area. Every other gate passes (base 0.888; median lightness 0.433). (3) Two single small indicator dots; no rows or columns. Deck clear; ceiling solid, cables across it; papers blank; no people, words, logos or purple.",
+  "verdict": "accepted by the Lead as view D's step 1; v2 is fitted to it"
+ },
+ "review": {
+  "result": "accepted",
+  "by": "the Lead, 27 November 2026, as view D's step 1",
+  "reasons": [
+   "The better of the two runs is kept, as the Lead set out before the re-run; the Rooms builder fits view D's v2 to it: the window's region, the people's and capsule walkers' foot lines, and the pieces' areas where they meet the painted deck."
+  ],
+  "earlier": "held, with one re-run (RA-D-2) allowed"
+ },
+ "copy": {
+  "of": "Room A Records (the image builder’s records page), version 1795828303-eac0, records/RA-D-1.json",
+  "originalSha256": "c3fb83b46b9bb5f030902f97ee4fcdedd406a4ad9109f0eb60efc349a966258f",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}

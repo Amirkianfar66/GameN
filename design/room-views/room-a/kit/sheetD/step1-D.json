@@ -1,0 +1,11 @@
+{
+ "name": "RA-D-1",
+ "sha256": "c8842de16d63076fe69306b247bcc643b6dc5576f6c389364ce49bc970f2fe75",
+ "next": "RA-D-3",
+ "next3": "RA-D-4",
+ "madeOn": "sheet RA-D version 1.1 (manifest 38879499e56c7abf59365f7dae0bdf6b229f8cc7502f2aa7f5815f282eb29c63)",
+ "result": "accepted by the Lead on 27 November",
+ "why": [
+  "RA-D-1, made on version 1.1, is accepted as view D's step 1 (sha256 c8842de16d63076fe69306b247bcc643b6dc5576f6c389364ce49bc970f2fe75); its re-run, RA-D-2, was rejected, so step 2 makes RA-D-3 and step 3 RA-D-4. Its round window's painted opening lies 4 to 18 px from the guide's, and its walls' feet run flatter than the guide's, lower near the corner and higher at the picture's edges, with the deck seams beside them. The Lead's list for version 2: the 15 px rule against RA-D-1's painted features; the window fitted to the painted black, the moving sky filling exactly that, with the flat-black gate recorded in view D's data; the foot lines of Vega, Lyra, Echo and the food-capsule visitors' spot measured, moved where more than 8 px off and all four recorded, the visitors' spot in view D's geometry; the desk's, the hatch's and the lid's areas extended down to the painted deck where it lies more than 8 px below the guide; and the capsule confirmed on the painted east wall, right of the painted corner."
+ ]
+}

@@ -1,0 +1,364 @@
+{
+ "about": "Painted features on the walls of RA-C-1 (AI-generated, sheet RA-C's accepted step-1 picture), the kit's fixed obstacles for the Lead's 15 px rule (version 2). Picture pixels of the 1024 x 1536 painting; a polygon holds the pixels whose centres lie inside it. Each outline was read from RA-C-1 at three or four times on a 10 px grid, its dark ink outline and any contact shadow included, and drawn a little generous. Structural lines the guide itself draws (the kick strips, the deck seams, the corners, the wall panels' joints) are not features, as in view A. Where Atlas's crates, Vega's desk or its monitor stand in front of a painted feature, their outline must cross it or run along it: those places are named exceptions, each with its zone, for the Lead's decision. Near the toolbox and the hatch, only structural lines lie within 60 px of the mask.",
+ "picture": {
+  "name": "RA-C-1",
+  "sha256": "ad56119d60d86073282585044f82b4fceb5a9d130d217f096e814516990783b5",
+  "aiGenerated": true
+ },
+ "minClearPx": 15,
+ "rule": "Every step-2 mask edge either clearly overlaps a feature in the test, covering it with at least 15 px to spare, or clears it by at least 15 px (square pixels): no part of the feature lies within 15 px of a mask edge. A named exception, for the Lead's decision, passes only where every such part lies in its zone. The features not in the test are measured and reported.",
+ "features": [
+  {
+   "name": "wall panel behind the crates",
+   "kind": "panel",
+   "test": true,
+   "measured": "the far wall's raised panel at x 421-528, y 815-895, with its frame and bolts",
+   "polygons": [
+    [
+     [
+      418,
+      812
+     ],
+     [
+      531,
+      812
+     ],
+     [
+      531,
+      898
+     ],
+     [
+      418,
+      898
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "behind the upper crate's top and left side",
+     "zone": [
+      [
+       405,
+       800
+      ],
+      [
+       535,
+       800
+      ],
+      [
+       535,
+       900
+      ],
+      [
+       405,
+       900
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "Atlas's crates stand in front of the panel: the upper crate's top edge runs 8 px above the panel's top edge, and its left side crosses the panel."
+    }
+   ]
+  },
+  {
+   "name": "vent box above the crates",
+   "kind": "vent",
+   "test": true,
+   "measured": "the vent box on the far wall at x 420-528, y 750-797, with its bolts",
+   "polygons": [
+    [
+     [
+      417,
+      748
+     ],
+     [
+      532,
+      748
+     ],
+     [
+      532,
+      799
+     ],
+     [
+      417,
+      799
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "above the upper crate's top",
+     "zone": [
+      [
+       410,
+       785
+      ],
+      [
+       540,
+       785
+      ],
+      [
+       540,
+       800
+      ],
+      [
+       410,
+       800
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The upper crate's top edge (the mask's edge at y 808) runs 10 to 12 px under the vent box's foot: the crate stands in front of the wall just below it."
+    }
+   ]
+  },
+  {
+   "name": "pipe bends right of the crates",
+   "kind": "pipes",
+   "test": true,
+   "measured": "three pipes coming down at x 581-640 and bending right into the runs at y 844-889, with the clamp at x 664-683",
+   "polygons": [
+    [
+     [
+      578,
+      748
+     ],
+     [
+      644,
+      748
+     ],
+     [
+      644,
+      826
+     ],
+     [
+      700,
+      826
+     ],
+     [
+      700,
+      894
+     ],
+     [
+      578,
+      894
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "behind the lower crate's top right corner",
+     "zone": [
+      [
+       566,
+       849
+      ],
+      [
+       628,
+       849
+      ],
+      [
+       628,
+       916
+      ],
+      [
+       566,
+       916
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The lowest pipe's bend passes behind the lower crate's top right corner, which crosses it; the runs beside it lie just above the crate's sloping side."
+    }
+   ]
+  },
+  {
+   "name": "vented wall box behind the monitor",
+   "kind": "box",
+   "test": true,
+   "measured": "the vented box on the right-hand wall at x 944-1009, y 751-874, its left edge 2 px from the monitor's outline",
+   "polygons": [
+    [
+     [
+      941,
+      748
+     ],
+     [
+      1011,
+      748
+     ],
+     [
+      1011,
+      877
+     ],
+     [
+      941,
+      877
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "behind the monitor's top and left side",
+     "zone": [
+      [
+       924,
+       784
+      ],
+      [
+       1013,
+       784
+      ],
+      [
+       1013,
+       880
+      ],
+      [
+       924,
+       880
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "Vega's monitor stands in front of the box: its top crosses the vent and its left side runs along the box's left edge."
+    }
+   ]
+  },
+  {
+   "name": "pipes behind the desk's far end",
+   "kind": "pipes",
+   "test": true,
+   "measured": "two pipes along the right-hand wall at y 848-889, from the left of the crop to the vertical pipe at x 920, with the clamp at x 862-879",
+   "polygons": [
+    [
+     [
+      790,
+      843
+     ],
+     [
+      921,
+      843
+     ],
+     [
+      921,
+      893
+     ],
+     [
+      790,
+      893
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "behind the desk's far end",
+     "zone": [
+      [
+       822,
+       843
+      ],
+      [
+       923,
+       843
+      ],
+      [
+       923,
+       896
+      ],
+      [
+       822,
+       896
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The desk's far end stands in front of the pipes: its top and its near side cross them."
+    }
+   ]
+  },
+  {
+   "name": "vertical pipe beside the monitor",
+   "kind": "pipes",
+   "test": true,
+   "measured": "the long pipe at x 920-935 from above the crop to the kick strip, with clamps at y 814-822 and 903-909",
+   "polygons": [
+    [
+     [
+      917,
+      738
+     ],
+     [
+      939,
+      738
+     ],
+     [
+      939,
+      1000
+     ],
+     [
+      917,
+      1000
+     ]
+    ]
+   ],
+   "exceptions": [
+    {
+     "where": "beside the monitor's left side and behind the desk's far end",
+     "zone": [
+      [
+       910,
+       784
+      ],
+      [
+       943,
+       784
+      ],
+      [
+       943,
+       883
+      ],
+      [
+       910,
+       883
+      ]
+     ],
+     "for": "the Lead's decision",
+     "why": "The pipe runs 7 to 22 px left of the monitor's outline and passes behind the desk's far end, whose top crosses it."
+    }
+   ]
+  }
+ ],
+ "lights": [
+  {
+   "name": "indicator dot, left wall box",
+   "box": [
+    192,
+    623,
+    202,
+    638
+   ]
+  },
+  {
+   "name": "indicator dot, far wall box, left",
+   "box": [
+    360,
+    567,
+    366,
+    574
+   ]
+  },
+  {
+   "name": "indicator dot, far wall box, right",
+   "box": [
+    625,
+    607,
+    636,
+    619
+   ]
+  },
+  {
+   "name": "indicator dot, right-hand wall",
+   "box": [
+    967,
+    670,
+    972,
+    676
+   ]
+  }
+ ]
+}

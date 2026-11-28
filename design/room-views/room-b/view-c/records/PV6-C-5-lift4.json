@@ -1,0 +1,62 @@
+{
+ "view": "C",
+ "step": 4,
+ "recipe": "d = the largest of |kept - step-1 picture| over R, G and B; d above 16 inside the PLACE mask; closed with a 7 x 7 max then a 7 x 7 min, kept in the mask; holes filled; parts under 400 px dropped; 1 px Gaussian feather; clipped to the mask (the Lead's, 18 November)",
+ "pieces": {
+  "B coral jar top": {
+   "file": "PV6-C-5-B-coral-jar-top.png",
+   "sha256": "9dce75dfbab1d8fc5ce5e618c8a789d62243e6a5844f647afacfddd1d5de0284",
+   "px": 3745,
+   "x": [
+    167,
+    243
+   ],
+   "y": [
+    1084,
+    1144
+   ],
+   "shareOfItsOutline": 0.9398
+  },
+  "B bead jar top": {
+   "file": "PV6-C-5-B-bead-jar-top.png",
+   "sha256": "078954eb9a63556938e77fd54bc2a0d35bfd6a62b6f185e3c3d07b07af18344a",
+   "px": 1279,
+   "x": [
+    248,
+    296
+   ],
+   "y": [
+    1095,
+    1127
+   ],
+   "shareOfItsOutline": 0.9315
+  },
+  "B flask top": {
+   "file": "PV6-C-5-B-flask-top.png",
+   "sha256": "5647eda41412781cda584343ec5dccc57c041aec47d55320b40d109b36171644",
+   "px": 1222,
+   "x": [
+    300,
+    347
+   ],
+   "y": [
+    1073,
+    1116
+   ],
+   "shareOfItsOutline": 0.7278
+  }
+ },
+ "belowTheRecipesSize": {
+  "D dispenser left edge": {
+   "changedPx": 341,
+   "minPartPx": 400
+  }
+ },
+ "missing": [],
+ "rebuildMeanAbsDiff": 0.0236,
+ "copy": {
+  "of": "Room B Four Views (the image builder’s records page), version 1795044447-5e2a, records/PV6-C-5-lift4.json",
+  "originalSha256": "24d2717f02f6e302be0a39ac9c70e1440f2619d11db8374cf5a6548bb290232c",
+  "changes": "a copy with the model field removed and each page link replaced by the page’s name; everything else as on the page"
+ }
+}
