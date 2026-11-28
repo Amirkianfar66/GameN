@@ -6,6 +6,34 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 28 November 2026: Room A approved, all five views; Rooms A and B go to GitHub together
+
+**Recorded by the Lead Designer from the owner's message to the Lead** (about 01:10 UTC). The Lead had sent the Room A page with all five views, [Room A, from each place](https://claude.ai/artifact/68s1svfQqRwXxBUNKhg2DX) at version `1795827906-1fb0`. The page asked: if the five views look right, say so, and Room A is saved together with Room B. The owner, word for word:
+
+> Approved lets move forward
+
+- **Room A is approved as the page shows it.** Each view is one painted room picture, AI-generated and recorded as such:
+
+  | View | From | Picture |
+  | --- | --- | --- |
+  | A | Vega | RA-A-4, framed |
+  | B | Mira | RA-B-3c |
+  | C | Echo | RA-C-2c |
+  | D | Atlas | RA-D-4c |
+  | E | Lyra | RA-E-2c |
+
+  Where the painting stopped short, the furniture is finished in code. The people, their tags, the screens' pictures, the room's controls, and the ship's voyage in the round window (in views B and D) are drawn by code.
+- **Spend:** 20 pictures, about $1.16 of the $5 cap. Room A needs no more image calls.
+- **Rooms A and B now go to GitHub together,** as the owner asked on 19 November ([below](#19-november-2026-room-as-go-with-a-cap-under-5-codexs-typing-intro-rooms-a-and-b-saved-together)).
+  - The Rooms builder opens one draft PR under `design/room-views/`, with a page at `docs/design/room-views.md`. The Lead reviews its file plan before the push.
+  - The PR holds each view's accepted picture, its layers and data, the tools and composite scripts, and the image records. Raw edits and the pictures that weren't kept stay on their published pages, named by sha256 in the records.
+  - The Motion & Cinematics builder's Room A and Room B files join the same PR when its session is back. Its model's weekly limit lifts on 29 November at 12:00 UTC.
+  - The save changes no game rule and nothing the game draws today.
+- **Still open:**
+  - In Vega's view at 402 × 742 with 200% text, Lyra's press area runs under the Board chip. The room scene's next version (0.6.0) fixes this by keeping offered places clear of the shell's overlays.
+  - The people's motion and the visits to the food capsule come with the Motion builder's work. Its two pages still need the owner's go-ahead in that builder's session.
+  - How the game takes the painted rooms is Integration's and Frontend's step, later.
+
 ## 27 November 2026: Room A's view A and the panels' built look, as the Lead recommended; the lobby music later
 
 **Recorded by the Lead Designer from the owner's message to the Lead** (about 15:33 UTC). The Lead had listed five open answers: Room A's view A, the panels' built look, the Motion builder's two pages, the bottom bar's ground, and the lobby music on #334. The owner, word for word:
