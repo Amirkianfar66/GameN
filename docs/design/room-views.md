@@ -8,7 +8,8 @@ Rooms A and B are painted from each player's place, five views a room. One pictu
 
 These are recorded in [owner-decisions.md](owner-decisions.md) on PR #280, which is not on `main` yet:
 
-- **17 November 2026:** Room B's five pictures approved, in its purple.
+- **17 November 2026:** Room B's colour, its purple, approved.
+- **18 November 2026:** Room B accepted, all five views: "I am really happy with the result of Room B".
 - **19 November 2026:** Room A's plan approved, with a cap under $5. Rooms A and B are to be saved together when Room A is done.
 - **27 November 2026:** Room A's view A approved.
 - **28 November 2026:** Room A approved, all five views: "Approved lets move forward". That page asks for this save.
@@ -44,7 +45,7 @@ The record copies leave out the model field and give the names of linked pages i
 
 ## What is not saved
 
-The image tool's step pictures and raw edits are not saved. That is 32 pictures, 88.8 MB. `plates.json` names each by sha256, size and records page. So the repository holds the final plates, layers and data, but it cannot rebuild them alone.
+The image tool's step pictures and raw edits are not saved. That is 31 pictures, 86.2 MB. One step picture is kept, PV6-A-3, because every Room B sheet pins it as its reference picture. `plates.json` names each by sha256, size and records page. So the repository holds the final plates, layers and data, but it cannot rebuild them alone.
 
 Rejected pictures, review crops, page captures and the review pages themselves stay on their published pages. Kit pictures that the kits draw again, and that no manifest pins, are left out.
 

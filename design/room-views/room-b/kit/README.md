@@ -33,11 +33,11 @@ The crew stand-ins (`pv8/B1.png` and `pv8/B?-shape.png`, and the masks in `ring/
 
 ## Not here, on purpose
 
-- **The image tool's pictures, apart from the plates and layers in `../view-a/` to `../view-e/`.** The plates are the empty rooms PV6-A-2, PV6-B-1, PV6-C-2, PV6-D-3 and PV6-E-1. The furnished step pictures (PV6-A-3, PV6-B-3, PV6-B-4, PV6-C-3 to PV6-C-5, PV6-D-4, PV6-E-3 and PV6-E-4), the raw edits and every picture not kept are on the records page (Room B Four Views, version 1795044447-5e2a), by name and sha256; `../../plates.json` lists the ones a rebuild needs, with their sizes. A run needs two pictures in `pv6b/`:
-  - `PV6-A-2.png` (`738061ae21931cabf70ba7e82ebb916c1dabcc5c2b16ac3bf6c65663d13783a5`), from `../view-a/`
-  - `PV6-A-3.png` (`731ec58d6773dc0ae6fd17ec4e12bf7cecec92a8b66ff25f99408a1e6b76e4dc`), from the records page
+- **The image tool's pictures, apart from the plates and layers in `../view-a/` to `../view-e/`.** The plates are the empty rooms PV6-A-2, PV6-B-1, PV6-C-2, PV6-D-3 and PV6-E-1. `../view-a/` also keeps PV6-A-3, because every sheet here pins it as its reference picture. The other furnished step pictures (PV6-B-3, PV6-B-4, PV6-C-3 to PV6-C-5, PV6-D-4, PV6-E-3 and PV6-E-4), the raw edits and every picture not kept are on the records page (Room B Four Views, version 1795044447-5e2a), by name and sha256; `../../plates.json` lists the ones a rebuild needs, with their sizes. A run needs two pictures, both in `../view-a/`:
+  - `PV6-A-2.png` (`738061ae21931cabf70ba7e82ebb916c1dabcc5c2b16ac3bf6c65663d13783a5`)
+  - `PV6-A-3.png` (`731ec58d6773dc0ae6fd17ec4e12bf7cecec92a8b66ff25f99408a1e6b76e4dc`)
 
-  The kit copies them into each sheet as the second picture, and the same-room check reads PV6-A-2.
+  `make8.sh` takes them from `pv6b/` and copies them into each sheet as its reference pictures, and the same-room check reads PV6-A-2. `.gitignore` keeps those copies out of git.
 - **Each sheet's `img/pv6-X-cast.png` and its dry-run outputs (`_dry/`).** The cast is PV6-A-2 projected onto the room's planes, so it holds that picture.
 - **E's strip-check crop and the views' pages.** The views' depth bands, the capsule's and the stool's bands, C's wall band and step-4 bands (`fix-*.png`) and the openings' masks (`mask-*.png`) are in `../view-<x>/`; inside this folder, `.gitignore` keeps a run's copies of them out of git. `fix-2.png` also holds the dispenser's code-drawn edge; `edge4-C.json` keeps its numbers, so a run draws it again.
 - **Backups and read-back copies** (`_before-*/` and `_bands-before-*/` in the people folders, `pv8/_readback-*/`, `pv8/_pub-*/`), which hold the same pictures.
@@ -55,9 +55,15 @@ The kit draws the people with the room scene's modules from PR #284's head, `5f1
 ```sh
 mkdir -p "$WORK" && cp -R design/room-views/room-b/kit "$WORK/roomb"
 git worktree add --detach "$WORK/pr284" 5f1b1c83
-cp design/room-views/room-b/view-a/PV6-A-2.png "$WORK/roomb/pv6b/"
-# put PV6-A-3.png from the records page into "$WORK/roomb/pv6b/", checked against the sha256 above
+cp design/room-views/room-b/view-a/PV6-A-2.png design/room-views/room-b/view-a/PV6-A-3.png "$WORK/roomb/pv6b/"
 bash "$WORK/roomb/pv8/make8.sh"          # about three minutes; rewrites pub-B to pub-E and prints each sheet's dry run
+```
+
+To check a sheet without building it, copy the two pictures into each sheet folder and run its tool's `check`. That checks the manifest's files and their hashes, with no generation step and no image call:
+
+```sh
+for v in B C D E; do cp design/room-views/room-b/view-a/PV6-A-2.png design/room-views/room-b/view-a/PV6-A-3.png "$WORK/roomb/pv8/pub-$v/img/"; done
+(cd "$WORK/roomb/pv8/pub-B" && python3 -I -B pv8_tools.py check)   # pub-C: pv9_tools.py; pub-D: pv7_tools.py; pub-E: pv8_tools.py
 ```
 
 `PV8_LAYOUT` chooses the capsule's layout. It defaults to `A1`, the owner's choice: one counter unit on Atlas's bench. The build is deterministic: a run in a fresh copy of this folder rewrote every file here byte for byte. After a publish, read every file back into a folder and run `bash pv8/verify-published8.sh <folder> <view>`.

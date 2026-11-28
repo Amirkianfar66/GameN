@@ -150,6 +150,26 @@
    ]
   }
  ],
+ "keptInputs": {
+  "why": "Pictures kept because a kit’s manifest pins them as an input, although they are step pictures.",
+  "pictures": [
+   {
+    "room": "B",
+    "picture": "PV6-A-3",
+    "file": "room-b/view-a/PV6-A-3.png",
+    "bytes": 2625489,
+    "sha256": "731ec58d6773dc0ae6fd17ec4e12bf7cecec92a8b66ff25f99408a1e6b76e4dc",
+    "pixelsSha256": "1ba316bf41d62acf0a35be75aeb27fc42a70f9532cb02d312e8e658fe681a0d1",
+    "aiGenerated": true,
+    "contentCredentials": false,
+    "page": "Room B Four Views, version 1795044447-5e2a, img/PV6-A-3.png",
+    "why": "every Room B sheet (PV6-B to PV6-E) pins it as its reference picture, so a sheet’s check needs it; it is also the step picture view A’s layers are lifted from",
+    "records": [
+     "room-b/view-a/records/PV6-A-3.json"
+    ]
+   }
+  ]
+ },
  "notIncluded": {
   "why": "The repository holds the final plates, layers and data, not the image tool’s step pictures and raw edits they were made from, so it cannot rebuild them alone. Each is on its records page, by name, size and sha256.",
   "pictures": [
@@ -296,14 +316,6 @@
     "bytes": 2867074,
     "sha256": "d33ed69614725431ef2172494c74952fad39726a64c6e64dcf18a53a66222d73",
     "page": "Room A Records, version 1795828303-eac0, img/RA-E-2-raw.png"
-   },
-   {
-    "room": "B",
-    "picture": "PV6-A-3",
-    "kind": "kept step picture",
-    "bytes": 2625489,
-    "sha256": "731ec58d6773dc0ae6fd17ec4e12bf7cecec92a8b66ff25f99408a1e6b76e4dc",
-    "page": "Room B Four Views, version 1795044447-5e2a, img/PV6-A-3.png"
    },
    {
     "room": "B",

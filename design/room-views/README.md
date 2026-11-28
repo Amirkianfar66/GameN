@@ -69,6 +69,8 @@ Each view's `data/`:
 
 The capsule, the stools, C's wall strip and C's step-4 fixes have their own bands (`capsule-*`, `stool-*`, `wall-*`, `fix-*`).
 
+`room-b/view-a/` also keeps `PV6-A-3.png`, the step picture view A's layers are lifted from. It is a step picture, but every Room B sheet (PV6-B to PV6-E) pins it as its reference picture, so it is kept once. `plates.json` lists it under `keptInputs`.
+
 ## The records
 
 `records/` in each view holds the image builder's records of every picture in the plate's and layers' lineage, with their colour and lift records:
@@ -94,9 +96,9 @@ Room A's plates are code composites and carry none.
 
 - **The pictures the plates and layers were made from:**
   - Room A: 12 step pictures and 6 raw edits.
-  - Room B: 9 step pictures and 5 raw edits.
+  - Room B: 8 step pictures and 5 raw edits.
 
-  That is 32 pictures, 88.8 MB. `plates.json` names each by sha256, size and records page. **The repository holds the final plates, layers and data, but it cannot rebuild them alone.**
+  That is 31 pictures, 86.2 MB. `plates.json` names each by sha256, size and records page. **The repository holds the final plates, layers and data, but it cannot rebuild them alone.**
 - **Pictures not kept:** rejected attempts, review crops and overlays, the pages' captures, and the check, owner and data pages themselves. They stay on their published pages.
 - **Kit pictures that a kit writes again and no manifest pins by sha256.** These are Room A's:
   - the phone previews;
@@ -119,8 +121,11 @@ mkdir -p "$WORK" && cp -R design/room-views/room-a/kit "$WORK/rooma" && cp -R de
 
 **Missing inputs.** A run then needs the pictures it starts from:
 - the plates and layers, from the view folders;
+- for Room B's sheets, PV6-A-2 and PV6-A-3 from `room-b/view-a/`, copied into each sheet folder as [Room B's README](room-b/kit/README.md) shows;
 - the step pictures and raw edits, from the records pages, by the hashes in `plates.json`;
 - the room scene's modules from PR #284's head, as Room B's README says.
+
+**Checks.** Each sheet's own `check` command confirms its manifest's files and their hashes, with no generation step and no image call. Run it from the sheet's folder: for example `python3 -I -B rd1_tools.py check` in `rooma/sheetD/pub`, or `python3 -I -B pv8_tools.py check` in `roomb/pv8/pub-B` once the two pictures are copied in.
 
 **Model-name scan.** The publishing checks take their scan words from `roomb/pv8/_scan-words.txt`. That file is kept out of git, and the Designer team has the list.
 
@@ -144,7 +149,7 @@ The pages are named by title and version. They are private to the owner and the 
   - view A, the owner's go of 27 November on "Room A from Vega's place", version `1795100576-d45f`;
   - views B to E, accepted by the Lead on their check pages: B `1795819897-b736`, C `1795822912-6084`, D `1795826435-303c`, E `1795823204-ad13`.
 - **Room A's plan:** approved on 19 November, with a cap under $5. Room A used 20 pictures, about $1.16.
-- **Room B:** the owner approved Room B's five pictures, in its purple, on 17 November. The 19 November entry keeps Room B's work for this save. Its data pages:
+- **Room B:** the owner approved its colour, its purple, on 17 November, and accepted Room B, all five views, on 18 November: "I am really happy with the result of Room B". The 19 November entry keeps Room B's work for this save. Its data pages:
   - "Room B Skylight Test" (view A), `1795015265-a726`;
   - "Room B View B Data", `1795025861-974e`;
   - "Room B View C Data", `1795028820-fd4e`;
