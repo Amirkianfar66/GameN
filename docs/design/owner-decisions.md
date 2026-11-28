@@ -29,9 +29,13 @@ The owner's messages are quoted as written.
     - its colours and furniture;
     - the items the game uses, such as the Command Room's chart table, the berths' monitors and lamps, the Jail's keypad and lamp, the Private Room's door light, and the Food task's machinery;
     - the steps the pictures need, with an estimated cost.
-  - The Lead reviews the page, then the owner sees it with one cap for all five.
-  - No picture is made and no money is spent before the owner approves that cap.
-- **Still open:** the cap. The Lead recommends under $5 for all five rooms together. Room A's five views cost about $1.16.
+  - The Lead reviews the page, then the owner sees it before any picture is made. That follows the owner's 19 November words: "Before going forward show me the screenshot images".
+  - Each image go names the reviewed sheet's version and hashes.
+- **The cap: under $5 for all five rooms together.** The Lead recommended it (Room A's five views cost about $1.16), and the owner answered at about 01:50 UTC, word for word:
+
+  > All as your recommendation
+
+  The work stops and asks before it would pass the cap.
 
 ## 28 November 2026: Room A approved, all five views; Rooms A and B go to GitHub together
 
