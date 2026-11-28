@@ -42,6 +42,25 @@ The owner's messages are quoted as written.
 
   - **As the Lead reads it,** the Food task's room is a task environment, not one of the rooms the crew live in. It keeps its current art and layout and gets no new picture.
   - **The redesign covers four rooms:** the Command Room, the Hospital, the Jail and the Private Room. Each gets a shared eye-level view, and its layout goes to the owner before any picture. The cap stays under $5 for these four.
+- **The four rooms' plan, and their camera** (about 18:29 UTC). The Lead sent the plan page, [Fixed Rooms at Eye Level](https://claude.ai/artifact/Nrb7Atc7aQM3GDsjRXeCX6) at version `1795876364-6a19`. The owner asked, word for word:
+
+  > I have a question, Room A and B are eye level system but other rooms are 3rd person system?
+
+  - **The Lead's answer:** both use the same eye-level camera, but it stands in a different place.
+    - In Rooms A and B it stands at the player's own place, so the view is first person.
+    - In the fixed rooms one camera stands at the room's open front, so the view is third person and the player sees themselves with the others.
+  - **The Lead recommended keeping third person for the four rooms.**
+    - In the Hospital and the Jail the player sees themselves in the bed or the cell, so their state is plain.
+    - Nobody moves around in a fixed room and nothing is hidden there.
+    - It needs one picture per room: 4 pictures, about $1.40 at most, against 11 and about $3.85 at most for a view from each place.
+  - **The owner, word for word:**
+
+    > Ok as you recommend
+
+  - **As the Lead reads it,** the four rooms keep the shared third-person view, and their layouts are approved as the plan page shows them:
+    - the Jail keeps J1–J4 in their order and drops J5, which stays a proposal for #96;
+    - the Private Room's navy stays a proposal until its token is adopted.
+  - **Next:** a sheet per room, which the Lead reviews before any picture. Then the pictures, within the cap, and one page for the owner with all four rooms painted.
 
 ## 28 November 2026: Room A approved, all five views; Rooms A and B go to GitHub together
 
