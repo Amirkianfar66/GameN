@@ -6,6 +6,33 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 28 November 2026: the other five rooms next
+
+**Recorded by the Lead Designer from the owner's message to the Lead** (about 01:40 UTC). The Lead had said that the Rooms builder would draft the plan for the five fixed rooms after saving Rooms A and B. The owner, word for word:
+
+> Lets finish other rooms too
+
+- **The five fixed rooms go ahead now,** as recorded on 17 November ([below](#17-november-2026-every-room-redesigned-in-one-cyber-comic-noir-style-room-by-room-with-who-builds-what)). Each has one shared view, so everyone in the room sees everyone, with no blind places:
+
+  | Room | Places |
+  | --- | --- |
+  | The Command Room | 1 |
+  | The Hospital | 4 |
+  | The Jail | 4 |
+  | The Supply Room, for the Food task | 2 |
+  | The Private Room, for the private talk | 2 |
+
+  Each room is painted in its colour family from the code, in the style Rooms A and B set.
+- **How the work runs:**
+  - The Rooms builder drafts one plan page for all five, alongside the save of Rooms A and B. For each room, the page shows:
+    - the view with stand-ins at its places, at 402 × 742, 390 × 844 and 430 × 932;
+    - its colours and furniture;
+    - the items the game uses, such as the Command Room's chart table, the berths' monitors and lamps, the Jail's keypad and lamp, the Private Room's door light, and the Food task's machinery;
+    - the steps the pictures need, with an estimated cost.
+  - The Lead reviews the page, then the owner sees it with one cap for all five.
+  - No picture is made and no money is spent before the owner approves that cap.
+- **Still open:** the cap. The Lead recommends under $5 for all five rooms together. Room A's five views cost about $1.16.
+
 ## 28 November 2026: Room A approved, all five views; Rooms A and B go to GitHub together
 
 **Recorded by the Lead Designer from the owner's message to the Lead** (about 01:10 UTC). The Lead had sent the Room A page with all five views, [Room A, from each place](https://claude.ai/artifact/68s1svfQqRwXxBUNKhg2DX) at version `1795827906-1fb0`. The page asked: if the five views look right, say so, and Room A is saved together with Room B. The owner, word for word:
