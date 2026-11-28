@@ -36,6 +36,12 @@ The owner's messages are quoted as written.
   > All as your recommendation
 
   The work stops and asks before it would pass the cap.
+- **The Supply Room stays as it is** (about 13:57 UTC). The Lead had said the room pictures are drawn at eye level, as the owner decided on 17 November. The Lead proposed one exception: the Supply Room would keep the Food task's layout, because that layout is the task's gameplay. The owner, word for word:
+
+  > If the issue is the food task room we can keep it as it is , it is like task environment
+
+  - **As the Lead reads it,** the Food task's room is a task environment, not one of the rooms the crew live in. It keeps its current art and layout and gets no new picture.
+  - **The redesign covers four rooms:** the Command Room, the Hospital, the Jail and the Private Room. Each gets a shared eye-level view, and its layout goes to the owner before any picture. The cap stays under $5 for these four.
 
 ## 28 November 2026: Room A approved, all five views; Rooms A and B go to GitHub together
 
